@@ -1,0 +1,7 @@
+relre:.vshost.exe
+relre:.Cache
+relre:.suo
+relre:.csproj.user
+relre:obj/
+relre:dist/MageCrawl.exe
+relre:dist/MageCrawl.pdb
