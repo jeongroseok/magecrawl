@@ -25,7 +25,7 @@ namespace MageCrawl
             do
             {
                 rootConsole.Clear();
-                rootConsole.PrintLine("Hello World.", 10, 10, libtcodWrapper.LineAlignment.Center);
+                rootConsole.PrintLine("Hello World", 10, 10, libtcodWrapper.LineAlignment.Center);
                 rootConsole.Flush();
 
                 // For Message Pumping
