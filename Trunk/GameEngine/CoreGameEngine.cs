@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace GameEngine
+{
+    public sealed class CoreGameEngine
+    {
+        private const int MapWidth = 60;
+        private const int MapHeight = 40;
+        private Player m_player;
+
+        public CoreGameEngine()
+        {
+            m_player = new Player();
+        }
+
+        public Interfaces.IPlayer Player
+        {
+            get
+            {
+                return m_player;
+            }
+        }
+    
+        public void MovePlayer(MovementDirection direction)
+        {
+            Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
+            if (IsValidPosition(newPosition))
+                m_player.Position = newPosition;
+        }
+
+        private static bool IsValidPosition(Point p)
+        {
+            return (p.X >= 0) && (p.Y >= 0) && (p.X < MapWidth) && (p.Y < MapHeight);
+        }
+
+        private static Point ConvertDirectionToDestinationPoint(Point initial, MovementDirection direction)
+        {
+            Point destPoint;
+            switch (direction)
+            {
+                case MovementDirection.North:
+                    destPoint = new Point(initial.X, initial.Y - 1);
+                    break;
+                case MovementDirection.South:
+                    destPoint = new Point(initial.X, initial.Y + 1);
+                    break;
+                case MovementDirection.West:
+                    destPoint = new Point(initial.X - 1, initial.Y);
+                    break;
+                case MovementDirection.East:
+                    destPoint = new Point(initial.X + 1, initial.Y);
+                    break;
+                case MovementDirection.Northeast:
+                    destPoint = new Point(initial.X + 1, initial.Y - 1);
+                    break;
+                case MovementDirection.Northwest:
+                    destPoint = new Point(initial.X - 1, initial.Y - 1);
+                    break;
+                case MovementDirection.Southeast:
+                    destPoint = new Point(initial.X + 1, initial.Y + 1);
+                    break;
+                case MovementDirection.Southwest:
+                    destPoint = new Point(initial.X - 1, initial.Y + 1);
+                    break;
+                default:
+                    throw new ArgumentException("ConvertDirectionToDestinationPoint - Invalid Direction");
+            }
+            return destPoint;
+        }
+    }
+}

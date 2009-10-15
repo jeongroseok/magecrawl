@@ -56,14 +56,12 @@
   </Target>
   -->
   <ItemGroup>
-    <Reference Include="libtcodWrapper, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dist\libtcodWrapper.dll</HintPath>
-    </Reference>
+    <Reference Include="libtcodWrapper, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="GameInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,5 +95,15 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameEngine\GameEngine.csproj">
+      <Project>{36C8BE85-781C-4D5B-8B83-3E56F6371667}</Project>
+      <Name>GameEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameUI\GameUI.csproj">
+      <Project>{E6BFA8B0-1F53-44A3-BE7D-F958ADC1C9A5}</Project>
+      <Name>GameUI</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

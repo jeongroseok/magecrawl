@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MageCrawl.Properties")]
+[assembly: AssemblyTitle("GameUI.Properties")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MageCrawl.Properties")]
+[assembly: AssemblyProduct("GameUI.Properties")]
 [assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("260667b8-d9c3-45b4-9678-d540b15e4583")]
+[assembly: Guid("678c040f-ba7f-45a5-884a-73a213e9d6af")]
 
 // Version information for an assembly consists of the following four values:
 //
