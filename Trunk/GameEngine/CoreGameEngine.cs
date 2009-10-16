@@ -22,6 +22,12 @@ namespace Magecrawl.GameEngine
             m_saveLoad = new SaveLoadCore();
         }
 
+        internal void SetWithSaveData(Player p, Map m)
+        {
+            m_player = p;
+            m_map = m;
+        }
+
         public IPlayer Player
         {
             get

@@ -11,6 +11,11 @@ namespace Magecrawl.GameEngine
     {
         private Point m_position;
 
+        public Player()
+        {
+            m_position = new Point(-1, -1);
+        }
+
         public Player(int x, int y)
         {
             m_position = new Point(x, y);
@@ -45,7 +50,10 @@ namespace Magecrawl.GameEngine
 
         public void ReadXml(XmlReader reader)
         {
-            throw new NotImplementedException();
+            reader.ReadStartElement();
+            reader.ReadElementString(); // Ignore name for now
+            m_position = m_position.ReadXml(reader);
+            reader.ReadEndElement();
         }
 
         public void WriteXml(XmlWriter writer)

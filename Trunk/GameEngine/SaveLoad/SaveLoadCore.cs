@@ -60,15 +60,16 @@ namespace Magecrawl.GameEngine.SaveLoad
             if (versionString != SaveVersion.ToString())
                 throw new System.InvalidOperationException("Attemping to load bad savefile.");
 
-            /*
-            m_engine.map = new Map();
-
+            Map loadMap = new Map();
+             
             reader.ReadStartElement();
-            m_engine.map.ReadXml(reader);
+            loadMap.ReadXml(reader);
             reader.ReadEndElement();
+            
+            Player loadPlayer = new Player();
+            loadPlayer.ReadXml(reader);
 
-            m_engine.player = new Player();
-            m_engine.player.ReadXml(reader);*/
+            m_engine.SetWithSaveData(loadPlayer, loadMap);
 
             reader.ReadEndElement();
         }
@@ -82,10 +83,9 @@ namespace Magecrawl.GameEngine.SaveLoad
             (m_engine.Map as Map).WriteXml(writer);
             writer.WriteEndElement();
 
-            /*
-            m_engine.player.WriteXml(writer);
-            */
+            (m_engine.Player as Player).WriteXml(writer);
 
+            writer.WriteEndElement();
             writer.WriteEndElement();
         }
 

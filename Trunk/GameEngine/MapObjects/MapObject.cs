@@ -28,5 +28,16 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public abstract void ReadXml(XmlReader reader);
         public abstract void WriteXml(XmlWriter writer);
+
+        internal static MapObject CreateMapObjectFromTypeString(string s)
+        {
+            switch (s)
+            {
+                case "MapDoor":
+                    return new MapDoor();
+                default:
+                    throw new System.ArgumentException("Invalid type in CreateMapObjectFromTypeString");
+            }
+        }
     }
 }

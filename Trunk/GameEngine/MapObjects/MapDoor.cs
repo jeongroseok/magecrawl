@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.MapObjects
@@ -11,6 +12,11 @@ namespace Magecrawl.GameEngine.MapObjects
     {
         private Point m_position;
         private bool m_opened;
+
+        public MapDoor()
+            : this(new Point(-1, -1), false)
+        {
+        }
 
         public MapDoor(Point position)
             : this(position, false)
@@ -58,12 +64,14 @@ namespace Magecrawl.GameEngine.MapObjects
         public override void ReadXml(XmlReader reader)
         {
             m_opened = Boolean.Parse(reader.ReadElementContentAsString());
+            m_position = m_position.ReadXml(reader);
         }
 
         public override void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString("Type", "MapDoor");
             writer.WriteElementString("DoorOpen", m_opened.ToString());
+            m_position.WriteToXml(writer, "Position");
         }
     }
 }

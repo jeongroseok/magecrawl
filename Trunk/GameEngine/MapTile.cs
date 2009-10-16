@@ -7,6 +7,12 @@ namespace Magecrawl.GameEngine
     internal sealed class MapTile : IMapTile
     {
         private TerrainType m_type;
+
+        internal MapTile()
+        {
+            m_type = TerrainType.Wall;
+        }
+
         internal MapTile(Interfaces.TerrainType type)
         {
             m_type = type;

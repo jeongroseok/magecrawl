@@ -15,6 +15,12 @@ namespace Magecrawl.GameEngine
         private MapTile[,] m_map;
         private List<IMapObject> m_mapObjects;
 
+        internal Map()
+        {
+            m_width = -1;
+            m_height = -1;
+        }
+
         internal Map(int width, int height)
         {
             m_width = width;
@@ -82,52 +88,42 @@ namespace Magecrawl.GameEngine
 
         public void ReadXml(XmlReader reader)
         {
-            /*
             reader.ReadStartElement();
 
-            int width = reader.ReadElementContentAsInt();
-            int height = reader.ReadElementContentAsInt();
-            tiles = new MapTile[width, height];
+            m_width = reader.ReadElementContentAsInt();
+            m_height = reader.ReadElementContentAsInt();
+            m_map = new MapTile[m_width, m_height];
 
-            for (int i = 0; i < width; ++i)
+            for (int i = 0; i < m_width; ++i)
             {
-                for (int j = 0; j < height; ++j)
+                for (int j = 0; j < m_height; ++j)
                 {
                     reader.ReadStartElement();
-                    char c = reader.ReadElementContentAsString()[0];
+                    char c = reader.ReadContentAsString()[0];
                     reader.ReadEndElement();
-                    tiles[i, j] = MapTileFactory.CreateTile(c);
+                    m_map[i, j] = new MapTile();
+                    m_map[i, j].CovertFromChar(c);
                 }
             }
 
-            //Read Map Features
-            m_mapFeatures = new List<MapFeature>();
+            // Read Map Features
+            m_mapObjects = new List<IMapObject>();
+
             ReadListFromXMLCore readDel = new ReadListFromXMLCore(delegate
             {
-                char c = reader.ReadElementContentAsString()[0];
-                MapFeature feature = MapFeatureFactory.CreateFeature(c);
-                feature.ReadXml(reader); ;
-                m_mapFeatures.Add(feature);
-            });
-            ReadListFromXML(reader, readDel);
-
-            //Read Monsters
-            m_monsterList = new List<Monster>();
-            readDel = new ReadListFromXMLCore(delegate
-            {
-                Monster m = new Monster();  //This should move into a factory once we have multiple "types"
-                m.ReadXml(reader);
-                m_monsterList.Add(m);
+                string typeString = reader.ReadElementContentAsString();
+                MapObject newObj = MapObject.CreateMapObjectFromTypeString(typeString);
+                newObj.ReadXml(reader);
+                m_mapObjects.Add(newObj);
             });
             ReadListFromXML(reader, readDel);
 
             reader.ReadEndElement();
-             */
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteStartElement("Level");
+            writer.WriteStartElement("Map");
             writer.WriteElementString("Width", m_width.ToString());
             writer.WriteElementString("Height", m_height.ToString());
 
@@ -135,7 +131,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_height; ++j)
                 {
-                    writer.WriteElementString(String.Format("{0},{1}", i, j), m_map[i, j].ConvertToChar().ToString());
+                    writer.WriteElementString("Elt", m_map[i, j].ConvertToChar().ToString());
                 }
             }
 
