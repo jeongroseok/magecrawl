@@ -41,6 +41,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="MapDrawer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIInterface.cs" />
   </ItemGroup>
@@ -50,5 +51,15 @@
       <HintPath>..\dist\libtcodWrapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameEngine\GameEngine.csproj">
+      <Project>{36C8BE85-781C-4D5B-8B83-3E56F6371667}</Project>
+      <Name>GameEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Utilities;
 
 namespace GameEngine
 {
@@ -7,9 +8,9 @@ namespace GameEngine
     {
         private Point m_position;
 
-        public Player()
+        public Player(int x, int y)
         {
-            m_position = new Point(0, 0);
+            m_position = new Point(x, y);
         }
 
         public Point Position

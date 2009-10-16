@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Utilities;
 
 namespace GameEngine
 {
@@ -8,10 +9,12 @@ namespace GameEngine
         private const int MapWidth = 60;
         private const int MapHeight = 40;
         private Player m_player;
+        private Map m_map;
 
         public CoreGameEngine()
         {
-            m_player = new Player();
+            m_player = new Player(1, 1);
+            m_map = new Map(MapWidth, MapHeight);
         }
 
         public Interfaces.IPlayer Player
@@ -21,17 +24,20 @@ namespace GameEngine
                 return m_player;
             }
         }
-    
+
+        public Interfaces.IMap Map
+        {
+            get
+            {
+                return m_map;
+            }
+        }
+
         public void MovePlayer(MovementDirection direction)
         {
             Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
-            if (IsValidPosition(newPosition))
+            if (IsPointOnMap(newPosition) && IsMovablePoint(newPosition))
                 m_player.Position = newPosition;
-        }
-
-        private static bool IsValidPosition(Point p)
-        {
-            return (p.X >= 0) && (p.Y >= 0) && (p.X < MapWidth) && (p.Y < MapHeight);
         }
 
         private static Point ConvertDirectionToDestinationPoint(Point initial, MovementDirection direction)
@@ -67,6 +73,16 @@ namespace GameEngine
                     throw new ArgumentException("ConvertDirectionToDestinationPoint - Invalid Direction");
             }
             return destPoint;
+        }
+
+        private static bool IsPointOnMap(Point p)
+        {
+            return (p.X >= 0) && (p.Y >= 0) && (p.X < MapWidth) && (p.Y < MapHeight);
+        }
+
+        private bool IsMovablePoint(Point p)
+        {
+            return m_map[p.X, p.Y].Terrain == GameEngine.Interfaces.TerrainType.Floor;
         }
     }
 }

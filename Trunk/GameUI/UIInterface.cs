@@ -6,16 +6,18 @@ namespace GameUI
 {
     public static class UIHelper
     {
-        private static string font = "arial12x12.png";
-        private static int numberCharsHorz = 32;
-        private static int numberCharsVert = 8;
+        public const int ScreenWidth = 80;
+        public const int ScreenHeight = 60;
+        private const string Font = "arial12x12.png";
+        private const int NumberCharsHorz = 32;
+        private const int NumberCharsVert = 8;
         private static CustomFontRequestFontTypes flags = CustomFontRequestFontTypes.Grayscale | CustomFontRequestFontTypes.LayoutTCOD;
-        private static CustomFontRequest fontReq = new CustomFontRequest(font, flags, numberCharsHorz, numberCharsVert);
+        private static CustomFontRequest fontReq = new CustomFontRequest(Font, flags, NumberCharsHorz, NumberCharsVert);
 
         public static RootConsole SetupUI()
         {
-            RootConsole.Width = 80;
-            RootConsole.Height = 60;
+            RootConsole.Width = ScreenWidth;
+            RootConsole.Height = ScreenHeight;
             RootConsole.Font = fontReq;
             RootConsole.WindowTitle = "MageCrawl";
             RootConsole.Fullscreen = false;

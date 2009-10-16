@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GameEngine;
 using GameUI;
 using libtcodWrapper;
+using Utilities;
 
 namespace MageCrawl
 {
@@ -23,10 +24,9 @@ namespace MageCrawl
 
             do
             {
-                m_console.Clear();
                 HandleKeyStroke();
-                Point playerPosition = m_engine.Player.Position;
-                m_console.PutChar(playerPosition.X, playerPosition.Y, '@');
+                m_console.Clear();
+                MapDrawer.DrawMap(m_engine.Player, m_engine.Map, m_console);
                 m_console.Flush();
             }
             while (!m_console.IsWindowClosed() && !m_isQuitting);

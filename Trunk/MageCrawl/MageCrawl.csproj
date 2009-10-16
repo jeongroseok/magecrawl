@@ -105,5 +105,9 @@
       <Project>{E6BFA8B0-1F53-44A3-BE7D-F958ADC1C9A5}</Project>
       <Name>GameUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

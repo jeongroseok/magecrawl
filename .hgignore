@@ -10,3 +10,5 @@ relre:dist/GameUI.dll
 relre:dist/GameUI.pdb
 relre:dist/GameEngine.dll
 relre:dist/GameEngine.pdb
+relre:dist/Utilities.dll
+relre:dist/Utilities.pdb

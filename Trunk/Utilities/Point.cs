@@ -1,4 +1,4 @@
-﻿namespace GameEngine
+﻿namespace Utilities
 {
     public struct Point
     {
@@ -19,6 +19,16 @@
         public static bool operator !=(Point lhs, Point rhs)
         {
             return !(lhs == rhs);
+        }
+
+        public static Point operator +(Point lhs, Point rhs)
+        {
+            return new Point(lhs.X + rhs.X, lhs.Y + rhs.Y);
+        }
+
+        public static Point operator -(Point lhs, Point rhs)
+        {
+            return new Point(lhs.X - rhs.X, lhs.Y - rhs.Y);
         }
 
         public override bool Equals(object obj)
