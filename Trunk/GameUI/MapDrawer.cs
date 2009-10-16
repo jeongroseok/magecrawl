@@ -51,7 +51,7 @@ namespace Magecrawl.GameUI
                 case MapObjectType.ClosedDoor:
                     return ':';
                 default:
-                    throw new System.ArgumentException();
+                    throw new System.ArgumentException("Unknown Type - ConvertMapObjectToChar");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Magecrawl.GameUI
                 case TerrainType.Wall:
                     return '#';
                 default:
-                    throw new System.ArgumentException();
+                    throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }
         }
         
