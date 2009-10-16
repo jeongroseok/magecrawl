@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameEngine.Interfaces;
+using GameEngine.MapObjects;
 using Utilities;
 
 namespace GameEngine
 {
     public sealed class CoreGameEngine
     {
-        private const int MapWidth = 60;
-        private const int MapHeight = 40;
+        private const int MapWidth = 40;
+        private const int MapHeight = 3;
         private Player m_player;
         private Map m_map;
 
@@ -17,7 +19,7 @@ namespace GameEngine
             m_map = new Map(MapWidth, MapHeight);
         }
 
-        public Interfaces.IPlayer Player
+        public IPlayer Player
         {
             get
             {
@@ -25,7 +27,7 @@ namespace GameEngine
             }
         }
 
-        public Interfaces.IMap Map
+        public IMap Map
         {
             get
             {
@@ -33,40 +35,51 @@ namespace GameEngine
             }
         }
 
-        public void MovePlayer(MovementDirection direction)
+        public void MovePlayer(Direction direction)
         {
             Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
             if (IsPointOnMap(newPosition) && IsMovablePoint(newPosition))
                 m_player.Position = newPosition;
         }
 
-        private static Point ConvertDirectionToDestinationPoint(Point initial, MovementDirection direction)
+        public void Operate(Direction direction)
+        {
+            Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
+            foreach (MapObject obj in Map.MapObjects)
+            {
+                OperableMapObject operateObj = obj as OperableMapObject;
+                if (operateObj != null)
+                    operateObj.Operate();
+            }
+        }
+
+        private static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)
         {
             Point destPoint;
             switch (direction)
             {
-                case MovementDirection.North:
+                case Direction.North:
                     destPoint = new Point(initial.X, initial.Y - 1);
                     break;
-                case MovementDirection.South:
+                case Direction.South:
                     destPoint = new Point(initial.X, initial.Y + 1);
                     break;
-                case MovementDirection.West:
+                case Direction.West:
                     destPoint = new Point(initial.X - 1, initial.Y);
                     break;
-                case MovementDirection.East:
+                case Direction.East:
                     destPoint = new Point(initial.X + 1, initial.Y);
                     break;
-                case MovementDirection.Northeast:
+                case Direction.Northeast:
                     destPoint = new Point(initial.X + 1, initial.Y - 1);
                     break;
-                case MovementDirection.Northwest:
+                case Direction.Northwest:
                     destPoint = new Point(initial.X - 1, initial.Y - 1);
                     break;
-                case MovementDirection.Southeast:
+                case Direction.Southeast:
                     destPoint = new Point(initial.X + 1, initial.Y + 1);
                     break;
-                case MovementDirection.Southwest:
+                case Direction.Southwest:
                     destPoint = new Point(initial.X - 1, initial.Y + 1);
                     break;
                 default:
@@ -82,7 +95,15 @@ namespace GameEngine
 
         private bool IsMovablePoint(Point p)
         {
-            return m_map[p.X, p.Y].Terrain == GameEngine.Interfaces.TerrainType.Floor;
+            bool isMovablePoint = m_map[p.X, p.Y].Terrain == GameEngine.Interfaces.TerrainType.Floor;
+
+            foreach (MapObject obj in m_map.MapObjects)
+            {
+                if (obj.Position == p && obj.IsSolid)
+                    isMovablePoint = false;
+            }
+
+            return isMovablePoint;
         }
     }
 }

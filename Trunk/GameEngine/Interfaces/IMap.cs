@@ -15,6 +15,11 @@ namespace GameEngine.Interfaces
             get;
         }
 
+        IEnumerable<IMapObject> MapObjects
+        {
+            get;
+        }
+
         IMapTile this[int width, int height]
         {
             get;

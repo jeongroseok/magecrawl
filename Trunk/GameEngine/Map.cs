@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameEngine.Interfaces;
+using GameEngine.MapObjects;
+using Utilities;
 
 namespace GameEngine
 {
@@ -9,23 +11,16 @@ namespace GameEngine
         private int m_width;
         private int m_height;
         private MapTile[,] m_map;
+        private List<IMapObject> m_mapObjects;
 
         internal Map(int width, int height)
         {
             m_width = width;
             m_height = height;
             m_map = new MapTile[width, height];
-            for (int i = 0; i < width; ++i)
-            {
-                for (int j = 0; j < height; ++j)
-                {
-                    TerrainType type = TerrainType.Floor;
-                    if (i == 0 || j == 0 || i == (m_width - 1) || j == (m_height - 1))
-                        type = TerrainType.Wall;
+            m_mapObjects = new List<IMapObject>();
 
-                    m_map[i, j] = new MapTile(type);
-                }
-            }
+            CreateDemoMap(width, height);
         }
 
         public int Width
@@ -44,12 +39,37 @@ namespace GameEngine
             }
         }
 
+        public IEnumerable<IMapObject> MapObjects
+        {
+            get 
+            {
+                return m_mapObjects;
+            }
+        }
+
         public IMapTile this[int width, int height]
         {
             get 
             {
                 return m_map[width, height];
             }
+        }
+
+        private void CreateDemoMap(int width, int height)
+        {
+            for (int i = 0; i < width; ++i)
+            {
+                for (int j = 0; j < height; ++j)
+                {
+                    TerrainType type = TerrainType.Floor;
+                    if (i == 0 || j == 0 || i == (m_width - 1) || j == (m_height - 1))
+                        type = TerrainType.Wall;
+
+                    m_map[i, j] = new MapTile(type);
+                }
+            }
+
+            m_mapObjects.Add(new MapDoor(new Point(30, 1)));
         }
     }
 }

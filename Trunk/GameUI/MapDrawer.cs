@@ -29,7 +29,30 @@ namespace GameUI
                 }
             }
 
+            foreach (IMapObject obj in map.MapObjects)
+            {
+                Point screenPlacement = new Point(mapUpCorner.X + obj.Position.X, mapUpCorner.Y + obj.Position.Y);
+
+                if (IsDrawableTile(screenPlacement))
+                {
+                    screen.PutChar(screenPlacement.X, screenPlacement.Y, ConvertMapObjectToChar(obj.Type));
+                }
+            }
+
             screen.PutChar(ScreenCenter.X, ScreenCenter.Y, '@');
+        }
+
+        private static char ConvertMapObjectToChar(MapObjectType t)
+        {
+            switch (t)
+            {
+                case MapObjectType.OpenDoor:
+                    return ';';
+                case MapObjectType.ClosedDoor:
+                    return ':';
+                default:
+                    throw new System.ArgumentException();
+            }
         }
 
         private static char ConvertTerrianToChar(TerrainType t)
@@ -41,7 +64,7 @@ namespace GameUI
                 case TerrainType.Wall:
                     return '#';
                 default:
-                    return ' ';
+                    throw new System.ArgumentException();
             }
         }
         

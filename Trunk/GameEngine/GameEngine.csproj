@@ -44,9 +44,13 @@
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Interfaces\IMap.cs" />
+    <Compile Include="Interfaces\IMapObject.cs" />
     <Compile Include="Interfaces\IMapTile.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapObjects\MapDoor.cs" />
+    <Compile Include="MapObjects\MapObject.cs" />
+    <Compile Include="MapObjects\OperableMapObject.cs" />
     <Compile Include="MapTile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
