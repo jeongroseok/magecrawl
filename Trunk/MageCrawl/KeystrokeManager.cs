@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine;
 using libtcodWrapper;
+using Magecrawl.GameEngine;
 
 namespace MageCrawl
 {
@@ -47,6 +47,22 @@ namespace MageCrawl
                                 case 'o':
                                     m_inOperate = true;
                                     return KeystrokeResult.InOperate;
+                                case 'S':
+                                    m_engine.Save();
+                                    return KeystrokeResult.None;
+                                case 'L':
+                                {
+                                    try
+                                    {
+                                        m_engine.Load();
+                                        return KeystrokeResult.None;
+                                    }
+                                    catch (System.IO.FileNotFoundException)
+                                    {
+                                        // TODO: Inform user somehow.
+                                        return KeystrokeResult.None;
+                                    }
+                                }
                             }
                             break;
                         }

@@ -1,21 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {
-    internal sealed class MapTile : Interfaces.IMapTile
+    internal sealed class MapTile : IMapTile
     {
-        private Interfaces.TerrainType m_type;
+        private TerrainType m_type;
         internal MapTile(Interfaces.TerrainType type)
         {
             m_type = type;
         }
 
-        public Magecrawl.GameEngine.Interfaces.TerrainType Terrain
+        public TerrainType Terrain
         {
             get 
             {
                 return m_type;
+            }
+        }
+
+        internal char ConvertToChar()
+        {
+            switch (m_type)
+            {
+                case TerrainType.Floor:
+                    return '.';
+                case TerrainType.Wall:
+                    return '#';
+                default:
+                    throw new System.ArgumentException("Invalid Character - ConvertToChar");
+            }
+        }
+
+        internal void CovertFromChar(char c)
+        {
+            switch (c)
+            {
+                case '.':
+                    m_type = TerrainType.Floor;
+                    break;
+                case '#':
+                    m_type = TerrainType.Wall;
+                    break;
+                default:
+                    throw new System.ArgumentException("Invalid Character - CovertFromChar");
             }
         }
     }

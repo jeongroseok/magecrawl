@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -12,11 +13,13 @@ namespace Magecrawl.GameEngine
         private const int MapHeight = 3;
         private Player m_player;
         private Map m_map;
+        private SaveLoadCore m_saveLoad;
 
         public CoreGameEngine()
         {
             m_player = new Player(1, 1);
             m_map = new Map(MapWidth, MapHeight);
+            m_saveLoad = new SaveLoadCore();
         }
 
         public IPlayer Player
@@ -48,9 +51,19 @@ namespace Magecrawl.GameEngine
             foreach (MapObject obj in Map.MapObjects)
             {
                 OperableMapObject operateObj = obj as OperableMapObject;
-                if (operateObj != null)
+                if (operateObj != null && operateObj.Position == newPosition)
                     operateObj.Operate();
             }
+        }
+
+        public void Save()
+        {
+            m_saveLoad.SaveGame(this);
+        }
+
+        public void Load()
+        {
+            m_saveLoad.LoadGame(this);
         }
 
         private static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)

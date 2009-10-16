@@ -8,7 +8,11 @@ namespace Magecrawl.GameEngine.Interfaces
         Point Position
         {
             get;
-            set;
+        }
+
+        string Name
+        {
+            get;
         }
     }
 }

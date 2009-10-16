@@ -77,8 +77,7 @@ namespace Magecrawl.GameEngine.SaveLoad
         {
             writer.WriteStartElement("MagecrawlSaveFile");
             writer.WriteElementString("Version", SaveVersion.ToString());
-
-            
+          
             writer.WriteStartElement(string.Format("Map{0}", 0));
             (m_engine.Map as Map).WriteXml(writer);
             writer.WriteEndElement();

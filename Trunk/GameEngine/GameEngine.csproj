@@ -54,10 +54,14 @@
     <Compile Include="MapTile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveLoadCore.cs" />
+    <Compile Include="SaveLoad\PointSave.cs" />
+    <Compile Include="SaveLoad\SaveLoadCore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -51,6 +53,17 @@ namespace Magecrawl.GameEngine.MapObjects
         public override void Operate()
         {
             m_opened = !m_opened;
+        }
+
+        public override void ReadXml(XmlReader reader)
+        {
+            m_opened = Boolean.Parse(reader.ReadElementContentAsString());
+        }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            writer.WriteElementString("Type", "MapDoor");
+            writer.WriteElementString("DoorOpen", m_opened.ToString());
         }
     }
 }
