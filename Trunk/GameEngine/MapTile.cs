@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GameEngine
+namespace Magecrawl.GameEngine
 {
     internal sealed class MapTile : Interfaces.IMapTile
     {
@@ -11,7 +11,7 @@ namespace GameEngine
             m_type = type;
         }
 
-        public GameEngine.Interfaces.TerrainType Terrain
+        public Magecrawl.GameEngine.Interfaces.TerrainType Terrain
         {
             get 
             {

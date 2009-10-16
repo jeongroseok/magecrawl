@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngine;
-using GameUI;
+using Magecrawl.GameEngine;
+using Magecrawl.GameUI;
 using libtcodWrapper;
-using Utilities;
+using Magecrawl.Utilities;
 
 namespace MageCrawl
 {

@@ -8,7 +8,7 @@
     <ProjectGuid>{E6BFA8B0-1F53-44A3-BE7D-F958ADC1C9A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameUI</RootNamespace>
+    <RootNamespace>Magecrawl.GameUI</RootNamespace>
     <AssemblyName>GameUI</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

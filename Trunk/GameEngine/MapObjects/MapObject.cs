@@ -1,6 +1,6 @@
-﻿using GameEngine.Interfaces;
+﻿using Magecrawl.GameEngine.Interfaces;
 
-namespace GameEngine.MapObjects
+namespace Magecrawl.GameEngine.MapObjects
 {
     internal abstract class MapObject : IMapObject
     {
@@ -14,7 +14,7 @@ namespace GameEngine.MapObjects
             get;
         }
 
-        public abstract Utilities.Point Position
+        public abstract Magecrawl.Utilities.Point Position
         {
             get;
         }

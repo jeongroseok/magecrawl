@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GameEngine
+namespace Magecrawl.GameEngine
 {
     public enum Direction
     {

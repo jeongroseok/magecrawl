@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using GameEngine.Interfaces;
+using Magecrawl.GameEngine.Interfaces;
 using libtcodWrapper;
-using Utilities;
+using Magecrawl.Utilities;
 
-namespace GameUI
+namespace Magecrawl.GameUI
 {
     public static class MapDrawer
     {

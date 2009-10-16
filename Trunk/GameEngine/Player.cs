@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Utilities;
+using Magecrawl.Utilities;
 
-namespace GameEngine
+namespace Magecrawl.GameEngine
 {
     public sealed class Player : Interfaces.IPlayer
     {

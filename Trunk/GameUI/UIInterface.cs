@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using libtcodWrapper;
 
-namespace GameUI
+namespace Magecrawl.GameUI
 {
     public static class UIHelper
     {

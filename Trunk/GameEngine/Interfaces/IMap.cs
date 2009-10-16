@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GameEngine.Interfaces
+namespace Magecrawl.GameEngine.Interfaces
 {
     public interface IMap
     {

@@ -8,7 +8,7 @@
     <ProjectGuid>{36C8BE85-781C-4D5B-8B83-3E56F6371667}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameEngine</RootNamespace>
+    <RootNamespace>Magecrawl.GameEngine</RootNamespace>
     <AssemblyName>GameEngine</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -54,6 +54,7 @@
     <Compile Include="MapTile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveLoadCore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

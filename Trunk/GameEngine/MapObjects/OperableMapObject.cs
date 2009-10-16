@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameEngine.MapObjects
+namespace Magecrawl.GameEngine.MapObjects
 {
     internal abstract class OperableMapObject : MapObject
     {

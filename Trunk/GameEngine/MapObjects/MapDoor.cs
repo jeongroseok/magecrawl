@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngine.Interfaces;
-using Utilities;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
-namespace GameEngine.MapObjects
+namespace Magecrawl.GameEngine.MapObjects
 {
     internal sealed class MapDoor : OperableMapObject
     {

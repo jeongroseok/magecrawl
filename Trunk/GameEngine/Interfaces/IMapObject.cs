@@ -1,7 +1,7 @@
 ﻿using System;
-using Utilities;
+using Magecrawl.Utilities;
 
-namespace GameEngine.Interfaces
+namespace Magecrawl.GameEngine.Interfaces
 {
     public enum MapObjectType
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngine.Interfaces;
-using GameEngine.MapObjects;
-using Utilities;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
-namespace GameEngine
+namespace Magecrawl.GameEngine
 {
     internal sealed class Map : Interfaces.IMap
     {

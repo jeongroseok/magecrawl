@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngine.Interfaces;
-using GameEngine.MapObjects;
-using Utilities;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
-namespace GameEngine
+namespace Magecrawl.GameEngine
 {
     public sealed class CoreGameEngine
     {
@@ -95,7 +95,7 @@ namespace GameEngine
 
         private bool IsMovablePoint(Point p)
         {
-            bool isMovablePoint = m_map[p.X, p.Y].Terrain == GameEngine.Interfaces.TerrainType.Floor;
+            bool isMovablePoint = m_map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
 
             foreach (MapObject obj in m_map.MapObjects)
             {

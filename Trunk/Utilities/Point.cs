@@ -1,4 +1,4 @@
-﻿namespace Utilities
+﻿namespace Magecrawl.Utilities
 {
     public struct Point
     {
