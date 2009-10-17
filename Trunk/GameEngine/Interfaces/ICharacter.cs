@@ -3,9 +3,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public interface IPlayer : ICharacter
+    public interface ICharacter
     {
-        string Name
+        Point Position
         {
             get;
         }

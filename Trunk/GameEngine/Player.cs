@@ -7,30 +7,17 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    public sealed class Player : Interfaces.IPlayer, IXmlSerializable
+    internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        private Point m_position;
-
         public Player()
         {
             m_position = new Point(-1, -1);
+            m_CT = 0;
         }
 
         public Player(int x, int y)
         {
             m_position = new Point(x, y);
-        }
-
-        public Point Position
-        {
-            get
-            {
-                return m_position;
-            }
-            set
-            {
-                m_position = value;
-            }
         }
 
         public string Name
@@ -43,12 +30,12 @@ namespace Magecrawl.GameEngine
 
         #region SaveLoad
 
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public override System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
         }
 
-        public void ReadXml(XmlReader reader)
+        public override void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
             reader.ReadElementString(); // Ignore name for now
@@ -56,7 +43,7 @@ namespace Magecrawl.GameEngine
             reader.ReadEndElement();
         }
 
-        public void WriteXml(XmlWriter writer)
+        public override void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement("Player");
             writer.WriteElementString("Name", Name);

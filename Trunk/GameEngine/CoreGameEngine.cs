@@ -7,6 +7,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
+    // So in the current archtecture, each public method should do the action requested,
+    // and _then_ call the CoreTimingEngine somehow to let others have their time slice before returnning
+    // This is very synchronous, but easy to do.
     public sealed class CoreGameEngine : IDisposable
     {
         private const int MapWidth = 40;
@@ -16,6 +19,7 @@ namespace Magecrawl.GameEngine
         private SaveLoadCore m_saveLoad;
         private FOVManager m_fovManager;
         private PathfindingMap m_pathFinding;
+        private CoreTimingEngine m_timingEngine;
 
         public CoreGameEngine()
         {
@@ -24,6 +28,10 @@ namespace Magecrawl.GameEngine
             m_saveLoad = new SaveLoadCore();
             m_fovManager = new FOVManager(m_map);
             m_pathFinding = new PathfindingMap(m_fovManager);
+            m_timingEngine = new CoreTimingEngine();
+
+            // If the player isn't the first actor, let others go. See archtecture above.
+            AfterPlayerAction();
         }
 
         public void Dispose()
@@ -58,7 +66,12 @@ namespace Magecrawl.GameEngine
         {
             Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
             if (IsPointOnMap(newPosition) && IsMovablePoint(newPosition))
+            {
                 m_player.Position = newPosition;
+                m_timingEngine.ActorMadeMove(m_player);
+            }
+
+            AfterPlayerAction();
         }
 
         public void Operate(Direction direction)
@@ -70,9 +83,12 @@ namespace Magecrawl.GameEngine
                 if (operateObj != null && operateObj.Position == newPosition)
                 {
                     operateObj.Operate();
+                    m_timingEngine.ActorDidAction(m_player);
                     m_fovManager.Update(m_map);    // Operating can change LOS and such
                 }
             }
+            
+            AfterPlayerAction();
         }
 
         public void Save()
@@ -88,6 +104,14 @@ namespace Magecrawl.GameEngine
         public IList<Point> PlayerPathToPoint(Point dest)
         {
             return m_pathFinding.Travel(m_player.Position, dest);
+        }
+
+        private void AfterPlayerAction()
+        {
+            Character nextCharacter = m_timingEngine.GetNextActor(this);
+            if (nextCharacter is Player)
+                return;
+            // TODO: Non-players do action(s) here
         }
 
         private static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)
