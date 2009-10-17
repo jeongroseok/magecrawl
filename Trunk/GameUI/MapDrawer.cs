@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
+using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -40,6 +41,28 @@ namespace Magecrawl.GameUI
             }
 
             screen.PutChar(ScreenCenter.X, ScreenCenter.Y, '@');
+        }
+
+        public static void DrawFov(Console screen, CoreGameEngine engine)
+        {
+            Point mapUpCorner = CalculateMapCorner(engine.Player);
+
+            for (int i = 0; i < engine.Map.Width; ++i)
+             {
+                 for (int j = 0; j < engine.Map.Height; ++j)
+                 {
+                     Point screenPlacement = new Point(mapUpCorner.X + i, mapUpCorner.Y + j);
+
+                     if (IsDrawableTile(screenPlacement))
+                     {
+                         IList<Point> path = engine.PlayerPathToPoint(new Point(i, j));
+                         if (path != null)
+                             screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkGreen);
+                         else
+                             screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);
+                     }
+                 }
+            }
         }
 
         private static char ConvertMapObjectToChar(MapObjectType t)

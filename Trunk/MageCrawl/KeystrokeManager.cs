@@ -9,6 +9,7 @@ namespace MageCrawl
     {
         None,
         InOperate,
+        FovOn,
         Quit
     }
 
@@ -63,6 +64,8 @@ namespace MageCrawl
                                         return KeystrokeResult.None;
                                     }
                                 }
+                                case 'f':
+                                    return KeystrokeResult.FovOn;
                             }
                             break;
                         }

@@ -24,6 +24,10 @@ namespace Magecrawl.GameEngine
             {
                 return m_type;
             }
+            internal set
+            {
+                m_type = value;
+            }
         }
 
         internal char ConvertToChar()

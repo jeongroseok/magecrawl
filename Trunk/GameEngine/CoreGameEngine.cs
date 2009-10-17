@@ -7,19 +7,29 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    public sealed class CoreGameEngine
+    public sealed class CoreGameEngine : IDisposable
     {
         private const int MapWidth = 40;
-        private const int MapHeight = 3;
+        private const int MapHeight = 5;
         private Player m_player;
         private Map m_map;
         private SaveLoadCore m_saveLoad;
+        private FOVManager m_fovManager;
+        private PathfindingMap m_pathFinding;
 
         public CoreGameEngine()
         {
             m_player = new Player(1, 1);
             m_map = new Map(MapWidth, MapHeight);
             m_saveLoad = new SaveLoadCore();
+            m_fovManager = new FOVManager(m_map);
+            m_pathFinding = new PathfindingMap(m_fovManager);
+        }
+
+        public void Dispose()
+        {
+            m_fovManager.Dispose();
+            m_pathFinding.Dispose();
         }
 
         internal void SetWithSaveData(Player p, Map m)
@@ -58,7 +68,10 @@ namespace Magecrawl.GameEngine
             {
                 OperableMapObject operateObj = obj as OperableMapObject;
                 if (operateObj != null && operateObj.Position == newPosition)
+                {
                     operateObj.Operate();
+                    m_fovManager.Update(m_map);    // Operating can change LOS and such
+                }
             }
         }
 
@@ -70,6 +83,11 @@ namespace Magecrawl.GameEngine
         public void Load()
         {
             m_saveLoad.LoadGame(this);
+        }
+
+        public IList<Point> PlayerPathToPoint(Point dest)
+        {
+            return m_pathFinding.Travel(m_player.Position, dest);
         }
 
         private static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)

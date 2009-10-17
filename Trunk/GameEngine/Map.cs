@@ -77,7 +77,9 @@ namespace Magecrawl.GameEngine
                 }
             }
 
-            m_mapObjects.Add(new MapDoor(new Point(30, 1)));
+            m_map[30, 1].Terrain = TerrainType.Wall;
+            m_mapObjects.Add(new MapDoor(new Point(30, 2)));
+            m_map[30, 3].Terrain = TerrainType.Wall;
         }
 
         #region SaveLoad

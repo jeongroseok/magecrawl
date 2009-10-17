@@ -6,8 +6,10 @@ namespace MageCrawl
     {
         public static void Main()
         {
-            GameInstance inst = new GameInstance();
-            inst.Go();
+            using (GameInstance inst = new GameInstance())
+            {
+                inst.Go();
+            }
         }
     }
 }
