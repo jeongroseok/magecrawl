@@ -5,6 +5,10 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {
+    // The time system is based upon 'Charge Time', an idea borrowed from Final Fantasy Tactics and extended.
+    // Each actor (player or monsters) has a CT. Every action reduces it by an amount, possibly reduced or
+    // increased by their speed. When a actor has acted, we search for the next one who has at least CTNeededForNewTurn
+    // If no-one has that, we interativly increase by CTPerIteration factoring in their CTIncreaseModifier until someone can act.
     internal sealed class CoreTimingEngine
     {
         private const int CTNeededForNewTurn = 100;
@@ -34,7 +38,7 @@ namespace Magecrawl.GameEngine
                 // No actors can go now, so incremenet each one's CT
                 foreach (Character currentActor in actors)
                 {
-                    currentActor.CT += CTPerIteration;
+                    currentActor.CT += (int)(CTPerIteration * currentActor.CTIncreaseModifier);
                 }
             }
         }

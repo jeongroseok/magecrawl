@@ -106,14 +106,6 @@ namespace Magecrawl.GameEngine
             return m_pathFinding.Travel(m_player.Position, dest);
         }
 
-        private void AfterPlayerAction()
-        {
-            Character nextCharacter = m_timingEngine.GetNextActor(this);
-            if (nextCharacter is Player)
-                return;
-            // TODO: Non-players do action(s) here
-        }
-
         private static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)
         {
             Point destPoint;
@@ -152,6 +144,15 @@ namespace Magecrawl.GameEngine
         private static bool IsPointOnMap(Point p)
         {
             return (p.X >= 0) && (p.Y >= 0) && (p.X < MapWidth) && (p.Y < MapHeight);
+        }
+
+        private void AfterPlayerAction()
+        {
+            Character nextCharacter = m_timingEngine.GetNextActor(this);
+            if (nextCharacter is Player)
+                return;
+
+            // TODO: Non-players do action(s) here
         }
 
         private bool IsMovablePoint(Point p)

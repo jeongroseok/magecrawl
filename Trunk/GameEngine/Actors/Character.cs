@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.SaveLoad;
@@ -10,6 +11,8 @@ namespace Magecrawl.GameEngine
     public abstract class Character : Interfaces.ICharacter, IXmlSerializable
     {
         protected Point m_position;
+
+        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1306:FieldNamesMustBeginWithLowerCaseLetter", Justification = "CT is an acronym")]
         protected int m_CT;
 
         internal virtual double CTCostModifierToMove
@@ -28,6 +31,13 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        internal virtual double CTIncreaseModifier
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
 
         public Point Position
         {
