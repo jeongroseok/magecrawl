@@ -98,10 +98,10 @@ namespace MageCrawl
                     direction = Direction.Northeast;
                     break;
                 case KeyCode.TCODK_PAGEDOWN:
-                    direction = Direction.Southwest;
+                    direction = Direction.Southeast;
                     break;
                 case KeyCode.TCODK_END:
-                    direction = Direction.Southeast;
+                    direction = Direction.Southwest;
                     break;
                 default:
                     direction = Direction.None;
