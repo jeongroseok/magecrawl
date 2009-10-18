@@ -34,7 +34,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < engine.Map.Height; ++j)
                 {
-                    if (engine.IsMovablePoint(new Point(i, j)))
+                    if (engine.IsPathablePoint(new Point(i, j)))
                         m_fov.SetCell(i, j, true, true);
                     else
                         m_fov.SetCell(i, j, false, false);
