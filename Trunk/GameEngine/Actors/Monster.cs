@@ -35,6 +35,23 @@ namespace Magecrawl.GameEngine.Actors
 
         internal MonsterAction Action(CoreGameEngine engine)
         {
+            // TODO - This should respect FOV
+            IList<Point> pathToPlayer = engine.PathToPoint(m_position, engine.Player.Position);
+
+            // We have a way to get to player
+            if (pathToPlayer != null && pathToPlayer.Count > 0)
+            {
+                Direction towardsPlayer = CoreGameEngine.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
+                if (engine.Move(this, towardsPlayer))
+                    return MonsterAction.DidMove;
+            }
+
+            // We have nothing else to do, so wander
+            return WanderRandomly(engine);
+        }
+
+        private MonsterAction WanderRandomly(CoreGameEngine engine)
+        {
             for (int i = 0; i < 10; ++i)
             {
                 Direction directionToTry = (Direction)m_random.GetRandomInt(1, 8);
@@ -43,7 +60,7 @@ namespace Magecrawl.GameEngine.Actors
                     return MonsterAction.DidMove;
                 }
             }
-            
+
             // If nothing else, 'wait'
             return MonsterAction.DidAction;
         }

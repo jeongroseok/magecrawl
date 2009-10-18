@@ -128,11 +128,17 @@ namespace Magecrawl.GameEngine
         public void Load()
         {
             m_saveLoad.LoadGame(this);
+            m_fovManager.Update(this);    // We have a new map, recalc LOS
         }
 
         public IList<Point> PlayerPathToPoint(Point dest)
         {
             return m_pathFinding.Travel(m_player.Position, dest);
+        }
+
+        internal IList<Point> PathToPoint(Point source, Point dest)
+        {
+            return m_pathFinding.Travel(source, dest);
         }
 
         private static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)
@@ -170,6 +176,52 @@ namespace Magecrawl.GameEngine
             return destPoint;
         }
 
+        internal static Direction ConvertTwoPointsToDirection(Point initial, Point end)
+        {
+            int x = end.X - initial.X;
+            int y = end.Y - initial.Y;
+            if (x > 1)
+                x = 1;
+            if (x < -1)
+                x = -1;
+            if (y > 1)
+                y = 1;
+            if (y < -1)
+                y = -1;
+            return ConvertPositionDeltaToDirection(x, y);
+        }
+
+        private static Direction ConvertPositionDeltaToDirection(int deltaX, int deltaY)
+        {
+            if (deltaX == 1)
+            {
+                if (deltaY == 1)
+                    return Direction.Southeast;
+                else if (deltaY == -1)
+                    return Direction.Northeast;
+                else
+                    return Direction.East;
+            }
+            else if (deltaX == -1)
+            {
+                if (deltaY == 1)
+                    return Direction.Southwest;
+                else if (deltaY == -1)
+                    return Direction.Northwest;
+                else
+                    return Direction.West;
+            }
+            else
+            {
+                if (deltaY == 1)
+                    return Direction.South;
+                else if (deltaY == -1)
+                    return Direction.North;
+                else
+                    throw new System.ArgumentOutOfRangeException("ConvertPositionDeltaToDirection - No direction?");
+            }
+        }
+
         private static bool IsPointOnMap(Point p)
         {
             return (p.X >= 0) && (p.Y >= 0) && (p.X < MapWidth) && (p.Y < MapHeight);
@@ -187,30 +239,41 @@ namespace Magecrawl.GameEngine
             Monster monster = nextCharacter as Monster;
             MonsterAction result = monster.Action(this);
 
+            // We don't need to cost moves, since move itself does so already
+            // TODO - Make all actions cost, and remove this
             if (result == MonsterAction.DidAction)
                 m_timingEngine.ActorDidAction(monster);
         }
 
+        // Moveable wants player point ot be closed (Monsters don't move into player)
         internal bool IsMovablePoint(Point p)
         {
-            bool isMovablePoint = m_map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+            bool isMoveablePoint = IsPathablePoint(p);
+
+            if (m_player.Position == p)
+                isMoveablePoint = false;
+
+            return isMoveablePoint;
+        }
+
+        // Pathfinding wants player point to be open (Monster Pathfinding)
+        internal bool IsPathablePoint(Point p)
+        {
+            bool isPathablePoint = m_map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
 
             foreach (MapObject obj in m_map.MapObjects)
             {
                 if (obj.Position == p && obj.IsSolid)
-                    isMovablePoint = false;
+                    isPathablePoint = false;
             }
 
             foreach (Monster m in m_map.Monsters)
             {
                 if (m.Position == p)
-                    isMovablePoint = false;
+                    isPathablePoint = false;
             }
 
-            if (m_player.Position == p)
-                isMovablePoint = false;
-
-            return isMovablePoint;
+            return isPathablePoint;
         }
     }
 }
