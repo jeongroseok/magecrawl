@@ -20,6 +20,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        IEnumerable<ICharacter> Monsters
+        {
+            get;
+        }
+
         IMapTile this[int width, int height]
         {
             get;

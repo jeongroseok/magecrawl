@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
@@ -26,7 +27,7 @@ namespace Magecrawl.GameEngine
             m_player = new Player(1, 1);
             m_map = new Map(MapWidth, MapHeight);
             m_saveLoad = new SaveLoadCore();
-            m_fovManager = new FOVManager(m_map);
+            m_fovManager = new FOVManager(this);
             m_pathFinding = new PathfindingMap(m_fovManager);
             m_timingEngine = new CoreTimingEngine();
 
@@ -62,20 +63,33 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public void MovePlayer(Direction direction)
+        internal bool Move(Character c, Direction direction)
         {
-            Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
+            bool didAnything = false;
+            Point newPosition = ConvertDirectionToDestinationPoint(c.Position, direction);
             if (IsPointOnMap(newPosition) && IsMovablePoint(newPosition))
             {
-                m_player.Position = newPosition;
-                m_timingEngine.ActorMadeMove(m_player);
+                c.Position = newPosition;
+                m_timingEngine.ActorMadeMove(c);
+                m_fovManager.Update(this);    // Operating can change LOS and such
+                didAnything = true;
             }
-
-            AfterPlayerAction();
+            return didAnything;
         }
 
-        public void Operate(Direction direction)
+        public bool MovePlayer(Direction direction)
         {
+            bool didAnything = Move(m_player, direction);
+
+            if (didAnything)
+                AfterPlayerAction();
+            return didAnything;
+        }
+
+        public bool Operate(Direction direction)
+        {
+            bool didAnything = false;
+
             Point newPosition = ConvertDirectionToDestinationPoint(m_player.Position, direction);
             foreach (MapObject obj in Map.MapObjects)
             {
@@ -84,11 +98,26 @@ namespace Magecrawl.GameEngine
                 {
                     operateObj.Operate();
                     m_timingEngine.ActorDidAction(m_player);
-                    m_fovManager.Update(m_map);    // Operating can change LOS and such
+                    m_fovManager.Update(this);    // Operating can change LOS and such
+                    didAnything = true;
                 }
             }
-            
+            if (didAnything)
+                AfterPlayerAction();
+            return didAnything;
+        }
+
+        internal bool Wait(Character c)
+        {
+            m_timingEngine.ActorDidAction(c);
+            return true;
+        }
+
+        public bool PlayerWait()
+        {
+            Wait(m_player);
             AfterPlayerAction();
+            return true;
         }
 
         public void Save()
@@ -151,11 +180,18 @@ namespace Magecrawl.GameEngine
             Character nextCharacter = m_timingEngine.GetNextActor(this);
             if (nextCharacter is Player)
                 return;
+            
+            if (!(nextCharacter is Monster))
+                throw new System.NotSupportedException("Any character that isn't the player should be a monster");
+            
+            Monster monster = nextCharacter as Monster;
+            MonsterAction result = monster.Action(this);
 
-            // TODO: Non-players do action(s) here
+            if (result == MonsterAction.DidAction)
+                m_timingEngine.ActorDidAction(monster);
         }
 
-        private bool IsMovablePoint(Point p)
+        internal bool IsMovablePoint(Point p)
         {
             bool isMovablePoint = m_map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
 
@@ -164,6 +200,15 @@ namespace Magecrawl.GameEngine
                 if (obj.Position == p && obj.IsSolid)
                     isMovablePoint = false;
             }
+
+            foreach (Monster m in m_map.Monsters)
+            {
+                if (m.Position == p)
+                    isMovablePoint = false;
+            }
+
+            if (m_player.Position == p)
+                isMovablePoint = false;
 
             return isMovablePoint;
         }

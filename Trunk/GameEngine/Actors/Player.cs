@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
@@ -18,6 +18,7 @@ namespace Magecrawl.GameEngine
         public Player(int x, int y)
         {
             m_position = new Point(x, y);
+            m_CT = 0;
         }
 
         public string Name

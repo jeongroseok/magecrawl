@@ -10,7 +10,7 @@ namespace MageCrawl
     internal sealed class GameInstance : IDisposable
     {
         private bool m_isQuitting = false;
-        private bool m_isFovMode = false;
+        private bool m_pathableMode = false;
         private RootConsole m_console;
         private CoreGameEngine m_engine;
         private KeystrokeManager m_keystroke;
@@ -35,13 +35,13 @@ namespace MageCrawl
                 KeystrokeResult keyResult = m_keystroke.HandleKeyStroke();
                 if (keyResult == KeystrokeResult.Quit)
                     m_isQuitting = true;
-                else if (keyResult == KeystrokeResult.FovOn)
-                    m_isFovMode = !m_isFovMode;
+                else if (keyResult == KeystrokeResult.PathableOn)
+                    m_pathableMode = !m_pathableMode;
 
                 m_console.Clear();
                 MapDrawer.DrawMap(m_engine.Player, m_engine.Map, m_console);
-                if (m_isFovMode)
-                    MapDrawer.DrawFov(m_console, m_engine);
+                if (m_pathableMode)
+                    MapDrawer.DrawPathable(m_console, m_engine);
 
                 m_console.Flush();
             }

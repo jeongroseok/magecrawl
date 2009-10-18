@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Xml;
 using System.Xml.Serialization;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.SaveLoad
 {

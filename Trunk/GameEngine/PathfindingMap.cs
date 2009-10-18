@@ -17,7 +17,9 @@ namespace Magecrawl.GameEngine
         
         public void Dispose()
         {
-            m_pathFinding.Dispose();
+            if (m_pathFinding != null)
+                m_pathFinding.Dispose();
+            m_pathFinding = null;
         }
 
         public List<Point> Travel(Point initial, Point final)
