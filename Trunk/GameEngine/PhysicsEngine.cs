@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.GameEngine
 {
@@ -10,6 +11,7 @@ namespace Magecrawl.GameEngine
     {
         private CoreTimingEngine m_timingEngine;
         private FOVManager m_fovManager;
+        private TCODRandom m_random;
 
         // Cared and fed by CoreGameEngine, local copy for convenience
         private Player m_player;
@@ -17,10 +19,11 @@ namespace Magecrawl.GameEngine
 
         public PhysicsEngine(Player player, Map map)
         {
-            m_timingEngine = new CoreTimingEngine();
-            m_fovManager = new FOVManager(this, map);
             m_player = player;
             m_map = map;
+            m_timingEngine = new CoreTimingEngine();
+            m_fovManager = new FOVManager(this, map);
+            m_random = new TCODRandom();
         }
 
         public void Dispose()
@@ -100,6 +103,7 @@ namespace Magecrawl.GameEngine
                 {
                     m_map.KillMonster(m);
                     didAnything = true;
+                    PublicGameEngine.SendTextOutput("Monster Killed.");
                     break;
                 }
             }
