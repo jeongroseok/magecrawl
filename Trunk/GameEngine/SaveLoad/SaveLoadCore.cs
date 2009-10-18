@@ -18,7 +18,7 @@ namespace Magecrawl.GameEngine.SaveLoad
         private bool useSavegameCompression = false;
         private bool permDeath = false;
 
-        public bool SaveGame(CoreGameEngine engine)
+        internal bool SaveGame(CoreGameEngine engine)
         {
             m_engine = engine;
             string filename = m_engine.Player.Name + ".sav";
@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             return true;
         }
 
-        public bool LoadGame(CoreGameEngine engine)
+        internal bool LoadGame(CoreGameEngine engine)
         {
             m_engine = engine;
             string filename = m_engine.Player.Name + ".sav";

@@ -21,11 +21,11 @@ namespace Magecrawl.GameEngine
         {
         }
 
-        internal Character GetNextActor(CoreGameEngine engine)
+        internal Character GetNextActor(Player player, Map map)
         {
             List<Character> actors = new List<Character>();
-            actors.Add(engine.Player as Player);
-            foreach (Monster m in engine.Map.Monsters)
+            actors.Add(player as Player);
+            foreach (Monster m in map.Monsters)
             {
                 actors.Add(m);
             }

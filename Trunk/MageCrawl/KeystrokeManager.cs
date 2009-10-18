@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace MageCrawl
 {
@@ -51,15 +52,15 @@ namespace MageCrawl
         None,
         Operate,
         Attack
-    };
+    }
 
     internal sealed class KeystrokeManager
     {
-        private CoreGameEngine m_engine;
+        private IGameEngine m_engine;
         private ChordKeystrokeStatus m_chordKeystroke;
         private Dictionary<NamedKey, MethodInfo> m_keyMappings;
 
-        internal KeystrokeManager(CoreGameEngine engine)
+        internal KeystrokeManager(IGameEngine engine)
         {
             m_engine = engine;
             m_chordKeystroke = ChordKeystrokeStatus.None;
@@ -230,7 +231,6 @@ namespace MageCrawl
             m_engine.PlayerWait();
             return KeystrokeResult.None;
         }
-
 
         private KeystrokeResult Attack()
         {
