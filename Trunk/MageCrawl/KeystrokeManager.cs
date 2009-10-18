@@ -15,6 +15,9 @@ namespace MageCrawl
         InOperate,
         InAttack,
         PathableOn,
+        TextBoxClear,
+        TextBoxUp,
+        TextBoxDown,
         Quit
     }
 
@@ -118,7 +121,15 @@ namespace MageCrawl
         {
             KeyPress key = libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed);
             MethodInfo action;
-            NamedKey namedKey = new NamedKey() { Character = (char)key.Character, Code = key.KeyCode };
+
+            NamedKey namedKey;
+
+            // Some keys, like backspace, space, and tab have both a character and a code. We only stick one in the dictionary
+            // Strip the other one out.
+            if(key.KeyCode == KeyCode.TCODK_CHAR)
+                namedKey = new NamedKey() { Character = (char)key.Character, Code = KeyCode.TCODK_CHAR };
+            else
+                namedKey = new NamedKey() { Character = (char)0, Code = key.KeyCode };
 
             if (m_keyMappings.TryGetValue(namedKey, out action))
             {
@@ -236,6 +247,21 @@ namespace MageCrawl
         {
             m_chordKeystroke = ChordKeystrokeStatus.Attack;
             return KeystrokeResult.InAttack;
+        }
+
+        private KeystrokeResult TextBoxPageUp()
+        {
+            return KeystrokeResult.TextBoxUp;
+        }
+
+        private KeystrokeResult TextBoxPageDown()
+        {
+            return KeystrokeResult.TextBoxDown;
+        }
+
+        private KeystrokeResult TextBoxClear()
+        {
+            return KeystrokeResult.TextBoxClear;
         }
 
         #endregion

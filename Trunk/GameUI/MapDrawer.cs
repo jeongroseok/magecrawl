@@ -7,13 +7,20 @@ namespace Magecrawl.GameUI
 {
     public static class MapDrawer
     {
-        public const int MapDrawnWidth = 51;
-        public const int MapDrawnHeight = 43;
+        public const int MapDrawnWidth = 50;
+        public const int MapDrawnHeight = 42;
         
         public static Point ScreenCenter = new Point((MapDrawnWidth - 1) / 2, (MapDrawnHeight - 2) / 2);
 
+        public static void DrawMapFrame(Console screen)
+        {
+            screen.DrawFrame(0, 0, MapDrawnWidth+1, MapDrawnHeight+1, true, "Map");
+        }
+
         public static void DrawMap(IPlayer player, IMap map, Console screen)
         {
+            DrawMapFrame(screen);
+
             Point mapUpCorner = CalculateMapCorner(player);
 
             for (int i = 0; i < map.Width; ++i)
@@ -34,12 +41,12 @@ namespace Magecrawl.GameUI
                 DrawThing(mapUpCorner, obj.Position, screen, 'M');
             }
 
-            screen.PutChar(ScreenCenter.X, ScreenCenter.Y, '@');
+            screen.PutChar(ScreenCenter.X+1, ScreenCenter.Y+1, '@');
         }
 
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
         {
-            Point screenPlacement = new Point(mapUpCorner.X + position.X, mapUpCorner.Y + position.Y);
+            Point screenPlacement = new Point(mapUpCorner.X + position.X+1, mapUpCorner.Y + position.Y+1);
 
             if (IsDrawableTile(screenPlacement))
             {
@@ -102,8 +109,8 @@ namespace Magecrawl.GameUI
 
         private static bool IsDrawableTile(Point p)
         {
-            bool xOk = p.X >= 0 && p.X < MapDrawnWidth;
-            bool yOk = p.Y >= 0 && p.Y < MapDrawnHeight;
+            bool xOk = p.X >= 1 && p.X < MapDrawnWidth;
+            bool yOk = p.Y >= 1 && p.Y < MapDrawnHeight;
             return xOk && yOk;
         }
     }

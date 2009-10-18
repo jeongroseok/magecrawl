@@ -9,10 +9,14 @@ namespace Magecrawl.GameEngine
     // This is very synchronous, but easy to do.
     public class PublicGameEngine : IGameEngine
     {
-        private CoreGameEngine m_engine;
+        public delegate void TextOutputFromGame(string s);
 
-        public PublicGameEngine()
+        private CoreGameEngine m_engine;
+        private static TextOutputFromGame m_textOutput;
+
+        public PublicGameEngine(TextOutputFromGame textOutput)
         {
+            m_textOutput += textOutput;
             m_engine = new CoreGameEngine();
         }
 
@@ -21,6 +25,13 @@ namespace Magecrawl.GameEngine
             if (m_engine != null)
                 m_engine.Dispose();
             m_engine = null;
+        }
+
+        // This is static for easy of use. Else, we'd have to pass this public interface throughout all the GameEngine.
+        // If we ever have multiple threads, we'll need to mutex it.
+        internal static void SendTextOutput(string s)
+        {
+            m_textOutput(s);
         }
             
         public IPlayer Player

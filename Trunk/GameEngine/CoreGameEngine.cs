@@ -11,8 +11,6 @@ namespace Magecrawl.GameEngine
     // This class mostly coordinates between a bunch of helper classes to provide what PublicGameEngine needs.
     internal sealed class CoreGameEngine : IDisposable
     {
-        private const int MapWidth = 40;
-        private const int MapHeight = 5;
         private Player m_player;
         private Map m_map;
         private SaveLoadCore m_saveLoad;
@@ -22,7 +20,7 @@ namespace Magecrawl.GameEngine
         public CoreGameEngine()
         {
             m_player = new Player(1, 1);
-            m_map = new Map(MapWidth, MapHeight);
+            m_map = new Map(50, 50);
             m_saveLoad = new SaveLoadCore();
 
             m_physicsEngine = new PhysicsEngine(m_player, m_map);
@@ -30,6 +28,8 @@ namespace Magecrawl.GameEngine
 
             // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
             m_physicsEngine.AfterPlayerAction(this);
+
+            PublicGameEngine.SendTextOutput("Welcome To Magecrawl");
         }
 
         public void Dispose()
@@ -67,13 +67,16 @@ namespace Magecrawl.GameEngine
 
         internal void Save()
         {
+            PublicGameEngine.SendTextOutput("Saving Game.");
             m_saveLoad.SaveGame(this);
         }
 
         internal void Load()
         {
+            PublicGameEngine.SendTextOutput("Loading Game.");
             m_saveLoad.LoadGame(this);
             m_physicsEngine.GameLoaded(m_player, m_map);
+            PublicGameEngine.SendTextOutput("Game Loaded.");
         }
 
         internal bool IsMovablePoint(Map map, Player player, Point p)
