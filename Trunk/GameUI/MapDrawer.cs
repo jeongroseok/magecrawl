@@ -21,29 +21,34 @@ namespace Magecrawl.GameUI
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point screenPlacement = new Point(mapUpCorner.X + i, mapUpCorner.Y + j);
-
-                    if (IsDrawableTile(screenPlacement))
-                    {
-                        screen.PutChar(screenPlacement.X, screenPlacement.Y, ConvertTerrianToChar(map[i, j].Terrain));
-                    }
+                    DrawThing(mapUpCorner, new Point(i, j), screen, ConvertTerrianToChar(map[i, j].Terrain));
                 }
             }
 
             foreach (IMapObject obj in map.MapObjects)
             {
-                Point screenPlacement = new Point(mapUpCorner.X + obj.Position.X, mapUpCorner.Y + obj.Position.Y);
+                DrawThing(mapUpCorner, obj.Position, screen, ConvertMapObjectToChar(obj.Type));
+            }
 
-                if (IsDrawableTile(screenPlacement))
-                {
-                    screen.PutChar(screenPlacement.X, screenPlacement.Y, ConvertMapObjectToChar(obj.Type));
-                }
+            foreach (ICharacter obj in map.Monsters)
+            {
+                DrawThing(mapUpCorner, obj.Position, screen, 'M');
             }
 
             screen.PutChar(ScreenCenter.X, ScreenCenter.Y, '@');
         }
 
-        public static void DrawFov(Console screen, CoreGameEngine engine)
+        private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
+        {
+            Point screenPlacement = new Point(mapUpCorner.X + position.X, mapUpCorner.Y + position.Y);
+
+            if (IsDrawableTile(screenPlacement))
+            {
+                screen.PutChar(screenPlacement.X, screenPlacement.Y, symbol);
+            }
+        }
+
+        public static void DrawPathable(Console screen, CoreGameEngine engine)
         {
             Point mapUpCorner = CalculateMapCorner(engine.Player);
 

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Actors
 {
     public abstract class Character : Interfaces.ICharacter, IXmlSerializable
     {

@@ -42,6 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="Actors\Character.cs" />
+    <Compile Include="Actors\Monster.cs" />
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
     <Compile Include="Interfaces\ICharacter.cs" />

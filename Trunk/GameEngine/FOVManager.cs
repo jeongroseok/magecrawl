@@ -10,34 +10,34 @@ namespace Magecrawl.GameEngine
     {
         private TCODFov m_fov;
 
-        internal FOVManager(Map map)
+        internal FOVManager(CoreGameEngine engine)
         {
-            m_fov = new TCODFov(map.Width, map.Height);
-            Update(map);
+            m_fov = new TCODFov(engine.Map.Width, engine.Map.Height);
+            Update(engine);
         }
 
         public void Dispose()
         {
-            m_fov.Dispose();
+            if (m_fov != null)
+                m_fov.Dispose();
+            m_fov = null;
         }
 
-        public void Update(Map map)
+        public void Update(CoreGameEngine engine)
         {
             m_fov.ClearMap();
-            for (int i = 0; i < map.Width; ++i)
-            {
-                for (int j = 0; j < map.Height; ++j)
-                {
-                    bool isWall = map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Wall;
-                    m_fov.SetCell(i, j, !isWall, !isWall);
-                }
-            }
 
-            foreach (MapObject obj in map.MapObjects)
+            // Reusing code from CoreGameEngine now. If we every have 
+            // cells that are see through but not walkable, we'll need
+            // two calls here
+            for (int i = 0; i < engine.Map.Width; ++i)
             {
-                if (obj.IsSolid)
+                for (int j = 0; j < engine.Map.Height; ++j)
                 {
-                    m_fov.SetCell(obj.Position.X, obj.Position.Y, false, false);
+                    if (engine.IsMovablePoint(new Point(i, j)))
+                        m_fov.SetCell(i, j, true, true);
+                    else
+                        m_fov.SetCell(i, j, false, false);
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine;
+using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
@@ -24,6 +25,10 @@ namespace Magecrawl.GameEngine
         {
             List<Character> actors = new List<Character>();
             actors.Add(engine.Player as Player);
+            foreach (Monster m in engine.Map.Monsters)
+            {
+                actors.Add(m);
+            }
 
             // Until we find a winner
             while (true)

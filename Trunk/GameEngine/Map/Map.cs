@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
@@ -13,7 +14,8 @@ namespace Magecrawl.GameEngine
         private int m_width;
         private int m_height;
         private MapTile[,] m_map;
-        private List<IMapObject> m_mapObjects;
+        private List<MapObject> m_mapObjects;
+        private List<Monster> m_monsterList;
 
         internal Map()
         {
@@ -26,7 +28,8 @@ namespace Magecrawl.GameEngine
             m_width = width;
             m_height = height;
             m_map = new MapTile[width, height];
-            m_mapObjects = new List<IMapObject>();
+            m_mapObjects = new List<MapObject>();
+            m_monsterList = new List<Monster>();
 
             CreateDemoMap(width, height);
         }
@@ -51,7 +54,15 @@ namespace Magecrawl.GameEngine
         {
             get 
             {
-                return m_mapObjects;
+                return m_mapObjects.ConvertAll<IMapObject>(new Converter<MapObject, IMapObject>(delegate(MapObject m) { return m as IMapObject; }));
+            }
+        }
+
+        public IEnumerable<ICharacter> Monsters
+        {
+            get 
+            {
+                return m_monsterList.ConvertAll<ICharacter>(new Converter<Monster, ICharacter>(delegate(Monster m) { return m as ICharacter; }));
             }
         }
 
@@ -80,6 +91,8 @@ namespace Magecrawl.GameEngine
             m_map[30, 1].Terrain = TerrainType.Wall;
             m_mapObjects.Add(new MapDoor(new Point(30, 2)));
             m_map[30, 3].Terrain = TerrainType.Wall;
+
+            m_monsterList.Add(new Monster(3, 3));
         }
 
         #region SaveLoad
@@ -109,7 +122,7 @@ namespace Magecrawl.GameEngine
             }
 
             // Read Map Features
-            m_mapObjects = new List<IMapObject>();
+            m_mapObjects = new List<MapObject>();
 
             ReadListFromXMLCore readDel = new ReadListFromXMLCore(delegate
             {
@@ -117,6 +130,18 @@ namespace Magecrawl.GameEngine
                 MapObject newObj = MapObject.CreateMapObjectFromTypeString(typeString);
                 newObj.ReadXml(reader);
                 m_mapObjects.Add(newObj);
+            });
+            ReadListFromXML(reader, readDel);
+
+            // Read Monstesr
+            m_monsterList = new List<Monster>();
+
+            readDel = new ReadListFromXMLCore(delegate
+            {
+                string typeString = reader.ReadElementContentAsString();
+                Monster newObj = Monster.CreateMonsterObjectFromTypeString(typeString);
+                newObj.ReadXml(reader);
+                m_monsterList.Add(newObj);
             });
             ReadListFromXML(reader, readDel);
 
@@ -137,7 +162,9 @@ namespace Magecrawl.GameEngine
                 }
             }
 
-            WriteListToXML(writer, m_mapObjects.ConvertAll<MapObject>(new Converter<IMapObject, MapObject>(delegate(IMapObject m) { return m as MapObject; })), "MapObjects");
+            WriteListToXML(writer, m_mapObjects, "MapObjects");
+
+            WriteListToXML(writer, m_monsterList, "Monsters");
 
             writer.WriteEndElement();
         }
