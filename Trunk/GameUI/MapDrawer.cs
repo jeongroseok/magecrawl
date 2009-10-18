@@ -14,7 +14,7 @@ namespace Magecrawl.GameUI
 
         public static void DrawMapFrame(Console screen)
         {
-            screen.DrawFrame(0, 0, MapDrawnWidth+1, MapDrawnHeight+1, true, "Map");
+            screen.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
         }
 
         public static void DrawMap(IPlayer player, IMap map, Console screen)
@@ -41,12 +41,12 @@ namespace Magecrawl.GameUI
                 DrawThing(mapUpCorner, obj.Position, screen, 'M');
             }
 
-            screen.PutChar(ScreenCenter.X+1, ScreenCenter.Y+1, '@');
+            screen.PutChar(ScreenCenter.X + 1, ScreenCenter.Y + 1, '@');
         }
 
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
         {
-            Point screenPlacement = new Point(mapUpCorner.X + position.X+1, mapUpCorner.Y + position.Y+1);
+            Point screenPlacement = new Point(mapUpCorner.X + position.X + 1, mapUpCorner.Y + position.Y + 1);
 
             if (IsDrawableTile(screenPlacement))
             {
