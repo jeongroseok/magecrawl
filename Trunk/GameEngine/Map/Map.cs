@@ -100,6 +100,11 @@ namespace Magecrawl.GameEngine
             m_monsterList.Add(new Monster(3, 3));
         }
 
+        internal bool IsPointOnMap(Point p)
+        {
+            return (p.X >= 0) && (p.Y >= 0) && (p.X < Width) && (p.Y < Height);
+        }
+
         #region SaveLoad
         public System.Xml.Schema.XmlSchema GetSchema()
         {

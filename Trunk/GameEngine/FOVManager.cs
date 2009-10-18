@@ -10,10 +10,10 @@ namespace Magecrawl.GameEngine
     {
         private TCODFov m_fov;
 
-        internal FOVManager(CoreGameEngine engine)
+        internal FOVManager(PhysicsEngine physicsEngine, Map map)
         {
-            m_fov = new TCODFov(engine.Map.Width, engine.Map.Height);
-            Update(engine);
+            m_fov = new TCODFov(map.Width, map.Height);
+            Update(physicsEngine, map);
         }
 
         public void Dispose()
@@ -23,18 +23,18 @@ namespace Magecrawl.GameEngine
             m_fov = null;
         }
 
-        public void Update(CoreGameEngine engine)
+        public void Update(PhysicsEngine physicsEngine, Map map)
         {
             m_fov.ClearMap();
 
-            // Reusing code from CoreGameEngine now. If we every have 
+            // Reusing code from PhysicsEngine now. If we every have 
             // cells that are see through but not walkable, we'll need
             // two calls here
-            for (int i = 0; i < engine.Map.Width; ++i)
+            for (int i = 0; i < map.Width; ++i)
             {
-                for (int j = 0; j < engine.Map.Height; ++j)
+                for (int j = 0; j < map.Height; ++j)
                 {
-                    if (engine.IsPathablePoint(new Point(i, j)))
+                    if (physicsEngine.IsPathablePoint(map, new Point(i, j)))
                         m_fov.SetCell(i, j, true, true);
                     else
                         m_fov.SetCell(i, j, false, false);

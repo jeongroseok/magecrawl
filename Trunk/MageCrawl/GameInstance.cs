@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
 using Magecrawl.Utilities;
 
@@ -12,7 +13,7 @@ namespace MageCrawl
         private bool m_isQuitting = false;
         private bool m_pathableMode = false;
         private RootConsole m_console;
-        private CoreGameEngine m_engine;
+        private IGameEngine m_engine;
         private KeystrokeManager m_keystroke;
 
         internal GameInstance()
@@ -27,7 +28,7 @@ namespace MageCrawl
         internal void Go()
         {
             m_console = UIHelper.SetupUI();
-            m_engine = new CoreGameEngine();
+            m_engine = new PublicGameEngine();
             m_keystroke = new KeystrokeManager(m_engine);
             m_keystroke.LoadKeyMappings();
 

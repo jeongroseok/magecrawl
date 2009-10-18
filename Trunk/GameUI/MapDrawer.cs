@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
-using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -48,7 +47,7 @@ namespace Magecrawl.GameUI
             }
         }
 
-        public static void DrawPathable(Console screen, CoreGameEngine engine)
+        public static void DrawPathable(Console screen, IGameEngine engine)
         {
             Point mapUpCorner = CalculateMapCorner(engine.Player);
 

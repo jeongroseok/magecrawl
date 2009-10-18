@@ -41,7 +41,7 @@ namespace Magecrawl.GameEngine.Actors
             // We have a way to get to player
             if (pathToPlayer != null && pathToPlayer.Count > 0)
             {
-                Direction towardsPlayer = CoreGameEngine.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
+                Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
                 if (engine.Move(this, towardsPlayer))
                     return MonsterAction.DidMove;
             }
