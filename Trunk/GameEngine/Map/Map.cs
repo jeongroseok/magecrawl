@@ -34,6 +34,11 @@ namespace Magecrawl.GameEngine
             CreateDemoMap(width, height);
         }
 
+        internal bool KillMonster(Monster m)
+        {
+            return m_monsterList.Remove(m);
+        }
+
         public int Width
         {
             get

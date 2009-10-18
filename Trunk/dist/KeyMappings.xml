@@ -14,4 +14,5 @@
 <KeyMapping Key="S" Action="Save" />
 <KeyMapping Key="f" Action="PathableOn" />
 <KeyMapping Key="." Action="Wait" />
+<KeyMapping Key="a" Action="Attack" />
 </KeyMappings>
