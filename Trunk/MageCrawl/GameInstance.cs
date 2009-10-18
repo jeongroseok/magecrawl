@@ -29,6 +29,7 @@ namespace MageCrawl
             m_console = UIHelper.SetupUI();
             m_engine = new CoreGameEngine();
             m_keystroke = new KeystrokeManager(m_engine);
+            m_keystroke.LoadKeyMappings();
 
             do
             {
