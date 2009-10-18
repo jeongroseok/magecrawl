@@ -126,7 +126,7 @@ namespace MageCrawl
 
             // Some keys, like backspace, space, and tab have both a character and a code. We only stick one in the dictionary
             // Strip the other one out.
-            if(key.KeyCode == KeyCode.TCODK_CHAR)
+            if (key.KeyCode == KeyCode.TCODK_CHAR)
                 namedKey = new NamedKey() { Character = (char)key.Character, Code = KeyCode.TCODK_CHAR };
             else
                 namedKey = new NamedKey() { Character = (char)0, Code = key.KeyCode };

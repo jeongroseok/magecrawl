@@ -25,7 +25,6 @@ namespace MageCrawl
         {
             m_engine.Dispose();
         }
-
         
         internal void Go()
         {
@@ -65,10 +64,10 @@ namespace MageCrawl
                     m_textBox.Clear();
                     break;
                 case KeystrokeResult.TextBoxDown:
-                    m_textBox.textBoxScrollDown();
+                    m_textBox.TextBoxScrollDown();
                     break;
                 case KeystrokeResult.TextBoxUp:
-                    m_textBox.textBoxScrollUp();
+                    m_textBox.TextBoxScrollUp();
                     break;
             }    
         }
