@@ -12,6 +12,7 @@ namespace MageCrawl
     {
         None,
         InOperate,
+        InAttack,
         PathableOn,
         Quit
     }
@@ -45,16 +46,23 @@ namespace MageCrawl
         }
     }
 
+    internal enum ChordKeystrokeStatus
+    {
+        None,
+        Operate,
+        Attack
+    };
+
     internal sealed class KeystrokeManager
     {
         private CoreGameEngine m_engine;
-        private bool m_inOperate;
+        private ChordKeystrokeStatus m_chordKeystroke;
         private Dictionary<NamedKey, MethodInfo> m_keyMappings;
 
         internal KeystrokeManager(CoreGameEngine engine)
         {
             m_engine = engine;
-            m_inOperate = false;
+            m_chordKeystroke = ChordKeystrokeStatus.None;
 
             // BCL: should we ensure that some or all actions have default mappings?
             m_keyMappings = new Dictionary<NamedKey, MethodInfo>();
@@ -121,13 +129,15 @@ namespace MageCrawl
             }
         }
 
-        private KeystrokeResult OperateOrMove(Direction d)
+        private KeystrokeResult HandleDirection(Direction d)
         {
-            if (m_inOperate)
+            if (m_chordKeystroke == ChordKeystrokeStatus.Operate)
                 m_engine.Operate(d);
+            else if (m_chordKeystroke == ChordKeystrokeStatus.Attack)
+                m_engine.PlayerAttack(d);
             else
                 m_engine.MovePlayer(d);
-            m_inOperate = false;
+            m_chordKeystroke = ChordKeystrokeStatus.None;
             return KeystrokeResult.None;
         }
 
@@ -141,42 +151,42 @@ namespace MageCrawl
 
         private KeystrokeResult North()
         {
-            return OperateOrMove(Direction.North);
+            return HandleDirection(Direction.North);
         }
 
         private KeystrokeResult South()
         {
-            return OperateOrMove(Direction.South);
+            return HandleDirection(Direction.South);
         }
 
         private KeystrokeResult East()
         {
-            return OperateOrMove(Direction.East);
+            return HandleDirection(Direction.East);
         }
 
         private KeystrokeResult West()
         {
-            return OperateOrMove(Direction.West);
+            return HandleDirection(Direction.West);
         }
 
         private KeystrokeResult Northeast()
         {
-            return OperateOrMove(Direction.Northeast);
+            return HandleDirection(Direction.Northeast);
         }
 
         private KeystrokeResult Northwest()
         {
-            return OperateOrMove(Direction.Northwest);
+            return HandleDirection(Direction.Northwest);
         }
 
         private KeystrokeResult Southeast()
         {
-            return OperateOrMove(Direction.Southeast);
+            return HandleDirection(Direction.Southeast);
         }
 
         private KeystrokeResult Southwest()
         {
-            return OperateOrMove(Direction.Southwest);
+            return HandleDirection(Direction.Southwest);
         }
 
         private KeystrokeResult Quit()
@@ -186,7 +196,7 @@ namespace MageCrawl
 
         private KeystrokeResult Operate()
         {
-            m_inOperate = true;
+            m_chordKeystroke = ChordKeystrokeStatus.Operate;
             return KeystrokeResult.InOperate;
         }
 
@@ -219,6 +229,13 @@ namespace MageCrawl
         {
             m_engine.PlayerWait();
             return KeystrokeResult.None;
+        }
+
+
+        private KeystrokeResult Attack()
+        {
+            m_chordKeystroke = ChordKeystrokeStatus.Attack;
+            return KeystrokeResult.InAttack;
         }
 
         #endregion

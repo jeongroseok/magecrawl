@@ -131,6 +131,32 @@ namespace Magecrawl.GameEngine
             m_fovManager.Update(this);    // We have a new map, recalc LOS
         }
 
+        internal bool Attack(Character attacker, Direction direction)
+        {
+            bool didAnything = false;
+            Point attackTarget = ConvertDirectionToDestinationPoint(attacker.Position, direction);
+            foreach (Monster m in m_map.Monsters)
+            {
+                if (m.Position == attackTarget)
+                {
+                    m_map.KillMonster(m);
+                    didAnything = true;
+                    break;
+                }
+            }
+            if (!didAnything && attackTarget == m_player.Position)
+            {
+                // TODO: Handle player attack here.
+                didAnything = true;
+            }
+            return didAnything;
+        }
+
+        public bool PlayerAttack(Direction direction)
+        {
+            return Attack(m_player, direction);
+        }
+
         public IList<Point> PlayerPathToPoint(Point dest)
         {
             return m_pathFinding.Travel(m_player.Position, dest);
