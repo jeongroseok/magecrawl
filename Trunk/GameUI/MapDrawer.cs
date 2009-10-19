@@ -62,7 +62,7 @@ namespace Magecrawl.GameUI
              {
                  for (int j = 0; j < engine.Map.Height; ++j)
                  {
-                     Point screenPlacement = new Point(mapUpCorner.X + i, mapUpCorner.Y + j);
+                     Point screenPlacement = new Point(mapUpCorner.X + i + 1, mapUpCorner.Y + j + 1);
 
                      if (IsDrawableTile(screenPlacement))
                      {
