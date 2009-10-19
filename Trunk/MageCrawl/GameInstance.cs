@@ -15,6 +15,7 @@ namespace MageCrawl
         private RootConsole m_console;
         private IGameEngine m_engine;
         private KeystrokeManager m_keystroke;
+        private CharacterInfo m_charInfo;
         private TextBox m_textBox;
 
         internal GameInstance()
@@ -30,6 +31,7 @@ namespace MageCrawl
         {
             m_console = UIHelper.SetupUI();
             m_textBox = new TextBox();
+            m_charInfo = new CharacterInfo();
             m_engine = new PublicGameEngine(new PublicGameEngine.TextOutputFromGame(m_textBox.TextInputFromEngineDelegate));
             m_keystroke = new KeystrokeManager(m_engine);
             m_keystroke.LoadKeyMappings();
@@ -41,6 +43,7 @@ namespace MageCrawl
                 m_console.Clear();
                 MapDrawer.DrawMap(m_engine.Player, m_engine.Map, m_console);
                 m_textBox.Draw(m_console);
+                m_charInfo.Draw(m_console, m_engine.Player);
                 if (m_pathableMode)
                     MapDrawer.DrawPathable(m_console, m_engine);
 
