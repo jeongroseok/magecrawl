@@ -93,7 +93,7 @@ namespace Magecrawl.GameUI
 
                     if (IsDrawableTile(screenPlacement))
                     {
-                        if (moveableGrid[i,j])
+                        if (moveableGrid[i, j])
                             m_offscreenConsole.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkGreen);
                         else
                             m_offscreenConsole.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);
