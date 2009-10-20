@@ -24,7 +24,7 @@ namespace Magecrawl.GameEngine
             m_saveLoad = new SaveLoadCore();
 
             m_physicsEngine = new PhysicsEngine(m_player, m_map);
-            m_pathFinding = new PathfindingMap(m_physicsEngine.FOVManager);
+            m_pathFinding = new PathfindingMap(m_player, m_map);
 
             // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
             m_physicsEngine.AfterPlayerAction(this);
@@ -75,6 +75,8 @@ namespace Magecrawl.GameEngine
         {
             PublicGameEngine.SendTextOutput("Loading Game.");
             m_saveLoad.LoadGame(this);
+            m_pathFinding.Dispose();
+            m_pathFinding = new PathfindingMap(m_player, m_map);
             m_physicsEngine.GameLoaded(m_player, m_map);
             PublicGameEngine.SendTextOutput("Game Loaded.");
         }
@@ -82,11 +84,6 @@ namespace Magecrawl.GameEngine
         internal bool IsMovablePoint(Map map, Player player, Point p)
         {
             return m_physicsEngine.IsMovablePoint(map, player, p);
-        }
-
-        internal bool IsPathablePoint(Map map, Point p)
-        {
-            return m_physicsEngine.IsPathablePoint(map, p);
         }
 
         internal bool Move(Character c, Direction direction)
@@ -115,9 +112,9 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.AfterPlayerAction(this);
         }
 
-        internal IList<Point> PathToPoint(Point source, Point dest)
+        internal IList<Point> PathToPoint(Character actor, Point dest, bool canOperate)
         {
-            return m_pathFinding.Travel(source, dest);
+            return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine);
         }
     }
 }

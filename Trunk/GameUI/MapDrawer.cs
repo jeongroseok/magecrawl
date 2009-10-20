@@ -5,21 +5,44 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
-    public static class MapDrawer
+    public class MapDrawer : System.IDisposable
     {
         public const int MapDrawnWidth = 50;
         public const int MapDrawnHeight = 42;
-        
         public static Point ScreenCenter = new Point((MapDrawnWidth - 1) / 2, (MapDrawnHeight - 2) / 2);
 
-        public static void DrawMapFrame(Console screen)
+        private const int OffscreenWidth = MapDrawnWidth + 2;
+        private const int OffscreenHeight = MapDrawnHeight + 2;
+
+        private Console m_offscreenConsole;
+        private bool m_pathable;
+        private IGameEngine m_gameEngine;
+        
+        public MapDrawer()
         {
-            screen.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
+            m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
+            m_pathable = false;
+            m_gameEngine = null;
         }
 
-        public static void DrawMap(IPlayer player, IMap map, Console screen)
+        public void Dispose()
         {
-            DrawMapFrame(screen);
+            if (m_offscreenConsole != null)
+                m_offscreenConsole.Dispose();
+            m_offscreenConsole = null;
+        }
+
+        public void SwapPathableMode(IGameEngine engine)
+        {
+            m_gameEngine = engine;
+            m_pathable = !m_pathable;
+            UpdateMap(engine.Player, engine.Map);
+        }
+
+        public void UpdateMap(IPlayer player, IMap map)
+        {
+            m_offscreenConsole.Clear();
+            DrawMapFrame();
 
             Point mapUpCorner = CalculateMapCorner(player);
 
@@ -27,22 +50,58 @@ namespace Magecrawl.GameUI
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    DrawThing(mapUpCorner, new Point(i, j), screen, ConvertTerrianToChar(map[i, j].Terrain));
+                    DrawThing(mapUpCorner, new Point(i, j), m_offscreenConsole, ConvertTerrianToChar(map[i, j].Terrain));
                 }
             }
 
             foreach (IMapObject obj in map.MapObjects)
             {
-                DrawThing(mapUpCorner, obj.Position, screen, ConvertMapObjectToChar(obj.Type));
+                DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, ConvertMapObjectToChar(obj.Type));
             }
 
             foreach (ICharacter obj in map.Monsters)
             {
-                DrawThing(mapUpCorner, obj.Position, screen, 'M');
+                DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
             }
 
-            screen.PutChar(ScreenCenter.X + 1, ScreenCenter.Y + 1, '@');
+            m_offscreenConsole.PutChar(ScreenCenter.X + 1, ScreenCenter.Y + 1, '@');
+
+            if (m_pathable)
+                DrawPathable();
         }
+
+        public void DrawMap(Console screen)
+        {
+            m_offscreenConsole.Blit(0, 0, OffscreenWidth, OffscreenHeight, screen, 0, 0);
+        }
+
+        private void DrawMapFrame()
+        {
+            m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
+        }
+
+        private void DrawPathable()
+        {
+            Point mapUpCorner = CalculateMapCorner(m_gameEngine.Player);
+
+            for (int i = 0; i < m_gameEngine.Map.Width; ++i)
+            {
+                for (int j = 0; j < m_gameEngine.Map.Height; ++j)
+                {
+                    Point screenPlacement = new Point(mapUpCorner.X + i + 1, mapUpCorner.Y + j + 1);
+
+                    if (IsDrawableTile(screenPlacement))
+                    {
+                        IList<Point> path = m_gameEngine.PlayerPathToPoint(new Point(i, j));
+                        if (path != null)
+                            m_offscreenConsole.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkGreen);
+                        else
+                            m_offscreenConsole.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);
+                    }
+                }
+            }
+        }
+
 
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
         {
@@ -51,28 +110,6 @@ namespace Magecrawl.GameUI
             if (IsDrawableTile(screenPlacement))
             {
                 screen.PutChar(screenPlacement.X, screenPlacement.Y, symbol);
-            }
-        }
-
-        public static void DrawPathable(Console screen, IGameEngine engine)
-        {
-            Point mapUpCorner = CalculateMapCorner(engine.Player);
-
-            for (int i = 0; i < engine.Map.Width; ++i)
-             {
-                 for (int j = 0; j < engine.Map.Height; ++j)
-                 {
-                     Point screenPlacement = new Point(mapUpCorner.X + i + 1, mapUpCorner.Y + j + 1);
-
-                     if (IsDrawableTile(screenPlacement))
-                     {
-                         IList<Point> path = engine.PlayerPathToPoint(new Point(i, j));
-                         if (path != null)
-                             screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkGreen);
-                         else
-                             screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);
-                     }
-                 }
             }
         }
 

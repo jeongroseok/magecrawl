@@ -36,7 +36,7 @@ namespace Magecrawl.GameEngine.Actors
         internal MonsterAction Action(CoreGameEngine engine)
         {
             // TODO - This should respect FOV
-            IList<Point> pathToPlayer = engine.PathToPoint(m_position, engine.Player.Position);
+            IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false);
 
             // We have a way to get to player
             if (pathToPlayer != null && pathToPlayer.Count > 0)
