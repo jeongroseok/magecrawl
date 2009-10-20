@@ -9,5 +9,15 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        int CurrentHP
+        {
+            get;
+        }
+
+        int MaxHP
+        {
+            get;
+        }
     }
 }

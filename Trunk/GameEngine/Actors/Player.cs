@@ -9,46 +9,28 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        public Player()
+        public Player() : base()
         {
-            m_position = new Point(-1, -1);
-            m_CT = 0;
         }
 
-        public Player(int x, int y)
+        public Player(int x, int y) : base(x, y, 10, 10, "Donblas")
         {
-            m_position = new Point(x, y);
-            m_CT = 0;
-        }
-
-        public string Name
-        {
-            get
-            {
-                return "Donblas";
-            }
         }
 
         #region SaveLoad
 
-        public override System.Xml.Schema.XmlSchema GetSchema()
-        {
-            return null;
-        }
-
         public override void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
-            reader.ReadElementString(); // Ignore name for now
-            m_position = m_position.ReadXml(reader);
+            base.ReadXml(reader);
             reader.ReadEndElement();
         }
 
         public override void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement("Player");
-            writer.WriteElementString("Name", Name);
-            Position.WriteToXml(writer, "Position");
+            base.WriteXml(writer);
+            writer.WriteEndElement();
         }
 
         #endregion

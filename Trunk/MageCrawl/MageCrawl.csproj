@@ -64,6 +64,8 @@
     <Compile Include="EntryPoint.cs" />
     <Compile Include="GameInstance.cs" />
     <Compile Include="KeystrokeManager.cs" />
+    <Compile Include="PlayerDiedException.cs">
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

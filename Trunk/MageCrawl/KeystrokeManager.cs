@@ -135,7 +135,15 @@ namespace MageCrawl
 
             if (m_keyMappings.TryGetValue(namedKey, out action))
             {
-                return (KeystrokeResult)action.Invoke(this, null);
+                try
+                {
+                    return (KeystrokeResult)action.Invoke(this, null);
+                }
+                catch (TargetInvocationException e)
+                {
+                    //If the GameEngine throws an exception, pass it up
+                    throw e.InnerException;
+                }
             }
             else
             {

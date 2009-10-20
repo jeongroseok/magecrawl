@@ -8,9 +8,30 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    public abstract class Character : Interfaces.ICharacter, IXmlSerializable
+    internal class Character : Interfaces.ICharacter, IXmlSerializable
     {
+        internal Character()
+        {
+            m_position = new Point(-1, -1);
+            m_CT = 0;
+            m_hp = 0;
+            m_maxHP = 0;
+            m_name = "";
+        }
+
+        internal Character(int x, int y, int hp, int maxHP, string name)
+        {
+            m_position = new Point(x, y);
+            m_CT = 0;
+            m_hp = hp;
+            m_maxHP = maxHP;
+            m_name = name;
+        }
+
         protected Point m_position;
+        protected int m_hp;
+        protected int m_maxHP;
+        protected string m_name;
 
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1306:FieldNamesMustBeginWithLowerCaseLetter", Justification = "CT is an acronym")]
         protected int m_CT;
@@ -63,8 +84,63 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public abstract System.Xml.Schema.XmlSchema GetSchema();
-        public abstract void ReadXml(XmlReader reader);
-        public abstract void WriteXml(XmlWriter writer);
+        public int CurrentHP
+        {
+            get
+            {
+                return m_hp;
+            }
+            internal set
+            {
+                m_hp = value;
+            }
+        }
+
+        public int MaxHP
+        {
+            get
+            {
+                return m_maxHP;
+            }
+            internal set
+            {
+                m_maxHP = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return m_name;
+            }
+            internal set
+            {
+                m_name = value;
+            }
+        }
+
+        public virtual System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public virtual void ReadXml(XmlReader reader)
+        {
+            m_position = m_position.ReadXml(reader);
+            m_hp = reader.ReadElementContentAsInt();
+            m_maxHP = reader.ReadElementContentAsInt();
+            m_name = reader.ReadElementContentAsString();
+            m_CT = reader.ReadElementContentAsInt();
+        }
+
+        public virtual void WriteXml(XmlWriter writer)
+        {
+            Position.WriteToXml(writer, "Position");
+            writer.WriteElementString("CurrentHP", m_hp.ToString());
+            writer.WriteElementString("MaxHP", m_maxHP.ToString());
+            writer.WriteElementString("Name", m_name);
+            writer.WriteElementString("CT", m_CT.ToString());
+        }
     }
 }

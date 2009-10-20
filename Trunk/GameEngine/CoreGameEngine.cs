@@ -16,9 +16,12 @@ namespace Magecrawl.GameEngine
         private SaveLoadCore m_saveLoad;
         private PathfindingMap m_pathFinding;
         private PhysicsEngine m_physicsEngine;
+        private static PlayerDiedDelegate m_playerDied;
 
-        public CoreGameEngine()
+        public CoreGameEngine(PlayerDiedDelegate diedDelegate)
         {
+            m_playerDied = diedDelegate;
+
             m_player = new Player(1, 1);
             m_map = new Map(50, 50);
             m_saveLoad = new SaveLoadCore();
@@ -120,6 +123,11 @@ namespace Magecrawl.GameEngine
         public bool[,] PlayerMoveableToEveryPoint()
         {
             return m_physicsEngine.CalculateMoveablePointGrid(m_map, m_player);
+        }
+
+        internal static void PlayerDied()
+        {
+            m_playerDied();
         }
     }
 }

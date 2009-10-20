@@ -87,7 +87,6 @@ namespace Magecrawl.GameEngine.SaveLoad
             (m_engine.Player as Player).WriteXml(writer);
 
             writer.WriteEndElement();
-            writer.WriteEndElement();
         }
 
         #endregion
