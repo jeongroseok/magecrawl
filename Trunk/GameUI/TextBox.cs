@@ -76,12 +76,17 @@ namespace Magecrawl.GameUI
                 m_textBoxPosition++;
         }
 
-        public void TextInputFromEngineDelegate(string s)
+        public void AddText(string s)
         {
             m_textBoxPosition = 0;     // Snap to current if scrolled
             m_textList.Insert(0, s);
             while (m_textList.Count > MaxNumberOfLines)
                 m_textList.RemoveAt(m_textList.Count - 1);
+        }
+
+        public void TextInputFromEngineDelegate(string s)
+        {
+            AddText(s);
         }
     }
 }

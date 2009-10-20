@@ -11,13 +11,14 @@ namespace Magecrawl.GameEngine
     {
         public delegate void TextOutputFromGame(string s);
 
-        private CoreGameEngine m_engine;
         private static TextOutputFromGame m_textOutput;
 
-        public PublicGameEngine(TextOutputFromGame textOutput)
+        private CoreGameEngine m_engine;
+
+        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
             m_textOutput += textOutput;
-            m_engine = new CoreGameEngine();
+            m_engine = new CoreGameEngine(diedDelegate);
         }
 
         public void Dispose()

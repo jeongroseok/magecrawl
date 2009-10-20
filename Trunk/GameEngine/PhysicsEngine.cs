@@ -7,11 +7,11 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    internal class PhysicsEngine : IDisposable
+    internal sealed class PhysicsEngine : IDisposable
     {
         private CoreTimingEngine m_timingEngine;
         private FOVManager m_fovManager;
-        private TCODRandom m_random;
+        private CombatEngine m_combatEngine;
 
         // Cared and fed by CoreGameEngine, local copy for convenience
         private Player m_player;
@@ -23,7 +23,7 @@ namespace Magecrawl.GameEngine
             m_map = map;
             m_timingEngine = new CoreTimingEngine();
             m_fovManager = new FOVManager(this, map, player);
-            m_random = new TCODRandom();
+            m_combatEngine = new CombatEngine(player, map);
         }
 
         public void Dispose()
@@ -37,7 +37,8 @@ namespace Magecrawl.GameEngine
         {
             m_player = player;
             m_map = map;
-            
+            m_combatEngine.GameLoaded(player, map);
+
             // We have a new map, recalc LOS with a new map
             m_fovManager.UpdateNewMap(this, m_map, player);    
         }
@@ -126,30 +127,6 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal bool Attack(Character attacker, Direction direction)
-        {
-            bool didAnything = false;
-            Point attackTarget = PointDirectionUtils.ConvertDirectionToDestinationPoint(attacker.Position, direction);
-            foreach (Monster m in m_map.Monsters)
-            {
-                if (m.Position == attackTarget)
-                {
-                    m_map.KillMonster(m);
-                    didAnything = true;
-                    PublicGameEngine.SendTextOutput("Monster Killed.");
-                    break;
-                }
-            }
-            if (!didAnything && attackTarget == m_player.Position)
-            {
-                // TODO: Handle player attack here.
-                didAnything = true;
-            }
-            if (didAnything)
-                m_fovManager.Update(this, m_map, m_player);
-            return didAnything;
-        }
-
         public bool Operate(Character characterOperating, Direction direction)
         {
             bool didAnything = false;
@@ -176,6 +153,17 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
+        internal bool Attack(Character attacker, Direction direction)
+        {
+            bool didAnything = m_combatEngine.Attack(attacker, direction);
+            if (didAnything)
+            {
+                m_timingEngine.ActorDidAction(attacker);
+                m_fovManager.Update(this, m_map, m_player);
+            }
+            return didAnything;
+        }
+
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
@@ -184,12 +172,7 @@ namespace Magecrawl.GameEngine
                 return;
 
             Monster monster = nextCharacter as Monster;
-            MonsterAction result = monster.Action(engine);
-
-            // We don't need to cost moves, since move itself does so already
-            // TODO - Make all actions cost, and remove this
-            if (result == MonsterAction.DidAction)
-                m_timingEngine.ActorDidAction(monster);
+            monster.Action(engine);
         }
     }
 }

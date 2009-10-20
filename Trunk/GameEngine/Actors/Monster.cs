@@ -21,22 +21,28 @@ namespace Magecrawl.GameEngine.Actors
             m_random = new TCODRandom();
         }
 
-        public Monster()
+        public Monster() : base()
         {
-            m_position = new Point(-1, -1);
-            m_CT = 0;
+
         }
 
-        public Monster(int x, int y)
+        public Monster(int x, int y) : base(x, y, 4, 4, "Scary Monster")
         {
-            m_position = new Point(x, y);
-            m_CT = 0;
+
         }
 
         internal MonsterAction Action(CoreGameEngine engine)
         {
             // TODO - This should respect FOV
             IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false);
+
+            // If we are next to the player
+            if (pathToPlayer != null && pathToPlayer.Count == 1)
+            {
+                Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
+                if (engine.Attack(this, towardsPlayer))
+                    return MonsterAction.DidAction;
+            }
 
             // We have a way to get to player
             if (pathToPlayer != null && pathToPlayer.Count > 0)
@@ -66,20 +72,16 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         #region SaveLoad
-        public override System.Xml.Schema.XmlSchema GetSchema()
-        {
-            return null;
-        }
 
         public override void ReadXml(System.Xml.XmlReader reader)
         {
-            m_position = m_position.ReadXml(reader);
+            base.ReadXml(reader);
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString("Type", "Monster");
-            Position.WriteToXml(writer, "Position");
+            base.WriteXml(writer);
         }
 
         internal static Monster CreateMonsterObjectFromTypeString(string s)

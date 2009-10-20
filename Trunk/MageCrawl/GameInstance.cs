@@ -40,7 +40,8 @@ namespace MageCrawl
         {
             m_console = UIHelper.SetupUI();
             PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(m_textBox.TextInputFromEngineDelegate);
-            m_engine = new PublicGameEngine(outputDelegate);
+            PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
+            m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
             m_keystroke = new KeystrokeManager(m_engine);
             m_keystroke.LoadKeyMappings();
 
@@ -49,14 +50,35 @@ namespace MageCrawl
 
             do
             {
-                HandleKeyboard();
-                m_console.Clear();
-                m_mapDrawer.DrawMap(m_console);
-                m_textBox.Draw(m_console);
-                m_charInfo.Draw(m_console, m_engine.Player);
-                m_console.Flush();
+                try
+                {
+                    HandleKeyboard();
+                    m_console.Clear();
+                    m_mapDrawer.DrawMap(m_console);
+                    m_textBox.Draw(m_console);
+                    m_charInfo.Draw(m_console, m_engine.Player);
+                    m_console.Flush();
+                }
+                catch (PlayerDiedException)
+                {
+                    // Put death information out here.
+                    m_textBox.AddText("Player has died.");
+                    m_textBox.AddText("Press Any Key To Quit.");
+                    m_textBox.Draw(m_console);
+                    m_console.Flush();
+                    libtcodWrapper.Keyboard.WaitForKeyPress(true);
+                    m_isQuitting = true;
+                }
             }
             while (!m_console.IsWindowClosed() && !m_isQuitting);
+        }
+
+        private void HandlePlayerDied()
+        {
+            // So we want player dead to hault pretty much everything. While an exception is 
+            // probally not the 'best' solution, since we're in a callback from the engine, made from a request from HandleKeyboard
+            // it's easy.
+            throw new PlayerDiedException();
         }
 
         private void HandleKeyboard()

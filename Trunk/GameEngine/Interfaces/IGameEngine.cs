@@ -4,6 +4,8 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
+    public delegate void PlayerDiedDelegate();
+
     public interface IGameEngine : IDisposable
     {
         IPlayer Player
