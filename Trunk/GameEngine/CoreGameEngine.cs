@@ -116,5 +116,10 @@ namespace Magecrawl.GameEngine
         {
             return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine);
         }
+
+        public bool[,] PlayerMoveableToEveryPoint()
+        {
+            return m_physicsEngine.CalculateMoveablePointGrid(m_map, m_player);
+        }
     }
 }

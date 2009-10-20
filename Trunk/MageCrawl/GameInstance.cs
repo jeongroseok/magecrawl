@@ -50,7 +50,6 @@ namespace MageCrawl
             do
             {
                 HandleKeyboard();
-
                 m_console.Clear();
                 m_mapDrawer.DrawMap(m_console);
                 m_textBox.Draw(m_console);
@@ -68,8 +67,8 @@ namespace MageCrawl
                 case KeystrokeResult.Quit:
                     m_isQuitting = true;
                     break;
-                case KeystrokeResult.PathableOnOff:
-                    m_mapDrawer.SwapPathableMode(m_engine);
+                case KeystrokeResult.DebuggingMoveableOnOff:
+                    m_mapDrawer.SwapDebugMovable(m_engine);
                     break;
                 case KeystrokeResult.TextBoxClear:
                     m_textBox.Clear();

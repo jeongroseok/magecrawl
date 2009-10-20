@@ -16,7 +16,7 @@
 <KeyMapping Key="o" Action="Operate" />
 <KeyMapping Key="L" Action="Load" />
 <KeyMapping Key="S" Action="Save" />
-<KeyMapping Key="f" Action="PathableOn" />
+<KeyMapping Key="f" Action="MoveableOnOff" />
 <KeyMapping Key="." Action="Wait" />
 <KeyMapping Key="a" Action="Attack" />
 </KeyMappings>

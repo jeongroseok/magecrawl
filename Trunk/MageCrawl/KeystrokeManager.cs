@@ -16,7 +16,7 @@ namespace MageCrawl
         Action,      // Soemthing happened, need to update map with new data
         InOperate,   // Hit operate key, next arrow will try to operate that way
         InAttack,    // Hit attack key, next arrow will try to attack that way
-        PathableOnOff,  // Turned 'pathable' debugging view on/off
+        DebuggingMoveableOnOff,  // Turned 'pathable' debugging view on/off
         TextBoxClear,   // Text Box Cleared of history
         TextBoxUp,      // Scroll Text Box Up
         TextBoxDown,    // Scroll Text Box Down
@@ -234,9 +234,9 @@ namespace MageCrawl
             }
         }
 
-        private KeystrokeResult PathableOn()
+        private KeystrokeResult MoveableOnOff()
         {
-            return KeystrokeResult.PathableOnOff;
+            return KeystrokeResult.DebuggingMoveableOnOff;
         }
 
         private KeystrokeResult Wait()
