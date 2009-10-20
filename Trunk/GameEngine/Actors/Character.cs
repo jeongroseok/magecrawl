@@ -16,7 +16,7 @@ namespace Magecrawl.GameEngine.Actors
             m_CT = 0;
             m_hp = 0;
             m_maxHP = 0;
-            m_name = "";
+            m_name = String.Empty;
         }
 
         internal Character(int x, int y, int hp, int maxHP, string name)

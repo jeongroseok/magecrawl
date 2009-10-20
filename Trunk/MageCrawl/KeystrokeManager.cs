@@ -141,7 +141,7 @@ namespace MageCrawl
                 }
                 catch (TargetInvocationException e)
                 {
-                    //If the GameEngine throws an exception, pass it up
+                    // If the GameEngine throws an exception, pass it up
                     throw e.InnerException;
                 }
             }

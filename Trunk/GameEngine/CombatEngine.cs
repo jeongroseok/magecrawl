@@ -26,14 +26,12 @@ namespace Magecrawl.GameEngine
             if (m_random != null)
                 m_random.Dispose();
             m_random = null;
-        
         }
 
         internal void GameLoaded(Player player, Map map)
         {
             m_player = player;
-            m_map = map;
-            
+            m_map = map;        
         }
 
         internal bool Attack(Character attacker, Direction direction)
@@ -58,7 +56,7 @@ namespace Magecrawl.GameEngine
                 int damageDone = 1;
                 PublicGameEngine.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
                 m_player.CurrentHP -= damageDone;
-                if(m_player.CurrentHP <= 0)
+                if (m_player.CurrentHP <= 0)
                     CoreGameEngine.PlayerDied();
                 didAnything = true;
             }
