@@ -22,7 +22,7 @@ namespace Magecrawl.GameEngine
             m_player = player;
             m_map = map;
             m_timingEngine = new CoreTimingEngine();
-            m_fovManager = new FOVManager(this, map);
+            m_fovManager = new FOVManager(this, map, player);
             m_random = new TCODRandom();
         }
 
@@ -37,7 +37,9 @@ namespace Magecrawl.GameEngine
         {
             m_player = player;
             m_map = map;
-            m_fovManager.Update(this, m_map);    // We have a new map, recalc LOS
+            
+            // We have a new map, recalc LOS with a new map
+            m_fovManager.UpdateNewMap(this, m_map, player);    
         }
 
         internal FOVManager FOVManager
@@ -48,35 +50,66 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        // Moveable wants player point to be closed (Monsters don't move into player)
-        internal bool IsMovablePoint(Map map, Player player, Point p)
+        // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
+        // This, unlike IsMoveablePoint, calculated them in batch much much more quickly. True means you can walk there
+        internal bool[,] CalculateMoveablePointGrid(Map map, Player player)
         {
-            bool isMoveablePoint = IsPathablePoint(map, p);
+            bool[,] returnValue = new bool[map.Width, map.Height];
 
-            if (player.Position == p)
-                isMoveablePoint = false;
+            for (int i = 0; i < m_map.Width; ++i)
+            {
+                for (int j = 0; j < m_map.Height; ++j)
+                {
+                    returnValue[i,j] = m_map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+                }
+            }
 
-            return isMoveablePoint;
+            foreach (MapObject obj in m_map.MapObjects)
+            {
+                if (obj.IsSolid)
+                {
+                    returnValue[obj.Position.X, obj.Position.Y] = false;
+                }
+            }
+
+            foreach (Monster m in m_map.Monsters)
+            {
+                returnValue[m.Position.X, m.Position.Y] = false;
+            }
+
+            returnValue[m_player.Position.X, m_player.Position.Y] = false;
+
+            return returnValue;
         }
 
-        // Pathfinding wants player point to be open (Monster Pathfinding)
-        internal bool IsPathablePoint(Map map, Point p)
+        // This is a slow operation. It should not be called multiple times in a row!
+        // Call CalculateMoveablePointGrid instead~!
+        internal bool IsMovablePoint(Map map, Player player, Point p)
         {
-            bool isPathablePoint = map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+            bool isMoveablePoint = map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
 
             foreach (MapObject obj in map.MapObjects)
             {
                 if (obj.Position == p && obj.IsSolid)
-                    isPathablePoint = false;
+                {
+                    isMoveablePoint = false;
+                    break;
+                }
             }
 
             foreach (Monster m in map.Monsters)
             {
                 if (m.Position == p)
-                    isPathablePoint = false;
+                {
+                    isMoveablePoint = false;
+                    break;
+                }
             }
 
-            return isPathablePoint;
+            if (player.Position == p)
+                isMoveablePoint = false;
+
+            return isMoveablePoint;
         }
 
         internal bool Move(Character c, Direction direction)
@@ -87,7 +120,7 @@ namespace Magecrawl.GameEngine
             {
                 c.Position = newPosition;
                 m_timingEngine.ActorMadeMove(c);
-                m_fovManager.Update(this, m_map);    // Operating can change LOS and such
+                m_fovManager.Update(this, m_map, m_player);    // Operating can change LOS and such
                 didAnything = true;
             }
             return didAnything;
@@ -113,7 +146,7 @@ namespace Magecrawl.GameEngine
                 didAnything = true;
             }
             if (didAnything)
-                m_fovManager.Update(this, m_map);
+                m_fovManager.Update(this, m_map, m_player);
             return didAnything;
         }
 
@@ -129,7 +162,7 @@ namespace Magecrawl.GameEngine
                 {
                     operateObj.Operate();
                     m_timingEngine.ActorDidAction(characterOperating);
-                    m_fovManager.Update(this, m_map);    // Operating can change LOS and such
+                    m_fovManager.Update(this, m_map, m_player);    // Operating can change LOS and such
                     didAnything = true;
                 }
             }

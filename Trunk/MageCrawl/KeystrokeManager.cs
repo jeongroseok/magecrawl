@@ -9,16 +9,18 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace MageCrawl
 {
+    // Let's the rest of the GUI know what if anything to expect
     internal enum KeystrokeResult
     {
-        None,
-        InOperate,
-        InAttack,
-        PathableOn,
-        TextBoxClear,
-        TextBoxUp,
-        TextBoxDown,
-        Quit
+        None,        // We didn't handle anything, no keypresses or those that shouldn't matter
+        Action,      // Soemthing happened, need to update map with new data
+        InOperate,   // Hit operate key, next arrow will try to operate that way
+        InAttack,    // Hit attack key, next arrow will try to attack that way
+        PathableOnOff,  // Turned 'pathable' debugging view on/off
+        TextBoxClear,   // Text Box Cleared of history
+        TextBoxUp,      // Scroll Text Box Up
+        TextBoxDown,    // Scroll Text Box Down
+        Quit            // Asked game to quit.
     }
 
     internal struct NamedKey
@@ -150,7 +152,7 @@ namespace MageCrawl
             else
                 m_engine.MovePlayer(d);
             m_chordKeystroke = ChordKeystrokeStatus.None;
-            return KeystrokeResult.None;
+            return KeystrokeResult.Action;
         }
 
         #region Mappable key commands
@@ -215,7 +217,7 @@ namespace MageCrawl
         private KeystrokeResult Save()
         {
             m_engine.Save();
-            return KeystrokeResult.None;
+            return KeystrokeResult.Action;
         }
 
         private KeystrokeResult Load()
@@ -223,24 +225,24 @@ namespace MageCrawl
             try
             {
                 m_engine.Load();
-                return KeystrokeResult.None;
+                return KeystrokeResult.Action;
             }
             catch (System.IO.FileNotFoundException)
             {
                 // TODO: Inform user somehow.
-                return KeystrokeResult.None;
+                return KeystrokeResult.Action;
             }
         }
 
         private KeystrokeResult PathableOn()
         {
-            return KeystrokeResult.PathableOn;
+            return KeystrokeResult.PathableOnOff;
         }
 
         private KeystrokeResult Wait()
         {
             m_engine.PlayerWait();
-            return KeystrokeResult.None;
+            return KeystrokeResult.Action;
         }
 
         private KeystrokeResult Attack()
