@@ -23,5 +23,6 @@ namespace Magecrawl.GameEngine.Interfaces
         void Load();
         bool PlayerAttack(Direction direction);
         IList<Point> PlayerPathToPoint(Point dest);
+        bool[,] PlayerMoveableToEveryPoint();
     }
 }

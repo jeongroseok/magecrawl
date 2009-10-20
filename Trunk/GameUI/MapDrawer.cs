@@ -15,13 +15,13 @@ namespace Magecrawl.GameUI
         private const int OffscreenHeight = MapDrawnHeight + 2;
 
         private Console m_offscreenConsole;
-        private bool m_pathable;
+        private bool m_debugMovable;
         private IGameEngine m_gameEngine;
         
         public MapDrawer()
         {
             m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
-            m_pathable = false;
+            m_debugMovable = false;
             m_gameEngine = null;
         }
 
@@ -32,10 +32,10 @@ namespace Magecrawl.GameUI
             m_offscreenConsole = null;
         }
 
-        public void SwapPathableMode(IGameEngine engine)
+        public void SwapDebugMovable(IGameEngine engine)
         {
             m_gameEngine = engine;
-            m_pathable = !m_pathable;
+            m_debugMovable = !m_debugMovable;
             UpdateMap(engine.Player, engine.Map);
         }
 
@@ -66,8 +66,8 @@ namespace Magecrawl.GameUI
 
             m_offscreenConsole.PutChar(ScreenCenter.X + 1, ScreenCenter.Y + 1, '@');
 
-            if (m_pathable)
-                DrawPathable();
+            if (m_debugMovable)
+                DrawDebugMovable();
         }
 
         public void DrawMap(Console screen)
@@ -80,9 +80,10 @@ namespace Magecrawl.GameUI
             m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
         }
 
-        private void DrawPathable()
+        private void DrawDebugMovable()
         {
             Point mapUpCorner = CalculateMapCorner(m_gameEngine.Player);
+            bool[,] moveableGrid = m_gameEngine.PlayerMoveableToEveryPoint();
 
             for (int i = 0; i < m_gameEngine.Map.Width; ++i)
             {
@@ -92,8 +93,7 @@ namespace Magecrawl.GameUI
 
                     if (IsDrawableTile(screenPlacement))
                     {
-                        IList<Point> path = m_gameEngine.PlayerPathToPoint(new Point(i, j));
-                        if (path != null)
+                        if (moveableGrid[i,j])
                             m_offscreenConsole.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkGreen);
                         else
                             m_offscreenConsole.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);

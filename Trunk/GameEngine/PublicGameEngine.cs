@@ -96,5 +96,11 @@ namespace Magecrawl.GameEngine
         {
             return m_engine.PathToPoint(m_engine.Player, dest, true);
         }
+
+        // For the IsPathable debugging mode, show if player could walk there.
+        public bool[,] PlayerMoveableToEveryPoint()
+        {
+            return m_engine.PlayerMoveableToEveryPoint();
+        }
     }
 }
