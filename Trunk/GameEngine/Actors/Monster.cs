@@ -23,12 +23,10 @@ namespace Magecrawl.GameEngine.Actors
 
         public Monster() : base()
         {
-
         }
 
         public Monster(int x, int y) : base(x, y, 4, 4, "Scary Monster")
         {
-
         }
 
         internal MonsterAction Action(CoreGameEngine engine)

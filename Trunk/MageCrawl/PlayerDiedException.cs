@@ -23,6 +23,5 @@ namespace MageCrawl
             : base(info, context)
         {
         }
-
     }
 }
