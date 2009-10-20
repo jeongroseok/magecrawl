@@ -43,7 +43,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    bool isMoveable =  moveableGrid[i,j];
+                    bool isMoveable = moveableGrid[i, j];
                     m_fov.SetCell(i, j, isMoveable, isMoveable);
                 }
             }

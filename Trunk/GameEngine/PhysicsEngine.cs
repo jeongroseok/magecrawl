@@ -60,7 +60,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_map.Height; ++j)
                 {
-                    returnValue[i,j] = m_map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+                    returnValue[i, j] = m_map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
                 }
             }
 
