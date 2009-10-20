@@ -27,7 +27,7 @@ namespace MageCrawl
 
         public void Dispose()
         {
-            if(m_engine != null)
+            if (m_engine != null)
                 m_engine.Dispose();
             m_engine = null;
 

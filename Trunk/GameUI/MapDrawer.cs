@@ -102,7 +102,6 @@ namespace Magecrawl.GameUI
             }
         }
 
-
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
         {
             Point screenPlacement = new Point(mapUpCorner.X + position.X + 1, mapUpCorner.Y + position.Y + 1);
