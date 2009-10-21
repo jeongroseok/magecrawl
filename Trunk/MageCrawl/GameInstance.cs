@@ -4,6 +4,7 @@ using libtcodWrapper;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
+using Magecrawl.GameUI.Map;
 using Magecrawl.Utilities;
 
 namespace MageCrawl
@@ -16,13 +17,13 @@ namespace MageCrawl
         private KeystrokeManager m_keystroke;
         private CharacterInfo m_charInfo;
         private TextBox m_textBox;
-        private MapDrawer m_mapDrawer;
+        private MapPaintingCoordinator m_painters;
 
         internal GameInstance()
         {
             m_textBox = new TextBox();
             m_charInfo = new CharacterInfo();
-            m_mapDrawer = new MapDrawer();
+            m_painters = new MapPaintingCoordinator();
         }
 
         public void Dispose()
@@ -30,10 +31,9 @@ namespace MageCrawl
             if (m_engine != null)
                 m_engine.Dispose();
             m_engine = null;
-
-            if (m_mapDrawer != null)
-                m_mapDrawer.Dispose();
-            m_mapDrawer = null;
+            if (m_painters != null)
+                m_painters.Dispose();
+            m_painters = null;
         }
         
         internal void Go()
@@ -46,7 +46,7 @@ namespace MageCrawl
             m_keystroke.LoadKeyMappings();
 
             // First update before event loop so we have a map to display
-            m_mapDrawer.UpdateMap(m_engine.Player, m_engine.Map);
+            m_painters.UpdateFromNewData(m_engine);
 
             do
             {
@@ -54,7 +54,7 @@ namespace MageCrawl
                 {
                     HandleKeyboard();
                     m_console.Clear();
-                    m_mapDrawer.DrawMap(m_console);
+                    m_painters.DrawNewFrame(m_console);
                     m_textBox.Draw(m_console);
                     m_charInfo.Draw(m_console, m_engine.Player);
                     m_console.Flush();
@@ -90,7 +90,7 @@ namespace MageCrawl
                     m_isQuitting = true;
                     break;
                 case KeystrokeResult.DebuggingMoveableOnOff:
-                    m_mapDrawer.SwapDebugMovable(m_engine);
+                    m_painters.HandleRequest("DebuggingMoveableOnOff", m_engine);
                     break;
                 case KeystrokeResult.TextBoxClear:
                     m_textBox.Clear();
@@ -102,7 +102,7 @@ namespace MageCrawl
                     m_textBox.TextBoxScrollUp();
                     break;
                 case KeystrokeResult.Action:
-                    m_mapDrawer.UpdateMap(m_engine.Player, m_engine.Map);
+                    m_painters.UpdateFromNewData(m_engine);
                     break;
             }    
         }
