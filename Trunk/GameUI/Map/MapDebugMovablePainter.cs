@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
@@ -43,7 +43,7 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_debugMovable)
             {
-                for (int i = 0 ; i < m_width; ++i)
+                for (int i = 0; i < m_width; ++i)
                 {
                     for (int j = 0; j < m_height; ++j)
                     {
@@ -63,7 +63,6 @@ namespace Magecrawl.GameUI.Map
 
         public override void Dispose()
         {
-
         }
 
         public override void HandleRequest(string request, object data)
