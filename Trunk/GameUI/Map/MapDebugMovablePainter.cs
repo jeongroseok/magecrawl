@@ -25,18 +25,23 @@ namespace Magecrawl.GameUI.Map
         public void SwapDebugMovable(IGameEngine engine)
         {
             m_debugMovable = !m_debugMovable;
-            UpdateFromNewData(engine);
+            CalculateMovability(engine);
         }
 
-        public override void UpdateFromNewData(IGameEngine engine)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        {
+            // This is expensive, so only do if we've going to use it
+            CalculateMovability(engine);
+
+            m_width = engine.Map.Width;
+            m_height = engine.Map.Height;
+            m_mapUpCorner = mapUpCorner;
+        }
+
+        private void CalculateMovability(IGameEngine engine)
         {
             if (m_debugMovable)
-            {
                 m_moveableGrid = engine.PlayerMoveableToEveryPoint();
-                m_width = engine.Map.Width;
-                m_height = engine.Map.Height;
-                m_mapUpCorner = CalculateMapCorner(engine.Player);
-            }
         }
 
         public override void DrawNewFrame(Console screen)

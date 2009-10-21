@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
@@ -23,7 +24,7 @@ namespace Magecrawl.GameUI.Map
         {
             foreach (MapPainterBase p in m_painters)
             {
-                p.UpdateFromNewData(engine);
+                p.UpdateFromNewData(engine, CalculateMapCorner(engine.Player));
             }
         }
 
@@ -51,5 +52,11 @@ namespace Magecrawl.GameUI.Map
                 p.HandleRequest(request, data);
             }
         }
+
+        private static Point CalculateMapCorner(IPlayer player)
+        {
+            return new Point(MapPainterBase.ScreenCenter.X - player.Position.X, MapPainterBase.ScreenCenter.Y - player.Position.Y);
+        }
+
     }
 }
