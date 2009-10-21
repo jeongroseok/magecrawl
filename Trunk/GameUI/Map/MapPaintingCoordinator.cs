@@ -6,14 +6,15 @@ namespace Magecrawl.GameUI.Map
 {
     public sealed class MapPaintingCoordinator : System.IDisposable
     {
-        List<MapPainterBase> m_painters;
+        private List<MapPainterBase> m_painters;
         
         public MapPaintingCoordinator()
         {
             m_painters = new List<MapPainterBase>();
 
-            // The map painter is special since it should go first
+            // The map painter is special since it should go first to draw the base map.
             m_painters.Add(new MapPainter());
+
             m_painters.Add(new MapDebugMovablePainter());
             m_painters.Add(new MapEffectsPainter());
         }
