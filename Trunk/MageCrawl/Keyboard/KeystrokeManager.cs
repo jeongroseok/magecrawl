@@ -6,10 +6,12 @@ using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
+using Magecrawl.Keyboard;
 
-namespace MageCrawl
+namespace Magecrawl.Keyboard
 {
-    internal sealed class KeystrokeManager
+    public sealed class KeystrokeManager
     {
         private Dictionary<string, IKeystrokeHandler> m_handlers = new Dictionary<string, IKeystrokeHandler>();
         private IKeystrokeHandler m_currentHandler;
