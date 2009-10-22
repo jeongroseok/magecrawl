@@ -33,6 +33,14 @@ namespace Magecrawl.GameEngine
             m_fovManager = null;
         }
 
+        internal FOVManager FOVManager
+        {
+            get
+            {
+                return m_fovManager;
+            }
+        }
+
         internal void GameLoaded(Player player, Map map)
         {
             m_player = player;
@@ -41,14 +49,6 @@ namespace Magecrawl.GameEngine
 
             // We have a new map, recalc LOS with a new map
             m_fovManager.UpdateNewMap(this, m_map, player);    
-        }
-
-        internal FOVManager FOVManager
-        {
-            get
-            {
-                return m_fovManager;
-            }
         }
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example

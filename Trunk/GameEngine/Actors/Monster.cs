@@ -25,29 +25,32 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
-        public Monster(int x, int y) : base(x, y, 4, 4, "Scary Monster")
+        public Monster(int x, int y) : base(x, y, 4, 4, 4, "Scary Monster")
         {
         }
 
         internal MonsterAction Action(CoreGameEngine engine)
         {
-            // TODO - This should respect FOV
-            IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false);
-
-            // If we are next to the player
-            if (pathToPlayer != null && pathToPlayer.Count == 1)
+            if (engine.FOVManager.VisibleSingleShot(m_position, m_visionRange, engine.Player.Position))
             {
-                Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
-                if (engine.Attack(this, towardsPlayer))
-                    return MonsterAction.DidAction;
-            }
+                // TODO - This should respect FOV
+                IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false);
 
-            // We have a way to get to player
-            if (pathToPlayer != null && pathToPlayer.Count > 0)
-            {
-                Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
-                if (engine.Move(this, towardsPlayer))
-                    return MonsterAction.DidMove;
+                // If we are next to the player
+                if (pathToPlayer != null && pathToPlayer.Count == 1)
+                {
+                    Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
+                    if (engine.Attack(this, towardsPlayer))
+                        return MonsterAction.DidAction;
+                }
+
+                // We have a way to get to player
+                if (pathToPlayer != null && pathToPlayer.Count > 0)
+                {
+                    Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
+                    if (engine.Move(this, towardsPlayer))
+                        return MonsterAction.DidMove;
+                }
             }
 
             // We have nothing else to do, so wander
