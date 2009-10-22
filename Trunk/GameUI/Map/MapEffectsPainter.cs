@@ -14,7 +14,7 @@ namespace Magecrawl.GameUI.Map
         {
         }
 
-        public override void UpdateFromNewData(IGameEngine engine)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {   
         }
 
