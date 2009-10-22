@@ -192,6 +192,11 @@ namespace MageCrawl
             return KeystrokeResult.DebuggingMoveableOnOff;
         }
 
+        private KeystrokeResult DebuggingFOVOnOff()
+        {
+            return KeystrokeResult.DebuggingFOVOnOff;
+        }
+
         private KeystrokeResult Wait()
         {
             m_engine.PlayerWait();

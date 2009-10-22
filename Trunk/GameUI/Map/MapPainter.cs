@@ -14,14 +14,11 @@ namespace Magecrawl.GameUI.Map
             m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
         }
 
-        public override void UpdateFromNewData(IGameEngine engine)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {
             m_offscreenConsole.Clear();
 
             m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
-
-            Point center = engine.SelectingTarget ? engine.TargetSelection : engine.Player.Position;
-            Point mapUpCorner = CalculateMapCorner(center);
 
             for (int i = 0; i < engine.Map.Width; ++i)
             {

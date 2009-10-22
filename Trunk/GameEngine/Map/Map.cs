@@ -97,7 +97,11 @@ namespace Magecrawl.GameEngine
             m_mapObjects.Add(new MapDoor(new Point(30, 2)));
             m_map[30, 3].Terrain = TerrainType.Wall;
 
-            m_monsterList.Add(new Monster(3, 3));
+            m_monsterList.Add(new Monster(10, 10));
+
+            m_monsterList.Add(new Monster(3, 10));
+
+            m_monsterList.Add(new Monster(10, 3));
         }
 
         internal bool IsPointOnMap(Point p)

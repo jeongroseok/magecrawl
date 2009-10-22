@@ -105,6 +105,9 @@ namespace MageCrawl
                 case KeystrokeResult.DebuggingMoveableOnOff:
                     m_painters.HandleRequest("DebuggingMoveableOnOff", m_engine);
                     break;
+                case KeystrokeResult.DebuggingFOVOnOff:
+                    m_painters.HandleRequest("DebuggingFOVOnOff", m_engine);
+                    break;
                 case KeystrokeResult.TextBoxClear:
                     m_textBox.Clear();
                     break;

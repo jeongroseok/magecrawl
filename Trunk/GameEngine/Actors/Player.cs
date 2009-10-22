@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
-        public Player(int x, int y) : base(x, y, 10, 10, "Donblas")
+        public Player(int x, int y) : base(x, y, 10, 10, 4, "Donblas")
         {
         }
 

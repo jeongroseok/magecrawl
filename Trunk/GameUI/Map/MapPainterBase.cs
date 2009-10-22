@@ -14,7 +14,7 @@ namespace Magecrawl.GameUI.Map
         protected const int OffscreenWidth = MapDrawnWidth + 2;
         protected const int OffscreenHeight = MapDrawnHeight + 2;
 
-        public abstract void UpdateFromNewData(IGameEngine engine);
+        public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner);
         public abstract void DrawNewFrame(Console offscreenConsole);
         public abstract void HandleRequest(string request, object data);
         public abstract void Dispose();
@@ -43,11 +43,6 @@ namespace Magecrawl.GameUI.Map
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }
-        }
-
-        protected static Point CalculateMapCorner(Point centerPosition)
-        {
-            return new Point(ScreenCenter.X - centerPosition.X, ScreenCenter.Y - centerPosition.Y);
         }
 
         protected static bool IsDrawableTile(Point p)

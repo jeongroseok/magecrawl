@@ -48,5 +48,23 @@ namespace Magecrawl.GameEngine
                 }
             }
         }
+
+        public void CalculateForMultipleCalls(Point viewPoint, int viewableDistance)
+        {
+            m_fov.CalculateFOV(viewPoint.X, viewPoint.Y, viewableDistance, true, FovAlgorithm.Shadow);
+        }
+
+        public bool Visible(Point pointWantToView)
+        {
+            return m_fov.CheckTileFOV(pointWantToView.X, pointWantToView.Y);
+        }
+
+        // Used when we're only calculating a few points and precalculating is not worth it. Use CalculateForMultipleCalls/Visible 
+        // for the common case.
+        public bool VisibleSingleShot(Point viewPoint, int viewableDistance, Point pointWantToView)
+        {
+            m_fov.CalculateFOV(viewPoint.X, viewPoint.Y, viewableDistance, true, FovAlgorithm.Shadow);
+            return m_fov.CheckTileFOV(pointWantToView.X, pointWantToView.Y);
+        }
     }
 }

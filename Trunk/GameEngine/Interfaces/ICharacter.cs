@@ -19,5 +19,15 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        int Vision
+        {
+            get;
+        }
+
+        int UniqueID
+        {
+            get;
+        }
     }
 }
