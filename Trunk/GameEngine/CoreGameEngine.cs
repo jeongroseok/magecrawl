@@ -134,5 +134,13 @@ namespace Magecrawl.GameEngine
         {
             m_playerDied();
         }
+
+        internal FOVManager FOVManager
+        {
+            get
+            {
+                return m_physicsEngine.FOVManager;
+            }
+        }
     }
 }

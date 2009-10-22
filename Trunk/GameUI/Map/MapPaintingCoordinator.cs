@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
@@ -17,13 +18,14 @@ namespace Magecrawl.GameUI.Map
 
             m_painters.Add(new MapDebugMovablePainter());
             m_painters.Add(new MapEffectsPainter());
+            m_painters.Add(new MapDebugFOVPainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)
         {
             foreach (MapPainterBase p in m_painters)
             {
-                p.UpdateFromNewData(engine);
+                p.UpdateFromNewData(engine, CalculateMapCorner(engine));
             }
         }
 
@@ -50,6 +52,12 @@ namespace Magecrawl.GameUI.Map
             {
                 p.HandleRequest(request, data);
             }
+        }
+
+        private static Point CalculateMapCorner(IGameEngine engine)
+        {
+            Point centerFocus = engine.SelectingTarget ? engine.TargetSelection : engine.Player.Position;
+            return new Point(MapPainterBase.ScreenCenter.X - centerFocus.X, MapPainterBase.ScreenCenter.Y - centerFocus.Y);
         }
     }
 }
