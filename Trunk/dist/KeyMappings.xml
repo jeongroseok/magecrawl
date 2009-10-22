@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<KeyMappings>
+<KeyMapping Key="TCODK_UP" Action="North" />
+<KeyMapping Key="TCODK_DOWN" Action="South" />
+<KeyMapping Key="TCODK_LEFT" Action="West" />
+<KeyMapping Key="TCODK_RIGHT" Action="East" />
+<KeyMapping Key="TCODK_INSERT" Action="Northwest" />
+<KeyMapping Key="TCODK_DELETE" Action="Southwest" />
+<KeyMapping Key="TCODK_HOME" Action="Northeast" />
+<KeyMapping Key="TCODK_END" Action="Southeast" />
+<KeyMapping Key="TCODK_PAGEUP" Action="TextBoxPageUp" />
+<KeyMapping Key="TCODK_PAGEDOWN" Action="TextBoxPageDown" />
+<KeyMapping Key="TCODK_BACKSPACE" Action="TextBoxClear" />
+<KeyMapping Key="TCODK_F1" Action="MoveableOnOff" />
+<KeyMapping Key="TCODK_F2" Action="DebuggingFOVOnOff" />
+  
+<KeyMapping Key="q" Action="Quit" />
+<KeyMapping Key="o" Action="Operate" />
+<KeyMapping Key="L" Action="Load" />
+<KeyMapping Key="S" Action="Save" />
+<KeyMapping Key="." Action="Wait" />
+<KeyMapping Key="a" Action="Attack" />
+<KeyMapping Key="r" Action="RangedAttack" />
+</KeyMappings>
