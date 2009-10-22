@@ -7,7 +7,7 @@ namespace Magecrawl.GameUI.Map
 {
     public sealed class MapDebugMovablePainter : MapPainterBase
     {
-        private bool m_debugMovable;
+        private bool m_enabled;
         private int m_width;
         private int m_height;
         private Point m_mapUpCorner;
@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI.Map
         
         public MapDebugMovablePainter()
         {
-            m_debugMovable = false;
+            m_enabled = false;
             m_moveableGrid = null;
             m_width = 0;
             m_height = 0;
@@ -24,13 +24,12 @@ namespace Magecrawl.GameUI.Map
 
         public void SwapDebugMovable(IGameEngine engine)
         {
-            m_debugMovable = !m_debugMovable;
+            m_enabled = !m_enabled;
             CalculateMovability(engine);
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {
-            // This is expensive, so only do if we've going to use it
             CalculateMovability(engine);
 
             m_width = engine.Map.Width;
@@ -40,13 +39,14 @@ namespace Magecrawl.GameUI.Map
 
         private void CalculateMovability(IGameEngine engine)
         {
-            if (m_debugMovable)
+            // This is expensive, so only do if we've going to use it
+            if (m_enabled)
                 m_moveableGrid = engine.PlayerMoveableToEveryPoint();
         }
 
         public override void DrawNewFrame(Console screen)
         {
-            if (m_debugMovable)
+            if (m_enabled)
             {
                 for (int i = 0; i < m_width; ++i)
                 {

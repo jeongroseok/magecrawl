@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
@@ -102,6 +103,43 @@ namespace Magecrawl.GameEngine
         public bool[,] PlayerMoveableToEveryPoint()
         {
             return m_engine.PlayerMoveableToEveryPoint();
+        }
+
+        public List<Point> CellsInPlayersFOV()
+        {
+            return GenerateFOVListForCharacter(m_engine.Player);
+        }
+
+        private List<Point> GenerateFOVListForCharacter(ICharacter c)
+        {
+            List<Point> returnList = new List<Point>();
+
+            m_engine.FOVManager.CalculateForMultipleCalls(c.Position, c.Vision);
+
+            for (int i = 0; i < m_engine.Map.Width; ++i)
+            {
+                for (int j = 0; j < m_engine.Map.Height; ++j)
+                {
+                    Point currentPosition = new Point(i, j);
+                    if (m_engine.FOVManager.Visible(currentPosition))
+                    {
+                        returnList.Add(currentPosition);
+                    }
+                }
+            }
+            return returnList;
+        }
+
+        public Dictionary<ICharacter, List<Point>> CellsInAllMonstersFOV()
+        {
+            Dictionary<ICharacter, List<Point>> returnValue = new Dictionary<ICharacter, List<Point>>();
+
+            foreach (ICharacter c in m_engine.Map.Monsters)
+            {
+                returnValue[c] = GenerateFOVListForCharacter(c);
+            }
+
+            return returnValue;
         }
     }
 }

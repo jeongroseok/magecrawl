@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
@@ -25,6 +26,10 @@ namespace Magecrawl.GameEngine.Interfaces
         void Load();
         bool PlayerAttack(Direction direction);
         IList<Point> PlayerPathToPoint(Point dest);
+        List<Point> CellsInPlayersFOV();
+        
+        // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();
+        Dictionary<ICharacter, List<Point>> CellsInAllMonstersFOV();
     }
 }
