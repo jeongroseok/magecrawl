@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI.Map
         protected const int OffscreenHeight = MapDrawnHeight + 2;
 
         public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner);
-        public abstract void DrawNewFrame(Console offscreenConsole);
+        public abstract void DrawNewFrame(Console screen);
         public abstract void HandleRequest(string request, object data);
         public abstract void Dispose();
 

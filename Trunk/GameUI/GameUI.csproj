@@ -42,6 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="CharacterInfo.cs" />
+    <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\MapDebugFOVPainter.cs" />
     <Compile Include="Map\MapDebugMovablePainter.cs" />
     <Compile Include="Map\MapPainter.cs" />
