@@ -42,8 +42,21 @@ namespace MageCrawl
             PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(m_textBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
             m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
+
+            /* 
+             * BCL: Creating the KeystrokeManager and all IKeystrokeHandlers. In the absence of something like MEF, we can
+             * create them all at the top level and initialize them with whatever.
+             * 
+             * Switching between handlers is as simple as setting the CurrentHandlerName property on the KeystrokeManager, but
+             * the difficulty is that KeystrokeManager is internal to MageCrawl. If we want other handlers to live in lower-
+             * level assemblies, we need some way to set this property, either through a singleton public KeystrokeManager, or
+             * through the GameEngine or GameInstance or whatever.
+             */
             m_keystroke = new KeystrokeManager(m_engine);
-            m_keystroke.LoadKeyMappings();
+            DefaultKeystrokeHandler defaultHandler = new DefaultKeystrokeHandler(m_engine);
+            defaultHandler.LoadKeyMappings();
+            m_keystroke.Handlers.Add("Default", defaultHandler);
+            m_keystroke.CurrentHandlerName = "Default";
 
             // First update before event loop so we have a map to display
             m_painters.UpdateFromNewData(m_engine);
