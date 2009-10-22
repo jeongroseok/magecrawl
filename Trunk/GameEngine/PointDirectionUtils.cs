@@ -4,9 +4,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    internal static class PointDirectionUtils
+    public static class PointDirectionUtils
     {
-        internal static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)
+        public static Point ConvertDirectionToDestinationPoint(Point initial, Direction direction)
         {
             Point destPoint;
             switch (direction)

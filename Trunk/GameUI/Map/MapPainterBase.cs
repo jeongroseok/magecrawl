@@ -45,9 +45,9 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        protected static Point CalculateMapCorner(IPlayer player)
+        protected static Point CalculateMapCorner(Point centerPosition)
         {
-            return new Point(ScreenCenter.X - player.Position.X, ScreenCenter.Y - player.Position.Y);
+            return new Point(ScreenCenter.X - centerPosition.X, ScreenCenter.Y - centerPosition.Y);
         }
 
         protected static bool IsDrawableTile(Point p)

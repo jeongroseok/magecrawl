@@ -20,7 +20,8 @@ namespace Magecrawl.GameUI.Map
 
             m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
 
-            Point mapUpCorner = CalculateMapCorner(engine.Player);
+            Point center = engine.SelectingTarget ? engine.TargetSelection : engine.Player.Position;
+            Point mapUpCorner = CalculateMapCorner(center);
 
             for (int i = 0; i < engine.Map.Width; ++i)
             {
@@ -40,7 +41,12 @@ namespace Magecrawl.GameUI.Map
                 DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
             }
 
-            m_offscreenConsole.PutChar(ScreenCenter.X + 1, ScreenCenter.Y + 1, '@');
+            DrawThing(mapUpCorner, engine.Player.Position, m_offscreenConsole, '@');
+
+            if (engine.SelectingTarget)
+            {
+                m_offscreenConsole.SetCharBackground(ScreenCenter.X + 1, ScreenCenter.Y + 1, Color.FromRGB(0x7F, 0xbF, 0));
+            }
         }
 
         public override void DrawNewFrame(Console screen)

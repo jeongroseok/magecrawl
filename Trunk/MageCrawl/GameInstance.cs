@@ -115,6 +115,7 @@ namespace MageCrawl
                     m_textBox.TextBoxScrollUp();
                     break;
                 case KeystrokeResult.Action:
+                case KeystrokeResult.InRangedAttack:
                     m_painters.UpdateFromNewData(m_engine);
                     break;
             }    

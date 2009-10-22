@@ -19,4 +19,5 @@
 <KeyMapping Key="f" Action="MoveableOnOff" />
 <KeyMapping Key="." Action="Wait" />
 <KeyMapping Key="a" Action="Attack" />
+<KeyMapping Key="r" Action="RangedAttack" />
 </KeyMappings>

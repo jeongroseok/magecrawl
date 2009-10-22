@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace MageCrawl
 {
@@ -13,14 +14,18 @@ namespace MageCrawl
     {
         None,
         Operate,
-        Attack
+        Attack,
+        RangedAttack
     }
+
+    internal delegate bool PointPredicate(Point toTest);
 
     internal class DefaultKeystrokeHandler : IKeystrokeHandler
     {
         private IGameEngine m_engine;
         private ChordKeystrokeStatus m_chordKeystroke;
         private Dictionary<NamedKey, MethodInfo> m_keyMappings;
+        private PointPredicate m_targetSelectionAllowable;
 
         public DefaultKeystrokeHandler(IGameEngine engine)
         {
@@ -88,6 +93,15 @@ namespace MageCrawl
                 m_engine.Operate(d);
             else if (m_chordKeystroke == ChordKeystrokeStatus.Attack)
                 m_engine.PlayerAttack(d);
+            else if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
+            {
+                Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(m_engine.TargetSelection, d);
+                if (m_targetSelectionAllowable == null || m_targetSelectionAllowable(newSelection))
+                {
+                    m_engine.TargetSelection = newSelection;
+                }
+                return KeystrokeResult.InRangedAttack;
+            }
             else
                 m_engine.MovePlayer(d);
             m_chordKeystroke = ChordKeystrokeStatus.None;
@@ -188,6 +202,25 @@ namespace MageCrawl
         {
             m_chordKeystroke = ChordKeystrokeStatus.Attack;
             return KeystrokeResult.InAttack;
+        }
+
+        private KeystrokeResult RangedAttack()
+        {
+            if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
+            {
+                m_engine.PlayerAttack(m_engine.TargetSelection);
+                m_engine.SelectingTarget = false;
+                m_chordKeystroke = ChordKeystrokeStatus.None;
+                return KeystrokeResult.Action;
+            }
+            else
+            {
+                m_chordKeystroke = ChordKeystrokeStatus.RangedAttack;
+                m_engine.TargetSelection = m_engine.Player.Position;
+                m_engine.SelectingTarget = true;
+                m_targetSelectionAllowable = p => (Math.Abs(p.X - m_engine.Player.Position.X) + Math.Abs(p.Y - m_engine.Player.Position.Y) <= 4);
+                return KeystrokeResult.InRangedAttack;
+            }
         }
 
         private KeystrokeResult TextBoxPageUp()

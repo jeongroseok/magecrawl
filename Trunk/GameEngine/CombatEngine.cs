@@ -36,8 +36,13 @@ namespace Magecrawl.GameEngine
 
         internal bool Attack(Character attacker, Direction direction)
         {
-            bool didAnything = false;
             Point attackTarget = PointDirectionUtils.ConvertDirectionToDestinationPoint(attacker.Position, direction);
+            return Attack(attacker, attackTarget);
+        }
+
+        internal bool Attack(Character attacker, Point attackTarget)
+        {
+            bool didAnything = false;
             foreach (Monster m in m_map.Monsters)
             {
                 if (m.Position == attackTarget)

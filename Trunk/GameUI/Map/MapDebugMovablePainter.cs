@@ -35,7 +35,7 @@ namespace Magecrawl.GameUI.Map
                 m_moveableGrid = engine.PlayerMoveableToEveryPoint();
                 m_width = engine.Map.Width;
                 m_height = engine.Map.Height;
-                m_mapUpCorner = CalculateMapCorner(engine.Player);
+                m_mapUpCorner = CalculateMapCorner(engine.Player.Position);
             }
         }
 

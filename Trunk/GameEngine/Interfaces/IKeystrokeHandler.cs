@@ -20,6 +20,7 @@ namespace Magecrawl.GameEngine.Interfaces
         Action,      // Soemthing happened, need to update map with new data
         InOperate,   // Hit operate key, next arrow will try to operate that way
         InAttack,    // Hit attack key, next arrow will try to attack that way
+        InRangedAttack, // Started ranged attack; subsequent arrow keys will move the target selection
         DebuggingMoveableOnOff,  // Turned 'pathable' debugging view on/off
         TextBoxClear,   // Text Box Cleared of history
         TextBoxUp,      // Scroll Text Box Up

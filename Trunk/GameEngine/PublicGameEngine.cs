@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
@@ -26,6 +27,18 @@ namespace Magecrawl.GameEngine
             if (m_engine != null)
                 m_engine.Dispose();
             m_engine = null;
+        }
+
+        public Point TargetSelection
+        {
+            get;
+            set;
+        }
+
+        public bool SelectingTarget
+        {
+            get;
+            set;
         }
 
         // This is static for easy of use. Else, we'd have to pass this public interface throughout all the GameEngine.
@@ -81,6 +94,14 @@ namespace Magecrawl.GameEngine
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;
+        }
+
+        public bool PlayerAttack(Point target)
+        {
+            bool didAnything = m_engine.Attack(m_engine.Player, target);
+            if (didAnything)
+                m_engine.AfterPlayerAction();
+            return didAnything;            
         }
 
         public void Save()

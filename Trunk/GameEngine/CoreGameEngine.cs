@@ -99,6 +99,11 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.Attack(attacker, direction);
         }
 
+        internal bool Attack(Character attacker, Point target)
+        {
+            return m_physicsEngine.Attack(attacker, target);
+        }
+
         public bool Operate(Character characterOperating, Direction direction)
         {
             return m_physicsEngine.Operate(characterOperating, direction);
