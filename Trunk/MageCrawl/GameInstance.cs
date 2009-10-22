@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
 using Magecrawl.GameUI.Map;
 using Magecrawl.Utilities;
+using Magecrawl.Keyboard;
 
 namespace MageCrawl
 {

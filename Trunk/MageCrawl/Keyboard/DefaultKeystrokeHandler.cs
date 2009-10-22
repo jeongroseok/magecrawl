@@ -8,7 +8,7 @@ using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace MageCrawl
+namespace Magecrawl.Keyboard
 {
     internal enum ChordKeystrokeStatus
     {
