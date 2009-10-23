@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
 namespace Magecrawl.GameUI.Map
 {
@@ -14,7 +13,7 @@ namespace Magecrawl.GameUI.Map
         private int m_mapWidth;
         private int m_mapHeight;
 
-        public PlayerAttackRangePainter ()
+        public PlayerAttackRangePainter()
         {
             m_playerPosition = new Point();
             m_range = 0;
@@ -41,7 +40,7 @@ namespace Magecrawl.GameUI.Map
                 {
                     for (int j = 0; j < m_mapHeight; ++j)
                     {
-                        bool allowable = (System.Math.Abs(i - m_playerPosition.X) + System.Math.Abs(j - m_playerPosition.Y) <= m_range);
+                        bool allowable = System.Math.Abs(i - m_playerPosition.X) + System.Math.Abs(j - m_playerPosition.Y) <= m_range;
                         if (allowable)
                         {
                             Color currentColor = screen.GetCharBackground(m_mapUpCorner.X + i + 1, m_mapUpCorner.Y + j + 1);

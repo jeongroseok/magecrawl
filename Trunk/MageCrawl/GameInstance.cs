@@ -5,15 +5,15 @@ using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
 using Magecrawl.GameUI.Map;
-using Magecrawl.Utilities;
 using Magecrawl.Keyboard;
+using Magecrawl.Utilities;
 
 namespace Magecrawl
 {
     internal sealed class GameInstance : IDisposable
     {
-        internal bool isQuitting { get; set; }
-        internal TextBox textBox { get; set; }
+        internal bool IsQuitting { get; set; }
+        internal TextBox TextBox { get; set; }
         private RootConsole m_console;
         private IGameEngine m_engine;
         private KeystrokeManager m_keystroke;
@@ -22,7 +22,7 @@ namespace Magecrawl
 
         internal GameInstance()
         {
-            textBox = new TextBox();
+            TextBox = new TextBox();
             m_charInfo = new CharacterInfo();
             m_painters = new MapPaintingCoordinator();
         }
@@ -40,7 +40,7 @@ namespace Magecrawl
         internal void Go()
         {
             m_console = UIHelper.SetupUI();
-            PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(textBox.TextInputFromEngineDelegate);
+            PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
             m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
 
@@ -69,22 +69,22 @@ namespace Magecrawl
                     HandleKeyboard();
                     m_console.Clear();
                     m_painters.DrawNewFrame(m_console);
-                    textBox.Draw(m_console);
+                    TextBox.Draw(m_console);
                     m_charInfo.Draw(m_console, m_engine.Player);
                     m_console.Flush();
                 }
                 catch (PlayerDiedException)
                 {
                     // Put death information out here.
-                    textBox.AddText("Player has died.");
-                    textBox.AddText("Press Any Key To Quit.");
-                    textBox.Draw(m_console);
+                    TextBox.AddText("Player has died.");
+                    TextBox.AddText("Press Any Key To Quit.");
+                    TextBox.Draw(m_console);
                     m_console.Flush();
                     libtcodWrapper.Keyboard.WaitForKeyPress(true);
-                    isQuitting = true;
+                    IsQuitting = true;
                 }
             }
-            while (!m_console.IsWindowClosed() && !isQuitting);
+            while (!m_console.IsWindowClosed() && !IsQuitting);
         }
 
         private void HandlePlayerDied()
@@ -95,7 +95,7 @@ namespace Magecrawl
             throw new PlayerDiedException();
         }
 
-        internal void SendPaintersRequest(string s, Object data)
+        internal void SendPaintersRequest(string s, object data)
         {
             m_painters.HandleRequest(s, data);
         }

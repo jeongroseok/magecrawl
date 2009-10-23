@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Xml;
-using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl;
 
 namespace Magecrawl.Keyboard
 {
@@ -164,7 +161,7 @@ namespace Magecrawl.Keyboard
 
         private void Quit()
         {
-            m_gameInstance.isQuitting = true;
+            m_gameInstance.IsQuitting = true;
         }
 
         private void Operate()
@@ -238,17 +235,17 @@ namespace Magecrawl.Keyboard
 
         private void TextBoxPageUp()
         {
-            m_gameInstance.textBox.TextBoxScrollUp();
+            m_gameInstance.TextBox.TextBoxScrollUp();
         }
 
         private void TextBoxPageDown()
         {
-            m_gameInstance.textBox.TextBoxScrollDown();
+            m_gameInstance.TextBox.TextBoxScrollDown();
         }
 
         private void TextBoxClear()
         {
-            m_gameInstance.textBox.Clear();
+            m_gameInstance.TextBox.Clear();
         }
 
         #endregion

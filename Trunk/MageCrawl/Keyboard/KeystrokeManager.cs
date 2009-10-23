@@ -6,8 +6,8 @@ using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Utilities;
 using Magecrawl.Keyboard;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
