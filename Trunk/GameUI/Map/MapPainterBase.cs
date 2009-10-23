@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    public abstract class MapPainterBase : System.IDisposable
+    internal abstract class MapPainterBase : System.IDisposable
     {
         public const int MapDrawnWidth = 50;
         public const int MapDrawnHeight = 42;

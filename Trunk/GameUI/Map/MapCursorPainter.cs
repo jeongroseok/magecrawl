@@ -5,7 +5,7 @@ using libtcodWrapper;
 
 namespace Magecrawl.GameUI.Map
 {
-    public class MapCursorPainter : MapPainterBase
+    internal class MapCursorPainter : MapPainterBase
     {
         private bool m_isSelectionCursor;
 

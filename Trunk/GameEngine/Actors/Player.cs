@@ -17,6 +17,14 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
+        public int RangedAttackDistance
+        {
+            get
+            {
+                return 4;
+            }
+        }
+
         #region SaveLoad
 
         public override void ReadXml(XmlReader reader)

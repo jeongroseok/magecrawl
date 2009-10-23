@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    public sealed class MapPainter : MapPainterBase
+    internal sealed class MapPainter : MapPainterBase
     {
         private Console m_offscreenConsole;
 
