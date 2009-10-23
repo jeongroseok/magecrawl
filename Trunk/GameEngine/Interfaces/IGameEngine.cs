@@ -19,25 +19,13 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        Point TargetSelection
-        {
-            get;
-            set;
-        }
-
-        bool SelectingTarget
-        {
-            get;
-            set;
-        }
-
         bool MovePlayer(Direction direction);
         bool Operate(Direction direction);
         bool PlayerWait();
         void Save();
         void Load();
         bool PlayerAttack(Direction direction);
-        bool PlayerAttack(Point target);
+        bool PlayerAttackRanged(Point target);
         IList<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
         

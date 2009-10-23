@@ -7,6 +7,7 @@ using System.Xml;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl;
 
 namespace Magecrawl.Keyboard
 {
@@ -23,27 +24,29 @@ namespace Magecrawl.Keyboard
     internal class DefaultKeystrokeHandler : IKeystrokeHandler
     {
         private IGameEngine m_engine;
+        private GameInstance m_gameInstance;
         private ChordKeystrokeStatus m_chordKeystroke;
         private Dictionary<NamedKey, MethodInfo> m_keyMappings;
         private PointPredicate m_targetSelectionAllowable;
 
-        public DefaultKeystrokeHandler(IGameEngine engine)
+        public Point SelectionPoint { get; set; }
+
+        public bool InSelectionMode { get; set; }
+
+        public DefaultKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
+            m_gameInstance = instance;
             m_chordKeystroke = ChordKeystrokeStatus.None;
         }
 
-        public KeystrokeResult HandleKeystroke(NamedKey keystroke)
+        public void HandleKeystroke(NamedKey keystroke)
         {
             MethodInfo action;
             m_keyMappings.TryGetValue(keystroke, out action);
             if (action != null)
             {
-                return (KeystrokeResult)action.Invoke(this, null);
-            }
-            else
-            {
-                return KeystrokeResult.None;
+                action.Invoke(this, null);
             }
         }
 
@@ -87,7 +90,7 @@ namespace Magecrawl.Keyboard
             reader.Close();
         }
 
-        private KeystrokeResult HandleDirection(Direction d)
+        private void HandleDirection(Direction d)
         {
             if (m_chordKeystroke == ChordKeystrokeStatus.Operate)
                 m_engine.Operate(d);
@@ -95,152 +98,155 @@ namespace Magecrawl.Keyboard
                 m_engine.PlayerAttack(d);
             else if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
             {
-                Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(m_engine.TargetSelection, d);
+                Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, d);
                 if (m_targetSelectionAllowable == null || m_targetSelectionAllowable(newSelection))
                 {
-                    m_engine.TargetSelection = newSelection;
+                    SelectionPoint = newSelection;
+                    SelectionPoint = newSelection;
                 }
-                return KeystrokeResult.InRangedAttack;
+                m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
+                m_gameInstance.UpdatePainters();
+                return;
             }
             else
                 m_engine.MovePlayer(d);
             m_chordKeystroke = ChordKeystrokeStatus.None;
-            return KeystrokeResult.Action;
+            m_gameInstance.UpdatePainters();
         }
 
         #region Mappable key commands
 
         /*
          * BCL: see file MageCrawl/dist/KeyMappings.xml. To add a new mappable action, define a private method for it here,
-         * then map it to an unused key in KeyMappings.xml. The action should take no parameters and should return a 
-         * KeyStrokeResult.
+         * then map it to an unused key in KeyMappings.xml. The action should take no parameters and should return nothing.
+         * 
          */
 
-        private KeystrokeResult North()
+        private void North()
         {
-            return HandleDirection(Direction.North);
+            HandleDirection(Direction.North);
         }
 
-        private KeystrokeResult South()
+        private void South()
         {
-            return HandleDirection(Direction.South);
+            HandleDirection(Direction.South);
         }
 
-        private KeystrokeResult East()
+        private void East()
         {
-            return HandleDirection(Direction.East);
+            HandleDirection(Direction.East);
         }
 
-        private KeystrokeResult West()
+        private void West()
         {
-            return HandleDirection(Direction.West);
+            HandleDirection(Direction.West);
         }
 
-        private KeystrokeResult Northeast()
+        private void Northeast()
         {
-            return HandleDirection(Direction.Northeast);
+            HandleDirection(Direction.Northeast);
         }
 
-        private KeystrokeResult Northwest()
+        private void Northwest()
         {
-            return HandleDirection(Direction.Northwest);
+            HandleDirection(Direction.Northwest);
         }
 
-        private KeystrokeResult Southeast()
+        private void Southeast()
         {
-            return HandleDirection(Direction.Southeast);
+            HandleDirection(Direction.Southeast);
         }
 
-        private KeystrokeResult Southwest()
+        private void Southwest()
         {
-            return HandleDirection(Direction.Southwest);
+            HandleDirection(Direction.Southwest);
         }
 
-        private KeystrokeResult Quit()
+        private void Quit()
         {
-            return KeystrokeResult.Quit;
+            m_gameInstance.isQuitting = true;
         }
 
-        private KeystrokeResult Operate()
+        private void Operate()
         {
             m_chordKeystroke = ChordKeystrokeStatus.Operate;
-            return KeystrokeResult.InOperate;
         }
 
-        private KeystrokeResult Save()
+        private void Save()
         {
             m_engine.Save();
-            return KeystrokeResult.Action;
+            m_gameInstance.UpdatePainters();
         }
 
-        private KeystrokeResult Load()
+        private void Load()
         {
             try
             {
                 m_engine.Load();
-                return KeystrokeResult.Action;
+                m_gameInstance.UpdatePainters();
             }
             catch (System.IO.FileNotFoundException)
             {
-                // TODO: Inform user somehow.
-                return KeystrokeResult.Action;
+                // TODO: Inform user somehow
+                m_gameInstance.UpdatePainters();
             }
         }
 
-        private KeystrokeResult MoveableOnOff()
+        private void MoveableOnOff()
         {
-            return KeystrokeResult.DebuggingMoveableOnOff;
+            m_gameInstance.SendPaintersRequest("DebuggingMoveableOnOff", m_engine);
         }
 
-        private KeystrokeResult DebuggingFOVOnOff()
+        private void DebuggingFOVOnOff()
         {
-            return KeystrokeResult.DebuggingFOVOnOff;
+            m_gameInstance.SendPaintersRequest("DebuggingFOVOnOff", m_engine);
         }
 
-        private KeystrokeResult Wait()
+        private void Wait()
         {
             m_engine.PlayerWait();
-            return KeystrokeResult.Action;
+            m_gameInstance.UpdatePainters();
         }
 
-        private KeystrokeResult Attack()
+        private void Attack()
         {
             m_chordKeystroke = ChordKeystrokeStatus.Attack;
-            return KeystrokeResult.InAttack;
         }
 
-        private KeystrokeResult RangedAttack()
+        private void RangedAttack()
         {
             if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
             {
-                m_engine.PlayerAttack(m_engine.TargetSelection);
-                m_engine.SelectingTarget = false;
+                m_engine.PlayerAttackRanged(SelectionPoint);
+                InSelectionMode = false;
                 m_chordKeystroke = ChordKeystrokeStatus.None;
-                return KeystrokeResult.Action;
+                m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
+                m_gameInstance.UpdatePainters();
             }
             else
             {
                 m_chordKeystroke = ChordKeystrokeStatus.RangedAttack;
-                m_engine.TargetSelection = m_engine.Player.Position;
-                m_engine.SelectingTarget = true;
+                SelectionPoint = m_engine.Player.Position;
+                InSelectionMode = true;
                 m_targetSelectionAllowable = p => (Math.Abs(p.X - m_engine.Player.Position.X) + Math.Abs(p.Y - m_engine.Player.Position.Y) <= 4);
-                return KeystrokeResult.InRangedAttack;
+                m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
+                m_gameInstance.UpdatePainters();
             }
         }
 
-        private KeystrokeResult TextBoxPageUp()
+        private void TextBoxPageUp()
         {
-            return KeystrokeResult.TextBoxUp;
+            m_gameInstance.textBox.TextBoxScrollUp();
         }
 
-        private KeystrokeResult TextBoxPageDown()
+        private void TextBoxPageDown()
         {
-            return KeystrokeResult.TextBoxDown;
+            m_gameInstance.textBox.TextBoxScrollDown();
         }
 
-        private KeystrokeResult TextBoxClear()
+        private void TextBoxClear()
         {
-            return KeystrokeResult.TextBoxClear;
+            m_gameInstance.textBox.Clear();
         }
 
         #endregion

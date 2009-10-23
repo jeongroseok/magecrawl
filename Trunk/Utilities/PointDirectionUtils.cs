@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.Utilities
 {
     public static class PointDirectionUtils
     {
@@ -41,7 +41,7 @@ namespace Magecrawl.GameEngine
             return destPoint;
         }
 
-        internal static Direction ConvertTwoPointsToDirection(Point initial, Point end)
+        public static Direction ConvertTwoPointsToDirection(Point initial, Point end)
         {
             int x = end.X - initial.X;
             int y = end.Y - initial.Y;
@@ -56,7 +56,7 @@ namespace Magecrawl.GameEngine
             return ConvertPositionDeltaToDirection(x, y);
         }
 
-        internal static Direction ConvertPositionDeltaToDirection(int deltaX, int deltaY)
+        public static Direction ConvertPositionDeltaToDirection(int deltaX, int deltaY)
         {
             if (deltaX == 1)
             {
