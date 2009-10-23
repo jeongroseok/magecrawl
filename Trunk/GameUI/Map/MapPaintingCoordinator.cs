@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Utilities;
 using Magecrawl.GameUI.Map.Debug;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
