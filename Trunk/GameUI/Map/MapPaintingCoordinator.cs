@@ -2,6 +2,7 @@
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Debug;
 
 namespace Magecrawl.GameUI.Map
 {
@@ -25,6 +26,7 @@ namespace Magecrawl.GameUI.Map
             m_painters.Add(new MapEffectsPainter());
             m_painters.Add(new MapDebugFOVPainter());
             m_painters.Add(new MapCursorPainter());
+            m_painters.Add(new PlayerAttackRangePainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)

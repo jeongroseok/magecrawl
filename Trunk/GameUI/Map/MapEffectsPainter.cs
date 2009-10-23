@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    public sealed class MapEffectsPainter : MapPainterBase
+    internal sealed class MapEffectsPainter : MapPainterBase
     {
         public MapEffectsPainter() : base() 
         {

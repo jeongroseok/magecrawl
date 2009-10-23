@@ -221,6 +221,7 @@ namespace Magecrawl.Keyboard
                 InSelectionMode = false;
                 m_chordKeystroke = ChordKeystrokeStatus.None;
                 m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
+                m_gameInstance.SendPaintersRequest("RangedAttackDisabled", null);
                 m_gameInstance.UpdatePainters();
             }
             else
@@ -228,7 +229,8 @@ namespace Magecrawl.Keyboard
                 m_chordKeystroke = ChordKeystrokeStatus.RangedAttack;
                 SelectionPoint = m_engine.Player.Position;
                 InSelectionMode = true;
-                m_targetSelectionAllowable = p => (Math.Abs(p.X - m_engine.Player.Position.X) + Math.Abs(p.Y - m_engine.Player.Position.Y) <= 4);
+                m_targetSelectionAllowable = p => (Math.Abs(p.X - m_engine.Player.Position.X) + Math.Abs(p.Y - m_engine.Player.Position.Y) <= m_engine.Player.RangedAttackDistance);
+                m_gameInstance.SendPaintersRequest("RangedAttackEnabled", null);
                 m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
                 m_gameInstance.UpdatePainters();
             }
