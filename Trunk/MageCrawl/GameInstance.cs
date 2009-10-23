@@ -8,21 +8,21 @@ using Magecrawl.GameUI.Map;
 using Magecrawl.Utilities;
 using Magecrawl.Keyboard;
 
-namespace MageCrawl
+namespace Magecrawl
 {
     internal sealed class GameInstance : IDisposable
     {
-        private bool m_isQuitting = false;
+        internal bool isQuitting { get; set; }
+        internal TextBox textBox { get; set; }
         private RootConsole m_console;
         private IGameEngine m_engine;
         private KeystrokeManager m_keystroke;
         private CharacterInfo m_charInfo;
-        private TextBox m_textBox;
         private MapPaintingCoordinator m_painters;
 
         internal GameInstance()
         {
-            m_textBox = new TextBox();
+            textBox = new TextBox();
             m_charInfo = new CharacterInfo();
             m_painters = new MapPaintingCoordinator();
         }
@@ -40,7 +40,7 @@ namespace MageCrawl
         internal void Go()
         {
             m_console = UIHelper.SetupUI();
-            PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(m_textBox.TextInputFromEngineDelegate);
+            PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(textBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
             m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
 
@@ -54,7 +54,7 @@ namespace MageCrawl
              * through the GameEngine or GameInstance or whatever.
              */
             m_keystroke = new KeystrokeManager(m_engine);
-            DefaultKeystrokeHandler defaultHandler = new DefaultKeystrokeHandler(m_engine);
+            DefaultKeystrokeHandler defaultHandler = new DefaultKeystrokeHandler(m_engine, this);
             defaultHandler.LoadKeyMappings();
             m_keystroke.Handlers.Add("Default", defaultHandler);
             m_keystroke.CurrentHandlerName = "Default";
@@ -69,22 +69,22 @@ namespace MageCrawl
                     HandleKeyboard();
                     m_console.Clear();
                     m_painters.DrawNewFrame(m_console);
-                    m_textBox.Draw(m_console);
+                    textBox.Draw(m_console);
                     m_charInfo.Draw(m_console, m_engine.Player);
                     m_console.Flush();
                 }
                 catch (PlayerDiedException)
                 {
                     // Put death information out here.
-                    m_textBox.AddText("Player has died.");
-                    m_textBox.AddText("Press Any Key To Quit.");
-                    m_textBox.Draw(m_console);
+                    textBox.AddText("Player has died.");
+                    textBox.AddText("Press Any Key To Quit.");
+                    textBox.Draw(m_console);
                     m_console.Flush();
                     libtcodWrapper.Keyboard.WaitForKeyPress(true);
-                    m_isQuitting = true;
+                    isQuitting = true;
                 }
             }
-            while (!m_console.IsWindowClosed() && !m_isQuitting);
+            while (!m_console.IsWindowClosed() && !isQuitting);
         }
 
         private void HandlePlayerDied()
@@ -95,34 +95,19 @@ namespace MageCrawl
             throw new PlayerDiedException();
         }
 
+        internal void SendPaintersRequest(string s, Object data)
+        {
+            m_painters.HandleRequest(s, data);
+        }
+
+        internal void UpdatePainters()
+        {
+            m_painters.UpdateFromNewData(m_engine);
+        }
+
         private void HandleKeyboard()
         {
-            KeystrokeResult keyResult = m_keystroke.HandleKeyStroke();
-            switch (keyResult)
-            { 
-                case KeystrokeResult.Quit:
-                    m_isQuitting = true;
-                    break;
-                case KeystrokeResult.DebuggingMoveableOnOff:
-                    m_painters.HandleRequest("DebuggingMoveableOnOff", m_engine);
-                    break;
-                case KeystrokeResult.DebuggingFOVOnOff:
-                    m_painters.HandleRequest("DebuggingFOVOnOff", m_engine);
-                    break;
-                case KeystrokeResult.TextBoxClear:
-                    m_textBox.Clear();
-                    break;
-                case KeystrokeResult.TextBoxDown:
-                    m_textBox.TextBoxScrollDown();
-                    break;
-                case KeystrokeResult.TextBoxUp:
-                    m_textBox.TextBoxScrollUp();
-                    break;
-                case KeystrokeResult.Action:
-                case KeystrokeResult.InRangedAttack:
-                    m_painters.UpdateFromNewData(m_engine);
-                    break;
-            }    
+            m_keystroke.HandleKeyStroke();
         }
     }
 }

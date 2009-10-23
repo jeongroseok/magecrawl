@@ -48,7 +48,6 @@
     <Compile Include="CoreTimingEngine.cs" />
     <Compile Include="Interfaces\ICharacter.cs" />
     <Compile Include="Interfaces\IGameEngine.cs" />
-    <Compile Include="Map\Direction.cs" />
     <Compile Include="FOVManager.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IMapObject.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="PathfindingMap.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="PhysicsEngine.cs" />
-    <Compile Include="PointDirectionUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicGameEngine.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />

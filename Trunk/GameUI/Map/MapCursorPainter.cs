@@ -7,13 +7,11 @@ namespace Magecrawl.GameUI.Map
 {
     public class MapCursorPainter : MapPainterBase
     {
-        bool m_isSelectionCursor;
-        Point m_cursorSpot;
+        private bool m_isSelectionCursor;
 
         public MapCursorPainter()
         {
             m_isSelectionCursor = false;
-            m_cursorSpot = new Point(0, 0);
         }
 
         public override void Dispose()
@@ -22,8 +20,6 @@ namespace Magecrawl.GameUI.Map
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {
-            m_isSelectionCursor = engine.SelectingTarget;
-            m_cursorSpot = engine.TargetSelection;
         }
 
         public override void DrawNewFrame(Console screen)
@@ -36,6 +32,15 @@ namespace Magecrawl.GameUI.Map
 
         public override void HandleRequest(string request, object data)
         {
+            switch (request)
+            {
+                case "MapCursorEnabled":
+                    m_isSelectionCursor = true;
+                    break;
+                case "MapCursorDisabled":
+                    m_isSelectionCursor = false;
+                    break;
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        public KeystrokeResult HandleKeyStroke()
+        public void HandleKeyStroke()
         {
             KeyPress key = libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed);
 
@@ -57,7 +57,7 @@ namespace Magecrawl.Keyboard
 
             try
             {
-                return m_currentHandler.HandleKeystroke(namedKey);
+                m_currentHandler.HandleKeystroke(namedKey);
             }
             catch (TargetInvocationException e)
             {
