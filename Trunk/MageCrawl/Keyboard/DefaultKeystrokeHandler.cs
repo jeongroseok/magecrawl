@@ -248,6 +248,16 @@ namespace Magecrawl.Keyboard
             m_gameInstance.TextBox.Clear();
         }
 
+        private void HealSpell()
+        {
+            m_engine.PlayerCastSpell("Heal");
+        }
+
+        private void BlastSpell()
+        {
+            m_engine.PlayerCastSpell("Blast");
+        }
+
         #endregion
     }
 }
