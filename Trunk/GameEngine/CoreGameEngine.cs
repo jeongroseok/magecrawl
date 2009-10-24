@@ -132,9 +132,16 @@ namespace Magecrawl.GameEngine
             return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine);
         }
 
+        // This is used by the Movability Debug View. If you think you need it, you don't. Talk to chris. 
+        // Unless your me, this smack yourself and try again.
         public bool[,] PlayerMoveableToEveryPoint()
         {
             return m_physicsEngine.CalculateMoveablePointGrid(m_map, m_player);
+        }
+
+        public void FilterNotTargetablePointsFromList(List<WeaponPoint> pointList)
+        {
+            m_physicsEngine.FilterNotTargetablePointsFromList(pointList);
         }
 
         internal void PlayerDied()

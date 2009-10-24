@@ -12,9 +12,11 @@ namespace Magecrawl.Keyboard
         // We're switching on a weapon, so target a random monster in range if there is one
         public static Point SetAttackInitialSpot(IGameEngine engine, IWeapon currentWeapon)
         {
+            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints(engine.Player.Position);
+
             foreach (ICharacter m in engine.Map.Monsters)
             {
-                if (currentWeapon.PositionInTargetablePoints(engine.Player.Position, m.Position))
+                if (currentWeapon.PositionInTargetablePoints(engine.Player.Position, m.Position, targetablePoints))
                     return m.Position;
             }
             
@@ -32,14 +34,16 @@ namespace Magecrawl.Keyboard
         /// <param name="direction">Direction of keypress</param>
         /// <returns>Point to move selectionto, Point.Invalid if can't move</returns>
         public static Point MoveSelectionToNewPoint(IGameEngine engine, Point pointWantToGoTo, Direction direction)
-        {    
+        {
+            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints(engine.Player.Position);
+
             // First try and see if we can just target that square
-            if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, pointWantToGoTo))
+            if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, pointWantToGoTo, targetablePoints))
             {
                 return pointWantToGoTo;
             }
 
-            Point searchResult = MoveSelectionToNewPointSearchDirection(engine, pointWantToGoTo, direction, null);
+            Point searchResult = MoveSelectionToNewPointSearchDirection(engine, pointWantToGoTo, direction, null, targetablePoints);
             if (searchResult != Point.Invalid)
                 return searchResult;
 
@@ -49,7 +53,7 @@ namespace Magecrawl.Keyboard
                 adjacentOffset = new List<Point>() { new Point(-1, 0), new Point(1, 0) };
             if (direction == Direction.East || direction == Direction.West)
                 adjacentOffset = new List<Point>() { new Point(0, -1), new Point(0, 1) };
-            searchResult = MoveSelectionToNewPointSearchDirection(engine, pointWantToGoTo, direction, adjacentOffset);
+            searchResult = MoveSelectionToNewPointSearchDirection(engine, pointWantToGoTo, direction, adjacentOffset, targetablePoints);
             
             return searchResult;
         }
@@ -70,7 +74,7 @@ namespace Magecrawl.Keyboard
         /// <param name="directionFromCenter">What direction was this from the center</param>
         /// <param name="offsets">Which ways to shift if we're trying for nearby matches</param>
         /// <returns></returns>
-        private static Point MoveSelectionToNewPointSearchDirection(IGameEngine engine, Point pointWantToGoTo, Direction directionFromCenter, List<Point> offsets)
+        private static Point MoveSelectionToNewPointSearchDirection(IGameEngine engine, Point pointWantToGoTo, Direction directionFromCenter, List<Point> offsets, List<WeaponPoint> targetablePoints)
         {
             Point nextSelectionAttempt = pointWantToGoTo;
             const int SelectionSearchLength = 8;
@@ -78,7 +82,7 @@ namespace Magecrawl.Keyboard
             {
                 if (i != 0)
                     nextSelectionAttempt = PointDirectionUtils.ConvertDirectionToDestinationPoint(nextSelectionAttempt, directionFromCenter);
-                if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, nextSelectionAttempt))
+                if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, nextSelectionAttempt, targetablePoints))
                 {
                     return nextSelectionAttempt;
                 }
@@ -86,7 +90,7 @@ namespace Magecrawl.Keyboard
                 {
                     foreach (Point o in offsets)
                     {
-                        if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, nextSelectionAttempt + o))
+                        if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, nextSelectionAttempt + o, targetablePoints))
                         {
                             return nextSelectionAttempt + o;
                         }

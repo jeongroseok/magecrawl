@@ -219,7 +219,7 @@ namespace Magecrawl.Keyboard
                 m_chordKeystroke = ChordKeystrokeStatus.Attack;
                 SelectionPoint = AttackKeystrokeHelper.SetAttackInitialSpot(m_engine, m_engine.Player.CurrentWeapon);
                 InSelectionMode = true;
-                List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.TargetablePoints(m_engine.Player.Position);
+                List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints(m_engine.Player.Position);
                 m_gameInstance.SendPaintersRequest("RangedAttackEnabled", listOfSelectablePoints);
                 m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
                 m_gameInstance.UpdatePainters();

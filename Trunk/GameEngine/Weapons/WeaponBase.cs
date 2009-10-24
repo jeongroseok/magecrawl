@@ -17,11 +17,11 @@ namespace Magecrawl.GameEngine.Weapons
             get;
         }
 
-        public abstract List<WeaponPoint> TargetablePoints(Point characterPosition);
+        public abstract List<WeaponPoint> CalculateTargetablePoints(Point characterCenter);
 
         public float EffectiveStrengthAtPoint(Point characterCenter, Point pointOfInterest)
         {
-            foreach (WeaponPoint p in TargetablePoints(characterCenter))
+            foreach (WeaponPoint p in CalculateTargetablePoints(characterCenter))
             {
                 if (p.Position == pointOfInterest)
                     return p.EffectiveStrength;
@@ -29,53 +29,13 @@ namespace Magecrawl.GameEngine.Weapons
             throw new System.ArgumentException("Asked for effective strength at point not targetable?");
         }
 
-        public void StripImpossibleToTargetPoints(List<WeaponPoint> pointList)
-        {
-            List<WeaponPoint> pointsToRemove = new List<WeaponPoint>();
-            bool[,] movabilityTable = CoreGameEngine.Instance.PlayerMoveableToEveryPoint();
-            foreach (WeaponPoint p in pointList)
-            {
-                // We want to be able to target only points that make sense
-                bool isGoodPoint = false;
-                if (CoreGameEngine.Instance.Map.IsPointOnMap(p.Position))
-                {
-                    // If we can move there, that's good.
-                    isGoodPoint = movabilityTable[p.Position.X, p.Position.Y];
-
-                    // If not, if there's a monster there, we're also good
-                    if (!isGoodPoint)
-                    {
-                        foreach (Monster m in CoreGameEngine.Instance.Map.Monsters)
-                        {
-                            if (m.Position == p.Position)
-                            {
-                                isGoodPoint = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Or a player
-                    if (!isGoodPoint)
-                    {
-                        if (p.Position == CoreGameEngine.Instance.Player.Position)
-                            isGoodPoint = true;
-                    }
-                }
-                if (!isGoodPoint)
-                {
-                    pointsToRemove.Add(p);
-                }
-            }
-            foreach (WeaponPoint p in pointsToRemove)
-            {
-                pointList.Remove(p);
-            }
-        }
-
         public bool PositionInTargetablePoints(Point characterCenter, Point pointOfInterest)
         {
-            List<WeaponPoint> targetablePoints = TargetablePoints(characterCenter);
+            return PositionInTargetablePoints(characterCenter, pointOfInterest, CalculateTargetablePoints(characterCenter));
+        }
+
+        public bool PositionInTargetablePoints(Point characterCenter, Point pointOfInterest, List<WeaponPoint> targetablePoints)
+        {
             foreach (WeaponPoint t in targetablePoints)
             {
                 if (t.Position == pointOfInterest)
