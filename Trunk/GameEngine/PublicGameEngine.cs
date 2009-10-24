@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -102,6 +103,26 @@ namespace Magecrawl.GameEngine
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;            
+        }
+
+        public bool PlayerCastSpell(string spellName)
+        {
+            // TODO: replace with factory class
+            SpellBase spell;
+            switch (spellName)
+            {
+                case "Heal":
+                    spell = new HealSpell();
+                    break;
+                case "Blast":
+                    spell = new BlastSpell();
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+            m_engine.CastSpell(m_engine.Player, spell);
+            m_engine.AfterPlayerAction();
+            return true;
         }
 
         public void Save()

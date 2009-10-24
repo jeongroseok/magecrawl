@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
@@ -102,6 +103,12 @@ namespace Magecrawl.GameEngine
         internal bool Attack(Character attacker, Point target)
         {
             return m_physicsEngine.Attack(attacker, target);
+        }
+
+        internal bool CastSpell(Character attacker, SpellBase spell)
+        {
+            m_physicsEngine.CastSpell(this, attacker, spell);
+            return true;
         }
 
         public bool Operate(Character characterOperating, Direction direction)
