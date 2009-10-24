@@ -35,10 +35,10 @@ namespace Magecrawl.GameEngine
 
         internal bool Attack(Character attacker, Point attackTarget)
         {
-            if (!attacker.CurrentWeapon.PositionInTargetablePoints(attacker.Position, attackTarget))
+            if (!attacker.CurrentWeapon.PositionInTargetablePoints(attackTarget))
                 throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
 
-            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attacker.Position, attackTarget);
+            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackTarget);
             bool didAnything = false;
             foreach (Monster m in m_map.Monsters)
             {

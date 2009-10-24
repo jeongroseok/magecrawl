@@ -139,9 +139,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CalculateMoveablePointGrid(m_map, m_player);
         }
 
-        public void FilterNotTargetablePointsFromList(List<WeaponPoint> pointList)
+        public void FilterNotTargetablePointsFromList(List<WeaponPoint> pointList, Point characterPosition, int visionRange)
         {
-            m_physicsEngine.FilterNotTargetablePointsFromList(pointList);
+            m_physicsEngine.FilterNotTargetablePointsFromList(pointList, characterPosition, visionRange);
         }
 
         internal void PlayerDied()

@@ -22,7 +22,7 @@ namespace Magecrawl.Keyboard
         public override void NowPrimaried()
         {
             SelectionPoint = AttackKeystrokeHandler.SetAttackInitialSpot(m_engine, m_engine.Player.CurrentWeapon);
-            List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints(m_engine.Player.Position);
+            List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
             m_gameInstance.SendPaintersRequest("RangedAttackEnabled", listOfSelectablePoints);
             m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
             m_gameInstance.UpdatePainters();
@@ -96,11 +96,11 @@ namespace Magecrawl.Keyboard
         // We're switching on a weapon, so target a random monster in range if there is one
         private static Point SetAttackInitialSpot(IGameEngine engine, IWeapon currentWeapon)
         {
-            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints(engine.Player.Position);
+            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
 
             foreach (ICharacter m in engine.Map.Monsters)
             {
-                if (currentWeapon.PositionInTargetablePoints(engine.Player.Position, m.Position, targetablePoints))
+                if (currentWeapon.PositionInTargetablePoints(m.Position, targetablePoints))
                     return m.Position;
             }
             
@@ -119,10 +119,10 @@ namespace Magecrawl.Keyboard
         /// <returns>Point to move selectionto, Point.Invalid if can't move</returns>
         private static Point MoveSelectionToNewPoint(IGameEngine engine, Point pointWantToGoTo, Direction direction)
         {
-            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints(engine.Player.Position);
+            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
 
             // First try and see if we can just target that square
-            if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, pointWantToGoTo, targetablePoints))
+            if (engine.Player.CurrentWeapon.PositionInTargetablePoints(pointWantToGoTo, targetablePoints))
             {
                 return pointWantToGoTo;
             }
@@ -166,7 +166,7 @@ namespace Magecrawl.Keyboard
             {
                 if (i != 0)
                     nextSelectionAttempt = PointDirectionUtils.ConvertDirectionToDestinationPoint(nextSelectionAttempt, directionFromCenter);
-                if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, nextSelectionAttempt, targetablePoints))
+                if (engine.Player.CurrentWeapon.PositionInTargetablePoints(nextSelectionAttempt, targetablePoints))
                 {
                     return nextSelectionAttempt;
                 }
@@ -174,7 +174,7 @@ namespace Magecrawl.Keyboard
                 {
                     foreach (Point o in offsets)
                     {
-                        if (engine.Player.CurrentWeapon.PositionInTargetablePoints(engine.Player.Position, nextSelectionAttempt + o, targetablePoints))
+                        if (engine.Player.CurrentWeapon.PositionInTargetablePoints(nextSelectionAttempt + o, targetablePoints))
                         {
                             return nextSelectionAttempt + o;
                         }

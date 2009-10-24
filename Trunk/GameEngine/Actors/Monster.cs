@@ -32,7 +32,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return new GameEngine.Weapons.MonsterMelee();
+                return new GameEngine.Weapons.MonsterMelee(this);
             }
         }
 
