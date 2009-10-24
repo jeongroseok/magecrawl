@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using libtcodWrapper;
-using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Magecrawl.Utilities;
+﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {

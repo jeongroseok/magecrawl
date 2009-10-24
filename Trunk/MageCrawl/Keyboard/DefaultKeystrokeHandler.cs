@@ -108,7 +108,6 @@ namespace Magecrawl.Keyboard
             m_gameInstance.UpdatePainters();
         }
 
-
         #region Mappable key commands
 
         /*
