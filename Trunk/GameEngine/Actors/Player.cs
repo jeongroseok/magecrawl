@@ -7,7 +7,7 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        private static IWeapon[] m_weaponList = { new MeleeWeapon(), new SimpleBow(), new Spear() };
+        private static IWeapon[] m_weaponList = { new MeleeWeapon(), new SimpleBow(), new Spear(), new Sword() };
         private int m_weaponPosition = 0;
 
         public Player() : base()

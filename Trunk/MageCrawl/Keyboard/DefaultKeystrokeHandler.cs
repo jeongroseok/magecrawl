@@ -21,7 +21,6 @@ namespace Magecrawl.Keyboard
         private GameInstance m_gameInstance;
         private ChordKeystrokeStatus m_chordKeystroke;
         private Dictionary<NamedKey, MethodInfo> m_keyMappings;
-        private List<Point> m_listOfSelectablePoints;
 
         public Point SelectionPoint { get; set; }
 
@@ -33,7 +32,6 @@ namespace Magecrawl.Keyboard
             m_gameInstance = instance;
             m_chordKeystroke = ChordKeystrokeStatus.None;
             m_keyMappings = null;
-            m_listOfSelectablePoints = null;
         }
 
         public void HandleKeystroke(NamedKey keystroke)
@@ -86,52 +84,30 @@ namespace Magecrawl.Keyboard
             reader.Close();
         }
 
-        private void HandleDirection(Direction d)
+        private void HandleDirection(Direction direction)
         {
             if (m_chordKeystroke == ChordKeystrokeStatus.Operate)
             {
-                m_engine.Operate(d);
+                m_engine.Operate(direction);
             }
             else if (m_chordKeystroke == ChordKeystrokeStatus.Attack)
             {
-                MoveSelectionToNewPoint(d);
+                Point pointWantToGoTo = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, direction);
+                Point resultPoint = AttackKeystrokeHelper.MoveSelectionToNewPoint(m_engine, pointWantToGoTo, direction);
+                if (resultPoint != Point.Invalid)
+                    SelectionPoint = resultPoint;
                 m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
                 m_gameInstance.UpdatePainters();
                 return;
             }
             else
             {
-                m_engine.MovePlayer(d);
+                m_engine.MovePlayer(direction);
             }
             m_chordKeystroke = ChordKeystrokeStatus.None;
             m_gameInstance.UpdatePainters();
         }
 
-        private void MoveSelectionToNewPoint(Direction d)
-        {
-            Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, d);
-
-            // First try and see if we can just target that square
-            if (m_listOfSelectablePoints.Contains(newSelection))
-            {
-                SelectionPoint = newSelection;
-                SelectionPoint = newSelection;
-                return;
-            }
-            
-            // If not, we want to see if there's a square in that direction we can go
-            const int SelectionSearchLength = 5;
-            for (int i = 0; i < SelectionSearchLength; ++i)
-            {
-                newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(newSelection, d);
-                if (m_listOfSelectablePoints.Contains(newSelection))
-                {
-                    SelectionPoint = newSelection;
-                    SelectionPoint = newSelection;
-                    return;
-                }
-            }
-        }
 
         #region Mappable key commands
 
@@ -242,27 +218,12 @@ namespace Magecrawl.Keyboard
             else
             {
                 m_chordKeystroke = ChordKeystrokeStatus.Attack;
-                m_listOfSelectablePoints = m_engine.Player.CurrentWeapon.TargetablePoints(m_engine.Player.Position);
-                SetAttackInitialSpot(m_listOfSelectablePoints);
+                SelectionPoint = AttackKeystrokeHelper.SetAttackInitialSpot(m_engine, m_engine.Player.CurrentWeapon);
                 InSelectionMode = true;
-                m_gameInstance.SendPaintersRequest("RangedAttackEnabled", m_listOfSelectablePoints);
+                List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.TargetablePoints(m_engine.Player.Position);
+                m_gameInstance.SendPaintersRequest("RangedAttackEnabled", listOfSelectablePoints);
                 m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
                 m_gameInstance.UpdatePainters();
-            }
-        }
-
-        private void SetAttackInitialSpot(List<Point> listOfSelectablePoints)
-        {
-            // If we can't find a better spot, use the player's position
-            SelectionPoint = m_engine.Player.Position;
-
-            foreach (ICharacter m in m_engine.Map.Monsters)
-            {
-                if (listOfSelectablePoints.Contains(m.Position))
-                {
-                    SelectionPoint = m.Position;
-                    return;
-                }
             }
         }
 

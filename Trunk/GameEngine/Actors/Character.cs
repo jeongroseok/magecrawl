@@ -12,7 +12,7 @@ namespace Magecrawl.GameEngine.Actors
     {
         internal Character()
         {
-            m_position = new Point(-1, -1);
+            m_position = Point.Invalid;
             m_CT = 0;
             m_hp = 0;
             m_maxHP = 0;

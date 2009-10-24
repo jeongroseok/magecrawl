@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal class MeleeWeapon : WeaponBase
+    internal class Sword : WeaponBase
     {
-        internal MeleeWeapon()
+        internal Sword()
         {
         }
 
@@ -15,7 +15,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return new DiceRoll(1, 2);
+                return new DiceRoll(1, 8);
             }
         }
 
@@ -23,7 +23,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return "Melee";
+                return "Sword";
             }
         }
 
@@ -35,11 +35,11 @@ namespace Magecrawl.GameEngine.Weapons
             targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 0), 1.0f));
             targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, 1), 1.0f));
             targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 1), .25f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, -1), .25f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 1), .25f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, -1), .25f));
-
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 1), .75f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, -1), .75f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 1), .75f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, -1), .75f));
+            
             StripImpossibleToTargetPoints(targetablePoints);
 
             return targetablePoints;

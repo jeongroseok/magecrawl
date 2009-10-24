@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.MapObjects
         private bool m_opened;
 
         public MapDoor()
-            : this(new Point(-1, -1), false)
+            : this(Point.Invalid, false)
         {
         }
 

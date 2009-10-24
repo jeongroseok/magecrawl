@@ -66,6 +66,7 @@
     <Compile Include="PublicGameEngine.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
+    <Compile Include="Weapons\Sword.cs" />
     <Compile Include="Weapons\MeleeWeapon.cs" />
     <Compile Include="Weapons\MonsterMelee.cs" />
     <Compile Include="Weapons\SimpleBow.cs" />

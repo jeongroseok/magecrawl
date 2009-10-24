@@ -25,7 +25,7 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_isSelectionCursor)
             {
-                screen.SetCharBackground(ScreenCenter.X + 1, ScreenCenter.Y + 1, Color.FromRGB(0x7F, 0xbF, 0));
+                screen.SetCharBackground(ScreenCenter.X + 1, ScreenCenter.Y + 1, TCODColorPresets.DarkYellow);
             }
         }
 
