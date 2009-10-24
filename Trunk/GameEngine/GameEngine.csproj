@@ -67,7 +67,9 @@
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
     <Compile Include="Weapons\MeleeWeapon.cs" />
+    <Compile Include="Weapons\MonsterMelee.cs" />
     <Compile Include="Weapons\SimpleBow.cs" />
+    <Compile Include="Weapons\WeaponBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcodWrapper, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL" />

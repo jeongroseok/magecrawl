@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -147,6 +148,15 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return m_uniqueID;
+            }
+        }
+
+        public virtual IWeapon CurrentWeapon
+        {
+            get
+            {
+                // Everyone should override this.
+                throw new System.NotImplementedException();
             }
         }
 

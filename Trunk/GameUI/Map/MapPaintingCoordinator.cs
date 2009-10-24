@@ -72,6 +72,9 @@ namespace Magecrawl.GameUI.Map
                 case "MapCursorPositionChanged":
                     m_cursorSpot = (Point)data;
                     break;
+                case "DisableAll":
+                    m_isSelectionCursor = false;
+                    break;
             }
         }
 

@@ -34,20 +34,17 @@ namespace Magecrawl.GameEngine
             m_map = map;        
         }
 
-        internal bool Attack(Character attacker, Direction direction)
-        {
-            Point attackTarget = PointDirectionUtils.ConvertDirectionToDestinationPoint(attacker.Position, direction);
-            return Attack(attacker, attackTarget);
-        }
-
         internal bool Attack(Character attacker, Point attackTarget)
         {
+            if (!attacker.CurrentWeapon.TargetablePoints(attacker.Position).Contains(attackTarget))
+                throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
+
             bool didAnything = false;
             foreach (Monster m in m_map.Monsters)
             {
+                int damageDone = attacker.CurrentWeapon.Damage.Roll();
                 if (m.Position == attackTarget)
                 {
-                    int damageDone = 1;
                     CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m));
                     m.CurrentHP -= damageDone;
                     if (m.CurrentHP <= 0)
@@ -58,7 +55,7 @@ namespace Magecrawl.GameEngine
             }
             if (!didAnything && attackTarget == m_player.Position)
             {
-                int damageDone = 1;
+                int damageDone = attacker.CurrentWeapon.Damage.Roll();
                 CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
                 m_player.CurrentHP -= damageDone;
                 if (m_player.CurrentHP <= 0)

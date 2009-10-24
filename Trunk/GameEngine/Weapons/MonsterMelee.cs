@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal class MeleeWeapon : WeaponBase
+    class MonsterMelee : WeaponBase
     {
-        internal MeleeWeapon()
+        internal MonsterMelee()
         {
         }
 
         public override DiceRoll Damage
         {
-            get 
+            get
             {
-                return new DiceRoll(1,2);
+                return new DiceRoll(1, 2);
             }
         }
 
         public override string Name
         {
-            get 
+            get
             {
-                return "Melee";
+                return "Monster Melee";
             }
         }
 
@@ -35,6 +34,10 @@ namespace Magecrawl.GameEngine.Weapons
             targetablePoints.Add(characterPosition + new Point(-1, 0));
             targetablePoints.Add(characterPosition + new Point(0, 1));
             targetablePoints.Add(characterPosition + new Point(0, -1));
+            targetablePoints.Add(characterPosition + new Point(1, 1));
+            targetablePoints.Add(characterPosition + new Point(-1, -1));
+            targetablePoints.Add(characterPosition + new Point(-1, 1));
+            targetablePoints.Add(characterPosition + new Point(1, -1));
 
             StripImpossibleToTargetPoints(targetablePoints);
 

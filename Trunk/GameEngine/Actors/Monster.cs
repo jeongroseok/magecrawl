@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -29,6 +30,14 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
+        public override IWeapon CurrentWeapon
+        {
+            get
+            {
+                return new GameEngine.Weapons.MonsterMelee();
+            }
+        }
+
         internal MonsterAction Action(CoreGameEngine engine)
         {
             if (engine.FOVManager.VisibleSingleShot(m_position, m_visionRange, engine.Player.Position))
@@ -39,8 +48,7 @@ namespace Magecrawl.GameEngine.Actors
                 // If we are next to the player
                 if (pathToPlayer != null && pathToPlayer.Count == 1)
                 {
-                    Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(m_position, pathToPlayer[0]);
-                    if (engine.Attack(this, towardsPlayer))
+                    if (engine.Attack(this, engine.Player.Position))
                         return MonsterAction.DidAction;
                 }
 

@@ -13,7 +13,6 @@ namespace Magecrawl.Keyboard
         None,
         Operate,
         Attack,
-        RangedAttack
     }
 
     internal class DefaultKeystrokeHandler : IKeystrokeHandler
@@ -90,25 +89,48 @@ namespace Magecrawl.Keyboard
         private void HandleDirection(Direction d)
         {
             if (m_chordKeystroke == ChordKeystrokeStatus.Operate)
-                m_engine.Operate(d);
-            else if (m_chordKeystroke == ChordKeystrokeStatus.Attack)
-                m_engine.PlayerAttack(d);
-            else if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
             {
-                Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, d);
-                if(m_listOfSelectablePoints.Contains(newSelection))
-                {
-                    SelectionPoint = newSelection;
-                    SelectionPoint = newSelection;
-                }
+                m_engine.Operate(d);
+            }
+            else if (m_chordKeystroke == ChordKeystrokeStatus.Attack)
+            {
+                MoveSelectionToNewPoint(d);
                 m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
                 m_gameInstance.UpdatePainters();
                 return;
             }
             else
+            {
                 m_engine.MovePlayer(d);
+            }
             m_chordKeystroke = ChordKeystrokeStatus.None;
             m_gameInstance.UpdatePainters();
+        }
+
+        private void MoveSelectionToNewPoint(Direction d)
+        {
+            Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, d);
+
+            // First try and see if we can just target that square
+            if (m_listOfSelectablePoints.Contains(newSelection))
+            {
+                SelectionPoint = newSelection;
+                SelectionPoint = newSelection;
+                return;
+            }
+            
+            // If not, we want to see if there's a square in that direction we can go
+            const int SelectionSearchLength = 5;
+            for (int i = 0; i < SelectionSearchLength; ++i)
+            {
+                newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(newSelection, d);
+                if (m_listOfSelectablePoints.Contains(newSelection))
+                {
+                    SelectionPoint = newSelection;
+                    SelectionPoint = newSelection;
+                    return;
+                }
+            }
         }
 
         #region Mappable key commands
@@ -207,15 +229,10 @@ namespace Magecrawl.Keyboard
 
         private void Attack()
         {
-            m_chordKeystroke = ChordKeystrokeStatus.Attack;
-        }
-
-        private void RangedAttack()
-        {
-            if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
+            if (m_chordKeystroke == ChordKeystrokeStatus.Attack)
             {
-                if(SelectionPoint != m_engine.Player.Position)
-                    m_engine.PlayerAttackRanged(SelectionPoint);
+                if (SelectionPoint != m_engine.Player.Position)
+                    m_engine.PlayerAttack(SelectionPoint);
                 InSelectionMode = false;
                 m_chordKeystroke = ChordKeystrokeStatus.None;
                 m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
@@ -224,14 +241,34 @@ namespace Magecrawl.Keyboard
             }
             else
             {
-                m_chordKeystroke = ChordKeystrokeStatus.RangedAttack;
-                SelectionPoint = m_engine.Player.Position;
-                InSelectionMode = true;
+                m_chordKeystroke = ChordKeystrokeStatus.Attack;
                 m_listOfSelectablePoints = m_engine.Player.CurrentWeapon.TargetablePoints(m_engine.Player.Position);
-                m_gameInstance.SendPaintersRequest("RangedAttackEnabled", null);
+                SetAttackInitialSpot(m_listOfSelectablePoints);
+                InSelectionMode = true;
+                m_gameInstance.SendPaintersRequest("RangedAttackEnabled", m_listOfSelectablePoints);
                 m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
                 m_gameInstance.UpdatePainters();
             }
+        }
+
+        private void SetAttackInitialSpot(List<Point> listOfSelectablePoints)
+        {
+            // If we can't find a better spot, use the player's position
+            SelectionPoint = m_engine.Player.Position;
+
+            foreach (ICharacter m in m_engine.Map.Monsters)
+            {
+                if (listOfSelectablePoints.Contains(m.Position))
+                {
+                    SelectionPoint = m.Position;
+                    return;
+                }
+            }
+        }
+
+        private void ChangeWeapon()
+        {
+            m_engine.IterateThroughWeapons();
         }
 
         private void TextBoxPageUp()

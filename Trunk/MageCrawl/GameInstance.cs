@@ -76,11 +76,19 @@ namespace Magecrawl
                 catch (PlayerDiedException)
                 {
                     // Put death information out here.
+                    m_painters.HandleRequest("DisableAll", null);
+                    m_painters.DrawNewFrame(m_console);
                     TextBox.AddText("Player has died.");
-                    TextBox.AddText("Press Any Key To Quit.");
+                    TextBox.AddText("Press 'q' to exit.");
                     TextBox.Draw(m_console);
                     m_console.Flush();
-                    libtcodWrapper.Keyboard.WaitForKeyPress(true);
+                    
+                    while (true)
+                    {
+                        if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
+                            break;
+                    }
+                    
                     IsQuitting = true;
                 }
             }

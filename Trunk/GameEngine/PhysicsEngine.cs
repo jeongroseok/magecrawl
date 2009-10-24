@@ -153,17 +153,6 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        internal bool Attack(Character attacker, Direction direction)
-        {
-            bool didAnything = m_combatEngine.Attack(attacker, direction);
-            if (didAnything)
-            {
-                m_timingEngine.ActorDidAction(attacker);
-                m_fovManager.Update(this, m_map, m_player);
-            }
-            return didAnything;
-        }
-
         internal bool Attack(Character attacker, Point target)
         {
             bool didAnything = m_combatEngine.Attack(attacker, target);
