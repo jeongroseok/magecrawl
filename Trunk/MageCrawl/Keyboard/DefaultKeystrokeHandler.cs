@@ -16,15 +16,13 @@ namespace Magecrawl.Keyboard
         RangedAttack
     }
 
-    internal delegate bool PointPredicate(Point toTest);
-
     internal class DefaultKeystrokeHandler : IKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
         private ChordKeystrokeStatus m_chordKeystroke;
         private Dictionary<NamedKey, MethodInfo> m_keyMappings;
-        private PointPredicate m_targetSelectionAllowable;
+        private List<Point> m_listOfSelectablePoints;
 
         public Point SelectionPoint { get; set; }
 
@@ -35,6 +33,8 @@ namespace Magecrawl.Keyboard
             m_engine = engine;
             m_gameInstance = instance;
             m_chordKeystroke = ChordKeystrokeStatus.None;
+            m_keyMappings = null;
+            m_listOfSelectablePoints = null;
         }
 
         public void HandleKeystroke(NamedKey keystroke)
@@ -96,7 +96,7 @@ namespace Magecrawl.Keyboard
             else if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
             {
                 Point newSelection = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, d);
-                if (m_targetSelectionAllowable == null || m_targetSelectionAllowable(newSelection))
+                if(m_listOfSelectablePoints.Contains(newSelection))
                 {
                     SelectionPoint = newSelection;
                     SelectionPoint = newSelection;
@@ -214,7 +214,8 @@ namespace Magecrawl.Keyboard
         {
             if (m_chordKeystroke == ChordKeystrokeStatus.RangedAttack)
             {
-                m_engine.PlayerAttackRanged(SelectionPoint);
+                if(SelectionPoint != m_engine.Player.Position)
+                    m_engine.PlayerAttackRanged(SelectionPoint);
                 InSelectionMode = false;
                 m_chordKeystroke = ChordKeystrokeStatus.None;
                 m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
@@ -226,7 +227,7 @@ namespace Magecrawl.Keyboard
                 m_chordKeystroke = ChordKeystrokeStatus.RangedAttack;
                 SelectionPoint = m_engine.Player.Position;
                 InSelectionMode = true;
-                m_targetSelectionAllowable = p => (Math.Abs(p.X - m_engine.Player.Position.X) + Math.Abs(p.Y - m_engine.Player.Position.Y) <= m_engine.Player.RangedAttackDistance);
+                m_listOfSelectablePoints = m_engine.Player.CurrentWeapon.TargetablePoints(m_engine.Player.Position);
                 m_gameInstance.SendPaintersRequest("RangedAttackEnabled", null);
                 m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
                 m_gameInstance.UpdatePainters();
