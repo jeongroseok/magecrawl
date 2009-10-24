@@ -25,8 +25,10 @@ namespace Magecrawl.GameUI.Map
             m_painters.Add(new MapDebugMovablePainter());
             m_painters.Add(new MapEffectsPainter());
             m_painters.Add(new MapDebugFOVPainter());
-            m_painters.Add(new MapCursorPainter());
             m_painters.Add(new PlayerAttackRangePainter());
+
+            // The cursor painter should be last
+            m_painters.Add(new MapCursorPainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)

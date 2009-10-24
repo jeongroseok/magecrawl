@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Weapons
 {
@@ -26,19 +27,18 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<Point> TargetablePoints(Point characterPosition)
+        public override List<WeaponPoint> TargetablePoints(Point characterPosition)
         {
-            List<Point> targetablePoints = new List<Point>();
+            List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
-            targetablePoints.Add(characterPosition + new Point(1, 0));
-            targetablePoints.Add(characterPosition + new Point(2, 0));
-            targetablePoints.Add(characterPosition + new Point(-1, 0));
-            targetablePoints.Add(characterPosition + new Point(-2, 0));
-            targetablePoints.Add(characterPosition + new Point(0, 1));
-            targetablePoints.Add(characterPosition + new Point(0, 2));
-            targetablePoints.Add(characterPosition + new Point(0, -1));
-            targetablePoints.Add(characterPosition + new Point(0, -2));
-
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 0), .5f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(2, 0), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 0), .5f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-2, 0), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, 1), .5f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, 2), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, -1), .5f));
+            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, -2), 1.0f));
             StripImpossibleToTargetPoints(targetablePoints);
 
             return targetablePoints;

@@ -27,19 +27,20 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<Point> TargetablePoints(Point characterPosition)
+        public override List<WeaponPoint> TargetablePoints(Point characterPosition)
         {
-            List<Point> targetablePoints = new List<Point>();
+            List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
-            const int SimpleBowRange = 5;
+            const int SimpleBowRange = 6;
             for (int i = -SimpleBowRange; i <= SimpleBowRange; ++i)
             {
                 for (int j = -SimpleBowRange; j <= SimpleBowRange; ++j)
                 {
-                    int distance = System.Math.Abs(i) + System.Math.Abs(j);
+                    int distance = System.Math.Abs(i) + Math.Abs(j);
                     bool allowable = (distance <= SimpleBowRange) && (distance > 2);
+                    float weaponStrength = 1.0f - (Math.Max(distance - 4, 0) * .25f);
                     if (allowable)
-                        targetablePoints.Add(new Point(characterPosition.X + i, characterPosition.Y + j));
+                        targetablePoints.Add(new WeaponPoint(new Point(characterPosition.X + i, characterPosition.Y + j), weaponStrength));
                 }
             }
 

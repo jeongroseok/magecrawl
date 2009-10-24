@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using libtcodWrapper;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
@@ -36,15 +37,16 @@ namespace Magecrawl.GameEngine
 
         internal bool Attack(Character attacker, Point attackTarget)
         {
-            if (!attacker.CurrentWeapon.TargetablePoints(attacker.Position).Contains(attackTarget))
+            if (!attacker.CurrentWeapon.PositionInTargetablePoints(attacker.Position, attackTarget))
                 throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
 
+            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attacker.Position, attackTarget);
             bool didAnything = false;
             foreach (Monster m in m_map.Monsters)
             {
-                int damageDone = attacker.CurrentWeapon.Damage.Roll();
                 if (m.Position == attackTarget)
                 {
+                    int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
                     CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m));
                     m.CurrentHP -= damageDone;
                     if (m.CurrentHP <= 0)
@@ -55,7 +57,7 @@ namespace Magecrawl.GameEngine
             }
             if (!didAnything && attackTarget == m_player.Position)
             {
-                int damageDone = attacker.CurrentWeapon.Damage.Roll();
+                int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
                 CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
                 m_player.CurrentHP -= damageDone;
                 if (m_player.CurrentHP <= 0)

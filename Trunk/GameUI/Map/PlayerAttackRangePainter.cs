@@ -13,7 +13,7 @@ namespace Magecrawl.GameUI.Map
         private Point m_mapUpCorner;
         private int m_mapWidth;
         private int m_mapHeight;
-        private List<Point> m_targetablePoints;
+        private List<WeaponPoint> m_targetablePoints;
 
         public PlayerAttackRangePainter()
         {
@@ -39,14 +39,15 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
-                foreach (Point position in m_targetablePoints)
+                foreach (WeaponPoint point in m_targetablePoints)
                 {
-                    Point screenPlacement = new Point(m_mapUpCorner.X + position.X + 1, m_mapUpCorner.Y + position.Y + 1);
+                    Point screenPlacement = new Point(m_mapUpCorner.X + point.Position.X + 1, m_mapUpCorner.Y + point.Position.Y + 1);
 
                     if (IsDrawableTile(screenPlacement))
                     {
+                        Color attackColor = Color.Interpolate(TCODColorPresets.Black, TCODColorPresets.BrightGreen, point.EffectiveStrength);
                         Color currentColor = screen.GetCharBackground(screenPlacement.X, screenPlacement.Y);
-                        Color newColor = Color.Interpolate(currentColor, TCODColorPresets.DarkYellow, .5f);
+                        Color newColor = Color.Interpolate(currentColor, attackColor, .5f);
                         screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, newColor);
                     }
                 }
@@ -59,7 +60,7 @@ namespace Magecrawl.GameUI.Map
             {
                 case "RangedAttackEnabled":
                     m_enabled = true;
-                    m_targetablePoints = (List<Point>)data;
+                    m_targetablePoints = (List<WeaponPoint>)data;
                     break;
                 case "RangedAttackDisabled":
                 case "DisableAll":
