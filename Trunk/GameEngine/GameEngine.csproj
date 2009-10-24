@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\IMapObject.cs" />
     <Compile Include="Interfaces\IMapTile.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />
     <Compile Include="MapObjects\MapObject.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="PublicGameEngine.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
+    <Compile Include="Weapons\MeleeWeapon.cs" />
+    <Compile Include="Weapons\SimpleBow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcodWrapper, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL" />

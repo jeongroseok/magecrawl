@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -17,11 +18,12 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
-        public int RangedAttackDistance
+        public IWeapon CurrentWeapon
         {
             get
             {
-                return 4;
+                //return new GameEngine.Weapons.MeleeWeapon();
+                return new GameEngine.Weapons.SimpleBow();
             }
         }
 
