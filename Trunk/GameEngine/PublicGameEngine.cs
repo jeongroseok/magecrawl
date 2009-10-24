@@ -77,15 +77,7 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        public bool PlayerAttack(Direction direction)
-        {
-            bool didAnything = m_engine.Attack(m_engine.Player, direction);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerAttackRanged(Point target)
+        public bool PlayerAttack(Point target)
         {
             bool didAnything = m_engine.Attack(m_engine.Player, target);
             if (didAnything)
@@ -149,6 +141,11 @@ namespace Magecrawl.GameEngine
             }
 
             return returnValue;
+        }
+
+        public void IterateThroughWeapons()
+        {
+            m_engine.Player.IterateThroughWeapons();
         }
     }
 }

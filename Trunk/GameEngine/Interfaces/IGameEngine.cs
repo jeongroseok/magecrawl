@@ -25,10 +25,11 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerWait();
         void Save();
         void Load();
-        bool PlayerAttack(Direction direction);
-        bool PlayerAttackRanged(Point target);
+        bool PlayerAttack(Point target);
         IList<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
+
+        void IterateThroughWeapons();
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();

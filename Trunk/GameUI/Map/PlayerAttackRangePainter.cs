@@ -1,4 +1,5 @@
-﻿using libtcodWrapper;
+﻿using System.Collections.Generic;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -12,6 +13,7 @@ namespace Magecrawl.GameUI.Map
         private Point m_mapUpCorner;
         private int m_mapWidth;
         private int m_mapHeight;
+        private List<Point> m_targetablePoints;
 
         public PlayerAttackRangePainter()
         {
@@ -19,6 +21,7 @@ namespace Magecrawl.GameUI.Map
             m_equipedWeapon = null;
             m_enabled = false;
             m_mapUpCorner = new Point();
+            m_targetablePoints = null;
             m_mapHeight = 0;
             m_mapWidth = 0;
         }
@@ -29,14 +32,14 @@ namespace Magecrawl.GameUI.Map
             m_playerPosition = engine.Player.Position;
             m_equipedWeapon = engine.Player.CurrentWeapon;
             m_mapHeight = engine.Map.Height;
-            m_mapWidth = engine.Map.Width;
+            m_mapWidth = engine.Map.Width;            
         }
 
         public override void DrawNewFrame(Console screen)
         {
             if (m_enabled)
             {
-                foreach (Point position in m_equipedWeapon.TargetablePoints(m_playerPosition))
+                foreach (Point position in m_targetablePoints)
                 {
                     Point screenPlacement = new Point(m_mapUpCorner.X + position.X + 1, m_mapUpCorner.Y + position.Y + 1);
 
@@ -56,8 +59,10 @@ namespace Magecrawl.GameUI.Map
             {
                 case "RangedAttackEnabled":
                     m_enabled = true;
+                    m_targetablePoints = (List<Point>)data;
                     break;
                 case "RangedAttackDisabled":
+                case "DisableAll":
                     m_enabled = false;
                     break;
             }

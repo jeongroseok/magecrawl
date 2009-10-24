@@ -55,7 +55,7 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public IEnumerable<IMapObject> MapObjects
+        public IList<IMapObject> MapObjects
         {
             get 
             {
@@ -63,7 +63,7 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public IEnumerable<ICharacter> Monsters
+        public IList<ICharacter> Monsters
         {
             get 
             {

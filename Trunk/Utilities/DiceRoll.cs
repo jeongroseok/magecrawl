@@ -56,21 +56,22 @@ namespace Magecrawl.Utilities
                 return (DiceFaces * Rolls) + ToAdd;
         }
 
-        public string PrintableString
+        public override string ToString()
         {
-            get
-            {
-                bool hasMult = Multiplier != 0;
-                bool hasConstant = ToAdd != 0;
+            bool hasMult = Multiplier != 1;
+            bool hasConstant = ToAdd != 0;
 
-                string multiplierFrontString = hasMult ? Multiplier.ToString() + "*" : String.Empty;
-                string frontParen = hasMult || hasConstant ? "(" : String.Empty;
-                string endParen = hasMult || hasConstant ? ")" : String.Empty;
-                string constantSign = ToAdd >= 0 ? "+" : "-";
-                string constantEnd = hasConstant ? constantSign + ToAdd.ToString() : String.Empty;
+            string multiplierFrontString = hasMult ? Multiplier.ToString() + "*" : String.Empty;
+            string frontParen = hasMult || hasConstant ? "(" : String.Empty;
+            string endParen = hasMult || hasConstant ? ")" : String.Empty;
+            string constantSign = ToAdd >= 0 ? "+" : "-";
+            string constantEnd = hasConstant ? constantSign + ToAdd.ToString() : String.Empty;
 
-                return string.Format("{0}{1}{2}d{3}{4}{5}", multiplierFrontString, frontParen, Rolls.ToString(), DiceFaces.ToString(), endParen, constantEnd);
-            }
+            // 1d1 doesn't look nice
+            if (!hasMult && !hasConstant && Rolls == 1 && DiceFaces == 1)
+                return "1";
+
+            return string.Format("{0}{1}{2}d{3}{4}{5}", multiplierFrontString, frontParen, Rolls.ToString(), DiceFaces.ToString(), constantEnd, endParen);
         }
 
         #region SaveLoad

@@ -39,6 +39,9 @@ namespace Magecrawl.GameUI.Map
                 case "MapCursorDisabled":
                     m_isSelectionCursor = false;
                     break;
+                case "DisableAll":
+                    m_isSelectionCursor = false;
+                    break;
             }
         }
     }

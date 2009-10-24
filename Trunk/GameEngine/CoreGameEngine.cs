@@ -101,19 +101,9 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Game Loaded.");
         }
 
-        internal bool IsMovablePoint(Map map, Player player, Point p)
-        {
-            return m_physicsEngine.IsMovablePoint(map, player, p);
-        }
-
         internal bool Move(Character c, Direction direction)
         {
             return m_physicsEngine.Move(c, direction);
-        }
-
-        internal bool Attack(Character attacker, Direction direction)
-        {
-            return m_physicsEngine.Attack(attacker, direction);
         }
 
         internal bool Attack(Character attacker, Point target)

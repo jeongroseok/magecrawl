@@ -15,12 +15,12 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        IEnumerable<IMapObject> MapObjects
+        IList<IMapObject> MapObjects
         {
             get;
         }
 
-        IEnumerable<ICharacter> Monsters
+        IList<ICharacter> Monsters
         {
             get;
         }

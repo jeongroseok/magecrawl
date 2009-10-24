@@ -5,11 +5,15 @@ using System.Xml.Serialization;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Weapons;
 
 namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
+        private static IWeapon[] m_weaponList = { new MeleeWeapon(), new SimpleBow() };
+        private int m_weaponPosition = 0;
+
         public Player() : base()
         {
         }
@@ -18,13 +22,19 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
-        public IWeapon CurrentWeapon
+        public override IWeapon CurrentWeapon
         {
             get
             {
-                //return new GameEngine.Weapons.MeleeWeapon();
-                return new GameEngine.Weapons.SimpleBow();
+                return m_weaponList[m_weaponPosition];
             }
+        }
+
+        public void IterateThroughWeapons()
+        {
+            m_weaponPosition++;
+            if (m_weaponPosition >= m_weaponList.Length)
+                m_weaponPosition = 0;
         }
 
         #region SaveLoad
