@@ -14,5 +14,13 @@ namespace Magecrawl.GameEngine.Magic
         {
             caster.Heal(new DiceRoll(1, 3, 1).Roll());
         }
+
+        internal override int MagicCost
+        {
+            get
+            {
+                return 3;
+            }
+        }
     }
 }
