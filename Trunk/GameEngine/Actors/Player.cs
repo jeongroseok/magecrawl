@@ -17,6 +17,11 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
+        public void Heal(short toHeal)
+        {
+            CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
+        }
+
         #region SaveLoad
 
         public override void ReadXml(XmlReader reader)

@@ -28,6 +28,6 @@ namespace Magecrawl.GameEngine.Interfaces
         int UniqueID
         {
             get;
-        }
+        }        
     }
 }

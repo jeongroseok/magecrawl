@@ -223,7 +223,7 @@ namespace MageCrawl
                 m_chordKeystroke = ChordKeystrokeStatus.RangedAttack;
                 m_engine.TargetSelection = m_engine.Player.Position;
                 m_engine.SelectingTarget = true;
-                m_targetSelectionAllowable = p => (Math.Abs(p.X - m_engine.Player.Position.X) + Math.Abs(p.Y - m_engine.Player.Position.Y) <= 4);
+                m_targetSelectionAllowable = p => (PointDirectionUtils.LatticeDistance(p, m_engine.Player.Position) <= 4);
                 return KeystrokeResult.InRangedAttack;
             }
         }

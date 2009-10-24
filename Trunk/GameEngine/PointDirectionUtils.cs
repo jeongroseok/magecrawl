@@ -86,5 +86,10 @@ namespace Magecrawl.GameEngine
                     throw new System.ArgumentOutOfRangeException("ConvertPositionDeltaToDirection - No direction?");
             }
         }
+
+        public static int LatticeDistance(Point point1, Point point2)
+        {
+            return Math.Abs(point1.X - point2.X) + Math.Abs(point1.Y - point2.Y);
+        }
     }
 }
