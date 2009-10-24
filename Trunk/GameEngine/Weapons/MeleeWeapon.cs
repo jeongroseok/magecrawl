@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<WeaponPoint> TargetablePoints(Point characterPosition)
+        public override List<WeaponPoint> CalculateTargetablePoints(Point characterPosition)
         {
             List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
@@ -40,7 +40,7 @@ namespace Magecrawl.GameEngine.Weapons
             targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 1), .25f));
             targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, -1), .25f));
 
-            StripImpossibleToTargetPoints(targetablePoints);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints);
 
             return targetablePoints;
         }

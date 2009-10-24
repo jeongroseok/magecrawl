@@ -4,6 +4,7 @@ using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {
@@ -12,6 +13,9 @@ namespace Magecrawl.GameEngine
         private CoreTimingEngine m_timingEngine;
         private FOVManager m_fovManager;
         private CombatEngine m_combatEngine;
+
+        // Fov FilterNotMovablePointsFromList
+        private Dictionary<Point, bool> m_movableHash;
 
         // Cared and fed by CoreGameEngine, local copy for convenience
         private Player m_player;
@@ -24,6 +28,7 @@ namespace Magecrawl.GameEngine
             m_timingEngine = new CoreTimingEngine();
             m_fovManager = new FOVManager(this, map, player);
             m_combatEngine = new CombatEngine(player, map);
+            m_movableHash = new Dictionary<Point, bool>();
         }
 
         public void Dispose()
@@ -49,6 +54,25 @@ namespace Magecrawl.GameEngine
 
             // We have a new map, recalc LOS with a new map
             m_fovManager.UpdateNewMap(this, m_map, player);    
+        }
+
+        // This needs to be really _fast_. We're going to stick the not moveable points in a has table,
+        // then compare each pointList to the terrian and if still good see if in hash table
+        public void FilterNotTargetablePointsFromList(List<WeaponPoint> pointList)
+        {
+            m_movableHash.Clear();
+
+            foreach (MapObject obj in m_map.MapObjects)
+            {
+                if (obj.IsSolid)
+                    m_movableHash[obj.Position] = true;
+            }
+
+            // Remove it if it's not on map, or is wall, or same square as something solid from above
+            pointList.RemoveAll(point => 
+                !m_map.IsPointOnMap(point.Position) || 
+                m_map[point.Position.X, point.Position.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Wall || 
+                m_movableHash.ContainsKey(point.Position));
         }
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
@@ -85,7 +109,7 @@ namespace Magecrawl.GameEngine
 
         // This is a slow operation. It should not be called multiple times in a row!
         // Call CalculateMoveablePointGrid instead~!
-        internal bool IsMovablePoint(Map map, Player player, Point p)
+        private bool IsMovablePoint(Map map, Player player, Point p)
         {
             bool isMoveablePoint = map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
 

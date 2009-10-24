@@ -26,20 +26,20 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<WeaponPoint> TargetablePoints(Point characterPosition)
+        public override List<WeaponPoint> CalculateTargetablePoints(Point characterCenter)
         {
             List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, -1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(1, 0), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(-1, 0), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(0, 1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(0, -1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(1, 1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(-1, -1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(-1, 1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(characterCenter + new Point(1, -1), 1.0f));
 
-            StripImpossibleToTargetPoints(targetablePoints);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints);
 
             return targetablePoints;
         }

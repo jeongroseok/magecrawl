@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<WeaponPoint> TargetablePoints(Point characterPosition)
+        public override List<WeaponPoint> CalculateTargetablePoints(Point characterCenter)
         {
             List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
@@ -40,11 +40,11 @@ namespace Magecrawl.GameEngine.Weapons
                     bool allowable = (distance <= SimpleBowRange) && (distance > 2);
                     float weaponStrength = 1.0f - (Math.Max(distance - 4, 0) * .25f);
                     if (allowable)
-                        targetablePoints.Add(new WeaponPoint(new Point(characterPosition.X + i, characterPosition.Y + j), weaponStrength));
+                        targetablePoints.Add(new WeaponPoint(new Point(characterCenter.X + i, characterCenter.Y + j), weaponStrength));
                 }
             }
 
-            StripImpossibleToTargetPoints(targetablePoints);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints);
             
             return targetablePoints;
         }
