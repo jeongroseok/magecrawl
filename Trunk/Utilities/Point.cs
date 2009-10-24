@@ -2,6 +2,8 @@
 {
     public struct Point
     {
+        public static Point Invalid = new Point(-1, -1);
+
         public Point(int x, int y) : this()
         {
             X = x;

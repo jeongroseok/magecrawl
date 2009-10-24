@@ -6,6 +6,7 @@ using Magecrawl.Utilities;
 namespace Magecrawl.GameEngine.Interfaces
 {
     public delegate void PlayerDiedDelegate();
+    public delegate void TextOutputFromGame(string s);
 
     public interface IGameEngine : IDisposable
     {
@@ -24,11 +25,12 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerWait();
         void Save();
         void Load();
-        bool PlayerAttack(Direction direction);
-        bool PlayerAttackRanged(Point target);
+        bool PlayerAttack(Point target);
         bool PlayerCastSpell(string spellName);
         IList<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
+
+        void IterateThroughWeapons();
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();

@@ -11,8 +11,8 @@ namespace Magecrawl.GameUI.Map
         public const int MapDrawnHeight = 42;
         public static Point ScreenCenter = new Point((MapDrawnWidth - 1) / 2, (MapDrawnHeight - 2) / 2);
 
-        protected const int OffscreenWidth = MapDrawnWidth + 2;
-        protected const int OffscreenHeight = MapDrawnHeight + 2;
+        protected const int OffscreenWidth = MapDrawnWidth + 1;
+        protected const int OffscreenHeight = MapDrawnHeight + 1;
 
         public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner);
         public abstract void DrawNewFrame(Console screen);

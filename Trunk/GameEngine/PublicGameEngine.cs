@@ -11,16 +11,12 @@ namespace Magecrawl.GameEngine
     // This is very synchronous, but easy to do.
     public class PublicGameEngine : IGameEngine
     {
-        public delegate void TextOutputFromGame(string s);
-
-        private static TextOutputFromGame m_textOutput;
-
         private CoreGameEngine m_engine;
 
         public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
-            m_textOutput += textOutput;
-            m_engine = new CoreGameEngine(diedDelegate);
+            // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
+            m_engine = new CoreGameEngine(textOutput, diedDelegate);
         }
 
         public void Dispose()
@@ -42,13 +38,6 @@ namespace Magecrawl.GameEngine
             set;
         }
 
-        // This is static for easy of use. Else, we'd have to pass this public interface throughout all the GameEngine.
-        // If we ever have multiple threads, we'll need to mutex it.
-        internal static void SendTextOutput(string s)
-        {
-            m_textOutput(s);
-        }
-            
         public IPlayer Player
         {
             get
@@ -89,15 +78,7 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        public bool PlayerAttack(Direction direction)
-        {
-            bool didAnything = m_engine.Attack(m_engine.Player, direction);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerAttackRanged(Point target)
+        public bool PlayerAttack(Point target)
         {
             bool didAnything = m_engine.Attack(m_engine.Player, target);
             if (didAnything)
@@ -177,6 +158,11 @@ namespace Magecrawl.GameEngine
             }
 
             return returnValue;
+        }
+
+        public void IterateThroughWeapons()
+        {
+            m_engine.Player.IterateThroughWeapons();
         }
     }
 }

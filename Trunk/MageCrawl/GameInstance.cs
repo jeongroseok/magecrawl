@@ -40,24 +40,11 @@ namespace Magecrawl
         internal void Go()
         {
             m_console = UIHelper.SetupUI();
-            PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
+            TextOutputFromGame outputDelegate = new TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
             m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
 
-            /* 
-             * BCL: Creating the KeystrokeManager and all IKeystrokeHandlers. In the absence of something like MEF, we can
-             * create them all at the top level and initialize them with whatever.
-             * 
-             * Switching between handlers is as simple as setting the CurrentHandlerName property on the KeystrokeManager, but
-             * the difficulty is that KeystrokeManager is internal to MageCrawl. If we want other handlers to live in lower-
-             * level assemblies, we need some way to set this property, either through a singleton public KeystrokeManager, or
-             * through the GameEngine or GameInstance or whatever.
-             */
-            m_keystroke = new KeystrokeManager(m_engine);
-            DefaultKeystrokeHandler defaultHandler = new DefaultKeystrokeHandler(m_engine, this);
-            defaultHandler.LoadKeyMappings();
-            m_keystroke.Handlers.Add("Default", defaultHandler);
-            m_keystroke.CurrentHandlerName = "Default";
+            SetupKeyboardHandlers();
 
             // First update before event loop so we have a map to display
             m_painters.UpdateFromNewData(m_engine);
@@ -76,15 +63,62 @@ namespace Magecrawl
                 catch (PlayerDiedException)
                 {
                     // Put death information out here.
+                    m_painters.HandleRequest("DisableAll", null);
+                    m_painters.DrawNewFrame(m_console);
                     TextBox.AddText("Player has died.");
-                    TextBox.AddText("Press Any Key To Quit.");
+                    TextBox.AddText("Press 'q' to exit.");
                     TextBox.Draw(m_console);
                     m_console.Flush();
-                    libtcodWrapper.Keyboard.WaitForKeyPress(true);
+                    
+                    while (true)
+                    {
+                        if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
+                            break;
+                    }
+                    
                     IsQuitting = true;
                 }
             }
             while (!m_console.IsWindowClosed() && !IsQuitting);
+        }
+
+        private void SetupKeyboardHandlers()
+        {
+            /* 
+             * BCL: Creating the KeystrokeManager and all IKeystrokeHandlers. In the absence of something like MEF, we can
+             * create them all at the top level and initialize them with whatever.
+             * 
+             * Switching between handlers is as simple as setting the CurrentHandlerName property on the KeystrokeManager, but
+             * the difficulty is that KeystrokeManager is internal to MageCrawl. If we want other handlers to live in lower-
+             * level assemblies, we need some way to set this property, either through a singleton public KeystrokeManager, or
+             * through the GameEngine or GameInstance or whatever.
+             */
+            m_keystroke = new KeystrokeManager(m_engine);
+            
+            DefaultKeystrokeHandler defaultHandler = new DefaultKeystrokeHandler(m_engine, this);
+            defaultHandler.LoadKeyMappings(true);
+            m_keystroke.Handlers.Add("Default", defaultHandler);
+
+            AttackKeystrokeHandler attackHandler = new AttackKeystrokeHandler(m_engine, this);
+            attackHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Attack", attackHandler);
+
+            OperateKeystrokeHandler operateHandler = new OperateKeystrokeHandler(m_engine, this);
+            operateHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Operate", operateHandler);
+
+            m_keystroke.CurrentHandlerName = "Default";
+        }
+
+        internal void SetHandlerName(string s)
+        {
+            m_keystroke.CurrentHandlerName = s;
+            m_keystroke.CurrentHandler.NowPrimaried();
+        }
+
+        internal void ResetHandlerName()
+        {
+            m_keystroke.CurrentHandlerName = "Default";
         }
 
         private void HandlePlayerDied()

@@ -1,4 +1,5 @@
-﻿using libtcodWrapper;
+﻿using System.Collections.Generic;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -7,18 +8,20 @@ namespace Magecrawl.GameUI.Map
     internal sealed class PlayerAttackRangePainter : MapPainterBase
     {
         private Point m_playerPosition;
-        private int m_range;
+        private IWeapon m_equipedWeapon;
         private bool m_enabled;
         private Point m_mapUpCorner;
         private int m_mapWidth;
         private int m_mapHeight;
+        private List<WeaponPoint> m_targetablePoints;
 
         public PlayerAttackRangePainter()
         {
             m_playerPosition = new Point();
-            m_range = 0;
+            m_equipedWeapon = null;
             m_enabled = false;
             m_mapUpCorner = new Point();
+            m_targetablePoints = null;
             m_mapHeight = 0;
             m_mapWidth = 0;
         }
@@ -27,26 +30,25 @@ namespace Magecrawl.GameUI.Map
         {
             m_mapUpCorner = mapUpCorner;
             m_playerPosition = engine.Player.Position;
-            m_range = engine.Player.RangedAttackDistance;
+            m_equipedWeapon = engine.Player.CurrentWeapon;
             m_mapHeight = engine.Map.Height;
-            m_mapWidth = engine.Map.Width;
+            m_mapWidth = engine.Map.Width;            
         }
 
         public override void DrawNewFrame(Console screen)
         {
             if (m_enabled)
             {
-                for (int i = 0; i < m_mapWidth; ++i)
+                foreach (WeaponPoint point in m_targetablePoints)
                 {
-                    for (int j = 0; j < m_mapHeight; ++j)
+                    Point screenPlacement = new Point(m_mapUpCorner.X + point.Position.X + 1, m_mapUpCorner.Y + point.Position.Y + 1);
+
+                    if (IsDrawableTile(screenPlacement))
                     {
-                        bool allowable = System.Math.Abs(i - m_playerPosition.X) + System.Math.Abs(j - m_playerPosition.Y) <= m_range;
-                        if (allowable)
-                        {
-                            Color currentColor = screen.GetCharBackground(m_mapUpCorner.X + i + 1, m_mapUpCorner.Y + j + 1);
-                            Color newColor = Color.Interpolate(currentColor, TCODColorPresets.DarkYellow, .5f);
-                            screen.SetCharBackground(m_mapUpCorner.X + i + 1, m_mapUpCorner.Y + j + 1, newColor);
-                        }
+                        Color attackColor = Color.Interpolate(TCODColorPresets.Black, TCODColorPresets.BrightGreen, point.EffectiveStrength);
+                        Color currentColor = screen.GetCharBackground(screenPlacement.X, screenPlacement.Y);
+                        Color newColor = Color.Interpolate(currentColor, attackColor, .5f);
+                        screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, newColor);
                     }
                 }
             }
@@ -58,8 +60,10 @@ namespace Magecrawl.GameUI.Map
             {
                 case "RangedAttackEnabled":
                     m_enabled = true;
+                    m_targetablePoints = (List<WeaponPoint>)data;
                     break;
                 case "RangedAttackDisabled":
+                case "DisableAll":
                     m_enabled = false;
                     break;
             }
