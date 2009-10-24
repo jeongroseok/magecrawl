@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
 
@@ -24,6 +23,14 @@ namespace Magecrawl.GameEngine
             m_timingEngine = new CoreTimingEngine();
             m_fovManager = new FOVManager(this, map, player);
             m_combatEngine = new CombatEngine(player, map);
+        }
+
+        public CombatEngine CombatEngine
+        {
+            get
+            {
+                return m_combatEngine;
+            }
         }
 
         public void Dispose()
@@ -175,15 +182,23 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
+        internal void CastSpell(CoreGameEngine engine, Character attacker, SpellBase spell)
+        {
+            spell.Cast(attacker, engine, this.m_combatEngine);
+            m_timingEngine.ActorDidAction(attacker);
+            m_fovManager.Update(this, m_map, m_player);
+        }
+        
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
             Character nextCharacter = m_timingEngine.GetNextActor(m_player, m_map);
-            if (nextCharacter is Player)
-                return;
-
-            Monster monster = nextCharacter as Monster;
-            monster.Action(engine);
+            while (!(nextCharacter is Player))
+            {
+                Monster monster = nextCharacter as Monster;
+                monster.Action(engine);
+                nextCharacter = m_timingEngine.GetNextActor(m_player, m_map);
+            }
         }
     }
 }

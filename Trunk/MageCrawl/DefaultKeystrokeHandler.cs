@@ -243,6 +243,18 @@ namespace MageCrawl
             return KeystrokeResult.TextBoxClear;
         }
 
+        private KeystrokeResult HealSpell()
+        {
+            m_engine.PlayerCastSpell("Heal");
+            return KeystrokeResult.Action;
+        }
+
+        private KeystrokeResult BlastSpell()
+        {
+            m_engine.PlayerCastSpell("Blast");
+            return KeystrokeResult.Action;
+        }
+
         #endregion
     }
 }
