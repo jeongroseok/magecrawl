@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using System.IO;
 
 namespace Magecrawl.GameEngine
 {
@@ -25,13 +26,10 @@ namespace Magecrawl.GameEngine
 
         internal Map(int width, int height)
         {
-            m_width = width;
-            m_height = height;
-            m_map = new MapTile[width, height];
             m_mapObjects = new List<MapObject>();
             m_monsterList = new List<Monster>();
 
-            CreateDemoMap(width, height);
+            CreateDemoMap();
         }
 
         internal bool KillMonster(Monster m)
@@ -79,29 +77,36 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        private void CreateDemoMap(int width, int height)
+        private void CreateDemoMap()
         {
-            for (int i = 0; i < width; ++i)
-            {
-                for (int j = 0; j < height; ++j)
-                {
-                    TerrainType type = TerrainType.Floor;
-                    if (i == 0 || j == 0 || i == (m_width - 1) || j == (m_height - 1))
-                        type = TerrainType.Wall;
+            using(StreamReader reader = File.OpenText("map.txt"))
+            {              
+                string sizeLine = reader.ReadLine();
+                string [] sizes = sizeLine.Split(' ');
+                m_width = Int32.Parse(sizes[0]);
+                m_height = Int32.Parse(sizes[0]);
+                m_map = new MapTile[m_width, m_height];
 
-                    m_map[i, j] = new MapTile(type);
+                for (int j = 0; j < m_height; ++j)
+                {
+                    string tileLine = reader.ReadLine();
+                    for (int i = 0; i < m_width; ++i)
+                    {
+                        m_map[i, j] = new MapTile();
+                        if (tileLine[i] != '#')
+                            m_map[i, j].Terrain = TerrainType.Floor;
+                        switch (tileLine[i])
+                        {
+                            case ':':
+                                m_mapObjects.Add(new MapDoor(new Point(i, j)));
+                                break;
+                            case 'M':
+                                m_monsterList.Add(new Monster(i, j));
+                                break;
+                        }
+                    }
                 }
             }
-
-            m_map[30, 1].Terrain = TerrainType.Wall;
-            m_mapObjects.Add(new MapDoor(new Point(30, 2)));
-            m_map[30, 3].Terrain = TerrainType.Wall;
-
-            m_monsterList.Add(new Monster(10, 10));
-
-            m_monsterList.Add(new Monster(3, 10));
-
-            m_monsterList.Add(new Monster(10, 3));
         }
 
         internal bool IsPointOnMap(Point p)
