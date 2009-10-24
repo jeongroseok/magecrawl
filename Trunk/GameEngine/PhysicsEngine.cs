@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {
