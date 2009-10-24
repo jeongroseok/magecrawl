@@ -42,8 +42,9 @@
   -->
   <ItemGroup>
     <Compile Include="ColorGenerator.cs" />
-    <Compile Include="Direction.cs" />
+    <Compile Include="DiceRoll.cs" />
     <Compile Include="Point.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="PointDirectionUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,5 +54,6 @@
       <HintPath>..\dist\libtcodWrapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
 </Project>

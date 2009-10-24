@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\IMapObject.cs" />
     <Compile Include="Interfaces\IMapTile.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />
     <Compile Include="MapObjects\MapObject.cs" />
