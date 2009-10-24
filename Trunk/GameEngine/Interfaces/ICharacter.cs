@@ -39,5 +39,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }        
+
+        IWeapon CurrentWeapon
+        {
+            get;
+        }
     }
 }

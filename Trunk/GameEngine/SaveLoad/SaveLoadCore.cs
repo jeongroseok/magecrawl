@@ -11,17 +11,12 @@ namespace Magecrawl.GameEngine.SaveLoad
     {
         private const int SaveVersion = 1;
 
-        // This is not thread safe, but serialization seems to create it's own
-        // instance of this class on save/load?
-        private static CoreGameEngine m_engine;
-
         private bool useSavegameCompression = false;
         private bool permDeath = false;
 
         internal bool SaveGame(CoreGameEngine engine)
         {
-            m_engine = engine;
-            string filename = m_engine.Player.Name + ".sav";
+            string filename = CoreGameEngine.Instance.Player.Name + ".sav";
             if (useSavegameCompression)
                 SaveGameCompressed(filename);
             else
@@ -32,8 +27,7 @@ namespace Magecrawl.GameEngine.SaveLoad
 
         internal bool LoadGame(CoreGameEngine engine)
         {
-            m_engine = engine;
-            string filename = m_engine.Player.Name + ".sav";
+            string filename = CoreGameEngine.Instance.Player.Name + ".sav";
             if (useSavegameCompression)
                 LoadGameCompressed(filename);
             else
@@ -70,7 +64,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             Player loadPlayer = new Player();
             loadPlayer.ReadXml(reader);
 
-            m_engine.SetWithSaveData(loadPlayer, loadMap);
+            CoreGameEngine.Instance.SetWithSaveData(loadPlayer, loadMap);
 
             reader.ReadEndElement();
         }
@@ -81,10 +75,10 @@ namespace Magecrawl.GameEngine.SaveLoad
             writer.WriteElementString("Version", SaveVersion.ToString());
           
             writer.WriteStartElement(string.Format("Map{0}", 0));
-            (m_engine.Map as Map).WriteXml(writer);
+            (CoreGameEngine.Instance.Map as Map).WriteXml(writer);
             writer.WriteEndElement();
 
-            (m_engine.Player as Player).WriteXml(writer);
+            (CoreGameEngine.Instance.Player as Player).WriteXml(writer);
 
             writer.WriteEndElement();
         }

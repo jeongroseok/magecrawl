@@ -11,6 +11,7 @@
 <KeyMapping Key="TCODK_PAGEUP" Action="TextBoxPageUp" />
 <KeyMapping Key="TCODK_PAGEDOWN" Action="TextBoxPageDown" />
 <KeyMapping Key="TCODK_BACKSPACE" Action="TextBoxClear" />
+<KeyMapping Key="TCODK_ESCAPE" Action="Escape" />
 <KeyMapping Key="TCODK_F1" Action="MoveableOnOff" />
 <KeyMapping Key="TCODK_F2" Action="DebuggingFOVOnOff" />
   
@@ -20,7 +21,7 @@
 <KeyMapping Key="S" Action="Save" />
 <KeyMapping Key="." Action="Wait" />
 <KeyMapping Key="a" Action="Attack" />
-<KeyMapping Key="r" Action="RangedAttack" />
+<KeyMapping Key="+" Action="ChangeWeapon" />
 <KeyMapping Key="h" Action="HealSpell" />
 <KeyMapping Key="b" Action="BlastSpell" />
 </KeyMappings>

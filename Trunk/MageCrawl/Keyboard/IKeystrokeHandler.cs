@@ -6,6 +6,9 @@ namespace Magecrawl.Keyboard
     public interface IKeystrokeHandler
     {
         void HandleKeystroke(NamedKey keystroke);
+
+        // Called when set as primary keyboard handler
+        void NowPrimaried();
     }
 
     public struct NamedKey

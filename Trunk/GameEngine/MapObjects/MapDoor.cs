@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.MapObjects
         private bool m_opened;
 
         public MapDoor()
-            : this(new Point(-1, -1), false)
+            : this(Point.Invalid, false)
         {
         }
 
@@ -61,6 +61,8 @@ namespace Magecrawl.GameEngine.MapObjects
             m_opened = !m_opened;
         }
 
+        #region SaveLoad
+
         public override void ReadXml(XmlReader reader)
         {
             m_opened = Boolean.Parse(reader.ReadElementContentAsString());
@@ -73,5 +75,7 @@ namespace Magecrawl.GameEngine.MapObjects
             writer.WriteElementString("DoorOpen", m_opened.ToString());
             m_position.WriteToXml(writer, "Position");
         }
+
+        #endregion
     }
 }

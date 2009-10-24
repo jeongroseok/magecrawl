@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
@@ -36,21 +35,19 @@ namespace Magecrawl.GameEngine
             m_map = map;        
         }
 
-        internal bool Attack(Character attacker, Direction direction)
-        {
-            Point attackTarget = PointDirectionUtils.ConvertDirectionToDestinationPoint(attacker.Position, direction);
-            return Attack(attacker, attackTarget);
-        }
-
         internal bool Attack(Character attacker, Point attackTarget)
         {
+            if (!attacker.CurrentWeapon.PositionInTargetablePoints(attacker.Position, attackTarget))
+                throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
+
+            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attacker.Position, attackTarget);
             bool didAnything = false;
             foreach (Monster m in m_map.Monsters)
             {
                 if (m.Position == attackTarget)
                 {
-                    int damageDone = 1;
-                    PublicGameEngine.SendTextOutput(CreateDamageString(damageDone, attacker, m));
+                    int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
+                    CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m));
                     m.CurrentHP -= damageDone;
                     if (m.CurrentHP <= 0)
                         m_map.KillMonster(m);
@@ -60,11 +57,11 @@ namespace Magecrawl.GameEngine
             }
             if (!didAnything && attackTarget == m_player.Position)
             {
-                int damageDone = 1;
-                PublicGameEngine.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
+                int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
+                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
                 m_player.CurrentHP -= damageDone;
                 if (m_player.CurrentHP <= 0)
-                    CoreGameEngine.PlayerDied();
+                    CoreGameEngine.Instance.PlayerDied();
                 didAnything = true;
             }
             return didAnything;
@@ -77,7 +74,7 @@ namespace Magecrawl.GameEngine
             if (toDamage != null)
             {
                 int damageDone = spell.Damage;
-                PublicGameEngine.SendTextOutput(CreateDamageString(damageDone, attacker, toDamage));
+                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, toDamage));
                 toDamage.CurrentHP -= damageDone;
                 if (toDamage.CurrentHP <= 0)
                     m_map.KillMonster(toDamage);
