@@ -7,8 +7,9 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal class SimpleBow : WeaponBase
     {   
-        internal SimpleBow()
+        internal SimpleBow(ICharacter owner)
         {
+            m_owner = owner;
         }
 
         public override DiceRoll Damage
@@ -27,7 +28,7 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<WeaponPoint> CalculateTargetablePoints(Point characterCenter)
+        public override List<WeaponPoint> CalculateTargetablePoints()
         {
             List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
@@ -40,11 +41,11 @@ namespace Magecrawl.GameEngine.Weapons
                     bool allowable = (distance <= SimpleBowRange) && (distance > 2);
                     float weaponStrength = 1.0f - (Math.Max(distance - 4, 0) * .25f);
                     if (allowable)
-                        targetablePoints.Add(new WeaponPoint(new Point(characterCenter.X + i, characterCenter.Y + j), weaponStrength));
+                        targetablePoints.Add(new WeaponPoint(new Point(m_owner.Position.X + i, m_owner.Position.Y + j), weaponStrength));
                 }
             }
 
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision);
             
             return targetablePoints;
         }

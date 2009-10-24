@@ -7,8 +7,9 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal class MeleeWeapon : WeaponBase
     {
-        internal MeleeWeapon()
+        internal MeleeWeapon(ICharacter owner)
         {
+            m_owner = owner;
         }
 
         public override DiceRoll Damage
@@ -27,20 +28,20 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<WeaponPoint> CalculateTargetablePoints(Point characterPosition)
+        public override List<WeaponPoint> CalculateTargetablePoints()
         {
             List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
 
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, 1), .25f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, -1), .25f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(-1, 1), .25f));
-            targetablePoints.Add(new WeaponPoint(characterPosition + new Point(1, -1), .25f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 0), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 0), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, 1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, -1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 1), .25f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, -1), .25f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 1), .25f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, -1), .25f));
 
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision);
 
             return targetablePoints;
         }

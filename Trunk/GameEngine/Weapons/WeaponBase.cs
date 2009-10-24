@@ -7,6 +7,8 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal abstract class WeaponBase : IWeapon
     {
+        protected ICharacter m_owner;
+
         public abstract DiceRoll Damage
         {
             get;
@@ -17,11 +19,11 @@ namespace Magecrawl.GameEngine.Weapons
             get;
         }
 
-        public abstract List<WeaponPoint> CalculateTargetablePoints(Point characterCenter);
+        public abstract List<WeaponPoint> CalculateTargetablePoints();
 
-        public float EffectiveStrengthAtPoint(Point characterCenter, Point pointOfInterest)
+        public float EffectiveStrengthAtPoint(Point pointOfInterest)
         {
-            foreach (WeaponPoint p in CalculateTargetablePoints(characterCenter))
+            foreach (WeaponPoint p in CalculateTargetablePoints())
             {
                 if (p.Position == pointOfInterest)
                     return p.EffectiveStrength;
@@ -29,12 +31,12 @@ namespace Magecrawl.GameEngine.Weapons
             throw new System.ArgumentException("Asked for effective strength at point not targetable?");
         }
 
-        public bool PositionInTargetablePoints(Point characterCenter, Point pointOfInterest)
+        public bool PositionInTargetablePoints(Point pointOfInterest)
         {
-            return PositionInTargetablePoints(characterCenter, pointOfInterest, CalculateTargetablePoints(characterCenter));
+            return PositionInTargetablePoints(pointOfInterest, CalculateTargetablePoints());
         }
 
-        public bool PositionInTargetablePoints(Point characterCenter, Point pointOfInterest, List<WeaponPoint> targetablePoints)
+        public bool PositionInTargetablePoints(Point pointOfInterest, List<WeaponPoint> targetablePoints)
         {
             foreach (WeaponPoint t in targetablePoints)
             {

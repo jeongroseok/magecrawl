@@ -31,12 +31,12 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        List<WeaponPoint> CalculateTargetablePoints(Point characterPosition);
+        List<WeaponPoint> CalculateTargetablePoints();
 
         // This version is faster since we don't have to calculate targetablePoints over and over again.
-        bool PositionInTargetablePoints(Point characterCenter, Point pointOfInterest, List<WeaponPoint> targetablePoints);
-        bool PositionInTargetablePoints(Point characterCenter, Point pointOfInterest);
+        bool PositionInTargetablePoints(Point pointOfInterest, List<WeaponPoint> targetablePoints);
+        bool PositionInTargetablePoints(Point pointOfInterest);
 
-        float EffectiveStrengthAtPoint(Point characterCenter, Point pointOfInterest);
+        float EffectiveStrengthAtPoint(Point pointOfInterest);
     }
 }

@@ -7,15 +7,25 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        private static IWeapon[] m_weaponList = { new MeleeWeapon(), new SimpleBow(), new Spear(), new Sword() };
+        private IWeapon[] m_weaponList;
         private int m_weaponPosition = 0;
 
         public Player() : base()
         {
+            m_weaponList = new IWeapon[4];
+            m_weaponList[0] = new MeleeWeapon(this);
+            m_weaponList[1] = new SimpleBow(this);
+            m_weaponList[2] = new Spear(this);
+            m_weaponList[3] = new Sword(this);
         }
 
-        public Player(int x, int y) : base(x, y, 10, 10, 4, "Donblas")
+        public Player(int x, int y) : base(x, y, 10, 10, 6, "Donblas")
         {
+            m_weaponList = new IWeapon[4];
+            m_weaponList[0] = new MeleeWeapon(this);
+            m_weaponList[1] = new SimpleBow(this);
+            m_weaponList[2] = new Spear(this);
+            m_weaponList[3] = new Sword(this);
         }
 
         public override IWeapon CurrentWeapon
