@@ -192,9 +192,12 @@ namespace Magecrawl.GameEngine
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
-            Character nextCharacter = m_timingEngine.GetNextActor(m_player, m_map);
-            while (!(nextCharacter is Player))
+            // Until the player gets a turn
+            while (true)
             {
+                Character nextCharacter = m_timingEngine.GetNextActor(m_player, m_map);
+                if (nextCharacter is Player)
+                    return;
                 Monster monster = nextCharacter as Monster;
                 monster.Action(engine);
                 nextCharacter = m_timingEngine.GetNextActor(m_player, m_map);

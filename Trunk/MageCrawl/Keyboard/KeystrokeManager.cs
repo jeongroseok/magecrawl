@@ -6,10 +6,12 @@ using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Keyboard;
+using Magecrawl.Utilities;
 
-namespace MageCrawl
+namespace Magecrawl.Keyboard
 {
-    internal sealed class KeystrokeManager
+    public sealed class KeystrokeManager
     {
         private Dictionary<string, IKeystrokeHandler> m_handlers = new Dictionary<string, IKeystrokeHandler>();
         private IKeystrokeHandler m_currentHandler;
@@ -40,7 +42,7 @@ namespace MageCrawl
             }
         }
 
-        public KeystrokeResult HandleKeyStroke()
+        public void HandleKeyStroke()
         {
             KeyPress key = libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed);
 
@@ -55,7 +57,7 @@ namespace MageCrawl
 
             try
             {
-                return m_currentHandler.HandleKeystroke(namedKey);
+                m_currentHandler.HandleKeystroke(namedKey);
             }
             catch (TargetInvocationException e)
             {

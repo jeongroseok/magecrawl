@@ -3,9 +3,9 @@ using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameUI.Map
+namespace Magecrawl.GameUI.Map.Debug
 {
-    public sealed class MapDebugFOVPainter : MapPainterBase
+    internal sealed class MapDebugFOVPainter : MapPainterBase
     {
         private bool m_enabled;
         private int m_width;

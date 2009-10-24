@@ -42,12 +42,14 @@
   -->
   <ItemGroup>
     <Compile Include="CharacterInfo.cs" />
-    <Compile Include="Map\MapDebugFOVPainter.cs" />
-    <Compile Include="Map\MapDebugMovablePainter.cs" />
+    <Compile Include="Map\MapCursorPainter.cs" />
+    <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
+    <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />
     <Compile Include="Map\MapPainter.cs" />
     <Compile Include="Map\MapEffectsPainter.cs" />
     <Compile Include="Map\MapPainterBase.cs" />
     <Compile Include="Map\MapPaintingCoordinator.cs" />
+    <Compile Include="Map\PlayerAttackRangePainter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="UIHelper.cs" />

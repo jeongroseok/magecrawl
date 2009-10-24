@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    public abstract class MapPainterBase : System.IDisposable
+    internal abstract class MapPainterBase : System.IDisposable
     {
         public const int MapDrawnWidth = 50;
         public const int MapDrawnHeight = 42;
@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI.Map
         protected const int OffscreenHeight = MapDrawnHeight + 2;
 
         public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner);
-        public abstract void DrawNewFrame(Console offscreenConsole);
+        public abstract void DrawNewFrame(Console screen);
         public abstract void HandleRequest(string request, object data);
         public abstract void Dispose();
 
