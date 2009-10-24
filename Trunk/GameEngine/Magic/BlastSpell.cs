@@ -30,5 +30,13 @@ namespace Magecrawl.GameEngine.Magic
                 return damage;
             }
         }
+
+        internal override int MagicCost
+        {
+            get
+            {
+                return 3;
+            }
+        }
     }
 }

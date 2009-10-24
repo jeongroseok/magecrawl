@@ -20,6 +20,16 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        int CurrentMagic
+        {
+            get;
+        }
+
+        int MaxMagic
+        {
+            get;
+        }
+
         int Vision
         {
             get;

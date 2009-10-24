@@ -18,5 +18,13 @@ namespace Magecrawl.GameEngine.Magic
                 return 0;
             }
         }
+
+        internal virtual int MagicCost
+        {
+            get
+            {
+                return 0;
+            }
+        }
     }
 }

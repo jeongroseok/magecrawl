@@ -21,6 +21,8 @@ namespace Magecrawl.GameUI
 
             string hpString = string.Format("HP {0}/{1}", player.CurrentHP, player.MaxHP);
             screen.PrintLine(hpString, StartingX + 2, 2, LineAlignment.Left);
+            string magicString = string.Format("Magic {0}/{1}", player.CurrentMagic, player.MaxMagic);
+            screen.PrintLine(magicString, StartingX + 2, 3, LineAlignment.Left);
             
             string fps = TCODSystem.FPS.ToString();
             screen.PrintLine(fps, 52, 58, LineAlignment.Left);

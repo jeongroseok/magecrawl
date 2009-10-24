@@ -25,7 +25,7 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
-        public Monster(int x, int y) : base(x, y, 4, 4, 4, "Scary Monster")
+        public Monster(int x, int y) : base(x, y, 4, 4, 4, 1, 1, "Scary Monster")
         {
         }
 

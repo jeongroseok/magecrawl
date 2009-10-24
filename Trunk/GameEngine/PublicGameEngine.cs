@@ -107,9 +107,18 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerCastSpell(string spellName)
         {
-            m_engine.CastSpell(m_engine.Player, SpellFactory.CreateSpell(spellName));
-            m_engine.AfterPlayerAction();
-            return true;
+            SpellBase spell = SpellFactory.CreateSpell(spellName);
+            if (m_engine.Player.CurrentMagic >= spell.MagicCost)
+            {
+                m_engine.CastSpell(m_engine.Player, spell);
+                m_engine.Player.CurrentMagic -= spell.MagicCost;
+                m_engine.AfterPlayerAction();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Save()
