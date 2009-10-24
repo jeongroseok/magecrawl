@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        int RangedAttackDistance
+        IWeapon CurrentWeapon
         {
             get;
         }

@@ -5,15 +5,18 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    interface IWeapon
+    public interface IWeapon
     {
+        DiceRoll Damage
+        {
+            get;
+        }
+
         string Name
         {
             get;
         }
-        List<Point> TargetablePoints
-        {
-            get;
-        }
+
+        List<Point> TargetablePoints(Point characterPosition);
     }
 }
