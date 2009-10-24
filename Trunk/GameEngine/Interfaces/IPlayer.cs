@@ -9,5 +9,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        int RangedAttackDistance
+        {
+            get;
+        }
     }
 }

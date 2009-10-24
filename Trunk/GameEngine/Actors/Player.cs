@@ -21,6 +21,14 @@ namespace Magecrawl.GameEngine.Actors
         {
             CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
         }
+                
+        public int RangedAttackDistance
+        {
+            get
+            {
+                return 4;
+            }
+        }
 
         #region SaveLoad
 

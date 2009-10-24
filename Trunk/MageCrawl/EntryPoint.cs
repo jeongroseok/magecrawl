@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MageCrawl
+namespace Magecrawl
 {
     public static class EntryPoint
     {

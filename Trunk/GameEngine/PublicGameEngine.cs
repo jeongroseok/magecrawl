@@ -97,7 +97,7 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        public bool PlayerAttack(Point target)
+        public bool PlayerAttackRanged(Point target)
         {
             bool didAnything = m_engine.Attack(m_engine.Player, target);
             if (didAnything)

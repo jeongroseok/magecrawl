@@ -167,7 +167,8 @@ namespace Magecrawl.GameEngine.Actors
             m_maxHP = reader.ReadElementContentAsInt();
             m_name = reader.ReadElementContentAsString();
             m_CT = reader.ReadElementContentAsInt();
-            m_visionRange = reader.ReadContentAsInt();
+            m_visionRange = reader.ReadElementContentAsInt();
+            m_uniqueID = reader.ReadElementContentAsInt();
         }
 
         public virtual void WriteXml(XmlWriter writer)
@@ -178,6 +179,7 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("Name", m_name);
             writer.WriteElementString("CT", m_CT.ToString());
             writer.WriteElementString("VisionRange", m_visionRange.ToString());
+            writer.WriteElementString("UniqueID", m_uniqueID.ToString());
         }
     }
 }

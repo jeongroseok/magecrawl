@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    public sealed class MapPainter : MapPainterBase
+    internal sealed class MapPainter : MapPainterBase
     {
         private Console m_offscreenConsole;
 
@@ -39,11 +39,6 @@ namespace Magecrawl.GameUI.Map
             }
 
             DrawThing(mapUpCorner, engine.Player.Position, m_offscreenConsole, '@');
-
-            if (engine.SelectingTarget)
-            {
-                m_offscreenConsole.SetCharBackground(ScreenCenter.X + 1, ScreenCenter.Y + 1, Color.FromRGB(0x7F, 0xbF, 0));
-            }
         }
 
         public override void DrawNewFrame(Console screen)

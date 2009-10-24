@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameUI.Map.Debug;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
@@ -8,9 +9,14 @@ namespace Magecrawl.GameUI.Map
     public sealed class MapPaintingCoordinator : System.IDisposable
     {
         private List<MapPainterBase> m_painters;
-        
+        private bool m_isSelectionCursor;
+        private Point m_cursorSpot;
+
         public MapPaintingCoordinator()
         {
+            m_isSelectionCursor = false;
+            m_cursorSpot = new Point(0, 0);
+
             m_painters = new List<MapPainterBase>();
 
             // The map painter is special since it should go first to draw the base map.
@@ -19,6 +25,8 @@ namespace Magecrawl.GameUI.Map
             m_painters.Add(new MapDebugMovablePainter());
             m_painters.Add(new MapEffectsPainter());
             m_painters.Add(new MapDebugFOVPainter());
+            m_painters.Add(new MapCursorPainter());
+            m_painters.Add(new PlayerAttackRangePainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)
@@ -52,11 +60,24 @@ namespace Magecrawl.GameUI.Map
             {
                 p.HandleRequest(request, data);
             }
+            switch (request)
+            {
+                case "MapCursorEnabled":
+                    m_isSelectionCursor = true;
+                    m_cursorSpot = (Point)data;
+                    break;
+                case "MapCursorDisabled":
+                    m_isSelectionCursor = false;
+                    break;
+                case "MapCursorPositionChanged":
+                    m_cursorSpot = (Point)data;
+                    break;
+            }
         }
 
-        private static Point CalculateMapCorner(IGameEngine engine)
+        private Point CalculateMapCorner(IGameEngine engine)
         {
-            Point centerFocus = engine.SelectingTarget ? engine.TargetSelection : engine.Player.Position;
+            Point centerFocus = m_isSelectionCursor ? m_cursorSpot : engine.Player.Position;
             return new Point(MapPainterBase.ScreenCenter.X - centerFocus.X, MapPainterBase.ScreenCenter.Y - centerFocus.Y);
         }
     }
