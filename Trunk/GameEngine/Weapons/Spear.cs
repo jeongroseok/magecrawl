@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal class MeleeWeapon : WeaponBase
+    internal class Spear : WeaponBase
     {
-        internal MeleeWeapon()
+        internal Spear()
         {
         }
 
@@ -15,7 +14,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return new DiceRoll(1, 2);
+                return new DiceRoll(2, 2);
             }
         }
 
@@ -23,7 +22,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return "Melee";
+                return "Spear";
             }
         }
 
@@ -32,9 +31,13 @@ namespace Magecrawl.GameEngine.Weapons
             List<Point> targetablePoints = new List<Point>();
 
             targetablePoints.Add(characterPosition + new Point(1, 0));
+            targetablePoints.Add(characterPosition + new Point(2, 0));
             targetablePoints.Add(characterPosition + new Point(-1, 0));
+            targetablePoints.Add(characterPosition + new Point(-2, 0));
             targetablePoints.Add(characterPosition + new Point(0, 1));
+            targetablePoints.Add(characterPosition + new Point(0, 2));
             targetablePoints.Add(characterPosition + new Point(0, -1));
+            targetablePoints.Add(characterPosition + new Point(0, -2));
 
             StripImpossibleToTargetPoints(targetablePoints);
 

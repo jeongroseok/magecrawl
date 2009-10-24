@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using libtcodWrapper;
-using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {

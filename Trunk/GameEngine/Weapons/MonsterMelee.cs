@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    class MonsterMelee : WeaponBase
+    internal class MonsterMelee : WeaponBase
     {
         internal MonsterMelee()
         {

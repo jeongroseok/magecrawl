@@ -17,8 +17,8 @@ namespace Magecrawl.GameEngine
         private PathfindingMap m_pathFinding;
         private PhysicsEngine m_physicsEngine;
 
-        private event PlayerDiedDelegate m_PlayerDied;
-        private event TextOutputFromGame m_TextOutput;
+        private event PlayerDiedDelegate m_playerDied;
+        private event TextOutputFromGame m_textOutput;
 
         // Almost every member of the GameEngine component will need to call CoreGameEngine at some point.
         // As opossed to have everyone stash a copy of it, just make it a singleton.
@@ -34,8 +34,8 @@ namespace Magecrawl.GameEngine
         public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
             m_instance = this;
-            m_PlayerDied += diedDelegate;
-            m_TextOutput += textOutput;
+            m_playerDied += diedDelegate;
+            m_textOutput += textOutput;
 
             m_player = new Player(1, 1);
             m_map = new Map(50, 50);
@@ -139,12 +139,12 @@ namespace Magecrawl.GameEngine
 
         internal void PlayerDied()
         {
-            m_PlayerDied();
+            m_playerDied();
         }
 
         internal void SendTextOutput(string s)
         {
-            m_TextOutput(s);
+            m_textOutput(s);
         }            
 
         internal FOVManager FOVManager
