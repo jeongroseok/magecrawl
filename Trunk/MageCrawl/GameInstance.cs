@@ -103,6 +103,10 @@ namespace Magecrawl
             attackHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Attack", attackHandler);
 
+            OperateKeystrokeHandler operateHandler = new OperateKeystrokeHandler(m_engine, this);
+            operateHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Operate", operateHandler);
+
             m_keystroke.CurrentHandlerName = "Default";
         }
 

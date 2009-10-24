@@ -5,49 +5,16 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
-    internal enum ChordKeystrokeStatus
-    {
-        None,
-        Operate,
-    }
-
     internal class DefaultKeystrokeHandler : BaseKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
-        private ChordKeystrokeStatus m_chordKeystroke;
 
         public DefaultKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
             m_gameInstance = instance;
-            m_chordKeystroke = ChordKeystrokeStatus.None;
             m_keyMappings = null;
-        }
-
-        public override void NowPrimaried()
-        {
-        }
-
-        public override void HandleKeystroke(NamedKey keystroke)
-        {
-            MethodInfo action;
-            m_keyMappings.TryGetValue(keystroke, out action);
-            if (action != null)
-            {
-                action.Invoke(this, null);
-            }
-        }
-
-        private void HandleDirection(Direction direction)
-        {
-            if (m_chordKeystroke == ChordKeystrokeStatus.Operate)
-                m_engine.Operate(direction);
-            else
-                m_engine.MovePlayer(direction);
- 
-            m_chordKeystroke = ChordKeystrokeStatus.None;
-            m_gameInstance.UpdatePainters();
         }
 
         #region Mappable key commands
@@ -59,42 +26,50 @@ namespace Magecrawl.Keyboard
 
         private void North()
         {
-            HandleDirection(Direction.North);
+            m_engine.MovePlayer(Direction.North);
+            m_gameInstance.UpdatePainters();
         }
 
         private void South()
         {
-            HandleDirection(Direction.South);
+            m_engine.MovePlayer(Direction.South);
+            m_gameInstance.UpdatePainters();
         }
 
         private void East()
         {
-            HandleDirection(Direction.East);
+            m_engine.MovePlayer(Direction.East);
+            m_gameInstance.UpdatePainters();
         }
 
         private void West()
         {
-            HandleDirection(Direction.West);
+            m_engine.MovePlayer(Direction.West);
+            m_gameInstance.UpdatePainters();
         }
 
         private void Northeast()
         {
-            HandleDirection(Direction.Northeast);
+            m_engine.MovePlayer(Direction.Northeast);
+            m_gameInstance.UpdatePainters();
         }
 
         private void Northwest()
         {
-            HandleDirection(Direction.Northwest);
+            m_engine.MovePlayer(Direction.Northwest);
+            m_gameInstance.UpdatePainters();
         }
 
         private void Southeast()
         {
-            HandleDirection(Direction.Southeast);
+            m_engine.MovePlayer(Direction.Southeast);
+            m_gameInstance.UpdatePainters();
         }
 
         private void Southwest()
         {
-            HandleDirection(Direction.Southwest);
+            m_engine.MovePlayer(Direction.Southwest);
+            m_gameInstance.UpdatePainters();
         }
 
         private void Quit()
@@ -104,7 +79,7 @@ namespace Magecrawl.Keyboard
 
         private void Operate()
         {
-            m_chordKeystroke = ChordKeystrokeStatus.Operate;
+            m_gameInstance.SetHandlerName("Operate");
         }
 
         private void Save()
