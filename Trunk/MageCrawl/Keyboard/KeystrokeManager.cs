@@ -29,6 +29,14 @@ namespace Magecrawl.Keyboard
             }
         }
 
+        public IKeystrokeHandler CurrentHandler
+        {
+            get
+            {
+                return m_currentHandler;
+            }
+        }
+
         public string CurrentHandlerName
         {
             get

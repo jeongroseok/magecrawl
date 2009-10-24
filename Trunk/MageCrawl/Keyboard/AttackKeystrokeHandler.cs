@@ -2,15 +2,109 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using System.Reflection;
 
 namespace Magecrawl.Keyboard
 {
-    // The code to get the ranged attack placement and movement of cursor is a bit scary. 
-    // Moved it here from DefaultKeystrokeHandler for clarity.
-    internal static class AttackKeystrokeHelper
+    internal class AttackKeystrokeHandler : BaseKeystrokeHandler
     {
+        private IGameEngine m_engine;
+        private GameInstance m_gameInstance;
+
+        private Point SelectionPoint { get; set; }
+
+        public AttackKeystrokeHandler(IGameEngine engine, GameInstance instance)
+        {
+            m_engine = engine;
+            m_gameInstance = instance;
+        }
+
+        public override void NowPrimaried()
+        {
+            SelectionPoint = AttackKeystrokeHandler.SetAttackInitialSpot(m_engine, m_engine.Player.CurrentWeapon);
+            List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints(m_engine.Player.Position);
+            m_gameInstance.SendPaintersRequest("RangedAttackEnabled", listOfSelectablePoints);
+            m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
+            m_gameInstance.UpdatePainters();
+        }
+
+        public override void HandleKeystroke(NamedKey keystroke)
+        {
+            MethodInfo action;
+            m_keyMappings.TryGetValue(keystroke, out action);
+            if (action != null)
+            {
+                action.Invoke(this, null);
+            }
+        }
+
+        private void Attack()
+        {
+            if (SelectionPoint != m_engine.Player.Position)
+                m_engine.PlayerAttack(SelectionPoint);
+            Escape();
+        }
+
+        private void HandleDirection(Direction direction)
+        {
+            Point pointWantToGoTo = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, direction);
+            Point resultPoint = AttackKeystrokeHandler.MoveSelectionToNewPoint(m_engine, pointWantToGoTo, direction);
+            if (resultPoint != Point.Invalid)
+                SelectionPoint = resultPoint;
+            m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void Escape()
+        {
+            m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
+            m_gameInstance.SendPaintersRequest("RangedAttackDisabled", null);
+            m_gameInstance.UpdatePainters();
+            m_gameInstance.ResetHandlerName();
+        }
+
+        private void North()
+        {
+            HandleDirection(Direction.North);
+        }
+
+        private void South()
+        {
+            HandleDirection(Direction.South);
+        }
+
+        private void East()
+        {
+            HandleDirection(Direction.East);
+        }
+
+        private void West()
+        {
+            HandleDirection(Direction.West);
+        }
+
+        private void Northeast()
+        {
+            HandleDirection(Direction.Northeast);
+        }
+
+        private void Northwest()
+        {
+            HandleDirection(Direction.Northwest);
+        }
+
+        private void Southeast()
+        {
+            HandleDirection(Direction.Southeast);
+        }
+
+        private void Southwest()
+        {
+            HandleDirection(Direction.Southwest);
+        }
+
         // We're switching on a weapon, so target a random monster in range if there is one
-        public static Point SetAttackInitialSpot(IGameEngine engine, IWeapon currentWeapon)
+        private static Point SetAttackInitialSpot(IGameEngine engine, IWeapon currentWeapon)
         {
             List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints(engine.Player.Position);
 
@@ -33,7 +127,7 @@ namespace Magecrawl.Keyboard
         /// <param name="pointWantToGoTo">The ideal point to move to if valid</param>
         /// <param name="direction">Direction of keypress</param>
         /// <returns>Point to move selectionto, Point.Invalid if can't move</returns>
-        public static Point MoveSelectionToNewPoint(IGameEngine engine, Point pointWantToGoTo, Direction direction)
+        private static Point MoveSelectionToNewPoint(IGameEngine engine, Point pointWantToGoTo, Direction direction)
         {
             List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints(engine.Player.Position);
 
