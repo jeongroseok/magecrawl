@@ -28,16 +28,6 @@ namespace Magecrawl.Keyboard
             m_gameInstance.UpdatePainters();
         }
 
-        public override void HandleKeystroke(NamedKey keystroke)
-        {
-            MethodInfo action;
-            m_keyMappings.TryGetValue(keystroke, out action);
-            if (action != null)
-            {
-                action.Invoke(this, null);
-            }
-        }
-
         private void Attack()
         {
             if (SelectionPoint != m_engine.Player.Position)

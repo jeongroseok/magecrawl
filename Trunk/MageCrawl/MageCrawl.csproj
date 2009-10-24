@@ -70,6 +70,7 @@
     <Compile Include="GameInstance.cs" />
     <Compile Include="Keyboard\IKeystrokeHandler.cs" />
     <Compile Include="Keyboard\KeystrokeManager.cs" />
+    <Compile Include="Keyboard\OperateKeystrokeHandler.cs" />
     <Compile Include="PlayerDiedException.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
