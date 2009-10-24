@@ -48,7 +48,7 @@ namespace Magecrawl.GameEngine
                 if (m.Position == attackTarget)
                 {
                     int damageDone = 1;
-                    PublicGameEngine.SendTextOutput(CreateDamageString(damageDone, attacker, m));
+                    CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m));
                     m.CurrentHP -= damageDone;
                     if (m.CurrentHP <= 0)
                         m_map.KillMonster(m);
@@ -59,10 +59,10 @@ namespace Magecrawl.GameEngine
             if (!didAnything && attackTarget == m_player.Position)
             {
                 int damageDone = 1;
-                PublicGameEngine.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
+                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
                 m_player.CurrentHP -= damageDone;
                 if (m_player.CurrentHP <= 0)
-                    CoreGameEngine.PlayerDied();
+                    CoreGameEngine.Instance.PlayerDied();
                 didAnything = true;
             }
             return didAnything;

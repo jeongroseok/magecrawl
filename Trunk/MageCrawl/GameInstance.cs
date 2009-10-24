@@ -40,7 +40,7 @@ namespace Magecrawl
         internal void Go()
         {
             m_console = UIHelper.SetupUI();
-            PublicGameEngine.TextOutputFromGame outputDelegate = new PublicGameEngine.TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
+            TextOutputFromGame outputDelegate = new TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
             m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
 

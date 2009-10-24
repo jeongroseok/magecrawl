@@ -6,6 +6,7 @@ using Magecrawl.Utilities;
 namespace Magecrawl.GameEngine.Interfaces
 {
     public delegate void PlayerDiedDelegate();
+    public delegate void TextOutputFromGame(string s);
 
     public interface IGameEngine : IDisposable
     {
