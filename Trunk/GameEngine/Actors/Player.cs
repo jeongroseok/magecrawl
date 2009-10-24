@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Weapons;
 
@@ -11,7 +7,7 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        private static IWeapon[] m_weaponList = { new MeleeWeapon(), new SimpleBow() };
+        private static IWeapon[] m_weaponList = { new MeleeWeapon(), new SimpleBow(), new Spear() };
         private int m_weaponPosition = 0;
 
         public Player() : base()

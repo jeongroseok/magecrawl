@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Weapons
 {
@@ -26,8 +25,8 @@ namespace Magecrawl.GameEngine.Weapons
             bool[,] movabilityTable = CoreGameEngine.Instance.PlayerMoveableToEveryPoint();
             foreach (Point p in pointList)
             {
-                bool isGoodPoint = false;
                 // We want to be able to target only points that make sense
+                bool isGoodPoint = false;
                 if (CoreGameEngine.Instance.Map.IsPointOnMap(p))
                 {
                     // If we can move there, that's good.

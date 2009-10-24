@@ -36,7 +36,7 @@ namespace Magecrawl.GameEngine.Weapons
             {
                 for (int j = -SimpleBowRange; j <= SimpleBowRange; ++j)
                 {
-                    int distance = (System.Math.Abs(i) + System.Math.Abs(j));
+                    int distance = System.Math.Abs(i) + System.Math.Abs(j);
                     bool allowable = (distance <= SimpleBowRange) && (distance > 2);
                     if (allowable)
                         targetablePoints.Add(new Point(characterPosition.X + i, characterPosition.Y + j));

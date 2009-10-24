@@ -69,6 +69,7 @@
     <Compile Include="Weapons\MeleeWeapon.cs" />
     <Compile Include="Weapons\MonsterMelee.cs" />
     <Compile Include="Weapons\SimpleBow.cs" />
+    <Compile Include="Weapons\Spear.cs" />
     <Compile Include="Weapons\WeaponBase.cs" />
   </ItemGroup>
   <ItemGroup>
