@@ -53,6 +53,7 @@ namespace Magecrawl.GameUI.Map
                             {
                                 screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.Black);
                                 screen.SetCharForeground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.Black);
+                                screen.PutChar(screenPlacement.X, screenPlacement.Y, ' ');
                             }
                         }
                     }
