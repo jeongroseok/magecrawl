@@ -107,6 +107,10 @@ namespace Magecrawl
             operateHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Operate", operateHandler);
 
+            ViewmodeKeystrokeHandler viewmodeHandler = new ViewmodeKeystrokeHandler(m_engine, this);
+            viewmodeHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Viewmode", viewmodeHandler);
+
             m_keystroke.CurrentHandlerName = "Default";
         }
 

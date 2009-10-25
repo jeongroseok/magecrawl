@@ -136,6 +136,11 @@ namespace Magecrawl.Keyboard
             m_engine.IterateThroughWeapons();
         }
 
+        private void ViewMode()
+        {
+            m_gameInstance.SetHandlerName("Viewmode");
+        }
+
         private void TextBoxPageUp()
         {
             m_gameInstance.TextBox.TextBoxScrollUp();
