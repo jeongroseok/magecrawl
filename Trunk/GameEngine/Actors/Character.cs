@@ -16,18 +16,22 @@ namespace Magecrawl.GameEngine.Actors
             m_CT = 0;
             m_hp = 0;
             m_maxHP = 0;
+            m_magic = 0;
+            m_maxMagic = 0;
             m_visionRange = 0;
             m_name = String.Empty;
             m_uniqueID = s_idCounter;
             s_idCounter++;
         }
 
-        internal Character(int x, int y, int hp, int maxHP, int visionRange, string name)
+        internal Character(int x, int y, int hp, int maxHP, int visionRange, int magic, int maxMagic, string name)
         {
             m_position = new Point(x, y);
             m_CT = 0;
             m_hp = hp;
             m_maxHP = maxHP;
+            m_magic = magic;
+            m_maxMagic = maxMagic;
             m_visionRange = visionRange;
             m_name = name; 
             m_uniqueID = s_idCounter;
@@ -37,6 +41,8 @@ namespace Magecrawl.GameEngine.Actors
         protected Point m_position;
         protected int m_hp;
         protected int m_maxHP;
+        protected int m_magic;
+        protected int m_maxMagic;
         protected string m_name;
         protected int m_visionRange;
         
@@ -118,6 +124,30 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public int CurrentMagic
+        {
+            get
+            {
+                return m_magic;
+            }
+            internal set
+            {
+                m_magic = value;
+            }
+        }
+
+        public int MaxMagic
+        {
+            get
+            {
+                return m_maxMagic;
+            }
+            internal set
+            {
+                m_maxMagic = value;
+            }
+        }
+
         public string Name
         {
             get
@@ -150,6 +180,11 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public void Heal(int toHeal)
+        {
+            CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
+	    }
+	
         public virtual IWeapon CurrentWeapon
         {
             get
@@ -169,6 +204,8 @@ namespace Magecrawl.GameEngine.Actors
             m_position = m_position.ReadXml(reader);
             m_hp = reader.ReadElementContentAsInt();
             m_maxHP = reader.ReadElementContentAsInt();
+            m_magic = reader.ReadElementContentAsInt();
+            m_maxMagic = reader.ReadElementContentAsInt();
             m_name = reader.ReadElementContentAsString();
             m_CT = reader.ReadElementContentAsInt();
             m_visionRange = reader.ReadElementContentAsInt();
@@ -180,6 +217,8 @@ namespace Magecrawl.GameEngine.Actors
             Position.WriteToXml(writer, "Position");
             writer.WriteElementString("CurrentHP", m_hp.ToString());
             writer.WriteElementString("MaxHP", m_maxHP.ToString());
+            writer.WriteElementString("CurrentMagic", m_magic.ToString());
+            writer.WriteElementString("MaxMagic", m_maxMagic.ToString());
             writer.WriteElementString("Name", m_name);
             writer.WriteElementString("CT", m_CT.ToString());
             writer.WriteElementString("VisionRange", m_visionRange.ToString());

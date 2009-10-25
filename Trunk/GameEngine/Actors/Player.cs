@@ -19,7 +19,7 @@ namespace Magecrawl.GameEngine.Actors
             m_weaponList[3] = new Sword(this);
         }
 
-        public Player(int x, int y) : base(x, y, 10, 10, 6, "Donblas")
+        public Player(int x, int y) : base(x, y, 10, 10, 6, 10, 10, "Donblas")
         {
             m_weaponList = new IWeapon[4];
             m_weaponList[0] = new MeleeWeapon(this);
@@ -28,7 +28,7 @@ namespace Magecrawl.GameEngine.Actors
             m_weaponList[3] = new Sword(this);
         }
 
-        public override IWeapon CurrentWeapon
+        public override IWeapon CurrentWeapon               
         {
             get
             {

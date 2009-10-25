@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -83,6 +84,22 @@ namespace Magecrawl.GameEngine
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;            
+        }
+
+        public bool PlayerCastSpell(string spellName)
+        {
+            SpellBase spell = SpellFactory.CreateSpell(spellName);
+            if (m_engine.Player.CurrentMagic >= spell.MagicCost)
+            {
+                m_engine.CastSpell(m_engine.Player, spell);
+                m_engine.Player.CurrentMagic -= spell.MagicCost;
+                m_engine.AfterPlayerAction();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Save()

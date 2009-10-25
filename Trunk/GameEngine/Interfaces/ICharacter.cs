@@ -20,6 +20,16 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        int CurrentMagic
+        {
+            get;
+        }
+
+        int MaxMagic
+        {
+            get;
+        }
+
         int Vision
         {
             get;
@@ -28,7 +38,7 @@ namespace Magecrawl.GameEngine.Interfaces
         int UniqueID
         {
             get;
-        }
+        }        
 
         IWeapon CurrentWeapon
         {

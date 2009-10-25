@@ -5,6 +5,7 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine
 {
@@ -190,6 +191,13 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
+        internal void CastSpell(CoreGameEngine engine, Character attacker, SpellBase spell)
+        {
+            spell.Cast(attacker, engine, this.m_combatEngine);
+            m_timingEngine.ActorDidAction(attacker);
+            m_fovManager.Update(this, m_map, m_player);
+        }
+
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
@@ -200,7 +208,7 @@ namespace Magecrawl.GameEngine
                 if (nextCharacter is Player)
                     return;
 
-                Monster monster = nextCharacter as Monster;
+                Monster monster = nextCharacter as Monster; 
                 monster.Action(engine);
             }
         }

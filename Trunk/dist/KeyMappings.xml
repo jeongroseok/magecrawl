@@ -22,4 +22,6 @@
 <KeyMapping Key="." Action="Wait" />
 <KeyMapping Key="a" Action="Attack" />
 <KeyMapping Key="+" Action="ChangeWeapon" />
+<KeyMapping Key="h" Action="HealSpell" />
+<KeyMapping Key="b" Action="BlastSpell" />
 </KeyMappings>
