@@ -44,7 +44,8 @@
   <ItemGroup>
     <Compile Include="CharacterInfo.cs" />
     <Compile Include="DialogColorHelper.cs" />
-    <Compile Include="Map\InventoryPainter.cs" />
+    <Compile Include="Inventory\InventoryItemPainter.cs" />
+    <Compile Include="Inventory\InventoryPainter.cs" />
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
     <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />
@@ -52,8 +53,9 @@
     <Compile Include="Map\MapPainter.cs" />
     <Compile Include="Map\MapEffectsPainter.cs" />
     <Compile Include="Map\MapPainterBase.cs" />
-    <Compile Include="Map\MapPaintingCoordinator.cs" />
+    <Compile Include="MapPaintingCoordinator.cs" />
     <Compile Include="Map\PlayerAttackRangePainter.cs" />
+    <Compile Include="PainterBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="UIHelper.cs" />

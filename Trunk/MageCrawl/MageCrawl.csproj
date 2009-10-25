@@ -65,7 +65,8 @@
     <Compile Include="Keyboard\AttackKeystrokeHandler.cs" />
     <Compile Include="Keyboard\BaseKeystrokeHandler.cs">
     </Compile>
-    <Compile Include="Keyboard\InventoryScreenKeyboardHandler.cs" />
+    <Compile Include="Keyboard\Inventory\InventoryItemKeyboardHandler.cs" />
+    <Compile Include="Keyboard\Inventory\InventoryScreenKeyboardHandler.cs" />
     <Compile Include="Keyboard\ViewmodeKeystrokeHandler.cs" />
     <Compile Include="Keyboard\DefaultKeystrokeHandler.cs" />
     <Compile Include="EntryPoint.cs" />

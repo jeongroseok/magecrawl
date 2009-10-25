@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    class MapFOVPainter : MapPainterBase
+    internal class MapFOVPainter : MapPainterBase
     {
         private bool m_enabled;
         private int m_width;

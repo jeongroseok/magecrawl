@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
-using System.Reflection;
 
 namespace Magecrawl.Keyboard
 {

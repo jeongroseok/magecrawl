@@ -1,22 +1,25 @@
 ﻿using System.Collections.Generic;
+using libtcodWrapper;
+using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
-namespace Magecrawl.GameUI.Map
+namespace Magecrawl.GameUI.Inventory
 {
     public delegate void InventoryItemSelected(IItem item);
+
     // This code is scary, I admit it. It looks complex, but it has to be. 
-    // Scrolling inventor right, when it might be lettered, is hard.
-    internal class InventoryPainter : MapPainterBase
+    // Scrolling inventory right, when it might be lettered, is hard.
+    internal class InventoryPainter : PainterBase
     {
-        private bool m_enabled;                     // Are we showing the inventory
-        private IList<IItem> m_itemList;            // Items to display
-        private int m_lowerRange;                   // If we're scrolling, the loweset number item to show
-        private int m_higherRange;                  // Last item to show
-        private bool m_isScrollingNeeded;           // Do we need to scroll at all?
-        private int m_cursorPosition;               // What item is the cursor on
-        private bool m_useCharactersNextToItems;    // Should we put letters next to each letter
+        private bool m_enabled;                         // Are we showing the inventory
+        private IList<IItem> m_itemList;                // Items to display
+        private int m_lowerRange;                       // If we're scrolling, the loweset number item to show
+        private int m_higherRange;                      // Last item to show
+        private bool m_isScrollingNeeded;               // Do we need to scroll at all?
+        private int m_cursorPosition;                   // What item is the cursor on
+        private bool m_useCharactersNextToItems;        // Should we put letters next to each letter
+        private bool m_shouldNotResetCursorPosition;    // If set, the next time we show the inventory window, we don't reset the position.
 
         private DialogColorHelper m_dialogColorHelper;
 
@@ -30,11 +33,11 @@ namespace Magecrawl.GameUI.Map
         {
             m_dialogColorHelper = new DialogColorHelper();
             m_enabled = false;
+            m_shouldNotResetCursorPosition = false;
         }
 
         public override void Dispose()
         {
-
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
@@ -44,7 +47,7 @@ namespace Magecrawl.GameUI.Map
                 m_itemList = engine.Player.Items;
                 m_isScrollingNeeded = m_itemList.Count > NumberOfLinesDisplayable;
                 
-                //If we're going to run out of letters, don't show em.
+                // If we're going to run out of letters, don't show em.
                 if (m_itemList.Count > 26 * 2)
                     m_useCharactersNextToItems = false;
                 else
@@ -59,7 +62,7 @@ namespace Magecrawl.GameUI.Map
                 m_higherRange = m_isScrollingNeeded ? m_lowerRange + NumberOfLinesDisplayable : m_itemList.Count;
                 screen.DrawFrame(InventoryWindowOffset, InventoryWindowOffset, InventoryItemWidth, InventoryItemHeight, true, "Inventory");
                 
-                //Start lettering from our placementOffset.
+                // Start lettering from our placementOffset.
                 char currentLetter = 'a';
 
                 if (m_useCharactersNextToItems)
@@ -100,10 +103,20 @@ namespace Magecrawl.GameUI.Map
         {
             switch (request)
             {
+                case "InventoryWindowSavePositionForNextShow":
+                    m_shouldNotResetCursorPosition = true;
+                    break;
                 case "ShowInventoryWindow":
-                    m_cursorPosition = 0;
-                    m_lowerRange = 0;
-                    m_higherRange = 0;
+                    if (!m_shouldNotResetCursorPosition)
+                    {
+                        m_cursorPosition = 0;
+                        m_lowerRange = 0;
+                        m_higherRange = 0;
+                    }
+                    else
+                    {
+                        m_shouldNotResetCursorPosition = false;
+                    }
                     m_enabled = true;
                     break;
                 case "StopShowingInventoryWindow":
@@ -141,7 +154,7 @@ namespace Magecrawl.GameUI.Map
 
         private List<char> GetListOfLettersUsed()
         {
-            if(!m_useCharactersNextToItems)
+            if (!m_useCharactersNextToItems)
                 throw new System.ArgumentException("GetListOfLettersUsed can't be called when not using letters next to names");
 
             List<char> returnList = new List<char>();
@@ -156,10 +169,10 @@ namespace Magecrawl.GameUI.Map
 
         private static char MapSelectionOffsetToLetter(int offset)
         {
-            if(offset > 25)
-                return (char)('A' + (char)(offset-26));
+            if (offset > 25)
+                return (char)('A' + (char)(offset - 26));
             else
-                return (char)('a' + (char)(offset));
+                return (char)('a' + (char)offset);
         }
 
         private static char IncrementLetter(char letter)
@@ -189,7 +202,7 @@ namespace Magecrawl.GameUI.Map
             }
             if (cursorDirection == Direction.South && m_cursorPosition < m_itemList.Count - 1)
             {
-                //If we need scrolling and we're pointed at the end of the list and there's more to show.
+                // If we need scrolling and we're pointed at the end of the list and there's more to show.
                 if (m_isScrollingNeeded && (m_cursorPosition == (m_lowerRange - 1 + NumberOfLinesDisplayable)) && (m_lowerRange + NumberOfLinesDisplayable < m_itemList.Count))
                 {
                     m_lowerRange += ScrollAmount;

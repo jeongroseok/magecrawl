@@ -3,9 +3,9 @@ using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameUI.Map
+namespace Magecrawl.GameUI
 {
-    internal abstract class MapPainterBase : System.IDisposable
+    internal abstract class MapPainterBase : PainterBase, System.IDisposable
     {
         public const int MapDrawnWidth = 50;
         public const int MapDrawnHeight = 42;
@@ -13,11 +13,6 @@ namespace Magecrawl.GameUI.Map
 
         protected const int OffscreenWidth = MapDrawnWidth + 1;
         protected const int OffscreenHeight = MapDrawnHeight + 1;
-
-        public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner);
-        public abstract void DrawNewFrame(Console screen);
-        public abstract void HandleRequest(string request, object data, object data2);
-        public abstract void Dispose();
 
         protected static char ConvertMapObjectToChar(MapObjectType t)
         {

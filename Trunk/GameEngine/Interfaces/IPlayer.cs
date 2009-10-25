@@ -1,6 +1,6 @@
 ﻿using System;
-using Magecrawl.Utilities;
 using System.Collections.Generic;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {

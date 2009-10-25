@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Items
 {
@@ -39,6 +39,22 @@ namespace Magecrawl.GameEngine.Items
             get
             {
                 return "Test Item";
+            }
+        }
+
+        public string ItemDescription
+        {
+            get 
+            {
+                return "Item Description\n\n";
+            }
+        }
+
+        public string FlavorDescription
+        {
+            get 
+            {
+                return "Item Flavor Description\n";
             }
         }
 
