@@ -77,6 +77,12 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        // We can't overload this[], and sometimes we need to set internal attributes :(
+        public MapTile GetInternalTile(int width, int height)
+        {
+            return m_map[width, height];
+        }
+
         private void CreateDemoMap()
         {
             using(StreamReader reader = File.OpenText("map.txt"))
@@ -132,11 +138,8 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_height; ++j)
                 {
-                    reader.ReadStartElement();
-                    char c = reader.ReadContentAsString()[0];
-                    reader.ReadEndElement();
                     m_map[i, j] = new MapTile();
-                    m_map[i, j].CovertFromChar(c);
+                    m_map[i, j].ReadXml(reader);
                 }
             }
 
@@ -177,7 +180,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_height; ++j)
                 {
-                    writer.WriteElementString("Elt", m_map[i, j].ConvertToChar().ToString());
+                    m_map[i, j].WriteXml(writer);
                 }
             }
 

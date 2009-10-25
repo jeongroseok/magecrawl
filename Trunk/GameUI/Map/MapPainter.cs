@@ -16,6 +16,8 @@ namespace Magecrawl.GameUI.Map
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {
+            TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
+
             m_offscreenConsole.Clear();
 
             m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
@@ -35,7 +37,9 @@ namespace Magecrawl.GameUI.Map
 
             foreach (ICharacter obj in engine.Map.Monsters)
             {
-                DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
+                TileVisibility visibility  = tileVisibility[obj.Position.X, obj.Position.Y] ;
+                if ( visibility == TileVisibility.Visible)
+                    DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
             }
 
             DrawThing(mapUpCorner, engine.Player.Position, m_offscreenConsole, '@');
