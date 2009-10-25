@@ -70,7 +70,7 @@ namespace Magecrawl.GameEngine
                     m_movableHash[obj.Position] = true;
             }
 
-            // Remove it if it's not on map, or is wall, or same square as something solid from above
+            // Remove it if it's not on map, or is wall, or same square as something solid from above, is it's not visible.
             pointList.RemoveAll(point => 
                 !m_map.IsPointOnMap(point.Position) || 
                 m_map[point.Position.X, point.Position.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Wall || 
@@ -151,9 +151,16 @@ namespace Magecrawl.GameEngine
                 for (int j = 0; j < m_map.Height; ++j)
                 {
                     if (m_fovManager.Visible(new Point(i, j)))
+                    {
                         visibilityArray[i, j] = TileVisibility.Visible;
+                    }
                     else
-                        visibilityArray[i, j] = TileVisibility.Unvisited;
+                    {
+                        if (m_map[i, j].Visited)
+                            visibilityArray[i, j] = TileVisibility.Visited;
+                        else
+                            visibilityArray[i, j] = TileVisibility.Unvisited;
+                    }
                 }
             }
             return visibilityArray;
@@ -168,9 +175,25 @@ namespace Magecrawl.GameEngine
                 c.Position = newPosition;
                 m_timingEngine.ActorMadeMove(c);
                 m_fovManager.Update(this, m_map, m_player);    // Operating can change LOS and such
+                UpdatePlayerVisitedStatus();                   // If player can move by other means, need to update here
                 didAnything = true;
             }
             return didAnything;
+        }
+
+        private void UpdatePlayerVisitedStatus()
+        {
+            m_fovManager.CalculateForMultipleCalls(m_player.Position, m_player.Vision);
+            for (int i = 0; i < m_map.Width; ++i)
+            {
+                for (int j = 0; j < m_map.Height; ++j)
+                {
+                    if(m_fovManager.Visible(new Point(i,j)))
+                    {
+                        m_map.GetInternalTile(i, j).Visited = true;
+                    }
+                }
+            }
         }
 
         public bool Operate(Character characterOperating, Direction direction)

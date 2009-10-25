@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Magecrawl.GameEngine
 {
-    internal sealed class MapTile : IMapTile
+    internal sealed class MapTile : IMapTile, IXmlSerializable
     {
         private TerrainType m_type;
+        private bool m_visited;
 
         internal MapTile()
         {
             m_type = TerrainType.Wall;
+            m_visited = false;
         }
 
         internal MapTile(Interfaces.TerrainType type)
         {
             m_type = type;
+            m_visited = false;
         }
 
         public TerrainType Terrain
@@ -30,32 +35,36 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        internal char ConvertToChar()
+        public bool Visited
         {
-            switch (m_type)
+            get
             {
-                case TerrainType.Floor:
-                    return '.';
-                case TerrainType.Wall:
-                    return '#';
-                default:
-                    throw new System.ArgumentException("Invalid Character - ConvertToChar");
+                return m_visited;
             }
+            internal set
+            {
+                m_visited = value;
+            }
+        }
+        
+        #region
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
         }
 
-        internal void CovertFromChar(char c)
+        public void ReadXml(XmlReader reader)
         {
-            switch (c)
-            {
-                case '.':
-                    m_type = TerrainType.Floor;
-                    break;
-                case '#':
-                    m_type = TerrainType.Wall;
-                    break;
-                default:
-                    throw new System.ArgumentException("Invalid Character - CovertFromChar");
-            }
+            m_type = (TerrainType)Enum.Parse(typeof(TerrainType), reader.ReadElementContentAsString());
+            m_visited = bool.Parse(reader.ReadElementContentAsString());
         }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteElementString("Type", m_type.ToString());
+            writer.WriteElementString("Visited", m_visited.ToString());
+        }
+        #endregion
     }
 }

@@ -14,5 +14,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        bool Visited
+        {
+            get;
+        }
     }
 }

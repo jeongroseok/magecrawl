@@ -51,9 +51,17 @@ namespace Magecrawl.GameUI.Map
                         {
                             if (m_tileVisibility[i, j] == TileVisibility.Unvisited)
                             {
+                                // If it's unvisisted, nuke the square completed black
                                 screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.Black);
                                 screen.SetCharForeground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.Black);
                                 screen.PutChar(screenPlacement.X, screenPlacement.Y, ' ');
+                            }
+                            else if (m_tileVisibility[i, j] == TileVisibility.Visited)
+                            {
+                                // If it's visited, we're going to trust the rest of the painters to respect visibility to not
+                                // draw non-terrain/maptiles
+                                screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.Black);
+                                screen.SetCharForeground(screenPlacement.X, screenPlacement.Y, Color.FromRGB(40, 40, 40));
                             }
                         }
                     }
