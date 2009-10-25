@@ -34,6 +34,14 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                return "Test Item";
+            }
+        }
+
         #region SaveLoad
 
         public System.Xml.Schema.XmlSchema GetSchema()

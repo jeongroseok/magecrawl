@@ -77,7 +77,10 @@ namespace Magecrawl.GameUI.Map.Debug
                 case "DebuggingMoveableOnOff":
                     SwapDebugMovable(data as IGameEngine);
                     break;
-                case "DisableAll":
+                case "DebuggingMoveableOff":
+                    m_enabled = false;
+                    break;
+                case "DisableAllOverlays":
                     m_enabled = false;
                     break;
             }

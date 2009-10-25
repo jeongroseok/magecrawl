@@ -63,7 +63,7 @@ namespace Magecrawl.GameUI.Map
                     m_targetablePoints = (List<WeaponPoint>)data;
                     break;
                 case "RangedAttackDisabled":
-                case "DisableAll":
+                case "DisableAllOverlays":
                     m_enabled = false;
                     break;
             }

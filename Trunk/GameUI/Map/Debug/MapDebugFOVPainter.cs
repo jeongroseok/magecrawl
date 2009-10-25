@@ -90,7 +90,10 @@ namespace Magecrawl.GameUI.Map.Debug
                 case "DebuggingFOVOnOff":
                     SwapDebugFOV(data as IGameEngine);
                     break;
-                case "DisableAll":
+                case "DebuggingFOVOff":
+                    m_enabled = false;
+                    break;
+                case "DisableAllOverlays":
                     m_enabled = false;
                     break;
             }

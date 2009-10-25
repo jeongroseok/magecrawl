@@ -55,15 +55,15 @@ namespace Magecrawl
                 {
                     HandleKeyboard();
                     m_console.Clear();
-                    m_painters.DrawNewFrame(m_console);
                     TextBox.Draw(m_console);
                     m_charInfo.Draw(m_console, m_engine.Player);
+                    m_painters.DrawNewFrame(m_console);
                     m_console.Flush();
                 }
                 catch (PlayerDiedException)
                 {
                     // Put death information out here.
-                    m_painters.HandleRequest("DisableAll", null);
+                    m_painters.HandleRequest("DisableAllOverlays", null);
                     m_painters.DrawNewFrame(m_console);
                     TextBox.AddText("Player has died.");
                     TextBox.AddText("Press 'q' to exit.");
@@ -110,6 +110,10 @@ namespace Magecrawl
             ViewmodeKeystrokeHandler viewmodeHandler = new ViewmodeKeystrokeHandler(m_engine, this);
             viewmodeHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Viewmode", viewmodeHandler);
+
+            InventoryScreenKeyboardHandler inventoryHandler = new InventoryScreenKeyboardHandler(m_engine, this);
+            inventoryHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Inventory", inventoryHandler);
 
             m_keystroke.CurrentHandlerName = "Default";
         }
