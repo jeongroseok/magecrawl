@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
 using System.Xml;
 using System.Xml.Serialization;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {

@@ -14,5 +14,15 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        string ItemDescription
+        {
+            get;
+        }
+
+        string FlavorDescription
+        {
+            get;
+        }
     }
 }

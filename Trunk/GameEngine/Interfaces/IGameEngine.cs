@@ -8,7 +8,10 @@ namespace Magecrawl.GameEngine.Interfaces
     public delegate void PlayerDiedDelegate();
     public delegate void TextOutputFromGame(string s);
 
-    public enum TileVisibility { Unvisited, Visited, Visible };
+    public enum TileVisibility 
+    {
+        Unvisited, Visited, Visible 
+    }
 
     public interface IGameEngine : IDisposable
     {

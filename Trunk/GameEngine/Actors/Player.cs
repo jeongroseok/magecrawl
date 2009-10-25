@@ -2,9 +2,9 @@
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.GameEngine.Weapons;
 
 namespace Magecrawl.GameEngine.Actors
 {

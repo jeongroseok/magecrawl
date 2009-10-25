@@ -4,7 +4,7 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.Keyboard
 {
-    class OperateKeystrokeHandler : BaseKeystrokeHandler
+    internal class OperateKeystrokeHandler : BaseKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;

@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
 using Magecrawl.GameUI.Map;
 using Magecrawl.Keyboard;
+using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Utilities;
 
 namespace Magecrawl
@@ -18,13 +19,13 @@ namespace Magecrawl
         private IGameEngine m_engine;
         private KeystrokeManager m_keystroke;
         private CharacterInfo m_charInfo;
-        private MapPaintingCoordinator m_painters;
+        private PaintingCoordinator m_painters;
 
         internal GameInstance()
         {
             TextBox = new TextBox();
             m_charInfo = new CharacterInfo();
-            m_painters = new MapPaintingCoordinator();
+            m_painters = new PaintingCoordinator();
         }
 
         public void Dispose()
@@ -114,6 +115,10 @@ namespace Magecrawl
             InventoryScreenKeyboardHandler inventoryHandler = new InventoryScreenKeyboardHandler(m_engine, this);
             inventoryHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Inventory", inventoryHandler);
+
+            InventoryItemKeyboardHandler inventoryItemHandler = new InventoryItemKeyboardHandler(m_engine, this);
+            inventoryItemHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("InventoryItem", inventoryItemHandler);
 
             m_keystroke.CurrentHandlerName = "Default";
         }

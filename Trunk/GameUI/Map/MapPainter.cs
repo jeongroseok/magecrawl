@@ -44,10 +44,9 @@ namespace Magecrawl.GameUI.Map
                     DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, '$');
             }
 
-
             foreach (ICharacter obj in engine.Map.Monsters)
             {
-                TileVisibility visibility  = tileVisibility[obj.Position.X, obj.Position.Y] ;
+                TileVisibility visibility = tileVisibility[obj.Position.X, obj.Position.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
                     DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
             }

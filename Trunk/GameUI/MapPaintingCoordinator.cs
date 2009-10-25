@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameUI.Inventory;
+using Magecrawl.GameUI.Map;
 using Magecrawl.GameUI.Map.Debug;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameUI.Map
+namespace Magecrawl.GameUI
 {
-    public sealed class MapPaintingCoordinator : System.IDisposable
+    public sealed class PaintingCoordinator : System.IDisposable
     {
-        private List<MapPainterBase> m_painters;
+        private List<PainterBase> m_painters;
         private bool m_isSelectionCursor;
         private Point m_cursorSpot;
 
-        public MapPaintingCoordinator()
+        public PaintingCoordinator()
         {
             m_isSelectionCursor = false;
             m_cursorSpot = new Point(0, 0);
 
-            m_painters = new List<MapPainterBase>();
+            m_painters = new List<PainterBase>();
 
             // The map painter is special since it should go first to draw the base map.
             m_painters.Add(new MapPainter());
@@ -35,12 +37,12 @@ namespace Magecrawl.GameUI.Map
 
             // This should be after all map painters since we'll draw 'over' the map
             m_painters.Add(new InventoryPainter());
-
+            m_painters.Add(new InventoryItemPainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)
         {
-            foreach (MapPainterBase p in m_painters)
+            foreach (PainterBase p in m_painters)
             {
                 p.UpdateFromNewData(engine, CalculateMapCorner(engine));
             }
@@ -48,7 +50,7 @@ namespace Magecrawl.GameUI.Map
 
         public void DrawNewFrame(Console console)
         {
-            foreach (MapPainterBase p in m_painters)
+            foreach (PainterBase p in m_painters)
             {
                 p.DrawNewFrame(console);
             }
@@ -56,7 +58,7 @@ namespace Magecrawl.GameUI.Map
 
         public void Dispose()
         {
-            foreach (MapPainterBase p in m_painters)
+            foreach (PainterBase p in m_painters)
             {
                 p.Dispose();
             }
@@ -65,7 +67,7 @@ namespace Magecrawl.GameUI.Map
 
         public void HandleRequest(string request, object data, object data2)
         {
-            foreach (MapPainterBase p in m_painters)
+            foreach (PainterBase p in m_painters)
             {
                 p.HandleRequest(request, data, data2);
             }

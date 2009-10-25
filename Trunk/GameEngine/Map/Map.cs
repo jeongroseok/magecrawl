@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
-using System.IO;
 
 namespace Magecrawl.GameEngine
 {
@@ -102,10 +102,10 @@ namespace Magecrawl.GameEngine
 
         private void CreateDemoMap()
         {
-            using(StreamReader reader = File.OpenText("map.txt"))
+            using (StreamReader reader = File.OpenText("map.txt"))
             {              
                 string sizeLine = reader.ReadLine();
-                string [] sizes = sizeLine.Split(' ');
+                string[] sizes = sizeLine.Split(' ');
                 m_width = Int32.Parse(sizes[0]);
                 m_height = Int32.Parse(sizes[0]);
                 m_map = new MapTile[m_width, m_height];

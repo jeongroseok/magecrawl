@@ -183,8 +183,8 @@ namespace Magecrawl.GameEngine.Actors
         public void Heal(int toHeal)
         {
             CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
-	    }
-	
+        }
+
         public virtual IWeapon CurrentWeapon
         {
             get
