@@ -27,6 +27,7 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerWait();
         void Save();
         void Load();
+        bool PlayerGetItem();
         bool PlayerAttack(Point target);
         bool PlayerCastSpell(string spellName);
         IList<Point> PlayerPathToPoint(Point dest);

@@ -25,6 +25,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        IList<IItem> Items
+        {
+            get;
+        }
+
         IMapTile this[int width, int height]
         {
             get;

@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 using System.IO;
 
@@ -17,6 +19,7 @@ namespace Magecrawl.GameEngine
         private MapTile[,] m_map;
         private List<MapObject> m_mapObjects;
         private List<Monster> m_monsterList;
+        private List<Item> m_items;
 
         internal Map()
         {
@@ -28,6 +31,7 @@ namespace Magecrawl.GameEngine
         {
             m_mapObjects = new List<MapObject>();
             m_monsterList = new List<Monster>();
+            m_items = new List<Item>();
 
             CreateDemoMap();
         }
@@ -35,6 +39,11 @@ namespace Magecrawl.GameEngine
         internal bool KillMonster(Monster m)
         {
             return m_monsterList.Remove(m);
+        }
+
+        internal bool RemoveItem(Item i)
+        {
+            return m_items.Remove(i);
         }
 
         public int Width
@@ -66,6 +75,14 @@ namespace Magecrawl.GameEngine
             get 
             {
                 return m_monsterList.ConvertAll<ICharacter>(new Converter<Monster, ICharacter>(delegate(Monster m) { return m as ICharacter; }));
+            }
+        }
+
+        public IList<IItem> Items
+        {
+            get 
+            {
+                return m_items.ConvertAll<IItem>(new Converter<Item, IItem>(delegate(Item i) { return i as IItem; }));
             }
         }
 
@@ -109,6 +126,9 @@ namespace Magecrawl.GameEngine
                             case 'M':
                                 m_monsterList.Add(new Monster(i, j));
                                 break;
+                            case '$':
+                                m_items.Add(new Item(i, j));
+                                break;
                         }
                     }
                 }
@@ -146,26 +166,38 @@ namespace Magecrawl.GameEngine
             // Read Map Features
             m_mapObjects = new List<MapObject>();
 
-            ReadListFromXMLCore readDel = new ReadListFromXMLCore(delegate
+            ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
                 MapObject newObj = MapObject.CreateMapObjectFromTypeString(typeString);
                 newObj.ReadXml(reader);
                 m_mapObjects.Add(newObj);
             });
-            ReadListFromXML(reader, readDel);
+            ListSerialization.ReadListFromXML(reader, readDelegate);
 
-            // Read Monstesr
+            // Read Monsters
             m_monsterList = new List<Monster>();
 
-            readDel = new ReadListFromXMLCore(delegate
+            readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
                 Monster newObj = Monster.CreateMonsterObjectFromTypeString(typeString);
                 newObj.ReadXml(reader);
                 m_monsterList.Add(newObj);
             });
-            ReadListFromXML(reader, readDel);
+            ListSerialization.ReadListFromXML(reader, readDelegate);
+
+            // Read Items
+            m_items = new List<Item>();
+
+            readDelegate = new ReadListFromXMLCore(delegate
+            {
+                string typeString = reader.ReadElementContentAsString();
+                Item newItem = Item.CreateItemObjectFromTypeString(typeString);
+                newItem.ReadXml(reader);
+                m_items.Add(newItem);
+            });
+            ListSerialization.ReadListFromXML(reader, readDelegate);
 
             reader.ReadEndElement();
         }
@@ -184,44 +216,13 @@ namespace Magecrawl.GameEngine
                 }
             }
 
-            WriteListToXML(writer, m_mapObjects, "MapObjects");
+            ListSerialization.WriteListToXML(writer, m_mapObjects, "MapObjects");
 
-            WriteListToXML(writer, m_monsterList, "Monsters");
+            ListSerialization.WriteListToXML(writer, m_monsterList, "Monsters");
+
+            ListSerialization.WriteListToXML(writer, m_items, "Items");
 
             writer.WriteEndElement();
-        }
-
-        public static void WriteListToXML<T>(XmlWriter writer, List<T> list, string listName) where T : IXmlSerializable
-        {
-            writer.WriteStartElement(listName + "List");
-            writer.WriteElementString("Count", list.Count.ToString());
-            for (int i = 0; i < list.Count; ++i)
-            {
-                IXmlSerializable current = list[i];
-                writer.WriteStartElement(string.Format(listName + "{0}", i));
-                current.WriteXml(writer);
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-        }
-
-        public delegate void ReadListFromXMLCore(XmlReader reader);
-
-        public static void ReadListFromXML(XmlReader reader, ReadListFromXMLCore del)
-        {
-            reader.ReadStartElement();
-
-            int mapFeatureListLength = reader.ReadElementContentAsInt();
-
-            for (int i = 0; i < mapFeatureListLength; ++i)
-            {
-                reader.ReadStartElement();
-
-                del(reader);
-
-                reader.ReadEndElement();
-            }
-            reader.ReadEndElement();
         }
 
         #endregion
