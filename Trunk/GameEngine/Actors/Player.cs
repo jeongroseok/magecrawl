@@ -5,32 +5,23 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        private IWeapon[] m_weaponList;
-        private int m_weaponPosition = 0;
+        private IWeapon m_equipedWeapon;
         private List<Item> m_itemList;
 
         public Player() : base()
         {
-            m_weaponList = new IWeapon[4];
-            m_weaponList[0] = new MeleeWeapon(this);
-            m_weaponList[1] = new SimpleBow(this);
-            m_weaponList[2] = new Spear(this);
-            m_weaponList[3] = new Sword(this);
+            m_equipedWeapon = null;
             m_itemList = null;
         }
 
         public Player(int x, int y) : base(x, y, 10, 10, 6, 10, 10, "Donblas")
         {
-            m_weaponList = new IWeapon[4];
-            m_weaponList[0] = new MeleeWeapon(this);
-            m_weaponList[1] = new SimpleBow(this);
-            m_weaponList[2] = new Spear(this);
-            m_weaponList[3] = new Sword(this);
             m_itemList = new List<Item>();
         }
 
@@ -38,7 +29,9 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_weaponList[m_weaponPosition];
+                if (m_equipedWeapon == null)
+                    return new MeleeWeapon(this);
+                return m_equipedWeapon;
             }
         }
 
@@ -50,13 +43,6 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public void IterateThroughWeapons()
-        {
-            m_weaponPosition++;
-            if (m_weaponPosition >= m_weaponList.Length)
-                m_weaponPosition = 0;
-        }
-
         internal void TakeItemOffGround(Item i)
         {
             m_itemList.Add(i);
@@ -65,6 +51,14 @@ namespace Magecrawl.GameEngine.Actors
         internal void RemoveItem(Item i)
         {
             m_itemList.Remove(i);
+        }
+
+        public override DiceRoll MeleeDamage
+        {
+            get
+            {
+                return new DiceRoll(1, 2);
+            }
         }
 
         #region SaveLoad
@@ -78,7 +72,7 @@ namespace Magecrawl.GameEngine.Actors
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = Item.CreateItemObjectFromTypeString(typeString);
+                Item newItem = ItemSaveLoadHelpers.CreateItemObjectFromTypeString(typeString);
                 newItem.ReadXml(reader);
                 m_itemList.Add(newItem);
             });

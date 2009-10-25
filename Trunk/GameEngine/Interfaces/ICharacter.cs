@@ -44,5 +44,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        DiceRoll MeleeDamage
+        {
+            get;
+        }
     }
 }

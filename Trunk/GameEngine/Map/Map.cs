@@ -19,7 +19,7 @@ namespace Magecrawl.GameEngine
         private MapTile[,] m_map;
         private List<MapObject> m_mapObjects;
         private List<Monster> m_monsterList;
-        private List<Item> m_items;
+        private List<Pair<Item, Point>> m_items;
 
         internal Map()
         {
@@ -31,7 +31,7 @@ namespace Magecrawl.GameEngine
         {
             m_mapObjects = new List<MapObject>();
             m_monsterList = new List<Monster>();
-            m_items = new List<Item>();
+            m_items = new List<Pair<Item, Point>>();
 
             CreateDemoMap();
         }
@@ -41,15 +41,14 @@ namespace Magecrawl.GameEngine
             return m_monsterList.Remove(m);
         }
 
-        internal bool RemoveItem(Item i)
+        internal bool RemoveItem(Pair<Item, Point> item)
         {
-            return m_items.Remove(i);
+            return m_items.Remove(item);
         }
 
-        internal void AddItem(Item i, Point p)
+        internal void AddItem(Pair<Item, Point> item)
         {
-            i.Position = p;
-            m_items.Add(i);
+            m_items.Add(item);
         }
 
 
@@ -85,11 +84,19 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public IList<IItem> Items
+        public IList<Pair<IItem, Point>> Items
         {
             get 
             {
-                return m_items.ConvertAll<IItem>(new Converter<Item, IItem>(delegate(Item i) { return i as IItem; }));
+                return m_items.ConvertAll<Pair<IItem, Point>>(new Converter<Pair<Item, Point>, Pair<IItem, Point>>(delegate(Pair<Item, Point> i) { return new Pair<IItem,Point>(i.First, i.Second); }));
+            }
+        }
+
+        internal IList<Pair<Item, Point>> InternalItems
+        {
+            get
+            {
+                return m_items;
             }
         }
 
@@ -134,7 +141,7 @@ namespace Magecrawl.GameEngine
                                 m_monsterList.Add(new Monster(i, j));
                                 break;
                             case '$':
-                                m_items.Add(new Item(i, j));
+                                m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.WoodenSword(), new Point(i, j)));
                                 break;
                         }
                     }
@@ -195,14 +202,16 @@ namespace Magecrawl.GameEngine
             ListSerialization.ReadListFromXML(reader, readDelegate);
 
             // Read Items
-            m_items = new List<Item>();
+            m_items = new List<Pair<Item, Point>>();
 
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = Item.CreateItemObjectFromTypeString(typeString);
+                Item newItem = ItemSaveLoadHelpers.CreateItemObjectFromTypeString(typeString);
+                Point position = new Point();
+                position = position.ReadXml(reader);
                 newItem.ReadXml(reader);
-                m_items.Add(newItem);
+                m_items.Add(new Pair<Item, Point>(newItem, position));
             });
             ListSerialization.ReadListFromXML(reader, readDelegate);
 

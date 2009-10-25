@@ -3,20 +3,48 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Weapons
+namespace Magecrawl.GameEngine.Weapons.BaseTypes
 {
     internal abstract class WeaponBase : IWeapon
     {
         protected ICharacter m_owner;
+        protected string m_name;
+        protected DiceRoll m_damage;
 
-        public abstract DiceRoll Damage
+        internal ICharacter Owner
         {
-            get;
+            get
+            {
+                return m_owner;
+            }
+            set
+            {
+                m_owner = value;
+            }
         }
 
-        public abstract string Name
+        public virtual DiceRoll Damage
         {
-            get;
+            get
+            {
+                return m_damage;
+            }
+            internal set
+            {
+                m_damage = value;
+            }
+        }
+
+        public virtual string Name
+        {
+            get
+            {
+                return m_name;
+            }
+            internal set
+            {
+                m_name = value;
+            }
         }
 
         public abstract List<WeaponPoint> CalculateTargetablePoints();

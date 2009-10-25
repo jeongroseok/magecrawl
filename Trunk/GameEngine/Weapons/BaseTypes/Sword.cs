@@ -3,29 +3,22 @@ using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Weapons
+namespace Magecrawl.GameEngine.Weapons.BaseTypes
 {
-    internal class Sword : WeaponBase
+    internal abstract class Sword : WeaponBase
     {
-        internal Sword(ICharacter owner)
+        internal Sword()
+        {
+            m_owner = null;
+            m_name = null;
+            m_damage = DiceRoll.Invalid;
+        }
+
+        internal Sword(ICharacter owner, string name, DiceRoll damamge)
         {
             m_owner = owner;
-        }
-
-        public override DiceRoll Damage
-        {
-            get 
-            {
-                return new DiceRoll(1, 8);
-            }
-        }
-
-        public override string Name
-        {
-            get 
-            {
-                return "Sword";
-            }
+            m_name = name;
+            m_damage = damamge;
         }
 
         public override List<WeaponPoint> CalculateTargetablePoints()

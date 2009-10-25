@@ -8,6 +8,7 @@ namespace Magecrawl.Utilities
     public struct DiceRoll
     {
         private static Random random = new Random();
+        public static DiceRoll Invalid = new DiceRoll(-1, -1, -1, -1);
 
         public short Rolls;
         public short DiceFaces;
