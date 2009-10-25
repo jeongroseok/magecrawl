@@ -204,7 +204,7 @@ namespace Magecrawl.GameEngine
                 if (m_player.Position == i.Second)
                 {
                     m_map.RemoveItem(i);
-                    m_player.TakeItemOffGround(i.First);
+                    m_player.TakeItem(i.First);
                     m_timingEngine.ActorDidAction(m_player);
                     return true;
                 }

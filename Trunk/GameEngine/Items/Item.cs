@@ -9,6 +9,5 @@ namespace Magecrawl.GameEngine.Items
 {
     internal interface Item : IItem, IXmlSerializable
     {
-
     }
 }

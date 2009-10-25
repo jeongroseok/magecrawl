@@ -24,7 +24,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             writer.WriteEndElement();
         }
 
-        public static void WriteListToXML<T>(XmlWriter writer, List<Pair<T,Point>> list, string listName) where T : IXmlSerializable
+        public static void WriteListToXML<T>(XmlWriter writer, List<Pair<T, Point>> list, string listName) where T : IXmlSerializable
         {
             writer.WriteStartElement(listName + "List");
             writer.WriteElementString("Count", list.Count.ToString());
