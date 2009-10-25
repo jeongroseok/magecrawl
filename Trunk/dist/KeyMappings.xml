@@ -24,6 +24,7 @@
 <KeyMapping Key="," Action="GetItem" />
 <KeyMapping Key="a" Action="Attack" />
 <KeyMapping Key="v" Action="ViewMode" />
+<KeyMapping Key="i" Action="Inventory" />
 <KeyMapping Key="+" Action="ChangeWeapon" />
 <KeyMapping Key="h" Action="HealSpell" />
 <KeyMapping Key="b" Action="BlastSpell" />

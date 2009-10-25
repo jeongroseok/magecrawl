@@ -43,6 +43,8 @@
   -->
   <ItemGroup>
     <Compile Include="CharacterInfo.cs" />
+    <Compile Include="DialogColorHelper.cs" />
+    <Compile Include="Map\InventoryPainter.cs" />
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
     <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />

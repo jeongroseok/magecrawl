@@ -8,10 +8,12 @@ namespace Magecrawl.GameUI.Map
     internal sealed class MapPainter : MapPainterBase
     {
         private Console m_offscreenConsole;
+        private bool m_honorFOV;
 
         public MapPainter()
         {
             m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
+            m_honorFOV = true;
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
@@ -38,7 +40,7 @@ namespace Magecrawl.GameUI.Map
             foreach (IItem obj in engine.Map.Items)
             {
                 TileVisibility visibility = tileVisibility[obj.Position.X, obj.Position.Y];
-                if (visibility == TileVisibility.Visible)
+                if (!m_honorFOV || visibility == TileVisibility.Visible)
                     DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, '$');
             }
 
@@ -46,7 +48,7 @@ namespace Magecrawl.GameUI.Map
             foreach (ICharacter obj in engine.Map.Monsters)
             {
                 TileVisibility visibility  = tileVisibility[obj.Position.X, obj.Position.Y] ;
-                if ( visibility == TileVisibility.Visible)
+                if (!m_honorFOV || visibility == TileVisibility.Visible)
                     DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
             }
 
@@ -67,6 +69,12 @@ namespace Magecrawl.GameUI.Map
 
         public override void HandleRequest(string request, object data)
         {
+            switch (request)
+            {
+                case "SwapFOVEnabledStatus":
+                    m_honorFOV = !m_honorFOV;
+                    break;
+            }
         }
 
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)

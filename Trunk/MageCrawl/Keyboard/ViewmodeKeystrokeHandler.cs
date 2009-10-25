@@ -26,14 +26,7 @@ namespace Magecrawl.Keyboard
             m_gameInstance.UpdatePainters();
         }
 
-        private void HandleDirection(Direction direction)
-        {
-            SelectionPoint = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, direction);
-            m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
-            m_gameInstance.UpdatePainters();
-        }
-
-        private void ViewMode()
+        private void Inventory()
         {
             Escape();
         }
@@ -43,6 +36,13 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
+        }
+
+        private void HandleDirection(Direction direction)
+        {
+            SelectionPoint = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, direction);
+            m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
+            m_gameInstance.UpdatePainters();
         }
 
         private void North()

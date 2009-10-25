@@ -75,6 +75,7 @@ namespace Magecrawl.GameEngine.Actors
             }
 
             // If nothing else, 'wait'
+            engine.Wait(this);
             return MonsterAction.DidAction;
         }
 

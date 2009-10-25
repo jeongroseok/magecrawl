@@ -147,6 +147,11 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("Viewmode");
         }
 
+        private void Inventory()
+        {
+            m_gameInstance.SetHandlerName("Inventory");
+        }
+
         private void TextBoxPageUp()
         {
             m_gameInstance.TextBox.TextBoxScrollUp();

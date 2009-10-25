@@ -10,5 +10,9 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        string Name
+        {
+            get;
+        }
     }
 }

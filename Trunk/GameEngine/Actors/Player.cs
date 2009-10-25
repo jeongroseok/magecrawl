@@ -42,6 +42,14 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public IList<IItem> Items
+        {
+            get
+            {
+                return m_itemList.ConvertAll<IItem>(new System.Converter<Item, IItem>(delegate(Item i) { return i as IItem; }));
+            }
+        }
+
         public void IterateThroughWeapons()
         {
             m_weaponPosition++;

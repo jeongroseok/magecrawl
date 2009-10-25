@@ -27,11 +27,15 @@ namespace Magecrawl.GameUI.Map
             m_painters.Add(new MapDebugFOVPainter());
             m_painters.Add(new PlayerAttackRangePainter());
 
-            // This should be 2nd to last to draw FOV blackout
+            // This should be last of all map painters to block out map
             m_painters.Add(new MapFOVPainter());
 
-            // The cursor painter should be last
+            // The cursor painter should be last of all map painters
             m_painters.Add(new MapCursorPainter());
+
+            // This should be after all map painters since we'll draw 'over' the map
+            m_painters.Add(new InventoryPainter());
+
         }
 
         public void UpdateFromNewData(IGameEngine engine)
@@ -77,7 +81,7 @@ namespace Magecrawl.GameUI.Map
                 case "MapCursorPositionChanged":
                     m_cursorSpot = (Point)data;
                     break;
-                case "DisableAll":
+                case "DisableAllOverlays":
                     m_isSelectionCursor = false;
                     break;
             }
