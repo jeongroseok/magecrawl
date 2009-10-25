@@ -140,6 +140,25 @@ namespace Magecrawl.GameEngine
             return isMoveablePoint;
         }
 
+        public TileVisibility[,] CalculateTileVisibility()
+        {
+            TileVisibility[,] visibilityArray = new TileVisibility[m_map.Width, m_map.Height];
+
+            m_fovManager.CalculateForMultipleCalls(m_player.Position, m_player.Vision);
+
+            for (int i = 0; i < m_map.Width; ++i)
+            {
+                for (int j = 0; j < m_map.Height; ++j)
+                {
+                    if (m_fovManager.Visible(new Point(i, j)))
+                        visibilityArray[i, j] = TileVisibility.Visible;
+                    else
+                        visibilityArray[i, j] = TileVisibility.Unvisited;
+                }
+            }
+            return visibilityArray;
+        }
+
         internal bool Move(Character c, Direction direction)
         {
             bool didAnything = false;

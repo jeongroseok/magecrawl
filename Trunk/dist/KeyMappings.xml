@@ -14,6 +14,7 @@
 <KeyMapping Key="TCODK_ESCAPE" Action="Escape" />
 <KeyMapping Key="TCODK_F1" Action="MoveableOnOff" />
 <KeyMapping Key="TCODK_F2" Action="DebuggingFOVOnOff" />
+<KeyMapping Key="TCODK_F3" Action="FOVOnOff" />
   
 <KeyMapping Key="q" Action="Quit" />
 <KeyMapping Key="o" Action="Operate" />

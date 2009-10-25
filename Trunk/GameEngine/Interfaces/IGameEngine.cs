@@ -8,6 +8,8 @@ namespace Magecrawl.GameEngine.Interfaces
     public delegate void PlayerDiedDelegate();
     public delegate void TextOutputFromGame(string s);
 
+    public enum TileVisibility { Unvisited, Visited, Visible };
+
     public interface IGameEngine : IDisposable
     {
         IPlayer Player
@@ -31,6 +33,8 @@ namespace Magecrawl.GameEngine.Interfaces
         List<Point> CellsInPlayersFOV();
 
         void IterateThroughWeapons();
+
+        TileVisibility[,] CalculateTileVisibility();
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();
