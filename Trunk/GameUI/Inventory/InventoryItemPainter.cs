@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Inventory
 {
-    public delegate void InventoryItemOptionSelected(string optionName);
+    public delegate void InventoryItemOptionSelected(IItem item, string optionName);
 
     internal sealed class InventoryItemPainter : PainterBase
     {
@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI.Inventory
         private IItem m_selectedItem;
         private bool m_enabled;
         private int m_cursorPosition;
-        private List<string> m_optionList;
+        private List<ItemOptions> m_optionList;
 
         private DialogColorHelper m_dialogColorHelper;
 
@@ -57,9 +57,8 @@ namespace Magecrawl.GameUI.Inventory
                 // Print option list.
                 for (int i = 0; i < m_optionList.Count; ++i)
                 {
-                    // TODO - Should also get list of if an option is available from engine
-                    m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, true);
-                    screen.PrintLine(m_optionList[i], SelectedItemOffset + 2, SelectedItemOffset + 4 + (i * 2), Background.Set, LineAlignment.Left);
+                    m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, m_optionList[i].Enabled);
+                    screen.PrintLine(m_optionList[i].Option, SelectedItemOffset + 2, SelectedItemOffset + 4 + (i * 2), Background.Set, LineAlignment.Left);
                 }
 
                 m_dialogColorHelper.ResetColors(screen);
@@ -72,7 +71,7 @@ namespace Magecrawl.GameUI.Inventory
             {
                 case "InventoryItemWindow":
                     m_selectedItem = (IItem)data;
-                    m_optionList = (List<string>)data2;
+                    m_optionList = (List<ItemOptions>)data2;
                     m_cursorPosition = 0;
                     m_enabled = true;
                     break;
@@ -94,7 +93,8 @@ namespace Magecrawl.GameUI.Inventory
                     break;
                 case "InventoryItemOptionSelected":
                     InventoryItemOptionSelected del = (InventoryItemOptionSelected)data;
-                    del(m_optionList[m_cursorPosition]);
+                    if(m_optionList[m_cursorPosition].Enabled)
+                        del(m_selectedItem, m_optionList[m_cursorPosition].Option);
                     break;
             }
         }

@@ -57,9 +57,14 @@ namespace Magecrawl.GameEngine.Actors
                 m_weaponPosition = 0;
         }
 
-        internal void TakeItem(Item i)
+        internal void TakeItemOffGround(Item i)
         {
             m_itemList.Add(i);
+        }
+
+        internal void RemoveItem(Item i)
+        {
+            m_itemList.Remove(i);
         }
 
         #region SaveLoad

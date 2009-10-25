@@ -177,5 +177,15 @@ namespace Magecrawl.GameEngine
         {
             return m_engine.CalculateTileVisibility();
         }
+
+        public List<ItemOptions> GetOptionsForInventoryItem(IItem item)
+        {
+            return m_engine.GetOptionsForInventoryItem(item);
+        }
+
+        public bool PlayerSelectedItemOption(IItem item, string option)
+        {
+            return m_engine.PlayerSelectedItemOption(item, option);
+        }
     }
 }

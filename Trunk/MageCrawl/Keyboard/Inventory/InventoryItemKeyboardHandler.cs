@@ -25,9 +25,9 @@ namespace Magecrawl.Keyboard.Inventory
             m_gameInstance.SendPaintersRequest("InventoryItemOptionSelected", new Magecrawl.GameUI.Inventory.InventoryItemOptionSelected(InventoryItemOptionSelectedDelegate));
         }
 
-        private void InventoryItemOptionSelectedDelegate(string optionName)
+        private void InventoryItemOptionSelectedDelegate(IItem item, string optionName)
         {
-            m_gameInstance.TextBox.AddText(optionName);
+            m_engine.PlayerSelectedItemOption(item, optionName);
             m_gameInstance.SendPaintersRequest("StopShowingInventoryItemWindow");
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
