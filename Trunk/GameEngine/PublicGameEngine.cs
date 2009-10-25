@@ -164,5 +164,10 @@ namespace Magecrawl.GameEngine
         {
             m_engine.Player.IterateThroughWeapons();
         }
+
+        public TileVisibility[,] CalculateTileVisibility()
+        {
+            return m_engine.CalculateTileVisibility();
+        }
     }
 }

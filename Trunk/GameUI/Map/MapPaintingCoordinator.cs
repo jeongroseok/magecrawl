@@ -27,6 +27,9 @@ namespace Magecrawl.GameUI.Map
             m_painters.Add(new MapDebugFOVPainter());
             m_painters.Add(new PlayerAttackRangePainter());
 
+            // This should be 2nd to last to draw FOV blackout
+            m_painters.Add(new MapFOVPainter());
+
             // The cursor painter should be last
             m_painters.Add(new MapCursorPainter());
         }

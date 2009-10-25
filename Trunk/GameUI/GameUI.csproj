@@ -46,6 +46,7 @@
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
     <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />
+    <Compile Include="Map\MapFOVPainter.cs" />
     <Compile Include="Map\MapPainter.cs" />
     <Compile Include="Map\MapEffectsPainter.cs" />
     <Compile Include="Map\MapPainterBase.cs" />

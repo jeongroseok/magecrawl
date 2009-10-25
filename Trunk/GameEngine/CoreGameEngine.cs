@@ -151,6 +151,11 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.FilterNotTargetablePointsFromList(pointList, characterPosition, visionRange);
         }
 
+        public TileVisibility[,] CalculateTileVisibility()
+        {
+            return m_physicsEngine.CalculateTileVisibility();
+        }
+
         internal void PlayerDied()
         {
             m_playerDied();

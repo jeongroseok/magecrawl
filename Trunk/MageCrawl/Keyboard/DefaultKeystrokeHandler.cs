@@ -105,11 +105,19 @@ namespace Magecrawl.Keyboard
         private void MoveableOnOff()
         {
             m_gameInstance.SendPaintersRequest("DebuggingMoveableOnOff", m_engine);
+            m_gameInstance.UpdatePainters();
         }
 
         private void DebuggingFOVOnOff()
         {
             m_gameInstance.SendPaintersRequest("DebuggingFOVOnOff", m_engine);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void FOVOnOff()
+        {
+            m_gameInstance.SendPaintersRequest("SwapFOVEnabledStatus", null);
+            m_gameInstance.UpdatePainters();
         }
 
         private void Wait()
