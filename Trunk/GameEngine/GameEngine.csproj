@@ -71,15 +71,16 @@
     <Compile Include="PhysicsEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicGameEngine.cs" />
+    <Compile Include="SaveLoad\ItemSaveLoadHelpers.cs" />
     <Compile Include="SaveLoad\ListSerialization.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
-    <Compile Include="Weapons\Sword.cs" />
+    <Compile Include="Weapons\BaseTypes\Sword.cs" />
     <Compile Include="Weapons\MeleeWeapon.cs" />
-    <Compile Include="Weapons\MonsterMelee.cs" />
-    <Compile Include="Weapons\SimpleBow.cs" />
-    <Compile Include="Weapons\Spear.cs" />
-    <Compile Include="Weapons\WeaponBase.cs" />
+    <Compile Include="Weapons\BaseTypes\SimpleBow.cs" />
+    <Compile Include="Weapons\BaseTypes\Spear.cs" />
+    <Compile Include="Weapons\BaseTypes\WeaponBase.cs" />
+    <Compile Include="Weapons\WoodenSword.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcodWrapper, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL" />

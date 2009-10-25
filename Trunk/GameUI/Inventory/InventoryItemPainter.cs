@@ -50,7 +50,7 @@ namespace Magecrawl.GameUI.Inventory
                 screen.PutChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SpecialCharacter.TEES);
                 screen.PutChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + SelectedItemHeight - 1, SpecialCharacter.TEEN);
 
-                screen.PrintLineRect(m_selectedItem.ItemDescription + m_selectedItem.FlavorDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
+                screen.PrintLineRect(m_selectedItem.ItemDescription + "\n\n" + m_selectedItem.FlavorDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
 
                 m_dialogColorHelper.SaveColors(screen);
                 

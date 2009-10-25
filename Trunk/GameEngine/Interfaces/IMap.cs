@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
@@ -25,7 +26,7 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        IList<IItem> Items
+        IList<Pair<IItem, Point>> Items
         {
             get;
         }

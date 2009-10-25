@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.SaveLoad
 {
@@ -18,6 +19,21 @@ namespace Magecrawl.GameEngine.SaveLoad
                 IXmlSerializable current = list[i];
                 writer.WriteStartElement(string.Format(listName + "{0}", i));
                 current.WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+        }
+
+        public static void WriteListToXML<T>(XmlWriter writer, List<Pair<T,Point>> list, string listName) where T : IXmlSerializable
+        {
+            writer.WriteStartElement(listName + "List");
+            writer.WriteElementString("Count", list.Count.ToString());
+            for (int i = 0; i < list.Count; ++i)
+            {
+                IXmlSerializable current = list[i].First;
+                writer.WriteStartElement(string.Format(listName + "{0}", i));
+                current.WriteXml(writer);
+                list[i].Second.WriteToXml(writer, "Position");
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();

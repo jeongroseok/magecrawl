@@ -137,11 +137,6 @@ namespace Magecrawl.Keyboard
              m_gameInstance.SetHandlerName("Attack");
         }
 
-        private void ChangeWeapon()
-        {
-            m_engine.IterateThroughWeapons();
-        }
-
         private void ViewMode()
         {
             m_gameInstance.SetHandlerName("Viewmode");

@@ -185,14 +185,25 @@ namespace Magecrawl.GameEngine.Actors
             CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
         }
 
+        // Everyone should override these. 
+        // I want character to have a constructor to reduce copying, but there are some things that should be overridded
         public virtual IWeapon CurrentWeapon
         {
             get
             {
-                // Everyone should override this.
                 throw new System.NotImplementedException();
             }
         }
+
+        public virtual DiceRoll MeleeDamage
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        #region SaveLoad
 
         public virtual System.Xml.Schema.XmlSchema GetSchema()
         {
@@ -224,5 +235,7 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("VisionRange", m_visionRange.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
         }
+
+        #endregion
     }
 }

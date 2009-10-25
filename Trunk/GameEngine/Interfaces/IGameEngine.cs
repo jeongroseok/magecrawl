@@ -51,8 +51,6 @@ namespace Magecrawl.GameEngine.Interfaces
         // TODO: What to do here when you zap a want and need a target?
         bool PlayerSelectedItemOption(IItem item, string option);
 
-        void IterateThroughWeapons();
-
         TileVisibility[,] CalculateTileVisibility();
         
         // Debugging calls

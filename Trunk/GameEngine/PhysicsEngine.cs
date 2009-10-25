@@ -199,12 +199,12 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerGetItem()
         {
-            foreach (Item i in m_map.Items)
+            foreach (Pair<Item, Point> i in m_map.InternalItems)
             {
-                if (m_player.Position == i.Position)
+                if (m_player.Position == i.Second)
                 {
                     m_map.RemoveItem(i);
-                    m_player.TakeItemOffGround(i);
+                    m_player.TakeItemOffGround(i.First);
                     m_timingEngine.ActorDidAction(m_player);
                     return true;
                 }
@@ -217,7 +217,7 @@ namespace Magecrawl.GameEngine
         {
             if (m_player.Items.Contains(item))
             {
-                m_map.AddItem(item, m_player.Position);
+                m_map.AddItem(new Pair<Item, Point>(item, m_player.Position));
                 m_player.RemoveItem(item);
                 return true;
             }

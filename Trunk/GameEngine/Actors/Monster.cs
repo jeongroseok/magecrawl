@@ -32,7 +32,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return new GameEngine.Weapons.MonsterMelee(this);
+                return new GameEngine.Weapons.MeleeWeapon(this);
             }
         }
 
@@ -77,6 +77,14 @@ namespace Magecrawl.GameEngine.Actors
             // If nothing else, 'wait'
             engine.Wait(this);
             return MonsterAction.DidAction;
+        }
+
+        public override DiceRoll MeleeDamage
+        {
+            get
+            {
+                return new DiceRoll(1, 2);
+            }
         }
 
         #region SaveLoad

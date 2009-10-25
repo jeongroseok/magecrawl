@@ -2,29 +2,22 @@
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Weapons
+namespace Magecrawl.GameEngine.Weapons.BaseTypes
 {
-    internal class Spear : WeaponBase
+    internal abstract class Spear : WeaponBase
     {
-        internal Spear(ICharacter owner)
+        internal Spear()
+        {
+            m_owner = null;
+            m_name = null;
+            m_damage = DiceRoll.Invalid;
+        }
+
+        internal Spear(ICharacter owner, string name, DiceRoll damamge)
         {
             m_owner = owner;
-        }
-
-        public override DiceRoll Damage
-        {
-            get 
-            {
-                return new DiceRoll(2, 2);
-            }
-        }
-
-        public override string Name
-        {
-            get 
-            {
-                return "Spear";
-            }
+            m_name = name;
+            m_damage = Damage;
         }
 
         public override List<WeaponPoint> CalculateTargetablePoints()

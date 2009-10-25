@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Weapons.BaseTypes;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
@@ -16,7 +17,11 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return new DiceRoll(1, 2);
+                return m_owner.MeleeDamage;
+            }
+            internal set
+            {
+                throw new System.ArgumentException("Can't set damage of MeleeWeapon");
             }
         }
 
@@ -25,6 +30,10 @@ namespace Magecrawl.GameEngine.Weapons
             get 
             {
                 return "Melee";
+            }
+            internal set
+            {
+                throw new System.ArgumentException("Can't set name of MeleeWeapon");
             }
         }
 
@@ -36,10 +45,10 @@ namespace Magecrawl.GameEngine.Weapons
             targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 0), 1.0f));
             targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, 1), 1.0f));
             targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 1), .25f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, -1), .25f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 1), .25f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, -1), .25f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, -1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 1), 1.0f));
+            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, -1), 1.0f));
 
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision);
 

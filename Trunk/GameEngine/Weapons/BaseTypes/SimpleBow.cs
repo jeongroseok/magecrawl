@@ -3,29 +3,22 @@ using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Weapons
+namespace Magecrawl.GameEngine.Weapons.BaseTypes
 {
-    internal class SimpleBow : WeaponBase
-    {   
-        internal SimpleBow(ICharacter owner)
+    internal abstract class SimpleBow : WeaponBase
+    {
+        internal SimpleBow()
+        {
+            m_owner = null;
+            m_name = null;
+            m_damage = DiceRoll.Invalid;
+        }
+
+        internal SimpleBow(ICharacter owner, string name, DiceRoll damamge)
         {
             m_owner = owner;
-        }
-
-        public override DiceRoll Damage
-        {
-            get 
-            {
-                return new DiceRoll(1, 2, 1);
-            }
-        }
-
-        public override string Name
-        {
-            get 
-            {
-                return "Bow";
-            }
+            m_name = name;
+            m_damage = Damage;
         }
 
         public override List<WeaponPoint> CalculateTargetablePoints()
