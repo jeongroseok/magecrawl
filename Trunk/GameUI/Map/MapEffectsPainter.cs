@@ -26,7 +26,7 @@ namespace Magecrawl.GameUI.Map
         {   
         }
 
-        public override void HandleRequest(string request, object data)
+        public override void HandleRequest(string request, object data, object data2)
         {
         }
     }

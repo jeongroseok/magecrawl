@@ -50,7 +50,7 @@ namespace Magecrawl.Keyboard
             reader.Close();
         }
 
-        public void HandleKeystroke(NamedKey keystroke)
+        public virtual void HandleKeystroke(NamedKey keystroke)
         {
             MethodInfo action;
             m_keyMappings.TryGetValue(keystroke, out action);

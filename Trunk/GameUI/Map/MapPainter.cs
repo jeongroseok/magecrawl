@@ -67,7 +67,7 @@ namespace Magecrawl.GameUI.Map
             m_offscreenConsole = null;
         }
 
-        public override void HandleRequest(string request, object data)
+        public override void HandleRequest(string request, object data, object data2)
         {
             switch (request)
             {
