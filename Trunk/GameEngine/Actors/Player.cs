@@ -5,6 +5,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
+using Magecrawl.GameEngine.Weapons.BaseTypes;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -25,6 +26,27 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
         }
 
+        internal IWeapon EquipWeapon(IWeapon weapon)
+        {
+            if (weapon == null)
+                throw new System.ArgumentException("EquipWeapon - Null weapon");
+            WeaponBase currentWeapon = weapon as WeaponBase;
+            currentWeapon.Owner = this;
+
+            IWeapon oldWeapon = UnequipWeapon();
+            m_equipedWeapon = currentWeapon;
+            return oldWeapon;
+        }
+
+        internal IWeapon UnequipWeapon()
+        {
+            if (m_equipedWeapon == null)
+                return null;
+            WeaponBase oldWeapon = m_equipedWeapon as WeaponBase;
+            oldWeapon.Owner = null;
+            return oldWeapon;
+        }
+
         public override IWeapon CurrentWeapon               
         {
             get
@@ -43,7 +65,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        internal void TakeItemOffGround(Item i)
+        internal void TakeItem(Item i)
         {
             m_itemList.Add(i);
         }
@@ -68,6 +90,20 @@ namespace Magecrawl.GameEngine.Actors
             reader.ReadStartElement();
             base.ReadXml(reader);
 
+            reader.ReadStartElement();
+            string equipedWeaponTypeString = reader.ReadElementString();
+            if (equipedWeaponTypeString == "None")
+            {
+                m_equipedWeapon = null;
+            }
+            else
+            {
+                Item loadedWeapon = ItemSaveLoadHelpers.CreateItemObjectFromTypeString(equipedWeaponTypeString);
+                loadedWeapon.ReadXml(reader);
+                m_equipedWeapon = (IWeapon)loadedWeapon;
+            }
+            reader.ReadEndElement();
+
             m_itemList = new List<Item>();
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
@@ -84,6 +120,15 @@ namespace Magecrawl.GameEngine.Actors
         {
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
+
+            writer.WriteStartElement("EquipedWeapon");
+            Item itemToSave = m_equipedWeapon as Item;
+            if (itemToSave != null)
+                itemToSave.WriteXml(writer);
+            else
+                writer.WriteElementString("Type", "None");
+            writer.WriteEndElement();
+
             ListSerialization.WriteListToXML(writer, m_itemList, "Items");
             writer.WriteEndElement();
         }

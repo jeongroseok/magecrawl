@@ -93,7 +93,7 @@ namespace Magecrawl.GameUI.Inventory
                     break;
                 case "InventoryItemOptionSelected":
                     InventoryItemOptionSelected del = (InventoryItemOptionSelected)data;
-                    if(m_optionList[m_cursorPosition].Enabled)
+                    if (m_optionList[m_cursorPosition].Enabled)
                         del(m_selectedItem, m_optionList[m_cursorPosition].Option);
                     break;
             }

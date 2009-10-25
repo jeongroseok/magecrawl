@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine
 {
@@ -192,6 +192,14 @@ namespace Magecrawl.GameEngine
             {
                 case "Drop":
                     return m_physicsEngine.PlayerDropItem(item as Item);
+                case "Equip":
+                    if (!(item is IWeapon))
+                        return false;
+                    m_player.RemoveItem(item as Item);
+                    Item oldWeapon = m_player.EquipWeapon(item as IWeapon) as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    break;
             }
             return false;
         }
