@@ -26,6 +26,7 @@ namespace Magecrawl.GameEngine.Interfaces
         void Save();
         void Load();
         bool PlayerAttack(Point target);
+        bool PlayerCastSpell(string spellName);
         IList<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
 

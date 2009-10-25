@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -60,6 +62,22 @@ namespace Magecrawl.GameEngine
                 m_player.CurrentHP -= damageDone;
                 if (m_player.CurrentHP <= 0)
                     CoreGameEngine.Instance.PlayerDied();
+                didAnything = true;
+            }
+            return didAnything;
+        }
+
+        internal bool Attack(Character attacker, Point attackTarget, SpellBase spell)
+        {
+            bool didAnything = false;
+            Monster toDamage = m_map.Monsters.FirstOrDefault(m => m.Position == attackTarget) as Monster;
+            if (toDamage != null)
+            {
+                int damageDone = spell.Damage;
+                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, toDamage));
+                toDamage.CurrentHP -= damageDone;
+                if (toDamage.CurrentHP <= 0)
+                    m_map.KillMonster(toDamage);
                 didAnything = true;
             }
             return didAnything;

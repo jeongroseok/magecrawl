@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Xml;
-using System.IO;
-using System;
 
 namespace Magecrawl.Keyboard
 {
@@ -41,7 +41,7 @@ namespace Magecrawl.Keyboard
                         NamedKey namedKey = NamedKey.FromName(key);
                         m_keyMappings.Add(namedKey, action);
                     }
-                    else if(requireAllActions)
+                    else if (requireAllActions)
                     {
                         throw new InvalidOperationException(string.Format("Could not find a mappable operation named {0}.", actionName));
                     }
@@ -63,6 +63,5 @@ namespace Magecrawl.Keyboard
         public virtual void NowPrimaried()
         {
         }
-
     }
 }
