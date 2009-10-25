@@ -122,7 +122,7 @@ namespace Magecrawl.Keyboard
 
         private void FOVOnOff()
         {
-            m_gameInstance.SendPaintersRequest("SwapFOVEnabledStatus", null);
+            m_gameInstance.SendPaintersRequest("SwapFOVEnabledStatus");
             m_gameInstance.UpdatePainters();
         }
 
@@ -180,6 +180,10 @@ namespace Magecrawl.Keyboard
         }
         
         private void Escape()
+        {
+        }
+
+        private void Select()
         {
         }
 

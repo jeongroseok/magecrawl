@@ -16,7 +16,7 @@ namespace Magecrawl.GameUI.Map
 
         public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner);
         public abstract void DrawNewFrame(Console screen);
-        public abstract void HandleRequest(string request, object data);
+        public abstract void HandleRequest(string request, object data, object data2);
         public abstract void Dispose();
 
         protected static char ConvertMapObjectToChar(MapObjectType t)

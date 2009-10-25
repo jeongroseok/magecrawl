@@ -33,7 +33,7 @@ namespace Magecrawl.Keyboard
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest("MapCursorDisabled", null);
+            m_gameInstance.SendPaintersRequest("MapCursorDisabled");
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

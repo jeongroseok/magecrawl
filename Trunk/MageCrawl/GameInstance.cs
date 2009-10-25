@@ -63,7 +63,7 @@ namespace Magecrawl
                 catch (PlayerDiedException)
                 {
                     // Put death information out here.
-                    m_painters.HandleRequest("DisableAllOverlays", null);
+                    SendPaintersRequest("DisableAllOverlays");
                     m_painters.DrawNewFrame(m_console);
                     TextBox.AddText("Player has died.");
                     TextBox.AddText("Press 'q' to exit.");
@@ -137,9 +137,19 @@ namespace Magecrawl
             throw new PlayerDiedException();
         }
 
+        internal void SendPaintersRequest(string s)
+        {
+            m_painters.HandleRequest(s, null, null);
+        }
+
         internal void SendPaintersRequest(string s, object data)
         {
-            m_painters.HandleRequest(s, data);
+            m_painters.HandleRequest(s, data, null);
+        }
+
+        internal void SendPaintersRequest(string s, object data, object data2)
+        {
+            m_painters.HandleRequest(s, data, data2);
         }
 
         internal void UpdatePainters()

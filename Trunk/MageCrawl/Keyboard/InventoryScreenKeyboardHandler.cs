@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using System.Reflection;
 
 namespace Magecrawl.Keyboard
 {
@@ -17,14 +18,39 @@ namespace Magecrawl.Keyboard
 
         public override void NowPrimaried()
         {
-            m_gameInstance.SendPaintersRequest("DisableAllOverlays", null);
-            m_gameInstance.SendPaintersRequest("ShowInventoryWindow", null);
+            m_gameInstance.SendPaintersRequest("DisableAllOverlays");
+            m_gameInstance.SendPaintersRequest("ShowInventoryWindow");
             m_gameInstance.UpdatePainters();
+        }
+
+        public override void HandleKeystroke(NamedKey keystroke)
+        {
+            MethodInfo action;
+            m_keyMappings.TryGetValue(keystroke, out action);
+            if (action != null)
+            {
+                action.Invoke(this, null);
+            }
+            else if(keystroke.Code == libtcodWrapper.KeyCode.TCODK_CHAR)
+            {
+                m_gameInstance.SendPaintersRequest("IntentoryItemSelectedByChar", new Magecrawl.GameUI.Map.InventoryItemSelected(ItemSelectedDelegate), keystroke.Character);
+            }
+        }
+        
+        private void ItemSelectedDelegate(IItem item)
+        {
+            m_gameInstance.UpdatePainters();
+            m_gameInstance.TextBox.AddText("Selected: " + item.Name);
+        }
+
+        private void Select()
+        {
+            m_gameInstance.SendPaintersRequest("IntentoryItemSelected", new Magecrawl.GameUI.Map.InventoryItemSelected(ItemSelectedDelegate));
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest("StopShowingInventoryWindow", null);
+            m_gameInstance.SendPaintersRequest("StopShowingInventoryWindow");
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

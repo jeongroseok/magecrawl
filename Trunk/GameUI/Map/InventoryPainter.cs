@@ -5,6 +5,9 @@ using libtcodWrapper;
 
 namespace Magecrawl.GameUI.Map
 {
+    public delegate void InventoryItemSelected(IItem item);
+    // This code is scary, I admit it. It looks complex, but it has to be. 
+    // Scrolling inventor right, when it might be lettered, is hard.
     internal class InventoryPainter : MapPainterBase
     {
         private bool m_enabled;                     // Are we showing the inventory
@@ -93,17 +96,7 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        private static char IncrementLetter(char letter)
-        {
-            if (letter == 'Z')
-                return 'a';
-            else if (letter == 'z')
-                return 'A';
-            else
-                return (char)(((int)letter) + 1);
-        }
-
-        public override void HandleRequest(string request, object data)
+        public override void HandleRequest(string request, object data, object data2)
         {
             switch (request)
             {
@@ -116,40 +109,99 @@ namespace Magecrawl.GameUI.Map
                 case "StopShowingInventoryWindow":
                     m_enabled = false;
                     break;
-                case "InventoryPositionChanged":
+                case "IntentoryItemSelected":
                 {
-                    Direction cursorDirection = (Direction)data;
-                    if (cursorDirection == Direction.North)
+                        InventoryItemSelected del = (InventoryItemSelected)data;
+                        del(m_itemList[m_cursorPosition]);
+                        break;
+                }
+                case "IntentoryItemSelectedByChar":
+                {
+                    InventoryItemSelected del = (InventoryItemSelected)data;
+                    if (m_useCharactersNextToItems)
                     {
-                        if (m_cursorPosition > 0)
+                        char selectedLetter = (char)data2;
+                        List<char> listOfLettersUsed = GetListOfLettersUsed();
+                        if (listOfLettersUsed.Contains(selectedLetter))
                         {
-                            if (m_isScrollingNeeded && (m_cursorPosition == m_lowerRange))
-                            {
-                                m_lowerRange -= ScrollAmount;
-                                if (m_lowerRange < 0)
-                                    m_lowerRange = 0;
-                            }
-                            m_cursorPosition--;
-                        }
-                    }
-                    if (cursorDirection == Direction.South && m_cursorPosition < m_itemList.Count - 1)
-                    {
-                        //If we need scrolling and we're pointed at the end of the list and there's more to show.
-                        if (m_isScrollingNeeded && (m_cursorPosition == (m_lowerRange - 1 + NumberOfLinesDisplayable)) && (m_lowerRange + NumberOfLinesDisplayable < m_itemList.Count))
-                        {
-                            m_lowerRange += ScrollAmount;
-                            if ((m_lowerRange + NumberOfLinesDisplayable) > m_itemList.Count)
-                                m_lowerRange = m_itemList.Count - NumberOfLinesDisplayable;
+                            m_cursorPosition = listOfLettersUsed.IndexOf(selectedLetter);
 
-                            m_cursorPosition++;
-                        }
-                        else
-                        {
-                            if ((m_cursorPosition + 1) < m_itemList.Count)
-                                m_cursorPosition++;
+                            del(m_itemList[m_cursorPosition]);
                         }
                     }
                     break;
+                }
+                case "InventoryPositionChanged":
+                {
+                    MoveInventorySelection((Direction)data);
+                    break;
+                }
+            }
+        }
+
+        private List<char> GetListOfLettersUsed()
+        {
+            if(!m_useCharactersNextToItems)
+                throw new System.ArgumentException("GetListOfLettersUsed can't be called when not using letters next to names");
+
+            List<char> returnList = new List<char>();
+            char elt = 'a';
+            while (elt != MapSelectionOffsetToLetter(m_itemList.Count))
+            {
+                returnList.Add(elt);
+                elt = IncrementLetter(elt);
+            }
+            return returnList;
+        }
+
+        private static char MapSelectionOffsetToLetter(int offset)
+        {
+            if(offset > 25)
+                return (char)('A' + (char)(offset-26));
+            else
+                return (char)('a' + (char)(offset));
+        }
+
+        private static char IncrementLetter(char letter)
+        {
+            if (letter == 'Z')
+                return 'a';
+            else if (letter == 'z')
+                return 'A';
+            else
+                return (char)(((int)letter) + 1);
+        }
+
+        private void MoveInventorySelection(Direction cursorDirection)
+        {
+            if (cursorDirection == Direction.North)
+            {
+                if (m_cursorPosition > 0)
+                {
+                    if (m_isScrollingNeeded && (m_cursorPosition == m_lowerRange))
+                    {
+                        m_lowerRange -= ScrollAmount;
+                        if (m_lowerRange < 0)
+                            m_lowerRange = 0;
+                    }
+                    m_cursorPosition--;
+                }
+            }
+            if (cursorDirection == Direction.South && m_cursorPosition < m_itemList.Count - 1)
+            {
+                //If we need scrolling and we're pointed at the end of the list and there's more to show.
+                if (m_isScrollingNeeded && (m_cursorPosition == (m_lowerRange - 1 + NumberOfLinesDisplayable)) && (m_lowerRange + NumberOfLinesDisplayable < m_itemList.Count))
+                {
+                    m_lowerRange += ScrollAmount;
+                    if ((m_lowerRange + NumberOfLinesDisplayable) > m_itemList.Count)
+                        m_lowerRange = m_itemList.Count - NumberOfLinesDisplayable;
+
+                    m_cursorPosition++;
+                }
+                else
+                {
+                    if ((m_cursorPosition + 1) < m_itemList.Count)
+                        m_cursorPosition++;
                 }
             }
         }

@@ -63,11 +63,11 @@ namespace Magecrawl.GameUI.Map
             m_painters = null;
         }
 
-        public void HandleRequest(string request, object data)
+        public void HandleRequest(string request, object data, object data2)
         {
             foreach (MapPainterBase p in m_painters)
             {
-                p.HandleRequest(request, data);
+                p.HandleRequest(request, data, data2);
             }
             switch (request)
             {
