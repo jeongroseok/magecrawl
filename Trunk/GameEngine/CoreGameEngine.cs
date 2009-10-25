@@ -128,6 +128,11 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.Wait(c);
         }
 
+        internal bool PlayerGetItem()
+        {
+            return m_physicsEngine.PlayerGetItem();
+        }
+
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction()
         {

@@ -1,7 +1,10 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Weapons;
+using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.SaveLoad;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -9,6 +12,7 @@ namespace Magecrawl.GameEngine.Actors
     {
         private IWeapon[] m_weaponList;
         private int m_weaponPosition = 0;
+        private List<Item> m_itemList;
 
         public Player() : base()
         {
@@ -17,6 +21,7 @@ namespace Magecrawl.GameEngine.Actors
             m_weaponList[1] = new SimpleBow(this);
             m_weaponList[2] = new Spear(this);
             m_weaponList[3] = new Sword(this);
+            m_itemList = null;
         }
 
         public Player(int x, int y) : base(x, y, 10, 10, 6, 10, 10, "Donblas")
@@ -26,6 +31,7 @@ namespace Magecrawl.GameEngine.Actors
             m_weaponList[1] = new SimpleBow(this);
             m_weaponList[2] = new Spear(this);
             m_weaponList[3] = new Sword(this);
+            m_itemList = new List<Item>();
         }
 
         public override IWeapon CurrentWeapon               
@@ -43,12 +49,27 @@ namespace Magecrawl.GameEngine.Actors
                 m_weaponPosition = 0;
         }
 
+        internal void TakeItem(Item i)
+        {
+            m_itemList.Add(i);
+        }
+
         #region SaveLoad
 
         public override void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
             base.ReadXml(reader);
+
+            m_itemList = new List<Item>();
+            ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
+            {
+                string typeString = reader.ReadElementContentAsString();
+                Item newItem = Item.CreateItemObjectFromTypeString(typeString);
+                newItem.ReadXml(reader);
+                m_itemList.Add(newItem);
+            });
+            ListSerialization.ReadListFromXML(reader, readDelegate);
             reader.ReadEndElement();
         }
 
@@ -56,6 +77,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
+            ListSerialization.WriteListToXML(writer, m_itemList, "Items");
             writer.WriteEndElement();
         }
 

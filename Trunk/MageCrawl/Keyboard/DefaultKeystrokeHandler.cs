@@ -82,6 +82,12 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("Operate");
         }
 
+        private void GetItem()
+        {
+            m_engine.PlayerGetItem();
+            m_gameInstance.UpdatePainters();
+        }
+
         private void Save()
         {
             m_engine.Save();

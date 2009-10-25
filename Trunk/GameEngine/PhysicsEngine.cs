@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Magic;
@@ -194,6 +195,22 @@ namespace Magecrawl.GameEngine
                     }
                 }
             }
+        }
+
+        public bool PlayerGetItem()
+        {
+            foreach (Item i in m_map.Items)
+            {
+                if (m_player.Position == i.Position)
+                {
+                    m_map.RemoveItem(i);
+                    m_player.TakeItem(i);
+                    m_timingEngine.ActorDidAction(m_player);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool Operate(Character characterOperating, Direction direction)
