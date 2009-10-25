@@ -58,6 +58,14 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
+        internal virtual List<ItemOptions> PlayerOptions
+        {
+            get
+            {
+                return new List<ItemOptions>() { new ItemOptions("Drop", true) };
+            }
+        }
+
         #region SaveLoad
 
         public System.Xml.Schema.XmlSchema GetSchema()

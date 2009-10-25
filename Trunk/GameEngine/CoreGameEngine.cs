@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine
 {
@@ -177,6 +178,22 @@ namespace Magecrawl.GameEngine
             {
                 return m_physicsEngine.FOVManager;
             }
+        }
+
+        internal List<ItemOptions> GetOptionsForInventoryItem(IItem item)
+        {
+            Item currentItem = item as Item;
+            return currentItem.PlayerOptions;
+        }
+
+        internal bool PlayerSelectedItemOption(IItem item, string option)
+        {
+            switch (option)
+            {
+                case "Drop":
+                    return m_physicsEngine.PlayerDropItem(item as Item);
+            }
+            return false;
         }
     }
 }

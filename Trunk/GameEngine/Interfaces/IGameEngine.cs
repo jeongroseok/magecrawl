@@ -13,6 +13,17 @@ namespace Magecrawl.GameEngine.Interfaces
         Unvisited, Visited, Visible 
     }
 
+    public struct ItemOptions
+    {
+        public ItemOptions(string option, bool enabled)
+        {
+            Option = option;
+            Enabled = enabled;
+        }
+        public string Option;
+        public bool Enabled;
+    }
+
     public interface IGameEngine : IDisposable
     {
         IPlayer Player
@@ -35,6 +46,10 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerCastSpell(string spellName);
         IList<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
+
+        List<ItemOptions> GetOptionsForInventoryItem(IItem item);
+        // TODO: What to do here when you zap a want and need a target?
+        bool PlayerSelectedItemOption(IItem item, string option);
 
         void IterateThroughWeapons();
 

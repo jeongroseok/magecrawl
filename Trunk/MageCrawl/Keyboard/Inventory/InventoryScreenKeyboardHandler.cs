@@ -42,8 +42,7 @@ namespace Magecrawl.Keyboard.Inventory
             m_gameInstance.SendPaintersRequest("StopShowingInventoryWindow");
             m_gameInstance.SetHandlerName("InventoryItem");
             
-            // TODO: This list should come from Engine
-            List<string> optionList = new List<string>() { "Drop", "Drop2" };
+            List<ItemOptions> optionList = m_engine.GetOptionsForInventoryItem(item);
             m_gameInstance.SendPaintersRequest("InventoryItemWindow", item, optionList);
             m_gameInstance.UpdatePainters();
         }

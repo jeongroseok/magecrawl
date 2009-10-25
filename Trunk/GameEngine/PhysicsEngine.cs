@@ -4,9 +4,9 @@ using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine
 {
@@ -189,7 +189,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_map.Height; ++j)
                 {
-                    if(m_fovManager.Visible(new Point(i,j)))
+                    if (m_fovManager.Visible(new Point(i, j)))
                     {
                         m_map.GetInternalTile(i, j).Visited = true;
                     }
@@ -204,12 +204,23 @@ namespace Magecrawl.GameEngine
                 if (m_player.Position == i.Position)
                 {
                     m_map.RemoveItem(i);
-                    m_player.TakeItem(i);
+                    m_player.TakeItemOffGround(i);
                     m_timingEngine.ActorDidAction(m_player);
                     return true;
                 }
             }
 
+            return false;
+        }
+
+        public bool PlayerDropItem(Item item)
+        {
+            if (m_player.Items.Contains(item))
+            {
+                m_map.AddItem(item, m_player.Position);
+                m_player.RemoveItem(item);
+                return true;
+            }
             return false;
         }
 

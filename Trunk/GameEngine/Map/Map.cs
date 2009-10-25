@@ -46,6 +46,13 @@ namespace Magecrawl.GameEngine
             return m_items.Remove(i);
         }
 
+        internal void AddItem(Item i, Point p)
+        {
+            i.Position = p;
+            m_items.Add(i);
+        }
+
+
         public int Width
         {
             get
