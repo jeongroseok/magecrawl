@@ -141,10 +141,13 @@ namespace Magecrawl.GameEngine
                                 m_monsterList.Add(new Monster(i, j));
                                 break;
                             case '&':
-                                if (random.Next(0, 100) > 50)
+                                int number = random.Next(0, 100);
+                                if (number < 33)
                                     m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.WoodenSword(), new Point(i, j)));
-                                else
+                                else if (number < 66)
                                     m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.SimpleShortBow(), new Point(i, j)));
+                                else
+                                    m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.BronzeSpear(), new Point(i, j)));
                                 break;
                         }
                     }

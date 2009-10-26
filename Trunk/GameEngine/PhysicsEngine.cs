@@ -206,6 +206,7 @@ namespace Magecrawl.GameEngine
                     m_map.RemoveItem(i);
                     m_player.TakeItem(i.First);
                     m_timingEngine.ActorDidAction(m_player);
+                    CoreGameEngine.Instance.SendTextOutput(string.Format("Picked up a {0}.", i.First.Name));
                     return true;
                 }
             }

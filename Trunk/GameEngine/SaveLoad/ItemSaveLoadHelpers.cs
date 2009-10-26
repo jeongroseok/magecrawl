@@ -13,6 +13,10 @@ namespace Magecrawl.GameEngine.SaveLoad
             {
                 case "Wooden Sword":
                     return new WoodenSword();
+                case "Simple Short Bow":
+                    return new SimpleShortBow();
+                case "Bronze Spear":
+                    return new BronzeSpear();
                 default:
                     throw new System.ArgumentException("Invalid type in CreateItemObjectFromTypeString");
             }

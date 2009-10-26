@@ -55,7 +55,7 @@ namespace Magecrawl.GameEngine.Weapons
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "Simple Bow");
+            writer.WriteElementString("Type", "Simple Short Bow");
         }
     }
 }
