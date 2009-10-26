@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             m_owner = owner;
             m_itemDescription = "Your Natural Weapons";
-            m_flavorText = "";
+            m_flavorText = String.Empty;
             m_name = "Melee";
             m_damage = m_owner.MeleeDamage;
         }
