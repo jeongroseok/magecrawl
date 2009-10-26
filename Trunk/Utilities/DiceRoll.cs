@@ -65,7 +65,7 @@ namespace Magecrawl.Utilities
             string multiplierFrontString = hasMult ? Multiplier.ToString() + "*" : String.Empty;
             string frontParen = hasMult || hasConstant ? "(" : String.Empty;
             string endParen = hasMult || hasConstant ? ")" : String.Empty;
-            string constantSign = ToAdd >= 0 ? "+" : "-";
+            string constantSign = ToAdd >= 0 ? "+" : String.Empty;    // Minus will come with number
             string constantEnd = hasConstant ? constantSign + ToAdd.ToString() : String.Empty;
 
             // 1d1 doesn't look nice

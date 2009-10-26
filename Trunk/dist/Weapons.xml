@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<Weapons>
+<Weapon Name="Bronze Spear" Damage="2,2,0,1" BaseType="Spear"
+        Description="A simple spear, topped with a bronze tip." 
+        FlavorText="The spear has been used as a thrusting weapon for ages, providing reach to strike at the enemy first."/>
+<Weapon Name="Simple Short Bow" Damage="1,2,1,1" BaseType="SimpleBow"
+        Description="A simple, albeit primitive short bow. Made of a flexable wooden shaft and a sinew bowstring."
+        FlavorText="Bows like this were taking down small game centuries ago. Simple to make, maintain, and carry."/>
+<Weapon Name="Wooden Sword" Damage="1,4,-1,1" BaseType="Spear"
+        Description="A simple wooden sword. Full of spliters."
+        FlavorText="Swords like these are used by youth to build strong muscles."/>
+</Weapons>

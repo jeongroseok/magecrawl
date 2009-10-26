@@ -5,7 +5,6 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
-using Magecrawl.GameEngine.Weapons.BaseTypes;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -98,7 +97,7 @@ namespace Magecrawl.GameEngine.Actors
             }
             else
             {
-                Item loadedWeapon = ItemSaveLoadHelpers.CreateItemObjectFromTypeString(equipedWeaponTypeString);
+                Item loadedWeapon = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(equipedWeaponTypeString);
                 loadedWeapon.ReadXml(reader);
                 m_equipedWeapon = (IWeapon)loadedWeapon;
             }
@@ -108,7 +107,7 @@ namespace Magecrawl.GameEngine.Actors
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = ItemSaveLoadHelpers.CreateItemObjectFromTypeString(typeString);
+                Item newItem = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(typeString); 
                 newItem.ReadXml(reader);
                 m_itemList.Add(newItem);
             });
