@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -19,6 +20,8 @@ namespace Magecrawl.GameEngine
         private PathfindingMap m_pathFinding;
         private PhysicsEngine m_physicsEngine;
         private CoreTimingEngine m_timingEngine;
+        
+        internal WeaponFactory WeaponFactory;
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
@@ -39,6 +42,9 @@ namespace Magecrawl.GameEngine
             m_instance = this;
             m_playerDied += diedDelegate;
             m_textOutput += textOutput;
+
+            // Needs to happen before anything that could create a weapon
+            WeaponFactory = new WeaponFactory();
 
             m_player = new Player(1, 1);
             m_map = new Map(50, 50);

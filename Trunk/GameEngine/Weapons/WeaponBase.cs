@@ -3,7 +3,7 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Weapons.BaseTypes
+namespace Magecrawl.GameEngine.Weapons
 {
     internal abstract class WeaponBase : IWeapon
     {

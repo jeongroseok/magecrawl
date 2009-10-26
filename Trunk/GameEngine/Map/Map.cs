@@ -141,13 +141,9 @@ namespace Magecrawl.GameEngine
                                 m_monsterList.Add(new Monster(i, j));
                                 break;
                             case '&':
-                                int number = random.Next(0, 100);
-                                if (number < 33)
-                                    m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.WoodenSword(), new Point(i, j)));
-                                else if (number < 66)
-                                    m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.SimpleShortBow(), new Point(i, j)));
-                                else
-                                    m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.BronzeSpear(), new Point(i, j)));
+                                string[] weaponNames = new string[3] { "Bronze Spear", "Wooden Sword", "Simple Short Bow" };
+                                Item newWeapon = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(weaponNames[random.Next(0, 3)]);
+                                m_items.Add(new Pair<Item, Point>(newWeapon, new Point(i, j)));
                                 break;
                         }
                     }
@@ -213,7 +209,7 @@ namespace Magecrawl.GameEngine
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = ItemSaveLoadHelpers.CreateItemObjectFromTypeString(typeString);
+                Item newItem = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(typeString);
                 Point position = new Point();
                 position = position.ReadXml(reader);
                 newItem.ReadXml(reader);
