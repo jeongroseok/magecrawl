@@ -262,9 +262,9 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal void CastSpell(CoreGameEngine engine, Character attacker, SpellBase spell)
+        internal void CastSpell(Character attacker, SpellBase spell)
         {
-            spell.Cast(attacker, engine, this.m_combatEngine);
+            spell.Cast(attacker, m_combatEngine);
             m_timingEngine.ActorDidAction(attacker);
             m_fovManager.Update(this, m_map, m_player);
         }

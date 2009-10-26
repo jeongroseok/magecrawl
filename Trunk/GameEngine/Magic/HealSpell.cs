@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal class HealSpell : SpellBase
     {
-        internal override void Cast(Character caster, CoreGameEngine engine, CombatEngine combatEngine)
+        internal override void Cast(Character caster, CombatEngine combatEngine)
         {
             caster.Heal(new DiceRoll(1, 3, 1).Roll());
         }
@@ -20,6 +20,14 @@ namespace Magecrawl.GameEngine.Magic
             get
             {
                 return 3;
+            }
+        }
+
+        internal override int Damage
+        {
+            get 
+            {
+                return 0;
             }
         }
     }
