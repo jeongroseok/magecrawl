@@ -64,7 +64,6 @@ namespace Magecrawl.GameEngine.Weapons
             reader.Close();
         }
 
-        // I'm sure there's some awesome c# trick to do this with reflections, I'm sure but will come fix it up.
         private IWeapon CreateWeapon(string typeName, string name, DiceRoll damage, string description, string flavorTest)
         {
             Assembly weaponsAssembly = this.GetType().Assembly;
@@ -77,19 +76,6 @@ namespace Magecrawl.GameEngine.Weapons
             {
                 throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
             }
-#if NOTDEF
-            switch (typeName)
-            {
-                case "Spear":
-                    return new Spear(name, damage, description, flavorTest);
-                case "SimpleBow":
-                    return new SimpleBow(name, damage, description, flavorTest);
-                case "Sword":
-                    return new Sword(name, damage, description, flavorTest);
-                default:
-                    throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
-            }
-#endif
         }
     }
 }
