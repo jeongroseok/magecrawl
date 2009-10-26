@@ -21,7 +21,7 @@ namespace Magecrawl.GameUI
 
             string hpString = string.Format("HP: {0}/{1}", player.CurrentHP, player.MaxHP);
             screen.PrintLine(hpString, StartingX + 2, 2, LineAlignment.Left);
-            string magicString = string.Format("Magic {0}/{1}", player.CurrentMagic, player.MaxMagic);
+            string magicString = string.Format("Magic {0}/{1}", player.CurrentMP, player.MaxMP);
             screen.PrintLine(magicString, StartingX + 2, 3, LineAlignment.Left);
 
             string weaponString = string.Format("Weapon: {0}", player.CurrentWeapon.Name);

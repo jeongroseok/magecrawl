@@ -20,12 +20,12 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        int CurrentMagic
+        int CurrentMP
         {
             get;
         }
 
-        int MaxMagic
+        int MaxMP
         {
             get;
         }

@@ -9,14 +9,17 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal abstract class SpellBase
     {
-        internal abstract void Cast(Character caster, CombatEngine combatEngine);
-
-        internal abstract int Damage
+        internal abstract string EffectType
         {
             get;
         }
 
-        internal abstract int MagicCost
+        internal abstract int Cost
+        {
+            get;
+        }
+
+        internal abstract int Strength
         {
             get;
         }
