@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal abstract class WeaponBase : IWeapon
+    internal abstract class WeaponBase : IWeapon, Item
     {
         protected ICharacter m_owner;
         protected string m_name;
         protected DiceRoll m_damage;
+        protected string m_itemDescription;
+        protected string m_flavorText;
 
         internal ICharacter Owner
         {
@@ -29,10 +34,6 @@ namespace Magecrawl.GameEngine.Weapons
             {
                 return m_damage;
             }
-            internal set
-            {
-                m_damage = value;
-            }
         }
 
         public virtual string Name
@@ -41,9 +42,48 @@ namespace Magecrawl.GameEngine.Weapons
             {
                 return m_name;
             }
-            internal set
+        }
+
+
+        public string ItemDescription
+        {
+            get
             {
-                m_name = value;
+                return m_itemDescription;
+            }
+        }
+
+        public string FlavorDescription
+        {
+            get
+            {
+                return m_flavorText;
+            }
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteElementString("Type", m_name);
+        }
+
+        public virtual List<ItemOptions> PlayerOptions
+        {
+            get
+            {
+                return new List<ItemOptions>() 
+                {
+                    new ItemOptions("Equip", true),
+                    new ItemOptions("Drop", true)
+                };
             }
         }
 

@@ -10,6 +10,10 @@ namespace Magecrawl.GameEngine.Weapons
         internal MeleeWeapon(ICharacter owner)
         {
             m_owner = owner;
+            m_itemDescription = "Your Natural Weapons";
+            m_flavorText = "";
+            m_name = "Melee";
+            m_damage = m_owner.MeleeDamage;
         }
 
         public override DiceRoll Damage
@@ -17,10 +21,6 @@ namespace Magecrawl.GameEngine.Weapons
             get 
             {
                 return m_owner.MeleeDamage;
-            }
-            internal set
-            {
-                throw new System.ArgumentException("Can't set damage of MeleeWeapon");
             }
         }
 
@@ -30,9 +30,16 @@ namespace Magecrawl.GameEngine.Weapons
             {
                 return "Melee";
             }
-            internal set
+        }
+
+        public override List<ItemOptions> PlayerOptions
+        {
+            get
             {
-                throw new System.ArgumentException("Can't set name of MeleeWeapon");
+                return new List<ItemOptions>() 
+                {
+                    new ItemOptions("Equip", true),
+                };
             }
         }
 
