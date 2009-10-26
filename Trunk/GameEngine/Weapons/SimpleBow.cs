@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Weapons
         private string m_itemDescription;
         private string m_flavorText;
 
-        internal SimpleBow(string name, DiceRoll damage, string description, string flavorText)
+        public SimpleBow(string name, DiceRoll damage, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;

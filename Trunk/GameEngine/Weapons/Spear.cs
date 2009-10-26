@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Weapons
         private string m_itemDescription;
         private string m_flavorText;
 
-        internal Spear(string name, DiceRoll damage, string description, string flavorText)
+        public Spear(string name, DiceRoll damage, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
