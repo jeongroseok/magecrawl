@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine.Weapons
     // This class should go away when we have an xml reader to create items on the fly. Until then...
     internal class SimpleBow : WeaponBase, Item
     {
-        internal SimpleBow(string name, DiceRoll damage, string description, string flavorText)
+        public SimpleBow(string name, DiceRoll damage, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;

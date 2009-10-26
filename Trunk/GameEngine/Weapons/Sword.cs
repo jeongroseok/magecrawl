@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine.Weapons
     // This class should go away when we have an xml reader to create items on the fly. Until then...
     internal class Sword : WeaponBase, Item
     {
-        internal Sword(string name, DiceRoll damage, string description, string flavorText)
+        public Sword(string name, DiceRoll damage, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
