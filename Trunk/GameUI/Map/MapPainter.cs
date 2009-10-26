@@ -41,7 +41,7 @@ namespace Magecrawl.GameUI.Map
             {
                 TileVisibility visibility = tileVisibility[obj.Second.X, obj.Second.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
-                    DrawThing(mapUpCorner, obj.Second, m_offscreenConsole, '$');
+                    DrawThing(mapUpCorner, obj.Second, m_offscreenConsole, '&');
             }
 
             foreach (ICharacter obj in engine.Map.Monsters)

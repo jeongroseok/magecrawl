@@ -17,7 +17,7 @@ namespace Magecrawl.GameEngine.Weapons.BaseTypes
         {
             m_owner = owner;
             m_name = name;
-            m_damage = Damage;
+            m_damage = damamge;
         }
 
         public override List<WeaponPoint> CalculateTargetablePoints()
