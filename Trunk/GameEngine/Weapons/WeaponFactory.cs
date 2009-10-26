@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Xml;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -66,6 +67,17 @@ namespace Magecrawl.GameEngine.Weapons
         // I'm sure there's some awesome c# trick to do this with reflections, I'm sure but will come fix it up.
         private IWeapon CreateWeapon(string typeName, string name, DiceRoll damage, string description, string flavorTest)
         {
+            Assembly weaponsAssembly = this.GetType().Assembly;
+            Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Weapons." + typeName);
+            if (type != null)
+            {
+                return Activator.CreateInstance(type, name, damage, description, flavorTest) as IWeapon;
+            }
+            else
+            {
+                throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
+            }
+#if NOTDEF
             switch (typeName)
             {
                 case "Spear":
@@ -77,6 +89,7 @@ namespace Magecrawl.GameEngine.Weapons
                 default:
                     throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
             }
+#endif
         }
     }
 }
