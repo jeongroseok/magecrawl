@@ -76,6 +76,7 @@
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
     <Compile Include="Weapons\BaseTypes\Sword.cs" />
+    <Compile Include="Weapons\SimpleShortBow.cs" />
     <Compile Include="Weapons\MeleeWeapon.cs" />
     <Compile Include="Weapons\BaseTypes\SimpleBow.cs" />
     <Compile Include="Weapons\BaseTypes\Spear.cs" />

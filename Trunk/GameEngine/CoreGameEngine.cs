@@ -18,6 +18,7 @@ namespace Magecrawl.GameEngine
         private SaveLoadCore m_saveLoad;
         private PathfindingMap m_pathFinding;
         private PhysicsEngine m_physicsEngine;
+        private CoreTimingEngine m_timingEngine;
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
@@ -42,6 +43,7 @@ namespace Magecrawl.GameEngine
             m_player = new Player(1, 1);
             m_map = new Map(50, 50);
             m_saveLoad = new SaveLoadCore();
+            m_timingEngine = new CoreTimingEngine();
 
             m_physicsEngine = new PhysicsEngine(m_player, m_map);
             m_pathFinding = new PathfindingMap(m_player, m_map);
@@ -188,20 +190,25 @@ namespace Magecrawl.GameEngine
 
         internal bool PlayerSelectedItemOption(IItem item, string option)
         {
+            bool didSomething = false;
             switch (option)
             {
                 case "Drop":
-                    return m_physicsEngine.PlayerDropItem(item as Item);
+                    didSomething = m_physicsEngine.PlayerDropItem(item as Item);
+                    break;
                 case "Equip":
                     if (!(item is IWeapon))
-                        return false;
+                        break;
                     m_player.RemoveItem(item as Item);
                     Item oldWeapon = m_player.EquipWeapon(item as IWeapon) as Item;
                     if (oldWeapon != null)
                         m_player.TakeItem(oldWeapon);
+                    didSomething = true;
                     break;
             }
-            return false;
+            if (didSomething)
+                m_timingEngine.ActorDidAction(m_player);
+            return didSomething;
         }
     }
 }

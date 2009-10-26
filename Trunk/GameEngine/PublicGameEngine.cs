@@ -180,7 +180,10 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerSelectedItemOption(IItem item, string option)
         {
-            return m_engine.PlayerSelectedItemOption(item, option);
+            bool didAnything = m_engine.PlayerSelectedItemOption(item, option);
+            if (didAnything)
+                m_engine.AfterPlayerAction();
+            return didAnything;
         }
     }
 }

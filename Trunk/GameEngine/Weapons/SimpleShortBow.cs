@@ -10,9 +10,9 @@ using Magecrawl.Utilities;
 namespace Magecrawl.GameEngine.Weapons
 {
     // This class should go away when we have an xml reader to create items on the fly. Until then...
-    internal class WoodenSword : Sword, Item
+    internal class SimpleShortBow : SimpleBow, Item
     {
-        internal WoodenSword() : base(null, "Wooden Sword", new DiceRoll(1, 4))
+        internal SimpleShortBow() : base(null, "Simple Short Bow", new DiceRoll(1, 2, 1))
         {
         }
 
@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return "A simple wooden sword. Full of spliters.";
+                return "A simple, albeit primitive short bow. Made of a flexable wooden shaft and a sinew bowstring.";
             }
         }
 
@@ -28,7 +28,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get
             {
-                return "Swords like these are used by youth to build strong muscles.";
+                return "Bows like this were taking down small game centuries ago. Simple to make, maintain, and carry.";
             }
         }
 
@@ -55,7 +55,7 @@ namespace Magecrawl.GameEngine.Weapons
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "Wooden Sword");
+            writer.WriteElementString("Type", "Simple Bow");
         }
     }
 }

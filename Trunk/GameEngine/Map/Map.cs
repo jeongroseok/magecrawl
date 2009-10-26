@@ -116,7 +116,8 @@ namespace Magecrawl.GameEngine
         private void CreateDemoMap()
         {
             using (StreamReader reader = File.OpenText("map.txt"))
-            {              
+            {
+                Random random = new Random();
                 string sizeLine = reader.ReadLine();
                 string[] sizes = sizeLine.Split(' ');
                 m_width = Int32.Parse(sizes[0]);
@@ -139,8 +140,11 @@ namespace Magecrawl.GameEngine
                             case 'M':
                                 m_monsterList.Add(new Monster(i, j));
                                 break;
-                            case '$':
-                                m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.WoodenSword(), new Point(i, j)));
+                            case '&':
+                                if (random.Next(0, 100) > 50)
+                                    m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.WoodenSword(), new Point(i, j)));
+                                else
+                                    m_items.Add(new Pair<Item, Point>(new Magecrawl.GameEngine.Weapons.SimpleShortBow(), new Point(i, j)));
                                 break;
                         }
                     }
