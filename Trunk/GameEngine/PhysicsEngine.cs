@@ -15,6 +15,7 @@ namespace Magecrawl.GameEngine
         private CoreTimingEngine m_timingEngine;
         private FOVManager m_fovManager;
         private CombatEngine m_combatEngine;
+        private MagicEffectsEngine m_magicEffects;
 
         // Fov FilterNotMovablePointsFromList
         private Dictionary<Point, bool> m_movableHash;
@@ -31,6 +32,7 @@ namespace Magecrawl.GameEngine
             m_fovManager = new FOVManager(this, map, player);
             m_combatEngine = new CombatEngine(player, map);
             m_movableHash = new Dictionary<Point, bool>();
+            m_magicEffects = new MagicEffectsEngine();
         }
 
         public void Dispose()
@@ -262,11 +264,15 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal void CastSpell(Character attacker, SpellBase spell)
+        internal bool CastSpell(Character caster, SpellBase spell)
         {
-            spell.Cast(attacker, m_combatEngine);
-            m_timingEngine.ActorDidAction(attacker);
-            m_fovManager.Update(this, m_map, m_player);
+            bool didAnything = m_magicEffects.CastSpell(caster, spell);
+            if (didAnything)
+            {
+                m_timingEngine.ActorDidAction(caster);
+                m_fovManager.Update(this, m_map, m_player);
+            }
+            return didAnything;
         }
 
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.

@@ -67,22 +67,6 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal bool Attack(Character attacker, Point attackTarget, SpellBase spell)
-        {
-            bool didAnything = false;
-            Monster toDamage = m_map.Monsters.FirstOrDefault(m => m.Position == attackTarget) as Monster;
-            if (toDamage != null)
-            {
-                int damageDone = spell.Damage;
-                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, toDamage));
-                toDamage.CurrentHP -= damageDone;
-                if (toDamage.CurrentHP <= 0)
-                    m_map.KillMonster(toDamage);
-                didAnything = true;
-            }
-            return didAnything;
-        }
-
         private string CreateDamageString(int dmg, Character attacker, Character defender)
         {
             // "Cheat" to see if attacker or defense is the player to make text output 

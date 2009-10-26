@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\ICharacter.cs" />
     <Compile Include="Interfaces\IGameEngine.cs" />
     <Compile Include="Items\Item.cs" />
+    <Compile Include="MagicEffectsEngine.cs" />
     <Compile Include="Magic\BlastSpell.cs" />
     <Compile Include="Magic\HealSpell.cs" />
     <Compile Include="Magic\SpellBase.cs" />

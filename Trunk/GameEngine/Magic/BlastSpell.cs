@@ -10,32 +10,27 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal class BlastSpell : SpellBase
     {
-        private int damage = 0;
-
-        internal override void Cast(Character caster, CombatEngine combatEngine)
-        {
-            damage = new DiceRoll(1, 3, 0).Roll();
-            short range = new DiceRoll(1, 4, 0).Roll();
-            var toDamage = CoreGameEngine.Instance.Map.Monsters.Where(monster => PointDirectionUtils.LatticeDistance(monster.Position, CoreGameEngine.Instance.Player.Position) <= range);
-            foreach (ICharacter m in toDamage)
-            {
-                combatEngine.Attack(caster as Character, m.Position, this);
-            }
-        }
-
-        internal override int Damage
+        internal override string EffectType
         {
             get
             {
-                return damage;
+                return "AOE Blast Center Caster";
             }
         }
 
-        internal override int MagicCost
+        internal override int Cost
         {
             get
             {
-                return 3;
+                return 2;
+            }
+        }
+
+        internal override int Strength
+        {
+            get
+            {
+                return 1;
             }
         }
     }
