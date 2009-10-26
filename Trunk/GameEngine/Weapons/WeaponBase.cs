@@ -44,7 +44,6 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-
         public string ItemDescription
         {
             get
