@@ -5,41 +5,42 @@ using System.Reflection;
 using System.Xml;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Items;
 
-namespace Magecrawl.GameEngine.Weapons
+namespace Magecrawl.GameEngine.Items
 {
-    internal sealed class WeaponFactory
+    internal sealed class ItemFactory
     {
-        private Dictionary<string, IWeapon> m_weaponMapping;
+        private Dictionary<string, Item> m_itemMapping;
 
-        internal WeaponFactory()
+        internal ItemFactory()
         {
             LoadMappings();
         }
 
-        public IWeapon CreateWeapon(string name)
+        public Item CreateItem(string name)
         {
-            return m_weaponMapping[name];
+            return m_itemMapping[name];
         }
 
         private void LoadMappings()
         {
-            m_weaponMapping = new Dictionary<string, IWeapon>();
+            m_itemMapping = new Dictionary<string, Item>();
 
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
             settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader("Weapons.xml"), settings);
+            XmlReader reader = XmlReader.Create(new StreamReader("Items.xml"), settings);
             reader.Read();  // XML declaration
             reader.Read();  // KeyMappings element
-            if (reader.LocalName != "Weapons")
+            if (reader.LocalName != "Items")
             {
                 throw new System.InvalidOperationException("Bad weapons file");
             }
             while (true)
             {
                 reader.Read();
-                if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Weapons")
+                if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Items")
                 {
                     break;
                 }
@@ -58,13 +59,26 @@ namespace Magecrawl.GameEngine.Weapons
                     
                     string description = reader.GetAttribute("Description");
                     string flavorText = reader.GetAttribute("FlavorText");
-                    m_weaponMapping.Add(name, CreateWeapon(baseType, name, damageRoll, description, flavorText));
+                    m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damageRoll, description, flavorText));
+                }
+                if (reader.LocalName == "Potion")
+                {
+                    string name = reader.GetAttribute("Name");
+                    string effectType = reader.GetAttribute("EffectType");
+
+                    string strengthString = reader.GetAttribute("Strength");
+                    int strength = int.Parse(strengthString);
+
+                    string itemDescription = reader.GetAttribute("ItemDescription");
+                    string flavorText = reader.GetAttribute("FlavorText");;
+
+                    m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
                 }
             }
             reader.Close();
         }
 
-        private IWeapon CreateWeapon(string typeName, string name, DiceRoll damage, string description, string flavorTest)
+        private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, string description, string flavorTest)
         {
             Assembly weaponsAssembly = this.GetType().Assembly;
             Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Weapons." + typeName);
