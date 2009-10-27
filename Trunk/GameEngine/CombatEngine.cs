@@ -77,7 +77,7 @@ namespace Magecrawl.GameEngine
                     CoreGameEngine.Instance.PlayerDied();
                 }
             }
-            if(del != null)
+            if (del != null)
                 del(damage, target, targetKilled);
         }
 
