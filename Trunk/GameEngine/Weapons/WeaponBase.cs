@@ -90,11 +90,11 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public abstract List<WeaponPoint> CalculateTargetablePoints();
+        public abstract List<EffectivePoint> CalculateTargetablePoints();
 
         public float EffectiveStrengthAtPoint(Point pointOfInterest)
         {
-            foreach (WeaponPoint p in CalculateTargetablePoints())
+            foreach (EffectivePoint p in CalculateTargetablePoints())
             {
                 if (p.Position == pointOfInterest)
                     return p.EffectiveStrength;
@@ -107,9 +107,9 @@ namespace Magecrawl.GameEngine.Weapons
             return PositionInTargetablePoints(pointOfInterest, CalculateTargetablePoints());
         }
 
-        public bool PositionInTargetablePoints(Point pointOfInterest, List<WeaponPoint> targetablePoints)
+        public bool PositionInTargetablePoints(Point pointOfInterest, List<EffectivePoint> targetablePoints)
         {
-            foreach (WeaponPoint t in targetablePoints)
+            foreach (EffectivePoint t in targetablePoints)
             {
                 if (t.Position == pointOfInterest)
                     return true;

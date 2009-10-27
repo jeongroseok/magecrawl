@@ -62,7 +62,7 @@ namespace Magecrawl.GameEngine
 
         // This needs to be really _fast_. We're going to stick the not moveable points in a has table,
         // then compare each pointList to the terrian and if still good see if in hash table
-        public void FilterNotTargetablePointsFromList(List<WeaponPoint> pointList, Point characterPosition, int visionRange)
+        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange)
         {
             m_fovManager.CalculateForMultipleCalls(characterPosition, visionRange);
             m_movableHash.Clear();

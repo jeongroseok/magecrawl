@@ -43,18 +43,18 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override List<WeaponPoint> CalculateTargetablePoints()
+        public override List<EffectivePoint> CalculateTargetablePoints()
         {
-            List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
+            List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, -1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 1), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, -1), 1.0f));
 
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision);
 

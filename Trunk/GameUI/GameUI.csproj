@@ -54,7 +54,7 @@
     <Compile Include="Map\MapEffectsPainter.cs" />
     <Compile Include="Map\MapPainterBase.cs" />
     <Compile Include="MapPaintingCoordinator.cs" />
-    <Compile Include="Map\PlayerAttackRangePainter.cs" />
+    <Compile Include="Map\PlayerTargetingPainter.cs" />
     <Compile Include="PainterBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextBox.cs" />

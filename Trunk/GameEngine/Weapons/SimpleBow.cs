@@ -20,9 +20,9 @@ namespace Magecrawl.GameEngine.Weapons
             m_damage = damage;
         }
 
-        public override List<WeaponPoint> CalculateTargetablePoints()
+        public override List<EffectivePoint> CalculateTargetablePoints()
         {
-            List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
+            List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 
             const int SimpleBowRange = 6;
             for (int i = -SimpleBowRange; i <= SimpleBowRange; ++i)
@@ -33,7 +33,7 @@ namespace Magecrawl.GameEngine.Weapons
                     bool allowable = (distance <= SimpleBowRange) && (distance > 2);
                     float weaponStrength = 1.0f - (Math.Max(distance - 4, 0) * .25f);
                     if (allowable)
-                        targetablePoints.Add(new WeaponPoint(new Point(m_owner.Position.X + i, m_owner.Position.Y + j), weaponStrength));
+                        targetablePoints.Add(new EffectivePoint(new Point(m_owner.Position.X + i, m_owner.Position.Y + j), weaponStrength));
                 }
             }
 
