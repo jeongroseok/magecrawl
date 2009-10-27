@@ -32,7 +32,7 @@ namespace Magecrawl.GameEngine
             m_fovManager = new FOVManager(this, map, player);
             m_combatEngine = new CombatEngine(player, map);
             m_movableHash = new Dictionary<Point, bool>();
-            m_magicEffects = new MagicEffectsEngine();
+            m_magicEffects = new MagicEffectsEngine(m_combatEngine);
         }
 
         public void Dispose()

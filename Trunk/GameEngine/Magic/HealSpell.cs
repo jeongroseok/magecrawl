@@ -10,6 +10,14 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal class HealSpell : SpellBase
     {
+        internal override string Name
+        {
+            get 
+            {
+                return "Heal";
+            }
+        }
+
         internal override string EffectType
         {
             get

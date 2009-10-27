@@ -180,9 +180,12 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public void Heal(int toHeal)
+        // Returns amount actually healed by
+        public int Heal(int toHeal)
         {
+            int previousHealth = CurrentHP;
             CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
+            return CurrentHP - previousHealth;
         }
 
         // Everyone should override these. 
