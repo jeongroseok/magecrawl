@@ -10,6 +10,7 @@ namespace Magecrawl.Keyboard
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
+        private List<EffectivePoint> m_targetablePoints;
 
         private Point SelectionPoint { get; set; }
 
@@ -21,9 +22,9 @@ namespace Magecrawl.Keyboard
 
         public override void NowPrimaried()
         {
-            SelectionPoint = SetAttackInitialSpot(m_engine, m_engine.Player.CurrentWeapon);
-            List<EffectivePoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
-            m_gameInstance.SendPaintersRequest("PlayerTargettingEnabled", listOfSelectablePoints);
+            m_targetablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
+            SelectionPoint = SetAttackInitialSpot(m_engine);
+            m_gameInstance.SendPaintersRequest("PlayerTargettingEnabled", m_targetablePoints);
             m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
             m_gameInstance.UpdatePainters();
         }
@@ -38,7 +39,7 @@ namespace Magecrawl.Keyboard
         private void HandleDirection(Direction direction)
         {
             Point pointWantToGoTo = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, direction);
-            Point resultPoint = TargetHandlerHelper.MoveSelectionToNewPoint(m_engine, pointWantToGoTo, direction, m_engine.Player.CurrentWeapon.CalculateTargetablePoints());
+            Point resultPoint = TargetHandlerHelper.MoveSelectionToNewPoint(m_engine, pointWantToGoTo, direction, m_targetablePoints);
             if (resultPoint != Point.Invalid)
                 SelectionPoint = resultPoint;
             m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
@@ -94,13 +95,11 @@ namespace Magecrawl.Keyboard
         }
 
         // We're switching on a weapon, so target a random monster in range if there is one
-        private static Point SetAttackInitialSpot(IGameEngine engine, IWeapon currentWeapon)
+        private Point SetAttackInitialSpot(IGameEngine engine)
         {
-            List<EffectivePoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
-
             foreach (ICharacter m in engine.Map.Monsters)
             {
-                if (EffectivePoint.PositionInTargetablePoints(m.Position, targetablePoints))
+                if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
                     return m.Position;
             }
             
