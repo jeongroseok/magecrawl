@@ -97,7 +97,7 @@ namespace Magecrawl.GameEngine.Actors
             }
             else
             {
-                Item loadedWeapon = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(equipedWeaponTypeString);
+                Item loadedWeapon = CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
                 loadedWeapon.ReadXml(reader);
                 m_equipedWeapon = (IWeapon)loadedWeapon;
             }
@@ -107,7 +107,7 @@ namespace Magecrawl.GameEngine.Actors
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(typeString); 
+                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem(typeString); 
                 newItem.ReadXml(reader);
                 m_itemList.Add(newItem);
             });

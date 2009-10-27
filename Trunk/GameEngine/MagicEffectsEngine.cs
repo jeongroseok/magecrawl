@@ -5,6 +5,7 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine
 {
@@ -27,6 +28,13 @@ namespace Magecrawl.GameEngine
                 return true;
             }
             return false;
+        }
+
+        internal void DrinkPotion(Character drinker, Potion potion)
+        {
+            CoreGameEngine.Instance.SendTextOutput(string.Format("{0} drank the {1}.", drinker.Name, potion.Name));
+            DoEffect(drinker, potion.EffectType, potion.Strength);
+            return;
         }
 
         private void DoEffect(Character caster, string effect, int strength)

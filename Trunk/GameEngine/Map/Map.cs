@@ -142,8 +142,11 @@ namespace Magecrawl.GameEngine
                                 break;
                             case '&':
                                 string[] weaponNames = new string[3] { "Bronze Spear", "Wooden Sword", "Simple Short Bow" };
-                                Item newWeapon = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(weaponNames[random.Next(0, 3)]);
+                                Item newWeapon = CoreGameEngine.Instance.ItemFactory.CreateItem(weaponNames[random.Next(0, 3)]);
                                 m_items.Add(new Pair<Item, Point>(newWeapon, new Point(i, j)));
+                                break;
+                            case '!':
+                                m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"), new Point(i, j)));
                                 break;
                         }
                     }
@@ -209,7 +212,7 @@ namespace Magecrawl.GameEngine
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = (Item)CoreGameEngine.Instance.WeaponFactory.CreateWeapon(typeString);
+                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem(typeString);
                 Point position = new Point();
                 position = position.ReadXml(reader);
                 newItem.ReadXml(reader);

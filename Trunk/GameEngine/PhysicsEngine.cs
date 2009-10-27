@@ -227,6 +227,17 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
+        public bool PlayerDrinkPotion(Potion potion)
+        {
+            if (m_player.Items.Contains(potion))
+            {
+                m_player.RemoveItem(potion);
+                m_magicEffects.DrinkPotion(m_player, potion);
+                return true;
+            }
+            return false;
+        }
+
         public bool Operate(Character characterOperating, Direction direction)
         {
             bool didAnything = false;
