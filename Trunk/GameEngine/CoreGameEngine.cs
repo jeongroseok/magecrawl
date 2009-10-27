@@ -121,7 +121,7 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.Attack(attacker, target);
         }
 
-        internal bool CastSpell(Character caster, SpellBase spell)
+        internal bool CastSpell(Character caster, Spell spell)
         {
             return m_physicsEngine.CastSpell(caster, spell);
         }

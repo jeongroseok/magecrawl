@@ -12,11 +12,13 @@ namespace Magecrawl.GameEngine
     public class PublicGameEngine : IGameEngine
     {
         private CoreGameEngine m_engine;
+        private SpellFactory m_spellFactory;
 
         public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
             m_engine = new CoreGameEngine(textOutput, diedDelegate);
+            m_spellFactory = new SpellFactory();
         }
 
         public void Dispose()
@@ -88,7 +90,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerCastSpell(string spellName)
         {
-            SpellBase spell = SpellFactory.CreateSpell(spellName);
+            Spell spell = m_spellFactory.CreateSpell(spellName);
             bool didAnything = m_engine.CastSpell(m_engine.Player, spell);
             if (didAnything)
                 m_engine.AfterPlayerAction();
