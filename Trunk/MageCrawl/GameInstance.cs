@@ -125,8 +125,13 @@ namespace Magecrawl
 
         internal void SetHandlerName(string s)
         {
+            SetHandlerName(s, null);
+        }
+
+        internal void SetHandlerName(string s, object o)
+        {
             m_keystroke.CurrentHandlerName = s;
-            m_keystroke.CurrentHandler.NowPrimaried();
+            m_keystroke.CurrentHandler.NowPrimaried(o);
         }
 
         internal void ResetHandlerName()

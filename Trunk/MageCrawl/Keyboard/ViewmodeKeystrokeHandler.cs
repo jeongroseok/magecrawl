@@ -19,7 +19,7 @@ namespace Magecrawl.Keyboard
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried()
+        public override void NowPrimaried(object j)
         {
             SelectionPoint = m_engine.Player.Position;
             m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);

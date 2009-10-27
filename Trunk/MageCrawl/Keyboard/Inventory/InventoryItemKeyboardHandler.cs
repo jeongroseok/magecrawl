@@ -15,7 +15,7 @@ namespace Magecrawl.Keyboard.Inventory
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried()
+        public override void NowPrimaried(object o)
         {
             m_gameInstance.UpdatePainters();
         }
@@ -36,11 +36,8 @@ namespace Magecrawl.Keyboard.Inventory
         private void Escape()
         {
             m_gameInstance.SendPaintersRequest("StopShowingInventoryItemWindow");
-            
-            // We're about to reshow the inventory window, don't reset the position then
-            m_gameInstance.SendPaintersRequest("InventoryWindowSavePositionForNextShow");
             m_gameInstance.UpdatePainters();
-            m_gameInstance.SetHandlerName("Inventory");
+            m_gameInstance.SetHandlerName("Inventory", true);   // Gets picked up in InventoryScreenKeyboardHandler::NowPrimaried
         }
 
         private void HandleDirection(Direction direction)

@@ -42,6 +42,8 @@ namespace Magecrawl.GameUI.Inventory
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {
+            m_shouldNotResetCursorPosition = false;
+
             if (m_enabled)
             {
                 m_itemList = engine.Player.Items;
@@ -103,7 +105,7 @@ namespace Magecrawl.GameUI.Inventory
         {
             switch (request)
             {
-                case "InventoryWindowSavePositionForNextShow":
+                case "InventoryWindowSavePosition":
                     m_shouldNotResetCursorPosition = true;
                     break;
                 case "ShowInventoryWindow":
