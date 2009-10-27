@@ -60,6 +60,8 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
+        #region SaveLoad
+
         public XmlSchema GetSchema()
         {
             return null;
@@ -73,6 +75,8 @@ namespace Magecrawl.GameEngine.Weapons
         {
             writer.WriteElementString("Type", m_name);
         }
+
+        #endregion
 
         public virtual List<ItemOptions> PlayerOptions
         {

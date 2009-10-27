@@ -21,7 +21,7 @@ namespace Magecrawl.GameEngine
         private PhysicsEngine m_physicsEngine;
         private CoreTimingEngine m_timingEngine;
         
-        internal WeaponFactory WeaponFactory;
+        internal ItemFactory ItemFactory;
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
@@ -44,7 +44,7 @@ namespace Magecrawl.GameEngine
             m_textOutput += textOutput;
 
             // Needs to happen before anything that could create a weapon
-            WeaponFactory = new WeaponFactory();
+            ItemFactory = new ItemFactory();
 
             m_player = new Player(1, 1);
             m_map = new Map(50, 50);
@@ -201,14 +201,16 @@ namespace Magecrawl.GameEngine
                 case "Drop":
                     didSomething = m_physicsEngine.PlayerDropItem(item as Item);
                     break;
-                case "Equip":
-                    if (!(item is IWeapon))
-                        break;
+                case "Equip": 
+                    // This probally should live in the player code
                     m_player.RemoveItem(item as Item);
                     Item oldWeapon = m_player.EquipWeapon(item as IWeapon) as Item;
                     if (oldWeapon != null)
                         m_player.TakeItem(oldWeapon);
                     didSomething = true;
+                    break;
+                case "Drink":
+                    didSomething = m_physicsEngine.PlayerDrinkPotion(item as Potion);
                     break;
             }
             if (didSomething)
