@@ -52,7 +52,7 @@
     <Compile Include="Interfaces\IGameEngine.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potion.cs" />
-    <Compile Include="MagicEffectsEngine.cs" />
+    <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
     <Compile Include="FOVManager.cs" />
     <Compile Include="Interfaces\IMap.cs" />

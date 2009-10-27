@@ -56,6 +56,14 @@ namespace Magecrawl.GameEngine.MapObjects
             }
         }
 
+        public override bool CanOperate
+        {
+            get 
+            {
+                return true;
+            }
+        }
+
         public override void Operate()
         {
             m_opened = !m_opened;

@@ -238,15 +238,14 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
-        public bool Operate(Character characterOperating, Direction direction)
+        public bool Operate(Character characterOperating, Point pointToOperateAt)
         {
             bool didAnything = false;
 
-            Point newPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(characterOperating.Position, direction);
             foreach (MapObject obj in m_map.MapObjects)
             {
                 OperableMapObject operateObj = obj as OperableMapObject;
-                if (operateObj != null && operateObj.Position == newPosition)
+                if (operateObj != null && operateObj.Position == pointToOperateAt)
                 {
                     operateObj.Operate();
                     m_timingEngine.ActorDidAction(characterOperating);

@@ -64,9 +64,9 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        public bool Operate(Direction direction)
+        public bool Operate(Point pointToOperateAt)
         {
-            bool didAnything = m_engine.Operate(m_engine.Player, direction);
+            bool didAnything = m_engine.Operate(m_engine.Player, pointToOperateAt);
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;

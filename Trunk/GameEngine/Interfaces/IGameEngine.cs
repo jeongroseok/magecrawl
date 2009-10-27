@@ -37,7 +37,7 @@ namespace Magecrawl.GameEngine.Interfaces
         }
 
         bool MovePlayer(Direction direction);
-        bool Operate(Direction direction);
+        bool Operate(Point pointToOperateAt);
         bool PlayerWait();
         void Save();
         void Load();

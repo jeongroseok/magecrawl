@@ -11,6 +11,11 @@ namespace Magecrawl.GameEngine.MapObjects
             get;
         }
 
+        public abstract bool CanOperate
+        {
+            get;
+        }
+
         public abstract MapObjectType Type
         {
             get;
