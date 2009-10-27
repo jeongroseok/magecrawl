@@ -17,7 +17,7 @@ namespace Magecrawl.GameEngine
             m_engine = engine;
         }
 
-        internal bool CastSpell(Character caster, SpellBase spell)
+        internal bool CastSpell(Character caster, Spell spell)
         {
             if (caster.CurrentMP >= spell.Cost)
             {
