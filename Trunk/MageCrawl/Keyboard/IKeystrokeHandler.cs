@@ -8,7 +8,7 @@ namespace Magecrawl.Keyboard
         void HandleKeystroke(NamedKey keystroke);
 
         // Called when set as primary keyboard handler
-        void NowPrimaried();
+        void NowPrimaried(object o);
     }
 
     public struct NamedKey

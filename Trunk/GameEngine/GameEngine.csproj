@@ -50,6 +50,7 @@
     <Compile Include="CoreTimingEngine.cs" />
     <Compile Include="Interfaces\ICharacter.cs" />
     <Compile Include="Interfaces\IGameEngine.cs" />
+    <Compile Include="Interfaces\ITargetablePoints.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potion.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />

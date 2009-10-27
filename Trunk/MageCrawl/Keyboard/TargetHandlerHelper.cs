@@ -80,6 +80,5 @@ namespace Magecrawl.Keyboard
             }
             return Point.Invalid;
         }
-
     }
 }

@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Xml;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine.Items
 {
@@ -70,7 +69,7 @@ namespace Magecrawl.GameEngine.Items
                     int strength = int.Parse(strengthString);
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
-                    string flavorText = reader.GetAttribute("FlavorText");;
+                    string flavorText = reader.GetAttribute("FlavorText");
 
                     m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
                 }

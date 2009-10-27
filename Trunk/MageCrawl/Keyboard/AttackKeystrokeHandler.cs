@@ -20,7 +20,7 @@ namespace Magecrawl.Keyboard
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried()
+        public override void NowPrimaried(object o)
         {
             m_targetablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
             SelectionPoint = SetAttackInitialSpot(m_engine);
@@ -106,6 +106,5 @@ namespace Magecrawl.Keyboard
             // If we can't find a better spot, use the player's position
             return engine.Player.Position;
         }
-
     }
 }
