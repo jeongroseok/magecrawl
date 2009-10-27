@@ -126,9 +126,12 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CastSpell(caster, spell);
         }
 
-        public bool Operate(Character characterOperating, Direction direction)
+        public bool Operate(Character characterOperating, Point pointToOperateAt)
         {
-            return m_physicsEngine.Operate(characterOperating, direction);
+            // Right now, you can only operate next to a thing
+            if (PointDirectionUtils.LatticeDistance(characterOperating.Position, pointToOperateAt) != 1)
+                return false;
+            return m_physicsEngine.Operate(characterOperating, pointToOperateAt);
         }
 
         internal bool Wait(Character c)

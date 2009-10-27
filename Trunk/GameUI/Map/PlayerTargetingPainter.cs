@@ -55,11 +55,11 @@ namespace Magecrawl.GameUI.Map
         {
             switch (request)
             {
-                case "RangedAttackEnabled":
+                case "PlayerTargettingEnabled":
                     m_enabled = true;
                     m_targetablePoints = (List<EffectivePoint>)data;
                     break;
-                case "RangedAttackDisabled":
+                case "PlayerTargettingDisabled":
                 case "DisableAllOverlays":
                     m_enabled = false;
                     break;

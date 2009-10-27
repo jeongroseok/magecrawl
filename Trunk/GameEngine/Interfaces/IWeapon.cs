@@ -17,6 +17,17 @@ namespace Magecrawl.GameEngine.Interfaces
             Position = p;
             EffectiveStrength = str;
         }
+
+        // This version is faster since we don't have to calculate targetablePoints over and over again.
+        public static bool PositionInTargetablePoints(Point pointOfInterest, List<EffectivePoint> targetablePoints)
+        {
+            foreach (EffectivePoint t in targetablePoints)
+            {
+                if (t.Position == pointOfInterest)
+                    return true;
+            }
+            return false;
+        }
     }
 
     public interface IWeapon
@@ -32,11 +43,7 @@ namespace Magecrawl.GameEngine.Interfaces
         }
 
         List<EffectivePoint> CalculateTargetablePoints();
-
-        // This version is faster since we don't have to calculate targetablePoints over and over again.
-        bool PositionInTargetablePoints(Point pointOfInterest, List<EffectivePoint> targetablePoints);
         bool PositionInTargetablePoints(Point pointOfInterest);
-
         float EffectiveStrengthAtPoint(Point pointOfInterest);
     }
 }

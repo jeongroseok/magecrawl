@@ -63,15 +63,7 @@ namespace Magecrawl.Keyboard
             else
                 namedKey = new NamedKey() { Character = (char)0, Code = key.KeyCode };
 
-            try
-            {
-                m_currentHandler.HandleKeystroke(namedKey);
-            }
-            catch (TargetInvocationException e)
-            {
-                // If the GameEngine throws an exception, pass it up
-                throw e.InnerException;
-            }
+            m_currentHandler.HandleKeystroke(namedKey);
         }
     }
 }

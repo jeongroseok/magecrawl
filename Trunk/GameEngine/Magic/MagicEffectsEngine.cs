@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Magic
 {
     internal sealed class MagicEffectsEngine
     {

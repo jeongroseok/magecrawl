@@ -104,17 +104,7 @@ namespace Magecrawl.GameEngine.Weapons
 
         public bool PositionInTargetablePoints(Point pointOfInterest)
         {
-            return PositionInTargetablePoints(pointOfInterest, CalculateTargetablePoints());
-        }
-
-        public bool PositionInTargetablePoints(Point pointOfInterest, List<EffectivePoint> targetablePoints)
-        {
-            foreach (EffectivePoint t in targetablePoints)
-            {
-                if (t.Position == pointOfInterest)
-                    return true;
-            }
-            return false;
+            return EffectivePoint.PositionInTargetablePoints(pointOfInterest, CalculateTargetablePoints());
         }
     }
 }
