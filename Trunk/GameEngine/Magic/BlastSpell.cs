@@ -10,6 +10,14 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal class BlastSpell : SpellBase
     {
+        internal override string Name
+        {
+            get 
+            {
+                return "Blast";
+            }
+        }
+
         internal override string EffectType
         {
             get

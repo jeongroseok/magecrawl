@@ -9,6 +9,11 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal abstract class SpellBase
     {
+        internal abstract string Name
+        {
+            get;
+        }
+
         internal abstract string EffectType
         {
             get;
