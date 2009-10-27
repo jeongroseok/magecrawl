@@ -5,14 +5,14 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public struct WeaponPoint
+    public struct EffectivePoint
     {
         public Point Position;
 
         // On scale of .01 to 1, lower is less damage.
         public float EffectiveStrength;
 
-        public WeaponPoint(Point p, float str)
+        public EffectivePoint(Point p, float str)
         {
             Position = p;
             EffectiveStrength = str;
@@ -31,10 +31,10 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        List<WeaponPoint> CalculateTargetablePoints();
+        List<EffectivePoint> CalculateTargetablePoints();
 
         // This version is faster since we don't have to calculate targetablePoints over and over again.
-        bool PositionInTargetablePoints(Point pointOfInterest, List<WeaponPoint> targetablePoints);
+        bool PositionInTargetablePoints(Point pointOfInterest, List<EffectivePoint> targetablePoints);
         bool PositionInTargetablePoints(Point pointOfInterest);
 
         float EffectiveStrengthAtPoint(Point pointOfInterest);

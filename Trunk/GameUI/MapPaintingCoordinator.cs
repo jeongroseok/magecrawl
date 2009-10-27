@@ -27,7 +27,7 @@ namespace Magecrawl.GameUI
             m_painters.Add(new MapDebugMovablePainter());
             m_painters.Add(new MapEffectsPainter());
             m_painters.Add(new MapDebugFOVPainter());
-            m_painters.Add(new PlayerAttackRangePainter());
+            m_painters.Add(new PlayerTargetingPainter());
 
             // This should be last of all map painters to block out map
             m_painters.Add(new MapFOVPainter());

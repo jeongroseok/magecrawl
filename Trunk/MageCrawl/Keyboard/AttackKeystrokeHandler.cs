@@ -22,7 +22,7 @@ namespace Magecrawl.Keyboard
         public override void NowPrimaried()
         {
             SelectionPoint = AttackKeystrokeHandler.SetAttackInitialSpot(m_engine, m_engine.Player.CurrentWeapon);
-            List<WeaponPoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
+            List<EffectivePoint> listOfSelectablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
             m_gameInstance.SendPaintersRequest("RangedAttackEnabled", listOfSelectablePoints);
             m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
             m_gameInstance.UpdatePainters();
@@ -96,7 +96,7 @@ namespace Magecrawl.Keyboard
         // We're switching on a weapon, so target a random monster in range if there is one
         private static Point SetAttackInitialSpot(IGameEngine engine, IWeapon currentWeapon)
         {
-            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
+            List<EffectivePoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
 
             foreach (ICharacter m in engine.Map.Monsters)
             {
@@ -119,7 +119,7 @@ namespace Magecrawl.Keyboard
         /// <returns>Point to move selectionto, Point.Invalid if can't move</returns>
         private static Point MoveSelectionToNewPoint(IGameEngine engine, Point pointWantToGoTo, Direction direction)
         {
-            List<WeaponPoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
+            List<EffectivePoint> targetablePoints = engine.Player.CurrentWeapon.CalculateTargetablePoints();
 
             // First try and see if we can just target that square
             if (engine.Player.CurrentWeapon.PositionInTargetablePoints(pointWantToGoTo, targetablePoints))
@@ -158,7 +158,7 @@ namespace Magecrawl.Keyboard
         /// <param name="directionFromCenter">What direction was this from the center</param>
         /// <param name="offsets">Which ways to shift if we're trying for nearby matches</param>
         /// <returns></returns>
-        private static Point MoveSelectionToNewPointSearchDirection(IGameEngine engine, Point pointWantToGoTo, Direction directionFromCenter, List<Point> offsets, List<WeaponPoint> targetablePoints)
+        private static Point MoveSelectionToNewPointSearchDirection(IGameEngine engine, Point pointWantToGoTo, Direction directionFromCenter, List<Point> offsets, List<EffectivePoint> targetablePoints)
         {
             Point nextSelectionAttempt = pointWantToGoTo;
             const int SelectionSearchLength = 8;

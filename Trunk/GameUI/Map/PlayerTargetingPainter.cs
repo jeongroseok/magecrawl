@@ -5,20 +5,18 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map
 {
-    internal sealed class PlayerAttackRangePainter : MapPainterBase
+    internal sealed class PlayerTargetingPainter : MapPainterBase
     {
         private Point m_playerPosition;
-        private IWeapon m_equipedWeapon;
         private bool m_enabled;
         private Point m_mapUpCorner;
         private int m_mapWidth;
         private int m_mapHeight;
-        private List<WeaponPoint> m_targetablePoints;
+        private List<EffectivePoint> m_targetablePoints;
 
-        public PlayerAttackRangePainter()
+        public PlayerTargetingPainter()
         {
             m_playerPosition = new Point();
-            m_equipedWeapon = null;
             m_enabled = false;
             m_mapUpCorner = new Point();
             m_targetablePoints = null;
@@ -30,7 +28,6 @@ namespace Magecrawl.GameUI.Map
         {
             m_mapUpCorner = mapUpCorner;
             m_playerPosition = engine.Player.Position;
-            m_equipedWeapon = engine.Player.CurrentWeapon;
             m_mapHeight = engine.Map.Height;
             m_mapWidth = engine.Map.Width;            
         }
@@ -39,7 +36,7 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
-                foreach (WeaponPoint point in m_targetablePoints)
+                foreach (EffectivePoint point in m_targetablePoints)
                 {
                     Point screenPlacement = new Point(m_mapUpCorner.X + point.Position.X + 1, m_mapUpCorner.Y + point.Position.Y + 1);
 
@@ -60,7 +57,7 @@ namespace Magecrawl.GameUI.Map
             {
                 case "RangedAttackEnabled":
                     m_enabled = true;
-                    m_targetablePoints = (List<WeaponPoint>)data;
+                    m_targetablePoints = (List<EffectivePoint>)data;
                     break;
                 case "RangedAttackDisabled":
                 case "DisableAllOverlays":

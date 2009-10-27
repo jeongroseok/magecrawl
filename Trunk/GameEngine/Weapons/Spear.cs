@@ -20,18 +20,18 @@ namespace Magecrawl.GameEngine.Weapons
             m_damage = damage;
         }
 
-        public override List<WeaponPoint> CalculateTargetablePoints()
+        public override List<EffectivePoint> CalculateTargetablePoints()
         {
-            List<WeaponPoint> targetablePoints = new List<WeaponPoint>();
+            List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(1, 0), .5f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(2, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-1, 0), .5f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(-2, 0), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, 1), .5f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, 2), 1.0f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, -1), .5f));
-            targetablePoints.Add(new WeaponPoint(m_owner.Position + new Point(0, -2), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 0), .5f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(2, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 0), .5f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-2, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, 1), .5f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, 2), 1.0f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, -1), .5f));
+            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, -2), 1.0f));
 
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision);
 
