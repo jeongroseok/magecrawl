@@ -11,6 +11,10 @@ namespace Magecrawl.GameUI
         private List<string> m_textList;
         private int m_textBoxPosition;
 
+        private const int TextBoxYPosition = UIHelper.MapHeight;
+        private const int TextBoxWidth = UIHelper.MapWidth;
+        private const int TextBoxHeight = UIHelper.TextBoxHeight;
+
         public TextBox()
         {
             m_textList = new List<string>();
@@ -19,9 +23,6 @@ namespace Magecrawl.GameUI
 
         public void Draw(RootConsole screen)
         {
-            const int TextBoxYPosition = 43;
-            const int TextBoxWidth = 51;
-            const int TextBoxHeight = 17;
             const int LinesInTextConsole = TextBoxHeight - 2;
             screen.DrawFrame(0, TextBoxYPosition, TextBoxWidth, TextBoxHeight, true);
 

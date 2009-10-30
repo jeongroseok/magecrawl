@@ -7,8 +7,8 @@ namespace Magecrawl.GameUI
 {
     internal abstract class MapPainterBase : PainterBase, System.IDisposable
     {
-        public const int MapDrawnWidth = 50;
-        public const int MapDrawnHeight = 42;
+        public const int MapDrawnWidth = UIHelper.MapWidth - 1;
+        public const int MapDrawnHeight = UIHelper.MapHeight - 1;
         public static Point ScreenCenter = new Point((MapDrawnWidth - 1) / 2, (MapDrawnHeight - 2) / 2);
 
         protected const int OffscreenWidth = MapDrawnWidth + 1;
