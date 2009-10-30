@@ -10,9 +10,10 @@ namespace Magecrawl.GameUI
         {
         }
 
-        private const int StartingX = 51;
-        private const int InfoWidth = 29;
-        private const int InfoHeight = 60;
+        private const int StartingX = UIHelper.MapWidth;
+        private const int InfoWidth = UIHelper.CharInfoWidth;
+        private const int InfoHeight = UIHelper.CharInfoHeight;
+
         private const int ScreenCenter = StartingX + (InfoWidth / 2);
         public void Draw(Console screen, IPlayer player)
         {
