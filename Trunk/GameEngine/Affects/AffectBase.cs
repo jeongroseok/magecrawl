@@ -16,6 +16,11 @@ namespace Magecrawl.GameEngine.Affects
             CTLeft = totalCT;
         }
 
-        public int CTLeft { get; set; }
+        public int CTLeft { get; protected set; }
+
+        public virtual void DecreaseCT(int decrease)
+        {
+            CTLeft -= decrease;
+        }
     }
 }

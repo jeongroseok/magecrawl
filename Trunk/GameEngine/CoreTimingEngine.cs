@@ -12,7 +12,7 @@ namespace Magecrawl.GameEngine
     // If no-one has that, we interativly increase by CTPerIteration factoring in their CTIncreaseModifier until someone can act.
     internal sealed class CoreTimingEngine
     {
-        private const int CTNeededForNewTurn = 100;
+        public const int CTNeededForNewTurn = 100;
         private const int CTPerIteration = 5;
         private const int CTBaseCostToMove = 100;
         private const int CTBaseCostForAction = 100;
