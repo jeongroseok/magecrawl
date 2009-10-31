@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Affects;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -52,6 +56,8 @@ namespace Magecrawl.GameEngine.Actors
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1306:FieldNamesMustBeginWithLowerCaseLetter", Justification = "CT is an acronym")]
         protected int m_CT;
 
+        protected Collection<AffectBase> m_affects;
+
         internal virtual double CTCostModifierToMove
         {
             get
@@ -94,7 +100,7 @@ namespace Magecrawl.GameEngine.Actors
             {
                 return m_CT;
             }
-            internal set
+            protected set
             {
                 m_CT = value;
             }
@@ -204,6 +210,33 @@ namespace Magecrawl.GameEngine.Actors
             {
                 throw new System.NotImplementedException();
             }
+        }
+
+        public virtual void IncreaseCT(int increase)
+        {
+            CT += increase;
+        }
+
+        public virtual void DecreaseCT(int decrease)
+        {
+            CT -= decrease;
+
+            foreach (AffectBase affect in m_affects)
+            {
+                affect.CTLeft -= decrease;
+            }
+            IEnumerable<AffectBase> toRemove = m_affects.Where(a => a.CTLeft <= 0);
+            foreach (AffectBase affect in toRemove)
+            {
+                affect.Remove(this);
+                m_affects.Remove(affect);
+            }
+        }
+
+        public void AddAffect(AffectBase affectToAdd)
+        {
+            m_affects.Add(affectToAdd);
+            affectToAdd.Apply(this);
         }
 
         #region SaveLoad

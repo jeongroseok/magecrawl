@@ -43,19 +43,19 @@ namespace Magecrawl.GameEngine
                 // No actors can go now, so incremenet each one's CT
                 foreach (Character currentActor in actors)
                 {
-                    currentActor.CT += (int)(CTPerIteration * currentActor.CTIncreaseModifier);
+                    currentActor.IncreaseCT((int)(CTPerIteration * currentActor.CTIncreaseModifier));
                 }
             }
         }
 
         internal void ActorMadeMove(Character c)
         {
-            c.CT -= (int)(CTBaseCostToMove * c.CTCostModifierToMove);
+            c.DecreaseCT((int)(CTBaseCostToMove * c.CTCostModifierToMove));
         }
 
         internal void ActorDidAction(Character c)
         {
-            c.CT -= (int)(CTBaseCostForAction * c.CTCostModifierToAct);
+            c.DecreaseCT((int)(CTBaseCostForAction * c.CTCostModifierToAct));
         }
     }
 }
