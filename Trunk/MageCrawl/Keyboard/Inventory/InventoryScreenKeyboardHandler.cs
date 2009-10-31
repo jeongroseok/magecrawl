@@ -16,9 +16,9 @@ namespace Magecrawl.Keyboard.Inventory
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object o)
+        public override void NowPrimaried(object objOne, object objTwo, object objThree)
         {
-            if (o != null && ((bool)o) == true)
+            if (objOne != null && ((bool)objOne) == true)
                 m_gameInstance.SendPaintersRequest("InventoryWindowSavePosition");
             m_gameInstance.SendPaintersRequest("DisableAllOverlays");
             m_gameInstance.SendPaintersRequest("ShowInventoryWindow");

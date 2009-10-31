@@ -56,11 +56,18 @@ namespace Magecrawl.Keyboard
             m_keyMappings.TryGetValue(keystroke, out action);
             if (action != null)
             {
-                action.Invoke(this, null);
+                try
+                {
+                    action.Invoke(this, null);
+                }
+                catch (Exception e)
+                {
+                    throw e.InnerException;
+                }
             }
         }
 
-        public virtual void NowPrimaried(object o)
+        public virtual void NowPrimaried(object objOne, object objTwo, object objThree)
         {
         }
     }

@@ -6,33 +6,72 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
-    internal class AttackKeystrokeHandler : BaseKeystrokeHandler
+    internal delegate void OnTargetSelection(Point selection);
+
+    internal class TargettingKeystrokeHandler : BaseKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
         private List<EffectivePoint> m_targetablePoints;
+        private bool m_allowEscapeFromMode;
+        private OnTargetSelection m_selectionDelegate;
+        private NamedKey m_alternateSelectionKey;
 
         private Point SelectionPoint { get; set; }
 
-        public AttackKeystrokeHandler(IGameEngine engine, GameInstance instance)
+        public TargettingKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
             m_gameInstance = instance;
+            m_allowEscapeFromMode = true;
         }
 
-        public override void NowPrimaried(object o)
+        public override void HandleKeystroke(NamedKey keystroke)
         {
-            m_targetablePoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
+            // If we match the alternate key, call Select()
+            if (m_alternateSelectionKey.Code == keystroke.Code)
+            {
+                if (m_alternateSelectionKey.Code != libtcodWrapper.KeyCode.TCODK_CHAR || 
+                    m_alternateSelectionKey.Character == keystroke.Character)
+                {
+                    Select();
+                    return;
+                }
+            }
+            MethodInfo action;
+            m_keyMappings.TryGetValue(keystroke, out action);
+            if (action != null)
+            {
+                try
+                {
+                    action.Invoke(this, null);
+                }
+                catch (Exception e)
+                {
+                    throw e.InnerException;
+                }
+            }
+        }
+
+        public override void NowPrimaried(object objOne, object objTwo, object objThree)
+        {
+            m_targetablePoints = (List<EffectivePoint>)objOne;
+            m_selectionDelegate = (OnTargetSelection)objTwo;
+            m_alternateSelectionKey = (NamedKey)objThree;
             SelectionPoint = SetAttackInitialSpot(m_engine);
             m_gameInstance.SendPaintersRequest("PlayerTargettingEnabled", m_targetablePoints);
             m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
             m_gameInstance.UpdatePainters();
         }
 
+        private void Select()
+        {
+            Attack();
+        }
+
         private void Attack()
         {
-            if (SelectionPoint != m_engine.Player.Position)
-                m_engine.PlayerAttack(SelectionPoint);
+            m_selectionDelegate(SelectionPoint);
             Escape();
         }
 
@@ -48,8 +87,17 @@ namespace Magecrawl.Keyboard
 
         private void Escape()
         {
+            if (m_allowEscapeFromMode)
+            {
+                ExitMode();
+            }
+        }
+
+        private void ExitMode()
+        {
             m_gameInstance.SendPaintersRequest("MapCursorDisabled");
             m_gameInstance.SendPaintersRequest("PlayerTargettingDisabled");
+            m_selectionDelegate = null;
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

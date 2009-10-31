@@ -18,7 +18,7 @@ namespace Magecrawl.Keyboard
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object o)
+        public override void NowPrimaried(object objOne, object objTwo, object objThree)
         {
             List<EffectivePoint> listOfSelectablePoints = CalculateOperatePoints();
             if (listOfSelectablePoints.Count == 0)

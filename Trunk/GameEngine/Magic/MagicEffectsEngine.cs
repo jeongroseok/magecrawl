@@ -18,14 +18,16 @@ namespace Magecrawl.GameEngine.Magic
             m_engine = engine;
         }
 
-        internal bool CastSpell(Character caster, Spell spell)
+        internal bool CastSpell(Character caster, Spell spell, Point target)
         {
             if (caster.CurrentMP >= spell.Cost)
             {
-                CoreGameEngine.Instance.SendTextOutput(string.Format("{0} casts {1}.", caster.Name, spell.Name));
-                DoEffect(caster, spell.EffectType, spell.Strength);
-                caster.CurrentMP -= spell.Cost;
-                return true;
+                if (DoEffect(caster, spell.EffectType, spell.Strength, target))
+                {
+                    CoreGameEngine.Instance.SendTextOutput(string.Format("{0} casts {1}.", caster.Name, spell.Name));
+                    caster.CurrentMP -= spell.Cost;
+                    return true;
+                }
             }
             return false;
         }
@@ -33,29 +35,56 @@ namespace Magecrawl.GameEngine.Magic
         internal void DrinkPotion(Character drinker, Potion potion)
         {
             CoreGameEngine.Instance.SendTextOutput(string.Format("{0} drank the {1}.", drinker.Name, potion.Name));
-            DoEffect(drinker, potion.EffectType, potion.Strength);
+            DoEffect(drinker, potion.EffectType, potion.Strength, drinker.Position);
             return;
         }
 
-        private void DoEffect(Character caster, string effect, int strength)
+        private bool DoEffect(Character caster, string effect, int strength, Point target)
         {
+            List<ICharacter> actorList = new List<ICharacter>(CoreGameEngine.Instance.Map.Monsters);
+            actorList.Add(CoreGameEngine.Instance.Player);
             switch (effect)
             {
                 case "HealCaster":
+                {
                     int healAmount = caster.Heal((new DiceRoll(1, 4, 0, (short)strength)).Roll());
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", caster.Name, healAmount));
-                    break;
+                    return true;
+                }
                 case "AOE Blast Center Caster":
+                {
                     if (caster is Monster)
                         throw new NotImplementedException("Can't do AOE Blast Center Caster on Monsters yet.");
                     IEnumerable<ICharacter> toDamage = CoreGameEngine.Instance.Map.Monsters.Where(monster => PointDirectionUtils.LatticeDistance(monster.Position, CoreGameEngine.Instance.Player.Position) <= 2);
 
-                    foreach (ICharacter m in toDamage)
+                    foreach (ICharacter c in actorList)
                     {
-                        int damage = (new DiceRoll(1, 4, 0, (short)strength)).Roll();
-                        m_engine.DamageTarget(damage, caster, (Character)m, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        if (c != caster)
+                        {
+                            int damage = (new DiceRoll(1, 4, 0, (short)strength)).Roll();
+                            m_engine.DamageTarget(damage, caster, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        }
                     }
-                    break;
+                    return true;
+                }
+                case "Ranged Single Target":
+                {
+                    foreach (ICharacter c in actorList)
+                    {
+                        if (c.Position == target)
+                        {
+                            if (c != caster)
+                            {
+                                int damage = (new DiceRoll(1, 4, 0, (short)strength)).Roll();
+                                m_engine.DamageTarget(damage, caster, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                default:
+                    return false;
             }
         }
 
