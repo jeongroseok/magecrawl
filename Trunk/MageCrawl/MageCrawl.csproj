@@ -62,7 +62,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Keyboard\AttackKeystrokeHandler.cs" />
+    <Compile Include="Keyboard\TargettingKeystrokeHandler.cs" />
     <Compile Include="Keyboard\BaseKeystrokeHandler.cs">
     </Compile>
     <Compile Include="Keyboard\Inventory\InventoryItemKeyboardHandler.cs" />

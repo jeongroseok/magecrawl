@@ -100,9 +100,9 @@ namespace Magecrawl
             defaultHandler.LoadKeyMappings(true);
             m_keystroke.Handlers.Add("Default", defaultHandler);
 
-            AttackKeystrokeHandler attackHandler = new AttackKeystrokeHandler(m_engine, this);
+            TargettingKeystrokeHandler attackHandler = new TargettingKeystrokeHandler(m_engine, this);
             attackHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Attack", attackHandler);
+            m_keystroke.Handlers.Add("Target", attackHandler);
 
             OperateKeystrokeHandler operateHandler = new OperateKeystrokeHandler(m_engine, this);
             operateHandler.LoadKeyMappings(false);
@@ -128,10 +128,20 @@ namespace Magecrawl
             SetHandlerName(s, null);
         }
 
-        internal void SetHandlerName(string s, object o)
+        internal void SetHandlerName(string s, object objOne)
+        {
+            SetHandlerName(s, objOne, null);
+        }
+
+        internal void SetHandlerName(string s, object objOne, object objTwo)
+        {
+            SetHandlerName(s, objOne, objTwo, null);
+        }
+
+        internal void SetHandlerName(string s, object objOne, object objTwo, object objThree)
         {
             m_keystroke.CurrentHandlerName = s;
-            m_keystroke.CurrentHandler.NowPrimaried(o);
+            m_keystroke.CurrentHandler.NowPrimaried(objOne, objTwo, objThree);
         }
 
         internal void ResetHandlerName()

@@ -132,9 +132,28 @@ namespace Magecrawl.Keyboard
             m_gameInstance.UpdatePainters();
         }
 
+        private NamedKey GetNamedKeyForMethodInfo(MethodInfo info)
+        {
+            foreach(NamedKey key in m_keyMappings.Keys)
+            {
+                if (m_keyMappings[key] == info)
+                    return key;
+            }
+            throw new System.ArgumentException("GetNamedKeyForMethodInfo - Can't find NamedKey for method?");
+        }
+
         private void Attack()
         {
-             m_gameInstance.SetHandlerName("Attack");
+            List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
+            OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
+            NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
+            m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey);
+        }
+
+        private void OnAttack(Point selection)
+        {
+            if (selection != m_engine.Player.Position)
+                m_engine.PlayerAttack(selection);
         }
 
         private void ViewMode()
@@ -164,14 +183,38 @@ namespace Magecrawl.Keyboard
 
         private void HealSpell()
         {
-            m_engine.PlayerCastSpell("Heal");
-            m_gameInstance.UpdatePainters();
+            if (m_engine.PlayerCouldCastSpell("Heal"))
+            {
+                m_engine.PlayerCastSpell("Heal", Point.Invalid);
+                m_gameInstance.UpdatePainters();
+            }
         }
 
         private void BlastSpell()
         {
-            m_engine.PlayerCastSpell("Blast");
-            m_gameInstance.UpdatePainters();
+            if (m_engine.PlayerCouldCastSpell("Blast"))
+            {
+                m_engine.PlayerCastSpell("Blast", Point.Invalid);
+                m_gameInstance.UpdatePainters();
+            }
+        }
+
+        private void ZapSpell()
+        {
+            if (m_engine.PlayerCouldCastSpell("Zap"))
+            {
+                // We should ask engine if we need a target, but right now I 'know' we do
+                // We should get targetting distance from engine as well
+                List<EffectivePoint> targetablePoints = PointListUtils.PointListFromBurstPosition(m_engine.Player.Position, 5);
+                m_engine.FilterNotTargetablePointsFromList(targetablePoints);
+                NamedKey zapKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
+                OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
+                        {
+                            m_engine.PlayerCastSpell("Zap", s);
+                            m_gameInstance.UpdatePainters();
+                        });
+                m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, zapKey);
+            }
         }
         
         private void Escape()

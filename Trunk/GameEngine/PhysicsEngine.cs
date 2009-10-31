@@ -274,9 +274,9 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal bool CastSpell(Character caster, Spell spell)
+        internal bool CastSpell(Character caster, Spell spell, Point target)
         {
-            bool didAnything = m_magicEffects.CastSpell(caster, spell);
+            bool didAnything = m_magicEffects.CastSpell(caster, spell, target);
             if (didAnything)
             {
                 m_timingEngine.ActorDidAction(caster);

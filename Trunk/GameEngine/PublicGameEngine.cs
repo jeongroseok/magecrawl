@@ -88,10 +88,16 @@ namespace Magecrawl.GameEngine
             return didAnything;            
         }
 
-        public bool PlayerCastSpell(string spellName)
+        public bool PlayerCouldCastSpell(string spellName)
         {
             Spell spell = m_spellFactory.CreateSpell(spellName);
-            bool didAnything = m_engine.CastSpell(m_engine.Player, spell);
+            return m_engine.Player.CurrentMP >= spell.Cost;
+        }
+
+        public bool PlayerCastSpell(string spellName, Point target)
+        {
+            Spell spell = m_spellFactory.CreateSpell(spellName);
+            bool didAnything = m_engine.CastSpell(m_engine.Player, spell, target);
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;
@@ -179,6 +185,11 @@ namespace Magecrawl.GameEngine
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;
+        }
+
+        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList)
+        {
+            m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision);
         }
     }
 }

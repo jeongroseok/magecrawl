@@ -43,7 +43,8 @@ namespace Magecrawl.GameEngine.Interfaces
         void Load();
         bool PlayerGetItem();
         bool PlayerAttack(Point target);
-        bool PlayerCastSpell(string spellName);
+        bool PlayerCouldCastSpell(string spellName);
+        bool PlayerCastSpell(string spellName, Point target);
         IList<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
 
@@ -53,6 +54,7 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerSelectedItemOption(IItem item, string option);
 
         TileVisibility[,] CalculateTileVisibility();
+        void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList);
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();
