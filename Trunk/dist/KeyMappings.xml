@@ -29,4 +29,5 @@
 <KeyMapping Key="h" Action="HealSpell" />
 <KeyMapping Key="b" Action="BlastSpell" />
 <KeyMapping Key="z" Action="ZapSpell" />
+<KeyMapping Key="d" Action="AddIncreaseHealth" />
 </KeyMappings>

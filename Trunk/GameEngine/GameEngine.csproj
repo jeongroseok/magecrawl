@@ -44,8 +44,11 @@
   <ItemGroup>
     <Compile Include="Actors\Character.cs" />
     <Compile Include="Affects\AffectBase.cs" />
+    <Compile Include="Affects\AffectFactory.cs" />
+    <Compile Include="Affects\Haste.cs" />
     <Compile Include="Affects\IncreaseHealthLimited.cs" />
     <Compile Include="Affects\IncreaseSight.cs" />
+    <Compile Include="Affects\Poison.cs" />
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />
     <Compile Include="CombatEngine.cs" />

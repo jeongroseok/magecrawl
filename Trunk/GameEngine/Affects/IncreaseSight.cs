@@ -8,7 +8,7 @@ namespace Magecrawl.GameEngine.Affects
 {
     internal class IncreaseSight : AffectBase
     {
-        public IncreaseSight(int ct)
+        public IncreaseSight()
             :base(new DiceRoll(2, 10).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
         }

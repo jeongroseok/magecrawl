@@ -252,6 +252,11 @@ namespace Magecrawl.Keyboard
         {
         }
 
+        private void AddIncreaseHealth()
+        {
+            m_engine.AddAffectToPlayer("IncreaseHealthLimited");
+        }
+
         #endregion
     }
 }

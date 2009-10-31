@@ -7,7 +7,13 @@ using Magecrawl.GameEngine.Actors;
 namespace Magecrawl.GameEngine.Affects
 {
     internal class Poison : AffectBase
-    {        
+    {
+        public Poison()
+        {
+            m_damageInterval = 1;
+            m_damagePerInterval = 0;
+        }
+
         public Poison(int totalCT, int damageInterval, int damagePerInterval)
             :base(totalCT)
         {
@@ -25,15 +31,33 @@ namespace Magecrawl.GameEngine.Affects
 
         public override void DecreaseCT(int decrease)
         {
+            base.DecreaseCT(decrease);
             int original = CTLeft + decrease;
-            for (int i = original; i >= CTLeft; i -= m_damageInterval)
+            for (int i = original; i >= CTLeft; i--)
             {
-                CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, null, m_affected, null);
-            }
+                if (i % m_damageInterval == 0)
+                {
+                    CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, null, m_affected, null);
+                }
+            }            
         }
 
         public override void Remove(Character removedFrom)
         {            
+        }
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            base.ReadXml(reader);
+            m_damageInterval = reader.ReadElementContentAsInt();
+            m_damagePerInterval = reader.ReadElementContentAsInt();
+        }
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            writer.WriteElementString("DamageInterval", m_damageInterval.ToString());
+            writer.WriteElementString("DamagePerInterval", m_damagePerInterval.ToString());
         }
     }
 }

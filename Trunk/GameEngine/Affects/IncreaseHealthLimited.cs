@@ -6,7 +6,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Affects
 {
-    public class IncreaseHealthLimited : AffectBase
+    internal class IncreaseHealthLimited : AffectBase
     {
         public IncreaseHealthLimited()
             : base(new DiceRoll(2, 4).Roll() * CoreTimingEngine.CTNeededForNewTurn)
