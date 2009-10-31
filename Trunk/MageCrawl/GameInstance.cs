@@ -104,10 +104,6 @@ namespace Magecrawl
             attackHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Target", attackHandler);
 
-            OperateKeystrokeHandler operateHandler = new OperateKeystrokeHandler(m_engine, this);
-            operateHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Operate", operateHandler);
-
             ViewmodeKeystrokeHandler viewmodeHandler = new ViewmodeKeystrokeHandler(m_engine, this);
             viewmodeHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Viewmode", viewmodeHandler);
@@ -125,23 +121,28 @@ namespace Magecrawl
 
         internal void SetHandlerName(string s)
         {
-            SetHandlerName(s, null);
+            SetHandlerName(s, null, null, null, null);
         }
 
         internal void SetHandlerName(string s, object objOne)
         {
-            SetHandlerName(s, objOne, null);
+            SetHandlerName(s, objOne, null, null, null);
         }
 
         internal void SetHandlerName(string s, object objOne, object objTwo)
         {
-            SetHandlerName(s, objOne, objTwo, null);
+            SetHandlerName(s, objOne, objTwo, null, null);
         }
 
         internal void SetHandlerName(string s, object objOne, object objTwo, object objThree)
         {
+            SetHandlerName(s, objOne, objTwo, objThree, null);
+        }
+
+        internal void SetHandlerName(string s, object objOne, object objTwo, object objThree, object objFour)
+        {
             m_keystroke.CurrentHandlerName = s;
-            m_keystroke.CurrentHandler.NowPrimaried(objOne, objTwo, objThree);
+            m_keystroke.CurrentHandler.NowPrimaried(objOne, objTwo, objThree, objFour);
         }
 
         internal void ResetHandlerName()

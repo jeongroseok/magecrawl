@@ -67,7 +67,7 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        public virtual void NowPrimaried(object objOne, object objTwo, object objThree)
+        public virtual void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
         }
     }

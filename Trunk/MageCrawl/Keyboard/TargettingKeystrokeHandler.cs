@@ -53,14 +53,22 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree)
+        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
             m_targetablePoints = (List<EffectivePoint>)objOne;
             m_selectionDelegate = (OnTargetSelection)objTwo;
             m_alternateSelectionKey = (NamedKey)objThree;
-            SelectionPoint = SetAttackInitialSpot(m_engine);
+            if (objFour != null)
+                SelectionPoint = (Point)objFour;
+            else
+                SelectionPoint = SetTargettingInitialSpot(m_engine);
             m_gameInstance.SendPaintersRequest("PlayerTargettingEnabled", m_targetablePoints);
             m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
+
+            // If we have no targetable points, just exit now
+            if (m_targetablePoints.Count == 0)
+                Escape();
+
             m_gameInstance.UpdatePainters();
         }
 
@@ -142,8 +150,8 @@ namespace Magecrawl.Keyboard
             HandleDirection(Direction.Southwest);
         }
 
-        // We're switching on a weapon, so target a random monster in range if there is one
-        private Point SetAttackInitialSpot(IGameEngine engine)
+        // If not overridden, target a monster in range if there is one.
+        private Point SetTargettingInitialSpot(IGameEngine engine)
         {
             foreach (ICharacter m in engine.Map.Monsters)
             {
