@@ -15,5 +15,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        IList<ISpell> Spells
+        {
+            get;
+        }
     }
 }

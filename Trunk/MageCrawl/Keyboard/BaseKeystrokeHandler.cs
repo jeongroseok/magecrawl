@@ -56,14 +56,7 @@ namespace Magecrawl.Keyboard
             m_keyMappings.TryGetValue(keystroke, out action);
             if (action != null)
             {
-                try
-                {
-                    action.Invoke(this, null);
-                }
-                catch (Exception e)
-                {
-                    throw e.InnerException;
-                }
+                action.Invoke(this, null);
             }
         }
 

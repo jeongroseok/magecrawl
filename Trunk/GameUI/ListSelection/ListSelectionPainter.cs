@@ -4,22 +4,23 @@ using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameUI.Inventory
+namespace Magecrawl.GameUI.ListSelection
 {
-    public delegate void InventoryItemSelected(IItem item);
+    public delegate void ListItemSelected(INamedItem item);
 
     // This code is scary, I admit it. It looks complex, but it has to be. 
     // Scrolling inventory right, when it might be lettered, is hard.
-    internal class InventoryPainter : PainterBase
+    internal class ListSelectionPainter : PainterBase
     {
         private bool m_enabled;                         // Are we showing the inventory
-        private IList<IItem> m_itemList;                // Items to display
+        private IList<INamedItem> m_itemList;           // Items to display
         private int m_lowerRange;                       // If we're scrolling, the loweset number item to show
         private int m_higherRange;                      // Last item to show
         private bool m_isScrollingNeeded;               // Do we need to scroll at all?
         private int m_cursorPosition;                   // What item is the cursor on
         private bool m_useCharactersNextToItems;        // Should we put letters next to each letter
         private bool m_shouldNotResetCursorPosition;    // If set, the next time we show the inventory window, we don't reset the position.
+        private string m_title;
 
         private DialogColorHelper m_dialogColorHelper;
 
@@ -29,7 +30,7 @@ namespace Magecrawl.GameUI.Inventory
         private const int InventoryItemHeight = UIHelper.ScreenHeight - 10;
         private const int NumberOfLinesDisplayable = InventoryItemHeight - 2;
 
-        internal InventoryPainter()
+        internal ListSelectionPainter()
         {
             m_dialogColorHelper = new DialogColorHelper();
             m_enabled = false;
@@ -46,14 +47,6 @@ namespace Magecrawl.GameUI.Inventory
 
             if (m_enabled)
             {
-                m_itemList = engine.Player.Items;
-                m_isScrollingNeeded = m_itemList.Count > NumberOfLinesDisplayable;
-                
-                // If we're going to run out of letters, don't show em.
-                if (m_itemList.Count > 26 * 2)
-                    m_useCharactersNextToItems = false;
-                else
-                    m_useCharactersNextToItems = true;
             }
         }
 
@@ -62,7 +55,7 @@ namespace Magecrawl.GameUI.Inventory
             if (m_enabled)
             {
                 m_higherRange = m_isScrollingNeeded ? m_lowerRange + NumberOfLinesDisplayable : m_itemList.Count;
-                screen.DrawFrame(InventoryWindowOffset, InventoryWindowOffset, InventoryItemWidth, InventoryItemHeight, true, "Inventory");
+                screen.DrawFrame(InventoryWindowOffset, InventoryWindowOffset, InventoryItemWidth, InventoryItemHeight, true, m_title);
                 
                 // Start lettering from our placementOffset.
                 char currentLetter = 'a';
@@ -77,12 +70,22 @@ namespace Magecrawl.GameUI.Inventory
                 m_dialogColorHelper.SaveColors(screen);
                 for (int i = m_lowerRange; i < m_higherRange; ++i)
                 {
-                    string displayString = m_itemList[i].Name;
+                    string displayString = m_itemList[i].DisplayName;
                     m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, true);
                     if (displayString.Contains('\t'.ToString()))
                     {
                         // This is the case for Tab Seperated Spaces, used for magic lists and such
-                        throw new System.NotImplementedException();
+                        string[] sectionArray = displayString.Split(new char[] { '\t' }, 3);
+
+                        screen.PrintLine(currentLetter + " - " + sectionArray[0], InventoryWindowOffset + 1, InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Left);
+                        if (sectionArray.Length > 1)
+                        {
+                            screen.PrintLine(sectionArray[1], InventoryWindowOffset + (InventoryItemWidth / 2), InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Left);
+                            if (sectionArray.Length > 2)
+                            {
+                                screen.PrintLine(sectionArray[2], InventoryWindowOffset - 2 + InventoryItemWidth, InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Right);
+                            }
+                        }
                     }
                     else
                     {
@@ -105,10 +108,10 @@ namespace Magecrawl.GameUI.Inventory
         {
             switch (request)
             {
-                case "InventoryWindowSavePosition":
+                case "ListSelectionSavePosition":
                     m_shouldNotResetCursorPosition = true;
                     break;
-                case "ShowInventoryWindow":
+                case "ShowListSelectionWindow":
                     if (!m_shouldNotResetCursorPosition)
                     {
                         m_cursorPosition = 0;
@@ -119,20 +122,24 @@ namespace Magecrawl.GameUI.Inventory
                     {
                         m_shouldNotResetCursorPosition = false;
                     }
+
+                    UpdateFromNewData((List<INamedItem>)data);
+                    m_title = (string)data2;
+
                     m_enabled = true;
                     break;
-                case "StopShowingInventoryWindow":
+                case "StopListSelectionWindow":
                     m_enabled = false;
                     break;
-                case "IntentoryItemSelected":
+                case "ListSelectionItemSelected":
                 {
-                        InventoryItemSelected del = (InventoryItemSelected)data;
+                        ListItemSelected del = (ListItemSelected)data;
                         del(m_itemList[m_cursorPosition]);
                         break;
                 }
-                case "IntentoryItemSelectedByChar":
+                case "ListSelectionItemSelectedByChar":
                 {
-                    InventoryItemSelected del = (InventoryItemSelected)data;
+                    ListItemSelected del = (ListItemSelected)data;
                     if (m_useCharactersNextToItems)
                     {
                         char selectedLetter = (char)data2;
@@ -146,12 +153,24 @@ namespace Magecrawl.GameUI.Inventory
                     }
                     break;
                 }
-                case "InventoryPositionChanged":
+                case "ListSelectionPositionChanged":
                 {
                     MoveInventorySelection((Direction)data);
                     break;
                 }
             }
+        }
+
+        private void UpdateFromNewData(List<INamedItem> data)
+        {
+            m_itemList = data;
+            m_isScrollingNeeded = m_itemList.Count > NumberOfLinesDisplayable;
+
+            // If we're going to run out of letters, don't show em.
+            if (m_itemList.Count > 26 * 2)
+                m_useCharactersNextToItems = false;
+            else
+                m_useCharactersNextToItems = true;
         }
 
         private List<char> GetListOfLettersUsed()

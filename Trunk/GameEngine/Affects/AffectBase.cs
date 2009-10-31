@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Magecrawl.GameEngine.Actors;
 using System.Xml.Serialization;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Affects
 {

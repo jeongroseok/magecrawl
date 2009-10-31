@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Affects;
 
 namespace Magecrawl.GameEngine
 {
@@ -13,13 +13,11 @@ namespace Magecrawl.GameEngine
     public class PublicGameEngine : IGameEngine
     {
         private CoreGameEngine m_engine;
-        private SpellFactory m_spellFactory;
         
         public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
             m_engine = new CoreGameEngine(textOutput, diedDelegate);
-            m_spellFactory = new SpellFactory();
         }
 
         public void Dispose()
@@ -89,16 +87,14 @@ namespace Magecrawl.GameEngine
             return didAnything;            
         }
 
-        public bool PlayerCouldCastSpell(string spellName)
+        public bool PlayerCouldCastSpell(ISpell spell)
         {
-            Spell spell = m_spellFactory.CreateSpell(spellName);
-            return m_engine.Player.CurrentMP >= spell.Cost;
+            return m_engine.Player.CurrentMP >= ((Spell)spell).Cost;
         }
 
-        public bool PlayerCastSpell(string spellName, Point target)
+        public bool PlayerCastSpell(ISpell spell, Point target)
         {
-            Spell spell = m_spellFactory.CreateSpell(spellName);
-            bool didAnything = m_engine.CastSpell(m_engine.Player, spell, target);
+            bool didAnything = m_engine.CastSpell(m_engine.Player, (Spell)spell, target);
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;

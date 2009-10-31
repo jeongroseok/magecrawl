@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Spells>
-<Spell Name="Heal" EffectType="HealCaster" Cost="2" Strength="1"/>
+<Spell Name="Heal" EffectType="HealCaster" Cost="1" Strength="1"/>
 <Spell Name="Blast" EffectType="AOE Blast Center Caster" Cost="2" Strength="1"/>
 <Spell Name="Zap" EffectType="Ranged Single Target" Cost="2" Strength="1"/>
 </Spells>

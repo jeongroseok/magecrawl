@@ -7,6 +7,7 @@ using Magecrawl.GameUI;
 using Magecrawl.GameUI.Map;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Inventory;
+using Magecrawl.Keyboard.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl
@@ -61,23 +62,30 @@ namespace Magecrawl
                     m_painters.DrawNewFrame(m_console);
                     m_console.Flush();
                 }
-                catch (PlayerDiedException)
+                catch (System.Reflection.TargetInvocationException e)
                 {
-                    // Put death information out here.
-                    SendPaintersRequest("DisableAllOverlays");
-                    m_painters.DrawNewFrame(m_console);
-                    TextBox.AddText("Player has died.");
-                    TextBox.AddText("Press 'q' to exit.");
-                    TextBox.Draw(m_console);
-                    m_console.Flush();
-                    
-                    while (true)
+                    if (e.InnerException is PlayerDiedException)
                     {
-                        if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
-                            break;
+                        // Put death information out here.
+                        SendPaintersRequest("DisableAllOverlays");
+                        m_painters.DrawNewFrame(m_console);
+                        TextBox.AddText("Player has died.");
+                        TextBox.AddText("Press 'q' to exit.");
+                        TextBox.Draw(m_console);
+                        m_console.Flush();
+
+                        while (true)
+                        {
+                            if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
+                                break;
+                        }
+
+                        IsQuitting = true;
                     }
-                    
-                    IsQuitting = true;
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
             while (!m_console.IsWindowClosed() && !IsQuitting);
@@ -107,6 +115,10 @@ namespace Magecrawl
             ViewmodeKeystrokeHandler viewmodeHandler = new ViewmodeKeystrokeHandler(m_engine, this);
             viewmodeHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Viewmode", viewmodeHandler);
+
+            MagicListKeyboardHandler magicList = new MagicListKeyboardHandler(m_engine, this);
+            magicList.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("SpellList", magicList);
 
             InventoryScreenKeyboardHandler inventoryHandler = new InventoryScreenKeyboardHandler(m_engine, this);
             inventoryHandler.LoadKeyMappings(false);

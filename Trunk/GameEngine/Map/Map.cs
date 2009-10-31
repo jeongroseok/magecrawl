@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
@@ -71,7 +72,7 @@ namespace Magecrawl.GameEngine
         {
             get 
             {
-                return m_mapObjects.ConvertAll<IMapObject>(new Converter<MapObject, IMapObject>(delegate(MapObject m) { return m as IMapObject; }));
+                return m_mapObjects.OfType<IMapObject>().ToList();
             }
         }
 
@@ -79,7 +80,7 @@ namespace Magecrawl.GameEngine
         {
             get 
             {
-                return m_monsterList.ConvertAll<ICharacter>(new Converter<Monster, ICharacter>(delegate(Monster m) { return m as ICharacter; }));
+                return m_monsterList.OfType<ICharacter>().ToList();
             }
         }
 

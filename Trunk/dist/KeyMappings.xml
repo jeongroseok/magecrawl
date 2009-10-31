@@ -26,8 +26,6 @@
 <KeyMapping Key="a" Action="Attack" />
 <KeyMapping Key="v" Action="ViewMode" />
 <KeyMapping Key="i" Action="Inventory" />
-<KeyMapping Key="h" Action="HealSpell" />
-<KeyMapping Key="b" Action="BlastSpell" />
-<KeyMapping Key="z" Action="ZapSpell" />
+<KeyMapping Key="z" Action="CastSpell" />
 <KeyMapping Key="d" Action="AddIncreaseHealth" />
 </KeyMappings>

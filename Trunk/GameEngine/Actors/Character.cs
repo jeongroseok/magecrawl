@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Affects;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.Actors
 {
     internal class Character : Interfaces.ICharacter, IXmlSerializable
     {
-        internal Character()
-            :this(0, 0, 0, 0, 0, 0, 0, String.Empty)
+        internal Character() : this(0, 0, 0, 0, 0, 0, 0, String.Empty)
         {
         }
 
@@ -30,7 +29,7 @@ namespace Magecrawl.GameEngine.Actors
             m_visionRange = visionRange;
             m_name = name; 
             m_uniqueID = s_idCounter;
-            m_ctIncreaseModifier = 1.0;
+            CTIncreaseModifier = 1.0;
             m_affects = new List<AffectBase>();
             s_idCounter++;
         }
@@ -67,18 +66,9 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        private double m_ctIncreaseModifier;
-
         internal virtual double CTIncreaseModifier
         {
-            get
-            {
-                return m_ctIncreaseModifier;
-            }
-            set
-            {
-                m_ctIncreaseModifier = value;
-            }
+            get; set;
         }
 
         public Point Position
@@ -257,12 +247,14 @@ namespace Magecrawl.GameEngine.Actors
             m_visionRange = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
 
-            ListSerialization.ReadListFromXML(reader, innerReader =>
-            {
-                string typeName = reader.ReadElementContentAsString();
-                AffectBase affect = AffectFactory.CreateAffect(typeName);
-                affect.ReadXml(reader);
-            });
+            ListSerialization.ReadListFromXML(
+                reader, 
+                innerReader =>
+                {
+                    string typeName = reader.ReadElementContentAsString();
+                    AffectBase affect = AffectFactory.CreateAffect(typeName);
+                    affect.ReadXml(reader);
+                });
         }
 
         public virtual void WriteXml(XmlWriter writer)

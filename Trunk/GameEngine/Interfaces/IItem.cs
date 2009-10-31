@@ -4,13 +4,8 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public interface IItem
+    public interface IItem : INamedItem
     {
-        string Name
-        {
-            get;
-        }
-
         string ItemDescription
         {
             get;
