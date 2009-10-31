@@ -73,6 +73,14 @@ namespace Magecrawl.GameEngine
             m_instance = null;
         }
 
+        internal CombatEngine CombatEngine
+        {
+            get
+            {
+                return m_physicsEngine.CombatEngine;
+            }
+        }
+
         internal Player Player
         {
             get

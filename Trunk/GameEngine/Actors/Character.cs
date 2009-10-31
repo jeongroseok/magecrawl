@@ -25,6 +25,7 @@ namespace Magecrawl.GameEngine.Actors
             m_visionRange = 0;
             m_name = String.Empty;
             m_uniqueID = s_idCounter;
+            m_ctIncreaseModifier = 1.0;
             s_idCounter++;
         }
 
@@ -39,6 +40,7 @@ namespace Magecrawl.GameEngine.Actors
             m_visionRange = visionRange;
             m_name = name; 
             m_uniqueID = s_idCounter;
+            m_ctIncreaseModifier = 1.0;
             s_idCounter++;
         }
 
@@ -74,11 +76,17 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        private double m_ctIncreaseModifier;
+
         internal virtual double CTIncreaseModifier
         {
             get
             {
-                return 1.0;
+                return m_ctIncreaseModifier;
+            }
+            set
+            {
+                m_ctIncreaseModifier = value;
             }
         }
 
@@ -223,7 +231,7 @@ namespace Magecrawl.GameEngine.Actors
 
             foreach (AffectBase affect in m_affects)
             {
-                affect.CTLeft -= decrease;
+                affect.DecreaseCT(decrease);
             }
             IEnumerable<AffectBase> toRemove = m_affects.Where(a => a.CTLeft <= 0);
             foreach (AffectBase affect in toRemove)
