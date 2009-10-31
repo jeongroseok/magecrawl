@@ -16,6 +16,11 @@ namespace Magecrawl.Keyboard
         public KeyCode Code;
         public char Character;
 
+        public static NamedKey Invalid = new NamedKey() 
+        {
+            Code = (KeyCode)(-1), Character = (char)0
+        };
+
         public static NamedKey FromName(string name)
         {
             NamedKey key;
@@ -37,6 +42,31 @@ namespace Magecrawl.Keyboard
                 }
             }
             return key;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            NamedKey other = (NamedKey)obj;
+
+            return Code == other.Code && Character == other.Character;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(NamedKey lhs, NamedKey rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(NamedKey lhs, NamedKey rhs)
+        {
+            return !(lhs == rhs);
         }
     }
 }

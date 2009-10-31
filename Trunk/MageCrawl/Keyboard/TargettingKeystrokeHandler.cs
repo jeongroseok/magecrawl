@@ -29,14 +29,10 @@ namespace Magecrawl.Keyboard
         public override void HandleKeystroke(NamedKey keystroke)
         {
             // If we match the alternate key, call Select()
-            if (m_alternateSelectionKey.Code == keystroke.Code)
+            if (m_alternateSelectionKey != NamedKey.Invalid && m_alternateSelectionKey == keystroke)
             {
-                if (m_alternateSelectionKey.Code != libtcodWrapper.KeyCode.TCODK_CHAR || 
-                    m_alternateSelectionKey.Character == keystroke.Character)
-                {
-                    Select();
-                    return;
-                }
+                Select();
+                return;
             }
             MethodInfo action;
             m_keyMappings.TryGetValue(keystroke, out action);
@@ -57,7 +53,11 @@ namespace Magecrawl.Keyboard
         {
             m_targetablePoints = (List<EffectivePoint>)objOne;
             m_selectionDelegate = (OnTargetSelection)objTwo;
-            m_alternateSelectionKey = (NamedKey)objThree;
+            if (objThree != null)
+                m_alternateSelectionKey = (NamedKey)objThree;
+            else
+                m_alternateSelectionKey = NamedKey.Invalid;
+
             if (objFour != null)
                 SelectionPoint = (Point)objFour;
             else

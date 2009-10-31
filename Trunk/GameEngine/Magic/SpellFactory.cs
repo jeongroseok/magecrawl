@@ -8,21 +8,21 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Magic
 {
-    internal class SpellFactory
+    internal static class SpellFactory
     {
-        private Dictionary<string, Spell> m_spellMapping;
+        private static Dictionary<string, Spell> m_spellMapping;
 
-        internal SpellFactory()
+        static SpellFactory()
         {
             LoadMappings();
         }
 
-        public Spell CreateSpell(string spellName)
+        public static Spell CreateSpell(string spellName)
         {
             return m_spellMapping[spellName];
         }
 
-        private void LoadMappings()
+        private static void LoadMappings()
         {
             m_spellMapping = new Dictionary<string, Spell>();
 

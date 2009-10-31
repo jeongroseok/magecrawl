@@ -44,6 +44,14 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
+        public virtual string DisplayName
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
         public string ItemDescription
         {
             get

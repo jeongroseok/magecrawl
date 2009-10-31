@@ -59,9 +59,13 @@
   <ItemGroup>
     <Reference Include="libtcodWrapper, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keyboard\Magic\MagicListKeyboardHandler.cs" />
     <Compile Include="Keyboard\TargettingKeystrokeHandler.cs" />
     <Compile Include="Keyboard\BaseKeystrokeHandler.cs">
     </Compile>
@@ -123,5 +127,16 @@
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\dist\Items.xml">
+      <Link>Resources\Items.xml</Link>
+    </Content>
+    <Content Include="..\dist\KeyMappings.xml">
+      <Link>Resources\KeyMappings.xml</Link>
+    </Content>
+    <Content Include="..\dist\Spells.xml">
+      <Link>Resources\Spells.xml</Link>
+    </Content>
   </ItemGroup>
 </Project>

@@ -29,6 +29,14 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
+        public string DisplayName
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
         public string ItemDescription
         {
             get

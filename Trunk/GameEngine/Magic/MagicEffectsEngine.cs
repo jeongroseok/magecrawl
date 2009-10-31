@@ -22,9 +22,9 @@ namespace Magecrawl.GameEngine.Magic
         {
             if (caster.CurrentMP >= spell.Cost)
             {
-                if (DoEffect(caster, spell.EffectType, spell.Strength, target))
+                string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
+                if (DoEffect(caster, spell.EffectType, spell.Strength, target, effectString))
                 {
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("{0} casts {1}.", caster.Name, spell.Name));
                     caster.CurrentMP -= spell.Cost;
                     return true;
                 }
@@ -34,12 +34,12 @@ namespace Magecrawl.GameEngine.Magic
 
         internal void DrinkPotion(Character drinker, Potion potion)
         {
-            CoreGameEngine.Instance.SendTextOutput(string.Format("{0} drank the {1}.", drinker.Name, potion.Name));
-            DoEffect(drinker, potion.EffectType, potion.Strength, drinker.Position);
+            string effectString = string.Format("{0} drank the {1}.", drinker.Name, potion.Name);
+            DoEffect(drinker, potion.EffectType, potion.Strength, drinker.Position, effectString);
             return;
         }
 
-        private bool DoEffect(Character caster, string effect, int strength, Point target)
+        private bool DoEffect(Character caster, string effect, int strength, Point target, string printOnEffect)
         {
             List<ICharacter> actorList = new List<ICharacter>(CoreGameEngine.Instance.Map.Monsters);
             actorList.Add(CoreGameEngine.Instance.Player);
@@ -48,6 +48,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealCaster":
                 {
                     int healAmount = caster.Heal((new DiceRoll(1, 4, 0, (short)strength)).Roll());
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", caster.Name, healAmount));
                     return true;
                 }
@@ -55,13 +56,15 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     if (caster is Monster)
                         throw new NotImplementedException("Can't do AOE Blast Center Caster on Monsters yet.");
-                    IEnumerable<ICharacter> toDamage = CoreGameEngine.Instance.Map.Monsters.Where(monster => PointDirectionUtils.LatticeDistance(monster.Position, CoreGameEngine.Instance.Player.Position) <= 2);
 
-                    foreach (ICharacter c in actorList)
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    IEnumerable<ICharacter> toDamage = CoreGameEngine.Instance.Map.Monsters.Where(monster => PointDirectionUtils.LatticeDistance(monster.Position, CoreGameEngine.Instance.Player.Position) <= 1);
+
+                    foreach (ICharacter c in toDamage)
                     {
                         if (c != caster)
                         {
-                            int damage = (new DiceRoll(1, 4, 0, (short)strength)).Roll();
+                            int damage = (new DiceRoll(2, 3, 0, (short)strength)).Roll();
                             m_engine.DamageTarget(damage, caster, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                         }
                     }
@@ -75,7 +78,8 @@ namespace Magecrawl.GameEngine.Magic
                         {
                             if (c != caster)
                             {
-                                int damage = (new DiceRoll(1, 4, 0, (short)strength)).Roll();
+                                CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                                int damage = (new DiceRoll(1, 3, 0, (short)strength)).Roll();
                                 m_engine.DamageTarget(damage, caster, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                                 return true;
                             }

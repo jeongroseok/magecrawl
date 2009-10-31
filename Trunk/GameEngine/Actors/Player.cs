@@ -3,6 +3,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
@@ -53,6 +54,14 @@ namespace Magecrawl.GameEngine.Actors
                 if (m_equipedWeapon == null)
                     return new MeleeWeapon(this);
                 return m_equipedWeapon;
+            }
+        }
+
+        public IList<ISpell> Spells
+        {
+            get 
+            {
+                return new List<ISpell>() { SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Blast"), SpellFactory.CreateSpell("Zap") };
             }
         }
 

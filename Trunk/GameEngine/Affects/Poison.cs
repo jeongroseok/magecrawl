@@ -14,8 +14,7 @@ namespace Magecrawl.GameEngine.Affects
             m_damagePerInterval = 0;
         }
 
-        public Poison(int totalCT, int damageInterval, int damagePerInterval)
-            :base(totalCT)
+        public Poison(int totalCT, int damageInterval, int damagePerInterval) : base(totalCT)
         {
             m_damageInterval = damageInterval;
             m_damagePerInterval = damagePerInterval;

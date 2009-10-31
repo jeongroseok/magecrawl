@@ -43,7 +43,7 @@ namespace Magecrawl.GameUI.Inventory
                 screen.DrawHLine(SelectedItemOffset + 1, SelectedItemOffset + 2, SelectedItemWidth - 2);
                 screen.PutChar(SelectedItemOffset, SelectedItemOffset + 2, SpecialCharacter.TEEE);
                 screen.PutChar(SelectedItemOffset + SelectedItemWidth - 1, SelectedItemOffset + 2, SpecialCharacter.TEEW);
-                screen.PrintLine(m_selectedItem.Name, SelectedItemOffset + (SelectedItemWidth / 2), SelectedItemOffset + 1, LineAlignment.Center);
+                screen.PrintLine(m_selectedItem.DisplayName, SelectedItemOffset + (SelectedItemWidth / 2), SelectedItemOffset + 1, LineAlignment.Center);
 
                 // Split in half for description.
                 screen.DrawVLine(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SelectedItemHeight - 3);
