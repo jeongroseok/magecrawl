@@ -15,7 +15,7 @@ namespace Magecrawl.Keyboard.Inventory
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree)
+        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
             m_gameInstance.UpdatePainters();
         }

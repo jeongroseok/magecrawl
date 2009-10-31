@@ -79,7 +79,34 @@ namespace Magecrawl.Keyboard
 
         private void Operate()
         {
-            m_gameInstance.SetHandlerName("Operate");
+            List<EffectivePoint> targetPoints = CalculateOperatePoints();
+            OnTargetSelection operateDelegate = new OnTargetSelection(OnOperate);
+            NamedKey operateKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
+            if (targetPoints.Count == 1)
+                m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey, targetPoints[0].Position);
+            else
+                m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey);
+        }
+
+        private void OnOperate(Point selection)
+        {
+            if (selection != m_engine.Player.Position)
+                m_engine.Operate(selection);
+        }
+
+        private List<EffectivePoint> CalculateOperatePoints()
+        {
+            List<EffectivePoint> listOfSelectablePoints = new List<EffectivePoint>();
+
+            foreach (IMapObject mapObj in m_engine.Map.MapObjects)
+            {
+                if (PointDirectionUtils.LatticeDistance(m_engine.Player.Position, mapObj.Position) == 1)
+                {
+                    listOfSelectablePoints.Add(new EffectivePoint(mapObj.Position, 1.0f));
+                }
+            }
+
+            return listOfSelectablePoints;
         }
 
         private void GetItem()
