@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Affects;
 
 namespace Magecrawl.GameEngine
 {
@@ -13,7 +14,7 @@ namespace Magecrawl.GameEngine
     {
         private CoreGameEngine m_engine;
         private SpellFactory m_spellFactory;
-
+        
         public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
@@ -100,6 +101,19 @@ namespace Magecrawl.GameEngine
             bool didAnything = m_engine.CastSpell(m_engine.Player, spell, target);
             if (didAnything)
                 m_engine.AfterPlayerAction();
+            return didAnything;
+        }
+
+        public bool AddAffectToPlayer(string affectName)
+        {
+            AffectBase affect = AffectFactory.CreateAffect(affectName);
+            bool didAnything = false;
+            if (affect != null)
+            {
+                m_engine.Player.AddAffect(affect);
+                didAnything = true;
+                m_engine.AfterPlayerAction();
+            }
             return didAnything;
         }
 

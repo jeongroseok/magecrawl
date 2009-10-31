@@ -15,18 +15,8 @@ namespace Magecrawl.GameEngine.Actors
     internal class Character : Interfaces.ICharacter, IXmlSerializable
     {
         internal Character()
+            :this(0, 0, 0, 0, 0, 0, 0, String.Empty)
         {
-            m_position = Point.Invalid;
-            m_CT = 0;
-            m_hp = 0;
-            m_maxHP = 0;
-            m_mp = 0;
-            m_maxMP = 0;
-            m_visionRange = 0;
-            m_name = String.Empty;
-            m_uniqueID = s_idCounter;
-            m_ctIncreaseModifier = 1.0;
-            s_idCounter++;
         }
 
         internal Character(int x, int y, int hp, int maxHP, int visionRange, int magic, int maxMagic, string name)
@@ -41,6 +31,7 @@ namespace Magecrawl.GameEngine.Actors
             m_name = name; 
             m_uniqueID = s_idCounter;
             m_ctIncreaseModifier = 1.0;
+            m_affects = new List<AffectBase>();
             s_idCounter++;
         }
 
@@ -58,7 +49,7 @@ namespace Magecrawl.GameEngine.Actors
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1306:FieldNamesMustBeginWithLowerCaseLetter", Justification = "CT is an acronym")]
         protected int m_CT;
 
-        protected Collection<AffectBase> m_affects;
+        protected List<AffectBase> m_affects;
 
         internal virtual double CTCostModifierToMove
         {
@@ -237,8 +228,8 @@ namespace Magecrawl.GameEngine.Actors
             foreach (AffectBase affect in toRemove)
             {
                 affect.Remove(this);
-                m_affects.Remove(affect);
             }
+            m_affects.RemoveAll(a => a.CTLeft <= 0);
         }
 
         public void AddAffect(AffectBase affectToAdd)
@@ -265,6 +256,13 @@ namespace Magecrawl.GameEngine.Actors
             m_CT = reader.ReadElementContentAsInt();
             m_visionRange = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
+
+            ListSerialization.ReadListFromXML(reader, innerReader =>
+            {
+                string typeName = reader.ReadElementContentAsString();
+                AffectBase affect = AffectFactory.CreateAffect(typeName);
+                affect.ReadXml(reader);
+            });
         }
 
         public virtual void WriteXml(XmlWriter writer)
@@ -278,6 +276,16 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("CT", m_CT.ToString());
             writer.WriteElementString("VisionRange", m_visionRange.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
+
+            foreach (AffectBase affect in m_affects)
+            {
+                affect.Remove(this);
+            }
+            ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affects");
+            foreach (AffectBase affect in m_affects)
+            {
+                affect.Apply(this);
+            }
         }
 
         #endregion

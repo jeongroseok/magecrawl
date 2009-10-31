@@ -42,6 +42,11 @@ namespace Magecrawl.GameEngine
             m_fovManager = null;
         }
 
+        internal CombatEngine CombatEngine
+        {
+            get { return m_combatEngine; }
+        }
+
         internal FOVManager FOVManager
         {
             get

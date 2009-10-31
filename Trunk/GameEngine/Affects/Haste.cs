@@ -2,10 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Affects
 {
-    class Haste
+    internal class Haste : AffectBase
     {
+        public Haste()
+            : base(new DiceRoll(1, 4).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        {
+        }
+
+        public override void Apply(Character appliedTo)
+        {
+            appliedTo.CTIncreaseModifier *= 1.5;
+        }
+
+        public override void Remove(Character removedFrom)
+        {
+            removedFrom.CTIncreaseModifier /= 1.5;
+        }
     }
 }
