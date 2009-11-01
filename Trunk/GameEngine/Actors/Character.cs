@@ -254,11 +254,17 @@ namespace Magecrawl.GameEngine.Actors
                     string typeName = reader.ReadElementContentAsString();
                     AffectBase affect = AffectFactory.CreateAffect(typeName);
                     affect.ReadXml(reader);
+                    AddAffect(affect);
                 });
         }
 
         public virtual void WriteXml(XmlWriter writer)
         {
+            foreach (AffectBase affect in m_affects)
+            {
+                affect.Remove(this);
+            }
+
             Position.WriteToXml(writer, "Position");
             writer.WriteElementString("CurrentHP", m_hp.ToString());
             writer.WriteElementString("MaxHP", m_maxHP.ToString());
@@ -269,11 +275,7 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("VisionRange", m_visionRange.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
 
-            foreach (AffectBase affect in m_affects)
-            {
-                affect.Remove(this);
-            }
-            ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affects");
+            ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");
             foreach (AffectBase affect in m_affects)
             {
                 affect.Apply(this);

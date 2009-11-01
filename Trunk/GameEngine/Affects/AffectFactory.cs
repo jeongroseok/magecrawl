@@ -13,9 +13,9 @@ namespace Magecrawl.GameEngine.Affects
             {
                 case "Haste":
                     return new Haste();
-                case "IncreaseHealthLimited":
-                    return new IncreaseHealthLimited();
-                case "IncreaseSight":
+                case "False Life":
+                    return new FalseLife();
+                case "Increase Sight":
                     return new IncreaseSight();
                 case "Poison":
                     return new Poison();

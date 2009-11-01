@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Affects
 {
@@ -12,14 +13,22 @@ namespace Magecrawl.GameEngine.Affects
         {
         }
 
-        public override void Apply(Magecrawl.GameEngine.Actors.Character appliedTo)
+        public override void Apply(Character appliedTo)
         {
             appliedTo.Vision += 4;
         }
 
-        public override void Remove(Magecrawl.GameEngine.Actors.Character removedFrom)
+        public override void Remove(Character removedFrom)
         {
             removedFrom.Vision -= 4;
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return "Increase Sight";
+            }
         }
     }
 }
