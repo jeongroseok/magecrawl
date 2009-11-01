@@ -12,11 +12,10 @@ namespace Magecrawl.GameEngine.SaveLoad
         private const int SaveVersion = 1;
 
         private bool useSavegameCompression = false;
-        private bool permDeath = false;
+        private bool permDeath = true;
 
-        internal bool SaveGame(CoreGameEngine engine)
+        internal bool SaveGame(CoreGameEngine engine, string filename)
         {
-            string filename = CoreGameEngine.Instance.Player.Name + ".sav";
             if (useSavegameCompression)
                 SaveGameCompressed(filename);
             else
@@ -25,9 +24,8 @@ namespace Magecrawl.GameEngine.SaveLoad
             return true;
         }
 
-        internal bool LoadGame(CoreGameEngine engine)
+        internal bool LoadGame(CoreGameEngine engine, string filename)
         {
-            string filename = CoreGameEngine.Instance.Player.Name + ".sav";
             if (useSavegameCompression)
                 LoadGameCompressed(filename);
             else

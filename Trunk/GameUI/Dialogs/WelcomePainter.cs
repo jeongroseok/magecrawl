@@ -2,7 +2,7 @@
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameUI.Map
+namespace Magecrawl.GameUI.Map.Dialogs
 {
     internal class WelcomePainter : MapPainterBase
     {

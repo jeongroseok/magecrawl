@@ -5,6 +5,7 @@ using Magecrawl.GameUI.Inventory;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.Map;
 using Magecrawl.GameUI.Map.Debug;
+using Magecrawl.GameUI.Map.Dialogs;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
@@ -42,6 +43,8 @@ namespace Magecrawl.GameUI
             m_painters.Add(new InventoryItemPainter());
 
             m_painters.Add(new WelcomePainter());
+            m_painters.Add(new SaveGamePainter());
+            m_painters.Add(new QuitGamePainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)

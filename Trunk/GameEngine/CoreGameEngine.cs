@@ -60,6 +60,27 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome To Magecrawl");
         }
 
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate, string saveGameName)
+        {
+            m_instance = this;
+            m_playerDied += diedDelegate;
+            m_textOutput += textOutput;
+
+            // Needs to happen before anything that could create a weapon
+            ItemFactory = new ItemFactory();
+
+            m_saveLoad = new SaveLoadCore();
+            m_saveLoad.LoadGame(this, saveGameName);
+
+            m_physicsEngine = new PhysicsEngine(m_player, m_map);
+            m_pathFinding = new PathfindingMap(m_player, m_map);
+
+            // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
+            m_physicsEngine.AfterPlayerAction(this);
+
+            SendTextOutput("Welcome Back To Magecrawl");
+        }
+
         public void Dispose()
         {
             if (m_physicsEngine != null)
@@ -106,13 +127,13 @@ namespace Magecrawl.GameEngine
         internal void Save()
         {
             SendTextOutput("Saving Game.");
-            m_saveLoad.SaveGame(this);
+            m_saveLoad.SaveGame(this, m_player.Name + ".sav");
         }
 
         internal void Load()
         {
             SendTextOutput("Loading Game.");
-            m_saveLoad.LoadGame(this);
+            m_saveLoad.LoadGame(this, m_player.Name + ".sav");
             m_pathFinding.Dispose();
             m_pathFinding = new PathfindingMap(m_player, m_map);
             m_physicsEngine.GameLoaded(m_player, m_map);

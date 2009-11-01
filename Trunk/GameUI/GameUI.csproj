@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="CharacterInfo.cs" />
     <Compile Include="DialogColorHelper.cs" />
+    <Compile Include="Dialogs\QuitGamePainter.cs" />
+    <Compile Include="Dialogs\SaveGamePainter.cs" />
     <Compile Include="Inventory\InventoryItemPainter.cs" />
     <Compile Include="ListSelection\ListSelectionPainter.cs" />
-    <Compile Include="WelcomePainter.cs" />
+    <Compile Include="Dialogs\WelcomePainter.cs" />
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
     <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />
