@@ -46,6 +46,7 @@ namespace Magecrawl.GameEngine.Magic
                 if (reader.LocalName == "Spell")
                 {
                     string name = reader.GetAttribute("Name");
+                    string school = reader.GetAttribute("School");
                     string effectType = reader.GetAttribute("EffectType");
                     
                     string costString = reader.GetAttribute("Cost");
@@ -56,7 +57,7 @@ namespace Magecrawl.GameEngine.Magic
 
                     string targetType = reader.GetAttribute("TargetType");
 
-                    m_spellMapping.Add(name, new Spell(name, effectType, cost, strength, targetType));
+                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, strength, targetType));
                 }
             }
             reader.Close();

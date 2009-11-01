@@ -9,19 +9,26 @@ namespace Magecrawl.GameEngine.Affects
 {
     internal class Haste : AffectBase
     {
-        public Haste()
-            : base(new DiceRoll(2, 6).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        private double m_modifier;
+
+        public Haste() : base(0)
         {
+        }
+
+        public Haste(int strength)
+            : base(new DiceRoll(1, 4, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        {
+            m_modifier = 1 + (.2) * strength;
         }
 
         public override void Apply(Character appliedTo)
         {
-            appliedTo.CTIncreaseModifier *= 1.5;
+            appliedTo.CTIncreaseModifier *= m_modifier;
         }
 
         public override void Remove(Character removedFrom)
         {
-            removedFrom.CTIncreaseModifier /= 1.5;
+            removedFrom.CTIncreaseModifier /= m_modifier;
         }
 
         public override string Name
@@ -31,5 +38,21 @@ namespace Magecrawl.GameEngine.Affects
                 return "Haste";
             }
         }
+
+        #region SaveLoad
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            base.ReadXml(reader);
+            m_modifier = reader.ReadContentAsDouble();
+        }
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            writer.WriteElementString("Modifier", m_modifier.ToString());
+        }
+
+        #endregion
     }
 }

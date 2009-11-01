@@ -14,14 +14,16 @@ namespace Magecrawl.GameEngine.Magic
         private int m_cost;
         private int m_strength;
         private string m_targetType;
+        private string m_school;
 
-        internal Spell(string name, string effectType, int cost, int strength, string targetType)
+        internal Spell(string name, string school, string effectType, int cost, int strength, string targetType)
         {
             m_name = name;
             m_effectType = effectType;
             m_cost = cost;
             m_strength = strength;
             m_targetType = targetType;
+            m_school = school;
         }
 
         public string Name
@@ -36,7 +38,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             get
             {
-                return Name + '\t' + "Arcane" + '\t' + "Mp: " + m_cost.ToString();
+                return Name + '\t' + m_school + '\t' + "Mp: " + m_cost.ToString();
             }
         }
 
@@ -69,6 +71,14 @@ namespace Magecrawl.GameEngine.Magic
             get
             {
                 return m_strength;
+            }
+        }
+
+        internal string Schoool
+        {
+            get
+            {
+                return m_school;
             }
         }
     }

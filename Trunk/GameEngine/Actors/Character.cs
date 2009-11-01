@@ -252,7 +252,7 @@ namespace Magecrawl.GameEngine.Actors
                 innerReader =>
                 {
                     string typeName = reader.ReadElementContentAsString();
-                    AffectBase affect = AffectFactory.CreateAffect(typeName);
+                    AffectBase affect = AffectFactory.CreateAffectBaseObject(typeName);
                     affect.ReadXml(reader);
                     AddAffect(affect);
                 });

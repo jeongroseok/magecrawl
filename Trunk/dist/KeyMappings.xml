@@ -27,5 +27,4 @@
 <KeyMapping Key="v" Action="ViewMode" />
 <KeyMapping Key="i" Action="Inventory" />
 <KeyMapping Key="z" Action="CastSpell" />
-<KeyMapping Key="d" Action="AddIncreaseHealth" />
 </KeyMappings>

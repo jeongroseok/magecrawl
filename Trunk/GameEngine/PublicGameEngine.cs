@@ -100,19 +100,6 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        public bool AddAffectToPlayer(string affectName)
-        {
-            AffectBase affect = AffectFactory.CreateAffect(affectName);
-            bool didAnything = false;
-            if (affect != null)
-            {
-                m_engine.Player.AddAffect(affect);
-                didAnything = true;
-                m_engine.AfterPlayerAction();
-            }
-            return didAnything;
-        }
-
         public bool PlayerGetItem()
         {
             bool didAnything = m_engine.PlayerGetItem();

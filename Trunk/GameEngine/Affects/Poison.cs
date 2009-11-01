@@ -9,9 +9,14 @@ namespace Magecrawl.GameEngine.Affects
 {
     internal class Poison : AffectBase
     {
-        public Poison() : base(new DiceRoll(1, 4, 1).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        public Poison() : base(0)
         {
-            m_damagePerInterval = 1;
+        }
+
+        public Poison(int strength)
+            : base(new DiceRoll(1, 4, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        {
+            m_damagePerInterval = Math.Min(strength / 3, 1);
         }
 
         private Character m_affected;
