@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
-using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -151,7 +150,7 @@ namespace Magecrawl.GameEngine.Magic
                 return true;
             using (TCODRandom random = new TCODRandom())
             {
-                int element = random.GetRandomInt(0, targetablePoints.Count-1);
+                int element = random.GetRandomInt(0, targetablePoints.Count - 1);
                 EffectivePoint pointToTeleport = targetablePoints[element];
                 CoreGameEngine.Instance.SendTextOutput("Things become fuzzy as you shift into a new position.");
                 caster.Position = pointToTeleport.Position;

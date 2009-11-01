@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.GameUI.ListSelection;
-using Magecrawl.GameUI;
-
+﻿
 namespace Magecrawl.GameUI.ListSelection.Requests
 {
     public class ListSelectionItemSelectedByChar : RequestBase

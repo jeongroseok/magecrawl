@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.GameUI.Map.Requests;
-using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Inventory.Requests;
+using Magecrawl.GameUI.ListSelection.Requests;
+using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.Keyboard.Inventory
 {
