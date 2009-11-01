@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.GameUI.ListSelection.Requests;
+using Magecrawl.GameUI.Inventory.Requests;
 
 namespace Magecrawl.Keyboard.Inventory
 {
@@ -20,9 +23,9 @@ namespace Magecrawl.Keyboard.Inventory
         public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
             if (objOne != null && ((bool)objOne) == true)
-                m_gameInstance.SendPaintersRequest("ListSelectionSavePosition");
-            m_gameInstance.SendPaintersRequest("DisableAllOverlays");
-            m_gameInstance.SendPaintersRequest("ShowListSelectionWindow", m_engine.Player.Items.OfType<INamedItem>().ToList(), "Inventory");
+                m_gameInstance.SendPaintersRequest(new SaveListSelectionPosition());
+            m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Items.OfType<INamedItem>().ToList(), "Inventory"));
             m_gameInstance.UpdatePainters();
         }
 
@@ -36,35 +39,35 @@ namespace Magecrawl.Keyboard.Inventory
             }
             else if (keystroke.Code == libtcodWrapper.KeyCode.TCODK_CHAR)
             {
-                m_gameInstance.SendPaintersRequest("ListSelectionItemSelectedByChar", new Magecrawl.GameUI.ListSelection.ListItemSelected(ItemSelectedDelegate), keystroke.Character);
+                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, new Magecrawl.GameUI.ListSelection.ListItemSelected(ItemSelectedDelegate)));
             }
         }
 
         private void ItemSelectedDelegate(INamedItem item)
         {
-            m_gameInstance.SendPaintersRequest("StopListSelectionWindow");
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false, null, null));
             m_gameInstance.SetHandlerName("InventoryItem");
             
             List<ItemOptions> optionList = m_engine.GetOptionsForInventoryItem((IItem)item);
-            m_gameInstance.SendPaintersRequest("InventoryItemWindow", item, optionList);
+            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(true, (IItem)item, optionList));
             m_gameInstance.UpdatePainters();
         }
 
         private void Select()
         {
-            m_gameInstance.SendPaintersRequest("ListSelectionItemSelected", new Magecrawl.GameUI.ListSelection.ListItemSelected(ItemSelectedDelegate));          
+            m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(new Magecrawl.GameUI.ListSelection.ListItemSelected(ItemSelectedDelegate)));          
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest("StopListSelectionWindow");
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false, null, null));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
 
         private void HandleDirection(Direction direction)
         {
-            m_gameInstance.SendPaintersRequest("ListSelectionPositionChanged", direction);
+            m_gameInstance.SendPaintersRequest(new ChangeListSelectionPosition(direction));
             m_gameInstance.UpdatePainters();
         }
 

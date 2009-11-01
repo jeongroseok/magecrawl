@@ -51,19 +51,15 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        public override void HandleRequest(string request, object data, object data2)
+        internal void EnablePlayerTargeting(List<EffectivePoint> targetablePoints)
         {
-            switch (request)
-            {
-                case "PlayerTargettingEnabled":
-                    m_enabled = true;
-                    m_targetablePoints = (List<EffectivePoint>)data;
-                    break;
-                case "PlayerTargettingDisabled":
-                case "DisableAllOverlays":
-                    m_enabled = false;
-                    break;
-            }
+            m_enabled = true;
+            m_targetablePoints = targetablePoints;
+        }
+
+        internal override void DisableAllOverlays()
+        {
+            m_enabled = false;
         }
 
         public override void Dispose()

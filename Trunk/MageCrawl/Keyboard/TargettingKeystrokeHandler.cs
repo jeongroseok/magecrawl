@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.Keyboard
 {
@@ -62,8 +63,8 @@ namespace Magecrawl.Keyboard
                 SelectionPoint = (Point)objFour;
             else
                 SelectionPoint = SetTargettingInitialSpot(m_engine);
-            m_gameInstance.SendPaintersRequest("PlayerTargettingEnabled", m_targetablePoints);
-            m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
+            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(true, m_targetablePoints));
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(true, SelectionPoint));
 
             // If we have no targetable points, just exit now
             if (m_targetablePoints.Count == 0)
@@ -89,7 +90,7 @@ namespace Magecrawl.Keyboard
             Point resultPoint = TargetHandlerHelper.MoveSelectionToNewPoint(m_engine, pointWantToGoTo, direction, m_targetablePoints);
             if (resultPoint != Point.Invalid)
                 SelectionPoint = resultPoint;
-            m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
+            m_gameInstance.SendPaintersRequest(new ChangeCursorPosition(SelectionPoint));
             m_gameInstance.UpdatePainters();
         }
 
@@ -103,8 +104,8 @@ namespace Magecrawl.Keyboard
 
         private void ExitMode()
         {
-            m_gameInstance.SendPaintersRequest("MapCursorDisabled");
-            m_gameInstance.SendPaintersRequest("PlayerTargettingDisabled");
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false, Point.Invalid));
+            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false, null));
             m_selectionDelegate = null;
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.GameUI.ListSelection.Requests;
 
 namespace Magecrawl.Keyboard.Magic
 {
@@ -24,8 +26,8 @@ namespace Magecrawl.Keyboard.Magic
         public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
             m_keystroke = (NamedKey)objOne;
-            m_gameInstance.SendPaintersRequest("DisableAllOverlays");
-            m_gameInstance.SendPaintersRequest("ShowListSelectionWindow", m_engine.Player.Spells.OfType<INamedItem>().ToList(), "Spellbook");
+            m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Spells.OfType<INamedItem>().ToList(), "Spellbook"));
             m_gameInstance.UpdatePainters();
         }
 
@@ -39,13 +41,13 @@ namespace Magecrawl.Keyboard.Magic
             }
             else if (keystroke.Code == libtcodWrapper.KeyCode.TCODK_CHAR)
             {
-                m_gameInstance.SendPaintersRequest("ListSelectionItemSelectedByChar", new Magecrawl.GameUI.ListSelection.ListItemSelected(SpellSelectedDelegate), keystroke.Character);
+                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, new Magecrawl.GameUI.ListSelection.ListItemSelected(SpellSelectedDelegate)));
             }
         }
 
         private void SpellSelectedDelegate(INamedItem spellName)
         {
-            m_gameInstance.SendPaintersRequest("StopListSelectionWindow");
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false, null, null));
             m_gameInstance.ResetHandlerName();
 
             ISpell spell = (ISpell)spellName;
@@ -74,19 +76,19 @@ namespace Magecrawl.Keyboard.Magic
 
         private void Select()
         {
-            m_gameInstance.SendPaintersRequest("ListSelectionItemSelected", new Magecrawl.GameUI.ListSelection.ListItemSelected(SpellSelectedDelegate));          
+            m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(new Magecrawl.GameUI.ListSelection.ListItemSelected(SpellSelectedDelegate)));          
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest("StopListSelectionWindow");
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false, null, null));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
 
         private void HandleDirection(Direction direction)
         {
-            m_gameInstance.SendPaintersRequest("ListSelectionPositionChanged", direction);
+            m_gameInstance.SendPaintersRequest(new ChangeListSelectionPosition(direction));
             m_gameInstance.UpdatePainters();
         }
 

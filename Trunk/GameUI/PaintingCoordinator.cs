@@ -6,10 +6,11 @@ using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.Map;
 using Magecrawl.GameUI.Map.Debug;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.GameUI
 {
-    public sealed class PaintingCoordinator : System.IDisposable
+    public sealed class PaintingCoordinator : System.IDisposable, IHandlePainterRequest
     {
         private List<PainterBase> m_painters;
         private bool m_isSelectionCursor;
@@ -67,27 +68,33 @@ namespace Magecrawl.GameUI
             m_painters = null;
         }
 
-        public void HandleRequest(string request, object data, object data2)
+        internal bool MapCursorEnabled
+        {
+            get { return m_isSelectionCursor; }
+            set { m_isSelectionCursor = value; }
+        }
+
+        internal Point CursorSpot
+        {
+            get { return m_cursorSpot; }
+            set { m_cursorSpot = value; }
+        }
+
+        public void HandleRequest(RequestBase request)
         {
             foreach (PainterBase p in m_painters)
             {
-                p.HandleRequest(request, data, data2);
+                p.HandleRequest(request);
             }
-            switch (request)
+
+            // BCL: not really in the spirit of the rest of the request stuff
+            if (request is DisableAllOverlays)
             {
-                case "MapCursorEnabled":
-                    m_isSelectionCursor = true;
-                    m_cursorSpot = (Point)data;
-                    break;
-                case "MapCursorDisabled":
-                    m_isSelectionCursor = false;
-                    break;
-                case "MapCursorPositionChanged":
-                    m_cursorSpot = (Point)data;
-                    break;
-                case "DisableAllOverlays":
-                    m_isSelectionCursor = false;
-                    break;
+                MapCursorEnabled = false;
+            }
+            else
+            {
+                IHandlePainterRequestExtensions.HandleRequest(this, request);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.Keyboard
 {
@@ -22,7 +23,7 @@ namespace Magecrawl.Keyboard
         public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
             SelectionPoint = m_engine.Player.Position;
-            m_gameInstance.SendPaintersRequest("MapCursorEnabled", SelectionPoint);
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(true, SelectionPoint));
             m_gameInstance.UpdatePainters();
         }
 
@@ -33,7 +34,7 @@ namespace Magecrawl.Keyboard
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest("MapCursorDisabled");
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false, Point.Invalid));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
@@ -41,7 +42,7 @@ namespace Magecrawl.Keyboard
         private void HandleDirection(Direction direction)
         {
             SelectionPoint = PointDirectionUtils.ConvertDirectionToDestinationPoint(SelectionPoint, direction);
-            m_gameInstance.SendPaintersRequest("MapCursorPositionChanged", SelectionPoint);
+            m_gameInstance.SendPaintersRequest(new ChangeCursorPosition(SelectionPoint));
             m_gameInstance.UpdatePainters();
         }
 

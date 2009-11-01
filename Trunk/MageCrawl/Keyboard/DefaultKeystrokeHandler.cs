@@ -2,6 +2,7 @@
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.Keyboard
 {
@@ -137,19 +138,19 @@ namespace Magecrawl.Keyboard
 
         private void MoveableOnOff()
         {
-            m_gameInstance.SendPaintersRequest("DebuggingMoveableOnOff", m_engine);
+            m_gameInstance.SendPaintersRequest(new ToggleDebuggingMoveable(m_engine));
             m_gameInstance.UpdatePainters();
         }
 
         private void DebuggingFOVOnOff()
         {
-            m_gameInstance.SendPaintersRequest("DebuggingFOVOnOff", m_engine);
+            m_gameInstance.SendPaintersRequest(new SwapFOVEnabledStatus());
             m_gameInstance.UpdatePainters();
         }
 
         private void FOVOnOff()
         {
-            m_gameInstance.SendPaintersRequest("SwapFOVEnabledStatus");
+            m_gameInstance.SendPaintersRequest(new SwapFOVEnabledStatus());
             m_gameInstance.UpdatePainters();
         }
 

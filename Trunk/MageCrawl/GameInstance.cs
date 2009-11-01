@@ -9,6 +9,7 @@ using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl
 {
@@ -86,7 +87,7 @@ namespace Magecrawl
         private void HandleDeath()
         {
             // Put death information out here.
-            SendPaintersRequest("DisableAllOverlays");
+            SendPaintersRequest(new DisableAllOverlays());
             m_painters.DrawNewFrame(m_console);
             TextBox.AddText("Player has died.");
             TextBox.AddText("Press 'q' to exit.");
@@ -179,19 +180,9 @@ namespace Magecrawl
             throw new PlayerDiedException();
         }
 
-        internal void SendPaintersRequest(string s)
+        internal void SendPaintersRequest(RequestBase request)
         {
-            m_painters.HandleRequest(s, null, null);
-        }
-
-        internal void SendPaintersRequest(string s, object data)
-        {
-            m_painters.HandleRequest(s, data, null);
-        }
-
-        internal void SendPaintersRequest(string s, object data, object data2)
-        {
-            m_painters.HandleRequest(s, data, data2);
+            m_painters.HandleRequest(request);
         }
 
         internal void UpdatePainters()

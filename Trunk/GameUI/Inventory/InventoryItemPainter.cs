@@ -65,36 +65,44 @@ namespace Magecrawl.GameUI.Inventory
             }   
         }
 
+        internal void Show(IItem selectedItem, List<ItemOptions> optionList)
+        {
+            m_selectedItem = selectedItem;
+            m_optionList = optionList;
+            m_cursorPosition = 0;
+            m_enabled = true;
+        }
+
+        internal void Hide()
+        {
+            m_enabled = false;
+        }
+
+        internal void ChangeSelectionPosition(Direction movementDirection)
+        {
+            if (movementDirection == Direction.North)
+            {
+                if (m_cursorPosition > 0)
+                    m_cursorPosition--;
+            }
+            else if (movementDirection == Direction.South)
+            {
+                if (m_cursorPosition < (m_optionList.Count - 1))
+                    m_cursorPosition++;
+            }
+        }
+
+        internal void SelectOptionOnCurrent(InventoryItemOptionSelected onSelected)
+        {
+            if (m_optionList[m_cursorPosition].Enabled)
+                onSelected(m_selectedItem, m_optionList[m_cursorPosition].Option);
+        }
+
         public override void HandleRequest(string request, object data, object data2)
         {
             switch (request)
             {
-                case "InventoryItemWindow":
-                    m_selectedItem = (IItem)data;
-                    m_optionList = (List<ItemOptions>)data2;
-                    m_cursorPosition = 0;
-                    m_enabled = true;
-                    break;
-                case "StopShowingInventoryItemWindow":
-                    m_enabled = false;
-                    break;
-                case "InventoryItemPositionChanged":
-                    Direction movementDirection = (Direction)data;
-                    if (movementDirection == Direction.North)
-                    {
-                        if (m_cursorPosition > 0)
-                            m_cursorPosition--;
-                    }
-                    if (movementDirection == Direction.South)
-                    {
-                        if (m_cursorPosition < (m_optionList.Count - 1))
-                            m_cursorPosition++;
-                    }
-                    break;
                 case "InventoryItemOptionSelected":
-                    InventoryItemOptionSelected del = (InventoryItemOptionSelected)data;
-                    if (m_optionList[m_cursorPosition].Enabled)
-                        del(m_selectedItem, m_optionList[m_cursorPosition].Option);
                     break;
             }
         }
