@@ -13,7 +13,7 @@ namespace Magecrawl.Utilities
                 for (int j = -burstDistance; j <= burstDistance; ++j)
                 {
                     int distanceFromCenter = System.Math.Abs(i) + Math.Abs(j);
-                    if (distanceFromCenter < burstDistance)
+                    if (distanceFromCenter <= burstDistance)
                     {
                         returnValue.Add(new EffectivePoint(new Point(center.X + i, center.Y + j), 1.0f));
                     }

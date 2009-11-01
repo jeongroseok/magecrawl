@@ -54,7 +54,9 @@ namespace Magecrawl.GameEngine.Magic
                     string strengthString = reader.GetAttribute("Strength");
                     int strength = int.Parse(strengthString);
 
-                    m_spellMapping.Add(name, new Spell(name, effectType, cost, strength));
+                    string targetType = reader.GetAttribute("TargetType");
+
+                    m_spellMapping.Add(name, new Spell(name, effectType, cost, strength, targetType));
                 }
             }
             reader.Close();

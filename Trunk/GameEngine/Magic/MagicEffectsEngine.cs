@@ -72,7 +72,7 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Ranged Single Target":
                 {
-                    foreach (ICharacter c in actorList)
+                    foreach (Character c in actorList)
                     {
                         if (c.Position == target)
                         {
@@ -80,7 +80,7 @@ namespace Magecrawl.GameEngine.Magic
                             {
                                 CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                                 int damage = (new DiceRoll(1, 3, 0, (short)strength)).Roll();
-                                m_engine.DamageTarget(damage, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                                m_engine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                                 return true;
                             }
                         }
@@ -89,18 +89,39 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Haste":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     caster.AddAffect(Affects.AffectFactory.CreateAffect("Haste"));
                     return true;
                 }
                 case "False Life":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     caster.AddAffect(Affects.AffectFactory.CreateAffect("False Life"));
                     return true;
                 }
                 case "Increase Sight":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     caster.AddAffect(Affects.AffectFactory.CreateAffect("Increase Sight"));
                     return true;
+                }
+                case "Poison Bolt":
+                {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    foreach (Character c in actorList)
+                    {
+                        if (c.Position == target)
+                        {
+                            if (c != caster)
+                            {
+                                CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                                m_engine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                                c.AddAffect(Affects.AffectFactory.CreateAffect("Poison"));
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
                 }
                 default:
                     return false;

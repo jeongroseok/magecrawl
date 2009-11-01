@@ -63,7 +63,8 @@ namespace Magecrawl.GameEngine.Actors
             {
                 return new List<ISpell>() {
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Blast"), SpellFactory.CreateSpell("Zap"),
-                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye")
+                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye"),
+                    SpellFactory.CreateSpell("Poison Bolt")
                 };
             }
         }

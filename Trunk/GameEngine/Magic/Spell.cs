@@ -13,13 +13,15 @@ namespace Magecrawl.GameEngine.Magic
         private string m_effectType;
         private int m_cost;
         private int m_strength;
+        private string m_targetType;
 
-        internal Spell(string name, string effectType, int cost, int strength)
+        internal Spell(string name, string effectType, int cost, int strength, string targetType)
         {
             m_name = name;
             m_effectType = effectType;
             m_cost = cost;
             m_strength = strength;
+            m_targetType = targetType;
         }
 
         public string Name
@@ -38,11 +40,11 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        public bool NeedTarget
+        public string TargetType
         {
             get 
             {
-                return m_effectType == "Ranged Single Target";
+                return m_targetType;
             }
         }
 
