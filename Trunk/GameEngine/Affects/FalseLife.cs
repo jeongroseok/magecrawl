@@ -10,9 +10,14 @@ namespace Magecrawl.GameEngine.Affects
     internal class FalseLife : AffectBase
     {
         private int m_lifeIncrease;
+        private int m_strength;
 
-        public FalseLife()
-            : base(new DiceRoll(2, 4).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        public FalseLife() : base(0)
+        {
+        }
+
+        public FalseLife(int strength)
+            : base(new DiceRoll(strength, 4, 2).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_lifeIncrease = -1;
         }
@@ -20,7 +25,7 @@ namespace Magecrawl.GameEngine.Affects
         public override void Apply(Character appliedTo)
         {
             if (m_lifeIncrease == -1)
-                m_lifeIncrease = (new DiceRoll(2, 4).Roll());
+                m_lifeIncrease = (new DiceRoll(m_strength, 4, 1).Roll());
             
             appliedTo.CurrentHP += m_lifeIncrease;
             appliedTo.MaxHP += m_lifeIncrease;
@@ -46,12 +51,14 @@ namespace Magecrawl.GameEngine.Affects
         {
             base.ReadXml(reader);
             m_lifeIncrease = reader.ReadElementContentAsInt();
+            m_strength = reader.ReadElementContentAsInt();
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             base.WriteXml(writer);
             writer.WriteElementString("LifeIncrease", m_lifeIncrease.ToString());
+            writer.WriteElementString("Strength", m_strength.ToString());
         }
 
         #endregion

@@ -48,7 +48,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 case "HealCaster":
                 {
-                    int healAmount = caster.Heal((new DiceRoll(1, 4, 0, (short)strength)).Roll());
+                    int healAmount = caster.Heal((new DiceRoll(1, 4, 0, strength)).Roll());
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", caster.Name, healAmount));
                     return true;
@@ -65,7 +65,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         if (c != caster)
                         {
-                            int damage = (new DiceRoll(2, 3, 0, (short)strength)).Roll();
+                            int damage = (new DiceRoll(2, 3, 0, strength)).Roll();
                             m_engine.DamageTarget(damage, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                         }
                     }
@@ -80,7 +80,7 @@ namespace Magecrawl.GameEngine.Magic
                             if (c != caster)
                             {
                                 CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                                int damage = (new DiceRoll(1, 3, 0, (short)strength)).Roll();
+                                int damage = (new DiceRoll(1, 3, 0, strength)).Roll();
                                 m_engine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                                 return true;
                             }
@@ -91,19 +91,19 @@ namespace Magecrawl.GameEngine.Magic
                 case "Haste":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Haste"));
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Haste", strength));
                     return true;
                 }
                 case "False Life":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("False Life"));
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("False Life", strength));
                     return true;
                 }
                 case "Eagle Eye":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Eagle Eye"));
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Eagle Eye", strength));
                     return true;
                 }
                 case "Poison Bolt":
@@ -117,7 +117,7 @@ namespace Magecrawl.GameEngine.Magic
                             {
                                 CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                                 m_engine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                                c.AddAffect(Affects.AffectFactory.CreateAffect("Poison"));
+                                c.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
                                 return true;
                             }
                         }

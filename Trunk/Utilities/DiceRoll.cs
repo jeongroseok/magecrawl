@@ -15,20 +15,29 @@ namespace Magecrawl.Utilities
         public short ToAdd;
         public short Multiplier;
 
-        public DiceRoll(short rolls, short diceFaces)
+        public DiceRoll(int rolls, int diceFaces)
+            : this((short)rolls, (short)diceFaces, (short)0, (short)1)
         {
-            Rolls = rolls;
-            DiceFaces = diceFaces;
-            ToAdd = 0;
-            Multiplier = 1;
+        }
+
+        public DiceRoll(int rolls, int diceFaces, int toAdd)
+            : this((short)rolls, (short)diceFaces, (short)toAdd, (short)1)
+        {
+        }
+
+        public DiceRoll(int rolls, int diceFaces, int toAdd, int multiplier)
+            : this((short)rolls, (short)diceFaces, (short)toAdd, (short)multiplier)
+        {
+        }
+
+        public DiceRoll(short rolls, short diceFaces)
+            : this(rolls, diceFaces, (short)0, (short)1)
+        {
         }
 
         public DiceRoll(short rolls, short diceFaces, short toAdd)
+            : this(rolls, diceFaces, (short)toAdd, (short)1)
         {
-            Rolls = rolls;
-            DiceFaces = diceFaces;
-            ToAdd = toAdd;
-            Multiplier = 1;
         }
 
         public DiceRoll(short rolls, short diceFaces, short toAdd, short multiplier)
