@@ -62,24 +62,16 @@ namespace Magecrawl
                     m_painters.DrawNewFrame(m_console);
                     m_console.Flush();
                 }
+                catch (PlayerDiedException)
+                {
+                    HandleDeath();
+                    IsQuitting = true;
+                }
                 catch (System.Reflection.TargetInvocationException e)
                 {
                     if (e.InnerException is PlayerDiedException)
                     {
-                        // Put death information out here.
-                        SendPaintersRequest("DisableAllOverlays");
-                        m_painters.DrawNewFrame(m_console);
-                        TextBox.AddText("Player has died.");
-                        TextBox.AddText("Press 'q' to exit.");
-                        TextBox.Draw(m_console);
-                        m_console.Flush();
-
-                        while (true)
-                        {
-                            if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
-                                break;
-                        }
-
+                        HandleDeath();
                         IsQuitting = true;
                     }
                     else
@@ -89,6 +81,23 @@ namespace Magecrawl
                 }
             }
             while (!m_console.IsWindowClosed() && !IsQuitting);
+        }
+
+        private void HandleDeath()
+        {
+            // Put death information out here.
+            SendPaintersRequest("DisableAllOverlays");
+            m_painters.DrawNewFrame(m_console);
+            TextBox.AddText("Player has died.");
+            TextBox.AddText("Press 'q' to exit.");
+            TextBox.Draw(m_console);
+            m_console.Flush();
+
+            while (true)
+            {
+                if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
+                    break;
+            }
         }
 
         private void SetupKeyboardHandlers()

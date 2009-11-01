@@ -127,7 +127,7 @@ namespace Magecrawl.GameEngine
                 string sizeLine = reader.ReadLine();
                 string[] sizes = sizeLine.Split(' ');
                 m_width = Int32.Parse(sizes[0]);
-                m_height = Int32.Parse(sizes[0]);
+                m_height = Int32.Parse(sizes[1]);
                 m_map = new MapTile[m_width, m_height];
 
                 for (int j = 0; j < m_height; ++j)
@@ -145,11 +145,6 @@ namespace Magecrawl.GameEngine
                                 break;
                             case 'M':
                                 m_monsterList.Add(new Monster(i, j));
-                                break;
-                            case '&':
-                                string[] weaponNames = new string[3] { "Bronze Spear", "Wooden Sword", "Simple Short Bow" };
-                                Item newWeapon = CoreGameEngine.Instance.ItemFactory.CreateItem(weaponNames[random.Next(0, 3)]);
-                                m_items.Add(new Pair<Item, Point>(newWeapon, new Point(i, j)));
                                 break;
                             case '!':
                                 m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Haste Potion"), new Point(i, j)));

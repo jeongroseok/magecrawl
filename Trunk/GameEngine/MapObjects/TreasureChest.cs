@@ -59,7 +59,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             // Remove me
             CoreGameEngine.Instance.Map.RemoveMapItem(this);
-            Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Sword");
+            Item newItem = CoreGameEngine.Instance.ItemFactory.CreateRandomItem();
             CoreGameEngine.Instance.Map.AddItem(new Pair<Items.Item, Point>(newItem, Position));
         }
 
