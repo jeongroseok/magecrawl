@@ -53,6 +53,12 @@ namespace Magecrawl.GameEngine.Magic
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", caster.Name, healAmount));
                     return true;
                 }
+                case "HealMPCaster":
+                {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    int healAmount = caster.CurrentMP += (new DiceRoll(1, 4, 0, strength)).Roll();
+                    return true;
+                }
                 case "AOE Blast Center Caster":
                 {
                     if (caster is Monster)

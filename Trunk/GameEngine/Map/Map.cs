@@ -147,7 +147,7 @@ namespace Magecrawl.GameEngine
                                 m_monsterList.Add(new Monster(i, j));
                                 break;
                             case '!':
-                                m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Haste Potion"), new Point(i, j)));
+                                m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"), new Point(i, j)));
                                 break;
                             case '+':
                                 m_mapObjects.Add(new TreasureChest(new Point(i, j)));
