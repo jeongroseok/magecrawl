@@ -9,7 +9,7 @@ namespace Magecrawl.GameEngine.Affects
 {
     internal class Poison : AffectBase
     {
-        public Poison() : base(new DiceRoll(1, 4).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        public Poison() : base(new DiceRoll(1, 4, 1).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_damagePerInterval = 1;
         }
@@ -28,7 +28,7 @@ namespace Magecrawl.GameEngine.Affects
             int original = CTLeft + decrease;
             for (int i = original - 1; i >= CTLeft; i--)
             {
-                if (i > 0 && (i % CoreTimingEngine.CTNeededForNewTurn == 0))
+                if (i % CoreTimingEngine.CTNeededForNewTurn == 0)
                 {
                     CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, m_affected, null);
                 }

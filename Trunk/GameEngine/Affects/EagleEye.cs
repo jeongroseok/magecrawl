@@ -7,9 +7,9 @@ using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Affects
 {
-    internal class IncreaseSight : AffectBase
+    internal class EagleEye : AffectBase
     {
-        public IncreaseSight() : base(new DiceRoll(2, 10).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        public EagleEye() : base(new DiceRoll(2, 10).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.Affects
         {
             get
             {
-                return "Increase Sight";
+                return "Eagle Eye";
             }
         }
     }

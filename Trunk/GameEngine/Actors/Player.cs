@@ -7,6 +7,7 @@ using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Affects;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -64,7 +65,8 @@ namespace Magecrawl.GameEngine.Actors
                 return new List<ISpell>() {
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Blast"), SpellFactory.CreateSpell("Zap"),
                     SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye"),
-                    SpellFactory.CreateSpell("Poison Bolt")
+                    SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
+                    SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport")
                 };
             }
         }
@@ -74,6 +76,19 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return m_itemList.ConvertAll<IItem>(new System.Converter<Item, IItem>(delegate(Item i) { return i as IItem; }));
+            }
+        }
+
+        public IList<string> StatusEffects
+        {
+            get
+            {
+                List<string> statusList = new List<string>();
+                foreach (AffectBase a in m_affects)
+                {
+                    statusList.Add(a.Name);
+                }
+                return statusList;
             }
         }
 

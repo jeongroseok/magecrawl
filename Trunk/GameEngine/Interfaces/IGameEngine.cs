@@ -55,7 +55,7 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerSelectedItemOption(IItem item, string option);
 
         TileVisibility[,] CalculateTileVisibility();
-        void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList);
+        void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();

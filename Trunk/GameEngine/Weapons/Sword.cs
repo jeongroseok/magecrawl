@@ -33,7 +33,7 @@ namespace Magecrawl.GameEngine.Weapons
             targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 1), .75f));
             targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, -1), .75f));
 
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision, true);
 
             return targetablePoints;
         }

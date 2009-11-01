@@ -170,9 +170,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CalculateMoveablePointGrid(m_map, m_player);
         }
 
-        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange)
+        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)
         {
-            m_physicsEngine.FilterNotTargetablePointsFromList(pointList, characterPosition, visionRange);
+            m_physicsEngine.FilterNotTargetablePointsFromList(pointList, characterPosition, visionRange, needsToBeVisible);
         }
 
         public TileVisibility[,] CalculateTileVisibility()
