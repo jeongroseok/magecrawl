@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <Spells>
-<Spell Name="Heal" EffectType="HealCaster" Cost="1" Strength="1"/>
-<Spell Name="Blast" EffectType="AOE Blast Center Caster" Cost="2" Strength="1"/>
-<Spell Name="Zap" EffectType="Ranged Single Target" Cost="2" Strength="1"/>
-<Spell Name="Haste" EffectType="Haste" Cost="4" Strength="1"/>
-<Spell Name="False Life" EffectType="False Life" Cost="1" Strength="1"/>
-<Spell Name="Eagle Eye" EffectType="Increase Sight" Cost="1" Strength="1"/>
-<Spell Name="Poison Bolt" EffectType="Increase Sight" Cost="1" Strength="1"/>
+<Spell Name="Heal" EffectType="HealCaster" TargetType="None" Cost="1" Strength="1"/>
+<Spell Name="Blast" EffectType="AOE Blast Center Caster" TargetType="None" Cost="2" Strength="1"/>
+<Spell Name="Zap" EffectType="Ranged Single Target" TargetType="Single Range:5" Cost="2" Strength="1"/>
+<Spell Name="Haste" EffectType="Haste" Cost="4" TargetType="None" Strength="1"/>
+<Spell Name="False Life" EffectType="False Life" TargetType="None" Cost="1" Strength="1"/>
+<Spell Name="Eagle Eye" EffectType="Increase Sight" TargetType="None" Cost="1" Strength="1"/>
+<Spell Name="Poison Bolt" EffectType="Poison Bolt" TargetType="Single Range:3" Cost="1" Strength="1"/>
 </Spells>

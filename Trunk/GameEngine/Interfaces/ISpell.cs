@@ -4,7 +4,7 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public interface ISpell : INamedItem
     {
-        bool NeedTarget
+        string TargetType
         {
             get;
         }
