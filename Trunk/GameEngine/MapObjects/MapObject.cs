@@ -40,6 +40,8 @@ namespace Magecrawl.GameEngine.MapObjects
             {
                 case "MapDoor":
                     return new MapDoor();
+                case "TreasureChest":
+                    return new TreasureChest();
                 default:
                     throw new System.ArgumentException("Invalid type in CreateMapObjectFromTypeString");
             }

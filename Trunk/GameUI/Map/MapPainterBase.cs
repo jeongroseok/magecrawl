@@ -22,6 +22,8 @@ namespace Magecrawl.GameUI
                     return ';';
                 case MapObjectType.ClosedDoor:
                     return ':';
+                case MapObjectType.TreasureChest:
+                    return '+';
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertMapObjectToChar");
             }

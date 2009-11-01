@@ -6,7 +6,8 @@ namespace Magecrawl.GameEngine.Interfaces
     public enum MapObjectType
     {
         OpenDoor,
-        ClosedDoor
+        ClosedDoor,
+        TreasureChest
     }
 
     public interface IMapObject
