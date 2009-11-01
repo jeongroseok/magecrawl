@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<Spells>
+<Spell Name="Heal" School="Light" EffectType="HealCaster" TargetType="None" Cost="1" Strength="1"/>
+<Spell Name="Blast" School="Fire" EffectType="AOE Blast Center Caster" TargetType="None" Cost="2" Strength="1"/>
+<Spell Name="Zap" School="Arcane" EffectType="Ranged Single Target" TargetType="Single Range:5" Cost="2" Strength="1"/>
+<Spell Name="Haste" School="Arcane" EffectType="Haste" Cost="4" TargetType="None" Strength="1"/>
+<Spell Name="False Life" School="Darkness" EffectType="False Life" TargetType="None" Cost="1" Strength="1"/>
+<Spell Name="Eagle Eye" School="Air" EffectType="Eagle Eye" TargetType="None" Cost="1" Strength="1"/>
+<Spell Name="Poison Bolt" School="Earth" EffectType="Poison Bolt" TargetType="Single Range:3" Cost="2" Strength="1"/>
+<Spell Name="Poison Touch" School="Earth" EffectType="Poison Bolt" TargetType="Single Range:1" Cost="1" Strength="1"/>
+<Spell Name="Blink" School="Arcane" EffectType="Blink" TargetType="None" Cost="2" Strength="1"/>
+<Spell Name="Teleport" School="Arcane" EffectType="Teleport" TargetType="None" Cost="5" Strength="1"/>
+</Spells>
