@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameUI.Inventory.Requests;
 
 namespace Magecrawl.Keyboard.Inventory
 {
@@ -22,27 +23,27 @@ namespace Magecrawl.Keyboard.Inventory
 
         private void Select()
         {
-            m_gameInstance.SendPaintersRequest("InventoryItemOptionSelected", new Magecrawl.GameUI.Inventory.InventoryItemOptionSelected(InventoryItemOptionSelectedDelegate));
+            m_gameInstance.SendPaintersRequest(new SelectInventoryItemOption(new Magecrawl.GameUI.Inventory.InventoryItemOptionSelected(InventoryItemOptionSelectedDelegate)));
         }
 
         private void InventoryItemOptionSelectedDelegate(IItem item, string optionName)
         {
             m_engine.PlayerSelectedItemOption(item, optionName);
-            m_gameInstance.SendPaintersRequest("StopShowingInventoryItemWindow");
+            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false, null, null));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest("StopShowingInventoryItemWindow");
+            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false, null, null));
             m_gameInstance.UpdatePainters();
             m_gameInstance.SetHandlerName("Inventory", true);   // Gets picked up in InventoryScreenKeyboardHandler::NowPrimaried
         }
 
         private void HandleDirection(Direction direction)
         {
-            m_gameInstance.SendPaintersRequest("InventoryItemPositionChanged", direction);
+            m_gameInstance.SendPaintersRequest(new ChangeInventoryItemPosition(direction));
             m_gameInstance.UpdatePainters();
         }
 

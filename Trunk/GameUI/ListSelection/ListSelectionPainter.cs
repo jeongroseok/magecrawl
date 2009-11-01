@@ -104,61 +104,53 @@ namespace Magecrawl.GameUI.ListSelection
             }
         }
 
-        public override void HandleRequest(string request, object data, object data2)
+        internal INamedItem CurrentSelection
         {
-            switch (request)
+            get { return m_itemList[m_cursorPosition]; }
+        }
+
+        internal void SelectionFromChar(char toSelect, ListItemSelected onSelect)
+        {
+            if (m_useCharactersNextToItems)
             {
-                case "ListSelectionSavePosition":
-                    m_shouldNotResetCursorPosition = true;
-                    break;
-                case "ShowListSelectionWindow":
-                    if (!m_shouldNotResetCursorPosition)
-                    {
-                        m_cursorPosition = 0;
-                        m_lowerRange = 0;
-                        m_higherRange = 0;
-                    }
-                    else
-                    {
-                        m_shouldNotResetCursorPosition = false;
-                    }
-
-                    UpdateFromNewData((List<INamedItem>)data);
-                    m_title = (string)data2;
-
-                    m_enabled = true;
-                    break;
-                case "StopListSelectionWindow":
-                    m_enabled = false;
-                    break;
-                case "ListSelectionItemSelected":
+                List<char> listOfLettersUsed = GetListOfLettersUsed();
+                if (listOfLettersUsed.Contains(toSelect))
                 {
-                        ListItemSelected del = (ListItemSelected)data;
-                        del(m_itemList[m_cursorPosition]);
-                        break;
-                }
-                case "ListSelectionItemSelectedByChar":
-                {
-                    ListItemSelected del = (ListItemSelected)data;
-                    if (m_useCharactersNextToItems)
-                    {
-                        char selectedLetter = (char)data2;
-                        List<char> listOfLettersUsed = GetListOfLettersUsed();
-                        if (listOfLettersUsed.Contains(selectedLetter))
-                        {
-                            m_cursorPosition = listOfLettersUsed.IndexOf(selectedLetter);
+                    m_cursorPosition = listOfLettersUsed.IndexOf(toSelect);
 
-                            del(m_itemList[m_cursorPosition]);
-                        }
-                    }
-                    break;
-                }
-                case "ListSelectionPositionChanged":
-                {
-                    MoveInventorySelection((Direction)data);
-                    break;
+                    onSelect(m_itemList[m_cursorPosition]);
                 }
             }
+        }
+
+        internal void Enable(List<INamedItem> data, string title)
+        {
+            if (!m_shouldNotResetCursorPosition)
+            {
+                m_cursorPosition = 0;
+                m_lowerRange = 0;
+                m_higherRange = 0;
+            }
+            else
+            {
+                m_shouldNotResetCursorPosition = false;
+            }
+
+            UpdateFromNewData(data);
+            m_title = title;
+
+            m_enabled = true;
+        }
+
+        internal void Disable()
+        {
+            m_enabled = false;
+        }
+
+        internal bool SaveSelectionPosition
+        {
+            get { return m_shouldNotResetCursorPosition; }
+            set { m_shouldNotResetCursorPosition = value; }
         }
 
         private void UpdateFromNewData(List<INamedItem> data)
@@ -206,7 +198,7 @@ namespace Magecrawl.GameUI.ListSelection
                 return (char)(((int)letter) + 1);
         }
 
-        private void MoveInventorySelection(Direction cursorDirection)
+        internal void MoveInventorySelection(Direction cursorDirection)
         {
             if (cursorDirection == Direction.North)
             {

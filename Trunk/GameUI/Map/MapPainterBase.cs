@@ -48,5 +48,7 @@ namespace Magecrawl.GameUI
             bool yOk = p.Y >= 1 && p.Y < MapDrawnHeight;
             return xOk && yOk;
         }
+
+        internal virtual void DisableAllOverlays() { }
     }
 }

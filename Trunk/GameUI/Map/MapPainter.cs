@@ -16,6 +16,12 @@ namespace Magecrawl.GameUI.Map
             m_honorFOV = true;
         }
 
+        internal bool HonorFOV
+        {
+            get { return m_honorFOV; }
+            set { m_honorFOV = value; }
+        }
+
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
         {
             TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
@@ -64,16 +70,6 @@ namespace Magecrawl.GameUI.Map
             if (m_offscreenConsole != null)
                 m_offscreenConsole.Dispose();
             m_offscreenConsole = null;
-        }
-
-        public override void HandleRequest(string request, object data, object data2)
-        {
-            switch (request)
-            {
-                case "SwapFOVEnabledStatus":
-                    m_honorFOV = !m_honorFOV;
-                    break;
-            }
         }
 
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)

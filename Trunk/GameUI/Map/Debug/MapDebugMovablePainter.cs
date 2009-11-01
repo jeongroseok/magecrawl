@@ -69,21 +69,5 @@ namespace Magecrawl.GameUI.Map.Debug
         public override void Dispose()
         {
         }
-
-        public override void HandleRequest(string request, object data, object data2)
-        {
-            switch (request)
-            {
-                case "DebuggingMoveableOnOff":
-                    SwapDebugMovable(data as IGameEngine);
-                    break;
-                case "DebuggingMoveableOff":
-                    m_enabled = false;
-                    break;
-                case "DisableAllOverlays":
-                    m_enabled = false;
-                    break;
-            }
-        }
     }
 }

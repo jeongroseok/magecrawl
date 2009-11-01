@@ -29,20 +29,15 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        public override void HandleRequest(string request, object data, object data2)
+        internal override void DisableAllOverlays()
         {
-            switch (request)
-            {
-                case "MapCursorEnabled":
-                    m_isSelectionCursor = true;
-                    break;
-                case "MapCursorDisabled":
-                    m_isSelectionCursor = false;
-                    break;
-                case "DisableAllOverlays":
-                    m_isSelectionCursor = false;
-                    break;
-            }
+            m_isSelectionCursor = false;
+        }
+
+        internal bool MapCursorEnabled
+        {
+            get { return m_isSelectionCursor; }
+            set { m_isSelectionCursor = value; }
         }
     }
 }
