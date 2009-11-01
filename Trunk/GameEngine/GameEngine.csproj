@@ -45,9 +45,9 @@
     <Compile Include="Actors\Character.cs" />
     <Compile Include="Affects\AffectBase.cs" />
     <Compile Include="Affects\AffectFactory.cs" />
+    <Compile Include="Affects\EagleEye.cs" />
+    <Compile Include="Affects\FalseLife.cs" />
     <Compile Include="Affects\Haste.cs" />
-    <Compile Include="Affects\IncreaseHealthLimited.cs" />
-    <Compile Include="Affects\IncreaseSight.cs" />
     <Compile Include="Affects\Poison.cs" />
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Magic\SpellFactory.cs" />
     <Compile Include="Interfaces\IWeapon.cs" />
+    <Compile Include="MapObjects\TreasureChest.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />
     <Compile Include="MapObjects\MapObject.cs" />

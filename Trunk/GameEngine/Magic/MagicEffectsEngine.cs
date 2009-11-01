@@ -48,7 +48,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 case "HealCaster":
                 {
-                    int healAmount = caster.Heal((new DiceRoll(1, 4, 0, strength)).Roll());
+                    int healAmount = caster.Heal((new DiceRoll(strength, 4, 1)).Roll());
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", caster.Name, healAmount));
                     return true;
@@ -56,7 +56,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealMPCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    int healAmount = caster.CurrentMP += (new DiceRoll(1, 4, 0, strength)).Roll();
+                    int healAmount = caster.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
                     return true;
                 }
                 case "AOE Blast Center Caster":
