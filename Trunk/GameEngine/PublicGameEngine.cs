@@ -26,7 +26,6 @@ namespace Magecrawl.GameEngine
             m_engine = new CoreGameEngine(textOutput, diedDelegate, saveGameName);
         }
 
-
         public void Dispose()
         {
             if (m_engine != null)
