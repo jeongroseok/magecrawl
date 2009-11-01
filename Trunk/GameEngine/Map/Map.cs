@@ -47,6 +47,11 @@ namespace Magecrawl.GameEngine
             return m_items.Remove(item);
         }
 
+        internal bool RemoveMapItem(MapObject item)
+        {
+            return m_mapObjects.Remove(item);
+        }
+
         internal void AddItem(Pair<Item, Point> item)
         {
             m_items.Add(item);
@@ -148,6 +153,9 @@ namespace Magecrawl.GameEngine
                                 break;
                             case '!':
                                 m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Haste Potion"), new Point(i, j)));
+                                break;
+                            case '+':
+                                m_mapObjects.Add(new TreasureChest(new Point(i, j)));
                                 break;
                         }
                     }
