@@ -74,7 +74,7 @@ namespace Magecrawl.Keyboard
 
         private void Quit()
         {
-            m_gameInstance.IsQuitting = true;
+            m_gameInstance.SetHandlerName("QuitGame");
         }
 
         private void Operate()
@@ -117,8 +117,7 @@ namespace Magecrawl.Keyboard
 
         private void Save()
         {
-            m_engine.Save();
-            m_gameInstance.UpdatePainters();
+            m_gameInstance.SetHandlerName("SaveGame");
         }
 
         private void Load()

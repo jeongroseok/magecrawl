@@ -4,7 +4,7 @@ using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.Keyboard
+namespace Magecrawl.Keyboard.Dialogs
 {
     internal class WelcomeKeyboardHandler : BaseKeystrokeHandler
     {

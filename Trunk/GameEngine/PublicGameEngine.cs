@@ -20,6 +20,13 @@ namespace Magecrawl.GameEngine
             m_engine = new CoreGameEngine(textOutput, diedDelegate);
         }
 
+        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate, string saveGameName)
+        {
+            // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
+            m_engine = new CoreGameEngine(textOutput, diedDelegate, saveGameName);
+        }
+
+
         public void Dispose()
         {
             if (m_engine != null)
