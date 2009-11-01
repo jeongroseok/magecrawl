@@ -46,6 +46,7 @@
     <Compile Include="DialogColorHelper.cs" />
     <Compile Include="Inventory\InventoryItemPainter.cs" />
     <Compile Include="ListSelection\ListSelectionPainter.cs" />
+    <Compile Include="WelcomePainter.cs" />
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
     <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />

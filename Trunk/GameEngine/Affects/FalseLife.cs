@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Affects
 {
@@ -25,7 +25,7 @@ namespace Magecrawl.GameEngine.Affects
         public override void Apply(Character appliedTo)
         {
             if (m_lifeIncrease == -1)
-                m_lifeIncrease = (new DiceRoll(m_strength, 4, 1).Roll());
+                m_lifeIncrease = new DiceRoll(m_strength, 4, 1).Roll();
             
             appliedTo.CurrentHP += m_lifeIncrease;
             appliedTo.MaxHP += m_lifeIncrease;

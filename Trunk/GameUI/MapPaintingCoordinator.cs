@@ -40,6 +40,8 @@ namespace Magecrawl.GameUI
             m_painters.Add(new ListSelectionPainter());
 
             m_painters.Add(new InventoryItemPainter());
+
+            m_painters.Add(new WelcomePainter());
         }
 
         public void UpdateFromNewData(IGameEngine engine)

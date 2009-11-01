@@ -137,7 +137,11 @@ namespace Magecrawl
             inventoryItemHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("InventoryItem", inventoryItemHandler);
 
-            m_keystroke.CurrentHandlerName = "Default";
+            WelcomeKeyboardHandler welcomeHandler = new WelcomeKeyboardHandler(m_engine, this);
+            welcomeHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Welcome", welcomeHandler);
+
+            SetHandlerName("Welcome");
         }
 
         internal void SetHandlerName(string s)
