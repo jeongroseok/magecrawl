@@ -49,6 +49,8 @@ namespace Magecrawl.GameUI
             return xOk && yOk;
         }
 
-        internal virtual void DisableAllOverlays() { }
+        internal virtual void DisableAllOverlays() 
+        { 
+        }
     }
 }

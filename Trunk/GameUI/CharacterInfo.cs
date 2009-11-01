@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 

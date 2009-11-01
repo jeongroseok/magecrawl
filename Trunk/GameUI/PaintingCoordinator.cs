@@ -5,8 +5,8 @@ using Magecrawl.GameUI.Inventory;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.Map;
 using Magecrawl.GameUI.Map.Debug;
-using Magecrawl.Utilities;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {

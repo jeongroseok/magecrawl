@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
-using Magecrawl.GameUI.Map;
+using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
-using Magecrawl.Utilities;
-using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl
 {
