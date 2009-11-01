@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Affects;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -62,7 +62,8 @@ namespace Magecrawl.GameEngine.Actors
         {
             get 
             {
-                return new List<ISpell>() {
+                return new List<ISpell>() 
+                {
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Blast"), SpellFactory.CreateSpell("Zap"),
                     SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye"),
                     SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
