@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Affects
     internal class Haste : AffectBase
     {
         public Haste()
-            : base(new DiceRoll(1, 4).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+            : base(new DiceRoll(2, 6).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
         }
 
@@ -22,6 +22,14 @@ namespace Magecrawl.GameEngine.Affects
         public override void Remove(Character removedFrom)
         {
             removedFrom.CTIncreaseModifier /= 1.5;
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return "Haste";
+            }
         }
     }
 }

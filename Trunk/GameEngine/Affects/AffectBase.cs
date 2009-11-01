@@ -11,6 +11,12 @@ namespace Magecrawl.GameEngine.Affects
     {
         public abstract void Apply(Character appliedTo);
         public abstract void Remove(Character removedFrom);
+        
+        // Should match entry in AffectFactory
+        public abstract string Name
+        {
+            get;
+        }
 
         public AffectBase()
         {
@@ -43,7 +49,7 @@ namespace Magecrawl.GameEngine.Affects
 
         public virtual void WriteXml(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("Type", this.GetType().Name);
+            writer.WriteElementString("Type", Name);
             writer.WriteElementString("CTLeft", CTLeft.ToString());
         }
 

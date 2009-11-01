@@ -65,7 +65,7 @@ namespace Magecrawl.GameEngine.Magic
                         if (c != caster)
                         {
                             int damage = (new DiceRoll(2, 3, 0, (short)strength)).Roll();
-                            m_engine.DamageTarget(damage, caster, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                            m_engine.DamageTarget(damage, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                         }
                     }
                     return true;
@@ -80,12 +80,27 @@ namespace Magecrawl.GameEngine.Magic
                             {
                                 CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                                 int damage = (new DiceRoll(1, 3, 0, (short)strength)).Roll();
-                                m_engine.DamageTarget(damage, caster, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                                m_engine.DamageTarget(damage, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                                 return true;
                             }
                         }
                     }
                     return false;
+                }
+                case "Haste":
+                {
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Haste"));
+                    return true;
+                }
+                case "False Life":
+                {
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("False Life"));
+                    return true;
+                }
+                case "Increase Sight":
+                {
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Increase Sight"));
+                    return true;
                 }
                 default:
                     return false;

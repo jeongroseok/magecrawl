@@ -36,13 +36,21 @@ namespace Magecrawl.GameEngine.Affects
             {
                 if (i % m_damageInterval == 0)
                 {
-                    CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, null, m_affected, null);
+                    CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, m_affected, null);
                 }
             }            
         }
 
         public override void Remove(Character removedFrom)
         {            
+        }
+
+        public override string Name
+        {
+            get 
+            {
+                return "Poison";
+            }
         }
 
         public override void ReadXml(System.Xml.XmlReader reader)

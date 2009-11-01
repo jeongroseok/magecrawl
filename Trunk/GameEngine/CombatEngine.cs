@@ -47,14 +47,14 @@ namespace Magecrawl.GameEngine
                 if (m.Position == attackTarget)
                 {
                     CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m));
-                    DamageTarget(damageDone, attacker, m, null);
+                    DamageTarget(damageDone, m, null);
                     return true;
                 }
             }
             if (attackTarget == m_player.Position)
             {
                 CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
-                DamageTarget(damageDone, attacker, m_player, null);
+                DamageTarget(damageDone, m_player, null);
                 return true;
             }
             return false;
@@ -62,7 +62,7 @@ namespace Magecrawl.GameEngine
 
         public delegate void DamageDoneDelegate(int damage, Character target, bool targetKilled);
 
-        public void DamageTarget(int damage, Character attacker, Character target, DamageDoneDelegate del)
+        public void DamageTarget(int damage, Character target, DamageDoneDelegate del)
         {
             target.CurrentHP -= damage;
             bool targetKilled = target.CurrentHP <= 0;
