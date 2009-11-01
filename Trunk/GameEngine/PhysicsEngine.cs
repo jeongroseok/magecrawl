@@ -67,7 +67,7 @@ namespace Magecrawl.GameEngine
 
         // This needs to be really _fast_. We're going to stick the not moveable points in a has table,
         // then compare each pointList to the terrian and if still good see if in hash table
-        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange)
+        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)
         {
             m_fovManager.CalculateForMultipleCalls(characterPosition, visionRange);
             m_movableHash.Clear();
@@ -83,7 +83,7 @@ namespace Magecrawl.GameEngine
                 !m_map.IsPointOnMap(point.Position) || 
                 m_map[point.Position.X, point.Position.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Wall || 
                 m_movableHash.ContainsKey(point.Position) ||
-                !m_fovManager.Visible(point.Position));
+                (needsToBeVisible && !m_fovManager.Visible(point.Position)));
         }
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example

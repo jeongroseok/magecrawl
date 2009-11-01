@@ -20,5 +20,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        IList<string> StatusEffects
+        {
+            get;
+        }
     }
 }

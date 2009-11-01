@@ -197,9 +197,9 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList)
+        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible)
         {
-            m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision);
+            m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision, needsToBeVisible);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Magecrawl.Keyboard.Magic
                     string[] targetParts = spell.TargetType.Split(':');
                     int range = int.Parse(targetParts[1]);
                     List<EffectivePoint> targetablePoints = PointListUtils.PointListFromBurstPosition(m_engine.Player.Position, range);
-                    m_engine.FilterNotTargetablePointsFromList(targetablePoints);
+                    m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
                     OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
                     {
                         m_engine.PlayerCastSpell(spell, s);

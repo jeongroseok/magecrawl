@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -99,10 +100,10 @@ namespace Magecrawl.GameEngine.Magic
                     caster.AddAffect(Affects.AffectFactory.CreateAffect("False Life"));
                     return true;
                 }
-                case "Increase Sight":
+                case "Eagle Eye":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Increase Sight"));
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Eagle Eye"));
                     return true;
                 }
                 case "Poison Bolt":
@@ -123,9 +124,33 @@ namespace Magecrawl.GameEngine.Magic
                     }
                     return false;
                 }
+                case "Blink":
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    return HandleTeleport(caster, 5);
+                case "Teleport":
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    return HandleTeleport(caster, 25);
                 default:
                     return false;
             }
+        }
+
+        private static bool HandleTeleport(Character caster, int range)
+        {
+            List<EffectivePoint> targetablePoints = PointListUtils.PointListFromBurstPosition(caster.Position, range);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, caster.Position, caster.Vision, false);
+
+            // If there's no where to go, we're done
+            if (targetablePoints.Count == 0)
+                return true;
+            using (TCODRandom random = new TCODRandom())
+            {
+                int element = random.GetRandomInt(0, targetablePoints.Count-1);
+                EffectivePoint pointToTeleport = targetablePoints[element];
+                CoreGameEngine.Instance.SendTextOutput("Things become fuzzy as you shift into a new position.");
+                caster.Position = pointToTeleport.Position;
+            }
+            return true;
         }
 
         private static void DamageDoneDelegate(int damage, Character target, bool targetKilled)
