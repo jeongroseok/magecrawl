@@ -19,9 +19,14 @@ namespace Magecrawl.GameUI.Map.Requests
         internal override void DoRequest(IHandlePainterRequest painter)
         {
             MapDebugMovablePainter m = painter as MapDebugMovablePainter;
+            MapDebugFOVPainter d = painter as MapDebugFOVPainter;
             if (m != null)
             {
                 m.SwapDebugMovable(m_engine);
+            }
+            else if (d != null)
+            {
+                d.SwapDebugFOV(m_engine);
             }
         }
     }

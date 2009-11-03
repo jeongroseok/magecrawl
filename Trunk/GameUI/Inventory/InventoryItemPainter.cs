@@ -97,14 +97,5 @@ namespace Magecrawl.GameUI.Inventory
             if (m_optionList[m_cursorPosition].Enabled)
                 onSelected(m_selectedItem, m_optionList[m_cursorPosition].Option);
         }
-
-        public override void HandleRequest(string request, object data, object data2)
-        {
-            switch (request)
-            {
-                case "InventoryItemOptionSelected":
-                    break;
-            }
-        }
     }
 }
