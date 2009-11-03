@@ -3,8 +3,10 @@ using libtcodWrapper;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
+using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
+using Magecrawl.Keyboard.Dialogs;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
 
@@ -40,11 +42,22 @@ namespace Magecrawl
         internal void Go()
         {
             m_console = UIHelper.SetupUI();
+
             TextOutputFromGame outputDelegate = new TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
-            m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
 
-            SetupKeyboardHandlers();
+            if (System.IO.File.Exists("Donblas.sav"))
+            {
+                m_engine = new PublicGameEngine(outputDelegate, diedDelegate, "Donblas.sav");
+                SetupKeyboardHandlers();  // Requires game engine.
+                SetHandlerName("Default");
+            }
+            else
+            {
+                m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
+                SetupKeyboardHandlers();  // Requires game engine.
+                SetHandlerName("Welcome");
+            }
 
             // First update before event loop so we have a map to display
             m_painters.UpdateFromNewData(m_engine);
@@ -135,7 +148,17 @@ namespace Magecrawl
             inventoryItemHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("InventoryItem", inventoryItemHandler);
 
-            m_keystroke.CurrentHandlerName = "Default";
+            WelcomeKeyboardHandler welcomeHandler = new WelcomeKeyboardHandler(m_engine, this);
+            welcomeHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Welcome", welcomeHandler);
+
+            SaveGameKeyboardHandler saveGameHandler = new SaveGameKeyboardHandler(m_engine, this);
+            saveGameHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("SaveGame", saveGameHandler);
+
+            QuitGameKeyboardHandler quitGameHandler = new QuitGameKeyboardHandler(m_engine, this);
+            quitGameHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("QuitGame", quitGameHandler);
         }
 
         internal void SetHandlerName(string s)

@@ -44,11 +44,23 @@
   <ItemGroup>
     <Compile Include="CharacterInfo.cs" />
     <Compile Include="DialogColorHelper.cs" />
+    <Compile Include="Dialogs\QuitGamePainter.cs" />
+    <Compile Include="Dialogs\Requests\EnableQuitDialog.cs" />
+    <Compile Include="Dialogs\Requests\EnableSaveDialog.cs" />
+    <Compile Include="Dialogs\Requests\QuitDialogMoveLeft.cs" />
+    <Compile Include="Dialogs\Requests\QuitDialogMoveRight.cs" />
+    <Compile Include="Dialogs\Requests\SelectQuit.cs" />
+    <Compile Include="Dialogs\Requests\SaveDialogMoveLeft.cs" />
+    <Compile Include="Dialogs\Requests\SaveDialogMoveRight.cs" />
+    <Compile Include="Dialogs\Requests\SelectSave.cs" />
+    <Compile Include="Dialogs\Requests\WelcomeRequests.cs" />
+    <Compile Include="Dialogs\SaveGamePainter.cs" />
     <Compile Include="Inventory\InventoryItemPainter.cs" />
     <Compile Include="Inventory\Requests\ChangeInventoryItemPosition.cs" />
     <Compile Include="Inventory\Requests\SelectInventoryItemOption.cs" />
     <Compile Include="Inventory\Requests\ShowInventoryItemWindow.cs" />
     <Compile Include="ListSelection\ListSelectionPainter.cs" />
+    <Compile Include="Dialogs\WelcomePainter.cs" />
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
     <Compile Include="Map\Debug\MapDebugMovablePainter.cs" />

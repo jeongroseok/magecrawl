@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Inventory;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.Map;
 using Magecrawl.GameUI.Map.Debug;
-using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.GameUI.Map.Dialogs;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
-    public sealed class PaintingCoordinator : System.IDisposable, IHandlePainterRequest
+    public sealed class PaintingCoordinator : System.IDisposable
     {
         private List<PainterBase> m_painters;
         private bool m_isSelectionCursor;
@@ -73,33 +72,27 @@ namespace Magecrawl.GameUI
             m_painters = null;
         }
 
-        internal bool MapCursorEnabled
-        {
-            get { return m_isSelectionCursor; }
-            set { m_isSelectionCursor = value; }
-        }
-
-        internal Point CursorSpot
-        {
-            get { return m_cursorSpot; }
-            set { m_cursorSpot = value; }
-        }
-
-        public void HandleRequest(RequestBase request)
+        public void HandleRequest(string request, object data, object data2)
         {
             foreach (PainterBase p in m_painters)
             {
-                p.HandleRequest(request);
+                p.HandleRequest(request, data, data2);
             }
-
-            // BCL: not really in the spirit of the rest of the request stuff
-            if (request is DisableAllOverlays)
+            switch (request)
             {
-                MapCursorEnabled = false;
-            }
-            else
-            {
-                request.DoRequest(this);
+                case "MapCursorEnabled":
+                    m_isSelectionCursor = true;
+                    m_cursorSpot = (Point)data;
+                    break;
+                case "MapCursorDisabled":
+                    m_isSelectionCursor = false;
+                    break;
+                case "MapCursorPositionChanged":
+                    m_cursorSpot = (Point)data;
+                    break;
+                case "DisableAllOverlays":
+                    m_isSelectionCursor = false;
+                    break;
             }
         }
 

@@ -65,6 +65,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keyboard\Dialogs\QuitGameKeyboardHandler.cs" />
+    <Compile Include="Keyboard\Dialogs\SaveGameKeyboardHandler.cs" />
+    <Compile Include="Keyboard\Dialogs\WelcomeKeyboardHandler.cs" />
     <Compile Include="Keyboard\Magic\MagicListKeyboardHandler.cs" />
     <Compile Include="Keyboard\TargettingKeystrokeHandler.cs" />
     <Compile Include="Keyboard\BaseKeystrokeHandler.cs">
@@ -72,12 +75,12 @@
     <Compile Include="Keyboard\Inventory\InventoryItemKeyboardHandler.cs" />
     <Compile Include="Keyboard\Inventory\InventoryScreenKeyboardHandler.cs" />
     <Compile Include="Keyboard\TargetHandlerHelper.cs" />
-    <Compile Include="Keyboard\ViewmodeKeystrokeHandler.cs" />
     <Compile Include="Keyboard\DefaultKeystrokeHandler.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="GameInstance.cs" />
     <Compile Include="Keyboard\IKeystrokeHandler.cs" />
     <Compile Include="Keyboard\KeystrokeManager.cs" />
+    <Compile Include="Keyboard\ViewmodeKeystrokeHandler.cs" />
     <Compile Include="PlayerDiedException.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
