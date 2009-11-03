@@ -83,20 +83,9 @@ namespace Magecrawl.GameUI.Map.Debug
         {
         }
 
-        public override void HandleRequest(string request, object data, object data2)
+        internal override void DisableAllOverlays()
         {
-            switch (request)
-            {
-                case "DebuggingFOVOnOff":
-                    SwapDebugFOV(data as IGameEngine);
-                    break;
-                case "DebuggingFOVOff":
-                    m_enabled = false;
-                    break;
-                case "DisableAllOverlays":
-                    m_enabled = false;
-                    break;
-            }
+            m_enabled = false;
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Magecrawl.GameUI
             }
             else
             {
-                IHandlePainterRequestExtensions.HandleRequest(this, request);
+                request.DoRequest(this);
             }
         }
 

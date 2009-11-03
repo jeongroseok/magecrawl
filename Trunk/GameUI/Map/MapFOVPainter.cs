@@ -69,14 +69,10 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        public override void HandleRequest(string request, object data, object data2)
+        internal bool Enabled
         {
-            switch (request)
-            {
-                case "SwapFOVEnabledStatus":
-                    m_enabled = !m_enabled;
-                    break;
-            }
+            get { return m_enabled; }
+            set { m_enabled = value; }
         }
     }
 }
