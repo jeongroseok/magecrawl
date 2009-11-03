@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Magecrawl.GameUI.Dialogs.Requests
 {
@@ -11,9 +8,7 @@ namespace Magecrawl.GameUI.Dialogs.Requests
         {
             SaveGamePainter q = painter as SaveGamePainter;
             if (q != null)
-            {
                 q.SaveSelected = false;
-            }
         }
     }
 }

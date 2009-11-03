@@ -31,7 +31,7 @@ namespace Magecrawl.Keyboard
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false, Point.Invalid));
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

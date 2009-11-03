@@ -22,13 +22,9 @@ namespace Magecrawl.GameUI.ListSelection.Requests
             if (l != null)
             {
                 if (m_enable)
-                {
                     l.Enable(m_data, m_title);
-                }
                 else
-                {
                     l.Disable();
-                }
             }
         }
     }

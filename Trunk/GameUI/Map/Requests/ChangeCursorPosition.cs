@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.Utilities;
+﻿using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
@@ -19,9 +15,7 @@ namespace Magecrawl.GameUI.Map.Requests
         {
             PaintingCoordinator c = painter as PaintingCoordinator;
             if (c != null)
-            {
                 c.CursorSpot = m_newPosition;
-            }
         }
     }
 }

@@ -55,7 +55,9 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealMPCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    int healAmount = caster.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
+                    caster.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
+                    if (caster.CurrentMP > caster.MaxMP)
+                        caster.CurrentMP = caster.MaxMP;
                     return true;
                 }
                 case "AOE Blast Center Caster":

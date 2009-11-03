@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Magecrawl.GameUI.Map.Debug;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
@@ -16,13 +13,9 @@ namespace Magecrawl.GameUI.Map.Requests
             MapPainter p = painter as MapPainter;
             MapFOVPainter f = painter as MapFOVPainter;
             if (p != null)
-            {
                 p.HonorFOV = !p.HonorFOV;
-            }
             else if (f != null)
-            {
                 f.Enabled = !f.Enabled;
-            }
         }
     }
 }

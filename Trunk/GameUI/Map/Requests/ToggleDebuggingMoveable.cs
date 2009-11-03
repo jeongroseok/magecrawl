@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.GameEngine.Interfaces;
+﻿using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Debug;
 
 namespace Magecrawl.GameUI.Map.Requests
@@ -21,13 +17,9 @@ namespace Magecrawl.GameUI.Map.Requests
             MapDebugMovablePainter m = painter as MapDebugMovablePainter;
             MapDebugFOVPainter d = painter as MapDebugFOVPainter;
             if (m != null)
-            {
                 m.SwapDebugMovable(m_engine);
-            }
-            else if (d != null)
-            {
+            if (d != null)
                 d.SwapDebugFOV(m_engine);
-            }
         }
     }
 }

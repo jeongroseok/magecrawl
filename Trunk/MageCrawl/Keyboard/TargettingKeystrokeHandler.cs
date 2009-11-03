@@ -104,8 +104,8 @@ namespace Magecrawl.Keyboard
 
         private void ExitMode()
         {
-            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false, Point.Invalid));
-            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false, null));
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
+            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
             m_selectionDelegate = null;
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();

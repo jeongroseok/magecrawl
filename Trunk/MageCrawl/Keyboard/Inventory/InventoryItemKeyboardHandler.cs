@@ -29,14 +29,14 @@ namespace Magecrawl.Keyboard.Inventory
         private void InventoryItemOptionSelectedDelegate(IItem item, string optionName)
         {
             m_engine.PlayerSelectedItemOption(item, optionName);
-            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false, null, null));
+            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false, null, null));
+            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.SetHandlerName("Inventory", true);   // Gets picked up in InventoryScreenKeyboardHandler::NowPrimaried
         }

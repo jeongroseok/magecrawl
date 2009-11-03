@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
@@ -14,9 +12,7 @@ namespace Magecrawl.GameUI.Map.Requests
         {
             MapPainterBase m = painter as MapPainterBase;
             if (m != null)
-            {
                 m.DisableAllOverlays();
-            }
         }
     }
 }
