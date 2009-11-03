@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Magecrawl.GameUI.Dialogs.Requests
 {
@@ -18,9 +15,7 @@ namespace Magecrawl.GameUI.Dialogs.Requests
         {
             QuitGamePainter q = painter as QuitGamePainter;
             if (q != null)
-            {
                 q.SelectQuit(m_onSelect);
-            }
         }
     }
 }

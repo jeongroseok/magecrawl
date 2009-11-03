@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Magecrawl.Utilities;
+﻿using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
@@ -9,6 +6,15 @@ namespace Magecrawl.GameUI.Map.Requests
     {
         private bool m_enable;
         private Point m_cursorPosition;
+
+        public EnableMapCursor(bool enable)
+        {
+            m_enable = enable;
+            m_cursorPosition = Point.Invalid;
+
+            if (m_enable)
+                throw new System.ArgumentException("EnableMapCursor(bool enable) must only be called if enable is false");
+        }
 
         public EnableMapCursor(bool enable, Point cursorPosition)
         {

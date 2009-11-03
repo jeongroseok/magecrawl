@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.GameUI.ListSelection;
-using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.GameUI.ListSelection.Requests
 {
@@ -20,9 +15,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
         {
             ListSelectionPainter l = painter as ListSelectionPainter;
             if (l != null)
-            {
                 m_onSelected(l.CurrentSelection);
-            }
         }
     }
 }

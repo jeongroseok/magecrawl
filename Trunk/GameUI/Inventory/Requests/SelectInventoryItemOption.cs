@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Magecrawl.GameUI.Inventory.Requests
 {
@@ -18,9 +15,7 @@ namespace Magecrawl.GameUI.Inventory.Requests
         {
             InventoryItemPainter p = painter as InventoryItemPainter;
             if (p != null)
-            {
                 p.SelectOptionOnCurrent(m_onSelect);
-            }
         }
     }
 }

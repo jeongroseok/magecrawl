@@ -1,6 +1,7 @@
 ﻿using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
@@ -23,7 +24,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new EnableQuitDialog(true));
+            m_gameInstance.SendPaintersRequest(new EnableQuitDialog(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

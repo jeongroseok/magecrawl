@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Magecrawl.GameUI.ListSelection.Requests
 {
     public class ListSelectionItemSelectedByChar : RequestBase
@@ -16,9 +17,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
         {
             ListSelectionPainter l = painter as ListSelectionPainter;
             if (l != null)
-            {
                 l.SelectionFromChar(m_char, m_onSelect);
-            }
         }
     }
 }
