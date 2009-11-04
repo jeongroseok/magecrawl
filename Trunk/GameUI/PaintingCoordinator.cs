@@ -2,6 +2,7 @@
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
+using Magecrawl.GameUI.Equipment;
 using Magecrawl.GameUI.Inventory;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.Map;
@@ -40,6 +41,7 @@ namespace Magecrawl.GameUI
 
             // This should be after all map painters since we'll draw 'over' the map
             m_painters.Add(new ListSelectionPainter());
+            m_painters.Add(new EquipmentPainter());
 
             m_painters.Add(new InventoryItemPainter());
 

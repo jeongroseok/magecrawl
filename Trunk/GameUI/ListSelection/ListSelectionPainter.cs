@@ -106,7 +106,10 @@ namespace Magecrawl.GameUI.ListSelection
 
         internal INamedItem CurrentSelection
         {
-            get { return m_itemList[m_cursorPosition]; }
+            get 
+            {
+                return m_itemList[m_cursorPosition]; 
+            }
         }
 
         internal void SelectionFromChar(char toSelect, ListItemSelected onSelect)
@@ -149,8 +152,14 @@ namespace Magecrawl.GameUI.ListSelection
 
         internal bool SaveSelectionPosition
         {
-            get { return m_shouldNotResetCursorPosition; }
-            set { m_shouldNotResetCursorPosition = value; }
+            get 
+            { 
+                return m_shouldNotResetCursorPosition; 
+            }
+            set 
+            {
+                m_shouldNotResetCursorPosition = value; 
+            }
         }
 
         private void UpdateFromNewData(List<INamedItem> data)

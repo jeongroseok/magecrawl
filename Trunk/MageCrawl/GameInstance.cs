@@ -144,6 +144,10 @@ namespace Magecrawl
             inventoryHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Inventory", inventoryHandler);
 
+            EquipmentScreenKeyboardHandler equipmentHandler = new EquipmentScreenKeyboardHandler(m_engine, this);
+            equipmentHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Equipment", equipmentHandler);
+
             InventoryItemKeyboardHandler inventoryItemHandler = new InventoryItemKeyboardHandler(m_engine, this);
             inventoryItemHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("InventoryItem", inventoryItemHandler);

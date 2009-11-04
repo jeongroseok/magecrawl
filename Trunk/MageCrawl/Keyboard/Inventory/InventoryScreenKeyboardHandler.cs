@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
+using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
 
@@ -38,14 +39,14 @@ namespace Magecrawl.Keyboard.Inventory
             }
             else if (keystroke.Code == libtcodWrapper.KeyCode.TCODK_CHAR)
             {
-                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, new Magecrawl.GameUI.ListSelection.ListItemSelected(ItemSelectedDelegate)));
+                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, new ListItemSelected(ItemSelectedDelegate)));
             }
         }
 
         private void ItemSelectedDelegate(INamedItem item)
         {
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false, null, null));
-            m_gameInstance.SetHandlerName("InventoryItem");
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
+            m_gameInstance.SetHandlerName("InventoryItem", "Inventory");
             
             List<ItemOptions> optionList = m_engine.GetOptionsForInventoryItem((IItem)item);
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(true, (IItem)item, optionList));
@@ -54,12 +55,12 @@ namespace Magecrawl.Keyboard.Inventory
 
         private void Select()
         {
-            m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(new Magecrawl.GameUI.ListSelection.ListItemSelected(ItemSelectedDelegate)));          
+            m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(new ListItemSelected(ItemSelectedDelegate)));          
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false, null, null));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

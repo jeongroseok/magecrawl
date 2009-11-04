@@ -18,6 +18,7 @@
 <KeyMapping Key="TCODK_ENTER" Action="Select" />
   
 <KeyMapping Key="q" Action="Quit" />
+<KeyMapping Key="e" Action="Equipment" />
 <KeyMapping Key="o" Action="Operate" />
 <KeyMapping Key="L" Action="Load" />
 <KeyMapping Key="S" Action="Save" />

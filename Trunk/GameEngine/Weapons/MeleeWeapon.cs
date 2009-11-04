@@ -24,14 +24,6 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public override string Name
-        {
-            get 
-            {
-                return "Melee";
-            }
-        }
-
         public override List<ItemOptions> PlayerOptions
         {
             get

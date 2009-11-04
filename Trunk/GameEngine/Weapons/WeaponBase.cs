@@ -36,19 +36,11 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public virtual string Name
-        {
-            get
-            {
-                return m_name;
-            }
-        }
-
         public virtual string DisplayName
         {
             get
             {
-                return Name;
+                return m_name;
             }
         }
 
@@ -90,11 +82,13 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get
             {
-                return new List<ItemOptions>() 
-                {
-                    new ItemOptions("Equip", true),
-                    new ItemOptions("Drop", true)
-                };
+                List<ItemOptions> optionList = new List<ItemOptions>();
+                if (m_owner == null)
+                    optionList.Add(new ItemOptions("Equip", true));
+                else
+                    optionList.Add(new ItemOptions("Unequip", true));
+                optionList.Add(new ItemOptions("Drop", true));
+                return optionList;
             }
         }
 
