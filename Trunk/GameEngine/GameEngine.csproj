@@ -87,6 +87,8 @@
     <Compile Include="SaveLoad\ListSerialization.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
+    <Compile Include="Weapons\Club.cs" />
+    <Compile Include="Weapons\Axe.cs" />
     <Compile Include="Weapons\Spear.cs" />
     <Compile Include="Weapons\SimpleBow.cs" />
     <Compile Include="Weapons\MeleeWeapon.cs" />

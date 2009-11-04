@@ -8,7 +8,6 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    // This class should go away when we have an xml reader to create items on the fly. Until then...
     internal class SimpleBow : WeaponBase, Item
     {
         public SimpleBow(string name, DiceRoll damage, string description, string flavorText)
