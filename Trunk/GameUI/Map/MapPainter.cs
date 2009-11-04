@@ -47,7 +47,9 @@ namespace Magecrawl.GameUI.Map
             {
                 TileVisibility visibility = tileVisibility[obj.Second.X, obj.Second.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
-                    DrawThing(mapUpCorner, obj.Second, m_offscreenConsole, '&');
+                {
+                    DrawThingIfMultipleSpecialSymbol(mapUpCorner, obj.Second, m_offscreenConsole, '&', '%');
+                }
             }
 
             foreach (ICharacter obj in engine.Map.Monsters)
@@ -79,6 +81,22 @@ namespace Magecrawl.GameUI.Map
             if (IsDrawableTile(screenPlacement))
             {
                 screen.PutChar(screenPlacement.X, screenPlacement.Y, symbol);
+            }
+        }
+
+        private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol)
+        {
+            Point screenPlacement = new Point(mapUpCorner.X + position.X + 1, mapUpCorner.Y + position.Y + 1);
+
+            if (IsDrawableTile(screenPlacement))
+            {
+                char currentChar = screen.GetChar(screenPlacement.X, screenPlacement.Y);
+
+                // If we already have one of those, or the multipleSymbol, draw the multipleSymbole, else draw normal.
+                if (currentChar == symbol || currentChar == multipleSymbol)
+                    screen.PutChar(screenPlacement.X, screenPlacement.Y, multipleSymbol);
+                else 
+                    screen.PutChar(screenPlacement.X, screenPlacement.Y, symbol);
             }
         }
     }
