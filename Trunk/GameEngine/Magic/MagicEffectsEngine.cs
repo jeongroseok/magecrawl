@@ -80,20 +80,12 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Ranged Single Target":
                 {
-                    foreach (Character c in actorList)
+                    OnRangedAffect rangedAttackDelegate = (c, s) =>
                     {
-                        if (c.Position == target)
-                        {
-                            if (c != caster)
-                            {
-                                CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                                int damage = (new DiceRoll(1, 3, 0, strength)).Roll();
-                                m_engine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
+                        int damage = (new DiceRoll(1, 3, 0, s)).Roll();
+                        m_engine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                    };
+                    return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, rangedAttackDelegate);
                 }
                 case "Haste":
                 {
@@ -115,21 +107,12 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Poison Bolt":
                 {
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    foreach (Character c in actorList)
+                    OnRangedAffect poisonBoltHitDelegate = (c, s) =>
                     {
-                        if (c.Position == target)
-                        {
-                            if (c != caster)
-                            {
-                                CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                                m_engine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                                c.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
+                        m_engine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        c.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
+                    };
+                    return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, poisonBoltHitDelegate);
                 }
                 case "Blink":
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
@@ -137,9 +120,36 @@ namespace Magecrawl.GameEngine.Magic
                 case "Teleport":
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     return HandleTeleport(caster, 25);
+                case "Slow":
+                {
+                    OnRangedAffect slowHitDelegate = (c, s) =>
+                    {
+                        c.AddAffect(Affects.AffectFactory.CreateAffect("Slow", strength));
+                    };
+                    return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, slowHitDelegate);
+                }
                 default:
                     return false;
             }
+        }
+
+        private delegate void OnRangedAffect(Character c, int strength);
+
+        private bool HandleRangedAffect(Character caster, int strength, Point target, string printOnEffect, List<ICharacter> actorList, OnRangedAffect onHitAction)
+        {
+            foreach (Character c in actorList)
+            {
+                if (c.Position == target)
+                {
+                    if (c != caster)
+                    {
+                        CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                        onHitAction(c, strength);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private static bool HandleTeleport(Character caster, int range)
