@@ -8,9 +8,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal class Sword : WeaponBase, Item
+    internal class Axe : WeaponBase, Item
     {
-        public Sword(string name, DiceRoll damage, string description, string flavorText)
+        public Axe(string name, DiceRoll damage, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
@@ -27,11 +27,7 @@ namespace Magecrawl.GameEngine.Weapons
             targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 0), 1.0f));
             targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, 1), 1.0f));
             targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 1), .75f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, -1), .75f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 1), .75f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, -1), .75f));
-
+            
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision, true);
 
             return targetablePoints;
