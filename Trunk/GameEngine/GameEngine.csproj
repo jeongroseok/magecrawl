@@ -43,6 +43,7 @@
   -->
   <ItemGroup>
     <Compile Include="Actors\Character.cs" />
+    <Compile Include="Actors\MonsterFactory.cs" />
     <Compile Include="Affects\AffectBase.cs" />
     <Compile Include="Affects\AffectFactory.cs" />
     <Compile Include="Affects\Slow.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Magic\SpellFactory.cs" />
     <Compile Include="Interfaces\IWeapon.cs" />
+    <Compile Include="MapObjects\MapObjectFactory.cs" />
     <Compile Include="MapObjects\TreasureChest.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />

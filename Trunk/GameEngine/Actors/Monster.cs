@@ -100,17 +100,6 @@ namespace Magecrawl.GameEngine.Actors
             base.WriteXml(writer);
         }
 
-        internal static Monster CreateMonsterObjectFromTypeString(string s)
-        {
-            switch (s)
-            {
-                case "Monster":
-                    return new Monster();
-                default:
-                    throw new System.ArgumentException("Invalid type in CreateMonsterObjectFromTypeString");
-            }
-        }
-
         #endregion
     }
 }

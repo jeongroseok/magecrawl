@@ -192,7 +192,7 @@ namespace Magecrawl.GameEngine
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                MapObject newObj = MapObject.CreateMapObjectFromTypeString(typeString);
+                MapObject newObj = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject(typeString);
                 newObj.ReadXml(reader);
                 m_mapObjects.Add(newObj);
             });
@@ -204,7 +204,7 @@ namespace Magecrawl.GameEngine
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Monster newObj = Monster.CreateMonsterObjectFromTypeString(typeString);
+                Monster newObj = CoreGameEngine.Instance.MonsterFactory.CreateMonster(typeString);
                 newObj.ReadXml(reader);
                 m_monsterList.Add(newObj);
             });

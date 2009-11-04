@@ -22,6 +22,8 @@ namespace Magecrawl.GameEngine
         private CoreTimingEngine m_timingEngine;
         
         internal ItemFactory ItemFactory;
+        internal MonsterFactory MonsterFactory;
+        internal MapObjectFactory MapObjectFactory;
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
@@ -39,16 +41,10 @@ namespace Magecrawl.GameEngine
 
         public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
         {
-            m_instance = this;
-            m_playerDied += diedDelegate;
-            m_textOutput += textOutput;
-
-            // Needs to happen before anything that could create a weapon
-            ItemFactory = new ItemFactory();
+            CommonStartup(textOutput, diedDelegate);
 
             m_player = new Player(1, 1);
             m_map = new Map(50, 50);
-            m_saveLoad = new SaveLoadCore();
             m_timingEngine = new CoreTimingEngine();
 
             m_physicsEngine = new PhysicsEngine(m_player, m_map);
@@ -62,14 +58,8 @@ namespace Magecrawl.GameEngine
 
         public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate, string saveGameName)
         {
-            m_instance = this;
-            m_playerDied += diedDelegate;
-            m_textOutput += textOutput;
+            CommonStartup(textOutput, diedDelegate);
 
-            // Needs to happen before anything that could create a weapon
-            ItemFactory = new ItemFactory();
-
-            m_saveLoad = new SaveLoadCore();
             m_saveLoad.LoadGame(this, saveGameName);
 
             m_physicsEngine = new PhysicsEngine(m_player, m_map);
@@ -79,6 +69,20 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.AfterPlayerAction(this);
 
             SendTextOutput("Welcome Back To Magecrawl");
+        }
+
+        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
+        {
+            m_instance = this;
+            m_playerDied += diedDelegate;
+            m_textOutput += textOutput;
+
+            // Needs to happen before anything that could create a weapon
+            ItemFactory = new ItemFactory();
+            MonsterFactory = new MonsterFactory();
+            MapObjectFactory = new MapObjectFactory();
+
+            m_saveLoad = new SaveLoadCore();
         }
 
         public void Dispose()
