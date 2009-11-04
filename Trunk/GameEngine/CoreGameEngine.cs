@@ -225,6 +225,12 @@ namespace Magecrawl.GameEngine
             return currentItem.PlayerOptions;
         }
 
+        internal List<ItemOptions> GetOptionsForEquipmentItem(IItem item)
+        {
+            Item currentItem = item as Item;
+            return currentItem.PlayerOptions;
+        }
+
         internal bool PlayerSelectedItemOption(IItem item, string option)
         {
             bool didSomething = false;
@@ -234,6 +240,7 @@ namespace Magecrawl.GameEngine
                     didSomething = m_physicsEngine.PlayerDropItem(item as Item);
                     break;
                 case "Equip": 
+                {
                     // This probally should live in the player code
                     m_player.RemoveItem(item as Item);
                     Item oldWeapon = m_player.EquipWeapon(item as IWeapon) as Item;
@@ -241,6 +248,15 @@ namespace Magecrawl.GameEngine
                         m_player.TakeItem(oldWeapon);
                     didSomething = true;
                     break;
+                }
+                case "Unequip":
+                {
+                    Item oldWeapon = m_player.UnequipWeapon() as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    didSomething = true;
+                    break;
+                }
                 case "Drink":
                     didSomething = m_physicsEngine.PlayerDrinkPotion(item as Potion);
                     break;

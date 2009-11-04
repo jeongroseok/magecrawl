@@ -5,14 +5,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public interface IWeapon : ITargetablePoints
+    public interface IWeapon : ITargetablePoints, INamedItem
     {
         DiceRoll Damage
-        {
-            get;
-        }
-
-        string Name
         {
             get;
         }

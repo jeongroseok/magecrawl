@@ -193,6 +193,11 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("Inventory");
         }
 
+        private void Equipment()
+        {
+            m_gameInstance.SetHandlerName("Equipment");
+        }
+
         private void TextBoxPageUp()
         {
             m_gameInstance.TextBox.TextBoxScrollUp();

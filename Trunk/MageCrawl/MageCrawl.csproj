@@ -68,6 +68,7 @@
     <Compile Include="Keyboard\Dialogs\QuitGameKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\SaveGameKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\WelcomeKeyboardHandler.cs" />
+    <Compile Include="Keyboard\Equipment\EquipmentScreenKeyboardHandler.cs" />
     <Compile Include="Keyboard\Magic\MagicListKeyboardHandler.cs" />
     <Compile Include="Keyboard\TargettingKeystrokeHandler.cs" />
     <Compile Include="Keyboard\BaseKeystrokeHandler.cs">

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E6BFA8B0-1F53-44A3-BE7D-F958ADC1C9A5}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -55,6 +55,11 @@
     <Compile Include="Dialogs\Requests\SelectSave.cs" />
     <Compile Include="Dialogs\Requests\WelcomeRequests.cs" />
     <Compile Include="Dialogs\SaveGamePainter.cs" />
+    <Compile Include="Equipment\EquipmentPainter.cs" />
+    <Compile Include="Equipment\Requests\ChangeEquipmentSelectionPosition.cs" />
+    <Compile Include="Equipment\Requests\EquipmentSelected.cs" />
+    <Compile Include="Equipment\Requests\SaveEquipmentSelectionPosition.cs" />
+    <Compile Include="Equipment\Requests\ShowEquipmentWindow.cs" />
     <Compile Include="Inventory\InventoryItemPainter.cs" />
     <Compile Include="Inventory\Requests\ChangeInventoryItemPosition.cs" />
     <Compile Include="Inventory\Requests\SelectInventoryItemOption.cs" />

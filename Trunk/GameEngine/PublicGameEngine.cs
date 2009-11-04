@@ -182,6 +182,11 @@ namespace Magecrawl.GameEngine
             return m_engine.GetOptionsForInventoryItem(item);
         }
 
+        public List<ItemOptions> GetOptionsForEquipmentItem(IItem item)
+        {
+            return m_engine.GetOptionsForEquipmentItem(item);
+        }
+
         public bool PlayerSelectedItemOption(IItem item, string option)
         {
             bool didAnything = m_engine.PlayerSelectedItemOption(item, option);

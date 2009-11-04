@@ -26,13 +26,7 @@ namespace Magecrawl.GameUI
             string magicString = string.Format("Magic {0}/{1}", player.CurrentMP, player.MaxMP);
             screen.PrintLine(magicString, StartingX + 2, 3, LineAlignment.Left);
 
-            string weaponString = string.Format("Weapon: {0}", player.CurrentWeapon.Name);
-            screen.PrintLine(weaponString, StartingX + 2, 4, LineAlignment.Left);
-
-            weaponString = string.Format("Damage: {0} damage", player.CurrentWeapon.Damage.ToString());
-            screen.PrintLine(weaponString, StartingX + 2, 5, LineAlignment.Left);
-
-            screen.PrintLine("Status Effects:", StartingX + 2, 7, LineAlignment.Left);
+            screen.PrintLine("Status Effects:", StartingX + 2, 5, LineAlignment.Left);
             StringBuilder statusEffects = new StringBuilder();
             foreach (string s in player.StatusEffects)
             {
@@ -40,7 +34,7 @@ namespace Magecrawl.GameUI
             }
 
             // TODO - What happens if this is more then 2 lines worth?
-            screen.PrintLineRect(statusEffects.ToString(), StartingX + 2, 8, InfoWidth - 4, 2, LineAlignment.Left);
+            screen.PrintLineRect(statusEffects.ToString(), StartingX + 2, 6, InfoWidth - 4, 2, LineAlignment.Left);
             
             string fps = TCODSystem.FPS.ToString();
             screen.PrintLine(fps, 52, 58, LineAlignment.Left);

@@ -49,6 +49,7 @@ namespace Magecrawl.GameEngine.Interfaces
         List<Point> CellsInPlayersFOV();
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
+        List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
         
         // TODO: What to do here when you zap a want and need a target?
         bool PlayerSelectedItemOption(IItem item, string option);

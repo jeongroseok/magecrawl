@@ -17,7 +17,7 @@ namespace Magecrawl.GameEngine.Affects
             : base(new DiceRoll(1, 4, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_damagePerInterval = strength / 3;
-            if(m_damagePerInterval == 0)
+            if (m_damagePerInterval == 0)
                 m_damagePerInterval = 1;
         }
 

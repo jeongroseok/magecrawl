@@ -9,16 +9,19 @@ namespace Magecrawl.Keyboard.Inventory
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
+        private string m_handlerWhoCalledMe;
 
         public InventoryItemKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
             m_gameInstance = instance;
+            m_handlerWhoCalledMe = String.Empty;
         }
 
         public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
             m_gameInstance.UpdatePainters();
+            m_handlerWhoCalledMe = (string)objOne;
         }
 
         private void Select()
@@ -38,7 +41,7 @@ namespace Magecrawl.Keyboard.Inventory
         {
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
             m_gameInstance.UpdatePainters();
-            m_gameInstance.SetHandlerName("Inventory", true);   // Gets picked up in InventoryScreenKeyboardHandler::NowPrimaried
+            m_gameInstance.SetHandlerName(m_handlerWhoCalledMe, true);   // Gets picked up in InventoryScreenKeyboardHandler::NowPrimaried
         }
 
         private void HandleDirection(Direction direction)

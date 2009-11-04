@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
-        private IWeapon m_equipedWeapon;
+        private WeaponBase m_equipedWeapon;
         private List<Item> m_itemList;
 
         public Player() : base()
@@ -32,19 +32,21 @@ namespace Magecrawl.GameEngine.Actors
             if (weapon == null)
                 throw new System.ArgumentException("EquipWeapon - Null weapon");
             WeaponBase currentWeapon = weapon as WeaponBase;
-            currentWeapon.Owner = this;
 
             IWeapon oldWeapon = UnequipWeapon();
+            
+            currentWeapon.Owner = this;
             m_equipedWeapon = currentWeapon;
             return oldWeapon;
         }
 
-        internal IWeapon UnequipWeapon()
+        public IWeapon UnequipWeapon()
         {
             if (m_equipedWeapon == null)
                 return null;
             WeaponBase oldWeapon = m_equipedWeapon as WeaponBase;
             oldWeapon.Owner = null;
+            m_equipedWeapon = null;
             return oldWeapon;
         }
 
@@ -128,7 +130,7 @@ namespace Magecrawl.GameEngine.Actors
             {
                 Item loadedWeapon = CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
                 loadedWeapon.ReadXml(reader);
-                m_equipedWeapon = (IWeapon)loadedWeapon;
+                m_equipedWeapon = (WeaponBase)loadedWeapon;
             }
             reader.ReadEndElement();
 
