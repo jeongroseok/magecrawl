@@ -16,7 +16,9 @@ namespace Magecrawl.GameEngine.Affects
         public Poison(int strength)
             : base(new DiceRoll(1, 4, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
-            m_damagePerInterval = Math.Min(strength / 3, 1);
+            m_damagePerInterval = strength / 3;
+            if(m_damagePerInterval == 0)
+                m_damagePerInterval = 1;
         }
 
         private Character m_affected;
