@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <Spells>
 <Spell Name="Heal" School="Light" EffectType="HealCaster" TargetType="Self" Cost="1" Strength="1"/>
-<Spell Name="Blast" School="Fire" EffectType="AOE Blast Center Caster" TargetType="AOECenteredSelf" Cost="2" Strength="1"/>
 <Spell Name="Zap" School="Arcane" EffectType="Ranged Single Target" TargetType="Single Range:5" Cost="2" Strength="1"/>
 <Spell Name="Haste" School="Arcane" EffectType="Haste" Cost="3" TargetType="Self" Strength="1"/>
 <Spell Name="Slow" School="Arcane" EffectType="Slow" Cost="4" TargetType="Single Range:3" Strength="1"/>

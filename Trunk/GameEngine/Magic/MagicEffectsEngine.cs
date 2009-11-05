@@ -60,24 +60,6 @@ namespace Magecrawl.GameEngine.Magic
                         caster.CurrentMP = caster.MaxMP;
                     return true;
                 }
-                case "AOE Blast Center Caster":
-                {
-                    if (caster is Monster)
-                        throw new NotImplementedException("Can't do AOE Blast Center Caster on Monsters yet.");
-
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    IEnumerable<ICharacter> toDamage = CoreGameEngine.Instance.Map.Monsters.Where(monster => PointDirectionUtils.LatticeDistance(monster.Position, CoreGameEngine.Instance.Player.Position) <= 1);
-
-                    foreach (ICharacter c in toDamage)
-                    {
-                        if (c != caster)
-                        {
-                            int damage = (new DiceRoll(2, 3, 0, strength)).Roll();
-                            m_engine.DamageTarget(damage, (Character)c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                        }
-                    }
-                    return true;
-                }
                 case "Ranged Single Target":
                 {
                     OnRangedAffect rangedAttackDelegate = (c, s) =>

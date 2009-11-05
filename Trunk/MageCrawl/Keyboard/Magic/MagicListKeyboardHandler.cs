@@ -101,13 +101,6 @@ namespace Magecrawl.Keyboard.Magic
                     });
                     m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke);
                 }
-                else if (spell.TargetType == "AOECenteredSelf")
-                {
-                    SpellAnimationHelper spellHelper = new SpellAnimationHelper(m_engine.Player.Position, spell, m_engine, m_gameInstance);
-                    EffectDone onEffectDone = new EffectDone(spellHelper.Invoke);
-                    m_gameInstance.SetHandlerName("Effects", new ShowSelfBuff(onEffectDone, m_engine.Player.Position, color));
-                    m_gameInstance.UpdatePainters();
-                }
                 else if (spell.TargetType == "Self")
                 {
                     SpellAnimationHelper spellHelper = new SpellAnimationHelper(m_engine.Player.Position, spell, m_engine, m_gameInstance);
