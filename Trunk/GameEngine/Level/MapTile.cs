@@ -10,17 +10,22 @@ namespace Magecrawl.GameEngine.Level
     {
         private TerrainType m_type;
         private bool m_visited;
+        
+        // Temporary field used by algorthisms crawling over the map.
+        internal int Scratch { get; set; }
 
         internal MapTile()
         {
             m_type = TerrainType.Wall;
             m_visited = false;
+            Scratch = 0;
         }
 
         internal MapTile(Interfaces.TerrainType type)
         {
             m_type = type;
             m_visited = false;
+            Scratch = 0;
         }
 
         public TerrainType Terrain
