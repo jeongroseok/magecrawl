@@ -3,6 +3,7 @@ using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.Keyboard
 {
@@ -89,10 +90,11 @@ namespace Magecrawl.Keyboard
                 m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey);
         }
 
-        private void OnOperate(Point selection)
+        private bool OnOperate(Point selection)
         {
             if (selection != m_engine.Player.Position)
                 m_engine.Operate(selection);
+            return false;
         }
 
         private List<EffectivePoint> CalculateOperatePoints()
@@ -143,7 +145,7 @@ namespace Magecrawl.Keyboard
 
         private void DebuggingFOVOnOff()
         {
-            m_gameInstance.SendPaintersRequest(new SwapFOVEnabledStatus());
+            m_gameInstance.SendPaintersRequest(new ToggleDebuggingFOV(m_engine));
             m_gameInstance.UpdatePainters();
         }
 
@@ -177,10 +179,43 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey);
         }
 
-        private void OnAttack(Point selection)
+        private class SingleRangedAnimationHelper
+        {
+            private Point m_point;
+            private IGameEngine m_engine;
+
+            internal SingleRangedAnimationHelper(Point point, IGameEngine engine)
+            {
+                m_point = point;
+                m_engine = engine;
+            }
+
+            internal void Invoke()
+            {
+                m_engine.PlayerAttack(m_point);
+            }
+        }
+
+        private bool OnAttack(Point selection)
         {
             if (selection != m_engine.Player.Position)
-                m_engine.PlayerAttack(selection);
+            {
+                if (m_engine.Player.CurrentWeapon.IsRanged)
+                {
+                    List<Point> pathToTarget = m_engine.PlayerPathToPoint(selection);
+                    SingleRangedAnimationHelper rangedHelper = new SingleRangedAnimationHelper(selection, m_engine);
+                    OnEffectDone onEffectDone = new OnEffectDone(rangedHelper.Invoke);
+                    Color color = TCODColorPresets.White;
+                    m_gameInstance.SetHandlerName("Effects", "Ranged Bolt", pathToTarget, onEffectDone, color);
+                    return true;
+                }
+                else
+                {
+                    m_engine.PlayerAttack(selection);
+                    return false;
+                }
+            }
+            return false;
         }
 
         private void ViewMode()

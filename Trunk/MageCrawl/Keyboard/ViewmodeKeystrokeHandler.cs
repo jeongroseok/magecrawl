@@ -24,7 +24,7 @@ namespace Magecrawl.Keyboard
             m_gameInstance.UpdatePainters();
         }
 
-        private void Inventory()
+        private void ViewMode()
         {
             Escape();
         }

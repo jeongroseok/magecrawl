@@ -8,5 +8,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        string School
+        {
+            get;
+        }
     }
 }

@@ -7,16 +7,17 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
-    internal delegate void OnTargetSelection(Point selection);
+    // If true, don't reset the handler because we already set it to something new
+    internal delegate bool OnTargetSelection(Point selection);
 
     internal class TargettingKeystrokeHandler : BaseKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
         private List<EffectivePoint> m_targetablePoints;
-        private bool m_allowEscapeFromMode;
         private OnTargetSelection m_selectionDelegate;
         private NamedKey m_alternateSelectionKey;
+        private bool m_doNotResetHandler;
 
         private Point SelectionPoint { get; set; }
 
@@ -24,7 +25,6 @@ namespace Magecrawl.Keyboard
         {
             m_engine = engine;
             m_gameInstance = instance;
-            m_allowEscapeFromMode = true;
         }
 
         public override void HandleKeystroke(NamedKey keystroke)
@@ -80,7 +80,7 @@ namespace Magecrawl.Keyboard
 
         private void Attack()
         {
-            m_selectionDelegate(SelectionPoint);
+            m_doNotResetHandler = m_selectionDelegate(SelectionPoint);
             Escape();
         }
 
@@ -96,19 +96,14 @@ namespace Magecrawl.Keyboard
 
         private void Escape()
         {
-            if (m_allowEscapeFromMode)
-            {
-                ExitMode();
-            }
-        }
-
-        private void ExitMode()
-        {
             m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
             m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
             m_selectionDelegate = null;
             m_gameInstance.UpdatePainters();
-            m_gameInstance.ResetHandlerName();
+
+            if (!m_doNotResetHandler)
+                m_gameInstance.ResetHandlerName();
+            m_doNotResetHandler = false;
         }
 
         private void North()

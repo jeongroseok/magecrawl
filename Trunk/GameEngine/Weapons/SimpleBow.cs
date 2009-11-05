@@ -19,6 +19,14 @@ namespace Magecrawl.GameEngine.Weapons
             m_damage = damage;
         }
 
+        public override bool IsRanged
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override List<EffectivePoint> CalculateTargetablePoints()
         {
             List<EffectivePoint> targetablePoints = new List<EffectivePoint>();

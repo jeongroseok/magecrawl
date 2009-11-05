@@ -183,7 +183,7 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.AfterPlayerAction(this);
         }
 
-        internal IList<Point> PathToPoint(Character actor, Point dest, bool canOperate)
+        internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate)
         {
             return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine);
         }

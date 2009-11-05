@@ -3,20 +3,20 @@ using Magecrawl.GameUI.Map.Debug;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
-    public class ToggleDebuggingMoveable : RequestBase
+    public class ToggleDebuggingFOV : RequestBase
     {
         private IGameEngine m_engine;
 
-        public ToggleDebuggingMoveable(IGameEngine engine)
+        public ToggleDebuggingFOV(IGameEngine engine)
         {
             m_engine = engine;
         }
 
         internal override void DoRequest(IHandlePainterRequest painter)
         {
-            MapDebugMovablePainter m = painter as MapDebugMovablePainter;
-            if (m != null)
-                m.SwapDebugMovable(m_engine);
+            MapDebugFOVPainter d = painter as MapDebugFOVPainter;
+            if (d != null)
+                d.SwapDebugFOV(m_engine);
         }
     }
 }

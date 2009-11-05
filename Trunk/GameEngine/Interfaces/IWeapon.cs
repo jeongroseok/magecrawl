@@ -12,6 +12,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        bool IsRanged
+        {
+            get;
+        }
+
         bool PositionInTargetablePoints(Point pointOfInterest);
         float EffectiveStrengthAtPoint(Point pointOfInterest);
     }

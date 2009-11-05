@@ -6,11 +6,31 @@ using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.Keyboard.Magic
 {
     internal class MagicListKeyboardHandler : BaseKeystrokeHandler
     {
+        private class SingleRangedSpellAnimationHelper
+        {
+            private Point m_point;
+            private ISpell m_spell;
+            private IGameEngine m_engine;
+
+            internal SingleRangedSpellAnimationHelper(Point point, ISpell spell, IGameEngine engine)
+            {
+                m_point = point;
+                m_spell = spell;
+                m_engine = engine;
+            }
+
+            internal void Invoke()
+            {
+                m_engine.PlayerCastSpell(m_spell, m_point);
+            }
+        }
+
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
 
@@ -48,12 +68,11 @@ namespace Magecrawl.Keyboard.Magic
         private void SpellSelectedDelegate(INamedItem spellName)
         {
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
-            m_gameInstance.ResetHandlerName();
 
             ISpell spell = (ISpell)spellName;
             if (m_engine.PlayerCouldCastSpell(spell))
             {
-                if (spell.TargetType != "None")
+                if (spell.TargetType.StartsWith("Single Range"))
                 {
                     string[] targetParts = spell.TargetType.Split(':');
                     int range = int.Parse(targetParts[1]);
@@ -61,16 +80,47 @@ namespace Magecrawl.Keyboard.Magic
                     m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
                     OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
                     {
-                        m_engine.PlayerCastSpell(spell, s);
+                        SingleRangedSpellAnimationHelper rangedHelper = new SingleRangedSpellAnimationHelper(s, spell, m_engine);
+                        List<Point> pathToTarget = m_engine.PlayerPathToPoint(s);
+                        OnEffectDone onEffectDone = new OnEffectDone(rangedHelper.Invoke);
+                        Color color = GetColorOfSpellFromSchool(spell);
+                        m_gameInstance.SetHandlerName("Effects", "Ranged Bolt", pathToTarget, onEffectDone, color);
                         m_gameInstance.UpdatePainters();
+                        return true;
                     });
                     m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke);
                 }
-                else
+                else if (spell.TargetType == "None")
                 {
                     m_engine.PlayerCastSpell(spell, Point.Invalid);
+                    m_gameInstance.ResetHandlerName();
                     m_gameInstance.UpdatePainters();
                 }
+                else
+                {
+                    throw new System.ArgumentException("Don't know how to cast things with target type: " + spell.TargetType);
+                }
+            }
+        }
+
+        private Color GetColorOfSpellFromSchool(ISpell spell)
+        {
+            switch (spell.School)
+            {
+                case "Light":
+                    return ColorPresets.WhiteSmoke;
+                case "Darkness":
+                    return ColorPresets.DarkGray;
+                case "Fire":
+                    return ColorPresets.Firebrick;
+                case "Arcane":
+                    return ColorPresets.DarkViolet;
+                case "Air":
+                    return ColorPresets.LightBlue;
+                case "Earth":
+                    return ColorPresets.SaddleBrown;
+                default:
+                    return TCODColorPresets.White;
             }
         }
 

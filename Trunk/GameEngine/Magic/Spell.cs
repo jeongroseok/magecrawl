@@ -42,6 +42,15 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
+
+        public string School
+        {
+            get
+            {
+                return m_school;
+            }
+        }
+
         public string TargetType
         {
             get 
@@ -71,14 +80,6 @@ namespace Magecrawl.GameEngine.Magic
             get
             {
                 return m_strength;
-            }
-        }
-
-        internal string Schoool
-        {
-            get
-            {
-                return m_school;
             }
         }
     }
