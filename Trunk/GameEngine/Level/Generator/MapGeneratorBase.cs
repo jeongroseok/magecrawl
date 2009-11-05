@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.MapObjects;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -209,6 +211,24 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
             }
             return numberOfFloorTileSurrounding;
+        }
+
+        protected void GenerateMonstersAndChests(Map map)
+        {
+            int monsterToGenerate = m_random.GetRandomInt(10, 20);
+            for (int i = 0; i < monsterToGenerate; ++i)
+            {
+                Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster");
+                newMonster.Position = GetClearPoint(map);
+                map.AddMonster(newMonster);
+            }
+
+            int treasureToGenerate = m_random.GetRandomInt(3, 6);
+            for (int i = 0; i < treasureToGenerate; ++i)
+            {
+                MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", GetClearPoint(map));
+                map.AddMapItem(treasure);
+            }
         }
     }
 }

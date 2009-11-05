@@ -59,14 +59,19 @@ namespace Magecrawl.GameEngine.Level
             return returnMap;
         }
 
+        internal void AddMonster(Monster m)
+        {
+            m_monsterList.Add(m);
+        }
+
         internal bool KillMonster(Monster m)
         {
             return m_monsterList.Remove(m);
         }
 
-        internal bool RemoveItem(Pair<Item, Point> item)
+        internal void AddMapItem(MapObject item)
         {
-            return m_items.Remove(item);
+            m_mapObjects.Add(item);
         }
 
         internal bool RemoveMapItem(MapObject item)
@@ -77,6 +82,11 @@ namespace Magecrawl.GameEngine.Level
         internal void AddItem(Pair<Item, Point> item)
         {
             m_items.Add(item);
+        }
+
+        internal bool RemoveItem(Pair<Item, Point> item)
+        {
+            return m_items.Remove(item);
         }
 
         public int Width
@@ -166,7 +176,7 @@ namespace Magecrawl.GameEngine.Level
                                 m_mapObjects.Add(new MapDoor(new Point(i, j)));
                                 break;
                             case 'M':
-                                m_monsterList.Add(new Monster(i, j));
+                                m_monsterList.Add(new Monster(new Point(i, j)));
                                 break;
                             case '!':
                                 m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Simple Short Bow"), new Point(i, j)));

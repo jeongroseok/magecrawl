@@ -99,7 +99,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             FillAllSmallerUnconnectedRooms(map);
 
-            GetClearPoint(map);
+            GenerateMonstersAndChests(map);
 
             return map;
         }
