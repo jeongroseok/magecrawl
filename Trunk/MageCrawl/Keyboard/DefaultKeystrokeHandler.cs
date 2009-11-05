@@ -4,6 +4,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
 using libtcodWrapper;
+using Magecrawl.GameUI.MapEffects;
 
 namespace Magecrawl.Keyboard
 {
@@ -183,16 +184,20 @@ namespace Magecrawl.Keyboard
         {
             private Point m_point;
             private IGameEngine m_engine;
+            private GameInstance m_gameInstance;
 
-            internal SingleRangedAnimationHelper(Point point, IGameEngine engine)
+            internal SingleRangedAnimationHelper(Point point, IGameEngine engine, GameInstance gameInstance)
             {
                 m_point = point;
                 m_engine = engine;
+                m_gameInstance = gameInstance;
             }
 
             internal void Invoke()
             {
                 m_engine.PlayerAttack(m_point);
+                m_gameInstance.ResetHandlerName();
+                m_gameInstance.UpdatePainters();
             }
         }
 
@@ -203,10 +208,10 @@ namespace Magecrawl.Keyboard
                 if (m_engine.Player.CurrentWeapon.IsRanged)
                 {
                     List<Point> pathToTarget = m_engine.PlayerPathToPoint(selection);
-                    SingleRangedAnimationHelper rangedHelper = new SingleRangedAnimationHelper(selection, m_engine);
-                    OnEffectDone onEffectDone = new OnEffectDone(rangedHelper.Invoke);
+                    SingleRangedAnimationHelper rangedHelper = new SingleRangedAnimationHelper(selection, m_engine, m_gameInstance);
+                    EffectDone onEffectDone = new EffectDone(rangedHelper.Invoke);
                     Color color = TCODColorPresets.White;
-                    m_gameInstance.SetHandlerName("Effects", "Ranged Bolt", pathToTarget, onEffectDone, color);
+                    m_gameInstance.SetHandlerName("Effects", new ShowRangedBolt(onEffectDone, pathToTarget, color));
                     return true;
                 }
                 else

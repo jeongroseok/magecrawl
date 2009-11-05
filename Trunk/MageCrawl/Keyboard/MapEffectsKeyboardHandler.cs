@@ -3,16 +3,14 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
 using libtcodWrapper;
+using Magecrawl.GameUI;
 
 namespace Magecrawl.Keyboard
 {
-    internal delegate void OnEffectDone();
-
     internal class MapEffectsKeystrokeHandler : BaseKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
-        private OnEffectDone m_onDoneDelegate;
 
         public MapEffectsKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
@@ -22,27 +20,8 @@ namespace Magecrawl.Keyboard
 
         public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
-            string effectType = (string)objOne;
-            switch (effectType)
-            {
-                case "Ranged Bolt":
-                {
-                    List<Point> path = (List<Point>)objTwo;
-                    m_onDoneDelegate = (OnEffectDone)objThree;
-                    Color color = (Color)objFour;
-                    m_gameInstance.SendPaintersRequest(new ShowRangedBolt(OnEffectDone, path, color));
-                    break;
-                }
-                default:
-                    throw new System.ArgumentException("MapEffects with no valid effect: " + effectType);
-            }
-            m_gameInstance.UpdatePainters();
-        }
-
-        private void OnEffectDone()
-        {
-            m_onDoneDelegate();
-            m_gameInstance.ResetHandlerName();
+            RequestBase request = (RequestBase)objOne;
+            m_gameInstance.SendPaintersRequest(request);
             m_gameInstance.UpdatePainters();
         }
     }
