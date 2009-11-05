@@ -22,7 +22,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_random = null;
         }
 
-        protected Point GetClearPoint(Map map)
+        public Point GetClearPoint(Map map)
         {
             List<Point> clearPointList = new List<Point>();
             
@@ -54,10 +54,11 @@ namespace Magecrawl.GameEngine.Level.Generator
         protected void FloodFill(Map map, Point p, int scratchValue)
         {
             if (!map.IsPointOnMap(p))
-                throw new System.ArgumentException("FloodFill with invalid point");
+                return;
 
             if (map[p.X, p.Y].Terrain == TerrainType.Floor && map.GetInternalTile(p.X, p.Y).Scratch == 0)
             {
+                map.GetInternalTile(p.X, p.Y).Scratch = scratchValue;
                 FloodFill(map, p + new Point(1, 0), scratchValue);
                 FloodFill(map, p + new Point(-1, 0), scratchValue);
                 FloodFill(map, p + new Point(0, 1), scratchValue);
@@ -119,7 +120,8 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    numberOfTilesWithThatScratch[map.GetInternalTile(i, j).Scratch]++;
+                    if(map[i,j].Terrain == TerrainType.Floor)
+                        numberOfTilesWithThatScratch[map.GetInternalTile(i, j).Scratch]++;
                 }
             }
 
