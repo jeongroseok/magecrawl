@@ -18,13 +18,14 @@ namespace Magecrawl.GameEngine.Actors
 
         public Player() : base()
         {
-            m_equipedWeapon = null;
             m_itemList = null;
+            m_equipedWeapon = null;
         }
 
         public Player(Point p) : base(p.X, p.Y, 10, 10, 6, 10, 10, "Donblas")
         {
             m_itemList = new List<Item>();
+            m_equipedWeapon = null;
         }
 
         internal IWeapon EquipWeapon(IWeapon weapon)

@@ -69,7 +69,7 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "TreasureChest");
+            writer.WriteElementString("Type", "Treasure Chest");
             m_position.WriteToXml(writer, "Position");
         }
 
