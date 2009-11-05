@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using libtcodWrapper;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.MapEffects
 {
@@ -9,9 +9,12 @@ namespace Magecrawl.GameUI.MapEffects
 
     internal sealed class MapEffectsPainter : MapPainterBase
     {
-        private const int millisecondsPerFrame = 50;
+        private const int MillisecondsPerFrame = 50;
 
-        private enum EffectTypes { None, RangedBolt, SelfBuff };
+        private enum EffectTypes 
+        {
+            None, RangedBolt, SelfBuff 
+        }
         
         private uint m_animationStartTime;
 
@@ -21,9 +24,9 @@ namespace Magecrawl.GameUI.MapEffects
 
         private EffectDone m_done;
 
-
         // For RangedBolt
         private List<Point> m_path;
+        
         // For SelfBuff
         private Point m_position;
 
@@ -34,7 +37,7 @@ namespace Magecrawl.GameUI.MapEffects
 
         public override void DrawNewFrame(Console screen)
         {
-            uint frameNumber = (TCODSystem.ElapsedMilliseconds - m_animationStartTime) / millisecondsPerFrame;
+            uint frameNumber = (TCODSystem.ElapsedMilliseconds - m_animationStartTime) / MillisecondsPerFrame;
             switch (m_type)
             {
                 case EffectTypes.RangedBolt:
@@ -47,7 +50,7 @@ namespace Magecrawl.GameUI.MapEffects
                     {
                         Point boltPoint = m_path[(int)frameNumber];
                         Point screenPosition = new Point(m_mapUpCorner.X + boltPoint.X + 1, m_mapUpCorner.Y + boltPoint.Y + 1);
-                        screen.PutChar(screenPosition.X , screenPosition.Y, '*');
+                        screen.PutChar(screenPosition.X, screenPosition.Y, '*');
                         screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
                     }
                     return;

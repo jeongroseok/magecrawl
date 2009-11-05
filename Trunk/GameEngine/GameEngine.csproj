@@ -74,11 +74,13 @@
     <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="MapObjects\MapObjectFactory.cs" />
     <Compile Include="MapObjects\TreasureChest.cs" />
-    <Compile Include="Map\Map.cs" />
+    <Compile Include="Level\Generator\MapGeneratorBase.cs" />
+    <Compile Include="Level\Generator\SimpleMapGenerator.cs" />
+    <Compile Include="Level\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />
     <Compile Include="MapObjects\MapObject.cs" />
     <Compile Include="MapObjects\OperableMapObject.cs" />
-    <Compile Include="Map\MapTile.cs" />
+    <Compile Include="Level\MapTile.cs" />
     <Compile Include="PathfindingMap.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="PhysicsEngine.cs" />

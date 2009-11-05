@@ -4,7 +4,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Level
 {
     internal sealed class MapTile : IMapTile, IXmlSerializable
     {

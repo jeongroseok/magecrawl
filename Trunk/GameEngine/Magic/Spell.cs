@@ -42,7 +42,6 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-
         public string School
         {
             get

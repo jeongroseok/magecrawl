@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
-using Magecrawl.Utilities;
-using libtcodWrapper;
 using Magecrawl.GameUI.MapEffects;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
