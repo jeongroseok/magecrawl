@@ -33,8 +33,30 @@ namespace Magecrawl.GameEngine.Level
             m_mapObjects = new List<MapObject>();
             m_monsterList = new List<Monster>();
             m_items = new List<Pair<Item, Point>>();
+            m_width = width;
+            m_height = height;
+            m_map = new MapTile[m_width, m_height];
+            for (int i = 0; i < m_width; ++i)
+            {
+                for (int j = 0; j < m_height; ++j)
+                {
+                    m_map[i, j] = new MapTile();
+                }
+            }
+        }
 
-            CreateDemoMap();
+        // Doesn't implement all of ICloneable, just copies mapTiles
+        internal Map CopyMap()
+        {
+            Map returnMap = new Map(m_width, m_height);
+            for (int i = 0; i < m_width; ++i)
+            {
+                for (int j = 0; j < m_height; ++j)
+                {
+                    returnMap.GetInternalTile(i, j).Terrain = GetInternalTile(i, j).Terrain;
+                }
+            }
+            return returnMap;
         }
 
         internal bool KillMonster(Monster m)
@@ -119,7 +141,7 @@ namespace Magecrawl.GameEngine.Level
             return m_map[width, height];
         }
 
-        private void CreateDemoMap()
+        internal void CreateDemoMap()
         {
             using (StreamReader reader = File.OpenText("map.txt"))
             {

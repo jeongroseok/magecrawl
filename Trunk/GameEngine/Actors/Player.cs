@@ -22,7 +22,7 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = null;
         }
 
-        public Player(int x, int y) : base(x, y, 10, 10, 6, 10, 10, "Donblas")
+        public Player(Point p) : base(p.X, p.Y, 10, 10, 6, 10, 10, "Donblas")
         {
             m_itemList = new List<Item>();
         }

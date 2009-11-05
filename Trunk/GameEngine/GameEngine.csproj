@@ -75,7 +75,7 @@
     <Compile Include="MapObjects\MapObjectFactory.cs" />
     <Compile Include="MapObjects\TreasureChest.cs" />
     <Compile Include="Level\Generator\MapGeneratorBase.cs" />
-    <Compile Include="Level\Generator\SimpleMapGenerator.cs" />
+    <Compile Include="Level\Generator\SimpleCaveGenerator.cs" />
     <Compile Include="Level\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />
     <Compile Include="MapObjects\MapObject.cs" />
