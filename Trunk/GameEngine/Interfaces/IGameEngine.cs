@@ -45,7 +45,7 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerAttack(Point target);
         bool PlayerCouldCastSpell(ISpell spell);
         bool PlayerCastSpell(ISpell spell, Point target);
-        IList<Point> PlayerPathToPoint(Point dest);
+        List<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);

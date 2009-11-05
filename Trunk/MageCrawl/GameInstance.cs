@@ -163,6 +163,10 @@ namespace Magecrawl
             QuitGameKeyboardHandler quitGameHandler = new QuitGameKeyboardHandler(m_engine, this);
             quitGameHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("QuitGame", quitGameHandler);
+
+            MapEffectsKeystrokeHandler effectHandler = new MapEffectsKeystrokeHandler(m_engine, this);
+            effectHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Effects", effectHandler);
         }
 
         internal void SetHandlerName(string s)

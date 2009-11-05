@@ -8,6 +8,7 @@ using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.Map;
 using Magecrawl.GameUI.Map.Debug;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
@@ -29,9 +30,9 @@ namespace Magecrawl.GameUI
             m_painters.Add(new MapPainter());
 
             m_painters.Add(new MapDebugMovablePainter());
-            m_painters.Add(new MapEffectsPainter());
             m_painters.Add(new MapDebugFOVPainter());
             m_painters.Add(new PlayerTargetingPainter());
+            m_painters.Add(new MapEffectsPainter());
 
             // This should be last of all map painters to block out map
             m_painters.Add(new MapFOVPainter());

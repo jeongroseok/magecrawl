@@ -60,6 +60,14 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
+        public virtual bool IsRanged
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         #region SaveLoad
 
         public XmlSchema GetSchema()
