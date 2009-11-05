@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
 

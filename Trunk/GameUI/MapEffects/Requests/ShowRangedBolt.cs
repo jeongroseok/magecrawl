@@ -18,7 +18,6 @@ namespace Magecrawl.GameUI.Map.Requests
             m_color = color;
         }
 
-
         internal override void DoRequest(IHandlePainterRequest painter)
         {
             MapEffectsPainter m = painter as MapEffectsPainter;

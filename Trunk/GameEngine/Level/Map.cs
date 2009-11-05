@@ -11,7 +11,7 @@ using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Level
 {
     internal sealed class Map : Interfaces.IMap, IXmlSerializable
     {
