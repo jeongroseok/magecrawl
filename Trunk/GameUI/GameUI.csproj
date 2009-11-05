@@ -66,6 +66,7 @@
     <Compile Include="Inventory\Requests\ShowInventoryItemWindow.cs" />
     <Compile Include="ListSelection\ListSelectionPainter.cs" />
     <Compile Include="Dialogs\WelcomePainter.cs" />
+    <Compile Include="MapEffects\Requests\ShowSelfBuff.cs" />
     <Compile Include="MapEffects\Requests\ShowRangedBolt.cs" />
     <Compile Include="Map\MapCursorPainter.cs" />
     <Compile Include="Map\Debug\MapDebugFOVPainter.cs" />
