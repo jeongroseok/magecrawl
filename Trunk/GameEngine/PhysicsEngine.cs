@@ -88,20 +88,29 @@ namespace Magecrawl.GameEngine
         }
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
-        // This, unlike IsMoveablePoint, calculated them in batch much much more quickly. True means you can walk there
-        internal bool[,] CalculateMoveablePointGrid(Map map, Player player)
+        // This calculates them in batch much much more quickly. True means you can walk there.
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Player player)
+        {
+            bool[,] returnValue = CalculateMoveablePointGrid(map);
+
+            returnValue[player.Position.X, player.Position.Y] = false;
+
+            return returnValue;
+        }
+
+        internal static bool[,] CalculateMoveablePointGrid(Map map)
         {
             bool[,] returnValue = new bool[map.Width, map.Height];
 
-            for (int i = 0; i < m_map.Width; ++i)
+            for (int i = 0; i < map.Width; ++i)
             {
-                for (int j = 0; j < m_map.Height; ++j)
+                for (int j = 0; j < map.Height; ++j)
                 {
-                    returnValue[i, j] = m_map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+                    returnValue[i, j] = map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
                 }
             }
 
-            foreach (MapObject obj in m_map.MapObjects)
+            foreach (MapObject obj in map.MapObjects)
             {
                 if (obj.IsSolid)
                 {
@@ -109,12 +118,10 @@ namespace Magecrawl.GameEngine
                 }
             }
 
-            foreach (Monster m in m_map.Monsters)
+            foreach (Monster m in map.Monsters)
             {
                 returnValue[m.Position.X, m.Position.Y] = false;
             }
-
-            returnValue[m_player.Position.X, m_player.Position.Y] = false;
 
             return returnValue;
         }
