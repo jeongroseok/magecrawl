@@ -7,7 +7,7 @@ namespace Magecrawl.Utilities
     {
         public static bool Chance(this TCODRandom r, int probability)
         {
-            return (r.GetRandomInt(0, 100) < probability);
+            return r.GetRandomInt(0, 100) < probability;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Actors
             m_random = new TCODRandom();
         }
 
-        public Monster(Point p) : base(p.X, p.Y , 4, 4, 4, 1, 1, "Scary Monster")
+        public Monster(Point p) : base(p.X, p.Y, 4, 4, 4, 1, 1, "Scary Monster")
         {
         }
 

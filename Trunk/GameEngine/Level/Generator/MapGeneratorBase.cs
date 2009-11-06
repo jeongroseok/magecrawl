@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
-using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -26,8 +27,13 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         public Point GetClearPoint(Map map)
         {
+            return GetClearPoint(map, Point.Invalid, 0);
+        }
+
+        public Point GetClearPoint(Map map, Point center, int distanceToKeepAway)
+        {
             List<Point> clearPointList = new List<Point>();
-            
+
             bool[,] moveabilityGrid = PhysicsEngine.CalculateMoveablePointGrid(map);
 
             for (int i = 0; i < map.Width; ++i)
@@ -38,8 +44,14 @@ namespace Magecrawl.GameEngine.Level.Generator
                         clearPointList.Add(new Point(i, j));
                 }
             }
-            int position = m_random.GetRandomInt(0, clearPointList.Count - 1);
-            return clearPointList[position];
+
+            // From a randomized order, check each point
+            foreach (Point p in clearPointList.OrderBy(a => Guid.NewGuid()))
+            {
+                if (center == Point.Invalid || PointDirectionUtils.LatticeDistance(p, center) > distanceToKeepAway)
+                    return p;
+            }
+            throw new System.InvalidOperationException("Unable to find clear point far enough away from given point.");
         }
 
         protected void ResetScratch(Map map)
@@ -84,7 +96,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    if (map[i,j].Terrain == TerrainType.Floor && map.GetInternalTile(i, j).Scratch != CheckConnectivityScratchValue)
+                    if (map[i, j].Terrain == TerrainType.Floor && map.GetInternalTile(i, j).Scratch != CheckConnectivityScratchValue)
                         return false;
                 }
             }
@@ -102,7 +114,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    if (map[i, j].Terrain == TerrainType.Floor && map.GetInternalTile(i,j).Scratch == 0)
+                    if (map[i, j].Terrain == TerrainType.Floor && map.GetInternalTile(i, j).Scratch == 0)
                     {
                         FloodFill(map, new Point(i, j), currentScratchNumber);
                         currentScratchNumber++;
@@ -122,7 +134,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    if(map[i,j].Terrain == TerrainType.Floor)
+                    if (map[i, j].Terrain == TerrainType.Floor)
                         numberOfTilesWithThatScratch[map.GetInternalTile(i, j).Scratch]++;
                 }
             }
@@ -146,7 +158,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     if (map[i, j].Terrain == TerrainType.Floor && map.GetInternalTile(i, j).Scratch != biggestNumber)
                         map.GetInternalTile(i, j).Terrain = TerrainType.Wall;
 
-                    //And reset the scratch while we're here
+                    // And reset the scratch while we're here
                     map.GetInternalTile(i, j).Scratch = 0;
                 }
             }
@@ -168,32 +180,37 @@ namespace Magecrawl.GameEngine.Level.Generator
             throw new System.ApplicationException("GetFirstClearPoint found no clear points");
         }
 
-        private static List<Point> SurroundingOneSquareList = new List<Point> { new Point(-1,-1), new Point(-1,0), new Point(-1,1),
-            new Point(0,-1), new Point(0,1), new Point(1,-1), new Point(1,0), new Point(1,1), new Point(0,0)};
+        private static List<Point> surroundingOneSquareList = new List<Point>
+        { 
+            new Point(-1, -1), new Point(-1, 0), new Point(-1, 1),
+            new Point(0, -1), new Point(0, 1), new Point(1, -1), new Point(1, 0), new Point(1, 1), new Point(0, 0)
+        };
 
-        private static List<Point> SurroundingTwoSquareList = new List<Point> { new Point(-1,-2),
-            new Point(0,-2), new Point(1,-2), new Point(-2,-1), new Point(2,-1), new Point(-2,0), new Point(2,0), 
-            new Point(-2,1), new Point(2,1), new Point(-1,2), new Point(0,2), new Point(1,2), new Point(-1,-1), new Point(-1,0), new Point(-1,1),
-            new Point(0,-1), new Point(0,1), new Point(1,-1), new Point(1,0), new Point(1,1), new Point(0,0)};
+        private static List<Point> surroundingTwoSquareList = new List<Point> 
+        {
+            new Point(-1, -2), new Point(0, -2), new Point(1, -2), new Point(-2, -1), new Point(2, -1), new Point(-2, 0), new Point(2, 0), 
+            new Point(-2, 1), new Point(2, 1), new Point(-1, 2), new Point(0, 2), new Point(1, 2), new Point(-1, -1), new Point(-1, 0), new Point(-1, 1),
+            new Point(0, -1), new Point(0, 1), new Point(1, -1), new Point(1, 0), new Point(1, 1), new Point(0, 0) 
+        };
 
         public static int CountNumberOfSurroundingFloorTilesOneStepAway(Map map, int x, int y)
         {
-            return CountNumberOfSurroundingTilesCore(SurroundingOneSquareList, map, x, y, TerrainType.Floor);
+            return CountNumberOfSurroundingTilesCore(surroundingOneSquareList, map, x, y, TerrainType.Floor);
         }
 
         public static int CountNumberOfSurroundingFloorTilesTwoStepAway(Map map, int x, int y)
         {
-            return CountNumberOfSurroundingTilesCore(SurroundingTwoSquareList, map, x, y, TerrainType.Floor);
+            return CountNumberOfSurroundingTilesCore(surroundingTwoSquareList, map, x, y, TerrainType.Floor);
         }
 
         public static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)
         {
-            return CountNumberOfSurroundingTilesCore(SurroundingOneSquareList, map, x, y, TerrainType.Wall);
+            return CountNumberOfSurroundingTilesCore(surroundingOneSquareList, map, x, y, TerrainType.Wall);
         }
 
         public static int CountNumberOfSurroundingWallTilesTwoStepAway(Map map, int x, int y)
         {
-            return CountNumberOfSurroundingTilesCore(SurroundingTwoSquareList, map, x, y, TerrainType.Wall);
+            return CountNumberOfSurroundingTilesCore(surroundingTwoSquareList, map, x, y, TerrainType.Wall);
         }
 
         private static int CountNumberOfSurroundingTilesCore(List<Point> tileList, Map map, int x, int y, TerrainType typeToLookFor)
@@ -213,20 +230,22 @@ namespace Magecrawl.GameEngine.Level.Generator
             return numberOfFloorTileSurrounding;
         }
 
-        protected void GenerateMonstersAndChests(Map map)
+        protected void GenerateMonstersAndChests(Map map, Point playerPosition)
         {
+            const int DistanceFromPlayerToKeepClear = 5;
             int monsterToGenerate = m_random.GetRandomInt(10, 20);
             for (int i = 0; i < monsterToGenerate; ++i)
             {
                 Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster");
-                newMonster.Position = GetClearPoint(map);
+                newMonster.Position = GetClearPoint(map, playerPosition, DistanceFromPlayerToKeepClear);
                 map.AddMonster(newMonster);
             }
 
             int treasureToGenerate = m_random.GetRandomInt(3, 6);
             for (int i = 0; i < treasureToGenerate; ++i)
             {
-                MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", GetClearPoint(map));
+                Point position = GetClearPoint(map, playerPosition, DistanceFromPlayerToKeepClear);
+                MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", position);
                 map.AddMapItem(treasure);
             }
         }

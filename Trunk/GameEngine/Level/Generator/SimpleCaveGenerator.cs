@@ -12,34 +12,34 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
         }    
 
-        internal Map GenerateMap()
+        internal Map GenerateMap(out Point playerPosition)
         {
-            int Width = m_random.GetRandomInt(40, 60); 
-            int Height = m_random.GetRandomInt(40, 60);
-            Map map = new Map(Width, Height);
+            int width = m_random.GetRandomInt(40, 60); 
+            int height = m_random.GetRandomInt(40, 60);
+            Map map = new Map(width, height);
 
             // Fill non-sides with random bits
-            for (int i = 1; i < Width - 1; ++i)
+            for (int i = 1; i < width - 1; ++i)
             {
-                for (int j = 1; j < Height - 1; ++j)
+                for (int j = 1; j < height - 1; ++j)
                 {
                     if (m_random.Chance(40))
-                        map.GetInternalTile(i,j).Terrain = TerrainType.Wall;
+                        map.GetInternalTile(i, j).Terrain = TerrainType.Wall;
                     else
                         map.GetInternalTile(i, j).Terrain = TerrainType.Floor;
                 }
             }
 
             // Fill edges with walls
-            for (int i = 0; i < Width; ++i)
+            for (int i = 0; i < width; ++i)
             {
                 map.GetInternalTile(i, 0).Terrain = TerrainType.Wall;
-                map.GetInternalTile(i, Height - 1).Terrain = TerrainType.Wall;
+                map.GetInternalTile(i, height - 1).Terrain = TerrainType.Wall;
             }
-            for (int j = 0; j < Height; ++j)
+            for (int j = 0; j < height; ++j)
             {
                 map.GetInternalTile(0, j).Terrain = TerrainType.Wall;
-                map.GetInternalTile(Width - 1, j).Terrain = TerrainType.Wall;
+                map.GetInternalTile(width - 1, j).Terrain = TerrainType.Wall;
             }
 
             // For 4 iterators, apply 1stset 1 rules...
@@ -52,9 +52,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                 Map currentIterationMap = map.CopyMap();
                 
                 // Walk tiles, applying rule to local copy
-                for (int i = 1; i < Width - 1; ++i)
+                for (int i = 1; i < width - 1; ++i)
                 {
-                    for (int j = 1; j < Height - 1; ++j)
+                    for (int j = 1; j < height - 1; ++j)
                     {
                         int closeWalls = CountNumberOfSurroundingWallTilesOneStepAway(map, i, j);
                         int farWalls = CountNumberOfSurroundingWallTilesTwoStepAway(map, i, j);
@@ -70,8 +70,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 // Push our changes out
                 map = currentIterationMap;
             }
-
-            
+           
             // For 4 iterators, apply 2nd set of rules...
             // If we're near(1 tile) 5 or more walls we're now a wall
             for (int z = 0; z < 4; ++z)
@@ -80,9 +79,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                 Map currentIterationMap = map.CopyMap();
 
                 // Walk tiles, applying rule to local copy
-                for (int i = 1; i < Width - 1; ++i)
+                for (int i = 1; i < width - 1; ++i)
                 {
-                    for (int j = 1; j < Height - 1; ++j)
+                    for (int j = 1; j < height - 1; ++j)
                     {
                         int closeWalls = CountNumberOfSurroundingWallTilesOneStepAway(map, i, j);
 
@@ -99,7 +98,9 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             FillAllSmallerUnconnectedRooms(map);
 
-            GenerateMonstersAndChests(map);
+            playerPosition = GetClearPoint(map);
+
+            GenerateMonstersAndChests(map, playerPosition);
 
             return map;
         }

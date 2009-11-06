@@ -4,12 +4,12 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Level;
+using Magecrawl.GameEngine.Level.Generator;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Level.Generator;
 
 namespace Magecrawl.GameEngine
 {
@@ -45,13 +45,11 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            //m_player = new Player(1, 1);
-            //m_map = new Map(50, 50);
-            //m_map.CreateDemoMap();
             using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
             {
-                m_map = mapGenerator.GenerateMap();
-                m_player = new Player(mapGenerator.GetClearPoint(m_map));
+                Point playerPosition;
+                m_map = mapGenerator.GenerateMap(out playerPosition);
+                m_player = new Player(playerPosition);
             }
 
             m_timingEngine = new CoreTimingEngine();
