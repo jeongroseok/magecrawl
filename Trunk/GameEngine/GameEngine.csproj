@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\ITargetablePoints.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potion.cs" />
+    <Compile Include="Level\Generator\StitchtogeatherMapGenerator.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
     <Compile Include="FOVManager.cs" />

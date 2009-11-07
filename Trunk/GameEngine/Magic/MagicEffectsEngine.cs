@@ -136,7 +136,7 @@ namespace Magecrawl.GameEngine.Magic
 
         private static bool HandleTeleport(Character caster, int range)
         {
-            List<EffectivePoint> targetablePoints = PointListUtils.PointListFromBurstPosition(caster.Position, range);
+            List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(caster.Position, range);
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, caster.Position, caster.Vision, false);
 
             // If there's no where to go, we're done

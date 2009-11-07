@@ -144,4 +144,9 @@
       <Link>Resources\Spells.xml</Link>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\dist\Map\DungeonChunks.dat">
+      <Link>Resources\DungeonChunks.dat</Link>
+    </None>
+  </ItemGroup>
 </Project>

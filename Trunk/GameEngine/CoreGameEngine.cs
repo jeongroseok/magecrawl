@@ -45,7 +45,7 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
+            using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
             {
                 Point playerPosition;
                 m_map = mapGenerator.GenerateMap(out playerPosition);

@@ -84,7 +84,7 @@ namespace Magecrawl.Keyboard.Magic
                     // Get targetable points.
                     string[] targetParts = spell.TargetType.Split(':');
                     int range = int.Parse(targetParts[1]);
-                    List<EffectivePoint> targetablePoints = PointListUtils.PointListFromBurstPosition(m_engine.Player.Position, range);
+                    List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, range);
                     m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
 
                     // Setup delegate to do action on target

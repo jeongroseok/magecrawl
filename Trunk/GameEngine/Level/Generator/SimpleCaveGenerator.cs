@@ -6,7 +6,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
-    internal class SimpleCaveGenerator : MapGeneratorBase, IDisposable
+    internal sealed class SimpleCaveGenerator : MapGeneratorBase
     {
         internal SimpleCaveGenerator() : base()
         {
@@ -30,17 +30,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
             }
 
-            // Fill edges with walls
-            for (int i = 0; i < width; ++i)
-            {
-                map.GetInternalTile(i, 0).Terrain = TerrainType.Wall;
-                map.GetInternalTile(i, height - 1).Terrain = TerrainType.Wall;
-            }
-            for (int j = 0; j < height; ++j)
-            {
-                map.GetInternalTile(0, j).Terrain = TerrainType.Wall;
-                map.GetInternalTile(width - 1, j).Terrain = TerrainType.Wall;
-            }
+            FillEdgesWithWalls(map);
 
             // For 4 iterators, apply 1stset 1 rules...
             // If we're near(1 tile) 5 or more walls

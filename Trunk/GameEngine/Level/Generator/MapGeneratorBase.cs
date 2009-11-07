@@ -9,7 +9,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
-    internal class MapGeneratorBase
+    internal class MapGeneratorBase : IDisposable
     {
         protected TCODRandom m_random;
 
@@ -106,25 +106,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         protected void FillAllSmallerUnconnectedRooms(Map map)
         {
-            ResetScratch(map);
-            int currentScratchNumber = 1;
-            
-            // First we walk the entire map, flood filling each 
-            for (int i = 0; i < map.Width; ++i)
-            {
-                for (int j = 0; j < map.Height; ++j)
-                {
-                    if (map[i, j].Terrain == TerrainType.Floor && map.GetInternalTile(i, j).Scratch == 0)
-                    {
-                        FloodFill(map, new Point(i, j), currentScratchNumber);
-                        currentScratchNumber++;
-                    }
-                }
-            }
-
-            // If we didn't scratch any tiles, the map must be all walls, bail
-            if (currentScratchNumber == 1)
-                throw new InvalidOperationException("FillAllSmallerUnconnectedRooms came to a level with all walls?");
+            int currentScratchNumber = FloodFillWithContigiousNumbers(map);
 
             // Walk each tile, and count up the different groups.
             int[] numberOfTilesWithThatScratch = new int[currentScratchNumber];
@@ -165,6 +147,31 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             if (!CheckConnectivity(map))
                 throw new InvalidOperationException("FillAllSmallerUnconnectedRooms produced a non-connected map.");
+        }
+
+        // Try to flood fill the map. Each seperate contigious spot gets a different scratch number.
+        protected int FloodFillWithContigiousNumbers(Map map)
+        {
+            ResetScratch(map);
+            int currentScratchNumber = 1;
+
+            // First we walk the entire map, flood filling each 
+            for (int i = 0; i < map.Width; ++i)
+            {
+                for (int j = 0; j < map.Height; ++j)
+                {
+                    if (map[i, j].Terrain == TerrainType.Floor && map.GetInternalTile(i, j).Scratch == 0)
+                    {
+                        FloodFill(map, new Point(i, j), currentScratchNumber);
+                        currentScratchNumber++;
+                    }
+                }
+            }
+
+            // If we didn't scratch any tiles, the map must be all walls, bail
+            if (currentScratchNumber == 1)
+                throw new InvalidOperationException("FillAllSmallerUnconnectedRooms came to a level with all walls?");
+            return currentScratchNumber;
         }
 
         private Point GetFirstClearPoint(Map map)
@@ -228,6 +235,21 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
             }
             return numberOfFloorTileSurrounding;
+        }
+
+        protected void FillEdgesWithWalls(Map map)
+        {
+            // Fill edges with walls
+            for (int i = 0; i < map.Width; ++i)
+            {
+                map.GetInternalTile(i, 0).Terrain = TerrainType.Wall;
+                map.GetInternalTile(i, map.Height - 1).Terrain = TerrainType.Wall;
+            }
+            for (int j = 0; j < map.Height; ++j)
+            {
+                map.GetInternalTile(0, j).Terrain = TerrainType.Wall;
+                map.GetInternalTile(map.Width - 1, j).Terrain = TerrainType.Wall;
+            }
         }
 
         protected void GenerateMonstersAndChests(Map map, Point playerPosition)
