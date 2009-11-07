@@ -52,14 +52,15 @@ namespace Magecrawl.GameUI.Map.Debug
                 {
                     for (int j = 0; j < m_height; ++j)
                     {
-                        Point screenPlacement = new Point(m_mapUpCorner.X + i + 1, m_mapUpCorner.Y + j + 1);
+                        int screenPlacementX = m_mapUpCorner.X + i + 1;
+                        int screenPlacementY = m_mapUpCorner.Y + j + 1;
 
-                        if (IsDrawableTile(screenPlacement))
+                        if (IsDrawableTile(screenPlacementX, screenPlacementY))
                         {
                             if (m_moveableGrid[i, j])
-                                screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkGreen);
+                                screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.DarkGreen);
                             else
-                                screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);
+                                screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.DarkRed);
                         }
                     }
                 }

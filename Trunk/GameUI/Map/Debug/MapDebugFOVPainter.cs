@@ -66,19 +66,21 @@ namespace Magecrawl.GameUI.Map.Debug
             {
                 foreach (Point p in m_playerFOV)
                 {
-                    Point screenPlacement = new Point(m_mapUpCorner.X + p.X + 1, m_mapUpCorner.Y + p.Y + 1);
-                    if (IsDrawableTile(screenPlacement))
-                        screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, TCODColorPresets.DarkRed);
+                    int screenPlacementX = m_mapUpCorner.X + p.X + 1;
+                    int screenPlacementY = m_mapUpCorner.Y + p.Y + 1;
+                    if (IsDrawableTile(screenPlacementX, screenPlacementY))
+                        screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.DarkRed);
                 }
                 foreach (ICharacter c in m_monsterFOV.Keys)
                 {
                     foreach (Point p in m_monsterFOV[c])
                     {
-                        Point screenPlacement = new Point(m_mapUpCorner.X + p.X + 1, m_mapUpCorner.Y + p.Y + 1);
-                        if (IsDrawableTile(screenPlacement))
+                        int screenPlacementX = m_mapUpCorner.X + p.X + 1;
+                        int screenPlacementY = m_mapUpCorner.Y + p.Y + 1;
+                        if (IsDrawableTile(screenPlacementX, screenPlacementY))
                         {
-                            Color currentColor = screen.GetCharBackground(screenPlacement.X, screenPlacement.Y);
-                            screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, Color.Interpolate(currentColor, GetColorForMonster(c), .6));
+                            Color currentColor = screen.GetCharBackground(screenPlacementX, screenPlacementY);
+                            screen.SetCharBackground(screenPlacementX, screenPlacementY, Color.Interpolate(currentColor, GetColorForMonster(c), .6));
                         }
                     }
                 }

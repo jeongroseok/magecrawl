@@ -38,14 +38,15 @@ namespace Magecrawl.GameUI.Map
             {
                 foreach (EffectivePoint point in m_targetablePoints)
                 {
-                    Point screenPlacement = new Point(m_mapUpCorner.X + point.Position.X + 1, m_mapUpCorner.Y + point.Position.Y + 1);
+                    int screenPlacementX = m_mapUpCorner.X + point.Position.X + 1;
+                    int screenPlacementY = m_mapUpCorner.Y + point.Position.Y + 1;
 
-                    if (IsDrawableTile(screenPlacement))
+                    if (IsDrawableTile(screenPlacementX, screenPlacementY))
                     {
                         Color attackColor = Color.Interpolate(TCODColorPresets.Black, TCODColorPresets.BrightGreen, point.EffectiveStrength);
-                        Color currentColor = screen.GetCharBackground(screenPlacement.X, screenPlacement.Y);
+                        Color currentColor = screen.GetCharBackground(screenPlacementX, screenPlacementY);
                         Color newColor = Color.Interpolate(currentColor, attackColor, .5f);
-                        screen.SetCharBackground(screenPlacement.X, screenPlacement.Y, newColor);
+                        screen.SetCharBackground(screenPlacementX, screenPlacementY, newColor);
                     }
                 }
             }

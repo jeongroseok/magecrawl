@@ -76,27 +76,29 @@ namespace Magecrawl.GameUI.Map
 
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
         {
-            Point screenPlacement = new Point(mapUpCorner.X + position.X + 1, mapUpCorner.Y + position.Y + 1);
+            int screenPlacementX = mapUpCorner.X + position.X + 1;
+            int screenPlacementY = mapUpCorner.Y + position.Y + 1;
 
-            if (IsDrawableTile(screenPlacement))
+            if (IsDrawableTile(screenPlacementX, screenPlacementY))
             {
-                screen.PutChar(screenPlacement.X, screenPlacement.Y, symbol);
+                screen.PutChar(screenPlacementX, screenPlacementY, symbol);
             }
         }
 
         private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol)
         {
-            Point screenPlacement = new Point(mapUpCorner.X + position.X + 1, mapUpCorner.Y + position.Y + 1);
+            int screenPlacementX = mapUpCorner.X + position.X + 1;
+            int screenPlacementY = mapUpCorner.Y + position.Y + 1;
 
-            if (IsDrawableTile(screenPlacement))
+            if (IsDrawableTile(screenPlacementX, screenPlacementY))
             {
-                char currentChar = screen.GetChar(screenPlacement.X, screenPlacement.Y);
+                char currentChar = screen.GetChar(screenPlacementX, screenPlacementY);
 
                 // If we already have one of those, or the multipleSymbol, draw the multipleSymbole, else draw normal.
                 if (currentChar == symbol || currentChar == multipleSymbol)
-                    screen.PutChar(screenPlacement.X, screenPlacement.Y, multipleSymbol);
+                    screen.PutChar(screenPlacementX, screenPlacementY, multipleSymbol);
                 else 
-                    screen.PutChar(screenPlacement.X, screenPlacement.Y, symbol);
+                    screen.PutChar(screenPlacementX, screenPlacementY, symbol);
             }
         }
     }
