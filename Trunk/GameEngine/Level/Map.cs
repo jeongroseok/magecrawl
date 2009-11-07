@@ -151,43 +151,38 @@ namespace Magecrawl.GameEngine.Level
             return m_map[width, height];
         }
 
-        internal void CreateDemoMap()
+        // This is a debugging tool. It prints out a map to Console Out. Usefor for visualizing a map.
+        internal void PrintMapToStdOut()
         {
-            using (StreamReader reader = File.OpenText("map.txt"))
+            for (int j = 0; j < Height; ++j)
             {
-                Random random = new Random();
-                string sizeLine = reader.ReadLine();
-                string[] sizes = sizeLine.Split(' ');
-                m_width = Int32.Parse(sizes[0]);
-                m_height = Int32.Parse(sizes[1]);
-                m_map = new MapTile[m_width, m_height];
-
-                for (int j = 0; j < m_height; ++j)
-                {
-                    string tileLine = reader.ReadLine();
-                    for (int i = 0; i < m_width; ++i)
-                    {
-                        m_map[i, j] = new MapTile();
-                        if (tileLine[i] != '#')
-                            m_map[i, j].Terrain = TerrainType.Floor;
-                        switch (tileLine[i])
-                        {
-                            case ':':
-                                m_mapObjects.Add(new MapDoor(new Point(i, j)));
-                                break;
-                            case 'M':
-                                m_monsterList.Add(new Monster(new Point(i, j)));
-                                break;
-                            case '!':
-                                m_items.Add(new Pair<Item, Point>(CoreGameEngine.Instance.ItemFactory.CreateItem("Simple Short Bow"), new Point(i, j)));
-                                break;
-                            case '+':
-                                m_mapObjects.Add(new TreasureChest(new Point(i, j)));
-                                break;
-                        }
-                    }
-                }
+                for (int i = 0; i < Width; ++i)
+                    System.Console.Out.Write(m_map[i, j].Terrain == TerrainType.Wall ? '#' : '.');
+                System.Console.Out.WriteLine();
             }
+            System.Console.Out.WriteLine();
+        }
+
+        // This is a debugging tool. It prints out a map to Console Out with its scratch values
+        internal void PrintScratchMapToStdOut()
+        {
+            for (int j = 0; j < Height; ++j)
+            {
+                for (int i = 0; i < Width; ++i)
+                    System.Console.Out.Write(ConvertScratchToDebugSymbol(m_map[i, j].Scratch));
+                System.Console.Out.WriteLine();
+            }
+            System.Console.Out.WriteLine();
+        }
+
+        private string ConvertScratchToDebugSymbol(int scratch)
+        {
+            if (scratch == -1)
+                return '*'.ToString();
+            else if (scratch < 9)
+                return scratch.ToString();
+            else
+                return ((char)((int)'a' + scratch - 9)).ToString();
         }
 
         internal bool IsPointOnMap(Point p)
