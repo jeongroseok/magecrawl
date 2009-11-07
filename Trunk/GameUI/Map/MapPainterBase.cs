@@ -42,10 +42,12 @@ namespace Magecrawl.GameUI
             }
         }
 
-        protected static bool IsDrawableTile(Point p)
+        // Normally this'd take a Point, but we don't want people allocating Points()
+        // all over in GUI redraw loops (slow stuff down).
+        protected static bool IsDrawableTile(int x, int y)
         {
-            bool xOk = p.X >= 1 && p.X < MapDrawnWidth;
-            bool yOk = p.Y >= 1 && p.Y < MapDrawnHeight;
+            bool xOk = x >= 1 && x < MapDrawnWidth;
+            bool yOk = y >= 1 && y < MapDrawnHeight;
             return xOk && yOk;
         }
 
