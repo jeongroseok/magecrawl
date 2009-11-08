@@ -36,8 +36,13 @@ namespace Magecrawl.GameUI
             // TODO - What happens if this is more then 2 lines worth?
             screen.PrintLineRect(statusEffects.ToString(), StartingX + 2, 6, InfoWidth - 4, 2, LineAlignment.Left);
             
+            #if DEBUG
+            string position = player.Position.ToString();
+            screen.PrintLine(position, 52, 57, LineAlignment.Left);
+
             string fps = TCODSystem.FPS.ToString();
             screen.PrintLine(fps, 52, 58, LineAlignment.Left);
+            #endif
         }
     }
 }
