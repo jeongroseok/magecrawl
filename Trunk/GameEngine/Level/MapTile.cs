@@ -28,6 +28,13 @@ namespace Magecrawl.GameEngine.Level
             Scratch = 0;
         }
 
+        internal MapTile(MapTile t)
+        {
+            m_type = t.m_type;
+            m_visited = t.Visited;
+            Scratch = t.Scratch;
+        }
+
         public TerrainType Terrain
         {
             get 

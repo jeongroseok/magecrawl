@@ -36,24 +36,46 @@ namespace Magecrawl.GameEngine.Level.Generator
                 MapSegment = new MapTile[Width, Height];
             }
 
+            internal MapChunk(MapChunk chunk)
+            {
+                Width = chunk.Width;
+                Height = chunk.Height;
+                Seams = new List<Point>(chunk.Seams);
+                MonsterSpawns = new List<Point>(chunk.MonsterSpawns);
+                TreasureChests = new List<Point>(chunk.TreasureChests);
+                Cosmetics = new List<Point>(chunk.Cosmetics);
+                PlayerPosition = chunk.PlayerPosition;
 
-            // Return if placed
-            internal bool PlaceChunkOnMap(Map map, Point seamToFitAgainst)
+                MapSegment = new MapTile[Width, Height];
+                for (int i = 0; i < Width; ++i)
+                {
+                    for (int j = 0; j < Height; ++j)
+                    {
+                        MapSegment[i, j] = new MapTile(chunk.MapSegment[i, j]);
+                    }
+                }
+            }
+
+            // Return UpperLeftCorner placed on if placed. Else Invalid Point
+            internal Point PlaceChunkOnMap(Map map, Point seamToFitAgainst)
             {
                 foreach (Point s in Seams)
                 {
                     foreach (Point offset in new List<Point>() {new Point(1,0), new Point(-1,0), new Point(0,1), new Point(0,-1)} )
                     {
+                        System.Console.Out.WriteLine(offset.ToString());
                         Point upperLeftCorner = seamToFitAgainst + offset - s;
+                        // We want to use the offset to see if we'd fit without a problem.
                         if (IsPositionClear(map, upperLeftCorner))
                         {
-                            PlaceChunkOnMapAtPosition(map, upperLeftCorner);
+                            // But we don't want to use it to place, since we want to override the entrace.
+                            PlaceChunkOnMapAtPosition(map, upperLeftCorner - offset);
                             Seams.Remove(s);
-                            return true;
+                            return upperLeftCorner - offset;
                         }
                     }
                 }
-                return false;
+                return Point.Invalid;
             }
 
             private bool IsPositionClear(Map map, Point upperLeftCorner)
@@ -71,7 +93,6 @@ namespace Magecrawl.GameEngine.Level.Generator
                 return true;
             }
 
-            // Returns seams unfilled
             internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
             {
                 for (int i = 0; i < Width; ++i)
@@ -193,6 +214,15 @@ namespace Magecrawl.GameEngine.Level.Generator
                 Neighbors.Add(neighbor);
             }
 
+            internal void RemoveNeighbor(MapNode neighbor)
+            {
+                Neighbors.Remove(neighbor);
+            }
+
+            public override string ToString()
+            {
+                return Type.ToString() + " - " + UniqueID.ToString();
+            }
         }
 
         private List<MapChunk> m_entrances;
@@ -212,25 +242,26 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_treasureRooms = new List<MapChunk>();
             m_sideRooms = new List<MapChunk>();
             m_playerPosition = Point.Invalid;
-            LoadChuncksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
+            LoadChunksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
         }
 
         internal Map GenerateMap(out Point playerPosition)
         {
             MapNode graphHead = GenerateMapGraph();
 
-            int width = 100;
-            int height = 100;
+            int width = 250;
+            int height = 250;
             Map map = new Map(width, height);
 
-            Point center = new Point(m_random.GetRandomInt(20, 30), m_random.GetRandomInt(20, 30));
-            //Point center = new Point(m_random.GetRandomInt(80, 120), m_random.GetRandomInt(80, 120));
+            Point center = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
 
             GenerateMapFromGraph(graphHead, map, center);
 
-            ValidateAllNodesAreGenerated(graphHead);
-
             playerPosition = m_playerPosition;
+
+            if (!CheckConnectivity(map))
+                throw new System.InvalidOperationException("Generated non-connected map");
+
             return map;
         }
 
@@ -243,7 +274,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private MapChunk GetRandomChunkFromList(List<MapChunk> chunk)
         {
-            return chunk[m_random.GetRandomInt(0, chunk.Count - 1)];
+            return new MapChunk(chunk[m_random.GetRandomInt(0, chunk.Count - 1)]);
         }
 
         private void GenerateMapFromGraph(MapNode current, Map map, Point seam)
@@ -259,14 +290,14 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 case MapNodeType.Entrance:
                 {
+                    Point entraceUpperLeftCorner = seam;
                     MapChunk entranceChunk = GetRandomChunkFromList(m_entrances);
-                    entranceChunk.PlaceChunkOnMapAtPosition(map, seam);
-                    m_playerPosition = entranceChunk.PlayerPosition + seam;
+                    entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner);
+                    m_playerPosition = entranceChunk.PlayerPosition + entraceUpperLeftCorner;
 
                     if(current.Neighbors.Count != entranceChunk.Seams.Count)
                         throw new InvalidOperationException("Number of neighbors should equal number of seams.");
-                    for(int i = 0 ; i < current.Neighbors.Count ; ++i)
-                        GenerateMapFromGraph(current.Neighbors[i], map, entranceChunk.Seams[i] + seam);
+                    WalkNeighbors(current, entranceChunk, map, entraceUpperLeftCorner);
                     break;
                 }
                 case MapNodeType.Hall:
@@ -278,17 +309,11 @@ namespace Magecrawl.GameEngine.Level.Generator
                     bool rightIsWall = map[seam + new Point(1, 0)].Terrain == TerrainType.Wall;
                     if (aboveIsWall && belowIsWall)
                     {
-                        MapChunk horizontalHall = GetRandomChunkFromList(m_horizontalHalls);
-                        bool placedWell = horizontalHall.PlaceChunkOnMap(map, seam);
-                        if(!placedWell)
-                            map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                        PlaceMapNode(current,  GetRandomChunkFromList(m_horizontalHalls), map, seam);
                     }
                     else if (leftIsWall && rightIsWall)
                     {
-                        MapChunk verticalHall = GetRandomChunkFromList(m_verticalHalls);
-                        bool placedWell = verticalHall.PlaceChunkOnMap(map, seam);
-                        if (!placedWell)
-                            map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                        PlaceMapNode(current, GetRandomChunkFromList(m_verticalHalls), map, seam);
                     }
                     else
                     {
@@ -299,8 +324,13 @@ namespace Magecrawl.GameEngine.Level.Generator
                 case MapNodeType.None:
                 {
                     map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
-                    if (current.Neighbors.Count != 1)
-                        throw new InvalidOperationException("None Node types should only have 1 neighbor");
+                    if (current.Neighbors.Count != 0)
+                        throw new InvalidOperationException("None Node types should only have no neighbors");
+                    break;
+                }
+                case MapNodeType.MainRoom:
+                {
+                    PlaceMapNode(current, GetRandomChunkFromList(m_mainRooms), map, seam);
                     break;
                 }
                 case MapNodeType.NoneGivenYet:
@@ -310,46 +340,117 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         }
 
-
-        private void ValidateAllNodesAreGenerated(MapNode current)
+        private void PlaceMapNode(MapNode current, MapChunk mapChunk, Map map, Point seam)
         {
-            const int ValidateScratchValue = 2;
+            const int numberOfTriesForEachNode = 5;
+            for (int i = 0; i < numberOfTriesForEachNode; ++i)
+            {
+                Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
+                if (placedUpperLeftCorner == Point.Invalid)
+                {
+                    map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                }
+                else
+                {
+                    WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner);
+                    break;
+                }
+            }
+        }
 
-            if (current.Scratch == ValidateScratchValue)
-                return;
-
-            PrintDebugString("Validating - " + current.UniqueID.ToString());
-
-            if (current.Generated != true)
-                throw new InvalidOperationException("Not all mapnodes were visited?");
-            current.Scratch = ValidateScratchValue;
-
-            foreach (MapNode node in current.Neighbors)
-                ValidateAllNodesAreGenerated(node);
+        private void WalkNeighbors(MapNode currentNode, MapChunk currentChunk, Map map, Point upperLeft)
+        {
+            while(currentNode.Neighbors.Count > 0)
+            {
+                MapNode nextNode = currentNode.Neighbors[0];
+                nextNode.RemoveNeighbor(currentNode);
+                currentNode.RemoveNeighbor(nextNode);
+                Point seam = currentChunk.Seams[0];
+                currentChunk.Seams.Remove(seam);
+                GenerateMapFromGraph(nextNode, map, seam + upperLeft);
+            }
         }
 
         private MapNode GenerateMapGraph()
         {
+            const int numberOfHallsToGenerate = 20;
+            const int numberOfMainRoomsToGenerate = 4;
+
+            int numberOfHallsGenerated = 0;
+            int numberOfMainRoomsGenerated = 0;
+
             MapNode graphHead = new MapNode(MapNodeType.Entrance);
 
             Queue<MapNode> nodesToHandle = new Queue<MapNode>();
-            for(int i = 0 ; i < 4 ; ++i)
-            {
-                MapNode neightbor = new MapNode();
-                graphHead.AddNeighbor(neightbor);
-                neightbor.AddNeighbor(graphHead);
-                nodesToHandle.Enqueue(neightbor);
-            }
+            nodesToHandle.Enqueue(graphHead);
+
             while (nodesToHandle.Count > 0)
             {
                 MapNode currentNode = nodesToHandle.Dequeue();
-                currentNode.Type = MapNodeType.Hall;
+                switch (currentNode.Type)
+                {
+                    case MapNodeType.Entrance:
+                    {
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            if (m_random.Chance(50))
+                            {
+                                if (numberOfHallsGenerated < numberOfHallsToGenerate)
+                                {
+                                    AddNeighborsToNode(MapNodeType.Hall, currentNode, nodesToHandle);
+                                    numberOfHallsGenerated++;
+                                }
+                                else
+                                {
+                                    AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                                }
+                            }
+                            else
+                            {
+                                if (numberOfMainRoomsGenerated < numberOfMainRoomsToGenerate)
+                                {
+                                    AddNeighborsToNode(MapNodeType.MainRoom, currentNode, nodesToHandle);
+                                    numberOfHallsGenerated++;
+                                }
+                                else
+                                {
+                                    AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                                }
+                            }
+
+                        }
+                        break;
+                    }
+                    case MapNodeType.Hall:
+                    {
+                        AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                        break;
+                    }
+                    case MapNodeType.MainRoom:
+                    {
+                        for (int i = 0; i < 3; ++i)
+                            AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                        break;
+                    }
+                    case MapNodeType.None:
+                        break;
+                    default:
+                        throw new InvalidOperationException(string.Format("{0} should not be placed here.", currentNode.Type.ToString()));
+                }
             }
 
             return graphHead;
         }
 
-        private void LoadChuncksFromFile(string fileName)
+        private static void AddNeighborsToNode(MapNodeType type, MapNode parent, Queue<MapNode> nodeQueue)
+        {
+            MapNode neightbor = new MapNode(type);
+            parent.AddNeighbor(neightbor);
+            neightbor.AddNeighbor(parent);
+            nodeQueue.Enqueue(neightbor);
+        }
+
+        private void LoadChunksFromFile(string fileName)
         {
             using (StreamReader inputFile = new StreamReader(fileName))
             {
