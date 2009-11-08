@@ -36,8 +36,43 @@ namespace Magecrawl.GameEngine.Level.Generator
                 MapSegment = new MapTile[Width, Height];
             }
 
+
+            // Return if placed
+            internal bool PlaceChunkOnMap(Map map, Point seamToFitAgainst)
+            {
+                foreach (Point s in Seams)
+                {
+                    foreach (Point offset in new List<Point>() {new Point(1,0), new Point(-1,0), new Point(0,1), new Point(0,-1)} )
+                    {
+                        Point upperLeftCorner = seamToFitAgainst + offset - s;
+                        if (IsPositionClear(map, upperLeftCorner))
+                        {
+                            PlaceChunkOnMapAtPosition(map, upperLeftCorner);
+                            Seams.Remove(s);
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            private bool IsPositionClear(Map map, Point upperLeftCorner)
+            {
+                for (int i = 0; i < Width; ++i)
+                {
+                    for (int j = 0; j < Height; ++j)
+                    {
+                        Point mapPosition = upperLeftCorner + new Point(i,j);
+                        if (map[mapPosition].Terrain == TerrainType.Floor)
+                            return false;
+                    }
+                }
+
+                return true;
+            }
+
             // Returns seams unfilled
-            internal List<Point> PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
+            internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
             {
                 for (int i = 0; i < Width; ++i)
                 {
@@ -51,7 +86,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 foreach (Point monsterPosition in MonsterSpawns)
                 {
                     // TODO: Get monster based on level
-                    map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", monsterPosition));
+                    map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", upperLeftCorner + monsterPosition));
                 }
 
                 foreach (Point treasurePosition in TreasureChests)
@@ -64,14 +99,6 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     // TODO: Handle cosmetics
                 }
-
-                return Seams;
-            }
-
-            // Returns seams unfilled
-            internal void PlaceChunkOnMap(Map map, Point seam)
-            {
-
             }
 
             internal void ReadSegmentFromFile(StreamReader reader)
@@ -192,11 +219,12 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             MapNode graphHead = GenerateMapGraph();
 
-            int width = 200;
-            int height = 200;
+            int width = 100;
+            int height = 100;
             Map map = new Map(width, height);
 
-            Point center = new Point(m_random.GetRandomInt(80, 120), m_random.GetRandomInt(80, 120));
+            Point center = new Point(m_random.GetRandomInt(20, 30), m_random.GetRandomInt(20, 30));
+            //Point center = new Point(m_random.GetRandomInt(80, 120), m_random.GetRandomInt(80, 120));
 
             GenerateMapFromGraph(graphHead, map, center);
 
@@ -239,6 +267,33 @@ namespace Magecrawl.GameEngine.Level.Generator
                         throw new InvalidOperationException("Number of neighbors should equal number of seams.");
                     for(int i = 0 ; i < current.Neighbors.Count ; ++i)
                         GenerateMapFromGraph(current.Neighbors[i], map, entranceChunk.Seams[i] + seam);
+                    break;
+                }
+                case MapNodeType.Hall:
+                {
+                    // First see if we're vertical or horizontal
+                    bool aboveIsWall = map[seam + new Point(0, -1)].Terrain == TerrainType.Wall;
+                    bool belowIsWall = map[seam + new Point(0, 1)].Terrain == TerrainType.Wall;
+                    bool leftIsWall = map[seam + new Point(-1, 0)].Terrain == TerrainType.Wall;
+                    bool rightIsWall = map[seam + new Point(1, 0)].Terrain == TerrainType.Wall;
+                    if (aboveIsWall && belowIsWall)
+                    {
+                        MapChunk horizontalHall = GetRandomChunkFromList(m_horizontalHalls);
+                        bool placedWell = horizontalHall.PlaceChunkOnMap(map, seam);
+                        if(!placedWell)
+                            map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                    }
+                    else if (leftIsWall && rightIsWall)
+                    {
+                        MapChunk verticalHall = GetRandomChunkFromList(m_verticalHalls);
+                        bool placedWell = verticalHall.PlaceChunkOnMap(map, seam);
+                        if (!placedWell)
+                            map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                    }
+                    else
+                    {
+                        throw new System.InvalidOperationException("Can't find good position for hallway?");
+                    }
                     break;
                 }
                 case MapNodeType.None:
@@ -288,7 +343,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             while (nodesToHandle.Count > 0)
             {
                 MapNode currentNode = nodesToHandle.Dequeue();
-                currentNode.Type = MapNodeType.None;
+                currentNode.Type = MapNodeType.Hall;
             }
 
             return graphHead;

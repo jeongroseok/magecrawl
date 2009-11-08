@@ -30,11 +30,16 @@ namespace Magecrawl.GameUI.Map
 
             m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
 
-            for (int i = 0; i < engine.Map.Width; ++i)
+            int lowX = engine.Player.Position.X - MapDrawnWidth / 2;
+            int lowY = engine.Player.Position.Y - MapDrawnHeight / 2;
+            for (int i = lowX; i < lowX + MapDrawnWidth; ++i)
             {
-                for (int j = 0; j < engine.Map.Height; ++j)
+                for (int j = lowY; j < lowY + MapDrawnHeight; ++j)
                 {
-                    DrawThing(mapUpCorner, new Point(i, j), m_offscreenConsole, ConvertTerrianToChar(engine.Map[i, j].Terrain));
+                    if (engine.Map.IsPointOnMap(new Point(i,j)))
+                    {
+                        DrawThing(mapUpCorner, new Point(i, j), m_offscreenConsole, ConvertTerrianToChar(engine.Map[i, j].Terrain));
+                    }
                 }
             }
 

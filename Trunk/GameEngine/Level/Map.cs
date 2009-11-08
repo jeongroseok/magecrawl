@@ -145,6 +145,14 @@ namespace Magecrawl.GameEngine.Level
             }
         }
 
+        public IMapTile this[Point p]
+        {
+            get
+            {
+                return m_map[p.X, p.Y];
+            }
+        }
+
         // We can't overload this[], and sometimes we need to set internal attributes :(
         public MapTile GetInternalTile(int width, int height)
         {
@@ -185,7 +193,7 @@ namespace Magecrawl.GameEngine.Level
                 return ((char)((int)'a' + scratch - 9)).ToString();
         }
 
-        internal bool IsPointOnMap(Point p)
+        public bool IsPointOnMap(Point p)
         {
             return (p.X >= 0) && (p.Y >= 0) && (p.X < Width) && (p.Y < Height);
         }
