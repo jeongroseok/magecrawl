@@ -104,7 +104,7 @@ namespace Magecrawl
             TextBox.Draw(m_console);
             m_console.Flush();
 
-            while (true)
+            while (!m_console.IsWindowClosed())
             {
                 if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
                     break;

@@ -103,9 +103,8 @@ namespace Magecrawl.Keyboard.Magic
                 }
                 else if (spell.TargetType == "Self")
                 {
-                    SpellAnimationHelper spellHelper = new SpellAnimationHelper(m_engine.Player.Position, spell, m_engine, m_gameInstance);
-                    EffectDone onEffectDone = new EffectDone(spellHelper.Invoke);
-                    m_gameInstance.SetHandlerName("Effects", new ShowSelfBuff(onEffectDone, m_engine.Player.Position, color));
+                    m_engine.PlayerCastSpell(spell, m_engine.Player.Position);
+                    m_gameInstance.ResetHandlerName();
                     m_gameInstance.UpdatePainters();
                 }
                 else
