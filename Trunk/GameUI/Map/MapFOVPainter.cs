@@ -11,6 +11,7 @@ namespace Magecrawl.GameUI.Map
         private int m_width;
         private int m_height;
         private TileVisibility[,] m_tileVisibility;
+        private IGameEngine m_engine;
         private Point m_mapCorner;
 
         public MapFOVPainter()
@@ -19,6 +20,7 @@ namespace Magecrawl.GameUI.Map
             m_width = 0;
             m_height = 0;
             m_tileVisibility = null;
+            m_engine = null;
             m_mapCorner = Point.Invalid;
         }
 
@@ -30,6 +32,7 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
+                m_engine = engine;
                 m_tileVisibility = engine.CalculateTileVisibility();
                 m_width = engine.Map.Width;
                 m_height = engine.Map.Height;
@@ -41,28 +44,34 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
-                for (int i = 0; i < m_width; ++i)
+                int lowX = m_engine.Player.Position.X - MapDrawnWidth / 2;
+                int lowY = m_engine.Player.Position.Y - MapDrawnHeight / 2;
+                for (int i = lowX; i < lowX + MapDrawnWidth; ++i)
                 {
-                    for (int j = 0; j < m_height; ++j)
+                    for (int j = lowY; j < lowY + MapDrawnHeight; ++j)
                     {
                         int screenPlacementX = m_mapCorner.X + i + 1;
                         int screenPlacementY = m_mapCorner.Y + j + 1;
 
                         if (IsDrawableTile(screenPlacementX, screenPlacementY))
                         {
-                            if (m_tileVisibility[i, j] == TileVisibility.Unvisited)
+                            if (m_engine.Map.IsPointOnMap(new Point(i, j)))
                             {
-                                // If it's unvisisted, nuke the square completed black
-                                screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
-                                screen.SetCharForeground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
-                                screen.PutChar(screenPlacementX, screenPlacementY, ' ');
-                            }
-                            else if (m_tileVisibility[i, j] == TileVisibility.Visited)
-                            {
-                                // If it's visited, we're going to trust the rest of the painters to respect visibility to not
-                                // draw non-terrain/maptiles
-                                screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
-                                screen.SetCharForeground(screenPlacementX, screenPlacementY, Color.FromRGB(40, 40, 40));
+                                TileVisibility isVisible = m_tileVisibility[i, j];
+                                if (isVisible == TileVisibility.Unvisited)
+                                {
+                                    // If it's unvisisted, nuke the square completed black
+                                    screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
+                                    screen.SetCharForeground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
+                                    screen.PutChar(screenPlacementX, screenPlacementY, ' ');
+                                }
+                                else if (isVisible == TileVisibility.Visited)
+                                {
+                                    // If it's visited, we're going to trust the rest of the painters to respect visibility to not
+                                    // draw non-terrain/maptiles
+                                    screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
+                                    screen.SetCharForeground(screenPlacementX, screenPlacementY, Color.FromRGB(40, 40, 40));
+                                }
                             }
                         }
                     }

@@ -35,5 +35,7 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        bool IsPointOnMap(Point p);
     }
 }

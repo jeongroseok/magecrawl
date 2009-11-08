@@ -98,6 +98,7 @@ namespace Magecrawl
         {
             // Put death information out here.
             SendPaintersRequest(new DisableAllOverlays());
+            m_charInfo.Draw(m_console, m_engine.Player);
             m_painters.DrawNewFrame(m_console);
             TextBox.AddText("Player has died.");
             TextBox.AddText("Press 'q' to exit.");

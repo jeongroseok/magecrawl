@@ -33,7 +33,7 @@ namespace Magecrawl.GameEngine
             m_fovManager = new FOVManager(this, map, player);
             m_combatEngine = new CombatEngine(player, map);
             m_movableHash = new Dictionary<Point, bool>();
-            m_magicEffects = new MagicEffectsEngine(m_combatEngine);
+            m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
         }
 
         public void Dispose()
@@ -188,25 +188,45 @@ namespace Magecrawl.GameEngine
             Point newPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(c.Position, direction);
             if (m_map.IsPointOnMap(newPosition) && IsMovablePoint(m_map, m_player, newPosition))
             {
+                UpdatePlayerVisitedStatus();
                 c.Position = newPosition;
                 m_timingEngine.ActorMadeMove(c);
-                m_fovManager.Update(this, m_map, m_player);    // Operating can change LOS and such
-                UpdatePlayerVisitedStatus();                   // If player can move by other means, need to update here
+                m_fovManager.Update(this, m_map, m_player);
+                UpdatePlayerVisitedStatus();
                 didAnything = true;
             }
             return didAnything;
         }
 
+        internal bool WarpToPosition(Character c, Point p)
+        {
+            UpdatePlayerVisitedStatus();
+            c.Position = p;
+            UpdatePlayerVisitedStatus();
+            return true;
+        }
+
         private void UpdatePlayerVisitedStatus()
         {
             m_fovManager.CalculateForMultipleCalls(m_player.Position, m_player.Vision);
-            for (int i = 0; i < m_map.Width; ++i)
+
+            // Only need Vision really, but to catch off by one errors and such, make it bigger
+            // We're doing this instead of all cells for performance anyway
+            int minX = m_player.Position.X - (m_player.Vision * 2);
+            int minY = m_player.Position.Y - (m_player.Vision * 2);
+            int maxX = m_player.Position.X + (m_player.Vision * 2);
+            int maxY = m_player.Position.Y + (m_player.Vision * 2);
+
+            for (int i = minX; i < maxX; ++i)
             {
-                for (int j = 0; j < m_map.Height; ++j)
+                for (int j = minY; j < maxY; ++j)
                 {
-                    if (m_fovManager.Visible(new Point(i, j)))
+                    if (m_map.IsPointOnMap(new Point(i, j)))
                     {
-                        m_map.GetInternalTile(i, j).Visited = true;
+                        if (m_fovManager.Visible(new Point(i, j)))
+                        {
+                            m_map.GetInternalTile(i, j).Visited = true;
+                        }
                     }
                 }
             }
@@ -262,7 +282,7 @@ namespace Magecrawl.GameEngine
                 {
                     operateObj.Operate();
                     m_timingEngine.ActorDidAction(characterOperating);
-                    m_fovManager.Update(this, m_map, m_player);    // Operating can change LOS and such
+                    m_fovManager.Update(this, m_map, m_player);
                     didAnything = true;
                 }
             }

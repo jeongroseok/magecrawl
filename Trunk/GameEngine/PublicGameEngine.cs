@@ -124,7 +124,7 @@ namespace Magecrawl.GameEngine
             m_engine.Load();
         }
 
-        public List<Magecrawl.Utilities.Point> PlayerPathToPoint(Magecrawl.Utilities.Point dest)
+        public List<Point> PlayerPathToPoint(Magecrawl.Utilities.Point dest)
         {
             return m_engine.PathToPoint(m_engine.Player, dest, true);
         }

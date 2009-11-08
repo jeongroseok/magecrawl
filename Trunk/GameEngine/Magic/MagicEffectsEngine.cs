@@ -11,11 +11,13 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal sealed class MagicEffectsEngine
     {
-        private CombatEngine m_engine;
+        private CombatEngine m_combatEngine;
+        private PhysicsEngine m_physicsEngine;
 
-        internal MagicEffectsEngine(CombatEngine engine)
+        internal MagicEffectsEngine(PhysicsEngine physicsEngine, CombatEngine combatEngine)
         {
-            m_engine = engine;
+            m_combatEngine = combatEngine;
+            m_physicsEngine = physicsEngine;
         }
 
         internal bool CastSpell(Character caster, Spell spell, Point target)
@@ -65,7 +67,7 @@ namespace Magecrawl.GameEngine.Magic
                     OnRangedAffect rangedAttackDelegate = (c, s) =>
                     {
                         int damage = (new DiceRoll(1, 3, 0, s)).Roll();
-                        m_engine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        m_combatEngine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                     };
                     return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, rangedAttackDelegate);
                 }
@@ -91,7 +93,7 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     OnRangedAffect poisonBoltHitDelegate = (c, s) =>
                     {
-                        m_engine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        m_combatEngine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                         c.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
                     };
                     return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, poisonBoltHitDelegate);
@@ -134,7 +136,7 @@ namespace Magecrawl.GameEngine.Magic
             return false;
         }
 
-        private static bool HandleTeleport(Character caster, int range)
+        private bool HandleTeleport(Character caster, int range)
         {
             List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(caster.Position, range);
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, caster.Position, caster.Vision, false);
@@ -147,7 +149,7 @@ namespace Magecrawl.GameEngine.Magic
                 int element = random.GetRandomInt(0, targetablePoints.Count - 1);
                 EffectivePoint pointToTeleport = targetablePoints[element];
                 CoreGameEngine.Instance.SendTextOutput("Things become fuzzy as you shift into a new position.");
-                caster.Position = pointToTeleport.Position;
+                m_physicsEngine.WarpToPosition(caster, pointToTeleport.Position);
             }
             return true;
         }
