@@ -45,6 +45,9 @@ namespace Magecrawl.Keyboard.Inventory
 
         private void ItemSelectedDelegate(INamedItem item)
         {
+            if (item == null)
+                return;
+
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
             m_gameInstance.SetHandlerName("InventoryItem", "Inventory");
             

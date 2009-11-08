@@ -108,6 +108,8 @@ namespace Magecrawl.GameUI.ListSelection
         {
             get 
             {
+                if (m_itemList.Count <= m_cursorPosition)
+                    return null;
                 return m_itemList[m_cursorPosition]; 
             }
         }
