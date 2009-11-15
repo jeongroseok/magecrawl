@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -61,10 +61,10 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 foreach (Point s in Seams)
                 {
-                    foreach (Point offset in new List<Point>() {new Point(1,0), new Point(-1,0), new Point(0,1), new Point(0,-1)} )
+                    foreach (Point offset in new List<Point>() { new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1) })
                     {
                         Point upperLeftCorner = seamToFitAgainst + offset - s;
-                        //Point upperLeftCorner = seamToFitAgainst - s;
+
                         // We want to use the offset to see if we'd fit without a problem.
                         if (IsPositionClear(map, upperLeftCorner))
                         {
@@ -89,7 +89,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     for (int j = 0; j < Height; ++j)
                     {
-                        Point mapPosition = upperLeftCorner + new Point(i,j);
+                        Point mapPosition = upperLeftCorner + new Point(i, j);
                         if (map[mapPosition].Terrain == TerrainType.Floor)
                             return false;
                     }
@@ -104,7 +104,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     for (int j = 0; j < Height; ++j)
                     {
-                        Point mapPosition = upperLeftCorner + new Point(i,j);
+                        Point mapPosition = upperLeftCorner + new Point(i, j);
                         map.GetInternalTile(mapPosition.X, mapPosition.Y).Terrain = MapSegment[i, j].Terrain;
                     }
                 }
@@ -184,7 +184,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private class MapNode
         {
-            static int NextUnqiueID = 1;
+            private static int nextUnqiueID = 1;
 
             public List<MapNode> Neighbors;
             public MapNodeType Type;
@@ -199,8 +199,8 @@ namespace Magecrawl.GameEngine.Level.Generator
                 Generated = false;
                 Scratch = 0;
                 
-                UniqueID = NextUnqiueID;
-                NextUnqiueID++;
+                UniqueID = nextUnqiueID;
+                nextUnqiueID++;
             }
             
             internal MapNode(MapNodeType type)
@@ -210,8 +210,8 @@ namespace Magecrawl.GameEngine.Level.Generator
                 Generated = false;
                 Scratch = 0;
 
-                UniqueID = NextUnqiueID;
-                NextUnqiueID++;
+                UniqueID = nextUnqiueID;
+                nextUnqiueID++;
             }
 
             internal void AddNeighbor(MapNode neighbor)
@@ -258,7 +258,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             int height = 250;
             Map map = new Map(width, height);
 
-            //Point center = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
+            // Point center = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
             Point center = new Point(100, 100);
 
             GenerateMapFromGraph(graphHead, map, center);
@@ -304,7 +304,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner);
                     m_playerPosition = entranceChunk.PlayerPosition + entraceUpperLeftCorner;
 
-                    if(current.Neighbors.Count != entranceChunk.Seams.Count)
+                    if (current.Neighbors.Count != entranceChunk.Seams.Count)
                         throw new InvalidOperationException("Number of neighbors should equal number of seams.");
                     WalkNeighbors(current, entranceChunk, map, entraceUpperLeftCorner);
                     break;
@@ -346,7 +346,6 @@ namespace Magecrawl.GameEngine.Level.Generator
                 default:
                     throw new InvalidOperationException("Trying to generate MapNode from invalid node.");
             }
-
         }
 
         private void PlaceMapNode(MapNode current, MapChunk mapChunk, Map map, Point seam)
@@ -364,7 +363,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private void WalkNeighbors(MapNode currentNode, MapChunk currentChunk, Map map, Point upperLeft)
         {
-            while(currentNode.Neighbors.Count > 0)
+            while (currentNode.Neighbors.Count > 0)
             {
                 MapNode nextNode = currentNode.Neighbors[0];
                 nextNode.RemoveNeighbor(currentNode);
@@ -437,8 +436,8 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private static void GenerateMainroom(ref int numberOfMainRoomsGenerated, Queue<MapNode> nodesToHandle, MapNode currentNode)
         {
-            const int numberOfMainRoomsToGenerate = 4;
-            if (numberOfMainRoomsGenerated < numberOfMainRoomsToGenerate)
+            const int NumberOfMainRoomsToGenerate = 4;
+            if (numberOfMainRoomsGenerated < NumberOfMainRoomsToGenerate)
             {
                 AddNeighborsToNode(MapNodeType.MainRoom, currentNode, nodesToHandle);
                 numberOfMainRoomsGenerated++;
@@ -451,8 +450,8 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private static void GenerateHallway(ref int numberOfHallsGenerated, Queue<MapNode> nodesToHandle, MapNode currentNode)
         {
-            const int numberOfHallsToGenerate = 20;
-            if (numberOfHallsGenerated < numberOfHallsToGenerate)
+            const int NumberOfHallsToGenerate = 20;
+            if (numberOfHallsGenerated < NumberOfHallsToGenerate)
             {
                 AddNeighborsToNode(MapNodeType.Hall, currentNode, nodesToHandle);
                 numberOfHallsGenerated++;
@@ -475,7 +474,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             using (StreamReader inputFile = new StreamReader(fileName))
             {
-                while(!inputFile.EndOfStream)
+                while (!inputFile.EndOfStream)
                 {
                     string definationLine = inputFile.ReadLine();
                     string[] definationParts = definationLine.Split(' ');

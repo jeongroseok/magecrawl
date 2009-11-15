@@ -47,8 +47,8 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
-                int lowX = m_cursorPosition.X - MapDrawnWidth / 2;
-                int lowY = m_cursorPosition.Y - MapDrawnHeight / 2;
+                int lowX = m_cursorPosition.X - (MapDrawnWidth / 2);
+                int lowY = m_cursorPosition.Y - (MapDrawnHeight / 2);
                 for (int i = lowX; i < lowX + MapDrawnWidth; ++i)
                 {
                     for (int j = lowY; j < lowY + MapDrawnHeight; ++j)
