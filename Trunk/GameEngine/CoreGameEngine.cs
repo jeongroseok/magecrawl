@@ -45,8 +45,8 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            // using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
-            using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
+            using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
+            // using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
             {
                 Point playerPosition;
                 m_map = mapGenerator.GenerateMap(out playerPosition);
@@ -61,7 +61,7 @@ namespace Magecrawl.GameEngine
             // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
             m_physicsEngine.AfterPlayerAction(this);
 
-            SendTextOutput("Welcome To Magecrawl");
+            SendTextOutput("Welcome To Magecrawl.");
         }
 
         public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate, string saveGameName)
