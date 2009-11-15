@@ -30,8 +30,8 @@ namespace Magecrawl.GameUI.Map
 
             m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
 
-            int lowX = cursorPosition.X - MapDrawnWidth / 2;
-            int lowY = cursorPosition.Y - MapDrawnHeight / 2;
+            int lowX = cursorPosition.X - (MapDrawnWidth / 2);
+            int lowY = cursorPosition.Y - (MapDrawnHeight / 2);
             for (int i = lowX; i < lowX + MapDrawnWidth; ++i)
             {
                 for (int j = lowY; j < lowY + MapDrawnHeight; ++j)
