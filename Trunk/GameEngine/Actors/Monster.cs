@@ -34,7 +34,7 @@ namespace Magecrawl.GameEngine.Actors
 
         internal MonsterAction Action(CoreGameEngine engine)
         {
-            if (engine.FOVManager.VisibleSingleShot(m_position, m_visionRange, engine.Player.Position))
+            if (engine.FOVManager.VisibleSingleShot(engine.Map, m_position, m_visionRange, engine.Player.Position))
             {
                 // TODO - This should respect FOV
                 IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false);

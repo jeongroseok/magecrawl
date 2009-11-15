@@ -198,6 +198,19 @@ namespace Magecrawl.GameEngine.Level
             return (p.X >= 0) && (p.Y >= 0) && (p.X < Width) && (p.Y < Height);
         }
 
+        public Point CoercePointOntoMap(Point p)
+        {
+            if (p.X < 0)
+                p.X = 0;
+            if (p.Y < 0)
+                p.Y = 0;
+            if (p.X >= Width)
+                p.X = Width - 1;
+            if (p.Y >= Height)
+                p.Y = Height - 1;
+            return p;
+        }
+
         #region SaveLoad
         public System.Xml.Schema.XmlSchema GetSchema()
         {
