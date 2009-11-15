@@ -144,7 +144,7 @@ namespace Magecrawl.GameEngine
         {
             List<Point> returnList = new List<Point>();
 
-            m_engine.FOVManager.CalculateForMultipleCalls(c.Position, c.Vision);
+            m_engine.FOVManager.CalculateForMultipleCalls(m_engine.Map, c.Position, c.Vision);
 
             for (int i = 0; i < m_engine.Map.Width; ++i)
             {

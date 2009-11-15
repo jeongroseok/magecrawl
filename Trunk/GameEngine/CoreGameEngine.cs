@@ -200,7 +200,7 @@ namespace Magecrawl.GameEngine
         // Unless your me, this smack yourself and try again.
         public bool[,] PlayerMoveableToEveryPoint()
         {
-            return PhysicsEngine.CalculateMoveablePointGrid(m_map, m_player);
+            return PhysicsEngine.CalculateMoveablePointGrid(m_map, m_player.Position);
         }
 
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)

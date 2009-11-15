@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine
             m_player = player;
             m_map = map;
             m_timingEngine = new CoreTimingEngine();
-            m_fovManager = new FOVManager(this, map, player);
+            m_fovManager = new FOVManager(this, map);
             m_combatEngine = new CombatEngine(player, map);
             m_movableHash = new Dictionary<Point, bool>();
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
@@ -63,14 +63,14 @@ namespace Magecrawl.GameEngine
             m_combatEngine.GameLoaded(player, map);
 
             // We have a new map, recalc LOS with a new map
-            m_fovManager.UpdateNewMap(this, m_map, player);    
+            m_fovManager.UpdateNewMap(this, m_map);    
         }
 
         // This needs to be really _fast_. We're going to stick the not moveable points in a has table,
         // then compare each pointList to the terrian and if still good see if in hash table
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)
         {
-            m_fovManager.CalculateForMultipleCalls(characterPosition, visionRange);
+            m_fovManager.CalculateForMultipleCalls(m_map, characterPosition, visionRange);
             m_movableHash.Clear();
 
             foreach (MapObject obj in m_map.MapObjects)
@@ -89,22 +89,34 @@ namespace Magecrawl.GameEngine
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
         // This calculates them in batch much much more quickly. True means you can walk there.
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Player player)
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition)
         {
-            bool[,] returnValue = CalculateMoveablePointGrid(map);
+            return CalculateMoveablePointGrid(map, characterPosition, new Point(0, 0), map.Width, map.Height);
+        }
 
-            returnValue[player.Position.X, player.Position.Y] = false;
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition, Point upperLeftCorner, int width, int height)
+        {
+            bool[,] returnValue = CalculateMoveablePointGrid(map, upperLeftCorner, width, height);
+
+            returnValue[characterPosition.X, characterPosition.Y] = false;
 
             return returnValue;
         }
 
         internal static bool[,] CalculateMoveablePointGrid(Map map)
         {
+            return CalculateMoveablePointGrid(map, new Point(0, 0), map.Width, map.Height);
+        }
+
+        // Returns an array the full size of map, but only with the requested part filled in. This is done for ease of use.
+        // We can use (x,y), instead of (x-offset, y-offset) to get data.
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Point upperLeftCorner, int width, int height)
+        {
             bool[,] returnValue = new bool[map.Width, map.Height];
 
-            for (int i = 0; i < map.Width; ++i)
+            for (int i = upperLeftCorner.X; i < upperLeftCorner.X + width; ++i)
             {
-                for (int j = 0; j < map.Height; ++j)
+                for (int j = upperLeftCorner.Y; j < upperLeftCorner.Y + height; ++j)
                 {
                     returnValue[i, j] = map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
                 }
@@ -160,7 +172,7 @@ namespace Magecrawl.GameEngine
         {
             TileVisibility[,] visibilityArray = new TileVisibility[m_map.Width, m_map.Height];
 
-            m_fovManager.CalculateForMultipleCalls(m_player.Position, m_player.Vision);
+            m_fovManager.CalculateForMultipleCalls(m_map, m_player.Position, m_player.Vision);
 
             for (int i = 0; i < m_map.Width; ++i)
             {
@@ -191,7 +203,6 @@ namespace Magecrawl.GameEngine
                 UpdatePlayerVisitedStatus();
                 c.Position = newPosition;
                 m_timingEngine.ActorMadeMove(c);
-                m_fovManager.Update(this, m_map, m_player);
                 UpdatePlayerVisitedStatus();
                 didAnything = true;
             }
@@ -208,7 +219,7 @@ namespace Magecrawl.GameEngine
 
         private void UpdatePlayerVisitedStatus()
         {
-            m_fovManager.CalculateForMultipleCalls(m_player.Position, m_player.Vision);
+            m_fovManager.CalculateForMultipleCalls(m_map, m_player.Position, m_player.Vision);
 
             // Only need Vision really, but to catch off by one errors and such, make it bigger
             // We're doing this instead of all cells for performance anyway
@@ -282,7 +293,6 @@ namespace Magecrawl.GameEngine
                 {
                     operateObj.Operate();
                     m_timingEngine.ActorDidAction(characterOperating);
-                    m_fovManager.Update(this, m_map, m_player);
                     didAnything = true;
                 }
             }
@@ -300,10 +310,7 @@ namespace Magecrawl.GameEngine
         {
             bool didAnything = m_combatEngine.Attack(attacker, target);
             if (didAnything)
-            {
                 m_timingEngine.ActorDidAction(attacker);
-                m_fovManager.Update(this, m_map, m_player);
-            }
             return didAnything;
         }
 
@@ -311,10 +318,7 @@ namespace Magecrawl.GameEngine
         {
             bool didAnything = m_magicEffects.CastSpell(caster, spell, target);
             if (didAnything)
-            {
                 m_timingEngine.ActorDidAction(caster);
-                m_fovManager.Update(this, m_map, m_player);
-            }
             return didAnything;
         }
 

@@ -12,10 +12,9 @@ namespace Magecrawl.GameEngine
     {
         private TCODFov m_fov;
 
-        internal FOVManager(PhysicsEngine physicsEngine, Map map, Player player)
+        internal FOVManager(PhysicsEngine physicsEngine, Map map)
         {
             m_fov = new TCODFov(map.Width, map.Height);
-            Update(physicsEngine, map, player);
         }
 
         public void Dispose()
@@ -26,23 +25,31 @@ namespace Magecrawl.GameEngine
         }
 
         // New maps might have new height/width
-        public void UpdateNewMap(PhysicsEngine physicsEngine, Map map, Player player)
+        public void UpdateNewMap(PhysicsEngine physicsEngine, Map map)
         {
             m_fov.Dispose();
             m_fov = new TCODFov(map.Width, map.Height);
-            Update(physicsEngine, map, player);
         }
 
-        public void Update(PhysicsEngine physicsEngine, Map map, Player player)
+        // This is to be private. Only the FOVManager should update.
+        private void UpdateFOV(Map map, Point viewPoint, int viewableDistance)
         {
-            m_fov.ClearMap();
+            // We do +2 just to make sure we don't get any border effects. 
+            int viewableRadius = viewableDistance + 2;
 
-            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(map, player);
+            // We're going to only setup an area around the viewPoint as "viewable" if it is, so we don't 
+            // have to traverse the entire map. 
+            Point upperLeftPointViewRange = map.CoercePointOntoMap(viewPoint - new Point(viewableRadius, viewableRadius));
+            Point lowerRightPointViewRange = map.CoercePointOntoMap(viewPoint + new Point(viewableRadius, viewableRadius));
+            Point viewRange = lowerRightPointViewRange - upperLeftPointViewRange;
+
+            m_fov.ClearMap();
+            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(map, viewPoint, upperLeftPointViewRange, viewRange.X, viewRange.Y);
 
             // If we every have cells that are see through but not walkable, we'll need more here
-            for (int i = 0; i < map.Width; ++i)
+            for (int i = upperLeftPointViewRange.X; i < upperLeftPointViewRange.X + viewRange.X; ++i)
             {
-                for (int j = 0; j < map.Height; ++j)
+                for (int j = upperLeftPointViewRange.Y; j < upperLeftPointViewRange.Y + viewRange.Y; ++j)
                 {
                     bool isMoveable = moveableGrid[i, j];
                     m_fov.SetCell(i, j, isMoveable, isMoveable);
@@ -50,10 +57,16 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        // Calculate FOV for multipe Visible calls
-        public void CalculateForMultipleCalls(Point viewPoint, int viewableDistance)
+        private void CalculateCore(Map map, Point viewPoint, int viewableDistance)
         {
+            UpdateFOV(map, viewPoint, viewableDistance);
             m_fov.CalculateFOV(viewPoint.X, viewPoint.Y, viewableDistance, true, FovAlgorithm.Shadow);
+        }
+
+        // Calculate FOV for multipe Visible calls
+        public void CalculateForMultipleCalls(Map map, Point viewPoint, int viewableDistance)
+        {
+            CalculateCore(map, viewPoint, viewableDistance);
         }
 
         // CalculateForMultipleCalls needs to be called if you want good data.
@@ -63,10 +76,10 @@ namespace Magecrawl.GameEngine
         }
 
         // Used when we're only calculating a few points and precalculating is not worth it. Use CalculateForMultipleCalls/Visible 
-        // for the common case.
-        public bool VisibleSingleShot(Point viewPoint, int viewableDistance, Point pointWantToView)
+        // for the cases where we're checking multiplePositions
+        public bool VisibleSingleShot(Map map, Point viewPoint, int viewableDistance, Point pointWantToView)
         {
-            m_fov.CalculateFOV(viewPoint.X, viewPoint.Y, viewableDistance, true, FovAlgorithm.Shadow);
+            CalculateCore(map, viewPoint, viewableDistance);
             return m_fov.CheckTileFOV(pointWantToView.X, pointWantToView.Y);
         }
     }
