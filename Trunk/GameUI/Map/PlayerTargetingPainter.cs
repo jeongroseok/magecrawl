@@ -24,7 +24,7 @@ namespace Magecrawl.GameUI.Map
             m_mapWidth = 0;
         }
 
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             m_mapUpCorner = mapUpCorner;
             m_playerPosition = engine.Player.Position;

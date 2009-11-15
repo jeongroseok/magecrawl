@@ -76,7 +76,7 @@ namespace Magecrawl.GameUI.MapEffects
             m_color = color;
         }
 
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             m_mapUpCorner = mapUpCorner;
         }

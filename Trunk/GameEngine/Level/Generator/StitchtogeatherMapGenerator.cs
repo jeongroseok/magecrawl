@@ -63,15 +63,15 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     foreach (Point offset in new List<Point>() {new Point(1,0), new Point(-1,0), new Point(0,1), new Point(0,-1)} )
                     {
-                        System.Console.Out.WriteLine(offset.ToString());
                         Point upperLeftCorner = seamToFitAgainst + offset - s;
+                        //Point upperLeftCorner = seamToFitAgainst - s;
                         // We want to use the offset to see if we'd fit without a problem.
                         if (IsPositionClear(map, upperLeftCorner))
                         {
                             // But we don't want to use it to place, since we want to override the entrace.
-                            PlaceChunkOnMapAtPosition(map, upperLeftCorner - offset);
+                            PlaceChunkOnMapAtPosition(map, upperLeftCorner);
                             Seams.Remove(s);
-                            return upperLeftCorner - offset;
+                            return upperLeftCorner;
                         }
                     }
                 }
@@ -80,6 +80,11 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             private bool IsPositionClear(Map map, Point upperLeftCorner)
             {
+                if (!map.IsPointOnMap(upperLeftCorner))
+                    return false;
+                if (!map.IsPointOnMap(upperLeftCorner + new Point(Width, Height)))
+                    return false;
+
                 for (int i = 0; i < Width; ++i)
                 {
                     for (int j = 0; j < Height; ++j)
@@ -253,14 +258,18 @@ namespace Magecrawl.GameEngine.Level.Generator
             int height = 250;
             Map map = new Map(width, height);
 
-            Point center = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
+            //Point center = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
+            Point center = new Point(100, 100);
 
             GenerateMapFromGraph(graphHead, map, center);
 
             playerPosition = m_playerPosition;
 
             if (!CheckConnectivity(map))
+            {
+                map.PrintMapToStdOut();
                 throw new System.InvalidOperationException("Generated non-connected map");
+            }
 
             return map;
         }
@@ -342,19 +351,14 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private void PlaceMapNode(MapNode current, MapChunk mapChunk, Map map, Point seam)
         {
-            const int numberOfTriesForEachNode = 5;
-            for (int i = 0; i < numberOfTriesForEachNode; ++i)
+            Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
+            if (placedUpperLeftCorner == Point.Invalid)
             {
-                Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
-                if (placedUpperLeftCorner == Point.Invalid)
-                {
-                    map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
-                }
-                else
-                {
-                    WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner);
-                    break;
-                }
+                map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+            }
+            else
+            {
+                WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner);
             }
         }
 
@@ -373,9 +377,6 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private MapNode GenerateMapGraph()
         {
-            const int numberOfHallsToGenerate = 20;
-            const int numberOfMainRoomsToGenerate = 4;
-
             int numberOfHallsGenerated = 0;
             int numberOfMainRoomsGenerated = 0;
 
@@ -393,43 +394,35 @@ namespace Magecrawl.GameEngine.Level.Generator
                     {
                         for (int i = 0; i < 4; ++i)
                         {
-                            if (m_random.Chance(50))
-                            {
-                                if (numberOfHallsGenerated < numberOfHallsToGenerate)
-                                {
-                                    AddNeighborsToNode(MapNodeType.Hall, currentNode, nodesToHandle);
-                                    numberOfHallsGenerated++;
-                                }
-                                else
-                                {
-                                    AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
-                                }
-                            }
+                            if (m_random.Chance(80))
+                                GenerateHallway(ref numberOfHallsGenerated, nodesToHandle, currentNode);
                             else
-                            {
-                                if (numberOfMainRoomsGenerated < numberOfMainRoomsToGenerate)
-                                {
-                                    AddNeighborsToNode(MapNodeType.MainRoom, currentNode, nodesToHandle);
-                                    numberOfHallsGenerated++;
-                                }
-                                else
-                                {
-                                    AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
-                                }
-                            }
-
+                                GenerateMainroom(ref numberOfMainRoomsGenerated, nodesToHandle, currentNode);
                         }
                         break;
                     }
                     case MapNodeType.Hall:
                     {
-                        AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                        if (m_random.Chance(50))
+                            GenerateMainroom(ref numberOfMainRoomsGenerated, nodesToHandle, currentNode);
+                        else
+                        {
+                            if (m_random.Chance(75))
+                                GenerateHallway(ref numberOfHallsGenerated, nodesToHandle, currentNode);
+                            else
+                                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                        }
                         break;
                     }
                     case MapNodeType.MainRoom:
                     {
                         for (int i = 0; i < 3; ++i)
-                            AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                        {
+                            if (m_random.Chance(50))
+                                GenerateHallway(ref numberOfHallsGenerated, nodesToHandle, currentNode);
+                            else
+                                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+                        }
                         break;
                     }
                     case MapNodeType.None:
@@ -440,6 +433,34 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
 
             return graphHead;
+        }
+
+        private static void GenerateMainroom(ref int numberOfMainRoomsGenerated, Queue<MapNode> nodesToHandle, MapNode currentNode)
+        {
+            const int numberOfMainRoomsToGenerate = 4;
+            if (numberOfMainRoomsGenerated < numberOfMainRoomsToGenerate)
+            {
+                AddNeighborsToNode(MapNodeType.MainRoom, currentNode, nodesToHandle);
+                numberOfMainRoomsGenerated++;
+            }
+            else
+            {
+                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+            }
+        }
+
+        private static void GenerateHallway(ref int numberOfHallsGenerated, Queue<MapNode> nodesToHandle, MapNode currentNode)
+        {
+            const int numberOfHallsToGenerate = 20;
+            if (numberOfHallsGenerated < numberOfHallsToGenerate)
+            {
+                AddNeighborsToNode(MapNodeType.Hall, currentNode, nodesToHandle);
+                numberOfHallsGenerated++;
+            }
+            else
+            {
+                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
+            }
         }
 
         private static void AddNeighborsToNode(MapNodeType type, MapNode parent, Queue<MapNode> nodeQueue)

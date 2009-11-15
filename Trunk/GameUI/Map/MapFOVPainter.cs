@@ -13,6 +13,7 @@ namespace Magecrawl.GameUI.Map
         private TileVisibility[,] m_tileVisibility;
         private IGameEngine m_engine;
         private Point m_mapCorner;
+        private Point m_cursorPosition;
 
         public MapFOVPainter()
         {
@@ -22,13 +23,14 @@ namespace Magecrawl.GameUI.Map
             m_tileVisibility = null;
             m_engine = null;
             m_mapCorner = Point.Invalid;
+            m_cursorPosition = Point.Invalid;
         }
 
         public override void Dispose()
         {
         }
 
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             if (m_enabled)
             {
@@ -37,6 +39,7 @@ namespace Magecrawl.GameUI.Map
                 m_width = engine.Map.Width;
                 m_height = engine.Map.Height;
                 m_mapCorner = mapUpCorner;
+                m_cursorPosition = cursorPosition;
             }
         }
 
@@ -44,8 +47,8 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
-                int lowX = m_engine.Player.Position.X - MapDrawnWidth / 2;
-                int lowY = m_engine.Player.Position.Y - MapDrawnHeight / 2;
+                int lowX = m_cursorPosition.X - MapDrawnWidth / 2;
+                int lowY = m_cursorPosition.Y - MapDrawnHeight / 2;
                 for (int i = lowX; i < lowX + MapDrawnWidth; ++i)
                 {
                     for (int j = lowY; j < lowY + MapDrawnHeight; ++j)
