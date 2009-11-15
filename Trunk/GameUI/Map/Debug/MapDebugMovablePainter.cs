@@ -28,7 +28,7 @@ namespace Magecrawl.GameUI.Map.Debug
             CalculateMovability(engine);
         }
 
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             CalculateMovability(engine);
 

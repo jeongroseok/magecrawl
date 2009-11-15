@@ -53,9 +53,10 @@ namespace Magecrawl.GameUI
 
         public void UpdateFromNewData(IGameEngine engine)
         {
+            Point mapCorner = CalculateMapCorner(engine);
             foreach (PainterBase p in m_painters)
             {
-                p.UpdateFromNewData(engine, CalculateMapCorner(engine));
+                p.UpdateFromNewData(engine, mapCorner, MapCursorEnabled ? CursorSpot : engine.Player.Position);
             }
         }
 

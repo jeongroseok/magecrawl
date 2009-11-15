@@ -34,7 +34,7 @@ namespace Magecrawl.GameUI.Equipment
         {
         }
 
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
         }
 

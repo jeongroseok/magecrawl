@@ -41,7 +41,7 @@ namespace Magecrawl.GameUI.Map.Debug
             CalculateFOV(engine);
         }
 
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             CalculateFOV(engine);
 
