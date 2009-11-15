@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -61,7 +62,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 foreach (Point s in Seams)
                 {
-                    foreach (Point offset in new List<Point>() { new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1) })
+                    foreach (Point offset in (new List<Point>() { new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1) }).OrderBy(x => Guid.NewGuid()))
                     {
                         Point upperLeftCorner = seamToFitAgainst + offset - s;
 
