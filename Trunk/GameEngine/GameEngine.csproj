@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\ITargetablePoints.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potion.cs" />
+    <Compile Include="Level\Generator\MapChunk.cs" />
     <Compile Include="Level\Generator\StitchtogeatherMapGenerator.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
@@ -105,7 +106,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
