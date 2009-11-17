@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -12,65 +13,6 @@ namespace Magecrawl.GameEngine.Level.Generator
     // Treausre Rooms, and side rooms
     internal sealed class StitchtogeatherMapGenerator : MapGeneratorBase
     {
-        private enum MapNodeType
-        { 
-            NoneGivenYet,
-            None,
-            Entrance,
-            Hall,
-            MainRoom,
-            TreasureRoom,
-            SideRoom
-        }
-
-        private class MapNode
-        {
-            private static int nextUnqiueID = 1;
-
-            public List<MapNode> Neighbors;
-            public MapNodeType Type;
-            public bool Generated;
-            public int Scratch;
-            public int UniqueID;
-
-            internal MapNode()
-            {
-                Neighbors = new List<MapNode>();
-                Type = MapNodeType.NoneGivenYet;
-                Generated = false;
-                Scratch = 0;
-                
-                UniqueID = nextUnqiueID;
-                nextUnqiueID++;
-            }
-            
-            internal MapNode(MapNodeType type)
-            {
-                Neighbors = new List<MapNode>();
-                Type = type;
-                Generated = false;
-                Scratch = 0;
-
-                UniqueID = nextUnqiueID;
-                nextUnqiueID++;
-            }
-
-            internal void AddNeighbor(MapNode neighbor)
-            {
-                Neighbors.Add(neighbor);
-            }
-
-            internal void RemoveNeighbor(MapNode neighbor)
-            {
-                Neighbors.Remove(neighbor);
-            }
-
-            public override string ToString()
-            {
-                return Type.ToString() + " - " + UniqueID.ToString();
-            }
-        }
-
         private List<MapChunk> m_entrances;
         private List<MapChunk> m_horizontalHalls;
         private List<MapChunk> m_verticalHalls;
@@ -78,8 +20,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         private List<MapChunk> m_treasureRooms;
         private List<MapChunk> m_sideRooms;
         private Point m_playerPosition;
-        private int m_numberOfHallsGenerated;
-        private int m_numberOfMainRoomsGenerated;
+        private StitchRatio m_stitchRatio;
 
         internal StitchtogeatherMapGenerator()
         {
@@ -90,8 +31,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_treasureRooms = new List<MapChunk>();
             m_sideRooms = new List<MapChunk>();
             m_playerPosition = Point.Invalid;
-            m_numberOfHallsGenerated = 0;
-            m_numberOfMainRoomsGenerated = 0;
+            m_stitchRatio = new StitchRatio(100);
 
             LoadChunksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
         }
@@ -220,6 +160,26 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
         }
 
+        private int NumberOfNeighborsToGenerate(MapNodeType current)
+        {
+            switch (current)
+            {
+                case MapNodeType.Entrance:
+                    return 4;
+                case MapNodeType.Hall:
+                    return 1;
+                case MapNodeType.MainRoom:
+                case MapNodeType.SideRoom:
+                case MapNodeType.TreasureRoom:
+                    return 3;
+                case MapNodeType.None:
+                    return 0;
+                case MapNodeType.NoneGivenYet:
+                default:
+                    throw new ArgumentException("NumberOfNeighborsToGenerate - No valid number of neighbors");
+            }
+        }
+
         private MapNode GenerateMapGraph()
         {
             MapNode graphHead = new MapNode(MapNodeType.Entrance);
@@ -230,82 +190,18 @@ namespace Magecrawl.GameEngine.Level.Generator
             while (nodesToHandle.Count > 0)
             {
                 MapNode currentNode = nodesToHandle.Dequeue();
-                switch (currentNode.Type)
+
+                for (int i = 0; i < NumberOfNeighborsToGenerate(currentNode.Type); ++i)
                 {
-                    case MapNodeType.Entrance:
-                    {
-                        for (int i = 0; i < 4; ++i)
-                        {
-                            if (m_random.Chance(80))
-                                GenerateHallway(nodesToHandle, currentNode);
-                            else
-                                GenerateMainroom(nodesToHandle, currentNode);
-                        }
-                        break;
-                    }
-                    case MapNodeType.Hall:
-                    {
-                        if (m_random.Chance(50))
-                            GenerateMainroom(nodesToHandle, currentNode);
-                        else
-                        {
-                            if (m_random.Chance(75))
-                                GenerateHallway(nodesToHandle, currentNode);
-                            else
-                                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
-                        }
-                        break;
-                    }
-                    case MapNodeType.MainRoom:
-                    {
-                        for (int i = 0; i < 3; ++i)
-                        {
-                            if (m_random.Chance(50))
-                                GenerateHallway(nodesToHandle, currentNode);
-                            else
-                                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
-                        }
-                        break;
-                    }
-                    case MapNodeType.None:
-                        break;
-                    default:
-                        throw new InvalidOperationException(string.Format("{0} should not be placed here.", currentNode.Type.ToString()));
+                    MapNodeType nodeTypeToGenerate = m_stitchRatio.GetNewNode(currentNode.Type);
+                    AddNeighborsToNode(currentNode, nodeTypeToGenerate, nodesToHandle);
                 }
             }
 
             return graphHead;
         }
 
-        private void GenerateMainroom(Queue<MapNode> nodesToHandle, MapNode currentNode)
-        {
-            const int NumberOfMainRoomsToGenerate = 4;
-            if (m_numberOfMainRoomsGenerated < NumberOfMainRoomsToGenerate)
-            {
-                AddNeighborsToNode(MapNodeType.MainRoom, currentNode, nodesToHandle);
-                m_numberOfMainRoomsGenerated++;
-            }
-            else
-            {
-                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
-            }
-        }
-
-        private void GenerateHallway(Queue<MapNode> nodesToHandle, MapNode currentNode)
-        {
-            const int NumberOfHallsToGenerate = 20;
-            if (m_numberOfHallsGenerated < NumberOfHallsToGenerate)
-            {
-                AddNeighborsToNode(MapNodeType.Hall, currentNode, nodesToHandle);
-                m_numberOfHallsGenerated++;
-            }
-            else
-            {
-                AddNeighborsToNode(MapNodeType.None, currentNode, nodesToHandle);
-            }
-        }
-
-        private static void AddNeighborsToNode(MapNodeType type, MapNode parent, Queue<MapNode> nodeQueue)
+        private static void AddNeighborsToNode(MapNode parent, MapNodeType type, Queue<MapNode> nodeQueue)
         {
             MapNode neightbor = new MapNode(type);
             parent.AddNeighbor(neightbor);

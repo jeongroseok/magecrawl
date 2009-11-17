@@ -14,3 +14,4 @@ relre:dist/Utilities.dll
 relre:dist/Utilities.pdb
 relre:.sav
 glob:Trunk/dist/*.eqconfig
+relre:.swp
