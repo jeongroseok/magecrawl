@@ -65,8 +65,10 @@
     <Compile Include="Items\Potion.cs" />
     <Compile Include="Level\Generator\MapChunk.cs" />
     <Compile Include="Level\Generator\MapNode.cs" />
+    <Compile Include="Level\Generator\StitchParenthood.cs" />
     <Compile Include="Level\Generator\StitchRatio.cs" />
     <Compile Include="Level\Generator\StitchtogeatherMapGenerator.cs" />
+    <Compile Include="Level\Generator\StitchtogeatherMapGraphGenerator.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
     <Compile Include="FOVManager.cs" />
