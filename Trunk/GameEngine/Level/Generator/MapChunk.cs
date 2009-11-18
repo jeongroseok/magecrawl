@@ -141,10 +141,9 @@ namespace Magecrawl.GameEngine.Level.Generator
             foreach (Point monsterPosition in MonsterSpawns)
             {
                 // TODO: Get monster based on level
-                //map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", upperLeftCorner + monsterPosition));
                 foreach (ICharacter m in map.Monsters)
                 {
-                    if (m.Position == monsterPosition)
+                    if (m.Position == (upperLeftCorner + monsterPosition))
                         map.KillMonster((Monster)m);
                 }
             }
@@ -154,7 +153,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 // TODO: Handle other map objects
                 foreach (IMapObject o in map.MapObjects)
                 {
-                    if (o.Position == treasurePosition)
+                    if (o.Position == (upperLeftCorner + treasurePosition))
                         map.RemoveMapItem((MapObject)o);
                 }
             }

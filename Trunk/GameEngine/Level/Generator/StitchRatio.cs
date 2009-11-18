@@ -51,7 +51,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         // So we use the base table values, but modify based on how close we are to our wanted value
         public int GetGenerationChance(MapNodeType parent, MapNodeType current)
         {
-            double percentageNodesUsed = ((double)m_generatedNumberOfNodes / (double)(m_wantedNumberOfNodes));
+            double percentageNodesUsed = (double)m_generatedNumberOfNodes / (double)m_wantedNumberOfNodes;
 
             double modifyAmount = Math.Abs((.5 - percentageNodesUsed) * 2) + 1;
             bool isAboveHalf = percentageNodesUsed > .5;
@@ -96,7 +96,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 MapNodeType attempt = possibleList[m_random.GetRandomInt(0, listLength - 1)];
                 if (m_random.Chance(GetGenerationChance(parent, attempt)))
                 {
-                    if(attempt != MapNodeType.None)
+                    if (attempt != MapNodeType.None)
                         m_generatedNumberOfNodes++;
                     return attempt;
                 }
