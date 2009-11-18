@@ -14,8 +14,7 @@ namespace Magecrawl.GameEngine.Level.Generator
     internal sealed class StitchtogeatherMapGenerator : MapGeneratorBase
     {
         private List<MapChunk> m_entrances;
-        private List<MapChunk> m_horizontalHalls;
-        private List<MapChunk> m_verticalHalls;
+        private List<MapChunk> m_halls;
         private List<MapChunk> m_mainRooms;
         private List<MapChunk> m_treasureRooms;
         private List<MapChunk> m_sideRooms;
@@ -25,8 +24,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         internal StitchtogeatherMapGenerator()
         {
             m_entrances = new List<MapChunk>();
-            m_horizontalHalls = new List<MapChunk>();
-            m_verticalHalls = new List<MapChunk>();
+            m_halls = new List<MapChunk>();
             m_mainRooms = new List<MapChunk>();
             m_treasureRooms = new List<MapChunk>();
             m_sideRooms = new List<MapChunk>();
@@ -55,7 +53,6 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             if (!CheckConnectivity(map))
             {
-                map.PrintMapToStdOut();
                 throw new System.InvalidOperationException("Generated non-connected map");
             }
 
@@ -98,23 +95,12 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
                 case MapNodeType.Hall:
                 {
-                    // First see if we're vertical or horizontal
-                    bool aboveIsWall = map[seam + new Point(0, -1)].Terrain == TerrainType.Wall;
-                    bool belowIsWall = map[seam + new Point(0, 1)].Terrain == TerrainType.Wall;
-                    bool leftIsWall = map[seam + new Point(-1, 0)].Terrain == TerrainType.Wall;
-                    bool rightIsWall = map[seam + new Point(1, 0)].Terrain == TerrainType.Wall;
-                    if (aboveIsWall && belowIsWall)
+                    for (int i = 0; i < 10; i++)
                     {
-                        placed = PlaceMapNode(current, GetRandomChunkFromList(m_horizontalHalls), map, seam, parentChain);
-                    }
-                    else if (leftIsWall && rightIsWall)
-                    {
-                        placed = PlaceMapNode(current, GetRandomChunkFromList(m_verticalHalls), map, seam, parentChain);
-                    }
-                    else
-                    {
-                        throw new System.InvalidOperationException("Can't find good position for hallway?");
-                    }
+                        placed = PlaceMapNode(current, GetRandomChunkFromList(m_halls), map, seam, parentChain);
+                        if (placed)
+                            break;
+                    }                    
                     break;
                 }
                 case MapNodeType.None:
@@ -139,11 +125,11 @@ namespace Magecrawl.GameEngine.Level.Generator
                 ParenthoodChain localChain = new ParenthoodChain(parentChain);
                 ParenthoodElement top = localChain.Pop();
                 Point seamToFill = Point.Invalid;
-                if (top.Chunk.Type == "HorizontalHall" || top.Chunk.Type == "VerticalHall")
+                if (top.Chunk.Type == "Hall")
                 {
                     do
                     {
-                        if (top.Chunk.Type == "HorizontalHall" || top.Chunk.Type == "VerticalHall")
+                        if (top.Chunk.Type == "Hall")
                         {
                             top.Chunk.UnplaceChunkOnMapAtPosition(map, top.UpperLeft);
                             seamToFill = top.Seam;
@@ -173,6 +159,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
             else
             {
+                map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Floor;
                 parentChain.Push(mapChunk, placedUpperLeftCorner, seam);
                 WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner, parentChain);
                 parentChain.Pop();
@@ -213,11 +200,8 @@ namespace Magecrawl.GameEngine.Level.Generator
                         case "Entrance":
                             m_entrances.Add(newChunk);
                             break;
-                        case "HorizontalHall":
-                            m_horizontalHalls.Add(newChunk);
-                            break;
-                        case "VerticalHall":
-                            m_verticalHalls.Add(newChunk);
+                        case "Hall":
+                            m_halls.Add(newChunk);
                             break;
                         case "MainRoom":
                             m_mainRooms.Add(newChunk);

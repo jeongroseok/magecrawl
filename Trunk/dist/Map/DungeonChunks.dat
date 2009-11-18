@@ -6,17 +6,17 @@
 #........#
 ####^#####
 
-10 3 HorizontalHall
+10 3 Hall
 ##########
 ^........^
 ##########
 
-4 3 HorizontalHall
+4 3 Hall
 ####
 ^..^
 ####
 
-3 10 VerticalHall
+3 10 Hall
 #^#
 #.#
 #.#
@@ -28,7 +28,7 @@
 #.#
 #^#
 
-3 4 VerticalHall
+3 4 Hall
 #^#
 #.#
 #.#
