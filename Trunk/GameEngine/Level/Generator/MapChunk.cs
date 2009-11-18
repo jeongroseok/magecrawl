@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Interfaces;
 using System.IO;
 using System.Linq;
+using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -17,8 +19,9 @@ namespace Magecrawl.GameEngine.Level.Generator
         public List<Point> Cosmetics { get; set; }
         public Point PlayerPosition { get; set; }
         public MapTile[,] MapSegment { get; set; }
+        public string Type { get; private set; }
 
-        internal MapChunk(int width, int height)
+        internal MapChunk(int width, int height, string typeString)
         {
             Width = width;
             Height = height;
@@ -27,6 +30,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             TreasureChests = new List<Point>();
             Cosmetics = new List<Point>();
             PlayerPosition = Point.Invalid;
+            Type = typeString;
 
             MapSegment = new MapTile[Width, Height];
         }
@@ -40,6 +44,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             TreasureChests = new List<Point>(chunk.TreasureChests);
             Cosmetics = new List<Point>(chunk.Cosmetics);
             PlayerPosition = chunk.PlayerPosition;
+            Type = chunk.Type;
 
             MapSegment = new MapTile[Width, Height];
             for (int i = 0; i < Width; ++i)
@@ -120,6 +125,49 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 // TODO: Handle cosmetics
             }
+        }
+
+        internal void UnplaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
+        {
+            for (int i = 0; i < Width; ++i)
+            {
+                for (int j = 0; j < Height; ++j)
+                {
+                    Point mapPosition = upperLeftCorner + new Point(i, j);
+                    map.GetInternalTile(mapPosition.X, mapPosition.Y).Terrain = TerrainType.Wall;
+                }
+            }
+
+            foreach (Point monsterPosition in MonsterSpawns)
+            {
+                // TODO: Get monster based on level
+                //map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", upperLeftCorner + monsterPosition));
+                foreach (ICharacter m in map.Monsters)
+                {
+                    if (m.Position == monsterPosition)
+                        map.KillMonster((Monster)m);
+                }
+            }
+
+            foreach (Point treasurePosition in TreasureChests)
+            {
+                // TODO: Handle other map objects
+                foreach (IMapObject o in map.MapObjects)
+                {
+                    if (o.Position == treasurePosition)
+                        map.RemoveMapItem((MapObject)o);
+                }
+            }
+
+            foreach (Point cosmeticPosition in Cosmetics)
+            {
+                // TODO: Handle cosmetics
+            }
+        }
+
+        public override string ToString()
+        {
+            return Type.ToString();
         }
 
         internal void ReadSegmentFromFile(StreamReader reader)

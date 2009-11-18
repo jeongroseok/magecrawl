@@ -96,7 +96,8 @@ namespace Magecrawl.GameEngine.Level.Generator
                 MapNodeType attempt = possibleList[m_random.GetRandomInt(0, listLength - 1)];
                 if (m_random.Chance(GetGenerationChance(parent, attempt)))
                 {
-                    m_generatedNumberOfNodes++;
+                    if(attempt != MapNodeType.None)
+                        m_generatedNumberOfNodes++;
                     return attempt;
                 }
             }
