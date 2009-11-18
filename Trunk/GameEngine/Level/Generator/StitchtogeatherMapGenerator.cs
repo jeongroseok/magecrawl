@@ -36,15 +36,31 @@ namespace Magecrawl.GameEngine.Level.Generator
             LoadChunksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
         }
 
+        private struct ParenthoodElement
+        {
+            public MapChunk Chunk;
+            public Point UpperLeft;
+            public Point Seam;
+
+            public ParenthoodElement(MapChunk chunk, Point upperLeft, Point seam)
+            {
+                Chunk = chunk;
+                UpperLeft = upperLeft;
+                Seam = seam;
+            }
+        }
+
         private class ParenthoodChain
         {
             public Stack<MapChunk> Chunks { get; set; }
             public Stack<Point> UpperLefts { get; set; }
+            public Stack<Point> Seams { get; set; }
 
             public ParenthoodChain()
             {
                 Chunks = new Stack<MapChunk>();
                 UpperLefts = new Stack<Point>();
+                Seams = new Stack<Point>();
             }
 
             public ParenthoodChain(ParenthoodChain p)
@@ -53,25 +69,28 @@ namespace Magecrawl.GameEngine.Level.Generator
                 // Since we want a shallow copy, we'll just reverse the list and use that
                 Chunks = new Stack<MapChunk>(p.Chunks.Reverse());
                 UpperLefts = new Stack<Point>(p.UpperLefts.Reverse());
+                Seams = new Stack<Point>(p.Seams.Reverse());
             }
 
-            public void Push(MapChunk c, Point p)
+            public void Push(MapChunk c, Point upperLeft, Point seam)
             {
                 Chunks.Push(c);
-                UpperLefts.Push(p);
+                UpperLefts.Push(upperLeft);
+                Seams.Push(seam);
             }
 
-            public Pair<MapChunk, Point> Pop()
+            public ParenthoodElement Pop()
             {
-                var top = new Pair<MapChunk, Point>(Chunks.Peek(), UpperLefts.Peek());
+                ParenthoodElement top = new ParenthoodElement(Chunks.Peek(), UpperLefts.Peek(), Seams.Peek());
                 Chunks.Pop();
                 UpperLefts.Pop();
+                Seams.Pop();
                 return top;
             }
 
-            public Pair<MapChunk, Point> Peek()
+            public ParenthoodElement Peek()
             {
-                return new Pair<MapChunk, Point>(Chunks.Peek(), UpperLefts.Peek());
+                return new ParenthoodElement(Chunks.Peek(), UpperLefts.Peek(), Seams.Peek());
             }
         }
 
@@ -131,7 +150,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     Point entraceUpperLeftCorner = seam;
                     MapChunk entranceChunk = GetRandomChunkFromList(m_entrances);
 
-                    parentChain.Push(entranceChunk, entraceUpperLeftCorner);
+                    parentChain.Push(entranceChunk, entraceUpperLeftCorner, Point.Invalid);
 
                     entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner);
                     m_playerPosition = entranceChunk.PlayerPosition + entraceUpperLeftCorner;
@@ -185,15 +204,27 @@ namespace Magecrawl.GameEngine.Level.Generator
             if (!placed)
             {
                 ParenthoodChain localChain = new ParenthoodChain(parentChain);
-                Pair<MapChunk, Point> top = localChain.Peek();
-
-                //if (top.First.Type == "HorizontalHall" || top.First.Type == "VerticalHall")
-                    //map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
-
-                while (top.First.Type == "HorizontalHall" || top.First.Type == "VerticalHall")
+                ParenthoodElement top = localChain.Pop();
+                Point seamToFill = Point.Invalid;
+                if (top.Chunk.Type == "HorizontalHall" || top.Chunk.Type == "VerticalHall")
                 {
-                    top.First.UnplaceChunkOnMapAtPosition(map, top.Second);
-                    top = localChain.Pop();
+                    do
+                    {
+                        if (top.Chunk.Type == "HorizontalHall" || top.Chunk.Type == "VerticalHall")
+                        {
+                            top.Chunk.UnplaceChunkOnMapAtPosition(map, top.UpperLeft);
+                            seamToFill = top.Seam;
+                            top = localChain.Pop();
+                        }
+                        else
+                        {
+                            if (seamToFill == Point.Invalid)
+                                throw new System.InvalidOperationException("Trying to fill in invalid seam");
+                            map.GetInternalTile(seamToFill.X, seamToFill.Y).Terrain = TerrainType.Wall;
+                            break;
+                        }
+                    }
+                    while (true);
                 }
             }
         }
@@ -209,7 +240,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
             else
             {
-                parentChain.Push(mapChunk, placedUpperLeftCorner);
+                parentChain.Push(mapChunk, placedUpperLeftCorner, seam);
                 WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner, parentChain);
                 parentChain.Pop();
                 return true;
@@ -268,16 +299,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
 
             ClearMapNodeScratch(graphHead);
-            PrintMapGraph(graphHead, 0);
-
-            ClearMapNodeScratch(graphHead);
             StripEmptyHallWays(graphHead);
-
-            System.Console.WriteLine("");
-
-            ClearMapNodeScratch(graphHead);
-            PrintMapGraph(graphHead, 0);
-
 
             return graphHead;
         }
@@ -288,7 +310,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 return;
 
             current.Scratch = 3;
-            string tabString = "";
+            string tabString = String.Empty;
             for (int i = 0; i < indent; i++)
             {
                 tabString += "\t";
