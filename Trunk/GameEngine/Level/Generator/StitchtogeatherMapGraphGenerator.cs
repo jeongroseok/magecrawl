@@ -89,7 +89,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 GenerateMapNodeListCore(n, nodeList);
         }
 
-        private void ClearMapNodeScratch(MapNode graphHead)
+        public void ClearMapNodeScratch(MapNode graphHead)
         {
             List<MapNode> nodeList = GenerateMapNodeList(graphHead);
             foreach (MapNode n in nodeList)
