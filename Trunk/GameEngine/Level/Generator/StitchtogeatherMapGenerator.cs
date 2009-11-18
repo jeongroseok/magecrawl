@@ -77,8 +77,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             if (current.Generated)
                 return;
 
-            PrintDebugString(string.Format("Generating {0} - {1}", current.Type.ToString(), current.UniqueID.ToString()));
-
             current.Generated = true;
 
             switch (current.Type)
@@ -139,6 +137,12 @@ namespace Magecrawl.GameEngine.Level.Generator
             Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
             if (placedUpperLeftCorner == Point.Invalid)
             {
+                PrintDebugString("Unabled to place: " + current.Type.ToString());
+                PrintDebugString("Location: " + seam.ToString());
+                PrintDebugString("Size: " + mapChunk.Width + " " + mapChunk.Height);
+                PrintDebugString("Neighbors: " + current.Neighbors.Count);
+
+                
                 map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
             }
             else
@@ -198,7 +202,59 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
             }
 
+            ClearMapNodeScratch(graphHead);
+            StripEmptyHallWays(graphHead);
+
             return graphHead;
+        }
+
+        private List<MapNode> GenerateMapNodeList(MapNode headNode)
+        {
+            List<MapNode> nodeList = new List<MapNode>();
+            GenerateMapNodeListCore(headNode, nodeList);
+            return nodeList;
+        }
+
+        private void GenerateMapNodeListCore(MapNode currentNode, List<MapNode> nodeList)
+        {
+            if (nodeList.Contains(currentNode))
+                return;
+            nodeList.Add(currentNode);
+            foreach (MapNode n in currentNode.Neighbors)
+                GenerateMapNodeListCore(n, nodeList);
+        }
+
+        private void ClearMapNodeScratch(MapNode graphHead)
+        {
+            List<MapNode> nodeList = GenerateMapNodeList(graphHead);
+            foreach (MapNode n in nodeList)
+            {
+                n.Scratch = 0;
+            }
+        }
+
+        // Assumes scratch values of nodes == 0 starting out
+        private void StripEmptyHallWays(MapNode graphHead)
+        {
+            List<MapNode> nodeList = GenerateMapNodeList(graphHead);
+            foreach (MapNode n in nodeList)
+            {
+                if (n.Type == MapNodeType.Hall)
+                {
+                    MapNode neightborOne = n.Neighbors[0];
+                    MapNode neightborTwo = n.Neighbors[1];
+                    if (neightborOne.Type == MapNodeType.None)
+                    {
+                        neightborTwo.RemoveNeighbor(n);
+                        neightborTwo.AddNeighbor(new MapNode(MapNodeType.None));
+                    }
+                    else if (neightborTwo.Type == MapNodeType.None)
+                    {
+                        neightborOne.RemoveNeighbor(n);
+                        neightborOne.AddNeighbor(new MapNode(MapNodeType.None));
+                    }
+                }
+            }
         }
 
         private static void AddNeighborsToNode(MapNode parent, MapNodeType type, Queue<MapNode> nodeQueue)
