@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -19,7 +20,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         public List<Point> Cosmetics { get; set; }
         public Point PlayerPosition { get; set; }
         public MapTile[,] MapSegment { get; set; }
-        public string Type { get; private set; }
+        public MapNodeType Type { get; private set; }
 
         internal MapChunk(int width, int height, string typeString)
         {
@@ -30,7 +31,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             TreasureChests = new List<Point>();
             Cosmetics = new List<Point>();
             PlayerPosition = Point.Invalid;
-            Type = typeString;
+            Type = (MapNodeType)Enum.Parse(typeof(MapNodeType), typeString);
 
             MapSegment = new MapTile[Width, Height];
         }
@@ -169,6 +170,26 @@ namespace Magecrawl.GameEngine.Level.Generator
             return Type.ToString();
         }
 
+        public static int NumberOfNeighbors(MapNodeType current)
+        {
+            switch (current)
+            {
+                case MapNodeType.Entrance:
+                    return 4;
+                case MapNodeType.Hall:
+                    return 2;
+                case MapNodeType.MainRoom:
+                case MapNodeType.SideRoom:
+                case MapNodeType.TreasureRoom:
+                    return 4;
+                case MapNodeType.None:
+                    return 0;
+                case MapNodeType.NoneGivenYet:
+                default:
+                    throw new ArgumentException("NumberOfNeighbors - No valid number of neighbors");
+            }
+        }
+
         internal void ReadSegmentFromFile(StreamReader reader)
         {
             for (int j = 0; j < Height; ++j)
@@ -209,6 +230,22 @@ namespace Magecrawl.GameEngine.Level.Generator
                             break;
                     }
                 }
+            }
+        }
+        
+        // When created, maptiles will have too many of some times that get randomized.
+        // Prepare will filter some out.
+        internal void Prepare()
+        {
+            if (Seams.Count < NumberOfNeighbors(Type))
+                throw new ArgumentException("Not enough Seams for " + Type.ToString());
+
+            TCODRandom random = new TCODRandom();
+            while (Seams.Count > NumberOfNeighbors(Type))
+            {
+                Point removedPoint = Seams[random.GetRandomInt(0, Seams.Count - 1)];
+                Seams.Remove(removedPoint);
+                MapSegment[removedPoint.X, removedPoint.Y].Terrain = TerrainType.Wall;
             }
         }
     }

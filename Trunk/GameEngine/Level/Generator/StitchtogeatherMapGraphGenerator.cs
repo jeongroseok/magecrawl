@@ -38,18 +38,17 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private int NumberOfNeighborsToGenerate(MapNodeType current)
         {
+            int neighbors = MapChunk.NumberOfNeighbors(current);
             switch (current)
             {
+                case MapNodeType.None:
                 case MapNodeType.Entrance:
-                    return 4;
+                    return neighbors;
                 case MapNodeType.Hall:
-                    return 1;
                 case MapNodeType.MainRoom:
                 case MapNodeType.SideRoom:
                 case MapNodeType.TreasureRoom:
-                    return 3;
-                case MapNodeType.None:
-                    return 0;
+                    return neighbors - 1;
                 case MapNodeType.NoneGivenYet:
                 default:
                     throw new ArgumentException("NumberOfNeighborsToGenerate - No valid number of neighbors");
