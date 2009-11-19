@@ -61,7 +61,9 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private MapChunk GetRandomChunkFromList(List<MapChunk> chunk)
         {
-            return new MapChunk(chunk[m_random.GetRandomInt(0, chunk.Count - 1)]);
+            MapChunk newChunk = new MapChunk(chunk[m_random.GetRandomInt(0, chunk.Count - 1)]);
+            newChunk.Prepare();
+            return newChunk;
         }
 
         private void GenerateMapFromGraph(MapNode current, Map map, Point seam, ParenthoodChain parentChain)
@@ -125,11 +127,11 @@ namespace Magecrawl.GameEngine.Level.Generator
                 ParenthoodChain localChain = new ParenthoodChain(parentChain);
                 ParenthoodElement top = localChain.Pop();
                 Point seamToFill = Point.Invalid;
-                if (top.Chunk.Type == "Hall")
+                if (top.Chunk.Type == MapNodeType.Hall)
                 {
                     do
                     {
-                        if (top.Chunk.Type == "Hall")
+                        if (top.Chunk.Type == MapNodeType.Hall)
                         {
                             top.Chunk.UnplaceChunkOnMapAtPosition(map, top.UpperLeft);
                             seamToFill = top.Seam;
