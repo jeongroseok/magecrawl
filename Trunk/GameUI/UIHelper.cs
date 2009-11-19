@@ -22,6 +22,14 @@ namespace Magecrawl.GameUI
         private static CustomFontRequestFontTypes flags = CustomFontRequestFontTypes.Grayscale | CustomFontRequestFontTypes.LayoutTCOD;
         private static CustomFontRequest fontReq = new CustomFontRequest(Font, flags, NumberCharsHorz, NumberCharsVert);
 
+        public static Color ForegroundColor
+        {
+            get
+            {
+                return ColorPresets.LightGray;
+            }
+        }
+
         public static RootConsole SetupUI()
         {
             RootConsole.Width = ScreenWidth;
@@ -30,7 +38,9 @@ namespace Magecrawl.GameUI
             RootConsole.WindowTitle = "MageCrawl";
             RootConsole.Fullscreen = false;
             TCODSystem.FPS = 30;
-            return libtcodWrapper.RootConsole.GetInstance();
+            RootConsole rootConsole = libtcodWrapper.RootConsole.GetInstance();
+            rootConsole.ForegroundColor = ForegroundColor;
+            return rootConsole;
         }
     }
 }
