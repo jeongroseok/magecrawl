@@ -54,6 +54,7 @@ namespace Magecrawl.Keyboard
         {
             m_targetablePoints = (List<EffectivePoint>)objOne;
             m_selectionDelegate = (OnTargetSelection)objTwo;
+            
             if (objThree != null)
                 m_alternateSelectionKey = (NamedKey)objThree;
             else
