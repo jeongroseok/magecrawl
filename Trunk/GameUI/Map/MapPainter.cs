@@ -13,6 +13,7 @@ namespace Magecrawl.GameUI.Map
         public MapPainter()
         {
             m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
+            m_offscreenConsole.ForegroundColor = UIHelper.ForegroundColor;
             m_honorFOV = true;
         }
 
