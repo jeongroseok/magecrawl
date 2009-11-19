@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -119,7 +119,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             foreach (Point treasurePosition in TreasureChests)
             {
                 // TODO: Handle other map objects
-                map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", treasurePosition));
+                map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition));
             }
 
             foreach (Point cosmeticPosition in Cosmetics)

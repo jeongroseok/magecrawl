@@ -45,6 +45,9 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             MapNode graphHead = m_graphGenerator.GenerateMapGraph();
 
+            m_graphGenerator.ClearMapNodeScratch(graphHead);
+            m_graphGenerator.PrintMapGraph(graphHead, 0);
+
             ParenthoodChain parentChain = new ParenthoodChain();
    
             GenerateMapFromGraph(graphHead, map, center, parentChain);
@@ -73,6 +76,8 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             current.Generated = true;
             bool placed = false;
+
+            System.Console.WriteLine(string.Format("Generating {0} - {1}", current.Type.ToString(), current.UniqueID.ToString()));
 
             switch (current.Type)
             {
