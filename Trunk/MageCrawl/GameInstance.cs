@@ -92,6 +92,12 @@ namespace Magecrawl
                 }
             }
             while (!m_console.IsWindowClosed() && !IsQuitting);
+            
+            // User closed the window, save and bail.
+            if (m_console.IsWindowClosed() && !IsQuitting)
+            {
+                m_engine.Save();
+            }
         }
 
         private void HandleDeath()
