@@ -7,6 +7,7 @@ using Magecrawl.Utilities;
 namespace Magecrawl.GameUI.ListSelection
 {
     public delegate void ListItemSelected(INamedItem item);
+    public delegate bool ListItemShouldBeEnabled(INamedItem item);
 
     // This code is scary, I admit it. It looks complex, but it has to be. 
     // Scrolling inventory right, when it might be lettered, is hard.
@@ -20,6 +21,7 @@ namespace Magecrawl.GameUI.ListSelection
         private int m_cursorPosition;                   // What item is the cursor on
         private bool m_useCharactersNextToItems;        // Should we put letters next to each letter
         private bool m_shouldNotResetCursorPosition;    // If set, the next time we show the inventory window, we don't reset the position.
+        private ListItemShouldBeEnabled m_shouldBeSelectedDelegate; //Called for each item to determine if we should enable it if not null
         private string m_title;
 
         private DialogColorHelper m_dialogColorHelper;
@@ -44,10 +46,6 @@ namespace Magecrawl.GameUI.ListSelection
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             m_shouldNotResetCursorPosition = false;
-
-            if (m_enabled)
-            {
-            }
         }
 
         public override void DrawNewFrame(Console screen)
@@ -71,7 +69,7 @@ namespace Magecrawl.GameUI.ListSelection
                 for (int i = m_lowerRange; i < m_higherRange; ++i)
                 {
                     string displayString = m_itemList[i].DisplayName;
-                    m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, true);
+                    m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, m_shouldBeSelectedDelegate(m_itemList[i]));
                     if (displayString.Contains('\t'.ToString()))
                     {
                         // This is the case for Tab Seperated Spaces, used for magic lists and such
@@ -128,7 +126,7 @@ namespace Magecrawl.GameUI.ListSelection
             }
         }
 
-        internal void Enable(List<INamedItem> data, string title)
+        internal void Enable(List<INamedItem> data, string title, ListItemShouldBeEnabled shouldBeSelectedDelegate)
         {
             if (!m_shouldNotResetCursorPosition)
             {
@@ -142,6 +140,7 @@ namespace Magecrawl.GameUI.ListSelection
             }
 
             UpdateFromNewData(data);
+            m_shouldBeSelectedDelegate = shouldBeSelectedDelegate;
             m_title = title;
 
             m_enabled = true;

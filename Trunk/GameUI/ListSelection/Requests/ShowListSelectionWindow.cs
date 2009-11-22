@@ -8,6 +8,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
         private bool m_show;
         private List<INamedItem> m_data;
         private string m_title;
+        private ListItemShouldBeEnabled m_selectionDelegate;
 
         public ShowListSelectionWindow(bool enable)
         {
@@ -20,10 +21,16 @@ namespace Magecrawl.GameUI.ListSelection.Requests
         }
 
         public ShowListSelectionWindow(bool enable, List<INamedItem> data, string title)
+            : this(enable, data, title, i => { return true; })
+        {
+        }
+
+        public ShowListSelectionWindow(bool enable, List<INamedItem> data, string title, ListItemShouldBeEnabled selectionDelegate)
         {
             m_show = enable;
             m_data = data;
             m_title = title;
+            m_selectionDelegate = selectionDelegate;
         }
 
         internal override void DoRequest(IHandlePainterRequest painter)
@@ -32,7 +39,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
             if (l != null)
             {
                 if (m_show)
-                    l.Enable(m_data, m_title);
+                    l.Enable(m_data, m_title, m_selectionDelegate);
                 else
                     l.Disable();
             }
