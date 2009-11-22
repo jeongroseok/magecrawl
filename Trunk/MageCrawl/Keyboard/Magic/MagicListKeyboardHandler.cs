@@ -52,7 +52,8 @@ namespace Magecrawl.Keyboard.Magic
         {
             m_keystroke = (NamedKey)objOne;
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Spells.OfType<INamedItem>().ToList(), "Spellbook"));
+            ListItemShouldBeEnabled magicSpellEnabledDelegate = s => m_engine.PlayerCouldCastSpell((ISpell)s);
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Spells.OfType<INamedItem>().ToList(), "Spellbook", magicSpellEnabledDelegate));
             m_gameInstance.UpdatePainters();
         }
 
@@ -72,45 +73,45 @@ namespace Magecrawl.Keyboard.Magic
 
         private void SpellSelectedDelegate(INamedItem spellName)
         {
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
-
             ISpell spell = (ISpell)spellName;
+            if (!m_engine.PlayerCouldCastSpell(spell))
+                return;
+
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
+            
             Color color = GetColorOfSpellFromSchool(spell);
 
-            if (m_engine.PlayerCouldCastSpell(spell))
+            if (spell.TargetType.StartsWith("Single Range"))
             {
-                if (spell.TargetType.StartsWith("Single Range"))
-                {
-                    // Get targetable points.
-                    string[] targetParts = spell.TargetType.Split(':');
-                    int range = int.Parse(targetParts[1]);
-                    List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, range);
-                    m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
+                // Get targetable points.
+                string[] targetParts = spell.TargetType.Split(':');
+                int range = int.Parse(targetParts[1]);
+                List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, range);
+                m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
 
-                    // Setup delegate to do action on target
-                    OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
-                    {
-                        // Since we want animation to go first, setup helper to run that
-                        SpellAnimationHelper rangedHelper = new SpellAnimationHelper(s, spell, m_engine, m_gameInstance);
-                        List<Point> pathToTarget = m_engine.PlayerPathToPoint(s);
-                        EffectDone onEffectDone = new EffectDone(rangedHelper.Invoke);
-
-                        m_gameInstance.SetHandlerName("Effects", new ShowRangedBolt(onEffectDone, pathToTarget, color));
-                        m_gameInstance.UpdatePainters();
-                        return true;
-                    });
-                    m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke);
-                }
-                else if (spell.TargetType == "Self")
+                // Setup delegate to do action on target
+                OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
                 {
-                    m_engine.PlayerCastSpell(spell, m_engine.Player.Position);
-                    m_gameInstance.ResetHandlerName();
+                    // Since we want animation to go first, setup helper to run that
+                    SpellAnimationHelper rangedHelper = new SpellAnimationHelper(s, spell, m_engine, m_gameInstance);
+                    List<Point> pathToTarget = m_engine.PlayerPathToPoint(s);
+                    EffectDone onEffectDone = new EffectDone(rangedHelper.Invoke);
+
+                    m_gameInstance.SetHandlerName("Effects", new ShowRangedBolt(onEffectDone, pathToTarget, color));
                     m_gameInstance.UpdatePainters();
-                }
-                else
-                {
-                    throw new System.ArgumentException("Don't know how to cast things with target type: " + spell.TargetType);
-                }
+                    return true;
+                });
+                m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke);
+            }
+            else if (spell.TargetType == "Self")
+            {
+                m_engine.PlayerCastSpell(spell, m_engine.Player.Position);
+                m_gameInstance.ResetHandlerName();
+                m_gameInstance.UpdatePainters();
+            }
+            else
+            {
+                throw new System.ArgumentException("Don't know how to cast things with target type: " + spell.TargetType);
             }
         }
 
