@@ -72,21 +72,11 @@ namespace Magecrawl.GameEngine.Magic
                     return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, rangedAttackDelegate);
                 }
                 case "Haste":
-                {
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Haste", strength));
-                    return true;
-                }
                 case "False Life":
-                {
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("False Life", strength));
-                    return true;
-                }
                 case "Eagle Eye":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect("Eagle Eye", strength));
+                    caster.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
                     return true;
                 }
                 case "Poison Bolt":

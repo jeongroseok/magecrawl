@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using Magecrawl.GameEngine.Actors;
@@ -104,12 +105,7 @@ namespace Magecrawl.GameEngine.Weapons
 
         public float EffectiveStrengthAtPoint(Point pointOfInterest)
         {
-            foreach (EffectivePoint p in CalculateTargetablePoints())
-            {
-                if (p.Position == pointOfInterest)
-                    return p.EffectiveStrength;
-            }
-            throw new System.ArgumentException("Asked for effective strength at point not targetable?");
+            return CalculateTargetablePoints().Where(p => p.Position == pointOfInterest).Single().EffectiveStrength;
         }
 
         public bool PositionInTargetablePoints(Point pointOfInterest)

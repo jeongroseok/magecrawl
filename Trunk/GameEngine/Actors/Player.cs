@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Affects;
@@ -22,7 +23,7 @@ namespace Magecrawl.GameEngine.Actors
             m_equipedWeapon = null;
         }
 
-        public Player(Point p) : base(p.X, p.Y, 10, 10, 6, 10, 10, "Donblas")
+        public Player(Point p) : base(p, 10, 10, 6, 10, 10, "Donblas")
         {
             m_itemList = new List<Item>();
             m_equipedWeapon = null;
@@ -87,12 +88,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                List<string> statusList = new List<string>();
-                foreach (AffectBase a in m_affects)
-                {
-                    statusList.Add(a.Name);
-                }
-                return statusList;
+                return m_affects.Select(a => a.Name).ToList();
             }
         }
 

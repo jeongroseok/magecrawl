@@ -14,13 +14,13 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal class Character : Interfaces.ICharacter, IXmlSerializable
     {
-        internal Character() : this(0, 0, 0, 0, 0, 0, 0, String.Empty)
+        internal Character() : this(Point.Invalid, 0, 0, 0, 0, 0, String.Empty)
         {
         }
 
-        internal Character(int x, int y, int hp, int maxHP, int visionRange, int magic, int maxMagic, string name)
+        internal Character(Point p, int hp, int maxHP, int visionRange, int magic, int maxMagic, string name)
         {
-            m_position = new Point(x, y);
+            m_position = p;
             m_CT = 0;
             m_hp = hp;
             m_maxHP = maxHP;
@@ -210,15 +210,11 @@ namespace Magecrawl.GameEngine.Actors
         {
             CT -= decrease;
 
-            foreach (AffectBase affect in m_affects)
-            {
-                affect.DecreaseCT(decrease);
-            }
-            IEnumerable<AffectBase> toRemove = m_affects.Where(a => a.CTLeft <= 0);
-            foreach (AffectBase affect in toRemove)
-            {
+            m_affects.ForEach(a => a.DecreaseCT(decrease));
+            
+            foreach (AffectBase affect in m_affects.Where(a => a.CTLeft <= 0))
                 affect.Remove(this);
-            }
+
             m_affects.RemoveAll(a => a.CTLeft <= 0);
         }
 
@@ -260,10 +256,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public virtual void WriteXml(XmlWriter writer)
         {
-            foreach (AffectBase affect in m_affects)
-            {
-                affect.Remove(this);
-            }
+            m_affects.ForEach(a => a.Remove(this));
 
             Position.WriteToXml(writer, "Position");
             writer.WriteElementString("CurrentHP", m_hp.ToString());
@@ -276,10 +269,8 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
 
             ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");
-            foreach (AffectBase affect in m_affects)
-            {
-                affect.Apply(this);
-            }
+
+            m_affects.ForEach(a => a.Apply(this));
         }
 
         #endregion

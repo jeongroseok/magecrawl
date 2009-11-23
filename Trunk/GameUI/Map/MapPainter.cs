@@ -37,9 +37,10 @@ namespace Magecrawl.GameUI.Map
             {
                 for (int j = lowY; j < lowY + MapDrawnHeight; ++j)
                 {
-                    if (engine.Map.IsPointOnMap(new Point(i, j)))
+                    Point p = new Point(i, j);
+                    if (engine.Map.IsPointOnMap(p))
                     {
-                        DrawThing(mapUpCorner, new Point(i, j), m_offscreenConsole, ConvertTerrianToChar(engine.Map[i, j].Terrain));
+                        DrawThing(mapUpCorner, p, m_offscreenConsole, ConvertTerrianToChar(engine.Map[p].Terrain));
                     }
                 }
             }

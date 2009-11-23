@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using libtcodWrapper;
@@ -28,13 +29,8 @@ namespace Magecrawl.GameEngine.Items
             using (TCODRandom random = new TCODRandom())
             {
                 int targetLocation = random.GetRandomInt(0, m_itemMapping.Count - 1);
-                int currentLocation = 0;
-                foreach (string currentString in m_itemMapping.Keys)
-                {
-                    if (currentLocation == targetLocation)
-                        return m_itemMapping[currentString];
-                    currentLocation++;
-                }
+                string itemName = m_itemMapping.Keys.ToList()[targetLocation];
+                return m_itemMapping[itemName];
             }
             throw new System.ArgumentOutOfRangeException("CreateRandomItem - Did not find random item?");
         }

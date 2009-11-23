@@ -106,26 +106,19 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int j = 0; j < Height; ++j)
                 {
                     Point mapPosition = upperLeftCorner + new Point(i, j);
-                    map.GetInternalTile(mapPosition.X, mapPosition.Y).Terrain = MapSegment[i, j].Terrain;
+                    map.GetInternalTile(mapPosition).Terrain = MapSegment[i, j].Terrain;
                 }
             }
 
-            foreach (Point monsterPosition in MonsterSpawns)
-            {
-                // TODO: Get monster based on level
-                map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", upperLeftCorner + monsterPosition));
-            }
+            MonsterFactory monsterFactory = CoreGameEngine.Instance.MonsterFactory;
+            MonsterSpawns.ForEach(monsterPosition => map.AddMonster(monsterFactory.CreateMonster("Monster", upperLeftCorner + monsterPosition)));
 
-            foreach (Point treasurePosition in TreasureChests)
-            {
-                // TODO: Handle other map objects
-                map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition));
-            }
-
-            foreach (Point cosmeticPosition in Cosmetics)
-            {
-                // TODO: Handle cosmetics
-            }
+            // TODO: Handle other map objects
+            MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
+            TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
+            
+            // TODO: Handle cosmetics
+            // Cosmetics.ForEach(cosmeticPosition => ));
         }
 
         internal void UnplaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
@@ -135,34 +128,29 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int j = 0; j < Height; ++j)
                 {
                     Point mapPosition = upperLeftCorner + new Point(i, j);
-                    map.GetInternalTile(mapPosition.X, mapPosition.Y).Terrain = TerrainType.Wall;
+                    map.GetInternalTile(mapPosition).Terrain = TerrainType.Wall;
                 }
             }
 
             foreach (Point monsterPosition in MonsterSpawns)
             {
-                // TODO: Get monster based on level
-                foreach (ICharacter m in map.Monsters)
-                {
-                    if (m.Position == (upperLeftCorner + monsterPosition))
-                        map.KillMonster((Monster)m);
-                }
+                Monster monsterAtPoint = (Monster)map.Monsters.SingleOrDefault(x => x.Position == (upperLeftCorner + monsterPosition));
+                if (monsterAtPoint != null)
+                    map.KillMonster(monsterAtPoint);
             }
 
             foreach (Point treasurePosition in TreasureChests)
             {
                 // TODO: Handle other map objects
-                foreach (IMapObject o in map.MapObjects)
-                {
-                    if (o.Position == (upperLeftCorner + treasurePosition))
-                        map.RemoveMapItem((MapObject)o);
-                }
+                MapObject objectAtPoint = (MapObject)map.MapObjects.SingleOrDefault(x => x.Position == (upperLeftCorner + treasurePosition));
+                if (objectAtPoint != null)
+                    map.RemoveMapItem(objectAtPoint);
             }
 
-            foreach (Point cosmeticPosition in Cosmetics)
-            {
-                // TODO: Handle cosmetics
-            }
+            // TODO: Handle cosmetics
+            // foreach (Point cosmeticPosition in Cosmetics)
+            // {                
+            // }
         }
 
         public override string ToString()

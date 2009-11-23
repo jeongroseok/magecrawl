@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Magecrawl.Utilities
 {
@@ -19,12 +20,7 @@ namespace Magecrawl.Utilities
         // This version is faster since we don't have to calculate targetablePoints over and over again.
         public static bool PositionInTargetablePoints(Point pointOfInterest, List<EffectivePoint> targetablePoints)
         {
-            foreach (EffectivePoint t in targetablePoints)
-            {
-                if (t.Position == pointOfInterest)
-                    return true;
-            }
-            return false;
+            return targetablePoints.Where(t => t.Position == pointOfInterest).Count() > 0;
         }
     }
 }

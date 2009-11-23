@@ -36,6 +36,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        IMapTile this[Point p]
+        {
+            get;
+        }
+
         bool IsPointOnMap(Point p);
     }
 }

@@ -55,9 +55,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             playerPosition = m_playerPosition;
 
             if (!CheckConnectivity(map))
-            {
                 throw new System.InvalidOperationException("Generated non-connected map");
-            }
 
             return map;
         }
@@ -113,7 +111,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 case MapNodeType.None:
                 {
                     placed = true;
-                    map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                    map.GetInternalTile(seam).Terrain = TerrainType.Wall;
                     if (current.Neighbors.Count != 0)
                         throw new InvalidOperationException("None Node types should only have no neighbors");
                     break;
@@ -146,7 +144,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                         {
                             if (seamToFill == Point.Invalid)
                                 throw new System.InvalidOperationException("Trying to fill in invalid seam");
-                            map.GetInternalTile(seamToFill.X, seamToFill.Y).Terrain = TerrainType.Wall;
+                            map.GetInternalTile(seamToFill).Terrain = TerrainType.Wall;
                             break;
                         }
                     }
@@ -161,12 +159,12 @@ namespace Magecrawl.GameEngine.Level.Generator
             Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
             if (placedUpperLeftCorner == Point.Invalid)
             {
-                map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Wall;
+                map.GetInternalTile(seam).Terrain = TerrainType.Wall;
                 return false;
             }
             else
             {
-                map.GetInternalTile(seam.X, seam.Y).Terrain = TerrainType.Floor;
+                map.GetInternalTile(seam).Terrain = TerrainType.Floor;
                 parentChain.Push(mapChunk, placedUpperLeftCorner, seam);
                 WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner, parentChain);
                 parentChain.Pop();

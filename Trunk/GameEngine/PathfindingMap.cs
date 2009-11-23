@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
@@ -65,28 +66,18 @@ namespace Magecrawl.GameEngine
             // First get the 'default' values
             bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(m_map, m_player.Position);
 
-            // Now for each door, if we can operate, make it movable
+            // Now foor doors, if we can operate, make it movable
             // Doors are special. If they ever are not special, make this a virtual method
             if (canOperate)
             {
-                foreach (MapObject m in m_map.MapObjects)
-                {
-                    if (m is MapDoor)
-                    {
-                        moveableGrid[m.Position.X, m.Position.Y] = true;
-                    }
-                }
+                foreach (MapObject m in m_map.MapObjects.OfType<MapDoor>())
+                    moveableGrid[m.Position.X, m.Position.Y] = true;
             }
 
-            // Now for each monster, if they are our target, they are movable
-            foreach (Monster m in m_map.Monsters)
-            {
-                if (m.Position == dest)
-                {
-                    moveableGrid[m.Position.X, m.Position.Y] = true;
-                    break;
-                }
-            }
+            // Now for a targetted monster if any, they are movable
+            Monster monster = (Monster)m_map.Monsters.SingleOrDefault(x => x.Position == dest);
+            if (monster != null)
+                moveableGrid[monster.Position.X, monster.Position.Y] = true;
 
             // Same for player
             if (m_player.Position == dest)
