@@ -33,12 +33,12 @@ namespace Magecrawl.Keyboard
                 }
                 if (reader.LocalName == "KeyMapping")
                 {
-                    string key = reader.GetAttribute("Key");
+                    string keyString = reader.GetAttribute("Key");
                     string actionName = reader.GetAttribute("Action");
                     MethodInfo action = this.GetType().GetMethod(actionName, BindingFlags.Instance | BindingFlags.NonPublic);
                     if (action != null)
                     {
-                        NamedKey namedKey = NamedKey.FromName(key);
+                        NamedKey namedKey = new NamedKey(keyString);
                         m_keyMappings.Add(namedKey, action);
                     }
                     else if (requireAllActions)
