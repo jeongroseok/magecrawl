@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
@@ -169,12 +170,7 @@ namespace Magecrawl.Keyboard
 
         private NamedKey GetNamedKeyForMethodInfo(MethodInfo info)
         {
-            foreach (NamedKey key in m_keyMappings.Keys)
-            {
-                if (m_keyMappings[key] == info)
-                    return key;
-            }
-            throw new System.ArgumentException("GetNamedKeyForMethodInfo - Can't find NamedKey for method?");
+            return m_keyMappings.Keys.Where(k => m_keyMappings[k] == info).Single();
         }
 
         private void Attack()
