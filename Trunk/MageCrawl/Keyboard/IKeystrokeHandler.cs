@@ -11,37 +11,38 @@ namespace Magecrawl.Keyboard
         void NowPrimaried(object objOne, object objTwo, object objThree, object objFour);
     }
 
-    public struct NamedKey
+    public class NamedKey
     {
         public KeyCode Code;
         public char Character;
 
-        public static NamedKey Invalid = new NamedKey() 
-        {
-            Code = (KeyCode)(-1), Character = (char)0
-        };
+        public static NamedKey Invalid = new NamedKey();
 
-        public static NamedKey FromName(string name)
+        public NamedKey()
         {
-            NamedKey key;
+            Code = (KeyCode)(-1);
+            Character = (char)0;
+        }
+
+        public NamedKey(string name)
+        {
             try
             {
-                key.Code = (KeyCode)Enum.Parse(typeof(KeyCode), name);
-                key.Character = '\0';
+                Code = (KeyCode)Enum.Parse(typeof(KeyCode), name);
+                Character = '\0';
             }
             catch (ArgumentException)
             {
                 if (name.Length == 1)
                 {
-                    key.Code = KeyCode.TCODK_CHAR;
-                    key.Character = name[0];
+                    Code = KeyCode.TCODK_CHAR;
+                    Character = name[0];
                 }
                 else
                 {
                     throw new ArgumentException("Not a valid key name.", "name");
                 }
             }
-            return key;
         }
 
         public override bool Equals(object obj)
@@ -56,7 +57,7 @@ namespace Magecrawl.Keyboard
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return (int)Code ^ (int)Character;
         }
 
         public static bool operator ==(NamedKey lhs, NamedKey rhs)
