@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -61,11 +62,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                 return;
 
             current.Scratch = 3;
-            string tabString = String.Empty;
-            for (int i = 0; i < indent; i++)
-            {
-                tabString += "\t";
-            }
+
+            StringBuilder tabString = new StringBuilder();
+            tabString.Append('\t', indent);
             System.Console.Out.WriteLine(tabString + current.Type.ToString() + " " + current.UniqueID.ToString());
 
             foreach (MapNode n in current.Neighbors)
@@ -90,11 +89,8 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         public void ClearMapNodeScratch(MapNode graphHead)
         {
-            List<MapNode> nodeList = GenerateMapNodeList(graphHead);
-            foreach (MapNode n in nodeList)
-            {
+            foreach (MapNode n in GenerateMapNodeList(graphHead))
                 n.Scratch = 0;
-            }
         }
 
         private void StripEmptyHallWays(MapNode graphHead)

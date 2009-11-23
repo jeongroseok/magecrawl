@@ -54,8 +54,11 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public override void Operate()
         {
-            // Remove me
+            // Remove me first
             CoreGameEngine.Instance.Map.RemoveMapItem(this);
+
+            // Now drop a random item
+            // This should be level dependent
             Item newItem = CoreGameEngine.Instance.ItemFactory.CreateRandomItem();
             CoreGameEngine.Instance.Map.AddItem(new Pair<Items.Item, Point>(newItem, Position));
         }

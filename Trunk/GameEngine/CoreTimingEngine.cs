@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
@@ -35,17 +36,12 @@ namespace Magecrawl.GameEngine
             while (true)
             {
                 // Check all valid actors for ability to go now
-                foreach (Character currentActor in actors)
-                {
-                    if (currentActor.CT >= CTNeededForNewTurn)
-                        return currentActor;
-                }
+                Character actorWhoCanGo = actors.FirstOrDefault(a => a.CT >= CTNeededForNewTurn);
+                if (actorWhoCanGo != null)
+                    return actorWhoCanGo;
 
                 // No actors can go now, so incremenet each one's CT
-                foreach (Character currentActor in actors)
-                {
-                    currentActor.IncreaseCT((int)(CTPerIteration * currentActor.CTIncreaseModifier));
-                }
+                actors.ForEach(a => a.IncreaseCT((int)(CTPerIteration * a.CTIncreaseModifier)));
             }
         }
 

@@ -21,5 +21,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        bool IsSolid
+        {
+            get;
+        }
     }
 }

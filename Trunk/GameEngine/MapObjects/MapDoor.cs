@@ -33,10 +33,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             get
             {
-                if (m_opened)
-                    return MapObjectType.OpenDoor;
-                else
-                    return MapObjectType.ClosedDoor;
+                return m_opened ? MapObjectType.OpenDoor : MapObjectType.ClosedDoor;
             }
         }
 

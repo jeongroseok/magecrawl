@@ -159,6 +159,11 @@ namespace Magecrawl.GameEngine.Level
             return m_map[width, height];
         }
 
+        public MapTile GetInternalTile(Point p)
+        {
+            return m_map[p.X, p.Y];
+        }
+
         // This is a debugging tool. It prints out a map to Console Out. Usefor for visualizing a map.
         internal void PrintMapToStdOut()
         {

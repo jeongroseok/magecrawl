@@ -21,7 +21,7 @@ namespace Magecrawl.GameUI.ListSelection
         private int m_cursorPosition;                   // What item is the cursor on
         private bool m_useCharactersNextToItems;        // Should we put letters next to each letter
         private bool m_shouldNotResetCursorPosition;    // If set, the next time we show the inventory window, we don't reset the position.
-        private ListItemShouldBeEnabled m_shouldBeSelectedDelegate; //Called for each item to determine if we should enable it if not null
+        private ListItemShouldBeEnabled m_shouldBeSelectedDelegate; // Called for each item to determine if we should enable it if not null
         private string m_title;
 
         private DialogColorHelper m_dialogColorHelper;

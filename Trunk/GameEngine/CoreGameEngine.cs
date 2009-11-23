@@ -45,8 +45,8 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            // using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
-            using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
+            using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
+            // using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
             {
                 Point playerPosition;
                 m_map = mapGenerator.GenerateMap(out playerPosition);
@@ -243,6 +243,7 @@ namespace Magecrawl.GameEngine
             return currentItem.PlayerOptions;
         }
 
+        // TODO - This should be somewhere else
         internal bool PlayerSelectedItemOption(IItem item, string option)
         {
             bool didSomething = false;

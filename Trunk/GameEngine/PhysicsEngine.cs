@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
@@ -82,7 +83,7 @@ namespace Magecrawl.GameEngine
             // Remove it if it's not on map, or is wall, or same square as something solid from above, is it's not visible.
             pointList.RemoveAll(point => 
                 !m_map.IsPointOnMap(point.Position) || 
-                m_map[point.Position.X, point.Position.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Wall || 
+                m_map[point.Position].Terrain == TerrainType.Wall || 
                 m_movableHash.ContainsKey(point.Position) ||
                 (needsToBeVisible && !m_fovManager.Visible(point.Position)));
         }
@@ -118,16 +119,13 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = upperLeftCorner.Y; j < upperLeftCorner.Y + height; ++j)
                 {
-                    returnValue[i, j] = map[i, j].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+                    returnValue[i, j] = map[i, j].Terrain == TerrainType.Floor;
                 }
             }
 
-            foreach (MapObject obj in map.MapObjects)
+            foreach (MapObject obj in map.MapObjects.Where(x => x.IsSolid))
             {
-                if (obj.IsSolid)
-                {
-                    returnValue[obj.Position.X, obj.Position.Y] = false;
-                }
+                returnValue[obj.Position.X, obj.Position.Y] = false;
             }
 
             foreach (Monster m in map.Monsters)
@@ -142,30 +140,23 @@ namespace Magecrawl.GameEngine
         // Call CalculateMoveablePointGrid instead~!
         private bool IsMovablePoint(Map map, Player player, Point p)
         {
-            bool isMoveablePoint = map[p.X, p.Y].Terrain == Magecrawl.GameEngine.Interfaces.TerrainType.Floor;
+            // If it's not a floor, it's not movable
+            if (map[p].Terrain != TerrainType.Floor)
+                return false;
 
-            foreach (MapObject obj in map.MapObjects)
-            {
-                if (obj.Position == p && obj.IsSolid)
-                {
-                    isMoveablePoint = false;
-                    break;
-                }
-            }
+            // If there's a map object there that is solid, it's not movable
+            if (map.MapObjects.SingleOrDefault(m => m.Position == p && m.IsSolid) != null)
+                return false;
 
-            foreach (Monster m in map.Monsters)
-            {
-                if (m.Position == p)
-                {
-                    isMoveablePoint = false;
-                    break;
-                }
-            }
+            // If there's a monster there, it's not movable
+            if (map.Monsters.SingleOrDefault(m => m.Position == p) != null)
+                return false;
 
+            // If the player is there, it's not movable
             if (player.Position == p)
-                isMoveablePoint = false;
+                return false;
 
-            return isMoveablePoint;
+            return true;
         }
 
         public TileVisibility[,] CalculateTileVisibility()
@@ -232,13 +223,9 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = minY; j < maxY; ++j)
                 {
-                    if (m_map.IsPointOnMap(new Point(i, j)))
-                    {
-                        if (m_fovManager.Visible(new Point(i, j)))
-                        {
-                            m_map.GetInternalTile(i, j).Visited = true;
-                        }
-                    }
+                    Point p = new Point(i, j);
+                    if (m_map.IsPointOnMap(p) && m_fovManager.Visible(p))
+                        m_map.GetInternalTile(p).Visited = true;
                 }
             }
         }
@@ -284,20 +271,14 @@ namespace Magecrawl.GameEngine
 
         public bool Operate(Character characterOperating, Point pointToOperateAt)
         {
-            bool didAnything = false;
-
-            foreach (MapObject obj in m_map.MapObjects)
+            OperableMapObject operateObj = m_map.MapObjects.OfType<OperableMapObject>().SingleOrDefault(x => x.Position == pointToOperateAt);
+            if (operateObj != null)
             {
-                OperableMapObject operateObj = obj as OperableMapObject;
-                if (operateObj != null && operateObj.Position == pointToOperateAt)
-                {
-                    operateObj.Operate();
-                    m_timingEngine.ActorDidAction(characterOperating);
-                    didAnything = true;
-                }
+                operateObj.Operate();
+                m_timingEngine.ActorDidAction(characterOperating);
+                return true;
             }
-
-            return didAnything;
+            return false;
         }
 
         internal bool Wait(Character c)

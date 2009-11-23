@@ -70,9 +70,9 @@ namespace Magecrawl.GameEngine.Level.Generator
             if (!map.IsPointOnMap(p))
                 return;
 
-            if (map[p.X, p.Y].Terrain == TerrainType.Floor && map.GetInternalTile(p.X, p.Y).Scratch == 0)
+            if (map[p].Terrain == TerrainType.Floor && map.GetInternalTile(p).Scratch == 0)
             {
-                map.GetInternalTile(p.X, p.Y).Scratch = scratchValue;
+                map.GetInternalTile(p).Scratch = scratchValue;
                 FloodFill(map, p + new Point(1, 0), scratchValue);
                 FloodFill(map, p + new Point(-1, 0), scratchValue);
                 FloodFill(map, p + new Point(0, 1), scratchValue);
@@ -226,11 +226,10 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             foreach (Point p in tileList)
             {
-                int newX = x + p.X;
-                int newY = y + p.Y;
-                if (map.IsPointOnMap(new Point(newX, newY)))
+                Point newPoint = new Point(x + p.X, y + p.Y);
+                if (map.IsPointOnMap(newPoint))
                 {
-                    if (map[newX, newY].Terrain == typeToLookFor)
+                    if (map[newPoint].Terrain == typeToLookFor)
                         numberOfFloorTileSurrounding++;
                 }
             }
