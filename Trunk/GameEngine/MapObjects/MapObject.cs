@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.MapObjects
 {
@@ -21,9 +22,10 @@ namespace Magecrawl.GameEngine.MapObjects
             get;
         }
 
-        public abstract Magecrawl.Utilities.Point Position
+        public abstract Point Position
         {
             get;
+            internal set;
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()

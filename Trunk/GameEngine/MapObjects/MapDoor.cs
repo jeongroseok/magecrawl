@@ -43,6 +43,10 @@ namespace Magecrawl.GameEngine.MapObjects
             {
                 return m_position;
             }
+            internal set
+            {
+                m_position = value;
+            }
         }
 
         public override bool IsSolid
