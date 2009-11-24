@@ -187,6 +187,50 @@ namespace Magecrawl.GameEngine.Level.Generator
             throw new System.ApplicationException("GetFirstClearPoint found no clear points");
         }
 
+        protected Point GetSmallestPoint(Map map)
+        {
+            int smallestX = map.Width + 1;
+            int smallestY = map.Height + 1;
+
+            for (int i = 0; i < map.Width; ++i)
+            {
+                for (int j = 0; j < map.Height; ++j)
+                {
+                    if (map[i, j].Terrain == TerrainType.Floor)
+                    {
+                        smallestX = Math.Min(smallestX, i);
+                        smallestY = Math.Min(smallestY, j);
+                    }
+                }
+            }
+
+            if (smallestX == (map.Width + 1) || smallestY == (map.Height + 1))
+                throw new System.ApplicationException("GetSmallestPoint found no clear points");
+            return new Point(smallestX, smallestY);
+        }
+
+        protected Point GetLargestPoint(Map map)
+        {
+            int largestX = -1;
+            int largestY = -1;
+
+            for (int i = 0; i < map.Width; ++i)
+            {
+                for (int j = 0; j < map.Height; ++j)
+                {
+                    if (map[i, j].Terrain == TerrainType.Floor)
+                    {
+                        largestX = Math.Max(largestX, i);
+                        largestY = Math.Max(largestY, j);
+                    }
+                }
+            }
+
+            if (largestX == -1 || largestY == -1)
+                throw new System.ApplicationException("GetSmallestPoint found no clear points");
+            return new Point(largestX, largestY);
+        }
+
         private static List<Point> surroundingOneSquareList = new List<Point>
         { 
             new Point(-1, -1), new Point(-1, 0), new Point(-1, 1),

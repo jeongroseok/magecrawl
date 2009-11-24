@@ -45,14 +45,19 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             MapNode graphHead = m_graphGenerator.GenerateMapGraph();
 
-            m_graphGenerator.ClearMapNodeScratch(graphHead);
-            m_graphGenerator.PrintMapGraph(graphHead, 0);
+            // m_graphGenerator.ClearMapNodeScratch(graphHead);
+            // m_graphGenerator.PrintMapGraph(graphHead, 0);
 
             ParenthoodChain parentChain = new ParenthoodChain();
    
             GenerateMapFromGraph(graphHead, map, center, parentChain);
 
-            playerPosition = m_playerPosition;
+            Point upperLeft = GetSmallestPoint(map) - new Point(1, 1);
+            Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
+
+            map.TripToSubset(upperLeft, lowerRight);
+
+            playerPosition = m_playerPosition - upperLeft;
 
             if (!CheckConnectivity(map))
                 throw new System.InvalidOperationException("Generated non-connected map");

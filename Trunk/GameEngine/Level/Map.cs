@@ -59,6 +59,40 @@ namespace Magecrawl.GameEngine.Level
             return returnMap;
         }
 
+        // This assumes that all creatures/tiles/items are in that range and that's all that's in map
+        internal void TripToSubset(Point upperLeft, Point lowerRight)
+        {
+            m_width = lowerRight.X - upperLeft.X + 1;
+            m_height = lowerRight.Y - upperLeft.Y + 1;
+
+            MapTile[,] tempMap = new MapTile[m_width, m_height];
+
+            int tempI = 0;
+            for (int i = upperLeft.X; i <= lowerRight.X; ++i)
+            {
+                int tempJ = 0;
+                for (int j = upperLeft.Y; j <= lowerRight.Y; ++j)
+                {
+                    tempMap[tempI, tempJ] = new MapTile(m_map[i, j].Terrain);
+                    tempJ++;
+                }
+                tempI++;
+            }
+
+            m_map = tempMap;
+
+            m_mapObjects.ForEach(o => o.Position -= upperLeft);
+
+            List<Pair<Item, Point>> tempItemList = new List<Pair<Item,Point>>();
+            foreach (var item in m_items)
+            {
+                tempItemList.Add(new Pair<Item,Point>(item.First, item.Second - upperLeft));
+            }
+            m_items = tempItemList;
+            
+            m_monsterList.ForEach(m => m.Position -= upperLeft);
+        }
+
         internal void AddMonster(Monster m)
         {
             m_monsterList.Add(m);
