@@ -15,6 +15,8 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             switch (name)
             {
+                case "Cosmetic":
+                    return new Cosmetic(position);
                 case "Map Door":
                     return new MapDoor(position);
                 case "Treasure Chest":

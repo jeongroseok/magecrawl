@@ -24,6 +24,8 @@ namespace Magecrawl.GameUI
                     return ':';
                 case MapObjectType.TreasureChest:
                     return '+';
+                case MapObjectType.Cosmetic:
+                    return '_';
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertMapObjectToChar");
             }

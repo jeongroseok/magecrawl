@@ -117,8 +117,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
             TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
             
-            // TODO: Handle cosmetics
-            // Cosmetics.ForEach(cosmeticPosition => ));
+            Cosmetics.ForEach(cosmeticPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Cosmetic", upperLeftCorner + cosmeticPosition)));
         }
 
         internal void UnplaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
@@ -147,10 +146,12 @@ namespace Magecrawl.GameEngine.Level.Generator
                     map.RemoveMapItem(objectAtPoint);
             }
 
-            // TODO: Handle cosmetics
-            // foreach (Point cosmeticPosition in Cosmetics)
-            // {                
-            // }
+            foreach (Point cosmeticPosition in Cosmetics)
+            {
+                MapObject objectAtPoint = (MapObject)map.MapObjects.SingleOrDefault(x => x.Position == (upperLeftCorner + cosmeticPosition));
+                if (objectAtPoint != null)
+                    map.RemoveMapItem(objectAtPoint);
+            }
         }
 
         public override string ToString()

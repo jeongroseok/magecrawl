@@ -7,7 +7,8 @@ namespace Magecrawl.GameEngine.Interfaces
     {
         OpenDoor,
         ClosedDoor,
-        TreasureChest
+        TreasureChest,
+        Cosmetic
     }
 
     public interface IMapObject
