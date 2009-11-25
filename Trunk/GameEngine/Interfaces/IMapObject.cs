@@ -26,5 +26,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        bool CanOperate
+        {
+            get;
+        }
     }
 }
