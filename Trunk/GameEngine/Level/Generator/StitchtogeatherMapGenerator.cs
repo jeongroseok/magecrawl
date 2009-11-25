@@ -139,6 +139,16 @@ namespace Magecrawl.GameEngine.Level.Generator
                     placed = PlaceMapNode(current, GetRandomChunkFromList(m_mainRooms), map, seam, parentChain);
                     break;
                 }
+                case MapNodeType.TreasureRoom:
+                {
+                    placed = PlaceMapNode(current, GetRandomChunkFromList(m_treasureRooms), map, seam, parentChain);
+                    break;
+                }
+                case MapNodeType.SideRoom:
+                {
+                    placed = PlaceMapNode(current, GetRandomChunkFromList(m_sideRooms), map, seam, parentChain);
+                    break;
+                }
                 case MapNodeType.NoneGivenYet:
                 default:
                     throw new InvalidOperationException("Trying to generate MapNode from invalid node.");
