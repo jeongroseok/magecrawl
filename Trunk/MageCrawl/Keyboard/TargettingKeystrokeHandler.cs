@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
@@ -12,12 +13,15 @@ namespace Magecrawl.Keyboard
 
     internal class TargettingKeystrokeHandler : BaseKeystrokeHandler
     {
+        internal enum TargettingType { None, Monster, Operatable };
+
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
         private List<EffectivePoint> m_targetablePoints;
         private OnTargetSelection m_selectionDelegate;
         private NamedKey m_alternateSelectionKey;
         private bool m_doNotResetHandler;
+        private TargettingType m_targettingType;
 
         private Point SelectionPoint { get; set; }
 
@@ -25,6 +29,7 @@ namespace Magecrawl.Keyboard
         {
             m_engine = engine;
             m_gameInstance = instance;
+            m_targettingType = TargettingType.None;
         }
 
         public override void HandleKeystroke(NamedKey keystroke)
@@ -60,10 +65,10 @@ namespace Magecrawl.Keyboard
             else
                 m_alternateSelectionKey = NamedKey.Invalid;
 
-            if (objFour != null)
-                SelectionPoint = (Point)objFour;
-            else
-                SelectionPoint = SetTargettingInitialSpot(m_engine);
+            m_targettingType = (TargettingType)objFour;
+
+            SelectionPoint = SetTargettingInitialSpot(m_engine);
+
             m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(true, m_targetablePoints));
             m_gameInstance.SendPaintersRequest(new EnableMapCursor(true, SelectionPoint));
 
@@ -147,13 +152,23 @@ namespace Magecrawl.Keyboard
             HandleDirection(Direction.Southwest);
         }
 
-        // If not overridden, target a monster in range if there is one.
         private Point SetTargettingInitialSpot(IGameEngine engine)
         {
-            foreach (ICharacter m in engine.Map.Monsters)
+            if (m_targettingType == TargettingType.Monster)
             {
-                if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
-                    return m.Position;
+                foreach (ICharacter m in engine.Map.Monsters)
+                {
+                    if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
+                        return m.Position;
+                }
+            }
+            else if (m_targettingType == TargettingType.Operatable)
+            {
+                foreach (IMapObject m in engine.Map.MapObjects.Where(x => x.CanOperate))
+                {
+                    if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
+                        return m.Position;
+                }
             }
             
             // If we can't find a better spot, use the player's position

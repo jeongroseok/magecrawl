@@ -84,7 +84,7 @@ namespace Magecrawl.Keyboard
         private void Operate()
         {
             List<EffectivePoint> targetPoints = CalculateOperatePoints();
-            if (targetPoints.Count == 1)
+            if (Preferences.Instance.SinglePressOperate && targetPoints.Count == 1)
             {
                 m_engine.Operate(targetPoints[0].Position);
                 m_gameInstance.UpdatePainters();
@@ -93,7 +93,7 @@ namespace Magecrawl.Keyboard
             {
                 OnTargetSelection operateDelegate = new OnTargetSelection(OnOperate);
                 NamedKey operateKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-                m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey);
+                m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey, TargettingKeystrokeHandler.TargettingType.Operatable);
             }
         }
 
@@ -187,7 +187,7 @@ namespace Magecrawl.Keyboard
             List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
             OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
             NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-            m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey);
+            m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster);
         }
 
         private class SingleRangedAnimationHelper

@@ -101,7 +101,7 @@ namespace Magecrawl.Keyboard.Magic
                     m_gameInstance.UpdatePainters();
                     return true;
                 });
-                m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke);
+                m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke, TargettingKeystrokeHandler.TargettingType.Monster);
             }
             else if (spell.TargetType == "Self")
             {

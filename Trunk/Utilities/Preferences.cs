@@ -27,5 +27,13 @@ namespace Magecrawl.Utilities
             }
         }
 
+        public bool SinglePressOperate
+        {
+            get
+            {
+                return false;
+            }
+        }
+
     }
 }
