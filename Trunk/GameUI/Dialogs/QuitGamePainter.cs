@@ -37,6 +37,10 @@ namespace Magecrawl.GameUI.Dialogs
             {
                 m_yesEnabled = TCODSystem.ElapsedSeconds > m_timeToEnableYes;
 
+                // Don't make debugger wait
+                if (Preferences.Instance.DebuggingMode)
+                    m_yesEnabled = true;
+
                 m_dialogColorHelper.SaveColors(screen);
                 screen.DrawFrame(WelcomeScreenOffset, WelcomeScreenOffset + 5, UIHelper.ScreenWidth - (2 * WelcomeScreenOffset), 11, true);
                 string saveString = "Quitting the game will delete your current character. To stop playing now and continue your adventure later, use save instead.";

@@ -9,6 +9,7 @@ using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Dialogs;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
+using Magecrawl.Utilities;
 
 namespace Magecrawl
 {
@@ -56,7 +57,10 @@ namespace Magecrawl
             {
                 m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
                 SetupKeyboardHandlers();  // Requires game engine.
-                SetHandlerName("Welcome");
+                if (!Preferences.Instance.DebuggingMode)
+                    SetHandlerName("Welcome");
+                else
+                    SetHandlerName("Default");
             }
 
             // First update before event loop so we have a map to display
@@ -96,7 +100,9 @@ namespace Magecrawl
             // User closed the window, save and bail.
             if (m_console.IsWindowClosed() && !IsQuitting)
             {
-                m_engine.Save();
+                // Most of the time while debugging, we don't want to save on window close
+                if (!Preferences.Instance.DebuggingMode)
+                    m_engine.Save();
             }
         }
 

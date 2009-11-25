@@ -37,6 +37,9 @@ namespace Magecrawl.GameUI.Dialogs
             {
                 m_yesEnabled = TCODSystem.ElapsedSeconds > m_timeToEnableYes;
 
+                if (Preferences.Instance.DebuggingMode)
+                    m_yesEnabled = true;
+
                 m_dialogColorHelper.SaveColors(screen);
                 screen.DrawFrame(WelcomeScreenOffset, WelcomeScreenOffset + 5, UIHelper.ScreenWidth - (2 * WelcomeScreenOffset), 11, true);
                 string saveString = "Saving the game will end your current session and allow you to pickup playing later.";
