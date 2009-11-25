@@ -20,6 +20,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         private List<MapChunk> m_sideRooms;
         private Point m_playerPosition;
         private StitchtogeatherMapGraphGenerator m_graphGenerator;
+        private Queue<MapNode> m_unplacedDueToSpace;
 
         internal StitchtogeatherMapGenerator()
         {
@@ -28,6 +29,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_mainRooms = new List<MapChunk>();
             m_treasureRooms = new List<MapChunk>();
             m_sideRooms = new List<MapChunk>();
+            m_unplacedDueToSpace = new Queue<MapNode>();
             m_playerPosition = Point.Invalid;
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();
 
@@ -110,15 +112,26 @@ namespace Magecrawl.GameEngine.Level.Generator
                         placed = PlaceMapNode(current, GetRandomChunkFromList(m_halls), map, seam, parentChain);
                         if (placed)
                             break;
-                    }                    
+                    }
                     break;
                 }
                 case MapNodeType.None:
                 {
+                    // If we have nothing, see if we have any orphan nodes to try to place
+                    if (m_unplacedDueToSpace.Count > 0)
+                    {
+                        // Grab the first unplaced node, and try again.
+                        MapNode treeToGraphOn = m_unplacedDueToSpace.Dequeue();
+                        treeToGraphOn.Generated = false;
+                        GenerateMapFromGraph(treeToGraphOn, map, seam, parentChain);
+                    }
+                    else
+                    {
+                        map.GetInternalTile(seam).Terrain = TerrainType.Wall;
+                        if (current.Neighbors.Count != 0)
+                            throw new InvalidOperationException("None Node types should only have no neighbors");
+                    }
                     placed = true;
-                    map.GetInternalTile(seam).Terrain = TerrainType.Wall;
-                    if (current.Neighbors.Count != 0)
-                        throw new InvalidOperationException("None Node types should only have no neighbors");
                     break;
                 }
                 case MapNodeType.MainRoom:
@@ -132,29 +145,35 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
             if (!placed)
             {
-                ParenthoodChain localChain = new ParenthoodChain(parentChain);
-                ParenthoodElement top = localChain.Pop();
-                Point seamToFill = Point.Invalid;
-                if (top.Chunk.Type == MapNodeType.Hall)
+                UnplacePossibleHallwayToNowhere(map, parentChain);
+                m_unplacedDueToSpace.Enqueue(current);
+            }
+        }
+
+        private static void UnplacePossibleHallwayToNowhere(Map map, ParenthoodChain parentChain)
+        {
+            ParenthoodChain localChain = new ParenthoodChain(parentChain);
+            ParenthoodElement top = localChain.Pop();
+            Point seamToFill = Point.Invalid;
+            if (top.Chunk.Type == MapNodeType.Hall)
+            {
+                do
                 {
-                    do
+                    if (top.Chunk.Type == MapNodeType.Hall)
                     {
-                        if (top.Chunk.Type == MapNodeType.Hall)
-                        {
-                            top.Chunk.UnplaceChunkOnMapAtPosition(map, top.UpperLeft);
-                            seamToFill = top.Seam;
-                            top = localChain.Pop();
-                        }
-                        else
-                        {
-                            if (seamToFill == Point.Invalid)
-                                throw new System.InvalidOperationException("Trying to fill in invalid seam");
-                            map.GetInternalTile(seamToFill).Terrain = TerrainType.Wall;
-                            break;
-                        }
+                        top.Chunk.UnplaceChunkOnMapAtPosition(map, top.UpperLeft);
+                        seamToFill = top.Seam;
+                        top = localChain.Pop();
                     }
-                    while (true);
+                    else
+                    {
+                        if (seamToFill == Point.Invalid)
+                            throw new System.InvalidOperationException("Trying to fill in invalid seam");
+                        map.GetInternalTile(seamToFill).Terrain = TerrainType.Wall;
+                        break;
+                    }
                 }
+                while (true);
             }
         }
 

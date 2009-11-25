@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         internal StitchtogeatherMapGraphGenerator()
         {
-            m_stitchRatio = new StitchRatio(100);
+            m_stitchRatio = new StitchRatio(50);
         }
 
         internal MapNode GenerateMapGraph()
