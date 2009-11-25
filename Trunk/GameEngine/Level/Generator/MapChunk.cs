@@ -12,6 +12,8 @@ namespace Magecrawl.GameEngine.Level.Generator
 {
     internal class MapChunk
     {
+        static TCODRandom m_random = new TCODRandom();
+
         public int Width { get; set; }
         public int Height { get; set; }
         public List<Point> Seams { get; set; }
@@ -111,7 +113,11 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
 
             MonsterFactory monsterFactory = CoreGameEngine.Instance.MonsterFactory;
-            MonsterSpawns.ForEach(monsterPosition => map.AddMonster(monsterFactory.CreateMonster("Monster", upperLeftCorner + monsterPosition)));
+            foreach (Point p in MonsterSpawns)
+            {
+                if(m_random.Chance(50))
+                    map.AddMonster(monsterFactory.CreateMonster("Monster", upperLeftCorner + p));
+            }
 
             // TODO: Handle other map objects
             MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
@@ -228,11 +234,9 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             if (Seams.Count < NumberOfNeighbors(Type))
                 throw new ArgumentException("Not enough Seams for " + Type.ToString());
-
-            TCODRandom random = new TCODRandom();
             while (Seams.Count > NumberOfNeighbors(Type))
             {
-                Point removedPoint = Seams[random.GetRandomInt(0, Seams.Count - 1)];
+                Point removedPoint = Seams[m_random.GetRandomInt(0, Seams.Count - 1)];
                 Seams.Remove(removedPoint);
                 MapSegment[removedPoint.X, removedPoint.Y].Terrain = TerrainType.Wall;
             }
