@@ -12,7 +12,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 {
     internal class MapChunk
     {
-        static TCODRandom m_random = new TCODRandom();
+        private static TCODRandom m_random = new TCODRandom();
 
         public int Width { get; set; }
         public int Height { get; set; }
@@ -115,7 +115,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             MonsterFactory monsterFactory = CoreGameEngine.Instance.MonsterFactory;
             foreach (Point p in MonsterSpawns)
             {
-                if(m_random.Chance(50))
+                if (m_random.Chance(50))
                     map.AddMonster(monsterFactory.CreateMonster("Monster", upperLeftCorner + p));
             }
 

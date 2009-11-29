@@ -83,10 +83,10 @@ namespace Magecrawl.GameEngine.Level
 
             m_mapObjects.ForEach(o => o.Position -= upperLeft);
 
-            List<Pair<Item, Point>> tempItemList = new List<Pair<Item,Point>>();
+            List<Pair<Item, Point>> tempItemList = new List<Pair<Item, Point>>();
             foreach (var item in m_items)
             {
-                tempItemList.Add(new Pair<Item,Point>(item.First, item.Second - upperLeft));
+                tempItemList.Add(new Pair<Item, Point>(item.First, item.Second - upperLeft));
             }
             m_items = tempItemList;
             

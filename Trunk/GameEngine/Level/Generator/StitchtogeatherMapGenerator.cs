@@ -47,9 +47,6 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             MapNode graphHead = m_graphGenerator.GenerateMapGraph();
 
-            // m_graphGenerator.ClearMapNodeScratch(graphHead);
-            // m_graphGenerator.PrintMapGraph(graphHead, 0);
-
             ParenthoodChain parentChain = new ParenthoodChain();
    
             GenerateMapFromGraph(graphHead, map, center, parentChain);
