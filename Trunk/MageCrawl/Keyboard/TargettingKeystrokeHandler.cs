@@ -13,8 +13,11 @@ namespace Magecrawl.Keyboard
 
     internal class TargettingKeystrokeHandler : BaseKeystrokeHandler
     {
-        internal enum TargettingType { None, Monster, Operatable };
-
+        internal enum TargettingType 
+        {
+            None, Monster, Operatable
+        }
+            
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
         private List<EffectivePoint> m_targetablePoints;

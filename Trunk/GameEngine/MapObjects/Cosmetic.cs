@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Utilities;
-using Magecrawl.GameEngine.SaveLoad;
 using System.Xml;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.MapObjects
 {
-    class Cosmetic : MapObject
+    internal class Cosmetic : MapObject
     {
         private Point m_position;
 

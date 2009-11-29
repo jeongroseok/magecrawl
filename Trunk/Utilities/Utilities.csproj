@@ -53,6 +53,7 @@
     <Compile Include="PointListUtils.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="ProbabilityExtensions.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

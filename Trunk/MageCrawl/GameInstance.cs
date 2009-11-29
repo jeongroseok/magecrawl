@@ -180,6 +180,10 @@ namespace Magecrawl
             MapEffectsKeystrokeHandler effectHandler = new MapEffectsKeystrokeHandler(m_engine, this);
             effectHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Effects", effectHandler);
+
+            HelpKeyboardHandler helpHandler = new HelpKeyboardHandler(m_engine, this);
+            helpHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("Help", helpHandler);
         }
 
         internal void SetHandlerName(string s)

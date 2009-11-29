@@ -65,6 +65,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keyboard\Dialogs\HelpKeyboardHandler.cs" />
     <Compile Include="Keyboard\MapEffectsKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\QuitGameKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\SaveGameKeyboardHandler.cs" />

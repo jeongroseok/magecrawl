@@ -28,6 +28,7 @@ namespace Magecrawl.Keyboard
          * then map it to an unused key in KeyMappings.xml. The action should take no parameters and should return nothing.
          */
 
+        // If you add new non-debug commands, remember to update HelpPainter.cs
         private void North()
         {
             m_engine.MovePlayer(Direction.North);
@@ -144,7 +145,7 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        private void MoveableOnOff()
+        private void DebugMoveableOnOff()
         {
             if (Preferences.Instance.DebuggingMode)
             {
@@ -162,7 +163,7 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        private void FOVOnOff()
+        private void DebugFOVOnOff()
         {
             if (Preferences.Instance.DebuggingMode)
             {
@@ -277,6 +278,12 @@ namespace Magecrawl.Keyboard
         {
         }
 
+        private void Help()
+        {
+            m_gameInstance.SetHandlerName("Help", m_keyMappings);
+        }
+
+        // If you add new non-debug commands, remember to update HelpPainter.cs
         #endregion
     }
 }

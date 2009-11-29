@@ -34,6 +34,5 @@ namespace Magecrawl.Utilities
                 return false;
             }
         }
-
     }
 }
