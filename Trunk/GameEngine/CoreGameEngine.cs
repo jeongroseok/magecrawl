@@ -45,21 +45,15 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            // using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
-            using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
+            using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
+            // using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
             {
                 Point playerPosition;
                 m_map = mapGenerator.GenerateMap(out playerPosition);
                 m_player = new Player(playerPosition);
             }
 
-            m_timingEngine = new CoreTimingEngine();
-
-            m_physicsEngine = new PhysicsEngine(m_player, m_map);
-            m_pathFinding = new PathfindingMap(m_player, m_map);
-
-            // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
-            m_physicsEngine.AfterPlayerAction(this);
+            CommonStartupAfterMapPlayer();
 
             SendTextOutput("Welcome To Magecrawl.");
         }
@@ -70,11 +64,7 @@ namespace Magecrawl.GameEngine
 
             m_saveLoad.LoadGame(this, saveGameName);
 
-            m_physicsEngine = new PhysicsEngine(m_player, m_map);
-            m_pathFinding = new PathfindingMap(m_player, m_map);
-
-            // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
-            m_physicsEngine.AfterPlayerAction(this);
+            CommonStartupAfterMapPlayer();
 
             SendTextOutput("Welcome Back To Magecrawl");
         }
@@ -91,6 +81,18 @@ namespace Magecrawl.GameEngine
             MapObjectFactory = new MapObjectFactory();
 
             m_saveLoad = new SaveLoadCore();
+            
+            m_timingEngine = new CoreTimingEngine();
+        }
+
+
+        private void CommonStartupAfterMapPlayer()
+        {
+            m_physicsEngine = new PhysicsEngine(m_player, m_map);
+            m_pathFinding = new PathfindingMap(m_player, m_map);
+
+            // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
+            m_physicsEngine.AfterPlayerAction(this);
         }
 
         public void Dispose()
