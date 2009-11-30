@@ -14,6 +14,7 @@ namespace Magecrawl.GameUI
         protected const int OffscreenWidth = MapDrawnWidth + 1;
         protected const int OffscreenHeight = MapDrawnHeight + 1;
 
+        // If you change this, update HelpPainter.cs
         protected static char ConvertMapObjectToChar(MapObjectType t)
         {
             switch (t)
@@ -31,6 +32,7 @@ namespace Magecrawl.GameUI
             }
         }
 
+        // If you change this, update HelpPainter.cs
         protected static char ConvertTerrianToChar(TerrainType t)
         {
             switch (t)
