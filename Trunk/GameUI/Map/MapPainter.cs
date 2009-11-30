@@ -55,6 +55,7 @@ namespace Magecrawl.GameUI.Map
                 TileVisibility visibility = tileVisibility[obj.Second.X, obj.Second.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
                 {
+                    // If you change this, update HelpPainter.cs
                     DrawThingIfMultipleSpecialSymbol(mapUpCorner, obj.Second, m_offscreenConsole, '&', '%');
                 }
             }

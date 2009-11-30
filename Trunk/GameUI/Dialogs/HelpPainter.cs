@@ -10,10 +10,13 @@ namespace Magecrawl.GameUI.Dialogs
     {
         private bool m_enabled;
         private Dictionary<string, string> m_keyMappings;
+        private float m_startTime;
+        private static int m_numberOfCalls;
 
         internal HelpPainter()
         {
             m_enabled = false;
+            m_numberOfCalls = 0;
         }
 
         public override void DrawNewFrame(Console screen)
@@ -24,6 +27,31 @@ namespace Magecrawl.GameUI.Dialogs
             if (m_enabled)
             {
                 screen.DrawFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, true, "Help");
+
+                // Work around Broken ConsoleCreditsRender which returns true when it shouldn't
+                bool dialogDone = TCODSystem.ElapsedMilliseconds > m_startTime + 13000;
+                if (!dialogDone && m_numberOfCalls < 2)
+                    screen.ConsoleCreditsRender(RightThird + 10, 54, true);
+
+                string thanksText = "Copyright Chris Hamons 2009.\nThank you Ben Ledom for\nearly development help.\n\nSoli Deo Gloria";
+                screen.PrintLineRect(thanksText, RightThird - 19, 52, 45, 7, LineAlignment.Left);
+
+                string helpText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan pellentesque ligula, vitae iaculis nisl dictum sed. Suspendisse eget lacinia erat. Morbi at congue metus. In posuere urna vel enim consectetur fringilla. Aliquam condimentum consequat tincidunt. Mauris id vehicula lectus. Nulla sit amet facilisis eros. Nam nibh ipsum, lacinia non interdum eget, ullamcorper sed orci. Nullam pharetra mi id lacus lacinia id hendrerit diam convallis. Aliquam erat volutpat. Aenean id est volutpat eros mollis tristique at in nibh. Phasellus tempus aliquet bibendum. Fusce adipiscing varius mauris, sit amet tempus orci bibendum vel. Aenean metus eros, blandit a placerat quis, iaculis sed felis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis vehicula pulvinar cursus. Aenean sodales sagittis est vulputate posuere. Maecenas arcu sapien, consequat at tempus eget, pulvinar non turpis. Donec molestie adipiscing placerat. Vivamus et dolor tellus, vel volutpat elit. Sed blandit condimentum egestas. Curabitur sed eleifend turpis. Pellentesque in eleifend erat. Aliquam iaculis lorem vel nisl vulputate at sagittis risus lacinia. Etiam eget rutrum sapien.";
+                screen.PrintLineRect(helpText, 2, 2, UIHelper.ScreenWidth - 4, 18, LineAlignment.Left);
+
+                const int SymbolStartY = 23;
+                const int SymbolVerticalOffset = -8;
+                screen.PrintLine("Map Symbols", LeftThird + SymbolVerticalOffset, SymbolStartY, LineAlignment.Left);
+                screen.PrintLine("------------------------", LeftThird + SymbolVerticalOffset, SymbolStartY + 1, LineAlignment.Left);
+                screen.PrintLine("@ - You", LeftThird + SymbolVerticalOffset, SymbolStartY + 2, LineAlignment.Left);
+                screen.PrintLine("# - Wall", LeftThird + SymbolVerticalOffset, SymbolStartY + 3, LineAlignment.Left);
+                screen.PrintLine("  - Floor", LeftThird + SymbolVerticalOffset, SymbolStartY + 4, LineAlignment.Left);
+                screen.PrintLine("; - Open Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 5, LineAlignment.Left);
+                screen.PrintLine(": - Closed Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 6, LineAlignment.Left);
+                screen.PrintLine("_ - Cosmetic", LeftThird + SymbolVerticalOffset, SymbolStartY + 7, LineAlignment.Left);
+                screen.PrintLine("& - Item on Ground", LeftThird + SymbolVerticalOffset, SymbolStartY + 8, LineAlignment.Left);
+                screen.PrintLine("%% - Stack of Items", LeftThird + SymbolVerticalOffset, SymbolStartY + 9, LineAlignment.Left);
+                screen.PrintLine("M - Monster", LeftThird + SymbolVerticalOffset, SymbolStartY + 10, LineAlignment.Left);
 
                 const int ActionStartY = 36;
                 const int ActionVerticalOffset = -8;
@@ -38,7 +66,7 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.PrintLine("Wait        - " + m_keyMappings["Wait"], LeftThird + ActionVerticalOffset, ActionStartY + 8, LineAlignment.Left);
                 screen.PrintLine("View Mode   - " + m_keyMappings["ViewMode"], LeftThird + ActionVerticalOffset, ActionStartY + 9, LineAlignment.Left);
 
-                const int RebindingStartY = ActionStartY + 1;
+                const int RebindingStartY = SymbolStartY + 1;
                 string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";
                 screen.DrawFrame(RightThird - 12, RebindingStartY, 31, 9, true);
                 screen.PrintLineRect(rebindingText, RightThird - 11, RebindingStartY + 1, 29, 8, LineAlignment.Left);
@@ -56,19 +84,19 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.PrintLine("South West - " + m_keyMappings["Southwest"], LeftThird + DirectionVerticalOffset, DirectionStartY + 8, LineAlignment.Left);
                 screen.PrintLine("South East - " + m_keyMappings["Southeast"], LeftThird + DirectionVerticalOffset, DirectionStartY + 9, LineAlignment.Left);
 
-                const int OtherKeysStartY = DirectionStartY;
+                const int OtherKeysStartY = ActionStartY;
                 const int OtherKeysVerticalOffset = -12;
-                screen.PrintLine("Other Keys", RightThird + OtherKeysVerticalOffset, DirectionStartY, LineAlignment.Left);
-                screen.PrintLine("----------------------------", RightThird + OtherKeysVerticalOffset, DirectionStartY + 1, LineAlignment.Left);
+                screen.PrintLine("Other Keys", RightThird + OtherKeysVerticalOffset, OtherKeysStartY, LineAlignment.Left);
+                screen.PrintLine("----------------------------", RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 1, LineAlignment.Left);
                 screen.PrintLine("Text Box Page Up   - " + m_keyMappings["TextBoxPageUp"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 2, LineAlignment.Left);
                 screen.PrintLine("Text Box Page Down - " + m_keyMappings["TextBoxPageDown"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 3, LineAlignment.Left);
                 screen.PrintLine("Text Box Clear     - " + m_keyMappings["TextBoxClear"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 4, LineAlignment.Left);
-                screen.PrintLine("Escape             - " + m_keyMappings["Escape"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 4, LineAlignment.Left);
-                screen.PrintLine("Select             - " + m_keyMappings["Select"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 5, LineAlignment.Left);
-                screen.PrintLine("Save               - " + m_keyMappings["Save"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 6, LineAlignment.Left);
-                screen.PrintLine("Load               - " + m_keyMappings["Load"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 7, LineAlignment.Left);
-                screen.PrintLine("Help               - " + m_keyMappings["Help"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 8, LineAlignment.Left);
-                screen.PrintLine("Quit               - " + m_keyMappings["Quit"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 9, LineAlignment.Left);
+                screen.PrintLine("Escape             - " + m_keyMappings["Escape"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 5, LineAlignment.Left);
+                screen.PrintLine("Select             - " + m_keyMappings["Select"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 6, LineAlignment.Left);
+                screen.PrintLine("Save               - " + m_keyMappings["Save"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 7, LineAlignment.Left);
+                screen.PrintLine("Load               - " + m_keyMappings["Load"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 8, LineAlignment.Left);
+                screen.PrintLine("Help               - " + m_keyMappings["Help"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 9, LineAlignment.Left);
+                screen.PrintLine("Quit               - " + m_keyMappings["Quit"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 10, LineAlignment.Left);
             }
         }
 
@@ -84,6 +112,8 @@ namespace Magecrawl.GameUI.Dialogs
         {
             m_enabled = true;
             m_keyMappings = keyMappings;
+            m_startTime = TCODSystem.ElapsedMilliseconds;
+            m_numberOfCalls++;
         }
 
         internal void Disable()
