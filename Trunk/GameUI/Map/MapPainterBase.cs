@@ -27,6 +27,10 @@ namespace Magecrawl.GameUI
                     return '+';
                 case MapObjectType.Cosmetic:
                     return '_';
+                case MapObjectType.StairsDown:
+                    return '>';
+                case MapObjectType.StairsUp:
+                    return '<';
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertMapObjectToChar");
             }

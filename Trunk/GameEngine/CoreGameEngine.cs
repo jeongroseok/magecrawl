@@ -10,6 +10,7 @@ using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.GameEngine
 {
@@ -17,7 +18,15 @@ namespace Magecrawl.GameEngine
     internal sealed class CoreGameEngine : IDisposable
     {
         private Player m_player;
-        private Map m_map;
+
+        private Dictionary<int, Map> m_dungeon;
+
+        public int CurrentLevel
+        {
+            get;
+            internal set;
+        }
+
         private SaveLoadCore m_saveLoad;
         private PathfindingMap m_pathFinding;
         private PhysicsEngine m_physicsEngine;
@@ -45,12 +54,34 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            using (SimpleCaveGenerator mapGenerator = new SimpleCaveGenerator())
-            // using (StitchtogeatherMapGenerator mapGenerator = new StitchtogeatherMapGenerator())
+            CurrentLevel = 0;
+            Point playerPosition = new Point(35, 35);
+            m_player = new Player(playerPosition);
+
+            Point stairsUpPosition = playerPosition;
+            Point stairsDownPosition;
+
+            using (TCODRandom random = new TCODRandom())
             {
-                Point playerPosition;
-                m_map = mapGenerator.GenerateMap(out playerPosition);
-                m_player = new Player(playerPosition);
+                for (int i = 0; i < 5; ++i)
+                {
+                    MapGeneratorBase mapGenerator = null;
+                    try
+                    {
+                        if (random.Chance(50))
+                            mapGenerator = new SimpleCaveGenerator();
+                        else
+                            mapGenerator = new StitchtogeatherMapGenerator();
+                        m_dungeon[i] = mapGenerator.GenerateMap(stairsUpPosition, out stairsDownPosition);
+                        stairsUpPosition = stairsDownPosition;
+                        stairsDownPosition = Point.Invalid;
+                    }
+                    finally
+                    {
+                        if (mapGenerator == null)
+                            mapGenerator.Dispose();
+                    }
+                }
             }
 
             CommonStartupAfterMapPlayer();
@@ -83,13 +114,16 @@ namespace Magecrawl.GameEngine
             m_saveLoad = new SaveLoadCore();
             
             m_timingEngine = new CoreTimingEngine();
+
+            m_dungeon = new Dictionary<int, Map>();
+            CurrentLevel = 0;
         }
 
 
         private void CommonStartupAfterMapPlayer()
         {
-            m_physicsEngine = new PhysicsEngine(m_player, m_map);
-            m_pathFinding = new PathfindingMap(m_player, m_map);
+            m_physicsEngine = new PhysicsEngine(Player, Map);
+            m_pathFinding = new PathfindingMap(Player, Map);
 
             // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
             m_physicsEngine.AfterPlayerAction(this);
@@ -128,14 +162,27 @@ namespace Magecrawl.GameEngine
         {
             get
             {
-                return m_map;
+                return m_dungeon[CurrentLevel];
             }
         }
 
-        internal void SetWithSaveData(Player p, Map m)
+        internal Map GetSpecificFloor(int i)
+        {
+            return m_dungeon[i];
+        }
+
+        internal int NumberOfLevels
+        {
+            get
+            {
+                return m_dungeon.Keys.Count;
+            }
+        }
+
+        internal void SetWithSaveData(Player p, Dictionary<int,Map> d)
         {
             m_player = p;
-            m_map = m;
+            m_dungeon = d;
         }
 
         internal void Save()
@@ -148,9 +195,11 @@ namespace Magecrawl.GameEngine
         {
             SendTextOutput("Loading Game.");
             m_saveLoad.LoadGame(this, m_player.Name + ".sav");
+
             m_pathFinding.Dispose();
-            m_pathFinding = new PathfindingMap(m_player, m_map);
-            m_physicsEngine.GameLoaded(m_player, m_map);
+            m_pathFinding = new PathfindingMap(Player, Map);
+            m_physicsEngine.NewMapPlayerInfo(Player, Map);
+
             SendTextOutput("Game Loaded.");
         }
 
@@ -202,7 +251,7 @@ namespace Magecrawl.GameEngine
         // Unless your me, this smack yourself and try again.
         public bool[,] PlayerMoveableToEveryPoint()
         {
-            return PhysicsEngine.CalculateMoveablePointGrid(m_map, m_player.Position);
+            return PhysicsEngine.CalculateMoveablePointGrid(Map, Player.Position);
         }
 
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)

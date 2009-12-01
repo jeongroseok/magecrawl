@@ -57,11 +57,11 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        internal void GameLoaded(Player player, Map map)
+        internal void NewMapPlayerInfo(Player player, Map map)
         {
             m_player = player;
             m_map = map;
-            m_combatEngine.GameLoaded(player, map);
+            m_combatEngine.NewMapPlayerInfo(player, map);
 
             // We have a new map, recalc LOS with a new map
             m_fovManager.UpdateNewMap(this, m_map);    

@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine
             m_random = null;
         }
 
-        internal void GameLoaded(Player player, Map map)
+        internal void NewMapPlayerInfo(Player player, Map map)
         {
             m_player = player;
             m_map = map;        
