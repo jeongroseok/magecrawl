@@ -9,7 +9,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
-    internal class MapGeneratorBase : IDisposable
+    internal abstract class MapGeneratorBase : IDisposable
     {
         protected TCODRandom m_random;
 
@@ -25,12 +25,19 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_random = null;
         }
 
+        abstract internal Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition);
+
         public Point GetClearPoint(Map map)
         {
-            return GetClearPoint(map, Point.Invalid, 0);
+            return GetClearPoint(map, Point.Invalid, 0, 0);
         }
 
         public Point GetClearPoint(Map map, Point center, int distanceToKeepAway)
+        {
+            return GetClearPoint(map, Point.Invalid, distanceToKeepAway, 0);
+        }
+
+        public Point GetClearPoint(Map map, Point center, int distanceToKeepAway, int distanceFromEdges)
         {
             List<Point> clearPointList = new List<Point>();
 
@@ -48,8 +55,19 @@ namespace Magecrawl.GameEngine.Level.Generator
             // From a randomized order, check each point
             foreach (Point p in clearPointList.OrderBy(a => Guid.NewGuid()))
             {
+                // First check to make sure we're not too close to center point
                 if (center == Point.Invalid || PointDirectionUtils.LatticeDistance(p, center) > distanceToKeepAway)
+                {
+                    // Next check distance from edges
+                    if (distanceFromEdges > 0)
+                    {
+                        if (p.X > distanceFromEdges && p.X < (map.Width - distanceFromEdges) && p.Y > distanceFromEdges && p.Y < (map.Height - distanceFromEdges))
+                            return p;
+                        else
+                            continue;
+                    }
                     return p;
+                }
             }
             throw new System.InvalidOperationException("Unable to find clear point far enough away from given point.");
         }
@@ -293,6 +311,22 @@ namespace Magecrawl.GameEngine.Level.Generator
                 map.GetInternalTile(0, j).Terrain = TerrainType.Wall;
                 map.GetInternalTile(map.Width - 1, j).Terrain = TerrainType.Wall;
             }
+        }
+
+        protected static bool HasValidStairPositioning(Point upStairsPosition, Map map)
+        {
+            return (map.IsPointOnMap(upStairsPosition) && map[upStairsPosition].Terrain == TerrainType.Floor);
+        }
+        
+        protected void GenerateUpDownStairs(Map map, Point stairsUpPosition, out Point stairsDownPosition)
+        {
+            const int distanceToKeepDownStairsFromUpStairs = 15;
+            MapObject upStairs = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", stairsUpPosition);
+            map.AddMapItem(upStairs);
+
+            stairsDownPosition = GetClearPoint(map, stairsUpPosition, distanceToKeepDownStairsFromUpStairs, 5);
+            MapObject downStairs = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
+            map.AddMapItem(downStairs);
         }
 
         protected void GenerateMonstersAndChests(Map map, Point playerPosition)

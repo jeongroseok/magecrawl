@@ -80,6 +80,7 @@
     <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="MapObjects\Cosmetic.cs" />
     <Compile Include="MapObjects\MapObjectFactory.cs" />
+    <Compile Include="MapObjects\Stairs.cs" />
     <Compile Include="MapObjects\TreasureChest.cs" />
     <Compile Include="Level\Generator\MapGeneratorBase.cs" />
     <Compile Include="Level\Generator\SimpleCaveGenerator.cs" />

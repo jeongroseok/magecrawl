@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
+using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.SaveLoad
 {
@@ -54,16 +55,28 @@ namespace Magecrawl.GameEngine.SaveLoad
             if (versionString != SaveVersion.ToString())
                 throw new System.InvalidOperationException("Attemping to load bad savefile.");
 
-            Map loadMap = new Map();
-             
-            reader.ReadStartElement();
-            loadMap.ReadXml(reader);
-            reader.ReadEndElement();
+            int numberOfLevelsToLoad = reader.ReadElementContentAsInt();
+
+            int currentLevel = reader.ReadElementContentAsInt();
+
+            CoreGameEngine.Instance.CurrentLevel = currentLevel;
+
+            Dictionary<int, Map> loadingDungeon = new Dictionary<int, Map>();
+            
+            for (int i = 0; i < numberOfLevelsToLoad; i++)
+            {
+                Map loadMap = new Map();
+
+                reader.ReadStartElement();
+                loadMap.ReadXml(reader);
+                reader.ReadEndElement();
+                loadingDungeon[i] = loadMap;
+            }
             
             Player loadPlayer = new Player();
             loadPlayer.ReadXml(reader);
 
-            CoreGameEngine.Instance.SetWithSaveData(loadPlayer, loadMap);
+            CoreGameEngine.Instance.SetWithSaveData(loadPlayer, loadingDungeon);
 
             reader.ReadEndElement();
         }
@@ -72,10 +85,16 @@ namespace Magecrawl.GameEngine.SaveLoad
         {
             writer.WriteStartElement("MagecrawlSaveFile");
             writer.WriteElementString("Version", SaveVersion.ToString());
-          
-            writer.WriteStartElement(string.Format("Map{0}", 0));
-            (CoreGameEngine.Instance.Map as Map).WriteXml(writer);
-            writer.WriteEndElement();
+
+            writer.WriteElementString("DungonLength", CoreGameEngine.Instance.NumberOfLevels.ToString());
+            writer.WriteElementString("CurrentLevel", CoreGameEngine.Instance.CurrentLevel.ToString());
+
+            for (int i = 0; i < CoreGameEngine.Instance.NumberOfLevels ; i++)
+            {
+                writer.WriteStartElement(string.Format("Map{0}", i));
+                CoreGameEngine.Instance.GetSpecificFloor(i).WriteXml(writer);
+                writer.WriteEndElement();
+            }
 
             (CoreGameEngine.Instance.Player as Player).WriteXml(writer);
 

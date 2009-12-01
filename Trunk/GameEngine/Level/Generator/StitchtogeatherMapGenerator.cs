@@ -21,6 +21,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         private Point m_playerPosition;
         private StitchtogeatherMapGraphGenerator m_graphGenerator;
         private Queue<MapNode> m_unplacedDueToSpace;
+        private Point m_stairsUpPosition;
 
         internal StitchtogeatherMapGenerator()
         {
@@ -36,30 +37,35 @@ namespace Magecrawl.GameEngine.Level.Generator
             LoadChunksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
         }
 
-        internal Map GenerateMap(out Point playerPosition)
+        internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
         {
-            int width = 250;
-            int height = 250;
-            Map map = new Map(width, height);
+            Map map;
+            do
+            {
+                int width = 250;
+                int height = 250;
+                map = new Map(width, height);
 
-            // Point center = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
-            Point center = new Point(100, 100);
+                m_stairsUpPosition = stairsUpPosition;
 
-            MapNode graphHead = m_graphGenerator.GenerateMapGraph();
+                MapNode graphHead = m_graphGenerator.GenerateMapGraph();
 
-            ParenthoodChain parentChain = new ParenthoodChain();
-   
-            GenerateMapFromGraph(graphHead, map, center, parentChain);
+                ParenthoodChain parentChain = new ParenthoodChain();
+       
+                GenerateMapFromGraph(graphHead, map, Point.Invalid, parentChain);
 
-            Point upperLeft = GetSmallestPoint(map) - new Point(1, 1);
-            Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
+                // UpperLeft is 0,0 since we need to place stairs at specific position. Trimming would move it.
+                Point upperLeft = new Point(0,0);
+                Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
 
-            map.TripToSubset(upperLeft, lowerRight);
-
-            playerPosition = m_playerPosition - upperLeft;
+                map.TripToSubset(upperLeft, lowerRight);
+            }
+            while (!HasValidStairPositioning(stairsUpPosition, map));
 
             if (!CheckConnectivity(map))
                 throw new System.InvalidOperationException("Generated non-connected map");
+
+            GenerateUpDownStairs(map, stairsUpPosition, out stairsDownPosition);
 
             return map;
         }
@@ -86,8 +92,10 @@ namespace Magecrawl.GameEngine.Level.Generator
                 case MapNodeType.Entrance:
                 {
                     placed = true;
-                    Point entraceUpperLeftCorner = seam;
                     MapChunk entranceChunk = GetRandomChunkFromList(m_entrances);
+
+                    // We need to place entrace so it's at our expected location
+                    Point entraceUpperLeftCorner = m_stairsUpPosition - entranceChunk.PlayerPosition;
 
                     parentChain.Push(entranceChunk, entraceUpperLeftCorner, Point.Invalid);
 

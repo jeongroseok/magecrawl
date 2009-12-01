@@ -21,6 +21,10 @@ namespace Magecrawl.GameEngine.MapObjects
                     return new MapDoor(position);
                 case "Treasure Chest":
                     return new TreasureChest(position);
+                case "Stairs Up":
+                    return new Stairs(position, true);
+                case "Stairs Down":
+                    return new Stairs(position, false);
                 default:
                     throw new System.ArgumentException("Invalid type in MapObjectFactory:CreateMapObject");
             }
