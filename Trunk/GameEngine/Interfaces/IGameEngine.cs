@@ -36,15 +36,21 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        int CurrentLevel
+        {
+            get;
+        }
+
         bool MovePlayer(Direction direction);
         bool Operate(Point pointToOperateAt);
         bool PlayerWait();
         void Save();
-        void Load();
         bool PlayerGetItem();
         bool PlayerAttack(Point target);
         bool PlayerCouldCastSpell(ISpell spell);
         bool PlayerCastSpell(ISpell spell, Point target);
+        bool PlayerMoveDownStairs();
+        bool PlayerMoveUpStairs();
         List<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
 

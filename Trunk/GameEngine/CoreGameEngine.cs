@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
@@ -20,12 +21,6 @@ namespace Magecrawl.GameEngine
         private Player m_player;
 
         private Dictionary<int, Map> m_dungeon;
-
-        public int CurrentLevel
-        {
-            get;
-            internal set;
-        }
 
         private SaveLoadCore m_saveLoad;
         private PathfindingMap m_pathFinding;
@@ -54,7 +49,8 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            CurrentLevel = 0;
+            // Don't use property so we don't hit validation code
+            m_currentLevel = 0;
             Point playerPosition = new Point(35, 35);
             m_player = new Player(playerPosition);
 
@@ -93,7 +89,7 @@ namespace Magecrawl.GameEngine
         {
             CommonStartup(textOutput, diedDelegate);
 
-            m_saveLoad.LoadGame(this, saveGameName);
+            m_saveLoad.LoadGame(saveGameName);
 
             CommonStartupAfterMapPlayer();
 
@@ -116,7 +112,6 @@ namespace Magecrawl.GameEngine
             m_timingEngine = new CoreTimingEngine();
 
             m_dungeon = new Dictionary<int, Map>();
-            CurrentLevel = 0;
         }
 
 
@@ -166,6 +161,23 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        private int m_currentLevel;
+        public int CurrentLevel
+        {
+            get
+            {
+                return m_currentLevel;
+            }
+            internal set
+            {
+                m_currentLevel = value;
+
+                m_pathFinding.Dispose();
+                m_pathFinding = new PathfindingMap(Player, Map);
+                m_physicsEngine.NewMapPlayerInfo(Player, Map);
+            }
+        }
+
         internal Map GetSpecificFloor(int i)
         {
             return m_dungeon[i];
@@ -179,28 +191,20 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        internal void SetWithSaveData(Player p, Dictionary<int,Map> d)
+        // Due to the way XML serialization works, we grab the Instance version of this 
+        // class, not any that we could pass in. This allows us to set the map data.
+        internal void SetWithSaveData(Player p, Dictionary<int,Map> d, int currentLevel)
         {
             m_player = p;
             m_dungeon = d;
+            //Don't use property so we don't hit state changing code
+            m_currentLevel = currentLevel;
         }
 
         internal void Save()
         {
             SendTextOutput("Saving Game.");
-            m_saveLoad.SaveGame(this, m_player.Name + ".sav");
-        }
-
-        internal void Load()
-        {
-            SendTextOutput("Loading Game.");
-            m_saveLoad.LoadGame(this, m_player.Name + ".sav");
-
-            m_pathFinding.Dispose();
-            m_pathFinding = new PathfindingMap(Player, Map);
-            m_physicsEngine.NewMapPlayerInfo(Player, Map);
-
-            SendTextOutput("Game Loaded.");
+            m_saveLoad.SaveGame(m_player.Name + ".sav");
         }
 
         internal bool Move(Character c, Direction direction)
@@ -234,6 +238,30 @@ namespace Magecrawl.GameEngine
         internal bool PlayerGetItem()
         {
             return m_physicsEngine.PlayerGetItem();
+        }
+
+        internal bool PlayerMoveUpStairs()
+        {
+            Stairs s = Map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsUp && x.Position == Player.Position).SingleOrDefault();
+            if (s != null)
+            {
+                CurrentLevel--;
+                m_timingEngine.ActorMadeMove(m_player);
+                return true;
+            }
+            return false;
+        }
+
+        internal bool PlayerMoveDownStairs()
+        {
+            Stairs s = Map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsDown && x.Position == Player.Position).SingleOrDefault();
+            if (s != null)
+            {
+                CurrentLevel++;
+                m_timingEngine.ActorMadeMove(m_player);
+                return true;
+            }
+            return false;
         }
 
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
@@ -282,16 +310,14 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        internal List<ItemOptions> GetOptionsForInventoryItem(IItem item)
+        internal List<ItemOptions> GetOptionsForInventoryItem(Item item)
         {
-            Item currentItem = item as Item;
-            return currentItem.PlayerOptions;
+            return item.PlayerOptions;
         }
 
-        internal List<ItemOptions> GetOptionsForEquipmentItem(IItem item)
+        internal List<ItemOptions> GetOptionsForEquipmentItem(Item item)
         {
-            Item currentItem = item as Item;
-            return currentItem.PlayerOptions;
+            return item.PlayerOptions;
         }
 
         // TODO - This should be somewhere else

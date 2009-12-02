@@ -16,7 +16,7 @@ namespace Magecrawl.GameEngine.SaveLoad
         private bool useSavegameCompression = false;
         private bool permDeath = true;
 
-        internal bool SaveGame(CoreGameEngine engine, string filename)
+        internal bool SaveGame(string filename)
         {
             if (useSavegameCompression)
                 SaveGameCompressed(filename);
@@ -26,7 +26,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             return true;
         }
 
-        internal bool LoadGame(CoreGameEngine engine, string filename)
+        internal bool LoadGame(string filename)
         {
             if (useSavegameCompression)
                 LoadGameCompressed(filename);
@@ -59,8 +59,6 @@ namespace Magecrawl.GameEngine.SaveLoad
 
             int currentLevel = reader.ReadElementContentAsInt();
 
-            CoreGameEngine.Instance.CurrentLevel = currentLevel;
-
             Dictionary<int, Map> loadingDungeon = new Dictionary<int, Map>();
             
             for (int i = 0; i < numberOfLevelsToLoad; i++)
@@ -76,7 +74,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             Player loadPlayer = new Player();
             loadPlayer.ReadXml(reader);
 
-            CoreGameEngine.Instance.SetWithSaveData(loadPlayer, loadingDungeon);
+            CoreGameEngine.Instance.SetWithSaveData(loadPlayer, loadingDungeon, currentLevel);
 
             reader.ReadEndElement();
         }

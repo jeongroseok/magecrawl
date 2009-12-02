@@ -131,20 +131,6 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("SaveGame");
         }
 
-        private void Load()
-        {
-            try
-            {
-                m_engine.Load();
-                m_gameInstance.UpdatePainters();
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                // TODO: Inform user somehow
-                m_gameInstance.UpdatePainters();
-            }
-        }
-
         private void DebugMoveableOnOff()
         {
             if (Preferences.Instance.DebuggingMode)
@@ -281,6 +267,18 @@ namespace Magecrawl.Keyboard
         private void Help()
         {
             m_gameInstance.SetHandlerName("Help", m_keyMappings);
+        }
+
+        private void DownStairs()
+        {
+            m_engine.PlayerMoveDownStairs();
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void UpStairs()
+        {
+            m_engine.PlayerMoveUpStairs();
+            m_gameInstance.UpdatePainters();
         }
 
         // If you add new non-debug commands, remember to update HelpPainter.cs
