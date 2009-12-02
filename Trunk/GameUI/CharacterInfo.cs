@@ -17,7 +17,7 @@ namespace Magecrawl.GameUI
         private const int InfoHeight = UIHelper.CharInfoHeight;
 
         private const int ScreenCenter = StartingX + (InfoWidth / 2);
-        public void Draw(Console screen, IPlayer player)
+        public void Draw(Console screen, IGameEngine engine, IPlayer player)
         {
             screen.DrawFrame(StartingX, 0, InfoWidth, InfoHeight, true);
             screen.PrintLine(player.Name, ScreenCenter, 1, LineAlignment.Center);
@@ -39,6 +39,9 @@ namespace Magecrawl.GameUI
             
             if (Preferences.Instance.DebuggingMode)
             {
+                string level = engine.CurrentLevel.ToString();
+                screen.PrintLine(level, 52, 56, LineAlignment.Left);
+
                 string position = player.Position.ToString();
                 screen.PrintLine(position, 52, 57, LineAlignment.Left);
 

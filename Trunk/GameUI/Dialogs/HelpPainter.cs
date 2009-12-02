@@ -65,13 +65,15 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.PrintLine("Operate     - " + m_keyMappings["Operate"], LeftThird + ActionVerticalOffset, ActionStartY + 7, LineAlignment.Left);
                 screen.PrintLine("Wait        - " + m_keyMappings["Wait"], LeftThird + ActionVerticalOffset, ActionStartY + 8, LineAlignment.Left);
                 screen.PrintLine("View Mode   - " + m_keyMappings["ViewMode"], LeftThird + ActionVerticalOffset, ActionStartY + 9, LineAlignment.Left);
+                screen.PrintLine("Down Stairs - " + m_keyMappings["DownStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 10, LineAlignment.Left);
+                screen.PrintLine("Up Stairs   - " + m_keyMappings["UpStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 11, LineAlignment.Left);
 
                 const int RebindingStartY = SymbolStartY + 1;
                 string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";
                 screen.DrawFrame(RightThird - 12, RebindingStartY, 31, 9, true);
                 screen.PrintLineRect(rebindingText, RightThird - 11, RebindingStartY + 1, 29, 8, LineAlignment.Left);
 
-                const int DirectionStartY = ActionStartY + 12;
+                const int DirectionStartY = ActionStartY + 14;
                 const int DirectionVerticalOffset = -8;
                 screen.PrintLine("Direction Keys", LeftThird + DirectionVerticalOffset, DirectionStartY, LineAlignment.Left);
                 screen.PrintLine("------------------------", LeftThird + DirectionVerticalOffset, DirectionStartY + 1, LineAlignment.Left);
@@ -94,9 +96,8 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.PrintLine("Escape             - " + m_keyMappings["Escape"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 5, LineAlignment.Left);
                 screen.PrintLine("Select             - " + m_keyMappings["Select"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 6, LineAlignment.Left);
                 screen.PrintLine("Save               - " + m_keyMappings["Save"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 7, LineAlignment.Left);
-                screen.PrintLine("Load               - " + m_keyMappings["Load"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 8, LineAlignment.Left);
-                screen.PrintLine("Help               - " + m_keyMappings["Help"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 9, LineAlignment.Left);
-                screen.PrintLine("Quit               - " + m_keyMappings["Quit"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 10, LineAlignment.Left);
+                screen.PrintLine("Help               - " + m_keyMappings["Help"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 8, LineAlignment.Left);
+                screen.PrintLine("Quit               - " + m_keyMappings["Quit"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 9, LineAlignment.Left);
             }
         }
 

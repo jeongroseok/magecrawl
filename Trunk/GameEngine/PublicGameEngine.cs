@@ -4,6 +4,7 @@ using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine
 {
@@ -58,6 +59,14 @@ namespace Magecrawl.GameEngine
             get
             {
                 return m_engine.Map;
+            }
+        }
+
+        public int CurrentLevel
+        {
+            get
+            {
+                return m_engine.CurrentLevel;
             }
         }
 
@@ -119,11 +128,6 @@ namespace Magecrawl.GameEngine
             m_engine.Save();
         }
 
-        public void Load()
-        {
-            m_engine.Load();
-        }
-
         public List<Point> PlayerPathToPoint(Magecrawl.Utilities.Point dest)
         {
             return m_engine.PathToPoint(m_engine.Player, dest, true);
@@ -179,12 +183,12 @@ namespace Magecrawl.GameEngine
 
         public List<ItemOptions> GetOptionsForInventoryItem(IItem item)
         {
-            return m_engine.GetOptionsForInventoryItem(item);
+            return m_engine.GetOptionsForInventoryItem(item as Item);
         }
 
         public List<ItemOptions> GetOptionsForEquipmentItem(IItem item)
         {
-            return m_engine.GetOptionsForEquipmentItem(item);
+            return m_engine.GetOptionsForEquipmentItem(item as Item);
         }
 
         public bool PlayerSelectedItemOption(IItem item, string option)
@@ -198,6 +202,22 @@ namespace Magecrawl.GameEngine
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible)
         {
             m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision, needsToBeVisible);
+        }
+
+        public bool PlayerMoveDownStairs()
+        {
+            bool didAnything = m_engine.PlayerMoveDownStairs();
+            if (didAnything)
+                m_engine.AfterPlayerAction();
+            return didAnything;
+        }
+
+        public bool PlayerMoveUpStairs()
+        {
+            bool didAnything = m_engine.PlayerMoveUpStairs();
+            if (didAnything)
+                m_engine.AfterPlayerAction();
+            return didAnything;
         }
     }
 }
