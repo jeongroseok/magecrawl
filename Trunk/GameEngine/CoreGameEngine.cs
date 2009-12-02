@@ -65,9 +65,9 @@ namespace Magecrawl.GameEngine
                     try
                     {
                         if (random.Chance(50))
-                            mapGenerator = new SimpleCaveGenerator();
+                            mapGenerator = new SimpleCaveGenerator(random);
                         else
-                            mapGenerator = new StitchtogeatherMapGenerator();
+                            mapGenerator = new StitchtogeatherMapGenerator(random);
                         m_dungeon[i] = mapGenerator.GenerateMap(stairsUpPosition, out stairsDownPosition);
                         stairsUpPosition = stairsDownPosition;
                         stairsDownPosition = Point.Invalid;

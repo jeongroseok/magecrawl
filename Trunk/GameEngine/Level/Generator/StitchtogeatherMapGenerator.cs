@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -23,7 +24,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         private Queue<MapNode> m_unplacedDueToSpace;
         private Point m_stairsUpPosition;
 
-        internal StitchtogeatherMapGenerator()
+        internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
             m_entrances = new List<MapChunk>();
             m_halls = new List<MapChunk>();
