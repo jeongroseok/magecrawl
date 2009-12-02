@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
+using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -218,6 +220,19 @@ namespace Magecrawl.GameEngine
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;
+        }
+
+        public StairMovmentType IsStairMovementSpecial(bool headingUp)
+        {
+            Stairs s = m_engine.Map.MapObjects.OfType<Stairs>().Where(x => x.Position == m_engine.Player.Position).SingleOrDefault();
+            if (s != null)
+            {
+                if (s.Type == MapObjectType.StairsUp && m_engine.CurrentLevel == 0 && headingUp)
+                    return StairMovmentType.QuitGame;
+                else if (s.Type == MapObjectType.StairsDown && m_engine.CurrentLevel == (m_engine.NumberOfLevels - 1) && !headingUp)
+                    return StairMovmentType.WinGame;
+            }
+            return StairMovmentType.None;
         }
     }
 }

@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
+using Magecrawl.GameUI.Dialogs;
 
 namespace Magecrawl.Keyboard
 {
@@ -79,7 +80,7 @@ namespace Magecrawl.Keyboard
 
         private void Quit()
         {
-            m_gameInstance.SetHandlerName("QuitGame");
+            m_gameInstance.SetHandlerName("QuitGame", QuitReason.quitAction);
         }
 
         private void Operate()
@@ -271,14 +272,29 @@ namespace Magecrawl.Keyboard
 
         private void DownStairs()
         {
-            m_engine.PlayerMoveDownStairs();
-            m_gameInstance.UpdatePainters();
+            HandleStairs(m_engine.PlayerMoveDownStairs);
         }
 
         private void UpStairs()
         {
-            m_engine.PlayerMoveUpStairs();
-            m_gameInstance.UpdatePainters();
+            HandleStairs(m_engine.PlayerMoveUpStairs);
+        }
+
+        delegate bool StairMovement();
+        private void HandleStairs(StairMovement s)
+        {
+            StairMovmentType stairMovement = m_engine.IsStairMovementSpecial(s == m_engine.PlayerMoveUpStairs);
+            switch (stairMovement)
+            {
+                case StairMovmentType.QuitGame:
+                case StairMovmentType.WinGame:
+                    m_gameInstance.SetHandlerName("QuitGame", QuitReason.leaveDungeom);
+                    break;
+                case StairMovmentType.None:
+                    s();
+                    m_gameInstance.UpdatePainters();
+                    return;
+            }
         }
 
         // If you add new non-debug commands, remember to update HelpPainter.cs

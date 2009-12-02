@@ -39,7 +39,7 @@ namespace Magecrawl.GameUI
             
             if (Preferences.Instance.DebuggingMode)
             {
-                string level = engine.CurrentLevel.ToString();
+                string level = (engine.CurrentLevel + 1).ToString();
                 screen.PrintLine(level, 52, 56, LineAlignment.Left);
 
                 string position = player.Position.ToString();

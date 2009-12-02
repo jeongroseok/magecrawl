@@ -6,6 +6,11 @@ namespace Magecrawl.GameUI.Dialogs
 {
     public delegate void QuitSelected(bool shouldQuit);
 
+    public enum QuitReason
+    {
+        quitAction, leaveDungeom
+    }
+
     internal class QuitGamePainter : MapPainterBase
     {
         private bool m_enabled;
@@ -13,6 +18,7 @@ namespace Magecrawl.GameUI.Dialogs
         private DialogColorHelper m_dialogColorHelper;
         private bool m_yesSelected;
         private bool m_yesEnabled;
+        private QuitReason m_quitReason;
 
         public QuitGamePainter()
         {
@@ -43,8 +49,13 @@ namespace Magecrawl.GameUI.Dialogs
 
                 m_dialogColorHelper.SaveColors(screen);
                 screen.DrawFrame(WelcomeScreenOffset, WelcomeScreenOffset + 5, UIHelper.ScreenWidth - (2 * WelcomeScreenOffset), 11, true);
-                string saveString = "Quitting the game will delete your current character. To stop playing now and continue your adventure later, use save instead.";
-                screen.PrintLineRect(saveString, UIHelper.ScreenWidth / 2, 7 + WelcomeScreenOffset, UIHelper.ScreenWidth - 4 - (2 * WelcomeScreenOffset), UIHelper.ScreenHeight - (2 * WelcomeScreenOffset), LineAlignment.Center);
+                string quitString;
+                if (m_quitReason == QuitReason.quitAction)
+                    quitString = "Quitting the game will delete your current character. To stop playing now and continue your adventure later, use save instead.";
+                else
+                    quitString = "Leaving the dungeon will end the game early and delete your current character. To stop playing now and continue your adventure later, use save instead.";
+
+                screen.PrintLineRect(quitString, UIHelper.ScreenWidth / 2, 7 + WelcomeScreenOffset, UIHelper.ScreenWidth - 4 - (2 * WelcomeScreenOffset), UIHelper.ScreenHeight - (2 * WelcomeScreenOffset), LineAlignment.Center);
 
                 screen.PrintLine("Really Quit?",  UIHelper.ScreenWidth / 2, 11 + WelcomeScreenOffset, LineAlignment.Center);
 
@@ -57,10 +68,11 @@ namespace Magecrawl.GameUI.Dialogs
             }
         }
 
-        internal void Enable()
+        internal void Enable(QuitReason reason)
         {
             m_timeToEnableYes = TCODSystem.ElapsedSeconds + 2;
             m_enabled = true;
+            m_quitReason = reason;
         }
 
         internal void Disable()

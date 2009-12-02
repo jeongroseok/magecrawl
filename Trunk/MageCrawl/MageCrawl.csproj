@@ -65,6 +65,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\PlayerWonExceptoin.cs" />
     <Compile Include="Keyboard\Dialogs\HelpKeyboardHandler.cs" />
     <Compile Include="Keyboard\MapEffectsKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\QuitGameKeyboardHandler.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="Keyboard\IKeystrokeHandler.cs" />
     <Compile Include="Keyboard\KeystrokeManager.cs" />
     <Compile Include="Keyboard\ViewmodeKeystrokeHandler.cs" />
-    <Compile Include="PlayerDiedException.cs">
+    <Compile Include="Exceptions\PlayerDiedException.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

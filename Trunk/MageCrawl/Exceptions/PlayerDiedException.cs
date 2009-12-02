@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Magecrawl
+namespace Magecrawl.Exceptions
 {
     [Serializable]
     public class PlayerDiedException : Exception
