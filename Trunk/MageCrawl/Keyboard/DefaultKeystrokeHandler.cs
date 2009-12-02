@@ -3,10 +3,10 @@ using System.Linq;
 using System.Reflection;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
-using Magecrawl.GameUI.Dialogs;
 
 namespace Magecrawl.Keyboard
 {
@@ -280,7 +280,7 @@ namespace Magecrawl.Keyboard
             HandleStairs(m_engine.PlayerMoveUpStairs);
         }
 
-        delegate bool StairMovement();
+        private delegate bool StairMovement();
         private void HandleStairs(StairMovement s)
         {
             StairMovmentType stairMovement = m_engine.IsStairMovementSpecial(s == m_engine.PlayerMoveUpStairs);
