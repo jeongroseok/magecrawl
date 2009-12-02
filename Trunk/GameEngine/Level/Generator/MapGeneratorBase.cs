@@ -13,9 +13,9 @@ namespace Magecrawl.GameEngine.Level.Generator
     {
         protected TCODRandom m_random;
 
-        internal MapGeneratorBase()
+        internal MapGeneratorBase(TCODRandom random)
         {
-            m_random = new TCODRandom();
+            m_random = random;
         }    
 
         public void Dispose()

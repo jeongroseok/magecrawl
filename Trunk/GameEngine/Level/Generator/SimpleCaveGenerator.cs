@@ -8,7 +8,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 {
     internal sealed class SimpleCaveGenerator : MapGeneratorBase
     {
-        internal SimpleCaveGenerator() : base()
+        internal SimpleCaveGenerator(TCODRandom random) : base(random)
         {
         }    
 
