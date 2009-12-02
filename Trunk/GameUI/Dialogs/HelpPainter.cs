@@ -36,8 +36,8 @@ namespace Magecrawl.GameUI.Dialogs
                 string thanksText = "Copyright Chris Hamons 2009.\nThank you Ben Ledom for\nearly development help.\n\nSoli Deo Gloria";
                 screen.PrintLineRect(thanksText, RightThird - 19, 52, 45, 7, LineAlignment.Left);
 
-                // string helpText = "Magecrawl is a roguelike game with an arcane theme. ";
-                // screen.PrintLineRect(helpText, 2, 2, UIHelper.ScreenWidth - 4, 18, LineAlignment.Left);
+                //// string helpText = "Magecrawl is a roguelike game with an arcane theme. ";
+                //// screen.PrintLineRect(helpText, 2, 2, UIHelper.ScreenWidth - 4, 18, LineAlignment.Left);
 
                 const int SymbolStartY = 3;
                 const int SymbolVerticalOffset = -8;
