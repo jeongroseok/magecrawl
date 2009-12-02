@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
@@ -11,7 +12,6 @@ using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
 namespace Magecrawl.GameEngine
 {
@@ -114,7 +114,6 @@ namespace Magecrawl.GameEngine
             m_dungeon = new Dictionary<int, Map>();
         }
 
-
         private void CommonStartupAfterMapPlayer()
         {
             m_physicsEngine = new PhysicsEngine(Player, Map);
@@ -193,11 +192,12 @@ namespace Magecrawl.GameEngine
 
         // Due to the way XML serialization works, we grab the Instance version of this 
         // class, not any that we could pass in. This allows us to set the map data.
-        internal void SetWithSaveData(Player p, Dictionary<int,Map> d, int currentLevel)
+        internal void SetWithSaveData(Player p, Dictionary<int, Map> d, int currentLevel)
         {
             m_player = p;
             m_dungeon = d;
-            //Don't use property so we don't hit state changing code
+
+            // Don't use property so we don't hit state changing code
             m_currentLevel = currentLevel;
         }
 

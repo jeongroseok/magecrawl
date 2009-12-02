@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
-using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.SaveLoad
 {
@@ -87,7 +87,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             writer.WriteElementString("DungonLength", CoreGameEngine.Instance.NumberOfLevels.ToString());
             writer.WriteElementString("CurrentLevel", CoreGameEngine.Instance.CurrentLevel.ToString());
 
-            for (int i = 0; i < CoreGameEngine.Instance.NumberOfLevels ; i++)
+            for (int i = 0; i < CoreGameEngine.Instance.NumberOfLevels; i++)
             {
                 writer.WriteStartElement(string.Format("Map{0}", i));
                 CoreGameEngine.Instance.GetSpecificFloor(i).WriteXml(writer);

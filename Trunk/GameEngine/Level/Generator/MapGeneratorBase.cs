@@ -315,16 +315,16 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         protected static bool HasValidStairPositioning(Point upStairsPosition, Map map)
         {
-            return (map.IsPointOnMap(upStairsPosition) && map[upStairsPosition].Terrain == TerrainType.Floor);
+            return map.IsPointOnMap(upStairsPosition) && map[upStairsPosition].Terrain == TerrainType.Floor;
         }
         
         protected void GenerateUpDownStairs(Map map, Point stairsUpPosition, out Point stairsDownPosition)
         {
-            const int distanceToKeepDownStairsFromUpStairs = 15;
+            const int DistanceToKeepDownStairsFromUpStairs = 15;
             MapObject upStairs = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", stairsUpPosition);
             map.AddMapItem(upStairs);
 
-            stairsDownPosition = GetClearPoint(map, stairsUpPosition, distanceToKeepDownStairsFromUpStairs, 5);
+            stairsDownPosition = GetClearPoint(map, stairsUpPosition, DistanceToKeepDownStairsFromUpStairs, 5);
             MapObject downStairs = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
             map.AddMapItem(downStairs);
         }

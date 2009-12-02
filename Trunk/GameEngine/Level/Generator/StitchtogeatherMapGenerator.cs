@@ -56,7 +56,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 GenerateMapFromGraph(graphHead, map, Point.Invalid, parentChain);
 
                 // UpperLeft is 0,0 since we need to place stairs at specific position. Trimming would move it.
-                Point upperLeft = new Point(0,0);
+                Point upperLeft = new Point(0, 0);
                 Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
 
                 map.TripToSubset(upperLeft, lowerRight);

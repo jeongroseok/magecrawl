@@ -292,6 +292,7 @@
         <CollectionProperty Name="Hungarian">
           <Value>hp</Value>
           <Value>mp</Value>
+          <Value>up</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine
 {
