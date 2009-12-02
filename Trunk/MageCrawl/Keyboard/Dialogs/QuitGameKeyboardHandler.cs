@@ -18,13 +18,14 @@ namespace Magecrawl.GameUI.Dialogs
 
         public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
         {
-            m_gameInstance.SendPaintersRequest(new EnableQuitDialog(true));
+            QuitReason reason = (QuitReason)objOne;
+            m_gameInstance.SendPaintersRequest(new EnableQuitDialog(reason));
             m_gameInstance.UpdatePainters();
         }
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new EnableQuitDialog(false));
+            m_gameInstance.SendPaintersRequest(new DisableDialog());
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

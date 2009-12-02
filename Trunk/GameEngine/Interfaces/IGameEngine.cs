@@ -24,6 +24,11 @@ namespace Magecrawl.GameEngine.Interfaces
         public bool Enabled;
     }
 
+    public enum StairMovmentType
+    {
+        None, QuitGame, WinGame
+    }
+
     public interface IGameEngine : IDisposable
     {
         IPlayer Player
@@ -49,8 +54,13 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerAttack(Point target);
         bool PlayerCouldCastSpell(ISpell spell);
         bool PlayerCastSpell(ISpell spell, Point target);
+        
+        // If you go up on level 0 or down at end, dialog should come up to let them know what's going on
+        StairMovmentType IsStairMovementSpecial(bool headingUp);
+
         bool PlayerMoveDownStairs();
         bool PlayerMoveUpStairs();
+
         List<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
 

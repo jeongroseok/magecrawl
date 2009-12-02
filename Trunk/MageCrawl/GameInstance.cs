@@ -1,5 +1,6 @@
 ﻿using System;
 using libtcodWrapper;
+using Magecrawl.Exceptions;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI;
@@ -77,16 +78,16 @@ namespace Magecrawl
                     m_painters.DrawNewFrame(m_console);
                     m_console.Flush();
                 }
-                catch (PlayerDiedException)
-                {
-                    HandleDeath();
-                    IsQuitting = true;
-                }
                 catch (System.Reflection.TargetInvocationException e)
                 {
                     if (e.InnerException is PlayerDiedException)
                     {
-                        HandleDeath();
+                        HandleGameOver("Player has died.");
+                        IsQuitting = true;
+                    }
+                    else if (e.InnerException is PlayerWonException)
+                    {
+                        HandleGameOver("Player has won.");
                         IsQuitting = true;
                     }
                     else
@@ -106,13 +107,13 @@ namespace Magecrawl
             }
         }
 
-        private void HandleDeath()
+        private void HandleGameOver(string textToDisplay)
         {
             // Put death information out here.
             SendPaintersRequest(new DisableAllOverlays());
             m_charInfo.Draw(m_console, m_engine, m_engine.Player);
             m_painters.DrawNewFrame(m_console);
-            TextBox.AddText("Player has died.");
+            TextBox.AddText(textToDisplay);
             TextBox.AddText("Press 'q' to exit.");
             TextBox.Draw(m_console);
             m_console.Flush();
