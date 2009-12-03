@@ -2,9 +2,9 @@
 
 namespace Magecrawl.GameUI.Dialogs.Requests
 {
-    public class DisableDialog : RequestBase
+    public class DisableQuitDialog : RequestBase
     {
-        public DisableDialog()
+        public DisableQuitDialog()
         {
         }
 

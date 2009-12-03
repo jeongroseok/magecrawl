@@ -16,17 +16,17 @@ namespace Magecrawl.GameEngine
     public class PublicGameEngine : IGameEngine
     {
         private CoreGameEngine m_engine;
-        
-        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
+
+        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
-            m_engine = new CoreGameEngine(textOutput, diedDelegate);
+            m_engine = new CoreGameEngine(textOutput, playerDiedDelegate);
         }
 
-        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate, string saveGameName)
+        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerStateChanged, string saveGameName)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
-            m_engine = new CoreGameEngine(textOutput, diedDelegate, saveGameName);
+            m_engine = new CoreGameEngine(textOutput, playerStateChanged, saveGameName);
         }
 
         public void Dispose()

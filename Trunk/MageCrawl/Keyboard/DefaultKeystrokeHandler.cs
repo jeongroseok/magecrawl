@@ -7,6 +7,7 @@ using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
+using Magecrawl.Exceptions;
 
 namespace Magecrawl.Keyboard
 {
@@ -287,14 +288,24 @@ namespace Magecrawl.Keyboard
             switch (stairMovement)
             {
                 case StairMovmentType.QuitGame:
-                case StairMovmentType.WinGame:
                     m_gameInstance.SetHandlerName("QuitGame", QuitReason.leaveDungeom);
+                    break;
+                case StairMovmentType.WinGame:
+                    // Don't save if player closes window with dialog up.
+                    m_gameInstance.ShouldSaveOnClose = false;
+                    string winString = "Congratulations, you have completed the magecrawl tech demo! " + m_engine.Player.Name + " continues on without you in search of further treasure and fame. Consider telling your story to others, including the creator.";
+                    m_gameInstance.SetHandlerName("OneButtonDialog", winString, new OnOneButtonComplete(OnWinDialogComplete));
                     break;
                 case StairMovmentType.None:
                     s();
                     m_gameInstance.UpdatePainters();
                     return;
             }
+        }
+
+        private void OnWinDialogComplete()
+        {
+            throw new PlayerWonException();
         }
 
         // If you add new non-debug commands, remember to update HelpPainter.cs
