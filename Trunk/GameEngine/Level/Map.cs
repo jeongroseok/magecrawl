@@ -60,7 +60,7 @@ namespace Magecrawl.GameEngine.Level
         }
 
         // This assumes that all creatures/tiles/items are in that range and that's all that's in map
-        internal void TripToSubset(Point upperLeft, Point lowerRight)
+        internal void TrimToSubset(Point upperLeft, Point lowerRight)
         {
             m_width = lowerRight.X - upperLeft.X + 1;
             m_height = lowerRight.Y - upperLeft.Y + 1;
