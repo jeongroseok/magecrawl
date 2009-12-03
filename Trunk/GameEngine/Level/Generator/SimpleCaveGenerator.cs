@@ -20,6 +20,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 int width = m_random.GetRandomInt(40, Math.Max(60, stairsUpPosition.X + 10));
                 int height = m_random.GetRandomInt(40, Math.Max(60, stairsUpPosition.Y + 10));
                 map = new Map(width, height);
+                Map duplicateMap = new Map(width, height);
 
                 // Fill non-sides with random bits
                 for (int i = 1; i < width - 1; ++i)
@@ -42,7 +43,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int z = 0; z < 4; ++z)
                 {
                     // Create a local copy to modify. We need both the old and new values for this calculation
-                    Map currentIterationMap = map.CopyMap();
+                    duplicateMap.CopyMap(map);
 
                     // Walk tiles, applying rule to local copy
                     for (int i = 1; i < width - 1; ++i)
@@ -54,14 +55,14 @@ namespace Magecrawl.GameEngine.Level.Generator
                             bool conditionOne = closeWalls >= 5;
                             bool conditionTwo = farWalls <= 2;
                             if (conditionOne || conditionTwo)
-                                currentIterationMap.GetInternalTile(i, j).Terrain = TerrainType.Wall;
+                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Wall;
                             else
-                                currentIterationMap.GetInternalTile(i, j).Terrain = TerrainType.Floor;
+                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Floor;
                         }
                     }
 
                     // Push our changes out
-                    map = currentIterationMap;
+                    map.CopyMap(duplicateMap);
                 }
 
                 // For 4 iterators, apply 2nd set of rules...
@@ -69,7 +70,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int z = 0; z < 4; ++z)
                 {
                     // Create a local copy to modify. We need both the old and new values for this calculation
-                    Map currentIterationMap = map.CopyMap();
+                    duplicateMap.CopyMap(map);
 
                     // Walk tiles, applying rule to local copy
                     for (int i = 1; i < width - 1; ++i)
@@ -79,14 +80,14 @@ namespace Magecrawl.GameEngine.Level.Generator
                             int closeWalls = CountNumberOfSurroundingWallTilesOneStepAway(map, i, j);
 
                             if (closeWalls >= 5)
-                                currentIterationMap.GetInternalTile(i, j).Terrain = TerrainType.Wall;
+                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Wall;
                             else
-                                currentIterationMap.GetInternalTile(i, j).Terrain = TerrainType.Floor;
+                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Floor;
                         }
                     }
 
                     // Push our changes out
-                    map = currentIterationMap;
+                    map.CopyMap(duplicateMap);
                 }
 
                 FillAllSmallerUnconnectedRooms(map);
