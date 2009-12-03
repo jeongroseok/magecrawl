@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\PlayerWonExceptoin.cs" />
+    <Compile Include="Keyboard\Dialogs\OneButtonDialogKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\HelpKeyboardHandler.cs" />
     <Compile Include="Keyboard\MapEffectsKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\QuitGameKeyboardHandler.cs" />

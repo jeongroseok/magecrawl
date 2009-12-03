@@ -24,11 +24,20 @@ namespace Magecrawl
         private CharacterInfo m_charInfo;
         private PaintingCoordinator m_painters;
 
+        public bool ShouldSaveOnClose
+        {
+            get;
+            set;
+        }
+
         internal GameInstance()
         {
             TextBox = new TextBox();
             m_charInfo = new CharacterInfo();
             m_painters = new PaintingCoordinator();
+
+            // Most of the time while debugging, we don't want to save on window close
+            ShouldSaveOnClose = !Preferences.Instance.DebuggingMode;
         }
 
         public void Dispose()
@@ -78,6 +87,16 @@ namespace Magecrawl
                     m_painters.DrawNewFrame(m_console);
                     m_console.Flush();
                 }
+                catch (PlayerDiedException)
+                {
+                    HandleGameOver("Player has died.");
+                    IsQuitting = true;
+                }
+                catch (PlayerWonException)
+                {
+                    HandleGameOver("Player has won.");
+                    IsQuitting = true;
+                }
                 catch (System.Reflection.TargetInvocationException e)
                 {
                     if (e.InnerException is PlayerDiedException)
@@ -99,11 +118,9 @@ namespace Magecrawl
             while (!m_console.IsWindowClosed() && !IsQuitting);
             
             // User closed the window, save and bail.
-            if (m_console.IsWindowClosed() && !IsQuitting)
+            if (m_console.IsWindowClosed() && !IsQuitting && ShouldSaveOnClose)
             {
-                // Most of the time while debugging, we don't want to save on window close
-                if (!Preferences.Instance.DebuggingMode)
-                    m_engine.Save();
+                m_engine.Save();
             }
         }
 
@@ -185,6 +202,10 @@ namespace Magecrawl
             HelpKeyboardHandler helpHandler = new HelpKeyboardHandler(m_engine, this);
             helpHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("Help", helpHandler);
+
+            OneButtonDialogKeyboardHandler oneButtonHandler = new OneButtonDialogKeyboardHandler(m_engine, this);
+            oneButtonHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("OneButtonDialog", oneButtonHandler);
         }
 
         internal void SetHandlerName(string s)

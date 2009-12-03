@@ -25,7 +25,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new DisableDialog());
+            m_gameInstance.SendPaintersRequest(new DisableQuitDialog());
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

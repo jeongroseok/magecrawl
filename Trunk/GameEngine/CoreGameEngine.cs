@@ -45,9 +45,9 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate)
         {
-            CommonStartup(textOutput, diedDelegate);
+            CommonStartup(textOutput, playerDiedDelegate);
 
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
@@ -85,9 +85,9 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome To Magecrawl.");
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate, string saveGameName)
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, string saveGameName)
         {
-            CommonStartup(textOutput, diedDelegate);
+            CommonStartup(textOutput, playerDiedDelegate);
 
             m_saveLoad.LoadGame(saveGameName);
 
@@ -96,10 +96,10 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome Back To Magecrawl");
         }
 
-        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate diedDelegate)
+        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate)
         {
             m_instance = this;
-            m_playerDied += diedDelegate;
+            m_playerDied += playerDiedDelegate;
             m_textOutput += textOutput;
 
             // Needs to happen before anything that could create a weapon
@@ -257,6 +257,8 @@ namespace Magecrawl.GameEngine
             Stairs s = Map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsDown && x.Position == Player.Position).SingleOrDefault();
             if (s != null)
             {
+                if (CurrentLevel == NumberOfLevels - 1)
+                    throw new InvalidOperationException("Win dialog should have come up instead.");
                 CurrentLevel++;
                 m_timingEngine.ActorMadeMove(m_player);
                 return true;

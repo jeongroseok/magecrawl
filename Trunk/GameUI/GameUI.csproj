@@ -45,9 +45,11 @@
     <Compile Include="CharacterInfo.cs" />
     <Compile Include="DialogColorHelper.cs" />
     <Compile Include="Dialogs\HelpPainter.cs" />
+    <Compile Include="Dialogs\OneButtonDialog.cs" />
     <Compile Include="Dialogs\QuitGamePainter.cs" />
     <Compile Include="Dialogs\Requests\DisableQuitDialog.cs" />
     <Compile Include="Dialogs\Requests\EnableHelpDialog.cs" />
+    <Compile Include="Dialogs\Requests\EnableOneButtonDialog.cs" />
     <Compile Include="Dialogs\Requests\EnableQuitDialog.cs" />
     <Compile Include="Dialogs\Requests\EnableSaveDialog.cs" />
     <Compile Include="Dialogs\Requests\QuitDialogMoveLeft.cs" />
