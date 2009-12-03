@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Reflection;
 using libtcodWrapper;
+using Magecrawl.Exceptions;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
-using Magecrawl.Exceptions;
 
 namespace Magecrawl.Keyboard
 {

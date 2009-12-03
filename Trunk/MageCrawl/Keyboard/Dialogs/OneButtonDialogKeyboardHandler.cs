@@ -29,7 +29,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new EnableOneButtonDialog(false, ""));
+            m_gameInstance.SendPaintersRequest(new EnableOneButtonDialog(false, string.Empty));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
             m_completeDelegate();

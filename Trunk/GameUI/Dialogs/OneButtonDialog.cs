@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
-    class OneButtonDialog : MapPainterBase
+    internal class OneButtonDialog : MapPainterBase
     {
         private bool m_enabled;
         private string m_text;
