@@ -59,7 +59,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 Point upperLeft = new Point(0, 0);
                 Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
 
-                map.TripToSubset(upperLeft, lowerRight);
+                map.TrimToSubset(upperLeft, lowerRight);
             }
             while (!HasValidStairPositioning(stairsUpPosition, map));
 
