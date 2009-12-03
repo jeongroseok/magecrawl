@@ -46,17 +46,18 @@ namespace Magecrawl.GameEngine.Level
         }
 
         // Doesn't implement all of ICloneable, just copies mapTiles
-        internal Map CopyMap()
+        internal void CopyMap(Map sourceMap)
         {
-            Map returnMap = new Map(m_width, m_height);
+            if(m_width != sourceMap.m_width || m_height != sourceMap.m_height)
+                throw new InvalidOperationException("CopyMap of different size");
+
             for (int i = 0; i < m_width; ++i)
             {
                 for (int j = 0; j < m_height; ++j)
                 {
-                    returnMap.GetInternalTile(i, j).Terrain = GetInternalTile(i, j).Terrain;
+                    m_map[i,j].Terrain = sourceMap.m_map[i, j].Terrain;
                 }
             }
-            return returnMap;
         }
 
         // This assumes that all creatures/tiles/items are in that range and that's all that's in map

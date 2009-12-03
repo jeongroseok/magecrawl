@@ -12,10 +12,12 @@ namespace Magecrawl.GameEngine.Level.Generator
     internal abstract class MapGeneratorBase : IDisposable
     {
         protected TCODRandom m_random;
+        private Dictionary<Map, List<Point>> m_clearPointCache;
 
         internal MapGeneratorBase(TCODRandom random)
         {
             m_random = random;
+            m_clearPointCache = new Dictionary<Map, List<Point>>();
         }    
 
         public void Dispose()
@@ -39,6 +41,40 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         public Point GetClearPoint(Map map, Point center, int distanceToKeepAway, int distanceFromEdges)
         {
+            List<Point> clearPointList;
+            if (m_clearPointCache.ContainsKey(map))
+                clearPointList = m_clearPointCache[map];
+            else
+                clearPointList = CalculateClearPointList(map);
+
+            // From a randomized order, check each point
+            foreach (Point p in clearPointList)
+            {
+                // First check to make sure we're not too close to center point
+                if (center == Point.Invalid || PointDirectionUtils.LatticeDistance(p, center) > distanceToKeepAway)
+                {
+                    // Next check distance from edges
+                    if (distanceFromEdges > 0)
+                    {
+                        if (p.X > distanceFromEdges && p.X < (map.Width - distanceFromEdges) && p.Y > distanceFromEdges && p.Y < (map.Height - distanceFromEdges))
+                        {
+                            clearPointList.Remove(p);
+                            m_clearPointCache[map] = clearPointList;
+                            return p;
+                        }
+                        else
+                            continue;
+                    }
+                    clearPointList.Remove(p);
+                    m_clearPointCache[map] = clearPointList;
+                    return p;
+                }
+            }
+            throw new System.InvalidOperationException("Unable to find clear point far enough away from given point.");
+        }
+
+        private static List<Point> CalculateClearPointList(Map map)
+        {
             List<Point> clearPointList = new List<Point>();
 
             bool[,] moveabilityGrid = PhysicsEngine.CalculateMoveablePointGrid(map);
@@ -51,25 +87,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                         clearPointList.Add(new Point(i, j));
                 }
             }
-
-            // From a randomized order, check each point
-            foreach (Point p in clearPointList.OrderBy(a => Guid.NewGuid()))
-            {
-                // First check to make sure we're not too close to center point
-                if (center == Point.Invalid || PointDirectionUtils.LatticeDistance(p, center) > distanceToKeepAway)
-                {
-                    // Next check distance from edges
-                    if (distanceFromEdges > 0)
-                    {
-                        if (p.X > distanceFromEdges && p.X < (map.Width - distanceFromEdges) && p.Y > distanceFromEdges && p.Y < (map.Height - distanceFromEdges))
-                            return p;
-                        else
-                            continue;
-                    }
-                    return p;
-                }
-            }
-            throw new System.InvalidOperationException("Unable to find clear point far enough away from given point.");
+            return clearPointList.OrderBy(a => Guid.NewGuid()).ToList();
         }
 
         protected void ResetScratch(Map map)
