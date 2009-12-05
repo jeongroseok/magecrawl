@@ -64,6 +64,7 @@
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potion.cs" />
     <Compile Include="Level\Generator\MapChunk.cs" />
+    <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
     <Compile Include="Level\Generator\MapNode.cs" />
     <Compile Include="Level\Generator\StitchParenthood.cs" />
     <Compile Include="Level\Generator\StitchRatio.cs" />

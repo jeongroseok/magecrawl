@@ -40,28 +40,26 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
         {
-            Map map;
-            do
-            {
-                int width = 250;
-                int height = 250;
-                map = new Map(width, height);
+            const int width = 250;
+            const int height = 250;
+            Map map = new Map(width, height);
 
-                m_stairsUpPosition = stairsUpPosition;
+            m_stairsUpPosition = stairsUpPosition;
 
-                MapNode graphHead = m_graphGenerator.GenerateMapGraph();
+            MapNode graphHead = m_graphGenerator.GenerateMapGraph();
 
-                ParenthoodChain parentChain = new ParenthoodChain();
-       
-                GenerateMapFromGraph(graphHead, map, Point.Invalid, parentChain);
+            ParenthoodChain parentChain = new ParenthoodChain();
+   
+            GenerateMapFromGraph(graphHead, map, Point.Invalid, parentChain);
 
-                // UpperLeft is 0,0 since we need to place stairs at specific position. Trimming would move it.
-                Point upperLeft = new Point(0, 0);
-                Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
+            // UpperLeft is 0,0 since we need to place stairs at specific position. Trimming would move it.
+            Point upperLeft = new Point(0, 0);
+            Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
 
-                map.TrimToSubset(upperLeft, lowerRight);
-            }
-            while (!HasValidStairPositioning(stairsUpPosition, map));
+            map.TrimToSubset(upperLeft, lowerRight);
+
+            if (!HasValidStairPositioning(stairsUpPosition, map))
+                throw new System.InvalidOperationException("Generated map with incorrect stair positioning");
 
             if (!CheckConnectivity(map))
                 throw new System.InvalidOperationException("Generated non-connected map");
