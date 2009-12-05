@@ -70,7 +70,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     return p;
                 }
             }
-            throw new System.InvalidOperationException("Unable to find clear point far enough away from given point.");
+            throw new MapGenerationFailureException("Unable to find clear point far enough away from given point.");
         }
 
         private static List<Point> CalculateClearPointList(Map map)
@@ -158,7 +158,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
 
             if (numberOfTilesWithThatScratch[0] != 0)
-                throw new System.InvalidOperationException("Some valid tiles didn't get a scratch during FillAllSmallerRooms.");
+                throw new MapGenerationFailureException("Some valid tiles didn't get a scratch during FillAllSmallerRooms.");
             
             // Find the largest collection
             int biggestNumber = 1;
@@ -182,7 +182,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
 
             if (!CheckConnectivity(map))
-                throw new InvalidOperationException("FillAllSmallerUnconnectedRooms produced a non-connected map.");
+                throw new MapGenerationFailureException("FillAllSmallerUnconnectedRooms produced a non-connected map.");
         }
 
         // Try to flood fill the map. Each seperate contigious spot gets a different scratch number.
@@ -206,7 +206,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             // If we didn't scratch any tiles, the map must be all walls, bail
             if (currentScratchNumber == 1)
-                throw new InvalidOperationException("FillAllSmallerUnconnectedRooms came to a level with all walls?");
+                throw new MapGenerationFailureException("FillAllSmallerUnconnectedRooms came to a level with all walls?");
             return currentScratchNumber;
         }
 

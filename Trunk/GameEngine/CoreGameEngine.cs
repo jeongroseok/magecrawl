@@ -57,6 +57,8 @@ namespace Magecrawl.GameEngine
             Point stairsUpPosition = playerPosition;
             Point stairsDownPosition;
 
+            int failedMapCreationAttempts = 0;
+
             using (TCODRandom random = new TCODRandom())
             {
                 for (int i = 0; i < 5; ++i)
@@ -72,9 +74,22 @@ namespace Magecrawl.GameEngine
                         stairsUpPosition = stairsDownPosition;
                         stairsDownPosition = Point.Invalid;
                     }
+                    catch (MapGenerationFailureException)
+                    {
+                        // Let's try again.
+                        if (failedMapCreationAttempts < 10)
+                        {
+                            i--;
+                            failedMapCreationAttempts++;
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
                     finally
                     {
-                        if (mapGenerator == null)
+                        if (mapGenerator != null)
                             mapGenerator.Dispose();
                     }
                 }

@@ -45,6 +45,20 @@ namespace Magecrawl.GameEngine.Level
             }
         }
 
+        internal void ClearMap()
+        {
+            for (int i = 0; i < m_width; ++i)
+            {
+                for (int j = 0; j < m_height; ++j)
+                {
+                    m_map[i, j].Terrain = TerrainType.Wall;
+                }
+            }
+            m_mapObjects.Clear();
+            m_monsterList.Clear();
+            m_items.Clear();
+        }
+
         // Doesn't implement all of ICloneable, just copies mapTiles
         internal void CopyMap(Map sourceMap)
         {
@@ -66,21 +80,17 @@ namespace Magecrawl.GameEngine.Level
             m_width = lowerRight.X - upperLeft.X + 1;
             m_height = lowerRight.Y - upperLeft.Y + 1;
 
-            MapTile[,] tempMap = new MapTile[m_width, m_height];
-
             int tempI = 0;
             for (int i = upperLeft.X; i <= lowerRight.X; ++i)
             {
                 int tempJ = 0;
                 for (int j = upperLeft.Y; j <= lowerRight.Y; ++j)
                 {
-                    tempMap[tempI, tempJ] = new MapTile(m_map[i, j].Terrain);
+                    m_map[tempI, tempJ].Terrain = m_map[i, j].Terrain;
                     tempJ++;
                 }
                 tempI++;
             }
-
-            m_map = tempMap;
 
             m_mapObjects.ForEach(o => o.Position -= upperLeft);
 
