@@ -23,6 +23,8 @@ namespace Magecrawl.GameEngine.Level.Generator
         private StitchtogeatherMapGraphGenerator m_graphGenerator;
         private Queue<MapNode> m_unplacedDueToSpace;
         private Point m_stairsUpPosition;
+        private int m_largestX;
+        private int m_largestY;
 
         internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
@@ -34,8 +36,21 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_unplacedDueToSpace = new Queue<MapNode>();
             m_playerPosition = Point.Invalid;
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();
+            m_largestX = -1;
+            m_largestY = -1;
 
             LoadChunksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
+        }
+
+        // So we don't have to walk the entire map to find the lower left and trim
+        // as we generate the map, keep track
+        private void PossiblyUpdateLargestPoint(Point upperLeft, MapChunk chunk)
+        {
+            Point lowerRight = upperLeft + new Point(chunk.Width, chunk.Height);
+            if (lowerRight.X > m_largestX)
+                m_largestX = lowerRight.X;
+            if (lowerRight.Y > m_largestY)
+                m_largestY = lowerRight.Y;
         }
 
         internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
@@ -54,7 +69,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             // UpperLeft is 0,0 since we need to place stairs at specific position. Trimming would move it.
             Point upperLeft = new Point(0, 0);
-            Point lowerRight = GetLargestPoint(map) + new Point(1, 1);
+            Point lowerRight = new Point(m_largestX, m_largestY);
 
             map.TrimToSubset(upperLeft, lowerRight);
 
@@ -99,6 +114,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     parentChain.Push(entranceChunk, entraceUpperLeftCorner, Point.Invalid);
 
                     entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner);
+                    PossiblyUpdateLargestPoint(entraceUpperLeftCorner, entranceChunk);
                     m_playerPosition = entranceChunk.PlayerPosition + entraceUpperLeftCorner;
 
                     if (current.Neighbors.Count != entranceChunk.Seams.Count)
@@ -202,6 +218,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
             else
             {
+                PossiblyUpdateLargestPoint(placedUpperLeftCorner, mapChunk);
                 map.SetTerrainAt(seam, TerrainType.Floor);
                 parentChain.Push(mapChunk, placedUpperLeftCorner, seam);
                 WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner, parentChain);
