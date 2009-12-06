@@ -94,7 +94,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
         }
 
-        protected void FloodFill(Map map, Point p, int scratchValue)
+        protected void FloodFill(Map map, Point p, byte scratchValue)
         {
             if (!map.IsPointOnMap(p))
                 return;
@@ -185,7 +185,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         protected int FloodFillWithContigiousNumbers(Map map)
         {
             ResetScratch(map);
-            int currentScratchNumber = 1;
+            byte currentScratchNumber = 1;
 
             // First we walk the entire map, flood filling each 
             for (int i = 0; i < map.Width; ++i)

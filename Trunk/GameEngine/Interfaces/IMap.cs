@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public enum TerrainType
+    public enum TerrainType : byte
     {
         Wall, Floor
     }
