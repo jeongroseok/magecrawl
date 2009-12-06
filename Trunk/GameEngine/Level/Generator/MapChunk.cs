@@ -93,7 +93,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int j = 0; j < Height; ++j)
                 {
                     Point mapPosition = upperLeftCorner + new Point(i, j);
-                    if (map[mapPosition].Terrain == TerrainType.Floor)
+                    if (map.GetTerrainAt(mapPosition) == TerrainType.Floor)
                         return false;
                 }
             }
@@ -108,7 +108,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int j = 0; j < Height; ++j)
                 {
                     Point mapPosition = upperLeftCorner + new Point(i, j);
-                    map.GetInternalTile(mapPosition).Terrain = MapSegment[i, j].Terrain;
+                    map.SetTerrainAt(mapPosition, MapSegment[i, j].Terrain);
                 }
             }
 
@@ -133,7 +133,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int j = 0; j < Height; ++j)
                 {
                     Point mapPosition = upperLeftCorner + new Point(i, j);
-                    map.GetInternalTile(mapPosition).Terrain = TerrainType.Wall;
+                    map.SetTerrainAt(mapPosition, TerrainType.Wall);
                 }
             }
 

@@ -131,7 +131,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     }
                     else
                     {
-                        map.GetInternalTile(seam).Terrain = TerrainType.Wall;
+                        map.SetTerrainAt(seam, TerrainType.Wall);
                         if (current.Neighbors.Count != 0)
                             throw new InvalidOperationException("None Node types should only have no neighbors");
                     }
@@ -183,7 +183,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     {
                         if (seamToFill == Point.Invalid)
                             throw new System.InvalidOperationException("Trying to fill in invalid seam");
-                        map.GetInternalTile(seamToFill).Terrain = TerrainType.Wall;
+                        map.SetTerrainAt(seamToFill, TerrainType.Wall);
                         break;
                     }
                 }
@@ -197,12 +197,12 @@ namespace Magecrawl.GameEngine.Level.Generator
             Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
             if (placedUpperLeftCorner == Point.Invalid)
             {
-                map.GetInternalTile(seam).Terrain = TerrainType.Wall;
+                map.SetTerrainAt(seam, TerrainType.Wall);
                 return false;
             }
             else
             {
-                map.GetInternalTile(seam).Terrain = TerrainType.Floor;
+                map.SetTerrainAt(seam, TerrainType.Floor);
                 parentChain.Push(mapChunk, placedUpperLeftCorner, seam);
                 WalkNeighbors(current, mapChunk, map, placedUpperLeftCorner, parentChain);
                 parentChain.Pop();

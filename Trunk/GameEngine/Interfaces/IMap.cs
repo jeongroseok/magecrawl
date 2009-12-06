@@ -4,6 +4,11 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
+    public enum TerrainType
+    {
+        Wall, Floor
+    }
+
     public interface IMap
     {
         int Width
@@ -31,16 +36,8 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        IMapTile this[int width, int height]
-        {
-            get;
-        }
-
-        IMapTile this[Point p]
-        {
-            get;
-        }
-
+        bool GetVisitedAt(Point p);
+        TerrainType GetTerrainAt(Point p);
         bool IsPointOnMap(Point p);
     }
 }

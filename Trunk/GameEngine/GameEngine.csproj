@@ -75,7 +75,6 @@
     <Compile Include="FOVManager.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IMapObject.cs" />
-    <Compile Include="Interfaces\IMapTile.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Magic\SpellFactory.cs" />
     <Compile Include="Interfaces\IWeapon.cs" />

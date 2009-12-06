@@ -36,13 +36,6 @@ namespace Magecrawl.GameEngine.Level
             m_width = width;
             m_height = height;
             m_map = new MapTile[m_width, m_height];
-            for (int i = 0; i < m_width; ++i)
-            {
-                for (int j = 0; j < m_height; ++j)
-                {
-                    m_map[i, j] = new MapTile();
-                }
-            }
         }
 
         internal void ClearMap()
@@ -182,31 +175,34 @@ namespace Magecrawl.GameEngine.Level
             }
         }
 
-        public IMapTile this[int width, int height]
+        public TerrainType GetTerrainAt(Point p)
         {
-            get 
-            {
-                return m_map[width, height];
-            }
+            return m_map[p.X, p.Y].Terrain;
         }
 
-        public IMapTile this[Point p]
+        public void SetTerrainAt(Point p, TerrainType t)
         {
-            get
-            {
-                return m_map[p.X, p.Y];
-            }
+            m_map[p.X, p.Y].Terrain = t;
         }
 
-        // We can't overload this[], and sometimes we need to set internal attributes :(
-        public MapTile GetInternalTile(int width, int height)
+        public int GetScratchAt(Point p)
         {
-            return m_map[width, height];
+            return m_map[p.X, p.Y].Scratch;
         }
 
-        public MapTile GetInternalTile(Point p)
+        public void SetScratchAt(Point p, int scratch)
         {
-            return m_map[p.X, p.Y];
+            m_map[p.X, p.Y].Scratch = scratch;
+        }
+
+        public bool GetVisitedAt(Point p)
+        {
+            return m_map[p.X, p.Y].Visited;
+        }
+
+        public void SetVisitedAt(Point p, bool visitedStatus)
+        {
+            m_map[p.X, p.Y].Visited = visitedStatus;
         }
 
         // This is a debugging tool. It prints out a map to Console Out. Usefor for visualizing a map.

@@ -83,7 +83,7 @@ namespace Magecrawl.GameEngine
             // Remove it if it's not on map, or is wall, or same square as something solid from above, is it's not visible.
             pointList.RemoveAll(point => 
                 !m_map.IsPointOnMap(point.Position) || 
-                m_map[point.Position].Terrain == TerrainType.Wall || 
+                m_map.GetTerrainAt(point.Position) == TerrainType.Wall || 
                 m_movableHash.ContainsKey(point.Position) ||
                 (needsToBeVisible && !m_fovManager.Visible(point.Position)));
         }
@@ -119,7 +119,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = upperLeftCorner.Y; j < upperLeftCorner.Y + height; ++j)
                 {
-                    returnValue[i, j] = map[i, j].Terrain == TerrainType.Floor;
+                    returnValue[i, j] = map.GetTerrainAt(new Point(i,j)) == TerrainType.Floor;
                 }
             }
 
@@ -141,7 +141,7 @@ namespace Magecrawl.GameEngine
         private bool IsMovablePoint(Map map, Player player, Point p)
         {
             // If it's not a floor, it's not movable
-            if (map[p].Terrain != TerrainType.Floor)
+            if (map.GetTerrainAt(p) != TerrainType.Floor)
                 return false;
 
             // If there's a map object there that is solid, it's not movable
@@ -169,13 +169,14 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_map.Height; ++j)
                 {
-                    if (m_fovManager.Visible(new Point(i, j)))
+                    Point p = new Point(i, j);
+                    if (m_fovManager.Visible(p))
                     {
                         visibilityArray[i, j] = TileVisibility.Visible;
                     }
                     else
                     {
-                        if (m_map[i, j].Visited)
+                        if (m_map.GetVisitedAt(p))
                             visibilityArray[i, j] = TileVisibility.Visited;
                         else
                             visibilityArray[i, j] = TileVisibility.Unvisited;
@@ -225,7 +226,7 @@ namespace Magecrawl.GameEngine
                 {
                     Point p = new Point(i, j);
                     if (m_map.IsPointOnMap(p) && m_fovManager.Visible(p))
-                        m_map.GetInternalTile(p).Visited = true;
+                        m_map.SetVisitedAt(p, true);
                 }
             }
         }
