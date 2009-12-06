@@ -125,7 +125,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i,j);
+                    Point p = new Point(i, j);
                     if (map.GetTerrainAt(p) == TerrainType.Floor && map.GetScratchAt(p) != CheckConnectivityScratchValue)
                         return false;
                 }
@@ -146,7 +146,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i,j);
+                    Point p = new Point(i, j);
                     if (map.GetTerrainAt(p) == TerrainType.Floor)
                         numberOfTilesWithThatScratch[map.GetScratchAt(p)]++;
                 }
@@ -168,7 +168,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point (i,j);
+                    Point p = new Point(i, j);
                     if (map.GetTerrainAt(p) == TerrainType.Floor && map.GetScratchAt(p) != biggestNumber)
                         map.SetTerrainAt(p, TerrainType.Wall);
 
@@ -213,7 +213,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i,j);
+                    Point p = new Point(i, j);
                     if (map.GetTerrainAt(p) == TerrainType.Floor)
                         return p;
                 }
@@ -230,7 +230,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    if (map.GetTerrainAt(new Point(i,j)) == TerrainType.Floor)
+                    if (map.GetTerrainAt(new Point(i, j)) == TerrainType.Floor)
                     {
                         smallestX = Math.Min(smallestX, i);
                         smallestY = Math.Min(smallestY, j);
@@ -252,7 +252,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    if (map.GetTerrainAt(new Point(i,j)) == TerrainType.Floor)
+                    if (map.GetTerrainAt(new Point(i, j)) == TerrainType.Floor)
                     {
                         largestX = Math.Max(largestX, i);
                         largestY = Math.Max(largestY, j);

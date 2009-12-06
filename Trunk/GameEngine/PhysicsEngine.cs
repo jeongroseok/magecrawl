@@ -119,7 +119,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = upperLeftCorner.Y; j < upperLeftCorner.Y + height; ++j)
                 {
-                    returnValue[i, j] = map.GetTerrainAt(new Point(i,j)) == TerrainType.Floor;
+                    returnValue[i, j] = map.GetTerrainAt(new Point(i, j)) == TerrainType.Floor;
                 }
             }
 

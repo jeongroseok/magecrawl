@@ -55,14 +55,14 @@ namespace Magecrawl.GameEngine.Level
         // Doesn't implement all of ICloneable, just copies mapTiles
         internal void CopyMap(Map sourceMap)
         {
-            if(m_width != sourceMap.m_width || m_height != sourceMap.m_height)
+            if (m_width != sourceMap.m_width || m_height != sourceMap.m_height)
                 throw new InvalidOperationException("CopyMap of different size");
 
             for (int i = 0; i < m_width; ++i)
             {
                 for (int j = 0; j < m_height; ++j)
                 {
-                    m_map[i,j].Terrain = sourceMap.m_map[i, j].Terrain;
+                    m_map[i, j].Terrain = sourceMap.m_map[i, j].Terrain;
                 }
             }
         }

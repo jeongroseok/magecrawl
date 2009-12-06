@@ -40,9 +40,9 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
         {
-            const int width = 250;
-            const int height = 250;
-            Map map = new Map(width, height);
+            const int Width = 250;
+            const int Height = 250;
+            Map map = new Map(Width, Height);
 
             m_stairsUpPosition = stairsUpPosition;
 
