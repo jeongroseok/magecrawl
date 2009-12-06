@@ -40,7 +40,7 @@ namespace Magecrawl.GameUI.Map
                     Point p = new Point(i, j);
                     if (engine.Map.IsPointOnMap(p))
                     {
-                        DrawThing(mapUpCorner, p, m_offscreenConsole, ConvertTerrianToChar(engine.Map[p].Terrain));
+                        DrawThing(mapUpCorner, p, m_offscreenConsole, ConvertTerrianToChar(engine.Map.GetTerrainAt(p)));
                     }
                 }
             }

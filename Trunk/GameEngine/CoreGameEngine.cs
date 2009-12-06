@@ -87,11 +87,6 @@ namespace Magecrawl.GameEngine
                             throw;
                         }
                     }
-                    finally
-                    {
-                        if (mapGenerator != null)
-                            mapGenerator.Dispose();
-                    }
                 }
             }
 

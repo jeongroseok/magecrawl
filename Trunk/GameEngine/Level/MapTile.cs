@@ -6,33 +6,38 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Level
 {
-    internal sealed class MapTile : IMapTile, IXmlSerializable
+    internal struct MapTile : IXmlSerializable
     {
         private TerrainType m_type;
         private bool m_visited;
+        private int m_scratch;
         
         // Temporary field used by algorthisms crawling over the map.
-        internal int Scratch { get; set; }
-
-        internal MapTile()
+        internal int Scratch 
         {
-            m_type = TerrainType.Wall;
-            m_visited = false;
-            Scratch = 0;
+            get
+            {
+                return m_scratch;
+            }
+            set
+            {
+                m_scratch = value;
+            }
+
         }
 
         internal MapTile(Interfaces.TerrainType type)
         {
             m_type = type;
             m_visited = false;
-            Scratch = 0;
+            m_scratch = 0;
         }
 
         internal MapTile(MapTile t)
         {
             m_type = t.m_type;
             m_visited = t.Visited;
-            Scratch = t.Scratch;
+            m_scratch = t.Scratch;
         }
 
         public TerrainType Terrain

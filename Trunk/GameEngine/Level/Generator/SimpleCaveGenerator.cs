@@ -27,10 +27,11 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     for (int j = 1; j < height - 1; ++j)
                     {
+                        Point p = new Point(i, j);
                         if (m_random.Chance(40))
-                            map.GetInternalTile(i, j).Terrain = TerrainType.Wall;
+                            map.SetTerrainAt(p, TerrainType.Wall);
                         else
-                            map.GetInternalTile(i, j).Terrain = TerrainType.Floor;
+                            map.SetTerrainAt(p, TerrainType.Floor);
                     }
                 }
 
@@ -50,14 +51,15 @@ namespace Magecrawl.GameEngine.Level.Generator
                     {
                         for (int j = 1; j < height - 1; ++j)
                         {
+                            Point p = new Point(i, j);
                             int closeWalls = CountNumberOfSurroundingWallTilesOneStepAway(map, i, j);
                             int farWalls = CountNumberOfSurroundingWallTilesTwoStepAway(map, i, j);
                             bool conditionOne = closeWalls >= 5;
                             bool conditionTwo = farWalls <= 2;
                             if (conditionOne || conditionTwo)
-                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Wall;
+                                duplicateMap.SetTerrainAt(p, TerrainType.Wall);
                             else
-                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Floor;
+                                duplicateMap.SetTerrainAt(p, TerrainType.Floor);
                         }
                     }
 
@@ -78,11 +80,12 @@ namespace Magecrawl.GameEngine.Level.Generator
                         for (int j = 1; j < height - 1; ++j)
                         {
                             int closeWalls = CountNumberOfSurroundingWallTilesOneStepAway(map, i, j);
+                            Point p = new Point(i, j);
 
                             if (closeWalls >= 5)
-                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Wall;
+                                duplicateMap.SetTerrainAt(p, TerrainType.Wall);
                             else
-                                duplicateMap.GetInternalTile(i, j).Terrain = TerrainType.Floor;
+                                duplicateMap.SetTerrainAt(p, TerrainType.Floor);
                         }
                     }
 
