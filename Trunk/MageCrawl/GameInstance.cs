@@ -59,15 +59,17 @@ namespace Magecrawl
 
             if (System.IO.File.Exists("Donblas.sav"))
             {
-                DrawLoadingScreen("Loading...");
-                m_engine = new PublicGameEngine(outputDelegate, diedDelegate, "Donblas.sav");
+                using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
+                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, "Donblas.sav");
+
                 SetupKeyboardHandlers();  // Requires game engine.
                 SetHandlerName("Default");
             }
             else
             {
-                DrawLoadingScreen("Generating World...");
-                m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
+                using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
+                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
+
                 SetupKeyboardHandlers();  // Requires game engine.
                 if (!Preferences.Instance.DebuggingMode)
                     SetHandlerName("Welcome");
@@ -124,13 +126,6 @@ namespace Magecrawl
             {
                 m_engine.Save();
             }
-        }
-
-        private void DrawLoadingScreen(string text)
-        {
-            m_console.DrawFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, true);
-            m_console.PrintLineRect(text, UIHelper.ScreenWidth / 2, UIHelper.ScreenHeight / 2, UIHelper.ScreenWidth, UIHelper.ScreenHeight, LineAlignment.Center);
-            m_console.Flush();
         }
 
         private void HandleGameOver(string textToDisplay)
