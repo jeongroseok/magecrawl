@@ -61,7 +61,7 @@ namespace Magecrawl.GameEngine
 
             using (TCODRandom random = new TCODRandom())
             {
-                for (int i = 0; i < 5; ++i)
+                for (int i = 0; i < 10; ++i)
                 {
                     MapGeneratorBase mapGenerator = null;
                     try
