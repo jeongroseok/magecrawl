@@ -243,28 +243,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             return new Point(smallestX, smallestY);
         }
 
-        protected Point GetLargestPoint(Map map)
-        {
-            int largestX = -1;
-            int largestY = -1;
-
-            for (int i = 0; i < map.Width; ++i)
-            {
-                for (int j = 0; j < map.Height; ++j)
-                {
-                    if (map.GetTerrainAt(new Point(i, j)) == TerrainType.Floor)
-                    {
-                        largestX = Math.Max(largestX, i);
-                        largestY = Math.Max(largestY, j);
-                    }
-                }
-            }
-
-            if (largestX == -1 || largestY == -1)
-                throw new System.ApplicationException("GetSmallestPoint found no clear points");
-            return new Point(largestX, largestY);
-        }
-
         public static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)
         {
             int numberOfFloorTileSurrounding = 0;
