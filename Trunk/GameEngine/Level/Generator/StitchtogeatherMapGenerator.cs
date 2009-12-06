@@ -25,6 +25,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         private Point m_stairsUpPosition;
         private int m_largestX;
         private int m_largestY;
+        private int m_placed;
 
         internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
@@ -38,6 +39,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();
             m_largestX = -1;
             m_largestY = -1;
+            m_placed = 0;
 
             LoadChunksFromFile("Map" + Path.DirectorySeparatorChar + "DungeonChunks.dat");
         }
@@ -46,6 +48,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         // as we generate the map, keep track
         private void PossiblyUpdateLargestPoint(Point upperLeft, MapChunk chunk)
         {
+            m_placed++;
             Point lowerRight = upperLeft + new Point(chunk.Width, chunk.Height);
             if (lowerRight.X > m_largestX)
                 m_largestX = lowerRight.X;
@@ -74,10 +77,13 @@ namespace Magecrawl.GameEngine.Level.Generator
             map.TrimToSubset(upperLeft, lowerRight);
 
             if (!HasValidStairPositioning(stairsUpPosition, map))
-                throw new System.InvalidOperationException("Generated map with incorrect stair positioning");
+                throw new MapGenerationFailureException("Generated map with incorrect stair positioning");
 
             if (!CheckConnectivity(map))
-                throw new System.InvalidOperationException("Generated non-connected map");
+                throw new MapGenerationFailureException("Generated non-connected map");
+
+            if (m_placed < 20)
+                throw new MapGenerationFailureException("Too few items placed to be reasonabily sized");
 
             GenerateUpDownStairs(map, stairsUpPosition, out stairsDownPosition);
 
@@ -180,7 +186,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
         }
 
-        private static void UnplacePossibleHallwayToNowhere(Map map, ParenthoodChain parentChain)
+        private void UnplacePossibleHallwayToNowhere(Map map, ParenthoodChain parentChain)
         {
             ParenthoodChain localChain = new ParenthoodChain(parentChain);
             ParenthoodElement top = localChain.Pop();
@@ -191,6 +197,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     if (top.Chunk.Type == MapNodeType.Hall)
                     {
+                        m_placed--;
                         top.Chunk.UnplaceChunkOnMapAtPosition(map, top.UpperLeft);
                         seamToFill = top.Seam;
                         top = localChain.Pop();
@@ -198,7 +205,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     else
                     {
                         if (seamToFill == Point.Invalid)
-                            throw new System.InvalidOperationException("Trying to fill in invalid seam");
+                            throw new MapGenerationFailureException("Trying to fill in invalid seam");
                         map.SetTerrainAt(seamToFill, TerrainType.Wall);
                         break;
                     }
