@@ -265,52 +265,45 @@ namespace Magecrawl.GameEngine.Level.Generator
             return new Point(largestX, largestY);
         }
 
-        private static List<Point> surroundingOneSquareList = new List<Point>
-        { 
-            new Point(-1, -1), new Point(-1, 0), new Point(-1, 1),
-            new Point(0, -1), new Point(0, 1), new Point(1, -1), new Point(1, 0), new Point(1, 1), new Point(0, 0)
-        };
-
-        private static List<Point> surroundingTwoSquareList = new List<Point> 
-        {
-            new Point(-1, -2), new Point(0, -2), new Point(1, -2), new Point(-2, -1), new Point(2, -1), new Point(-2, 0), new Point(2, 0), 
-            new Point(-2, 1), new Point(2, 1), new Point(-1, 2), new Point(0, 2), new Point(1, 2), new Point(-1, -1), new Point(-1, 0), new Point(-1, 1),
-            new Point(0, -1), new Point(0, 1), new Point(1, -1), new Point(1, 0), new Point(1, 1), new Point(0, 0) 
-        };
-
-        public static int CountNumberOfSurroundingFloorTilesOneStepAway(Map map, int x, int y)
-        {
-            return CountNumberOfSurroundingTilesCore(surroundingOneSquareList, map, x, y, TerrainType.Floor);
-        }
-
-        public static int CountNumberOfSurroundingFloorTilesTwoStepAway(Map map, int x, int y)
-        {
-            return CountNumberOfSurroundingTilesCore(surroundingTwoSquareList, map, x, y, TerrainType.Floor);
-        }
-
         public static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)
         {
-            return CountNumberOfSurroundingTilesCore(surroundingOneSquareList, map, x, y, TerrainType.Wall);
+            int numberOfFloorTileSurrounding = 0;
+
+            for (int i = -1; i <= 1; ++i)
+            {
+                for (int j = -1; j <= 1; ++j)
+                {
+                    Point newPoint = new Point(x + i, y + j);
+
+                    // We don't have to check for inrangeness here. This is only called on maps
+                    // that iterate over the nonborder, so there's always a board of walls
+                    if (map.GetTerrainAt(newPoint) == TerrainType.Wall)
+                        numberOfFloorTileSurrounding++;
+                }
+            }
+            return numberOfFloorTileSurrounding;
         }
 
         public static int CountNumberOfSurroundingWallTilesTwoStepAway(Map map, int x, int y)
         {
-            return CountNumberOfSurroundingTilesCore(surroundingTwoSquareList, map, x, y, TerrainType.Wall);
-        }
-
-        private static int CountNumberOfSurroundingTilesCore(List<Point> tileList, Map map, int x, int y, TerrainType typeToLookFor)
-        {
             int numberOfFloorTileSurrounding = 0;
 
-            foreach (Point p in tileList)
+            for (int i = -2; i <= 2; ++i)
             {
-                Point newPoint = new Point(x + p.X, y + p.Y);
-                if (map.IsPointOnMap(newPoint))
+                for (int j = -2; j <= 2; ++j)
                 {
-                    if (map.GetTerrainAt(newPoint) == typeToLookFor)
-                        numberOfFloorTileSurrounding++;
+                    if ((i == 2 || i == -2) && (j == 2 || j == -2))
+                        continue;
+                    
+                    Point newPoint = new Point(x + i, y + j);
+                    if (map.IsPointOnMap(newPoint))
+                    {
+                        if (map.GetTerrainAt(newPoint) == TerrainType.Wall)
+                            numberOfFloorTileSurrounding++;
+                    }
                 }
             }
+
             return numberOfFloorTileSurrounding;
         }
 
