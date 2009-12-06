@@ -8,12 +8,13 @@ namespace Magecrawl.GameEngine.Level
 {
     internal struct MapTile : IXmlSerializable
     {
+        // Be careful here. Any increased size here baloons the map size by a significant size.
         private TerrainType m_type;
         private bool m_visited;
-        private int m_scratch;
+        private byte m_scratch;
         
         // Temporary field used by algorthisms crawling over the map.
-        internal int Scratch 
+        internal byte Scratch 
         {
             get
             {

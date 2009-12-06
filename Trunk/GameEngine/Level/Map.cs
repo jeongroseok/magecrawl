@@ -185,12 +185,12 @@ namespace Magecrawl.GameEngine.Level
             m_map[p.X, p.Y].Terrain = t;
         }
 
-        public int GetScratchAt(Point p)
+        public byte GetScratchAt(Point p)
         {
             return m_map[p.X, p.Y].Scratch;
         }
 
-        public void SetScratchAt(Point p, int scratch)
+        public void SetScratchAt(Point p, byte scratch)
         {
             m_map[p.X, p.Y].Scratch = scratch;
         }
