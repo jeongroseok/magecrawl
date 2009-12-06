@@ -127,7 +127,9 @@ namespace Magecrawl.GameEngine.Actors
             {
                 Item loadedWeapon = CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
                 loadedWeapon.ReadXml(reader);
-                m_equipedWeapon = (WeaponBase)loadedWeapon;
+                WeaponBase weapon = (WeaponBase)loadedWeapon;
+                weapon.Owner = this;
+                m_equipedWeapon = weapon;
             }
             reader.ReadEndElement();
 
