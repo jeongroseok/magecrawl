@@ -58,7 +58,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         internal void Enable()
         {
-            m_timeToEnableYes = TCODSystem.ElapsedSeconds + 2;
+            m_timeToEnableYes = TCODSystem.ElapsedSeconds + 1;
             m_enabled = true;
         }
 
