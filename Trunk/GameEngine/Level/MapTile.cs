@@ -23,7 +23,6 @@ namespace Magecrawl.GameEngine.Level
             {
                 m_scratch = value;
             }
-
         }
 
         internal MapTile(Interfaces.TerrainType type)
