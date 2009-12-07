@@ -46,7 +46,9 @@ namespace Magecrawl.GameUI.Map
                     Point p = new Point(i, j);
                     if (engine.Map.IsPointOnMap(p))
                     {
-                        DrawThing(mapUpCorner, p, m_offscreenConsole, ConvertTerrianToChar(engine.Map.GetTerrainAt(p)));
+                        TerrainType t = engine.Map.GetTerrainAt(p);
+                        Color c = ConvertTerrainSpotToColor(t, m_tileVisibility[i, j]);
+                        DrawThing(mapUpCorner, p, m_offscreenConsole, c);
                     }
                 }
             }
@@ -88,12 +90,10 @@ namespace Magecrawl.GameUI.Map
             m_offscreenConsole = null;
         }
 
-        private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol, Color c)
+        private static void DrawThing(Point mapUpCorner, Point position, Console screen, Color c)
         {
             int screenPlacementX = mapUpCorner.X + position.X + 1;
             int screenPlacementY = mapUpCorner.Y + position.Y + 1;
-
-            DrawThing(mapUpCorner, position, screen, symbol);
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
                 screen.SetCharBackground(screenPlacementX, screenPlacementY, c);
@@ -106,17 +106,6 @@ namespace Magecrawl.GameUI.Map
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
                 screen.PutChar(screenPlacementX, screenPlacementY, symbol, Background.None);
-        }
-
-        private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol, Color c)
-        {
-            int screenPlacementX = mapUpCorner.X + position.X + 1;
-            int screenPlacementY = mapUpCorner.Y + position.Y + 1;
-
-            DrawThingIfMultipleSpecialSymbol(mapUpCorner, position, screen, symbol, multipleSymbol);
-            
-            if (IsDrawableTile(screenPlacementX, screenPlacementY))
-                screen.SetCharBackground(screenPlacementX, screenPlacementY, c);
         }
 
         private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol)
@@ -133,6 +122,64 @@ namespace Magecrawl.GameUI.Map
                     screen.PutChar(screenPlacementX, screenPlacementY, multipleSymbol, Background.None);
                 else
                     screen.PutChar(screenPlacementX, screenPlacementY, symbol, Background.None);
+            }
+        }
+
+        // If you change this, update HelpPainter.cs
+        private static char ConvertMapObjectToChar(MapObjectType t)
+        {
+            switch (t)
+            {
+                case MapObjectType.OpenDoor:
+                    return ';';
+                case MapObjectType.ClosedDoor:
+                    return ':';
+                case MapObjectType.TreasureChest:
+                    return '+';
+                case MapObjectType.Cosmetic:
+                    return '_';
+                case MapObjectType.StairsDown:
+                    return '>';
+                case MapObjectType.StairsUp:
+                    return '<';
+                default:
+                    throw new System.ArgumentException("Unknown Type - ConvertMapObjectToChar");
+            }
+        }
+
+        // If you change this, update HelpPainter.cs
+        private static char ConvertTerrianToChar(TerrainType t)
+        {
+            switch (t)
+            {
+                case TerrainType.Floor:
+                    return ' ';
+                case TerrainType.Wall:
+                    return '#';
+                default:
+                    throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
+            }
+        }
+
+        private Color ConvertTerrainSpotToColor(TerrainType terrain, TileVisibility visibility)
+        {
+            if (m_honorFOV && visibility == TileVisibility.Unvisited)
+                return ColorPresets.Black;
+            bool visible = visibility == TileVisibility.Visible;
+            switch (terrain)
+            {
+                case TerrainType.Floor:
+                    if (visible)
+                        return Color.FromRGB(168, 169, 85);
+                    else
+                        return Color.FromRGB(106, 106, 54);
+                case TerrainType.Wall:
+                    if (visible)
+                        return Color.FromRGB(92, 53, 6);
+                    else
+                        return Color.FromRGB(58, 33, 4);
+                default:
+                    throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }
         }
     }
