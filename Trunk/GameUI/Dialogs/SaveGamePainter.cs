@@ -22,14 +22,6 @@ namespace Magecrawl.GameUI.Dialogs
             m_dialogColorHelper = new DialogColorHelper();
         }
 
-        public override void Dispose()
-        {
-        }
-
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
-        {
-        }
-
         public override void DrawNewFrame(Console screen)
         {
             const int WelcomeScreenOffset = 13;

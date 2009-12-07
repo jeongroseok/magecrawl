@@ -87,10 +87,6 @@ namespace Magecrawl.GameUI.Map.Debug
             }
         }
 
-        public override void Dispose()
-        {
-        }
-
         internal override void DisableAllOverlays()
         {
             m_enabled = false;

@@ -20,14 +20,8 @@ namespace Magecrawl.GameUI.Map
             m_enabled = true;
             m_width = 0;
             m_height = 0;
-            m_tileVisibility = null;
-            m_engine = null;
             m_mapCorner = Point.Invalid;
             m_cursorPosition = Point.Invalid;
-        }
-
-        public override void Dispose()
-        {
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
@@ -35,12 +29,16 @@ namespace Magecrawl.GameUI.Map
             if (m_enabled)
             {
                 m_engine = engine;
-                m_tileVisibility = engine.CalculateTileVisibility();
                 m_width = engine.Map.Width;
                 m_height = engine.Map.Height;
                 m_mapCorner = mapUpCorner;
                 m_cursorPosition = cursorPosition;
             }
+        }
+
+        public override void UpdateFromVisibilityData(TileVisibility[,] visibility)
+        {
+            m_tileVisibility = visibility;
         }
 
         public override void DrawNewFrame(Console screen)
@@ -67,13 +65,6 @@ namespace Magecrawl.GameUI.Map
                                     screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
                                     screen.SetCharForeground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
                                     screen.PutChar(screenPlacementX, screenPlacementY, ' ');
-                                }
-                                else if (isVisible == TileVisibility.Visited)
-                                {
-                                    // If it's visited, we're going to trust the rest of the painters to respect visibility to not
-                                    // draw non-terrain/maptiles
-                                    screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
-                                    screen.SetCharForeground(screenPlacementX, screenPlacementY, Color.FromRGB(40, 40, 40));
                                 }
                             }
                         }

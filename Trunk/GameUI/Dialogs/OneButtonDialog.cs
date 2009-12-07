@@ -43,13 +43,5 @@ namespace Magecrawl.GameUI.Dialogs
                 m_dialogColorHelper.ResetColors(screen);
             }
         }
-
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
-        {   
-        }
-
-        public override void Dispose()
-        {
-        }
     }
 }

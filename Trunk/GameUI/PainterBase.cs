@@ -6,9 +6,19 @@ namespace Magecrawl.GameUI
 {
     internal abstract class PainterBase : IHandlePainterRequest
     {
-        public abstract void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition);
         public abstract void DrawNewFrame(Console screen);
-        public abstract void Dispose();
+
+        public virtual void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
+        {
+        }
+
+        public virtual void UpdateFromVisibilityData(TileVisibility[,] visibility)
+        {
+        }
+
+        public virtual void Dispose() 
+        {
+        }
 
         public void HandleRequest(RequestBase request)
         {

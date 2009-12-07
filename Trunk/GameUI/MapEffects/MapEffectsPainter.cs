@@ -80,9 +80,5 @@ namespace Magecrawl.GameUI.MapEffects
         {
             m_mapUpCorner = mapUpCorner;
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }
