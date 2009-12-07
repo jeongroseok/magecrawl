@@ -55,9 +55,11 @@ namespace Magecrawl.GameUI
 
         public void UpdateFromNewData(IGameEngine engine)
         {
+            TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
             Point mapCorner = CalculateMapCorner(engine);
             foreach (PainterBase p in m_painters)
             {
+                p.UpdateFromVisibilityData(tileVisibility); //Needs to be called before FromNewData.
                 p.UpdateFromNewData(engine, mapCorner, MapCursorEnabled ? CursorSpot : engine.Player.Position);
             }
         }

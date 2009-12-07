@@ -39,10 +39,6 @@ namespace Magecrawl.GameUI.ListSelection
             m_shouldNotResetCursorPosition = false;
         }
 
-        public override void Dispose()
-        {
-        }
-
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             m_shouldNotResetCursorPosition = false;

@@ -30,14 +30,6 @@ namespace Magecrawl.GameUI.Equipment
             m_shouldNotResetCursorPosition = false;
         }
 
-        public override void Dispose()
-        {
-        }
-
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
-        {
-        }
-
         public override void DrawNewFrame(Console screen)
         {
             if (m_enabled)

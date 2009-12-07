@@ -62,9 +62,5 @@ namespace Magecrawl.GameUI.Map
         {
             m_enabled = false;
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

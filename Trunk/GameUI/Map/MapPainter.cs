@@ -9,6 +9,7 @@ namespace Magecrawl.GameUI.Map
     {
         private Console m_offscreenConsole;
         private bool m_honorFOV;
+        private TileVisibility[,] m_tileVisibility;
 
         public MapPainter()
         {
@@ -21,6 +22,11 @@ namespace Magecrawl.GameUI.Map
         {
             get { return m_honorFOV; }
             set { m_honorFOV = value; }
+        }
+
+        public override void UpdateFromVisibilityData(TileVisibility[,] visibility)
+        {
+            m_tileVisibility = visibility;
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
@@ -82,15 +88,35 @@ namespace Magecrawl.GameUI.Map
             m_offscreenConsole = null;
         }
 
+        private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol, Color c)
+        {
+            int screenPlacementX = mapUpCorner.X + position.X + 1;
+            int screenPlacementY = mapUpCorner.Y + position.Y + 1;
+
+            DrawThing(mapUpCorner, position, screen, symbol);
+
+            if (IsDrawableTile(screenPlacementX, screenPlacementY))
+                screen.SetCharBackground(screenPlacementX, screenPlacementY, c);
+        }
+
         private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
         {
             int screenPlacementX = mapUpCorner.X + position.X + 1;
             int screenPlacementY = mapUpCorner.Y + position.Y + 1;
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
-            {
-                screen.PutChar(screenPlacementX, screenPlacementY, symbol);
-            }
+                screen.PutChar(screenPlacementX, screenPlacementY, symbol, Background.None);
+        }
+
+        private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol, Color c)
+        {
+            int screenPlacementX = mapUpCorner.X + position.X + 1;
+            int screenPlacementY = mapUpCorner.Y + position.Y + 1;
+
+            DrawThingIfMultipleSpecialSymbol(mapUpCorner, position, screen, symbol, multipleSymbol);
+            
+            if (IsDrawableTile(screenPlacementX, screenPlacementY))
+                screen.SetCharBackground(screenPlacementX, screenPlacementY, c);
         }
 
         private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol)
@@ -104,9 +130,9 @@ namespace Magecrawl.GameUI.Map
 
                 // If we already have one of those, or the multipleSymbol, draw the multipleSymbole, else draw normal.
                 if (currentChar == symbol || currentChar == multipleSymbol)
-                    screen.PutChar(screenPlacementX, screenPlacementY, multipleSymbol);
-                else 
-                    screen.PutChar(screenPlacementX, screenPlacementY, symbol);
+                    screen.PutChar(screenPlacementX, screenPlacementY, multipleSymbol, Background.None);
+                else
+                    screen.PutChar(screenPlacementX, screenPlacementY, symbol, Background.None);
             }
         }
     }

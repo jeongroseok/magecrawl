@@ -25,14 +25,6 @@ namespace Magecrawl.GameUI.Inventory
             m_dialogColorHelper = new DialogColorHelper();
         }
 
-        public override void Dispose()
-        {
-        }
-
-        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
-        {
-        }
-
         public override void DrawNewFrame(Console screen)
         {
             if (m_enabled)
