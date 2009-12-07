@@ -21,12 +21,12 @@ namespace Magecrawl
 
         public void Dispose()
         {
-            if(m_timer != null)
+            if (m_timer != null)
                 m_timer.Dispose();
             m_timer = null;
         }
 
-        private void OnTick(System.Object o)
+        private void OnTick(object o)
         {
             m_console.Flush();
         }
