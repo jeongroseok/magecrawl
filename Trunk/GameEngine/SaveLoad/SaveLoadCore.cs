@@ -6,6 +6,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
+using System.Threading;
+using System.Globalization;
 
 namespace Magecrawl.GameEngine.SaveLoad
 {
@@ -18,16 +20,25 @@ namespace Magecrawl.GameEngine.SaveLoad
 
         internal bool SaveGame(string filename)
         {
+            // Save off previous culture and switch to invariant for serialization.
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             if (useSavegameCompression)
                 SaveGameCompressed(filename);
             else
                 SaveGameXML(filename);
-            
+
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
             return true;
         }
 
         internal bool LoadGame(string filename)
         {
+            // Save off previous culture and switch to invariant for serialization.
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             if (useSavegameCompression)
                 LoadGameCompressed(filename);
             else
@@ -35,6 +46,9 @@ namespace Magecrawl.GameEngine.SaveLoad
             
             if (permDeath)
                 File.Delete(filename); // Woot perm-death
+            
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
+
             return true;
         }
 
