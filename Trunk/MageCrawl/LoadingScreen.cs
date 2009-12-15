@@ -16,7 +16,7 @@ namespace Magecrawl
             console.Flush();
 
             m_console = console;
-            m_timer = new Timer(OnTick, null, 0, 2000);
+            m_timer = new Timer(OnTick, null, 0, 50);
         }
 
         public void Dispose()
