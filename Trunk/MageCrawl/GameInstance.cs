@@ -93,25 +93,21 @@ namespace Magecrawl
                 }
                 catch (PlayerDiedException)
                 {
-                    HandleGameOver("Player has died.");
-                    IsQuitting = true;
+                    HandleException(true);
                 }
                 catch (PlayerWonException)
                 {
-                    HandleGameOver("Player has won.");
-                    IsQuitting = true;
+                    HandleException(false);
                 }
                 catch (System.Reflection.TargetInvocationException e)
                 {
                     if (e.InnerException is PlayerDiedException)
                     {
-                        HandleGameOver("Player has died.");
-                        IsQuitting = true;
+                        HandleException(true);
                     }
                     else if (e.InnerException is PlayerWonException)
                     {
-                        HandleGameOver("Player has won.");
-                        IsQuitting = true;
+                        HandleException(false);
                     }
                     else
                     {
@@ -128,9 +124,16 @@ namespace Magecrawl
             }
         }
 
+        private void HandleException(bool death)
+        {
+            HandleGameOver(death ? "Player has died." : "Player has won.");
+            IsQuitting = true;
+        }
+
         private void HandleGameOver(string textToDisplay)
         {
             // Put death information out here.
+            m_painters.UpdateFromNewData(m_engine);
             SendPaintersRequest(new DisableAllOverlays());
             m_charInfo.Draw(m_console, m_engine, m_engine.Player);
             m_painters.DrawNewFrame(m_console);
