@@ -63,6 +63,7 @@ namespace Magecrawl.GameEngine.Interfaces
 
         List<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
+        bool DangerInLOS();
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);

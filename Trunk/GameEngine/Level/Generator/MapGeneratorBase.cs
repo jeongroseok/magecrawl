@@ -80,7 +80,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                         clearPointList.Add(new Point(i, j));
                 }
             }
-            return clearPointList.OrderBy(a => Guid.NewGuid()).ToList();
+            return clearPointList.Randomize();
         }
 
         protected void ResetScratch(Map map)

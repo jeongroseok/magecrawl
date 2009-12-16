@@ -15,7 +15,7 @@ namespace Magecrawl.Keyboard
     {
         internal enum TargettingType 
         {
-            None, Monster, Operatable
+            None, Monster, Operatable, OpenFloor
         }
             
         private IGameEngine m_engine;
@@ -157,25 +157,47 @@ namespace Magecrawl.Keyboard
 
         private Point SetTargettingInitialSpot(IGameEngine engine)
         {
-            if (m_targettingType == TargettingType.Monster)
+            switch (m_targettingType)
             {
-                foreach (ICharacter m in engine.Map.Monsters)
+                case TargettingType.Monster:
                 {
-                    if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
-                        return m.Position;
+                    foreach (ICharacter m in engine.Map.Monsters)
+                    {
+                        if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
+                            return m.Position;
+                    }
+                    break;
                 }
-            }
-            else if (m_targettingType == TargettingType.Operatable)
-            {
-                foreach (IMapObject m in engine.Map.MapObjects.Where(x => x.CanOperate))
+                case TargettingType.Operatable:
                 {
-                    if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
-                        return m.Position;
+                    foreach (IMapObject m in engine.Map.MapObjects.Where(x => x.CanOperate))
+                    {
+                        if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
+                            return m.Position;
+                    }
+                    break;
+                }
+                case TargettingType.OpenFloor:
+                {
+                    foreach (Direction d in DirectionUtils.GenerateDirectionList())
+                    {
+                        Point targetLocation = PointDirectionUtils.ConvertDirectionToDestinationPoint(engine.Player.Position, d);
+                        if (engine.Map.GetTerrainAt(targetLocation) == TerrainType.Wall)
+                            continue;
+                        if (engine.Map.Monsters.Where(x => x.Position == targetLocation).Count() > 0)
+                            continue;
+                        if (engine.Map.MapObjects.Where(x => x.Position == targetLocation && x.IsSolid).Count() > 0)
+                            continue;
+                        return targetLocation;
+                    }
+                    break;
                 }
             }
             
             // If we can't find a better spot, use the player's position
             return engine.Player.Position;
         }
+
+
     }
 }

@@ -195,7 +195,7 @@ namespace Magecrawl.GameEngine.Level
             m_map[p.X, p.Y].Scratch = scratch;
         }
 
-        public bool GetVisitedAt(Point p)
+        public bool IsVisitedAt(Point p)
         {
             return m_map[p.X, p.Y].Visited;
         }

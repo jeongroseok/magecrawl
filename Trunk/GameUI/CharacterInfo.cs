@@ -17,6 +17,7 @@ namespace Magecrawl.GameUI
         private const int InfoHeight = UIHelper.CharInfoHeight;
 
         private const int ScreenCenter = StartingX + (InfoWidth / 2);
+
         public void Draw(Console screen, IGameEngine engine, IPlayer player)
         {
             screen.DrawFrame(StartingX, 0, InfoWidth, InfoHeight, true);

@@ -35,6 +35,7 @@ namespace Magecrawl.GameEngine
             m_combatEngine = new CombatEngine(player, map);
             m_movableHash = new Dictionary<Point, bool>();
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
+            UpdatePlayerVisitedStatus();
         }
 
         public void Dispose()
@@ -64,7 +65,8 @@ namespace Magecrawl.GameEngine
             m_combatEngine.NewMapPlayerInfo(player, map);
 
             // We have a new map, recalc LOS with a new map
-            m_fovManager.UpdateNewMap(this, m_map);    
+            m_fovManager.UpdateNewMap(this, m_map);
+            UpdatePlayerVisitedStatus();
         }
 
         // This needs to be really _fast_. We're going to stick the not moveable points in a has table,
@@ -176,7 +178,7 @@ namespace Magecrawl.GameEngine
                     }
                     else
                     {
-                        if (m_map.GetVisitedAt(p))
+                        if (m_map.IsVisitedAt(p))
                             visibilityArray[i, j] = TileVisibility.Visited;
                         else
                             visibilityArray[i, j] = TileVisibility.Unvisited;

@@ -7,6 +7,7 @@ using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine
 {
@@ -233,6 +234,18 @@ namespace Magecrawl.GameEngine
                     return StairMovmentType.WinGame;
             }
             return StairMovmentType.None;
+        }
+
+        public bool DangerInLOS()
+        {
+            m_engine.FOVManager.CalculateForMultipleCalls(m_engine.Map, m_engine.Player.Position, m_engine.Player.Vision);
+
+            foreach (Monster m in m_engine.Map.Monsters)
+            {
+                if (m_engine.FOVManager.Visible(m.Position))
+                    return true;
+            }
+            return false;
         }
     }
 }
