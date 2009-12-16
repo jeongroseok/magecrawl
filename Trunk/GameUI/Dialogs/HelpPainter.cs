@@ -57,16 +57,17 @@ namespace Magecrawl.GameUI.Dialogs
                 const int ActionVerticalOffset = -8;
                 screen.PrintLine("Action Keys", LeftThird + ActionVerticalOffset, ActionStartY, LineAlignment.Left);
                 screen.PrintLine("------------------------", LeftThird + ActionVerticalOffset, ActionStartY + 1, LineAlignment.Left);
-                screen.PrintLine("Attack      - " + m_keyMappings["Attack"], LeftThird + ActionVerticalOffset, ActionStartY + 2, LineAlignment.Left);
-                screen.PrintLine("Get Item    - " + m_keyMappings["GetItem"], LeftThird + ActionVerticalOffset, ActionStartY + 3, LineAlignment.Left);
-                screen.PrintLine("Cast Spell  - " + m_keyMappings["CastSpell"], LeftThird + ActionVerticalOffset, ActionStartY + 4, LineAlignment.Left);
-                screen.PrintLine("Inventory   - " + m_keyMappings["Inventory"], LeftThird + ActionVerticalOffset, ActionStartY + 5, LineAlignment.Left);
-                screen.PrintLine("Equipment   - " + m_keyMappings["Equipment"], LeftThird + ActionVerticalOffset, ActionStartY + 6, LineAlignment.Left);
-                screen.PrintLine("Operate     - " + m_keyMappings["Operate"], LeftThird + ActionVerticalOffset, ActionStartY + 7, LineAlignment.Left);
-                screen.PrintLine("Wait        - " + m_keyMappings["Wait"], LeftThird + ActionVerticalOffset, ActionStartY + 8, LineAlignment.Left);
-                screen.PrintLine("View Mode   - " + m_keyMappings["ViewMode"], LeftThird + ActionVerticalOffset, ActionStartY + 9, LineAlignment.Left);
-                screen.PrintLine("Down Stairs - " + m_keyMappings["DownStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 10, LineAlignment.Left);
-                screen.PrintLine("Up Stairs   - " + m_keyMappings["UpStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 11, LineAlignment.Left);
+                screen.PrintLine("Attack           - " + m_keyMappings["Attack"], LeftThird + ActionVerticalOffset, ActionStartY + 2, LineAlignment.Left);
+                screen.PrintLine("Get Item         - " + m_keyMappings["GetItem"], LeftThird + ActionVerticalOffset, ActionStartY + 3, LineAlignment.Left);
+                screen.PrintLine("Cast Spell       - " + m_keyMappings["CastSpell"], LeftThird + ActionVerticalOffset, ActionStartY + 4, LineAlignment.Left);
+                screen.PrintLine("Inventory        - " + m_keyMappings["Inventory"], LeftThird + ActionVerticalOffset, ActionStartY + 5, LineAlignment.Left);
+                screen.PrintLine("Equipment        - " + m_keyMappings["Equipment"], LeftThird + ActionVerticalOffset, ActionStartY + 6, LineAlignment.Left);
+                screen.PrintLine("Operate          - " + m_keyMappings["Operate"], LeftThird + ActionVerticalOffset, ActionStartY + 7, LineAlignment.Left);
+                screen.PrintLine("Wait             - " + m_keyMappings["Wait"], LeftThird + ActionVerticalOffset, ActionStartY + 8, LineAlignment.Left);
+                screen.PrintLine("Move To Location - " + m_keyMappings["MoveToLocation"], LeftThird + ActionVerticalOffset, ActionStartY + 9, LineAlignment.Left);
+                screen.PrintLine("View Mode        - " + m_keyMappings["ViewMode"], LeftThird + ActionVerticalOffset, ActionStartY + 10, LineAlignment.Left);
+                screen.PrintLine("Down Stairs      - " + m_keyMappings["DownStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 11, LineAlignment.Left);
+                screen.PrintLine("Up Stairs        - " + m_keyMappings["UpStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 12, LineAlignment.Left);
 
                 const int RebindingStartY = SymbolStartY + 1;
                 string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";

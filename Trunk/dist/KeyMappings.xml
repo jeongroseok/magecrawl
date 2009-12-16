@@ -28,6 +28,7 @@
   <KeyMapping Key="v" Action="ViewMode" />
   <KeyMapping Key="i" Action="Inventory" />
   <KeyMapping Key="z" Action="CastSpell" />
+  <KeyMapping Key="m" Action="MoveToLocation" />
   <KeyMapping Key="&gt;" Action="DownStairs" />
   <KeyMapping Key="&lt;" Action="UpStairs" />
 </KeyMappings>

@@ -61,10 +61,9 @@ namespace Magecrawl.GameEngine.Actors
 
         private MonsterAction WanderRandomly(CoreGameEngine engine)
         {
-            for (int i = 0; i < 10; ++i)
+            foreach(Direction d in DirectionUtils.GenerateDirectionList())
             {
-                Direction directionToTry = (Direction)m_random.GetRandomInt(1, 8);
-                if (engine.Move(this, directionToTry))
+                if (engine.Move(this, d))
                 {
                     return MonsterAction.DidMove;
                 }

@@ -64,7 +64,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             foreach (Point s in Seams)
             {
-                foreach (Point offset in (new List<Point>() { new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1) }).OrderBy(x => Guid.NewGuid()))
+                foreach (Point offset in (new List<Point>() { new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1) }).Randomize())
                 {
                     Point upperLeftCorner = seamToFitAgainst + offset - s;
 
