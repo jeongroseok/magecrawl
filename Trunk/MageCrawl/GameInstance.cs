@@ -83,10 +83,7 @@ namespace Magecrawl
                 try
                 {
                     HandleKeyboard();
-                    m_console.Clear();
-                    TextBox.Draw(m_console);
-                    m_painters.DrawNewFrame(m_console);
-                    m_console.Flush();
+                    DrawFrame();
                 }
                 catch (PlayerDiedException)
                 {
@@ -119,6 +116,14 @@ namespace Magecrawl
             {
                 m_engine.Save();
             }
+        }
+
+        public void DrawFrame()
+        {
+            m_console.Clear();
+            TextBox.Draw(m_console);
+            m_painters.DrawNewFrame(m_console);
+            m_console.Flush();
         }
 
         private void HandleException(bool death)
