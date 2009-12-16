@@ -21,7 +21,6 @@ namespace Magecrawl
         private RootConsole m_console;
         private IGameEngine m_engine;
         private KeystrokeManager m_keystroke;
-        private CharacterInfo m_charInfo;
         private PaintingCoordinator m_painters;
 
         public bool ShouldSaveOnClose
@@ -33,7 +32,6 @@ namespace Magecrawl
         internal GameInstance()
         {
             TextBox = new TextBox();
-            m_charInfo = new CharacterInfo();
             m_painters = new PaintingCoordinator();
 
             // Most of the time while debugging, we don't want to save on window close
@@ -87,7 +85,6 @@ namespace Magecrawl
                     HandleKeyboard();
                     m_console.Clear();
                     TextBox.Draw(m_console);
-                    m_charInfo.Draw(m_console, m_engine, m_engine.Player);
                     m_painters.DrawNewFrame(m_console);
                     m_console.Flush();
                 }
@@ -135,7 +132,6 @@ namespace Magecrawl
             // Put death information out here.
             m_painters.UpdateFromNewData(m_engine);
             SendPaintersRequest(new DisableAllOverlays());
-            m_charInfo.Draw(m_console, m_engine, m_engine.Player);
             m_painters.DrawNewFrame(m_console);
             TextBox.AddText(textToDisplay);
             TextBox.AddText("Press 'q' to exit.");
