@@ -50,6 +50,7 @@ namespace Magecrawl.GameUI
             m_painters.Add(new SaveGamePainter());
             m_painters.Add(new QuitGamePainter());
             m_painters.Add(new HelpPainter());
+            m_painters.Add(new CharacterInfo());
             m_painters.Add(new OneButtonDialog());
         }
 
