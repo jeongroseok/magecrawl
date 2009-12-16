@@ -39,6 +39,7 @@ namespace Magecrawl.GameUI
 
             // The cursor painter should be last of all map painters
             m_painters.Add(new MapCursorPainter());
+            m_painters.Add(new CharacterInfo());
 
             // This should be after all map painters since we'll draw 'over' the map
             m_painters.Add(new ListSelectionPainter());
@@ -50,7 +51,6 @@ namespace Magecrawl.GameUI
             m_painters.Add(new SaveGamePainter());
             m_painters.Add(new QuitGamePainter());
             m_painters.Add(new HelpPainter());
-            m_painters.Add(new CharacterInfo());
             m_painters.Add(new OneButtonDialog());
         }
 

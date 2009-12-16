@@ -318,7 +318,24 @@ namespace Magecrawl.Keyboard
 
         private bool OnMovementLocationSelected(Point selected)
         {
-            return true;
+            // Don't show the overlap as we travel
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
+            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
+
+            while (!m_engine.DangerInLOS())
+            {
+                List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
+                if (pathToPoint.Count == 0)
+                    return false;
+
+                Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
+                
+                m_engine.MovePlayer(d);
+                m_gameInstance.UpdatePainters();
+
+                m_gameInstance.DrawFrame();
+            }
+            return false;
         }
 
         private List<EffectivePoint> GeneratePointsOneCanMoveTo()
