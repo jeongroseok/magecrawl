@@ -19,6 +19,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         public List<Point> Seams { get; set; }
         public List<Point> MonsterSpawns { get; set; }
         public List<Point> TreasureChests { get; set; }
+        public List<Point> Doors { get; set; }
         public List<Point> Cosmetics { get; set; }
         public Point PlayerPosition { get; set; }
         public MapTile[,] MapSegment { get; set; }
@@ -31,6 +32,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             Seams = new List<Point>();
             MonsterSpawns = new List<Point>();
             TreasureChests = new List<Point>();
+            Doors = new List<Point>();
             Cosmetics = new List<Point>();
             PlayerPosition = Point.Invalid;
             Type = (MapNodeType)Enum.Parse(typeof(MapNodeType), typeString);
@@ -45,6 +47,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             Seams = new List<Point>(chunk.Seams);
             MonsterSpawns = new List<Point>(chunk.MonsterSpawns);
             TreasureChests = new List<Point>(chunk.TreasureChests);
+            Doors = new List<Point>(chunk.Doors);
             Cosmetics = new List<Point>(chunk.Cosmetics);
             PlayerPosition = chunk.PlayerPosition;
             Type = chunk.Type;
@@ -119,9 +122,11 @@ namespace Magecrawl.GameEngine.Level.Generator
                     map.AddMonster(monsterFactory.CreateMonster("Monster", upperLeftCorner + p));
             }
 
-            // TODO: Handle other map objects
             MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
+            
             TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
+
+            Doors.ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Map Door", upperLeftCorner + doorPosition)));
             
             Cosmetics.ForEach(cosmeticPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Cosmetic", upperLeftCorner + cosmeticPosition)));
         }
@@ -146,8 +151,14 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             foreach (Point treasurePosition in TreasureChests)
             {
-                // TODO: Handle other map objects
                 MapObject objectAtPoint = (MapObject)map.MapObjects.SingleOrDefault(x => x.Position == (upperLeftCorner + treasurePosition));
+                if (objectAtPoint != null)
+                    map.RemoveMapItem(objectAtPoint);
+            }
+
+            foreach (Point doorPosition in Doors)
+            {
+                MapObject objectAtPoint = (MapObject)map.MapObjects.SingleOrDefault(x => x.Position == (upperLeftCorner + doorPosition));
                 if (objectAtPoint != null)
                     map.RemoveMapItem(objectAtPoint);
             }
@@ -218,6 +229,10 @@ namespace Magecrawl.GameEngine.Level.Generator
                         case '+':
                             MapSegment[i, j].Terrain = TerrainType.Floor;
                             TreasureChests.Add(new Point(i, j));
+                            break;
+                        case 'D':
+                            MapSegment[i, j].Terrain = TerrainType.Floor;
+                            Doors.Add(new Point(i, j));
                             break;
                         case 'C':
                             MapSegment[i, j].Terrain = TerrainType.Floor;
