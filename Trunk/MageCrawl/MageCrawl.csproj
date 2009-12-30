@@ -144,6 +144,9 @@
     <Content Include="..\dist\KeyMappings.xml">
       <Link>Resources\KeyMappings.xml</Link>
     </Content>
+    <Content Include="..\dist\Preferences.xml">
+      <Link>Resources\Preferences.xml</Link>
+    </Content>
     <Content Include="..\dist\Spells.xml">
       <Link>Resources\Spells.xml</Link>
     </Content>

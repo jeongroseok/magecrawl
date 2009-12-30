@@ -44,7 +44,7 @@ namespace Magecrawl.GameEngine.Items
             settings.IgnoreComments = true;
             XmlReader reader = XmlReader.Create(new StreamReader("Items.xml"), settings);
             reader.Read();  // XML declaration
-            reader.Read();  // KeyMappings element
+            reader.Read();  // Items element
             if (reader.LocalName != "Items")
             {
                 throw new System.InvalidOperationException("Bad weapons file");
