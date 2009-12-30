@@ -322,15 +322,17 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
             m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
 
-            while (!m_engine.DangerInLOS())
+            bool ableToMoveNextSquare = true;
+
+            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
             {
                 List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
                 if (pathToPoint.Count == 0)
                     return false;
 
                 Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
-                
-                m_engine.MovePlayer(d);
+
+                ableToMoveNextSquare = m_engine.MovePlayer(d);
                 m_gameInstance.UpdatePainters();
 
                 m_gameInstance.DrawFrame();
