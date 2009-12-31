@@ -28,7 +28,8 @@ namespace Magecrawl
 
         private void OnTick(object o)
         {
-            m_console.Flush();
+            if(m_timer != null)
+                m_console.Flush();
         }
     }
 }
