@@ -57,9 +57,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                 m_largestX = lowerRight.X;
             if (lowerRight.Y > m_largestY)
                 m_largestY = lowerRight.Y;
-            if (m_largestX > Width)
+            if (m_largestX >= Width)
                 throw new ArgumentException("Width too large");
-            if (m_largestY > Height)
+            if (m_largestY >= Height)
                 throw new ArgumentException("Height too large");
         }
 
