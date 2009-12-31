@@ -105,8 +105,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             current.Generated = true;
             bool placed = false;
 
-            System.Console.WriteLine(string.Format("Generating {0} - {1}", current.Type.ToString(), current.UniqueID.ToString()));
-
             switch (current.Type)
             {
                 case MapNodeType.Entrance:
