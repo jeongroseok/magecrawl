@@ -14,6 +14,9 @@ namespace Magecrawl.GameEngine.Level.Generator
     // Treausre Rooms, and side rooms
     internal sealed class StitchtogeatherMapGenerator : MapGeneratorBase
     {
+        private const int Width = 250;
+        private const int Height = 250;
+
         private List<MapChunk> m_entrances;
         private List<MapChunk> m_halls;
         private List<MapChunk> m_mainRooms;
@@ -54,12 +57,15 @@ namespace Magecrawl.GameEngine.Level.Generator
                 m_largestX = lowerRight.X;
             if (lowerRight.Y > m_largestY)
                 m_largestY = lowerRight.Y;
+            if (m_largestX > Width)
+                throw new ArgumentException("Width too large");
+            if (m_largestY > Height)
+                throw new ArgumentException("Height too large");
         }
 
         internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
         {
-            const int Width = 250;
-            const int Height = 250;
+
             Map map = new Map(Width, Height);
 
             m_stairsUpPosition = stairsUpPosition;

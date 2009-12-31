@@ -73,6 +73,9 @@ namespace Magecrawl.GameEngine
                         m_dungeon[i] = mapGenerator.GenerateMap(stairsUpPosition, out stairsDownPosition);
                         stairsUpPosition = stairsDownPosition;
                         stairsDownPosition = Point.Invalid;
+
+                        // We succeeded in creating a good map, reset attempts
+                        failedMapCreationAttempts = 0;
                     }
                     catch (MapGenerationFailureException)
                     {
