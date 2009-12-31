@@ -89,23 +89,23 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    map.SetScratchAt(new Point(i, j), 0);
+                    map.SetScratchAt(i, j, 0);
                 }
             }
         }
 
-        protected void FloodFill(Map map, Point p, byte scratchValue)
+        protected void FloodFill(Map map, int x, int y, byte scratchValue)
         {
-            if (!map.IsPointOnMap(p))
+            if (!map.IsPointOnMap(x, y))
                 return;
 
-            if (map.GetTerrainAt(p) == TerrainType.Floor && map.GetScratchAt(p) == 0)
+            if (map.GetTerrainAt(x, y) == TerrainType.Floor && map.GetScratchAt(x, y) == 0)
             {
-                map.SetScratchAt(p, scratchValue);
-                FloodFill(map, p + new Point(1, 0), scratchValue);
-                FloodFill(map, p + new Point(-1, 0), scratchValue);
-                FloodFill(map, p + new Point(0, 1), scratchValue);
-                FloodFill(map, p + new Point(0, -1), scratchValue);
+                map.SetScratchAt(x, y, scratchValue);
+                FloodFill(map, x + 1, y, scratchValue);
+                FloodFill(map, x - 1, y, scratchValue);
+                FloodFill(map, x, y + 1, scratchValue);
+                FloodFill(map, x, y - 1, scratchValue);
             }       
         }
 
@@ -118,15 +118,14 @@ namespace Magecrawl.GameEngine.Level.Generator
             Point clearPoint = GetFirstClearPoint(map);
 
             // Flood fill all connected tiles
-            FloodFill(map, clearPoint, CheckConnectivityScratchValue);
+            FloodFill(map, clearPoint.X, clearPoint.Y, CheckConnectivityScratchValue);
 
             // See if any floor tiles don't have our scratch, if so they are not connected
             for (int i = 0; i < map.Width; ++i)
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i, j);
-                    if (map.GetTerrainAt(p) == TerrainType.Floor && map.GetScratchAt(p) != CheckConnectivityScratchValue)
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor && map.GetScratchAt(i, j) != CheckConnectivityScratchValue)
                         return false;
                 }
             }
@@ -146,9 +145,8 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i, j);
-                    if (map.GetTerrainAt(p) == TerrainType.Floor)
-                        numberOfTilesWithThatScratch[map.GetScratchAt(p)]++;
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor)
+                        numberOfTilesWithThatScratch[map.GetScratchAt(i, j)]++;
                 }
             }
 
@@ -168,12 +166,11 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i, j);
-                    if (map.GetTerrainAt(p) == TerrainType.Floor && map.GetScratchAt(p) != biggestNumber)
-                        map.SetTerrainAt(p, TerrainType.Wall);
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor && map.GetScratchAt(i, j) != biggestNumber)
+                        map.SetTerrainAt(i, j, TerrainType.Wall);
 
                     // And reset the scratch while we're here
-                    map.SetScratchAt(p, 0);
+                    map.SetScratchAt(i, j, 0);
                 }
             }
 
@@ -192,10 +189,9 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i, j);
-                    if (map.GetTerrainAt(p) == TerrainType.Floor && map.GetScratchAt(p) == 0)
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor && map.GetScratchAt(i, j) == 0)
                     {
-                        FloodFill(map, p, currentScratchNumber);
+                        FloodFill(map, i, j, currentScratchNumber);
                         currentScratchNumber++;
                     }
                 }
@@ -213,9 +209,8 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    Point p = new Point(i, j);
-                    if (map.GetTerrainAt(p) == TerrainType.Floor)
-                        return p;
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor)
+                        return new Point(i, j);
                 }
             }
             throw new System.ApplicationException("GetFirstClearPoint found no clear points");
@@ -230,7 +225,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = 0; j < map.Height; ++j)
                 {
-                    if (map.GetTerrainAt(new Point(i, j)) == TerrainType.Floor)
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor)
                     {
                         smallestX = Math.Min(smallestX, i);
                         smallestY = Math.Min(smallestY, j);
@@ -251,11 +246,9 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = -1; j <= 1; ++j)
                 {
-                    Point newPoint = new Point(x + i, y + j);
-
                     // We don't have to check for inrangeness here. This is only called on maps
                     // that iterate over the nonborder, so there's always a board of walls
-                    if (map.GetTerrainAt(newPoint) == TerrainType.Wall)
+                    if (map.GetTerrainAt(x + i, y + j) == TerrainType.Wall)
                         numberOfFloorTileSurrounding++;
                 }
             }
@@ -272,11 +265,10 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     if ((i == 2 || i == -2) && (j == 2 || j == -2))
                         continue;
-                    
-                    Point newPoint = new Point(x + i, y + j);
-                    if (map.IsPointOnMap(newPoint))
+
+                    if (map.IsPointOnMap(x + i, y + j))
                     {
-                        if (map.GetTerrainAt(newPoint) == TerrainType.Wall)
+                        if (map.GetTerrainAt(x + i, y + j) == TerrainType.Wall)
                             numberOfFloorTileSurrounding++;
                     }
                 }
@@ -290,13 +282,13 @@ namespace Magecrawl.GameEngine.Level.Generator
             // Fill edges with walls
             for (int i = 0; i < map.Width; ++i)
             {
-                map.SetTerrainAt(new Point(i, 0), TerrainType.Wall);
-                map.SetTerrainAt(new Point(i, map.Height - 1), TerrainType.Wall);
+                map.SetTerrainAt(i, 0, TerrainType.Wall);
+                map.SetTerrainAt(i, map.Height - 1, TerrainType.Wall);
             }
             for (int j = 0; j < map.Height; ++j)
             {
-                map.SetTerrainAt(new Point(0, j), TerrainType.Wall);
-                map.SetTerrainAt(new Point(map.Width - 1, j), TerrainType.Wall);
+                map.SetTerrainAt(0, j, TerrainType.Wall);
+                map.SetTerrainAt(map.Width - 1, j, TerrainType.Wall);
             }
         }
 

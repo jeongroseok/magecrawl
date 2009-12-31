@@ -175,9 +175,19 @@ namespace Magecrawl.GameEngine.Level
             }
         }
 
+        public TerrainType GetTerrainAt(int x, int y)
+        {
+            return m_map[x, y].Terrain;
+        }
+
         public TerrainType GetTerrainAt(Point p)
         {
             return m_map[p.X, p.Y].Terrain;
+        }
+
+        public void SetTerrainAt(int x, int y, TerrainType t)
+        {
+            m_map[x, y].Terrain = t;
         }
 
         public void SetTerrainAt(Point p, TerrainType t)
@@ -190,9 +200,19 @@ namespace Magecrawl.GameEngine.Level
             return m_map[p.X, p.Y].Scratch;
         }
 
+        public byte GetScratchAt(int x, int y)
+        {
+            return m_map[x, y].Scratch;
+        }
+
         public void SetScratchAt(Point p, byte scratch)
         {
             m_map[p.X, p.Y].Scratch = scratch;
+        }
+
+        public void SetScratchAt(int x, int y, byte scratch)
+        {
+            m_map[x, y].Scratch = scratch;
         }
 
         public bool IsVisitedAt(Point p)
@@ -242,6 +262,11 @@ namespace Magecrawl.GameEngine.Level
         public bool IsPointOnMap(Point p)
         {
             return (p.X >= 0) && (p.Y >= 0) && (p.X < Width) && (p.Y < Height);
+        }
+
+        public bool IsPointOnMap(int x, int y)
+        {
+            return (x >= 0) && (y >= 0) && (x < Width) && (y < Height);
         }
 
         public Point CoercePointOntoMap(Point p)
