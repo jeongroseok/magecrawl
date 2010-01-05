@@ -131,9 +131,9 @@ namespace Magecrawl.GameEngine
             m_engine.Save();
         }
 
-        public List<Point> PlayerPathToPoint(Magecrawl.Utilities.Point dest)
+        public List<Point> PlayerPathToPoint(Point dest)
         {
-            return m_engine.PathToPoint(m_engine.Player, dest, true);
+            return m_engine.PathToPoint(m_engine.Player, dest, true, true);
         }
 
         // For the IsPathable debugging mode, show if player could walk there.

@@ -270,9 +270,9 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.AfterPlayerAction(this);
         }
 
-        internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate)
+        internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate, bool usePlayerLOS)
         {
-            return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine);
+            return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine, usePlayerLOS);
         }
 
         // This is used by the Movability Debug View. If you think you need it, you don't. Talk to chris. 
