@@ -10,11 +10,13 @@ namespace Magecrawl.GameEngine.MapObjects
     {
         private Point m_position;
         private MapObjectType m_type;
+        private Guid m_guid;
 
         internal Stairs(Point position, bool stairsUp)
         {
             m_type = stairsUp ? MapObjectType.StairsUp : MapObjectType.StairsDown;
             m_position = position;
+            m_guid = Guid.NewGuid();
         }
 
         public override bool IsSolid
@@ -53,15 +55,25 @@ namespace Magecrawl.GameEngine.MapObjects
             }
         }
 
+        public Guid UniqueID
+        {
+            get
+            {
+                return m_guid;
+            }
+        }
+
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             m_position = m_position.ReadXml(reader);
+            m_guid = new Guid(reader.ReadElementContentAsString());
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString("Type", m_type == MapObjectType.StairsUp ? "Stairs Up" : "Stairs Down");
             m_position.WriteToXml(writer, "Position");
+            writer.WriteElementString("Guid", m_guid.ToString());
         }
     }
 }

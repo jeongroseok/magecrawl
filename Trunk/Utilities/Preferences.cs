@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace Magecrawl.Utilities
 {
-    // At some point in the future, this should read from a file and contain user-visible preferences
     public class Preferences
     {
         private Dictionary<string, object> m_preferences;

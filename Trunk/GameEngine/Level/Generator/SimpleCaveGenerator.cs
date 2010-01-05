@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.MapObjects;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -12,7 +13,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
         }    
 
-        internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
+        internal override Map GenerateMap(Stairs incommingStairs, Point stairsUpPosition, out Point stairsDownPosition)
         {
             Map map;
             do
@@ -97,7 +98,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
             while (!HasValidStairPositioning(stairsUpPosition, map));
 
-            GenerateUpDownStairs(map, stairsUpPosition, out stairsDownPosition);
+            GenerateUpDownStairs(map, incommingStairs, stairsUpPosition, out stairsDownPosition);
 
             GenerateMonstersAndChests(map, stairsUpPosition);
 

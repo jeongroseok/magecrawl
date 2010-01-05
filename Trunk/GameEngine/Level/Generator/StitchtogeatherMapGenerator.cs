@@ -5,6 +5,7 @@ using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.MapObjects;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -63,9 +64,8 @@ namespace Magecrawl.GameEngine.Level.Generator
                 throw new ArgumentException("Height too large");
         }
 
-        internal override Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition)
+        internal override Map GenerateMap(Stairs incommingStairs, Point stairsUpPosition, out Point stairsDownPosition)
         {
-
             Map map = new Map(Width, Height);
 
             m_stairsUpPosition = stairsUpPosition;
@@ -91,7 +91,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             if (m_placed < 20)
                 throw new MapGenerationFailureException("Too few items placed to be reasonabily sized");
 
-            GenerateUpDownStairs(map, stairsUpPosition, out stairsDownPosition);
+            GenerateUpDownStairs(map, incommingStairs, stairsUpPosition, out stairsDownPosition);
 
             return map;
         }

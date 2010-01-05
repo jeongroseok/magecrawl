@@ -58,7 +58,7 @@ namespace Magecrawl.GameEngine
             Point stairsDownPosition;
 
             int failedMapCreationAttempts = 0;
-
+            Stairs incommingStairs = null;
             using (TCODRandom random = new TCODRandom())
             {
                 for (int i = 0; i < 10; ++i)
@@ -70,7 +70,9 @@ namespace Magecrawl.GameEngine
                             mapGenerator = new SimpleCaveGenerator(random);
                         else
                             mapGenerator = new StitchtogeatherMapGenerator(random);
-                        m_dungeon[i] = mapGenerator.GenerateMap(stairsUpPosition, out stairsDownPosition);
+                        m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, stairsUpPosition, out stairsDownPosition);
+
+                        incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();
                         stairsUpPosition = stairsDownPosition;
                         stairsDownPosition = Point.Invalid;
 
@@ -125,6 +127,8 @@ namespace Magecrawl.GameEngine
             m_timingEngine = new CoreTimingEngine();
 
             m_dungeon = new Dictionary<int, Map>();
+
+            StairsMapping.Setup();
         }
 
         private void CommonStartupAfterMapPlayer()
@@ -255,28 +259,12 @@ namespace Magecrawl.GameEngine
 
         internal bool PlayerMoveUpStairs()
         {
-            Stairs s = Map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsUp && x.Position == Player.Position).SingleOrDefault();
-            if (s != null)
-            {
-                CurrentLevel--;
-                m_timingEngine.ActorMadeMove(m_player);
-                return true;
-            }
-            return false;
+            return m_physicsEngine.PlayerMoveUpStairs(Player, Map);
         }
 
         internal bool PlayerMoveDownStairs()
         {
-            Stairs s = Map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsDown && x.Position == Player.Position).SingleOrDefault();
-            if (s != null)
-            {
-                if (CurrentLevel == NumberOfLevels - 1)
-                    throw new InvalidOperationException("Win dialog should have come up instead.");
-                CurrentLevel++;
-                m_timingEngine.ActorMadeMove(m_player);
-                return true;
-            }
-            return false;
+            return m_physicsEngine.PlayerMoveDownStairs(Player, Map);
         }
 
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.

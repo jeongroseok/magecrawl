@@ -306,6 +306,35 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
+        internal bool PlayerMoveUpStairs(Player player, Map map)
+        {
+            Stairs s = map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsUp && x.Position == player.Position).SingleOrDefault();
+
+            if (s != null)
+            {
+                CoreGameEngine.Instance.CurrentLevel--;
+                m_player.Position = StairsMapping.Instance.GetMapping(s.UniqueID);
+                m_timingEngine.ActorMadeMove(m_player);
+                return true;
+            }
+            return false;
+        }
+
+        internal bool PlayerMoveDownStairs(Player player, Map map)
+        {
+            Stairs s = map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsDown && x.Position == player.Position).SingleOrDefault();
+            if (s != null)
+            {
+                if (CoreGameEngine.Instance.CurrentLevel == CoreGameEngine.Instance.NumberOfLevels - 1)
+                    throw new InvalidOperationException("Win dialog should have come up instead.");
+                CoreGameEngine.Instance.CurrentLevel++;
+                m_player.Position = StairsMapping.Instance.GetMapping(s.UniqueID);
+                m_timingEngine.ActorMadeMove(m_player);
+                return true;
+            }
+            return false;
+        }
+
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
