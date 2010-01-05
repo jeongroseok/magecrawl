@@ -47,7 +47,7 @@ namespace Magecrawl.GameUI.MapEffects
                     {
                         Point boltPoint = m_path[(int)frameNumber];
                         Point screenPosition = new Point(m_mapUpCorner.X + boltPoint.X + 1, m_mapUpCorner.Y + boltPoint.Y + 1);
-                        screen.PutChar(screenPosition.X, screenPosition.Y, '*');
+                        screen.PutChar(screenPosition.X, screenPosition.Y, '*', Background.None);
                         screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
                     }
                     return;
