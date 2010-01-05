@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -97,7 +98,9 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             GenerateUpDownStairs(map, incommingStairs);
 
-            GenerateMonstersAndChests(map, incommingStairs.Position);
+            Point stairsUpPosition = map.MapObjects.Where(x => x.Type == MapObjectType.StairsUp).First().Position;
+
+            GenerateMonstersAndChests(map, stairsUpPosition);
 
             return map;
         }
