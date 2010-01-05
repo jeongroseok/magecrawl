@@ -37,7 +37,7 @@ namespace Magecrawl.GameEngine.Actors
             if (engine.FOVManager.VisibleSingleShot(engine.Map, m_position, m_visionRange, engine.Player.Position))
             {
                 // TODO - This should respect FOV
-                IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false);
+                IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false, false);
 
                 // If we are next to the player
                 if (pathToPlayer != null && pathToPlayer.Count == 1)

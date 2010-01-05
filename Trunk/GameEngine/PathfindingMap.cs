@@ -40,9 +40,9 @@ namespace Magecrawl.GameEngine
         // We want to know if you can walk to a given position.
         // If there is a character there, ignore it so we can walk 'towards' it
         // If there are doors in the way, if we can operate, ignore them.
-        public List<Point> Travel(Character actor, Point dest, bool canOperate, PhysicsEngine engine)
+        public List<Point> Travel(Character actor, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS)
         {
-            UpdateInternalFOVForNewRequest(actor.Position, dest, canOperate, engine);
+            UpdateInternalFOV(actor.Position, dest, canOperate, engine, usePlayerLOS);
 
             bool pathExists = m_pathFinding.ComputePath(actor.Position.X, actor.Position.Y, dest.X, dest.Y);
             if (!pathExists)
@@ -61,7 +61,7 @@ namespace Magecrawl.GameEngine
             return path;
         }
 
-        private void UpdateInternalFOVForNewRequest(Point source, Point dest, bool canOperate, PhysicsEngine engine)
+        private void UpdateInternalFOV(Point source, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS)
         {
             // First get the 'default' values
             bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(m_map, source);
@@ -82,6 +82,20 @@ namespace Magecrawl.GameEngine
             // Same for player
             if (m_player.Position == dest)
                 moveableGrid[m_player.Position.X, m_player.Position.Y] = true;
+
+            if (usePlayerLOS)
+            {
+                for (int i = 0; i < m_map.Width; ++i)
+                {
+                    for (int j = 0; j < m_map.Height; ++j)
+                    {
+                        if (!m_map.IsVisitedAt(new Point(i, j)))
+                        {
+                            moveableGrid[i, j] = false;
+                        }
+                    }
+                }
+            }
 
             // Now use moveableGrid to setup FOV
             for (int i = 0; i < m_map.Width; ++i)

@@ -54,7 +54,7 @@ namespace Magecrawl.Keyboard
             while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
             {
                 List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
-                if (pathToPoint.Count == 0)
+                if (pathToPoint == null || pathToPoint.Count == 0)
                     return false;
 
                 Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
