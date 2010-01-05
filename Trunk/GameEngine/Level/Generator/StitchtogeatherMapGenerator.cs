@@ -18,11 +18,13 @@ namespace Magecrawl.GameEngine.Level.Generator
         private const int Width = 250;
         private const int Height = 250;
 
-        private List<MapChunk> m_entrances;
-        private List<MapChunk> m_halls;
-        private List<MapChunk> m_mainRooms;
-        private List<MapChunk> m_treasureRooms;
-        private List<MapChunk> m_sideRooms;
+        private static List<MapChunk> m_entrances;
+        private static List<MapChunk> m_halls;
+        private static List<MapChunk> m_mainRooms;
+        private static List<MapChunk> m_treasureRooms;
+        private static List<MapChunk> m_sideRooms;
+        private static bool m_chunksLoaded = false;
+
         private Point m_playerPosition;
         private StitchtogeatherMapGraphGenerator m_graphGenerator;
         private Queue<MapNode> m_unplacedDueToSpace;
@@ -34,11 +36,6 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
-            m_entrances = new List<MapChunk>();
-            m_halls = new List<MapChunk>();
-            m_mainRooms = new List<MapChunk>();
-            m_treasureRooms = new List<MapChunk>();
-            m_sideRooms = new List<MapChunk>();
             m_unplacedDueToSpace = new Queue<MapNode>();
             m_playerPosition = Point.Invalid;
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();
@@ -253,43 +250,54 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
         }
 
-        private void LoadChunksFromFile(string fileName)
+        private static void LoadChunksFromFile(string fileName)
         {
-            using (StreamReader inputFile = new StreamReader(fileName))
+            if (!m_chunksLoaded)
             {
-                while (!inputFile.EndOfStream)
+                m_chunksLoaded = true;
+
+                m_entrances = new List<MapChunk>();
+                m_halls = new List<MapChunk>();
+                m_mainRooms = new List<MapChunk>();
+                m_treasureRooms = new List<MapChunk>();
+                m_sideRooms = new List<MapChunk>();
+
+                using (StreamReader inputFile = new StreamReader(fileName))
                 {
-                    string definationLine = inputFile.ReadLine();
-                    string[] definationParts = definationLine.Split(' ');
-                    int width = int.Parse(definationParts[0]);
-                    int height = int.Parse(definationParts[1]);
-                   
-                    string chunkType = definationParts[2];
-                    MapChunk newChunk = new MapChunk(width, height, chunkType);
-                    newChunk.ReadSegmentFromFile(inputFile);
-
-                    switch (chunkType)
+                    while (!inputFile.EndOfStream)
                     {
-                        case "Entrance":
-                            m_entrances.Add(newChunk);
-                            break;
-                        case "Hall":
-                            m_halls.Add(newChunk);
-                            break;
-                        case "MainRoom":
-                            m_mainRooms.Add(newChunk);
-                            break;
-                        case "TreasureRoom":
-                            m_treasureRooms.Add(newChunk);
-                            break;
-                        case "SideRoom":
-                            m_sideRooms.Add(newChunk);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException("Unknown Chunk Type Read From File");
-                    }
+                        string definationLine = inputFile.ReadLine();
+                        string[] definationParts = definationLine.Split(' ');
+                        int width = int.Parse(definationParts[0]);
+                        int height = int.Parse(definationParts[1]);
 
-                    inputFile.ReadLine();
+                        string chunkType = definationParts[2];
+                        MapChunk newChunk = new MapChunk(width, height, chunkType);
+                        newChunk.ReadSegmentFromFile(inputFile);
+
+                        switch (chunkType)
+                        {
+                            case "Entrance":
+                                m_entrances.Add(newChunk);
+                                break;
+                            case "Hall":
+                                m_halls.Add(newChunk);
+                                break;
+                            case "MainRoom":
+                                m_mainRooms.Add(newChunk);
+                                break;
+                            case "TreasureRoom":
+                                m_treasureRooms.Add(newChunk);
+                                break;
+                            case "SideRoom":
+                                m_sideRooms.Add(newChunk);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException("Unknown Chunk Type Read From File");
+                        }
+
+                        inputFile.ReadLine();
+                    }
                 }
             }
         }
