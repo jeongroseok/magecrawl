@@ -312,8 +312,10 @@ namespace Magecrawl.GameEngine
 
             if (s != null)
             {
-                CoreGameEngine.Instance.CurrentLevel--;
+                // The position must come first, as changing levels checks FOV
                 m_player.Position = StairsMapping.Instance.GetMapping(s.UniqueID);
+                CoreGameEngine.Instance.CurrentLevel--;
+                
                 m_timingEngine.ActorMadeMove(m_player);
                 return true;
             }
@@ -327,8 +329,11 @@ namespace Magecrawl.GameEngine
             {
                 if (CoreGameEngine.Instance.CurrentLevel == CoreGameEngine.Instance.NumberOfLevels - 1)
                     throw new InvalidOperationException("Win dialog should have come up instead.");
-                CoreGameEngine.Instance.CurrentLevel++;
+                
+                // The position must come first, as changing levels checks FOV
                 m_player.Position = StairsMapping.Instance.GetMapping(s.UniqueID);
+                CoreGameEngine.Instance.CurrentLevel++;
+
                 m_timingEngine.ActorMadeMove(m_player);
                 return true;
             }

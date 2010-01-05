@@ -51,11 +51,7 @@ namespace Magecrawl.GameEngine
 
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
-            Point playerPosition = new Point(35, 35);
-            m_player = new Player(playerPosition);
-
-            Point stairsUpPosition = playerPosition;
-            Point stairsDownPosition;
+            Point playerPosition = Point.Invalid;
 
             int failedMapCreationAttempts = 0;
             Stairs incommingStairs = null;
@@ -70,11 +66,9 @@ namespace Magecrawl.GameEngine
                             mapGenerator = new SimpleCaveGenerator(random);
                         else
                             mapGenerator = new StitchtogeatherMapGenerator(random);
-                        m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, stairsUpPosition, out stairsDownPosition);
+                        m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs);
 
                         incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();
-                        stairsUpPosition = stairsDownPosition;
-                        stairsDownPosition = Point.Invalid;
 
                         // We succeeded in creating a good map, reset attempts
                         failedMapCreationAttempts = 0;
@@ -94,6 +88,9 @@ namespace Magecrawl.GameEngine
                     }
                 }
             }
+
+            Point initialStairsUpPosition = m_dungeon[0].MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().First().Position;
+            m_player = new Player(initialStairsUpPosition);
 
             CommonStartupAfterMapPlayer();
 
