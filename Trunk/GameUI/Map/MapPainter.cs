@@ -170,14 +170,14 @@ namespace Magecrawl.GameUI.Map
             {
                 case TerrainType.Floor:
                     if (visible)
-                        return Color.FromRGB(42, 42, 42);
+                        return (Color)Preferences.Instance["FloorColorVisible"];
                     else
-                        return Color.FromRGB(15, 15, 15);
+                        return (Color)Preferences.Instance["FloorColorNotVisible"];
                 case TerrainType.Wall:
                     if (visible)
-                        return Color.FromRGB(83, 41, 0);
+                        return (Color)Preferences.Instance["WallColorVisible"];
                     else
-                        return Color.FromRGB(40, 20, 0);
+                        return (Color)Preferences.Instance["WallColorNotVisible"];
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }

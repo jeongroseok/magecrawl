@@ -2,6 +2,7 @@
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
+using libtcodWrapper;
 
 namespace Magecrawl.Utilities
 {
@@ -53,6 +54,15 @@ namespace Magecrawl.Utilities
             }
         }
 
+        // For all properties not exposed by "nice" helper functions
+        public object this[string s]
+        {
+            get
+            {
+                return m_preferences[s];
+            }
+        }
+
         private void SetupDefaultSettings()
         {
 #if DEBUG
@@ -61,6 +71,10 @@ namespace Magecrawl.Utilities
             m_preferences["DebuggingMode"] = false;
 #endif
             m_preferences["SinglePressOperate"] = false;
+            m_preferences["FloorColorVisible"] = Color.FromRGB(42, 42, 42);
+            m_preferences["FloorColorNotVisible"] = Color.FromRGB(15, 15, 15);
+            m_preferences["WallColorVisible"] = Color.FromRGB(83, 41, 0);
+            m_preferences["WallColorNotVisible"] = Color.FromRGB(40, 20, 0);
         }
 
         private void LoadSettings()
@@ -91,14 +105,25 @@ namespace Magecrawl.Utilities
                 switch (reader.LocalName)
                 {
                     case "DebuggingMode":
-                        ReadBooleanData(reader, "DebuggingMode");
-                        break;
                     case "SinglePressOperate":
-                        ReadBooleanData(reader, "SinglePressOperate");
+                        ReadBooleanData(reader, reader.LocalName);
+                        break;
+                    case "FloorColorVisible":
+                    case "FloorColorNotVisible":
+                    case "WallColorVisible":
+                    case "WallColorNotVisible":
+                        ReadColorData(reader, reader.LocalName);
                         break;
                 }
             }
             reader.Close();
+        }
+
+        private void ReadColorData(XmlReader reader, string preferenceName)
+        {
+            reader.Read();
+            string[] colorParts = reader.Value.Split(',');
+            m_preferences[preferenceName] = Color.FromRGB(Byte.Parse(colorParts[0]), Byte.Parse(colorParts[1]), Byte.Parse(colorParts[2]));
         }
 
         private void ReadBooleanData(XmlReader reader, string preferenceName)
@@ -106,6 +131,5 @@ namespace Magecrawl.Utilities
             reader.Read();
             m_preferences[preferenceName] = Boolean.Parse(reader.Value);
         }
-
     }
 }
