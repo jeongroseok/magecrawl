@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_clearPointCache = new Dictionary<Map, List<Point>>();
         }    
 
-        abstract internal Map GenerateMap(Stairs incommingStairs, Point stairsUpPosition, out Point stairsDownPosition);
+        abstract internal Map GenerateMap(Stairs incommingStairs);
 
         public Point GetClearPoint(Map map)
         {
@@ -291,19 +291,16 @@ namespace Magecrawl.GameEngine.Level.Generator
                 map.SetTerrainAt(map.Width - 1, j, TerrainType.Wall);
             }
         }
-
-        protected static bool HasValidStairPositioning(Point upStairsPosition, Map map)
-        {
-            return map.IsPointOnMap(upStairsPosition) && map.GetTerrainAt(upStairsPosition) == TerrainType.Floor;
-        }
         
-        protected void GenerateUpDownStairs(Map map, Stairs incommingStairs, Point stairsUpPosition, out Point stairsDownPosition)
+        protected void GenerateUpDownStairs(Map map, Stairs incommingStairs)
         {
             const int DistanceToKeepDownStairsFromUpStairs = 15;
+
+            Point stairsUpPosition = GetClearPoint(map);
             Stairs upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", stairsUpPosition);
             map.AddMapItem(upStairs);
 
-            stairsDownPosition = GetClearPoint(map, stairsUpPosition, DistanceToKeepDownStairsFromUpStairs, 5);
+            Point stairsDownPosition = GetClearPoint(map, stairsUpPosition, DistanceToKeepDownStairsFromUpStairs, 5);
             Stairs downStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
             map.AddMapItem(downStairs);
 
@@ -314,21 +311,21 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
         }
 
-        protected void GenerateMonstersAndChests(Map map, Point playerPosition)
+        protected void GenerateMonstersAndChests(Map map, Point pointToAvoid)
         {
             const int DistanceFromPlayerToKeepClear = 5;
             int monsterToGenerate = m_random.GetRandomInt(10, 20);
             for (int i = 0; i < monsterToGenerate; ++i)
             {
                 Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster");
-                newMonster.Position = GetClearPoint(map, playerPosition, DistanceFromPlayerToKeepClear);
+                newMonster.Position = GetClearPoint(map, pointToAvoid, DistanceFromPlayerToKeepClear);
                 map.AddMonster(newMonster);
             }
 
             int treasureToGenerate = m_random.GetRandomInt(3, 6);
             for (int i = 0; i < treasureToGenerate; ++i)
             {
-                Point position = GetClearPoint(map, playerPosition, DistanceFromPlayerToKeepClear);
+                Point position = GetClearPoint(map, pointToAvoid, DistanceFromPlayerToKeepClear);
                 MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", position);
                 map.AddMapItem(treasure);
             }
