@@ -15,12 +15,14 @@ namespace Magecrawl.Keyboard
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
+        private AutoTraveler m_autoTraveler;
 
         public DefaultKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
             m_gameInstance = instance;
             m_keyMappings = null;
+            m_autoTraveler = new AutoTraveler(engine, instance);
         }
 
         #region Mappable key commands
@@ -310,55 +312,9 @@ namespace Magecrawl.Keyboard
 
         private void MoveToLocation()
         {
-            List<EffectivePoint> targetPoints = GeneratePointsOneCanMoveTo();
-            OnTargetSelection movementDelegate = new OnTargetSelection(OnMovementLocationSelected);
             NamedKey movementKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-            m_gameInstance.SetHandlerName("Target", targetPoints, movementDelegate, movementKey, TargettingKeystrokeHandler.TargettingType.OpenFloor);
+            m_autoTraveler.MoveToLocation(movementKey);
         }
-
-        private bool OnMovementLocationSelected(Point selected)
-        {
-            // Don't show the overlap as we travel
-            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
-            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
-
-            bool ableToMoveNextSquare = true;
-
-            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
-            {
-                List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
-                if (pathToPoint.Count == 0)
-                    return false;
-
-                Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
-
-                ableToMoveNextSquare = m_engine.MovePlayer(d);
-                m_gameInstance.UpdatePainters();
-
-                m_gameInstance.DrawFrame();
-            }
-            return false;
-        }
-
-        private List<EffectivePoint> GeneratePointsOneCanMoveTo()
-        {
-            List<EffectivePoint> returnList = new List<EffectivePoint>();
-            for (int i = 0; i < m_engine.Map.Width; ++i)
-            {
-                for (int j = 0; j < m_engine.Map.Height; ++j)
-                {
-                    Point p = new Point(i,j);
-                    // We can move there is we've visited it is a floor and there is no solid object there.
-                    if (m_engine.Map.GetTerrainAt(p) == TerrainType.Floor && m_engine.Map.IsVisitedAt(p) && m_engine.Map.MapObjects.Where(x => x.Position == p && x.IsSolid).Count() == 0)
-                    {
-                        returnList.Add(new EffectivePoint(p, 1));
-                    }
-                }
-            }
-
-            return returnList;
-        }
-
 
         // If you add new non-debug commands, remember to update HelpPainter.cs
         #endregion
