@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
-using System.Threading;
-using System.Globalization;
+using Magecrawl.GameEngine.MapObjects;
 
 namespace Magecrawl.GameEngine.SaveLoad
 {
@@ -84,6 +85,8 @@ namespace Magecrawl.GameEngine.SaveLoad
                 reader.ReadEndElement();
                 loadingDungeon[i] = loadMap;
             }
+
+            StairsMapping.Instance.ReadXml(reader);
             
             Player loadPlayer = new Player();
             loadPlayer.ReadXml(reader);
@@ -107,6 +110,8 @@ namespace Magecrawl.GameEngine.SaveLoad
                 CoreGameEngine.Instance.GetSpecificFloor(i).WriteXml(writer);
                 writer.WriteEndElement();
             }
+
+            StairsMapping.Instance.WriteXml(writer);
 
             (CoreGameEngine.Instance.Player as Player).WriteXml(writer);
 

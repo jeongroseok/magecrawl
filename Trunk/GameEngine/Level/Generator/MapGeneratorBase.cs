@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_clearPointCache = new Dictionary<Map, List<Point>>();
         }    
 
-        abstract internal Map GenerateMap(Point stairsUpPosition, out Point stairsDownPosition);
+        abstract internal Map GenerateMap(Stairs incommingStairs, Point stairsUpPosition, out Point stairsDownPosition);
 
         public Point GetClearPoint(Map map)
         {
@@ -297,15 +297,21 @@ namespace Magecrawl.GameEngine.Level.Generator
             return map.IsPointOnMap(upStairsPosition) && map.GetTerrainAt(upStairsPosition) == TerrainType.Floor;
         }
         
-        protected void GenerateUpDownStairs(Map map, Point stairsUpPosition, out Point stairsDownPosition)
+        protected void GenerateUpDownStairs(Map map, Stairs incommingStairs, Point stairsUpPosition, out Point stairsDownPosition)
         {
             const int DistanceToKeepDownStairsFromUpStairs = 15;
-            MapObject upStairs = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", stairsUpPosition);
+            Stairs upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", stairsUpPosition);
             map.AddMapItem(upStairs);
 
             stairsDownPosition = GetClearPoint(map, stairsUpPosition, DistanceToKeepDownStairsFromUpStairs, 5);
-            MapObject downStairs = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
+            Stairs downStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
             map.AddMapItem(downStairs);
+
+            if (incommingStairs != null)
+            {
+                StairsMapping.Instance.SetMapping(incommingStairs.UniqueID, upStairs.Position);
+                StairsMapping.Instance.SetMapping(upStairs.UniqueID, incommingStairs.Position);
+            }
         }
 
         protected void GenerateMonstersAndChests(Map map, Point playerPosition)
