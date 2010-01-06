@@ -36,22 +36,66 @@ namespace Magecrawl.GameUI
             m_monstersNearby = engine.MonstersInLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
         }
 
-        private int HealthBarLength(ICharacter character)
+        private int HealthBarLength(ICharacter character, bool fuzzy)
         {
-            return (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * 20.0);
+            if (fuzzy)
+            {
+                int value = (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * 20.0);
+                if (value >= 19)
+                    return 20;
+                else if (value >= 14)
+                    return 15;
+                else if (value >= 7)
+                    return 10;
+                else
+                    return 5;
+            }
+            else
+                return (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * 20.0);
         }
 
-        private Color HealthBarColor(ICharacter character)
+        private int ManaBarLength(ICharacter character)
+        {
+            return (int)Math.Floor(((double)character.CurrentMP / (double)character.MaxMP) * 20.0);
+        }
+
+        private Color EnemyHealthBarColor(ICharacter character)
         {
             double percentage = ((double)character.CurrentHP / (double)character.MaxHP) * 100;
             if (percentage > 95)
-                return ColorPresets.Blue;
+                return ColorPresets.DarkBlue / 2;
             else if (percentage > 70)
-                return ColorPresets.Green;
+                return ColorPresets.DarkGreen / 2;
             else if (percentage > 35)
-                return ColorPresets.DarkOrange;
+                return ColorPresets.DarkOrange / 2;
             else
-                return ColorPresets.Red;
+                return ColorPresets.DarkRed / 2;
+        }
+
+        private Color PlayerHealthBarColor(ICharacter character)
+        {
+            double percentage = ((double)character.CurrentHP / (double)character.MaxHP) * 100;
+            if (percentage > 95)
+                return ColorPresets.Red / 2;
+            else if (percentage > 70)
+                return ColorPresets.Red / 2.5;
+            else if (percentage > 35)
+                return ColorPresets.Red / 3;
+            else
+                return ColorPresets.DarkRed / 2;
+        }
+
+        private Color ManaBarColor(ICharacter character)
+        {
+            double percentage = ((double)character.CurrentMP / (double)character.MaxMP) * 100;
+            if (percentage > 95)
+                return ColorPresets.Blue / 1.5;
+            else if (percentage > 70)
+                return ColorPresets.Blue / 2;
+            else if (percentage > 35)
+                return ColorPresets.Blue / 3;
+            else
+                return ColorPresets.Blue / 4;
         }
 
         public override void DrawNewFrame(libtcodWrapper.Console screen)
@@ -60,11 +104,17 @@ namespace Magecrawl.GameUI
             screen.PrintLine(m_player.Name, ScreenCenter, 1, LineAlignment.Center);
 
             string hpString = string.Format("HP: {0}/{1}", m_player.CurrentHP, m_player.MaxHP);
-            screen.PrintLine(hpString, StartingX + 2, 2, LineAlignment.Left);
-            string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
-            screen.PrintLine(magicString, StartingX + 2, 3, LineAlignment.Left);
+            screen.PrintLine(hpString, StartingX + 12, 2, LineAlignment.Center);
+            for (int j = 0; j < HealthBarLength(m_player, false); ++j)
+                screen.SetCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColor(m_player));
 
-            int nextAvailablePosition = 5;
+
+            string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
+            screen.PrintLine(magicString, StartingX + 12, 3, LineAlignment.Center);
+            for (int j = 0; j < ManaBarLength(m_player); ++j)
+                screen.SetCharBackground(StartingX + 2 + j, 3, ManaBarColor(m_player));
+
+            int nextAvailablePosition = 6;
 
             if (m_player.StatusEffects.Count > 0)
             {
@@ -89,8 +139,8 @@ namespace Magecrawl.GameUI
                 {
                     ICharacter currentMonster = m_monstersNearby[i];
                     screen.PrintLine(currentMonster.Name, StartingX + 12, nextAvailablePosition + 1 + i, LineAlignment.Center);
-                    for (int j = 0; j < HealthBarLength(currentMonster); ++j)
-                        screen.SetCharBackground(StartingX + 2 + j, nextAvailablePosition + 1 + i, HealthBarColor(currentMonster));
+                    for (int j = 0; j < HealthBarLength(currentMonster, true); ++j)
+                        screen.SetCharBackground(StartingX + 2 + j, nextAvailablePosition + 1 + i, EnemyHealthBarColor(currentMonster));
                 }
                 nextAvailablePosition += 2;
             }
