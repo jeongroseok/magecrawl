@@ -291,16 +291,19 @@ namespace Magecrawl.GameEngine.Level.Generator
                 map.SetTerrainAt(map.Width - 1, j, TerrainType.Wall);
             }
         }
-        
+
         protected void GenerateUpDownStairs(Map map, Stairs incommingStairs)
         {
             const int DistanceToKeepDownStairsFromUpStairs = 15;
 
-            Point stairsUpPosition = GetClearPoint(map);
-            Stairs upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", stairsUpPosition);
-            map.AddMapItem(upStairs);
+            Stairs upStairs = map.MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().FirstOrDefault();
+            if (upStairs == null)
+            {
+                upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", GetClearPoint(map));
+                map.AddMapItem(upStairs);
+            }
 
-            Point stairsDownPosition = GetClearPoint(map, stairsUpPosition, DistanceToKeepDownStairsFromUpStairs, 5);
+            Point stairsDownPosition = GetClearPoint(map, upStairs.Position, DistanceToKeepDownStairsFromUpStairs, 5);
             Stairs downStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
             map.AddMapItem(downStairs);
 
