@@ -5,6 +5,11 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public interface ICharacter
     {
+        string Name
+        {
+            get;
+        }
+
         Point Position
         {
             get;

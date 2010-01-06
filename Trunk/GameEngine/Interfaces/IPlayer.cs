@@ -6,11 +6,6 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public interface IPlayer : ICharacter
     {
-        string Name
-        {
-            get;
-        }
-
         IList<IItem> Items
         {
             get;
