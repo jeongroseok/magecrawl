@@ -16,6 +16,7 @@ namespace Magecrawl.Keyboard
     {
         public KeyCode Code;
         public char Character;
+        public bool ControlPressed;
 
         public static NamedKey Invalid = new NamedKey();
 
@@ -23,10 +24,16 @@ namespace Magecrawl.Keyboard
         {
             Code = (KeyCode)(-1);
             Character = (char)0;
+            ControlPressed = false;
         }
 
         public NamedKey(string name)
         {
+            if (name.EndsWith("Control"))
+            {
+                ControlPressed = true;
+                name = name.Remove(name.Length-7);
+            }
             try
             {
                 Code = (KeyCode)Enum.Parse(typeof(KeyCode), name);
@@ -53,7 +60,7 @@ namespace Magecrawl.Keyboard
 
             NamedKey other = (NamedKey)obj;
 
-            return Code == other.Code && Character == other.Character;
+            return Code == other.Code && Character == other.Character && ControlPressed == other.ControlPressed;
         }
 
         public override int GetHashCode()

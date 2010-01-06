@@ -81,6 +81,54 @@ namespace Magecrawl.Keyboard
             m_gameInstance.UpdatePainters();
         }
 
+        private void RunNorth()
+        {
+            m_autoTraveler.RunInDirection(Direction.North);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunSouth()
+        {
+            m_autoTraveler.RunInDirection(Direction.South);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunEast()
+        {
+            m_autoTraveler.RunInDirection(Direction.East);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunWest()
+        {
+            m_autoTraveler.RunInDirection(Direction.West);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunNortheast()
+        {
+            m_autoTraveler.RunInDirection(Direction.Northeast);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunNorthwest()
+        {
+            m_autoTraveler.RunInDirection(Direction.Northwest);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunSoutheast()
+        {
+            m_autoTraveler.RunInDirection(Direction.Southeast);
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void RunSouthwest()
+        {
+            m_autoTraveler.RunInDirection(Direction.Southwest);
+            m_gameInstance.UpdatePainters();
+        }
+
         private void Quit()
         {
             m_gameInstance.SetHandlerName("QuitGame", QuitReason.quitAction);

@@ -40,9 +40,9 @@ namespace Magecrawl.GameEngine
         // We want to know if you can walk to a given position.
         // If there is a character there, ignore it so we can walk 'towards' it
         // If there are doors in the way, if we can operate, ignore them.
-        public List<Point> Travel(Character actor, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS)
+        public List<Point> Travel(Character actor, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS, bool monstersBlockPath)
         {
-            UpdateInternalFOV(actor.Position, dest, canOperate, engine, usePlayerLOS);
+            UpdateInternalFOV(actor.Position, dest, canOperate, engine, usePlayerLOS, monstersBlockPath);
 
             bool pathExists = m_pathFinding.ComputePath(actor.Position.X, actor.Position.Y, dest.X, dest.Y);
             if (!pathExists)
@@ -61,10 +61,10 @@ namespace Magecrawl.GameEngine
             return path;
         }
 
-        private void UpdateInternalFOV(Point source, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS)
+        private void UpdateInternalFOV(Point source, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS, bool monstersBlockPath)
         {
             // First get the 'default' values
-            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(m_map, source);
+            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(m_map, source, monstersBlockPath);
 
             // Now foor doors, if we can operate, make it movable
             // Doors are special. If they ever are not special, make this a virtual method

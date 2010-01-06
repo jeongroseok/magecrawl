@@ -35,19 +35,48 @@ namespace Magecrawl.Keyboard
                 {
                     string keyString = reader.GetAttribute("Key");
                     string actionName = reader.GetAttribute("Action");
-                    MethodInfo action = this.GetType().GetMethod(actionName, BindingFlags.Instance | BindingFlags.NonPublic);
-                    if (action != null)
-                    {
-                        NamedKey namedKey = new NamedKey(keyString);
-                        m_keyMappings.Add(namedKey, action);
-                    }
-                    else if (requireAllActions)
-                    {
-                        throw new InvalidOperationException(string.Format("Could not find a mappable operation named {0}.", actionName));
-                    }
+                    
+                    if (isDirectionAction(actionName))
+                        FindAndAddKeyHandler(requireAllActions, keyString + "Control", "Run"+actionName );
+
+                    FindAndAddKeyHandler(requireAllActions, keyString, actionName);
+                   
                 }
             }
             reader.Close();
+        }
+
+        private void FindAndAddKeyHandler(bool requireAllActions, string keyString, string actionName)
+        {
+            MethodInfo action = this.GetType().GetMethod(actionName, BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (action != null)
+            {
+                NamedKey namedKey = new NamedKey(keyString);
+                m_keyMappings.Add(namedKey, action);
+            }
+            else if (requireAllActions)
+            {
+                throw new InvalidOperationException(string.Format("Could not find a mappable operation named {0}.", actionName));
+            }
+        }
+
+        private bool isDirectionAction(string action)
+        {
+            switch (action)
+            {
+                case "North":
+                case "South":
+                case "West":
+                case "East":
+                case  "Northwest":
+                case "Southwest":
+                case "Northeast":
+                case "Southeast":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public virtual void HandleKeystroke(NamedKey keystroke)
