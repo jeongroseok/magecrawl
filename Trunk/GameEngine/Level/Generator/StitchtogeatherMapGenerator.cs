@@ -25,7 +25,6 @@ namespace Magecrawl.GameEngine.Level.Generator
         private static List<MapChunk> m_sideRooms;
         private static bool m_chunksLoaded = false;
 
-        private Point m_playerPosition;
         private StitchtogeatherMapGraphGenerator m_graphGenerator;
         private Queue<MapNode> m_unplacedDueToSpace;
         private int m_smallestX;
@@ -37,7 +36,6 @@ namespace Magecrawl.GameEngine.Level.Generator
         internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
             m_unplacedDueToSpace = new Queue<MapNode>();
-            m_playerPosition = Point.Invalid;
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();
             m_smallestX = Int32.MaxValue;
             m_smallestY = Int32.MaxValue;
@@ -125,6 +123,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
                     entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner);
                     PossiblyUpdateLargestSmallestPoint(entraceUpperLeftCorner, entranceChunk);
+                    map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", entranceChunk.PlayerPosition + entraceUpperLeftCorner));
 
                     if (current.Neighbors.Count != entranceChunk.Seams.Count)
                         throw new InvalidOperationException("Number of neighbors should equal number of seams.");
