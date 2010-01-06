@@ -44,7 +44,7 @@ namespace Magecrawl.GameEngine
             Point viewRange = lowerRightPointViewRange - upperLeftPointViewRange;
 
             m_fov.ClearMap();
-            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(map, viewPoint, upperLeftPointViewRange, viewRange.X, viewRange.Y);
+            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(map, viewPoint, upperLeftPointViewRange, viewRange.X, viewRange.Y, true);
 
             // If we every have cells that are see through but not walkable, we'll need more here
             for (int i = upperLeftPointViewRange.X; i < upperLeftPointViewRange.X + viewRange.X; ++i)

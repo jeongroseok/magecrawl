@@ -58,7 +58,7 @@ namespace Magecrawl.Keyboard
         private static Point MoveSelectionToNewPointSearchDirection(IGameEngine engine, Point pointWantToGoTo, Direction directionFromCenter, List<Point> offsets, List<EffectivePoint> targetablePoints)
         {
             Point nextSelectionAttempt = pointWantToGoTo;
-            const int SelectionSearchLength = 8;
+            const int SelectionSearchLength = 20;
             for (int i = 0; i < SelectionSearchLength; ++i)
             {
                 if (i != 0)

@@ -43,6 +43,23 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("Target", targetPoints, movementDelegate, movementKey, TargettingKeystrokeHandler.TargettingType.OpenFloor);
         }
 
+        public void RunInDirection(Direction direction)
+        {
+            // Don't show the overlap as we travel
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
+            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
+
+            bool ableToMoveNextSquare = true;
+
+            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
+            {
+                ableToMoveNextSquare = m_engine.MovePlayer(direction);
+                m_gameInstance.UpdatePainters();
+
+                m_gameInstance.DrawFrame();
+            }
+        }
+
         private bool OnMovementLocationSelected(Point selected)
         {
             // Don't show the overlap as we travel

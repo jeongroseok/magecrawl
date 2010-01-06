@@ -70,7 +70,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             List<Point> clearPointList = new List<Point>();
 
-            bool[,] moveabilityGrid = PhysicsEngine.CalculateMoveablePointGrid(map);
+            bool[,] moveabilityGrid = PhysicsEngine.CalculateMoveablePointGrid(map, true);
 
             for (int i = 0; i < map.Width; ++i)
             {

@@ -270,16 +270,16 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.AfterPlayerAction(this);
         }
 
-        internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate, bool usePlayerLOS)
+        internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate, bool usePlayerLOS, bool monstersBlockPath)
         {
-            return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine, usePlayerLOS);
+            return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine, usePlayerLOS, monstersBlockPath);
         }
 
-        // This is used by the Movability Debug View. If you think you need it, you don't. Talk to chris. 
-        // Unless your me, this smack yourself and try again.
+        // This is used by the Movability Debug View. If you think you need it, you don't. Talk to Chris. 
+        // Unless you are Chris, then smack yourself and try again.
         public bool[,] PlayerMoveableToEveryPoint()
         {
-            return PhysicsEngine.CalculateMoveablePointGrid(Map, Player.Position);
+            return PhysicsEngine.CalculateMoveablePointGrid(Map, Player.Position, true);
         }
 
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)

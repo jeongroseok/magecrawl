@@ -92,28 +92,28 @@ namespace Magecrawl.GameEngine
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
         // This calculates them in batch much much more quickly. True means you can walk there.
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition)
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition, bool monstersBlockPath)
         {
-            return CalculateMoveablePointGrid(map, characterPosition, new Point(0, 0), map.Width, map.Height);
+            return CalculateMoveablePointGrid(map, characterPosition, new Point(0, 0), map.Width, map.Height, monstersBlockPath);
         }
 
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition, Point upperLeftCorner, int width, int height)
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition, Point upperLeftCorner, int width, int height, bool monstersBlockPath)
         {
-            bool[,] returnValue = CalculateMoveablePointGrid(map, upperLeftCorner, width, height);
+            bool[,] returnValue = CalculateMoveablePointGrid(map, upperLeftCorner, width, height, monstersBlockPath);
 
             returnValue[characterPosition.X, characterPosition.Y] = false;
 
             return returnValue;
         }
 
-        internal static bool[,] CalculateMoveablePointGrid(Map map)
+        internal static bool[,] CalculateMoveablePointGrid(Map map, bool monstersBlockPath)
         {
-            return CalculateMoveablePointGrid(map, new Point(0, 0), map.Width, map.Height);
+            return CalculateMoveablePointGrid(map, new Point(0, 0), map.Width, map.Height, monstersBlockPath);
         }
 
         // Returns an array the full size of map, but only with the requested part filled in. This is done for ease of use.
         // We can use (x,y), instead of (x-offset, y-offset) to get data.
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Point upperLeftCorner, int width, int height)
+        internal static bool[,] CalculateMoveablePointGrid(Map map, Point upperLeftCorner, int width, int height, bool monstersBlockPath)
         {
             bool[,] returnValue = new bool[map.Width, map.Height];
 
@@ -130,9 +130,12 @@ namespace Magecrawl.GameEngine
                 returnValue[obj.Position.X, obj.Position.Y] = false;
             }
 
-            foreach (Monster m in map.Monsters)
+            if (monstersBlockPath)
             {
-                returnValue[m.Position.X, m.Position.Y] = false;
+                foreach (Monster m in map.Monsters)
+                {
+                    returnValue[m.Position.X, m.Position.Y] = false;
+                }
             }
 
             return returnValue;
