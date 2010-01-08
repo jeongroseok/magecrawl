@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine.Magic
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
             settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader("Spells.xml"), settings);
+            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Spells.xml")), settings);
             reader.Read();  // XML declaration
             reader.Read();  // KeyMappings element
             if (reader.LocalName != "Spells")
