@@ -11,13 +11,14 @@ namespace Magecrawl.GameEngine.Weapons
     // This class should go away when we have an xml reader to create items on the fly. Until then...
     internal class Spear : WeaponBase, Item
     {
-        public Spear(string name, DiceRoll damage, string description, string flavorText)
+        public Spear(string name, DiceRoll damage, double ctCost, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
             m_owner = null;
             m_name = name;
             m_damage = damage;
+            m_ctCostToAttack = ctCost;
         }
 
         public override List<EffectivePoint> CalculateTargetablePoints()

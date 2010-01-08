@@ -14,6 +14,7 @@ namespace Magecrawl.GameEngine.Weapons
             m_flavorText = String.Empty;
             m_name = "Melee";
             m_damage = m_owner.MeleeDamage;
+            m_ctCostToAttack = 1.0;
         }
 
         public override DiceRoll Damage

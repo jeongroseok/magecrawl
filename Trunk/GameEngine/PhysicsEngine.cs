@@ -297,7 +297,7 @@ namespace Magecrawl.GameEngine
         {
             bool didAnything = m_combatEngine.Attack(attacker, target);
             if (didAnything)
-                m_timingEngine.ActorDidAction(attacker);
+                m_timingEngine.ActorDidWeaponAttack(attacker);
             return didAnything;
         }
 

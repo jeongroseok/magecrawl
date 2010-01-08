@@ -10,13 +10,14 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal class Axe : WeaponBase, Item
     {
-        public Axe(string name, DiceRoll damage, string description, string flavorText)
+        public Axe(string name, DiceRoll damage, double ctCost, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
             m_owner = null;
             m_name = name;
             m_damage = damage;
+            m_ctCostToAttack = ctCost;
         }
 
         public override List<EffectivePoint> CalculateTargetablePoints()

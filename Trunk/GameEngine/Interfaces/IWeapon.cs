@@ -17,6 +17,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        Double CTCostToAttack
+        {
+            get;
+        }
+
         bool PositionInTargetablePoints(Point pointOfInterest);
         float EffectiveStrengthAtPoint(Point pointOfInterest);
     }
