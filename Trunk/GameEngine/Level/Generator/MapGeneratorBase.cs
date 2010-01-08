@@ -60,7 +60,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             throw new MapGenerationFailureException("Unable to find clear point far enough away from given point.");
         }
 
-        public List<Point> GetClearPointListInRange(Map map, Point upperLeft, Point lowerRight)
+        public static List<Point> GetClearPointListInRange(Map map, Point upperLeft, Point lowerRight)
         {
             List<Point> returnList = new List<Point>();
 

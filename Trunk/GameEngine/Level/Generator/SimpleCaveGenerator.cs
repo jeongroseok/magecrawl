@@ -153,18 +153,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     }
                 }
 
-                for (int x = 0; x < 4; ++x)
-                {
-                    if (m_random.Chance(40))
-                    {
-                        Point position = PopOffClearSegementList(clearSegments);
-                        if (position != Point.Invalid)
-                        {
-                            Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", position);
-                            map.AddMonster(newMonster);
-                        }
-                    }
-                }
+                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.GetRandomInt(2, 6));
             }
         }
 

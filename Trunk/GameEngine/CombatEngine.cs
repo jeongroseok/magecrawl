@@ -71,7 +71,7 @@ namespace Magecrawl.GameEngine
             {
                 if (target is Monster)
                 {
-                    m_map.KillMonster(target as Monster);
+                    m_map.RemoveMonster(target as Monster);
                 }
                 else if (target is Player)
                 {

@@ -59,5 +59,10 @@
         {
             return string.Format("({0},{1})", X, Y);
         }
+
+        public bool IsInRange(Point upperLeft, Point lowerRight)
+        {
+            return X >= upperLeft.X && X <= lowerRight.X && Y >= upperLeft.Y && Y <= lowerRight.Y;
+        }
     }
 }
