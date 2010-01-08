@@ -18,6 +18,7 @@ namespace Magecrawl.GameEngine
         private const int CTPerIteration = 5;
         private const int CTBaseCostToMove = 100;
         private const int CTBaseCostForAction = 100;
+        private const int CTBaseCostForWeaponAttack = 100;
 
         internal CoreTimingEngine()
         {
@@ -53,6 +54,11 @@ namespace Magecrawl.GameEngine
         internal void ActorDidAction(Character c)
         {
             c.DecreaseCT((int)(CTBaseCostForAction * c.CTCostModifierToAct));
+        }
+
+        internal void ActorDidWeaponAttack(Character c)
+        {
+            c.DecreaseCT((int)(CTBaseCostForWeaponAttack * c.CTCostModifierToAttack));
         }
     }
 }

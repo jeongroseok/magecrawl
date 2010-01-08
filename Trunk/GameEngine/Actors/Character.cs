@@ -66,6 +66,14 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        internal virtual double CTCostModifierToAttack
+        {
+            get
+            {
+                return CurrentWeapon.CTCostToAttack;
+            }
+        }
+
         internal virtual double CTIncreaseModifier
         {
             get; set;

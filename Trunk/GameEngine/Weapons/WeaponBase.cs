@@ -16,6 +16,7 @@ namespace Magecrawl.GameEngine.Weapons
         protected DiceRoll m_damage;
         protected string m_itemDescription;
         protected string m_flavorText;
+        protected double m_ctCostToAttack;
 
         internal ICharacter Owner
         {
@@ -26,6 +27,14 @@ namespace Magecrawl.GameEngine.Weapons
             set
             {
                 m_owner = value;
+            }
+        }
+
+        public virtual double CTCostToAttack
+        {
+            get
+            {
+                return m_ctCostToAttack;
             }
         }
 

@@ -24,14 +24,6 @@ namespace Magecrawl.GameEngine.Actors
         {
         }
 
-        public override IWeapon CurrentWeapon
-        {
-            get
-            {
-                return new GameEngine.Weapons.MeleeWeapon(this);
-            }
-        }
-
         internal MonsterAction Action(CoreGameEngine engine)
         {
             if (engine.FOVManager.VisibleSingleShot(engine.Map, m_position, m_visionRange, engine.Player.Position))
@@ -79,6 +71,15 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return new DiceRoll(1, 1);
+            }
+        }
+
+
+        public override IWeapon CurrentWeapon
+        {
+            get
+            {
+                return new GameEngine.Weapons.MeleeWeapon(this);
             }
         }
 

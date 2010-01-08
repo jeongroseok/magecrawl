@@ -1,18 +1,18 @@
 <?xml version="1.0" ?>
 <Items>
-<Weapon Name="Bronze Spear" Damage="2,2,0,1" BaseType="Spear"
+<Weapon Name="Bronze Spear" Damage="2,2,0,1" CTCost="1" BaseType="Spear"
         Description="A simple spear, topped with a bronze tip." 
         FlavorText="The spear has been used as a thrusting weapon for ages, providing reach to strike at the enemy first."/>
-<Weapon Name="Simple Short Bow" Damage="1,2,1,1" BaseType="SimpleBow"
+<Weapon Name="Simple Short Bow" Damage="1,2,1,1" CTCost="1.2" BaseType="SimpleBow"
         Description="A simple, albeit primitive short bow. Made of a flexable wooden shaft and a sinew bowstring."
         FlavorText="Bows like this were taking down small game centuries ago. Simple to make, maintain, and carry."/>
-<Weapon Name="Wooden Sword" Damage="1,5,-1,1" BaseType="Club"
+<Weapon Name="Wooden Sword" Damage="1,5,-1,1" CTCost="1" BaseType="Club"
         Description="A simple wooden sword. Full of spliters."
         FlavorText="Swords like these are used by youth to build strong muscles."/>
-<Weapon Name="Wooden Cudgel" Damage="1,3,0,1" BaseType="Sword"
+<Weapon Name="Wooden Cudgel" Damage="1,3,0,1" CTCost="1" BaseType="Sword"
         Description="A simple wooden club. Design unchanged for centuries."
         FlavorText="When all else fails, beating ones enemies senseless with a wooden stick is a crude but effective tactic."/>
-<Weapon Name="Great Axe" Damage="1,4,0,2" BaseType="Axe"
+<Weapon Name="Great Axe" Damage="1,4,0,2" CTCost="1.5" BaseType="Axe"
         Description="A sturdy oak shaft connected to a doubled bladed sharpened head."
         FlavorText="Famously used by the barbarian nations to the north to great effect."/>
 <Potion Name="Minor Health Potion" EffectType="HealCaster" Strength="1" ItemDescription="Drinking will restore your health slightly." 

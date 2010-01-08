@@ -68,10 +68,12 @@ namespace Magecrawl.GameEngine.Items
                     short toAdd = short.Parse(damageParts[2]);
                     short multiplier = short.Parse(damageParts[3]);
                     DiceRoll damageRoll = new DiceRoll(rolls, diceFaces, toAdd, multiplier);
+
+                    double ctCost = Double.Parse(reader.GetAttribute("CTCost"));
                     
                     string description = reader.GetAttribute("Description");
                     string flavorText = reader.GetAttribute("FlavorText");
-                    m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damageRoll, description, flavorText));
+                    m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damageRoll, ctCost, description, flavorText));
                 }
                 if (reader.LocalName == "Potion")
                 {
@@ -90,13 +92,13 @@ namespace Magecrawl.GameEngine.Items
             reader.Close();
         }
 
-        private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, string description, string flavorTest)
+        private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, double ctCost, string description, string flavorTest)
         {
             Assembly weaponsAssembly = this.GetType().Assembly;
             Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Weapons." + typeName);
             if (type != null)
             {
-                return Activator.CreateInstance(type, name, damage, description, flavorTest) as IWeapon;
+                return Activator.CreateInstance(type, name, damage, ctCost, description, flavorTest) as IWeapon;
             }
             else
             {
