@@ -102,7 +102,7 @@ namespace Magecrawl.GameEngine.Level
             m_monsterList.Add(m);
         }
 
-        internal bool KillMonster(Monster m)
+        internal bool RemoveMonster(Monster m)
         {
             return m_monsterList.Remove(m);
         }

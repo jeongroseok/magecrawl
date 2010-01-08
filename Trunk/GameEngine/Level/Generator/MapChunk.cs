@@ -17,7 +17,6 @@ namespace Magecrawl.GameEngine.Level.Generator
         public int Width { get; set; }
         public int Height { get; set; }
         public List<Point> Seams { get; set; }
-        public List<Point> MonsterSpawns { get; set; }
         public List<Point> TreasureChests { get; set; }
         public List<Point> Doors { get; set; }
         public List<Point> Cosmetics { get; set; }
@@ -30,7 +29,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             Width = width;
             Height = height;
             Seams = new List<Point>();
-            MonsterSpawns = new List<Point>();
             TreasureChests = new List<Point>();
             Doors = new List<Point>();
             Cosmetics = new List<Point>();
@@ -45,7 +43,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             Width = chunk.Width;
             Height = chunk.Height;
             Seams = new List<Point>(chunk.Seams);
-            MonsterSpawns = new List<Point>(chunk.MonsterSpawns);
             TreasureChests = new List<Point>(chunk.TreasureChests);
             Doors = new List<Point>(chunk.Doors);
             Cosmetics = new List<Point>(chunk.Cosmetics);
@@ -59,6 +56,25 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     MapSegment[i, j] = new MapTile(chunk.MapSegment[i, j]);
                 }
+            }
+        }
+
+        private int GetMonsterPlacementPriority()
+        {
+            switch (Type)
+            {
+                case MapNodeType.Entrance:
+                    return 0;
+                case MapNodeType.Hall:
+                    return 0;
+                case MapNodeType.MainRoom:
+                    return 6;
+                case MapNodeType.SideRoom:
+                    return 4;
+                case MapNodeType.TreasureRoom:
+                    return 4;
+                default:
+                    throw new ArgumentException("GetMonsterPlacementPriority on invalid MapChunk type");
             }
         }
 
@@ -76,12 +92,21 @@ namespace Magecrawl.GameEngine.Level.Generator
                     {
                         // But we don't want to use it to place, since we want to override the entrace.
                         PlaceChunkOnMapAtPosition(map, upperLeftCorner);
+                        MonsterPlacer.PlaceMonster(map, upperLeftCorner, upperLeftCorner + new Point(Width, Height), GetSeamPointsOnMapGrid(upperLeftCorner), GetMonsterPlacementPriority());
                         Seams.Remove(s);
                         return upperLeftCorner;
                     }
                 }
             }
             return Point.Invalid;
+        }
+
+        private List<Point> GetSeamPointsOnMapGrid(Point upperLeftCorner)
+        {
+            List<Point> returnList = new List<Point>();
+            foreach (Point s in Seams)
+                returnList.Add(s + upperLeftCorner);
+            return returnList;
         }
 
         private bool IsPositionClear(Map map, Point upperLeftCorner)
@@ -115,19 +140,12 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
             }
 
-            MonsterFactory monsterFactory = CoreGameEngine.Instance.MonsterFactory;
-            foreach (Point p in MonsterSpawns)
-            {
-                if (m_random.Chance(50))
-                    map.AddMonster(monsterFactory.CreateMonster("Monster", upperLeftCorner + p));
-            }
-
             MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
-            
+
             TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
 
             Doors.ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Map Door", upperLeftCorner + doorPosition)));
-            
+
             Cosmetics.ForEach(cosmeticPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Cosmetic", upperLeftCorner + cosmeticPosition)));
         }
 
@@ -141,12 +159,10 @@ namespace Magecrawl.GameEngine.Level.Generator
                     map.SetTerrainAt(mapPosition, TerrainType.Wall);
                 }
             }
-
-            foreach (Point monsterPosition in MonsterSpawns)
+            Point lowerRight = upperLeftCorner + new Point(Width, Height);
+            foreach (Monster m in map.Monsters.OfType<Monster>().Where(x => x.Position.IsInRange(upperLeftCorner, lowerRight)))
             {
-                Monster monsterAtPoint = (Monster)map.Monsters.SingleOrDefault(x => x.Position == (upperLeftCorner + monsterPosition));
-                if (monsterAtPoint != null)
-                    map.KillMonster(monsterAtPoint);
+                map.RemoveMonster(m);
             }
 
             foreach (Point treasurePosition in TreasureChests)
@@ -222,10 +238,6 @@ namespace Magecrawl.GameEngine.Level.Generator
                                 throw new InvalidOperationException("Can't have multiple player position on a mapchunk");
                             PlayerPosition = new Point(i, j);
                             break;
-                        case 'M':
-                            MapSegment[i, j].Terrain = TerrainType.Floor;
-                            MonsterSpawns.Add(new Point(i, j));
-                            break;
                         case '+':
                             MapSegment[i, j].Terrain = TerrainType.Floor;
                             TreasureChests.Add(new Point(i, j));
@@ -242,7 +254,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 }
             }
         }
-        
+
         // When created, maptiles will have too many of some times that get randomized.
         // Prepare will filter some out.
         internal void Prepare()
