@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
-using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
@@ -25,11 +24,6 @@ namespace Magecrawl.GameEngine.Level.Generator
         public Point GetClearPoint(Map map)
         {
             return GetClearPoint(map, Point.Invalid, 0, 0);
-        }
-
-        public Point GetClearPoint(Map map, Point center, int distanceToKeepAway)
-        {
-            return GetClearPoint(map, Point.Invalid, distanceToKeepAway, 0);
         }
 
         public Point GetClearPoint(Map map, Point center, int distanceToKeepAway, int distanceFromEdges)
@@ -65,6 +59,22 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
             throw new MapGenerationFailureException("Unable to find clear point far enough away from given point.");
         }
+
+        public List<Point> GetClearPointListInRange(Map map, Point upperLeft, Point lowerRight)
+        {
+            List<Point> returnList = new List<Point>();
+
+            for (int i = upperLeft.X; i < lowerRight.X; ++i)
+            {
+                for (int j = upperLeft.Y; j < lowerRight.Y; ++j)
+                {
+                    if (map.GetTerrainAt(i, j) == TerrainType.Floor)
+                        returnList.Add(new Point(i, j));
+                }
+            }
+            return returnList;
+        }
+
 
         private static List<Point> CalculateClearPointList(Map map)
         {
@@ -216,28 +226,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             throw new System.ApplicationException("GetFirstClearPoint found no clear points");
         }
 
-        protected Point GetSmallestPoint(Map map)
-        {
-            int smallestX = map.Width + 1;
-            int smallestY = map.Height + 1;
-
-            for (int i = 0; i < map.Width; ++i)
-            {
-                for (int j = 0; j < map.Height; ++j)
-                {
-                    if (map.GetTerrainAt(i, j) == TerrainType.Floor)
-                    {
-                        smallestX = Math.Min(smallestX, i);
-                        smallestY = Math.Min(smallestY, j);
-                    }
-                }
-            }
-
-            if (smallestX == (map.Width + 1) || smallestY == (map.Height + 1))
-                throw new System.ApplicationException("GetSmallestPoint found no clear points");
-            return new Point(smallestX, smallestY);
-        }
-
         public static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)
         {
             int numberOfFloorTileSurrounding = 0;
@@ -311,26 +299,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 StairsMapping.Instance.SetMapping(incommingStairs.UniqueID, upStairs.Position);
                 StairsMapping.Instance.SetMapping(upStairs.UniqueID, incommingStairs.Position);
-            }
-        }
-
-        protected void GenerateMonstersAndChests(Map map, Point pointToAvoid)
-        {
-            const int DistanceFromPlayerToKeepClear = 5;
-            int monsterToGenerate = m_random.GetRandomInt(10, 20);
-            for (int i = 0; i < monsterToGenerate; ++i)
-            {
-                Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster");
-                newMonster.Position = GetClearPoint(map, pointToAvoid, DistanceFromPlayerToKeepClear);
-                map.AddMonster(newMonster);
-            }
-
-            int treasureToGenerate = m_random.GetRandomInt(3, 6);
-            for (int i = 0; i < treasureToGenerate; ++i)
-            {
-                Point position = GetClearPoint(map, pointToAvoid, DistanceFromPlayerToKeepClear);
-                MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", position);
-                map.AddMapItem(treasure);
             }
         }
     }

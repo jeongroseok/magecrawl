@@ -5,6 +5,7 @@ using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -103,6 +104,80 @@ namespace Magecrawl.GameEngine.Level.Generator
             GenerateMonstersAndChests(map, stairsUpPosition);
 
             return map;
+        }
+
+        private const int m_segmentSize = 10;
+        private List<Point> GenerateSegmentList(Map map, Point pointToAvoid)
+        {
+            int numberOfXSegments = map.Width / m_segmentSize;
+            int numberOfYSegments = map.Height / m_segmentSize;
+
+            int avoidSectionX = pointToAvoid.X / m_segmentSize;
+            int avoidSectionY = pointToAvoid.Y / m_segmentSize;
+
+            List<Point> returnList = new List<Point>();
+            for (int i = 0; i < numberOfXSegments; ++i)
+            {
+                for (int j = 0; j < numberOfYSegments; ++j)
+                {
+                    if (avoidSectionX == i && avoidSectionY == j)
+                        continue;
+                    returnList.Add(new Point(i, j));
+                }
+            }
+            return returnList.Randomize();
+        }
+
+        private void GenerateMonstersAndChests(Map map, Point pointToAvoid)
+        {
+            int treasureToGenerate = m_random.GetRandomInt(3, 6);
+            int treasuresGenerated = 0;
+
+            Point segmentSizedPoint = new Point(m_segmentSize, m_segmentSize);
+
+            foreach (Point segment in GenerateSegmentList(map, pointToAvoid))
+            {
+                Point upperLeft = new Point(m_segmentSize * segment.X, m_segmentSize * segment.Y);
+                Point lowerRight = upperLeft + segmentSizedPoint;
+
+                List<Point> clearSegments = GetClearPointListInRange(map, upperLeft, lowerRight).Randomize();
+
+                if (treasuresGenerated < treasureToGenerate && m_random.Chance(40))
+                {
+                    Point position = PopOffClearSegementList(clearSegments);
+                    if (position != Point.Invalid)
+                    {
+                        MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", position);
+                        map.AddMapItem(treasure);
+                        treasuresGenerated++;
+                    }
+                }
+
+                for (int x = 0; x < 4; ++x)
+                {
+                    if (m_random.Chance(40))
+                    {
+                        Point position = PopOffClearSegementList(clearSegments);
+                        if (position != Point.Invalid)
+                        {
+                            Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Monster", position);
+                            map.AddMonster(newMonster);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static Point PopOffClearSegementList(List<Point> clearSegments)
+        {
+            if (clearSegments.Count > 0)
+            {
+                Point position = clearSegments[0];
+                clearSegments.RemoveAt(0);
+                return position;
+            }
+            else
+                return Point.Invalid;
         }
     }
 }
