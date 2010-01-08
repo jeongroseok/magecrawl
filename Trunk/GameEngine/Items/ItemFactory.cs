@@ -42,7 +42,7 @@ namespace Magecrawl.GameEngine.Items
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
             settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader("Items.xml"), settings);
+            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Items.xml")), settings);
             reader.Read();  // XML declaration
             reader.Read();  // Items element
             if (reader.LocalName != "Items")

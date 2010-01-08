@@ -139,16 +139,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\dist\Items.xml">
-      <Link>Resources\Items.xml</Link>
-    </Content>
     <Content Include="..\dist\KeyMappings.xml">
       <Link>Resources\KeyMappings.xml</Link>
     </Content>
     <Content Include="..\dist\Preferences.xml">
       <Link>Resources\Preferences.xml</Link>
     </Content>
-    <Content Include="..\dist\Spells.xml">
+    <Content Include="..\dist\Resource\Items.xml">
+      <Link>Resources\Items.xml</Link>
+    </Content>
+    <Content Include="..\dist\Resource\Spells.xml">
       <Link>Resources\Spells.xml</Link>
     </Content>
   </ItemGroup>
