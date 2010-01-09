@@ -43,7 +43,9 @@
   -->
   <ItemGroup>
     <Compile Include="Actors\Character.cs" />
+    <Compile Include="Actors\SprinterMonster.cs" />
     <Compile Include="Actors\MonsterFactory.cs" />
+    <Compile Include="Actors\StandardMonster.cs" />
     <Compile Include="Affects\AffectBase.cs" />
     <Compile Include="Affects\AffectFactory.cs" />
     <Compile Include="Affects\Slow.cs" />

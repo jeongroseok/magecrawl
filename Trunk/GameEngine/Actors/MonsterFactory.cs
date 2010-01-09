@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Xml;
+using libtcodWrapper;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -28,6 +31,16 @@ namespace Magecrawl.GameEngine.Actors
             return m;
         }
 
+        public Monster CreateRandomMonster(Point p)
+        {
+            using (TCODRandom random = new TCODRandom())
+            {
+                int targetLocation = random.GetRandomInt(0, m_monsterMapping.Count - 1);
+                string monsterName = m_monsterMapping.Keys.ToList()[targetLocation];
+                return CreateMonster(monsterName, p);
+            }
+        }
+
         private void LoadMappings()
         {
             m_monsterMapping = new Dictionary<string, Monster>();
@@ -51,6 +64,7 @@ namespace Magecrawl.GameEngine.Actors
                 if (reader.LocalName == "Monster")
                 {
                     string name = reader.GetAttribute("Name");
+                    string type = reader.GetAttribute("Type") + "Monster";
 
                     int maxHP = Int32.Parse(reader.GetAttribute("HP"));
                     int vision = Int32.Parse(reader.GetAttribute("Vision"));
@@ -64,10 +78,24 @@ namespace Magecrawl.GameEngine.Actors
                     if (actCostString != null)
                         ctActCost = Double.Parse(actCostString);
 
-                    m_monsterMapping.Add(name, new Monster(name, Point.Invalid, maxHP, vision, ctIncrease, ctMoveCost, ctActCost, ctAttackCost));
+                    m_monsterMapping.Add(name, CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, ctIncrease, ctMoveCost, ctActCost, ctAttackCost));
                 }
             }
             reader.Close();
+        }
+
+        private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        {
+            Assembly weaponsAssembly = this.GetType().Assembly;
+            Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Actors." + typeName);
+            if (type != null)
+            {
+                return Activator.CreateInstance(type, name, p, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost) as Monster;
+            }
+            else
+            {
+                throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
+            }
         }
     }
 }

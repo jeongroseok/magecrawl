@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
 <Monsters>
-<Monster Name="Monster" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Wolf" Type="Standard" Symbol="w" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Orc" Type="Standard" Symbol="O" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 </Monsters>
