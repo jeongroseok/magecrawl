@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" ?>
 <Preferences>
-  <DebuggingMode>False</DebuggingMode>
+  <DebuggingMode>True</DebuggingMode>
   <SinglePressOperate>False</SinglePressOperate>
 </Preferences>
