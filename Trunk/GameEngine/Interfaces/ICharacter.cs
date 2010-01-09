@@ -25,16 +25,6 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        int CurrentMP
-        {
-            get;
-        }
-
-        int MaxMP
-        {
-            get;
-        }
-
         int Vision
         {
             get;

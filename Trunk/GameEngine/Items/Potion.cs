@@ -21,6 +21,11 @@ namespace Magecrawl.GameEngine.Items
             m_flavorText = flavorText;            
         }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
         public string Name
         {
             get 

@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Items
 {
-    internal interface Item : IItem, IXmlSerializable
+    internal interface Item : IItem, IXmlSerializable, ICloneable
     {
     }
 }

@@ -145,8 +145,11 @@
     <Content Include="..\dist\Preferences.xml">
       <Link>Resources\Preferences.xml</Link>
     </Content>
-    <Content Include="..\dist\Resource\Items.xml">
+    <Content Include="..\dist\Resources\Items.xml">
       <Link>Resources\Items.xml</Link>
+    </Content>
+    <Content Include="..\dist\Resources\Monsters.xml">
+      <Link>Resources\Monsters.xml</Link>
     </Content>
     <Content Include="..\dist\Resource\Spells.xml">
       <Link>Resources\Spells.xml</Link>

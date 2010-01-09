@@ -14,42 +14,56 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal class Character : Interfaces.ICharacter, IXmlSerializable
     {
-        internal Character() : this(Point.Invalid, 0, 0, 0, 0, 0, String.Empty)
-        {
-        }
+        public Point Position { get; internal set; }
 
-        internal Character(Point p, int hp, int maxHP, int visionRange, int magic, int maxMagic, string name)
-        {
-            m_position = p;
-            m_CT = 0;
-            m_hp = hp;
-            m_maxHP = maxHP;
-            m_mp = magic;
-            m_maxMP = maxMagic;
-            m_visionRange = visionRange;
-            m_name = name; 
-            m_uniqueID = s_idCounter;
-            CTIncreaseModifier = 1.0;
-            m_affects = new List<AffectBase>();
-            s_idCounter++;
-        }
+        public int CT { get; internal set; }
 
-        protected Point m_position;
-        protected int m_hp;
-        protected int m_maxHP;
-        protected int m_mp;
-        protected int m_maxMP;
-        protected string m_name;
-        protected int m_visionRange;
-        
+        public int CurrentHP { get; internal set; }
+
+        public int MaxHP { get; internal set; }
+
+        public string Name { get; internal set; }
+
+        public int Vision { get; internal set; }
+
         protected int m_uniqueID;
+        public int UniqueID
+        {
+            get
+            {
+                return m_uniqueID;
+            }
+        }
+
         private static int s_idCounter = 0;
-
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1306:FieldNamesMustBeginWithLowerCaseLetter", Justification = "CT is an acronym")]
-        protected int m_CT;
-
+        
         protected List<AffectBase> m_affects;
 
+        internal virtual double CTIncreaseModifier { get; set; }
+
+        internal Character() : this(String.Empty, Point.Invalid, 0, 0)
+        {
+        }
+
+        internal Character(string name, Point p, int maxHP, int visionRange) : this(name, p, maxHP, maxHP, visionRange)
+        {
+        }
+
+        internal Character(string name, Point p, int hp, int maxHP, int visionRange)
+        {
+            Position = p;
+            CT = 0;
+            CurrentHP = hp;
+            MaxHP = maxHP;
+            Vision = visionRange;
+            Name = name; 
+            CTIncreaseModifier = 1.0;
+            m_affects = new List<AffectBase>();
+            
+            m_uniqueID = s_idCounter;
+            s_idCounter++;
+        }
+        
         internal virtual double CTCostModifierToMove
         {
             get
@@ -71,115 +85,6 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return CurrentWeapon.CTCostToAttack;
-            }
-        }
-
-        internal virtual double CTIncreaseModifier
-        {
-            get; set;
-        }
-
-        public Point Position
-        {
-            get
-            {
-                return m_position;
-            }
-            internal set
-            {
-                m_position = value;
-            }
-        }
-
-        public int CT
-        {
-            get
-            {
-                return m_CT;
-            }
-            protected set
-            {
-                m_CT = value;
-            }
-        }
-
-        public int CurrentHP
-        {
-            get
-            {
-                return m_hp;
-            }
-            internal set
-            {
-                m_hp = value;
-            }
-        }
-
-        public int MaxHP
-        {
-            get
-            {
-                return m_maxHP;
-            }
-            internal set
-            {
-                m_maxHP = value;
-            }
-        }
-
-        public int CurrentMP
-        {
-            get
-            {
-                return m_mp;
-            }
-            internal set
-            {
-                m_mp = value;
-            }
-        }
-
-        public int MaxMP
-        {
-            get
-            {
-                return m_maxMP;
-            }
-            internal set
-            {
-                m_maxMP = value;
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return m_name;
-            }
-            internal set
-            {
-                m_name = value;
-            }
-        }
-
-        public int Vision
-        {
-            get
-            {
-                return m_visionRange;
-            }
-            internal set
-            {
-                m_visionRange = value;
-            }
-        }
-
-        public int UniqueID
-        {
-            get
-            {
-                return m_uniqueID;
             }
         }
 
@@ -241,14 +146,12 @@ namespace Magecrawl.GameEngine.Actors
 
         public virtual void ReadXml(XmlReader reader)
         {
-            m_position = m_position.ReadXml(reader);
-            m_hp = reader.ReadElementContentAsInt();
-            m_maxHP = reader.ReadElementContentAsInt();
-            m_mp = reader.ReadElementContentAsInt();
-            m_maxMP = reader.ReadElementContentAsInt();
-            m_name = reader.ReadElementContentAsString();
-            m_CT = reader.ReadElementContentAsInt();
-            m_visionRange = reader.ReadElementContentAsInt();
+            Position = Position.ReadXml(reader);
+            CurrentHP = reader.ReadElementContentAsInt();
+            MaxHP = reader.ReadElementContentAsInt();
+            Name = reader.ReadElementContentAsString();
+            CT = reader.ReadElementContentAsInt();
+            Vision = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
 
             ListSerialization.ReadListFromXML(
@@ -267,13 +170,11 @@ namespace Magecrawl.GameEngine.Actors
             m_affects.ForEach(a => a.Remove(this));
 
             Position.WriteToXml(writer, "Position");
-            writer.WriteElementString("CurrentHP", m_hp.ToString());
-            writer.WriteElementString("MaxHP", m_maxHP.ToString());
-            writer.WriteElementString("CurrentMagic", m_mp.ToString());
-            writer.WriteElementString("MaxMagic", m_maxMP.ToString());
-            writer.WriteElementString("Name", m_name);
-            writer.WriteElementString("CT", m_CT.ToString());
-            writer.WriteElementString("VisionRange", m_visionRange.ToString());
+            writer.WriteElementString("CurrentHP", CurrentHP.ToString());
+            writer.WriteElementString("MaxHP", MaxHP.ToString());
+            writer.WriteElementString("Name", Name);
+            writer.WriteElementString("CT", CT.ToString());
+            writer.WriteElementString("VisionRange", Vision.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
 
             ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");

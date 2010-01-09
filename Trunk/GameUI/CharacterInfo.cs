@@ -54,7 +54,7 @@ namespace Magecrawl.GameUI
                 return (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * 20.0);
         }
 
-        private int ManaBarLength(ICharacter character)
+        private int ManaBarLength(IPlayer character)
         {
             return (int)Math.Floor(((double)character.CurrentMP / (double)character.MaxMP) * 20.0);
         }
@@ -85,7 +85,7 @@ namespace Magecrawl.GameUI
                 return ColorPresets.DarkRed / 2;
         }
 
-        private Color ManaBarColor(ICharacter character)
+        private Color ManaBarColor(IPlayer character)
         {
             double percentage = ((double)character.CurrentMP / (double)character.MaxMP) * 100;
             if (percentage > 95)

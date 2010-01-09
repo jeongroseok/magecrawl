@@ -14,6 +14,10 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
     {
+        public int CurrentMP { get; internal set; }
+
+        public int MaxMP { get; internal set; }
+
         private WeaponBase m_equipedWeapon;
         private List<Item> m_itemList;
 
@@ -21,12 +25,16 @@ namespace Magecrawl.GameEngine.Actors
         {
             m_itemList = null;
             m_equipedWeapon = null;
+            CurrentMP = 0;
+            MaxMP = 0;
         }
 
-        public Player(Point p) : base(p, 10, 10, 6, 10, 10, "Donblas")
+        public Player(Point p) : base("Donblas", p, 10, 6)
         {
             m_itemList = new List<Item>();
             m_equipedWeapon = null;
+            CurrentMP = 10;
+            MaxMP = 10;
         }
 
         internal IWeapon EquipWeapon(IWeapon weapon)
@@ -117,6 +125,9 @@ namespace Magecrawl.GameEngine.Actors
             reader.ReadStartElement();
             base.ReadXml(reader);
 
+            CurrentMP = reader.ReadElementContentAsInt();
+            MaxMP = reader.ReadElementContentAsInt();
+
             reader.ReadStartElement();
             string equipedWeaponTypeString = reader.ReadElementString();
             if (equipedWeaponTypeString == "None")
@@ -149,6 +160,9 @@ namespace Magecrawl.GameEngine.Actors
         {
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
+
+            writer.WriteElementString("CurrentMagic", CurrentMP.ToString());
+            writer.WriteElementString("MaxMagic", MaxMP.ToString());
 
             writer.WriteStartElement("EquipedWeapon");
             Item itemToSave = m_equipedWeapon as Item;
