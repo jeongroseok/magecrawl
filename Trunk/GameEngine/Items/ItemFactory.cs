@@ -13,6 +13,12 @@ namespace Magecrawl.GameEngine.Items
     internal sealed class ItemFactory
     {
         private Dictionary<string, Item> m_itemMapping;
+        private static TCODRandom m_random;
+
+        static ItemFactory()
+        {
+            m_random = new TCODRandom();
+        }
 
         internal ItemFactory()
         {
@@ -26,12 +32,9 @@ namespace Magecrawl.GameEngine.Items
 
         public Item CreateRandomItem()
         {
-            using (TCODRandom random = new TCODRandom())
-            {
-                int targetLocation = random.GetRandomInt(0, m_itemMapping.Count - 1);
-                string itemName = m_itemMapping.Keys.ToList()[targetLocation];
-                return CreateItem(itemName);
-            }
+            int targetLocation = m_random.GetRandomInt(0, m_itemMapping.Count - 1);
+            string itemName = m_itemMapping.Keys.ToList()[targetLocation];
+            return CreateItem(itemName);
         }
 
         private void LoadMappings()

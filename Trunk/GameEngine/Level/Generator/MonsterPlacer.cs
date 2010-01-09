@@ -36,7 +36,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     Point position = pointsWithClearTerrain[0];
                     pointsWithClearTerrain.RemoveAt(0);
-                    Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateMonster("Wolf", position);
+                    Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(position);
                     map.AddMonster(newMonster);
                 }
             }

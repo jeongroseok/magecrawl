@@ -13,6 +13,13 @@ namespace Magecrawl.GameEngine.Actors
     {
         private Dictionary<string, Monster> m_monsterMapping;
 
+        private static TCODRandom m_random;
+
+        static MonsterFactory()
+        {
+            m_random = new TCODRandom();
+        }
+
         internal MonsterFactory()
         {
             m_monsterMapping = new Dictionary<string, Monster>();
@@ -33,12 +40,9 @@ namespace Magecrawl.GameEngine.Actors
 
         public Monster CreateRandomMonster(Point p)
         {
-            using (TCODRandom random = new TCODRandom())
-            {
-                int targetLocation = random.GetRandomInt(0, m_monsterMapping.Count - 1);
-                string monsterName = m_monsterMapping.Keys.ToList()[targetLocation];
-                return CreateMonster(monsterName, p);
-            }
+            int targetLocation = m_random.GetRandomInt(0, m_monsterMapping.Count - 1);
+            string monsterName = m_monsterMapping.Keys.ToList()[targetLocation];
+            return CreateMonster(monsterName, p); 
         }
 
         private void LoadMappings()
