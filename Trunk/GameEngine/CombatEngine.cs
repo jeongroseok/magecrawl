@@ -44,21 +44,25 @@ namespace Magecrawl.GameEngine
             float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackTarget);
             int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
 
-            Monster attackedMonster = (Monster)m_map.Monsters.SingleOrDefault(x => x.Position == attackTarget);
-            if (attackedMonster != null)
+            Character attackedCharacter = FindTargetAtPosition(attackTarget);
+            if (attackedCharacter != null)
             {
-                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedMonster));
-                DamageTarget(damageDone, attackedMonster, null);
+                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
+                DamageTarget(damageDone, attackedCharacter, null);
                 return true;
             }
 
-            if (attackTarget == m_player.Position)
-            {
-                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, m_player));
-                DamageTarget(damageDone, m_player, null);
-                return true;
-            }
             return false;
+        }
+
+        public Character FindTargetAtPosition(Point attackTarget)
+        {
+            Monster attackedMonster = (Monster)m_map.Monsters.SingleOrDefault(x => x.Position == attackTarget);
+            if (attackedMonster != null)
+                return attackedMonster;
+            if (attackTarget == m_player.Position)
+                return m_player;
+            return null;
         }
 
         public delegate void DamageDoneDelegate(int damage, Character target, bool targetKilled);

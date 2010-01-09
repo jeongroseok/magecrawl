@@ -307,9 +307,9 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal bool UseSkill(Player attacker, string skillName, Point target)
+        internal bool UseSkill(Character attacker, SkillType skill, Point target)
         {
-            bool didAnything = m_skillEngine.UseSkill(attacker, skillName, target);
+            bool didAnything = m_skillEngine.UseSkill(attacker, skill, target);
             if (didAnything)
                 m_timingEngine.ActorDidAction(attacker);
             return didAnything;

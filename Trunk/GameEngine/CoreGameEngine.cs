@@ -236,6 +236,11 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CastSpell(caster, spell, target);
         }
 
+        internal bool UseSkill(Character attacker, SkillType skill, Point target)
+        {
+            return m_physicsEngine.UseSkill(attacker, skill, target);
+        }
+
         public bool Operate(Character characterOperating, Point pointToOperateAt)
         {
             // Right now, you can only operate next to a thing
