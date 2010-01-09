@@ -13,8 +13,6 @@ namespace Magecrawl.GameEngine.Weapons
             m_itemDescription = "Your Natural Weapons";
             m_flavorText = String.Empty;
             m_name = "Melee";
-            m_damage = m_owner.MeleeDamage;
-            m_ctCostToAttack = 1.0;
         }
 
         public override DiceRoll Damage
@@ -22,6 +20,14 @@ namespace Magecrawl.GameEngine.Weapons
             get 
             {
                 return m_owner.MeleeDamage;
+            }
+        }
+
+        public override double CTCostToAttack
+        {
+            get
+            {
+                return m_owner.MeleeSpeed;
             }
         }
 

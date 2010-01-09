@@ -54,8 +54,17 @@ namespace Magecrawl.GameEngine.Actors
 
                     int maxHP = Int32.Parse(reader.GetAttribute("HP"));
                     int vision = Int32.Parse(reader.GetAttribute("Vision"));
+                    
+                    double ctIncrease = Double.Parse(reader.GetAttribute("ctIncrease"));
+                    double ctMoveCost = Double.Parse(reader.GetAttribute("ctMoveCost"));
+                    double ctAttackCost = Double.Parse(reader.GetAttribute("ctAttackCost"));
 
-                    m_monsterMapping.Add(name, new Monster(name, Point.Invalid, maxHP, vision));
+                    double ctActCost = 1.0;
+                    string actCostString = reader.GetAttribute("ctActCost");
+                    if (actCostString != null)
+                        ctActCost = Double.Parse(actCostString);
+
+                    m_monsterMapping.Add(name, new Monster(name, Point.Invalid, maxHP, vision, ctIncrease, ctMoveCost, ctActCost, ctAttackCost));
                 }
             }
             reader.Close();

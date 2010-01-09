@@ -26,6 +26,12 @@ namespace Magecrawl.GameEngine.Actors
 
         public int Vision { get; internal set; }
 
+        public double CTIncreaseModifier { get; set; }
+
+        public double CTCostModifierToMove { get; internal set; }
+
+        public double CTCostModifierToAct { get; internal set; }
+
         protected int m_uniqueID;
         public int UniqueID
         {
@@ -39,45 +45,31 @@ namespace Magecrawl.GameEngine.Actors
         
         protected List<AffectBase> m_affects;
 
-        internal virtual double CTIncreaseModifier { get; set; }
-
-        internal Character() : this(String.Empty, Point.Invalid, 0, 0)
+        internal Character() : this(String.Empty, Point.Invalid, 0, 0, 0, 0, 0, 0)
         {
         }
 
-        internal Character(string name, Point p, int maxHP, int visionRange) : this(name, p, maxHP, maxHP, visionRange)
+        internal Character(string name, Point p, int maxHP, int visionRange) : this(name, p, maxHP, maxHP, visionRange, 1.0, 1.0, 1.0)
         {
         }
 
-        internal Character(string name, Point p, int hp, int maxHP, int visionRange)
+        internal Character(string name, Point p, int hp, int maxHP, int visionRange, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
         {
             Position = p;
             CT = 0;
             CurrentHP = hp;
             MaxHP = maxHP;
             Vision = visionRange;
-            Name = name; 
-            CTIncreaseModifier = 1.0;
+            Name = name;
+
+            CTIncreaseModifier = ctIncreaseModifer;
+            CTCostModifierToMove = ctMoveCost;
+            CTCostModifierToAct = ctActCost;
+
             m_affects = new List<AffectBase>();
             
             m_uniqueID = s_idCounter;
             s_idCounter++;
-        }
-        
-        internal virtual double CTCostModifierToMove
-        {
-            get
-            {
-                return 1.0;
-            }
-        }
-
-        internal virtual double CTCostModifierToAct
-        {
-            get
-            {
-                return 1.0;
-            }
         }
 
         internal virtual double CTCostModifierToAttack
@@ -107,6 +99,14 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         public virtual DiceRoll MeleeDamage
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        public virtual double MeleeSpeed
         {
             get
             {
@@ -153,7 +153,10 @@ namespace Magecrawl.GameEngine.Actors
             CT = reader.ReadElementContentAsInt();
             Vision = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
-
+            CTIncreaseModifier = reader.ReadElementContentAsDouble();
+            CTCostModifierToMove = reader.ReadElementContentAsDouble();
+            CTCostModifierToAct = reader.ReadElementContentAsDouble();
+       
             ListSerialization.ReadListFromXML(
                 reader, 
                 innerReader =>
@@ -176,6 +179,9 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("CT", CT.ToString());
             writer.WriteElementString("VisionRange", Vision.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
+            writer.WriteElementString("CTIncraseModifier", CTIncreaseModifier.ToString());
+            writer.WriteElementString("CTCostModifierToMove", CTCostModifierToMove.ToString());
+            writer.WriteElementString("CTCostModifierToAct ", CTCostModifierToAct.ToString());
 
             ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");
 
