@@ -4,9 +4,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal class SprinterMonster : Monster
+    internal class EliteMonster : Monster
     {
-        public SprinterMonster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        public EliteMonster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
         }
