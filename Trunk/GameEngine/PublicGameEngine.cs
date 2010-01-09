@@ -75,6 +75,7 @@ namespace Magecrawl.GameEngine
 
         public bool MovePlayer(Direction direction)
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.Move(m_engine.Player, direction);
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -83,6 +84,7 @@ namespace Magecrawl.GameEngine
 
         public bool Operate(Point pointToOperateAt)
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.Operate(m_engine.Player, pointToOperateAt);
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -91,6 +93,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerWait()
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.Wait(m_engine.Player);
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -99,6 +102,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerAttack(Point target)
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.Attack(m_engine.Player, target);
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -112,6 +116,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerCastSpell(ISpell spell, Point target)
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.CastSpell(m_engine.Player, (Spell)spell, target);
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -120,6 +125,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerGetItem()
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.PlayerGetItem();
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -196,6 +202,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerSelectedItemOption(IItem item, string option)
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.PlayerSelectedItemOption(item, option);
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -209,6 +216,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerMoveDownStairs()
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.PlayerMoveDownStairs();
             if (didAnything)
                 m_engine.AfterPlayerAction();
@@ -217,6 +225,7 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerMoveUpStairs()
         {
+            m_engine.BeforePlayerAction();
             bool didAnything = m_engine.PlayerMoveUpStairs();
             if (didAnything)
                 m_engine.AfterPlayerAction();

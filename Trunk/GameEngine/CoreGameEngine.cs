@@ -270,6 +270,12 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.AfterPlayerAction(this);
         }
 
+        // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
+        internal void BeforePlayerAction()
+        {
+            m_physicsEngine.BeforePlayerAction(this);
+        }
+
         internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate, bool usePlayerLOS, bool monstersBlockPath)
         {
             return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine, usePlayerLOS, monstersBlockPath);
