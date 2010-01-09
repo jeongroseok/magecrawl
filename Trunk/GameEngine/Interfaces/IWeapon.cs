@@ -17,7 +17,7 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        Double CTCostToAttack
+        double CTCostToAttack
         {
             get;
         }

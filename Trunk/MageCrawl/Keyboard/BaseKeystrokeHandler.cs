@@ -37,10 +37,9 @@ namespace Magecrawl.Keyboard
                     string actionName = reader.GetAttribute("Action");
                     
                     if (isDirectionAction(actionName))
-                        FindAndAddKeyHandler(requireAllActions, keyString + "Control", "Run"+actionName );
+                        FindAndAddKeyHandler(requireAllActions, keyString + "Control", "Run" + actionName);
 
-                    FindAndAddKeyHandler(requireAllActions, keyString, actionName);
-                   
+                    FindAndAddKeyHandler(requireAllActions, keyString, actionName);                   
                 }
             }
             reader.Close();
@@ -69,7 +68,7 @@ namespace Magecrawl.Keyboard
                 case "South":
                 case "West":
                 case "East":
-                case  "Northwest":
+                case "Northwest":
                 case "Southwest":
                 case "Northeast":
                 case "Southeast":

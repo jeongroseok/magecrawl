@@ -57,7 +57,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealMPCaster":
                 {
                     Player player = caster as Player;
-                    if(player != null)
+                    if (player != null)
                     {
                         CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                         player.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();

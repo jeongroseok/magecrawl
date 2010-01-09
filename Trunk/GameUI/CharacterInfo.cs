@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -108,7 +108,6 @@ namespace Magecrawl.GameUI
             for (int j = 0; j < HealthBarLength(m_player, false); ++j)
                 screen.SetCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColor(m_player));
 
-
             string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
             screen.PrintLine(magicString, StartingX + 12, 3, LineAlignment.Center);
             for (int j = 0; j < ManaBarLength(m_player); ++j)
@@ -126,7 +125,7 @@ namespace Magecrawl.GameUI
                 }
 
                 // TODO - What happens if this is more then 2 lines worth?
-                int statusEfectLength = screen.PrintLineRect(statusEffects.ToString(), StartingX + 2, nextAvailablePosition+1, InfoWidth - 4, 2, LineAlignment.Left);
+                int statusEfectLength = screen.PrintLineRect(statusEffects.ToString(), StartingX + 2, nextAvailablePosition + 1, InfoWidth - 4, 2, LineAlignment.Left);
 
                 nextAvailablePosition += 2 + statusEfectLength;
             }
@@ -147,7 +146,7 @@ namespace Magecrawl.GameUI
 
             if (Preferences.Instance.DebuggingMode)
             {
-                string inDanger = m_inDanger ? "Danger" : "";
+                string inDanger = m_inDanger ? "Danger" : String.Empty;
                 screen.PrintLine(inDanger, 52, 55, LineAlignment.Left);
 
                 string level = (m_currentLevel + 1).ToString();

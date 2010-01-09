@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine.Actors
     {
         // Share one RNG between monsters
         protected static TCODRandom m_random;
-        protected double CTAttackCost;
+        protected double CTAttackCost { get; set; }
 
         public Monster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)

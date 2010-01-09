@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
-using System.Collections.Generic;
 
 namespace Magecrawl.Utilities
 {

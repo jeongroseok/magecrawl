@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.MapObjects
 {
@@ -49,7 +49,7 @@ namespace Magecrawl.GameEngine.MapObjects
             m_stairMapping = new Dictionary<Guid, Point>();
             reader.ReadStartElement();
             int count = reader.ReadElementContentAsInt();
-            for (int i = 0 ; i < count ; ++i)
+            for (int i = 0; i < count; ++i)
             {
                 Guid g = new Guid(reader.ReadElementContentAsString());
                 Point destination = new Point();

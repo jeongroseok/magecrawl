@@ -197,7 +197,5 @@ namespace Magecrawl.Keyboard
             // If we can't find a better spot, use the player's position
             return engine.Player.Position;
         }
-
-
     }
 }
