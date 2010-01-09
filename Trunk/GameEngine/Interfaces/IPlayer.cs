@@ -6,6 +6,16 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public interface IPlayer : ICharacter
     {
+        int CurrentMP
+        {
+            get;
+        }
+
+        int MaxMP
+        {
+            get;
+        }
+
         IList<IItem> Items
         {
             get;

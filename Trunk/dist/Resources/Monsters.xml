@@ -1,0 +1,4 @@
+<?xml version="1.0" ?>
+<Monsters>
+<Monster Name="Monster" HP="2" Vision="4"/>
+</Monsters>

@@ -21,7 +21,7 @@ namespace Magecrawl.GameEngine.Items
 
         public Item CreateItem(string name)
         {
-            return m_itemMapping[name];
+            return (Item)m_itemMapping[name].Clone();
         }
 
         public Item CreateRandomItem()
@@ -30,9 +30,8 @@ namespace Magecrawl.GameEngine.Items
             {
                 int targetLocation = random.GetRandomInt(0, m_itemMapping.Count - 1);
                 string itemName = m_itemMapping.Keys.ToList()[targetLocation];
-                return m_itemMapping[itemName];
+                return CreateItem(itemName);
             }
-            throw new System.ArgumentOutOfRangeException("CreateRandomItem - Did not find random item?");
         }
 
         private void LoadMappings()
@@ -46,9 +45,8 @@ namespace Magecrawl.GameEngine.Items
             reader.Read();  // XML declaration
             reader.Read();  // Items element
             if (reader.LocalName != "Items")
-            {
                 throw new System.InvalidOperationException("Bad weapons file");
-            }
+            
             while (true)
             {
                 reader.Read();

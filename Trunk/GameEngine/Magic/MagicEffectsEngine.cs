@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Magic
             m_physicsEngine = physicsEngine;
         }
 
-        internal bool CastSpell(Character caster, Spell spell, Point target)
+        internal bool CastSpell(Player caster, Spell spell, Point target)
         {
             if (caster.CurrentMP >= spell.Cost)
             {
@@ -56,10 +56,14 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "HealMPCaster":
                 {
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
-                    if (caster.CurrentMP > caster.MaxMP)
-                        caster.CurrentMP = caster.MaxMP;
+                    Player player = caster as Player;
+                    if(player != null)
+                    {
+                        CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                        player.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
+                        if (player.CurrentMP > player.MaxMP)
+                            player.CurrentMP = player.MaxMP;
+                    }
                     return true;
                 }
                 case "Ranged Single Target":

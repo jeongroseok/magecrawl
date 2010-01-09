@@ -18,6 +18,11 @@ namespace Magecrawl.GameEngine.Weapons
         protected string m_flavorText;
         protected double m_ctCostToAttack;
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
         internal ICharacter Owner
         {
             get
