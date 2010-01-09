@@ -197,10 +197,8 @@ namespace Magecrawl.GameEngine
             Point newPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(c.Position, direction);
             if (m_map.IsPointOnMap(newPosition) && IsMovablePoint(m_map, m_player, newPosition))
             {
-                UpdatePlayerVisitedStatus();
                 c.Position = newPosition;
                 m_timingEngine.ActorMadeMove(c);
-                UpdatePlayerVisitedStatus();
                 didAnything = true;
             }
             return didAnything;
@@ -208,9 +206,7 @@ namespace Magecrawl.GameEngine
 
         internal bool WarpToPosition(Character c, Point p)
         {
-            UpdatePlayerVisitedStatus();
             c.Position = p;
-            UpdatePlayerVisitedStatus();
             return true;
         }
 
@@ -343,9 +339,16 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
+        // Called by PublicGameEngine after any call that could pass time.
+        internal void BeforePlayerAction(CoreGameEngine engine)
+        {
+            UpdatePlayerVisitedStatus();
+        }
+
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
+            UpdatePlayerVisitedStatus();
             // Until the player gets a turn
             while (true)
             {
