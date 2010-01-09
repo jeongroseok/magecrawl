@@ -13,21 +13,21 @@ namespace Magecrawl.GameEngine.Actors
         DidMove
     }
 
-    internal sealed class Monster : Character, ICloneable
+    internal abstract class Monster : Character, ICloneable
     {
         // Share one RNG between monsters
-        private static TCODRandom m_random;
-        private double CTAttackCost;
-
-        static Monster()
-        {
-            m_random = new TCODRandom();
-        }
+        protected static TCODRandom m_random;
+        protected double CTAttackCost;
 
         public Monster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
+        }
+
+        static Monster()
+        {
+            m_random = new TCODRandom();
         }
 
         public object Clone()
@@ -42,7 +42,9 @@ namespace Magecrawl.GameEngine.Actors
             return newMonster;
         }
 
-        internal MonsterAction Action(CoreGameEngine engine)
+        public abstract MonsterAction Action(CoreGameEngine engine);
+
+        protected MonsterAction DefaultAction(CoreGameEngine engine)
         {
             if (engine.FOVManager.VisibleSingleShot(engine.Map, Position, Vision, engine.Player.Position))
             {
@@ -69,7 +71,7 @@ namespace Magecrawl.GameEngine.Actors
             return WanderRandomly(engine);
         }
 
-        private MonsterAction WanderRandomly(CoreGameEngine engine)
+        protected MonsterAction WanderRandomly(CoreGameEngine engine)
         {
             foreach(Direction d in DirectionUtils.GenerateDirectionList())
             {
@@ -118,7 +120,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("Type", "Monster");
+            writer.WriteElementString("Type", Name);
             base.WriteXml(writer);
             writer.WriteElementString("MeleeSpeed", CTAttackCost.ToString());
         }

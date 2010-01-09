@@ -2,6 +2,8 @@
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
+using System.Xml;
+using System.IO;
 
 namespace Magecrawl.GameUI.Map
 {
@@ -10,12 +12,14 @@ namespace Magecrawl.GameUI.Map
         private Console m_offscreenConsole;
         private bool m_honorFOV;
         private TileVisibility[,] m_tileVisibility;
+        private Dictionary<string, char> m_monsterSymbols;
 
         public MapPainter()
         {
             m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
             m_offscreenConsole.ForegroundColor = UIHelper.ForegroundColor;
             m_honorFOV = true;
+            LoadMonsterSymbols();
         }
 
         internal bool HonorFOV
@@ -68,11 +72,11 @@ namespace Magecrawl.GameUI.Map
                 }
             }
 
-            foreach (ICharacter obj in engine.Map.Monsters)
+            foreach (ICharacter m in engine.Map.Monsters)
             {
-                TileVisibility visibility = tileVisibility[obj.Position.X, obj.Position.Y];
+                TileVisibility visibility = tileVisibility[m.Position.X, m.Position.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
-                    DrawThing(mapUpCorner, obj.Position, m_offscreenConsole, 'M');
+                    DrawThing(mapUpCorner, m.Position, m_offscreenConsole, m_monsterSymbols[m.Name]);
             }
 
             DrawThing(mapUpCorner, engine.Player.Position, m_offscreenConsole, '@');
@@ -181,6 +185,37 @@ namespace Magecrawl.GameUI.Map
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }
+        }
+
+        private void LoadMonsterSymbols()
+        {
+            m_monsterSymbols = new Dictionary<string, char>();
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.IgnoreWhitespace = true;
+            settings.IgnoreComments = true;
+            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Monsters.xml")), settings);
+            reader.Read();  // XML declaration
+            reader.Read();  // Items element
+            if (reader.LocalName != "Monsters")
+            {
+                throw new System.InvalidOperationException("Bad monsters file");
+            }
+            while (true)
+            {
+                reader.Read();
+                if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Monsters")
+                    break;
+
+                if (reader.LocalName == "Monster")
+                {
+                    string name = reader.GetAttribute("Name");
+                    char symbol = reader.GetAttribute("Symbol")[0];
+
+                    m_monsterSymbols.Add(name, symbol);
+                }
+            }
+            reader.Close();
         }
     }
 }
