@@ -1,4 +1,4 @@
 <?xml version="1.0" ?>
 <Monsters>
-<Monster Name="Monster" HP="2" Vision="4"/>
+<Monster Name="Monster" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 </Monsters>

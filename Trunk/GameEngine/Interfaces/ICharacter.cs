@@ -44,5 +44,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        double MeleeSpeed
+        {
+            get;
+        }
     }
 }

@@ -117,6 +117,14 @@ namespace Magecrawl.GameEngine.Actors
                 return new DiceRoll(1, 1);
             }
         }
+        
+        public override double MeleeSpeed
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
 
         #region SaveLoad
 

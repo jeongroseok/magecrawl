@@ -17,13 +17,17 @@ namespace Magecrawl.GameEngine.Actors
     {
         // Share one RNG between monsters
         private static TCODRandom m_random;
+        private double CTAttackCost;
+
         static Monster()
         {
             m_random = new TCODRandom();
         }
 
-        public Monster(string name, Point p, int maxHP, int vision) : base(name, p, maxHP, maxHP, vision)
+        public Monster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+            : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
+            CTAttackCost = ctAttackCost;
         }
 
         public object Clone()
@@ -88,6 +92,13 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public override double MeleeSpeed
+        {
+            get
+            {
+                return CTAttackCost;
+            }
+        }
 
         public override IWeapon CurrentWeapon
         {
@@ -102,12 +113,14 @@ namespace Magecrawl.GameEngine.Actors
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
+            CTAttackCost = Double.Parse(reader.ReadElementContentAsString());
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString("Type", "Monster");
             base.WriteXml(writer);
+            writer.WriteElementString("MeleeSpeed", CTAttackCost.ToString());
         }
 
         #endregion
