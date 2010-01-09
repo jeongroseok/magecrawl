@@ -7,12 +7,6 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal enum MonsterAction
-    {
-        DidAction,
-        DidMove
-    }
-
     internal abstract class Monster : Character, ICloneable
     {
         // Share one RNG between monsters
@@ -42,49 +36,85 @@ namespace Magecrawl.GameEngine.Actors
             return newMonster;
         }
 
-        public abstract MonsterAction Action(CoreGameEngine engine);
+        public abstract void Action(CoreGameEngine engine);
 
-        protected MonsterAction DefaultAction(CoreGameEngine engine)
+        protected void DefaultAction(CoreGameEngine engine)
         {
-            if (engine.FOVManager.VisibleSingleShot(engine.Map, Position, Vision, engine.Player.Position))
+            if (IsPlayerVisible(engine))
             {
-                // TODO - This should respect FOV
-                IList<Point> pathToPlayer = engine.PathToPoint(this, engine.Player.Position, false, false, true);
+                List<Point> pathToPlayer = GetPathToPlayer(engine);
 
-                // If we are next to the player
-                if (pathToPlayer != null && pathToPlayer.Count == 1)
+                if (IsNextToPlayer(engine, pathToPlayer))
                 {
-                    if (engine.Attack(this, engine.Player.Position))
-                        return MonsterAction.DidAction;
+                    if (AttackPlayer(engine))
+                        return;
                 }
 
-                // We have a way to get to player
-                if (pathToPlayer != null && pathToPlayer.Count > 0)
+                if (HasPathToPlayer(engine, pathToPlayer))
                 {
-                    Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]);
-                    if (engine.Move(this, towardsPlayer))
-                        return MonsterAction.DidMove;
+                    if (MoveTowardsPlayer(engine, pathToPlayer))
+                        return;
                 }
             }
 
             // We have nothing else to do, so wander
-            return WanderRandomly(engine);
+            WanderRandomly(engine);
+            return;
         }
 
-        protected MonsterAction WanderRandomly(CoreGameEngine engine)
+        #region ActionParts
+
+        protected List<Point> GetPathToPlayer(CoreGameEngine engine)
         {
-            foreach(Direction d in DirectionUtils.GenerateDirectionList())
+            return engine.PathToPoint(this, engine.Player.Position, false, false, true);
+        }
+
+        protected bool IsNextToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
+        {
+            return pathToPlayer != null && pathToPlayer.Count == 1;
+        }
+
+        protected bool HasPathToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
+        {
+            return pathToPlayer != null && pathToPlayer.Count > 0;
+        }
+
+        protected bool AttackPlayer(CoreGameEngine engine)
+        {
+            if (engine.Attack(this, engine.Player.Position))
+                return true;
+            return false;
+        }
+
+        protected bool MoveTowardsPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
+        {
+            Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]);
+            if (engine.Move(this, towardsPlayer))
+                return true;
+            return false;
+        }
+
+        protected bool IsPlayerVisible(CoreGameEngine engine)
+        {
+            return engine.FOVManager.VisibleSingleShot(engine.Map, Position, Vision, engine.Player.Position);
+        }
+
+        protected bool WanderRandomly(CoreGameEngine engine)
+        {
+            foreach (Direction d in DirectionUtils.GenerateDirectionList())
             {
                 if (engine.Move(this, d))
                 {
-                    return MonsterAction.DidMove;
+                    return true;
                 }
             }
 
             // If nothing else, 'wait'
             engine.Wait(this);
-            return MonsterAction.DidAction;
+            return false;
         }
+
+        #endregion
 
         public override DiceRoll MeleeDamage
         {

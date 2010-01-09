@@ -43,6 +43,10 @@
   -->
   <ItemGroup>
     <Compile Include="Actors\Character.cs" />
+    <Compile Include="Actors\EliteMonster.cs" />
+    <Compile Include="Actors\RangedMonster.cs" />
+    <Compile Include="Actors\HealerMonster.cs" />
+    <Compile Include="Actors\SwarmerMonster.cs" />
     <Compile Include="Actors\SprinterMonster.cs" />
     <Compile Include="Actors\MonsterFactory.cs" />
     <Compile Include="Actors\StandardMonster.cs" />
@@ -116,6 +120,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
