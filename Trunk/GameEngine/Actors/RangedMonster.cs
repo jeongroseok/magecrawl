@@ -7,7 +7,7 @@ namespace Magecrawl.GameEngine.Actors
     internal class RangedMonster : Monster
     {
         public RangedMonster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
-            : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
+            : base(name, p, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
         }
 
