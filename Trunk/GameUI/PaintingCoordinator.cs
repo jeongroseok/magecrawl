@@ -60,7 +60,7 @@ namespace Magecrawl.GameUI
             Point mapCorner = CalculateMapCorner(engine);
             foreach (PainterBase p in m_painters)
             {
-                p.UpdateFromVisibilityData(tileVisibility); //Needs to be called before FromNewData.
+                p.UpdateFromVisibilityData(tileVisibility); // Needs to be called before FromNewData.
                 p.UpdateFromNewData(engine, mapCorner, MapCursorEnabled ? CursorSpot : engine.Player.Position);
             }
         }

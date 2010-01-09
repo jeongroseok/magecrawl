@@ -75,7 +75,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             return returnList;
         }
 
-
         private static List<Point> CalculateClearPointList(Map map)
         {
             List<Point> clearPointList = new List<Point>();

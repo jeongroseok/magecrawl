@@ -18,6 +18,7 @@ namespace Magecrawl.GameEngine
         private FOVManager m_fovManager;
         private CombatEngine m_combatEngine;
         private MagicEffectsEngine m_magicEffects;
+        private SkillEffectEngine m_skillEngine;
 
         // Fov FilterNotMovablePointsFromList
         private Dictionary<Point, bool> m_movableHash;
@@ -35,6 +36,7 @@ namespace Magecrawl.GameEngine
             m_combatEngine = new CombatEngine(player, map);
             m_movableHash = new Dictionary<Point, bool>();
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
+            m_skillEngine = new SkillEffectEngine(this, m_combatEngine);
             UpdatePlayerVisitedStatus();
         }
 
@@ -305,6 +307,14 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
+        internal bool UseSkill(Player attacker, string skillName, Point target)
+        {
+            bool didAnything = m_skillEngine.UseSkill(attacker, skillName, target);
+            if (didAnything)
+                m_timingEngine.ActorDidAction(attacker);
+            return didAnything;
+        }
+
         internal bool PlayerMoveUpStairs(Player player, Map map)
         {
             Stairs s = map.MapObjects.OfType<Stairs>().Where(x => x.Type == MapObjectType.StairsUp && x.Position == player.Position).SingleOrDefault();
@@ -349,6 +359,7 @@ namespace Magecrawl.GameEngine
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
             UpdatePlayerVisitedStatus();
+            
             // Until the player gets a turn
             while (true)
             {

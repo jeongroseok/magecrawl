@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
-using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Utilities;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -106,14 +106,14 @@ namespace Magecrawl.GameEngine.Level.Generator
             return map;
         }
 
-        private const int m_segmentSize = 10;
+        private const int SegmentSize = 10;
         private List<Point> GenerateSegmentList(Map map, Point pointToAvoid)
         {
-            int numberOfXSegments = map.Width / m_segmentSize;
-            int numberOfYSegments = map.Height / m_segmentSize;
+            int numberOfXSegments = map.Width / SegmentSize;
+            int numberOfYSegments = map.Height / SegmentSize;
 
-            int avoidSectionX = pointToAvoid.X / m_segmentSize;
-            int avoidSectionY = pointToAvoid.Y / m_segmentSize;
+            int avoidSectionX = pointToAvoid.X / SegmentSize;
+            int avoidSectionY = pointToAvoid.Y / SegmentSize;
 
             List<Point> returnList = new List<Point>();
             for (int i = 0; i < numberOfXSegments; ++i)
@@ -133,11 +133,11 @@ namespace Magecrawl.GameEngine.Level.Generator
             int treasureToGenerate = m_random.GetRandomInt(3, 6);
             int treasuresGenerated = 0;
 
-            Point segmentSizedPoint = new Point(m_segmentSize, m_segmentSize);
+            Point segmentSizedPoint = new Point(SegmentSize, SegmentSize);
 
             foreach (Point segment in GenerateSegmentList(map, pointToAvoid))
             {
-                Point upperLeft = new Point(m_segmentSize * segment.X, m_segmentSize * segment.Y);
+                Point upperLeft = new Point(SegmentSize * segment.X, SegmentSize * segment.Y);
                 Point lowerRight = upperLeft + segmentSizedPoint;
 
                 List<Point> clearSegments = GetClearPointListInRange(map, upperLeft, lowerRight).Randomize();

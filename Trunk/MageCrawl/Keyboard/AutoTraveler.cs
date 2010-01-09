@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
@@ -26,6 +26,7 @@ namespace Magecrawl.Keyboard
                 for (int j = 0; j < m_engine.Map.Height; ++j)
                 {
                     Point p = new Point(i, j);
+                    
                     // We can move there is we've visited it is a floor and there is no solid object there.
                     if (m_engine.Map.GetTerrainAt(p) == TerrainType.Floor && m_engine.Map.IsVisitedAt(p) && m_engine.Map.MapObjects.Where(x => x.Position == p && x.IsSolid).Count() == 0)
                     {

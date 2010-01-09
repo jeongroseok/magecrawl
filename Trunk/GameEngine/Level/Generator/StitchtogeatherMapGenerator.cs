@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {

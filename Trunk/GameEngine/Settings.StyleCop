@@ -290,6 +290,7 @@
       </Rules>
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
+          <Value>ct</Value>
           <Value>hp</Value>
           <Value>mp</Value>
           <Value>up</Value>

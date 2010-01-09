@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Magecrawl.Utilities;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
@@ -26,7 +26,6 @@ namespace Magecrawl.GameEngine.Level.Generator
             }
 
             pointsWithClearTerrain = pointsWithClearTerrain.Randomize();
-
 
             // Right now since we only have a single monster type, add 1 monster for every 2 levels of priority
             int numberOfMonstersToAdd = priority / 2;

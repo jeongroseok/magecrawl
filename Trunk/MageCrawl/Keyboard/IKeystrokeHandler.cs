@@ -32,7 +32,7 @@ namespace Magecrawl.Keyboard
             if (name.EndsWith("Control"))
             {
                 ControlPressed = true;
-                name = name.Remove(name.Length-7);
+                name = name.Remove(name.Length - 7);
             }
             try
             {
