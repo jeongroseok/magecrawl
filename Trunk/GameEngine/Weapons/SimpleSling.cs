@@ -8,9 +8,9 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal class SimpleBow : RangedWeaponBase
+    internal class SimpleSling : RangedWeaponBase
     {
-        public SimpleBow(string name, DiceRoll damage, double ctCost, string description, string flavorText)
+        public SimpleSling(string name, DiceRoll damage, double ctCost, string description, string flavorText)
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
@@ -22,12 +22,12 @@ namespace Magecrawl.GameEngine.Weapons
 
         public override List<EffectivePoint> CalculateTargetablePoints()
         {
-            const int SimpleBowRange = 10;
-            const int SimpleBowMinRange = 3;
-            const int SimpleBowFalloffStart = 4;
-            const float SimpleBowFalloffAmount = .25f;
+            const int SimpleSlingRange = 5;
+            const int SimpleSlingMinRange = 1;
+            const int SimpleSlingFalloffStart = 3;
+            const float SimpleSlingFalloffAmount = 0;
 
-            List<EffectivePoint> targetablePoints = GenerateRangedTargetablePoints(SimpleBowRange, SimpleBowMinRange, SimpleBowFalloffStart, SimpleBowFalloffAmount);
+            List<EffectivePoint> targetablePoints = GenerateRangedTargetablePoints(SimpleSlingRange, SimpleSlingMinRange, SimpleSlingFalloffStart, SimpleSlingFalloffAmount);
 
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision, true);
 

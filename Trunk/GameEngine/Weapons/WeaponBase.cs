@@ -119,7 +119,7 @@ namespace Magecrawl.GameEngine.Weapons
 
         public float EffectiveStrengthAtPoint(Point pointOfInterest)
         {
-            return CalculateTargetablePoints().Where(p => p.Position == pointOfInterest).Single().EffectiveStrength;
+            return CalculateTargetablePoints().Where(p => p.Position == pointOfInterest).SingleOrDefault().EffectiveStrength; // If for some reason we ask for a time we can't target, Default will give us 0
         }
 
         public bool PositionInTargetablePoints(Point pointOfInterest)
