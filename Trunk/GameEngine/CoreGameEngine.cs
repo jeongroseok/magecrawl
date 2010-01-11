@@ -24,9 +24,8 @@ namespace Magecrawl.GameEngine
 
         private SaveLoadCore m_saveLoad;
         private PathfindingMap m_pathFinding;
-        private PhysicsEngine m_physicsEngine;
-        
-        internal CoreTimingEngine TimingEngine;
+        private PhysicsEngine m_physicsEngine;        
+        private CoreTimingEngine m_timingEngine;
         
         internal ItemFactory ItemFactory;
         internal MonsterFactory MonsterFactory;
@@ -122,7 +121,7 @@ namespace Magecrawl.GameEngine
 
             m_saveLoad = new SaveLoadCore();
             
-            TimingEngine = new CoreTimingEngine();
+            m_timingEngine = new CoreTimingEngine();
 
             m_dungeon = new Dictionary<int, Map>();
 
@@ -364,7 +363,7 @@ namespace Magecrawl.GameEngine
                     break;
             }
             if (didSomething)
-                TimingEngine.ActorDidAction(m_player);
+                m_timingEngine.ActorDidAction(m_player);
             return didSomething;
         }
     }
