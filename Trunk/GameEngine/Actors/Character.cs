@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -186,6 +186,32 @@ namespace Magecrawl.GameEngine.Actors
             ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");
 
             m_affects.ForEach(a => a.Apply(this));
+        }
+
+        protected WeaponBase ReadWeaponFromSave(XmlReader reader)
+        {
+            WeaponBase weapon = null;
+            reader.ReadStartElement();
+            string equipedWeaponTypeString = reader.ReadElementString();
+            if (equipedWeaponTypeString != "None")
+            {
+                weapon = (WeaponBase)CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
+                weapon.ReadXml(reader);
+                weapon.Owner = this;
+            }
+            reader.ReadEndElement();
+            return weapon;
+        }
+
+        protected void WriteWeaponToSave(XmlWriter writer, WeaponBase weapon)
+        {
+            writer.WriteStartElement("EquipedWeapon");
+            Item itemToSave = weapon as Item;
+            if (itemToSave != null)
+                itemToSave.WriteXml(writer);
+            else
+                writer.WriteElementString("Type", "None");
+            writer.WriteEndElement();
         }
 
         #endregion
