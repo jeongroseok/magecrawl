@@ -136,21 +136,7 @@ namespace Magecrawl.GameEngine.Actors
             CurrentMP = reader.ReadElementContentAsInt();
             MaxMP = reader.ReadElementContentAsInt();
 
-            reader.ReadStartElement();
-            string equipedWeaponTypeString = reader.ReadElementString();
-            if (equipedWeaponTypeString == "None")
-            {
-                m_equipedWeapon = null;
-            }
-            else
-            {
-                Item loadedWeapon = CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
-                loadedWeapon.ReadXml(reader);
-                WeaponBase weapon = (WeaponBase)loadedWeapon;
-                weapon.Owner = this;
-                m_equipedWeapon = weapon;
-            }
-            reader.ReadEndElement();
+            m_equipedWeapon = ReadWeaponFromSave(reader);
 
             m_itemList = new List<Item>();
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
@@ -172,13 +158,7 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("CurrentMagic", CurrentMP.ToString());
             writer.WriteElementString("MaxMagic", MaxMP.ToString());
 
-            writer.WriteStartElement("EquipedWeapon");
-            Item itemToSave = m_equipedWeapon as Item;
-            if (itemToSave != null)
-                itemToSave.WriteXml(writer);
-            else
-                writer.WriteElementString("Type", "None");
-            writer.WriteEndElement();
+            WriteWeaponToSave(writer, m_equipedWeapon);
 
             ListSerialization.WriteListToXML(writer, m_itemList, "Items");
             writer.WriteEndElement();
