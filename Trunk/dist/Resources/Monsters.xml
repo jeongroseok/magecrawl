@@ -5,5 +5,5 @@
 <Monster Name="Kobold" Type="Swarmer" Symbol="k" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 <Monster Name="Baby Dragon" Type="Elite" Symbol="D" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 <Monster Name="Goblin Healer" Type="Healer" Symbol="g" HP="2" Vision="4" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Goblin Slinger" Type="Ranged" Symbol="g" HP="2" Vision="5" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Goblin Slinger" Type="Ranged" Symbol="g" HP="2" Vision="6" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 </Monsters>

@@ -30,6 +30,7 @@ namespace Magecrawl.GameEngine
         internal ItemFactory ItemFactory;
         internal MonsterFactory MonsterFactory;
         internal MapObjectFactory MapObjectFactory;
+        internal uint TurnCount;
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
@@ -91,6 +92,8 @@ namespace Magecrawl.GameEngine
 
             Point initialStairsUpPosition = m_dungeon[0].MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().First().Position;
             m_player = new Player(initialStairsUpPosition);
+
+            TurnCount = 0;
 
             CommonStartupAfterMapPlayer();
 
@@ -273,6 +276,7 @@ namespace Magecrawl.GameEngine
         internal void AfterPlayerAction()
         {
             m_physicsEngine.AfterPlayerAction(this);
+            TurnCount++;
         }
 
         // Called by PublicGameEngine after any call to CoreGameEngine which passes time.
