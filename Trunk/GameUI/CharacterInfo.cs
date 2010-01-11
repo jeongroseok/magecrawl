@@ -33,7 +33,7 @@ namespace Magecrawl.GameUI
             m_player = engine.Player;
             m_currentLevel = engine.CurrentLevel;
             m_inDanger = engine.DangerInLOS();
-            m_monstersNearby = engine.MonstersInLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
+            m_monstersNearby = engine.MonstersInPlayerLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
         }
 
         private int HealthBarLength(ICharacter character, bool fuzzy)

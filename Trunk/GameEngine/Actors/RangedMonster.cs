@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Weapons;
@@ -21,6 +22,13 @@ namespace Magecrawl.GameEngine.Actors
             m_seenPlayerBefore = false;
         }
 
+        private bool IfNearbyEnemeiesTryToMoveAway(CoreGameEngine engine)
+        {
+            if (OtherNearbyEnemies(engine))
+                return MoveAwayFromPlayer(engine);
+            return false;
+        }
+
         public override void Action(CoreGameEngine engine)
         {
             if (IsPlayerVisible(engine))
@@ -29,7 +37,10 @@ namespace Magecrawl.GameEngine.Actors
                 int distanceToPlayer = pathToPlayer.Count;
                 if (distanceToPlayer == 1)
                 {
-                    engine.Attack(this, engine.Player.Position);
+                    bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
+                    if (!moveSucessful)
+                        engine.Attack(this, engine.Player.Position);
+
                     return;
                 }
                 else
@@ -43,14 +54,17 @@ namespace Magecrawl.GameEngine.Actors
                         {
                             engine.SendTextOutput(string.Format("{0} slings a stone at {1}.", Name, engine.Player.Name));
                             engine.Attack(this, engine.Player.Position);
+                            m_isStoneLoaded = false;
                         }
                         else
-                        {   
-                            engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));
+                        {
+                            bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
+                            if (!moveSucessful)
+                                engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));                            
                         }
 
                         m_equipedWeapon = null;
-                        m_isStoneLoaded = false;
+
                         return;
                     }
                     else
