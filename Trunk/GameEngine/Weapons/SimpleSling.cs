@@ -24,7 +24,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             const int SimpleSlingRange = 5;
             const int SimpleSlingMinRange = 1;
-            const int SimpleSlingFalloffStart = 3;
+            const int SimpleSlingFalloffStart = SimpleSlingRange;
             const float SimpleSlingFalloffAmount = 0;
 
             List<EffectivePoint> targetablePoints = GenerateRangedTargetablePoints(SimpleSlingRange, SimpleSlingMinRange, SimpleSlingFalloffStart, SimpleSlingFalloffAmount);
