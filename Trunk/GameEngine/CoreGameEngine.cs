@@ -35,6 +35,14 @@ namespace Magecrawl.GameEngine
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
 
+        internal FOVManager FOVManager
+        {
+            get
+            {
+                return m_physicsEngine.FOVManager;
+            }
+        }
+
         // Almost every member of the GameEngine component will need to call CoreGameEngine at some point.
         // As opossed to have everyone stash a copy of it, just make it a singleton.
         private static CoreGameEngine m_instance;
@@ -317,12 +325,17 @@ namespace Magecrawl.GameEngine
             m_textOutput(s);
         }            
 
-        internal FOVManager FOVManager
+        public List<ICharacter> MonstersInPlayerLOS()
         {
-            get
+            List<ICharacter> returnList = new List<ICharacter>();
+            FOVManager.CalculateForMultipleCalls(Map, Player.Position, Player.Vision);
+
+            foreach (Monster m in Map.Monsters)
             {
-                return m_physicsEngine.FOVManager;
+                if (FOVManager.Visible(m.Position))
+                    returnList.Add(m);
             }
+            return returnList;
         }
 
         internal List<ItemOptions> GetOptionsForInventoryItem(Item item)

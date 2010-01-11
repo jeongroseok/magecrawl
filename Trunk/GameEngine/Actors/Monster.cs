@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
@@ -92,6 +93,26 @@ namespace Magecrawl.GameEngine.Actors
             if (engine.Move(this, towardsPlayer))
                 return true;
             return false;
+        }
+
+        protected bool MoveAwayFromPlayer(CoreGameEngine engine)
+        {
+            Direction directionTowardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(Position, engine.Player.Position);
+            if (engine.Move(this, PointDirectionUtils.GetDirectionOpposite(directionTowardsPlayer)))
+                return true;
+            
+            foreach (Direction attemptDirection in PointDirectionUtils.GetDirectionsOpposite(directionTowardsPlayer))
+            {
+                if (engine.Move(this, attemptDirection))
+                    return true;
+            }
+            return false;
+        }
+
+        protected bool OtherNearbyEnemies(CoreGameEngine engine)
+        {
+            var v = engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 4).ToList();
+            return engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 4).Count() > 1;
         }
 
         protected bool IsPlayerVisible(CoreGameEngine engine)

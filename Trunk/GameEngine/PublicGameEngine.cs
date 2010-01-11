@@ -257,17 +257,9 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
-        public List<ICharacter> MonstersInLOS()
+        public List<ICharacter> MonstersInPlayerLOS()
         {
-            List<ICharacter> returnList = new List<ICharacter>();
-            m_engine.FOVManager.CalculateForMultipleCalls(m_engine.Map, m_engine.Player.Position, m_engine.Player.Vision);
-
-            foreach (Monster m in m_engine.Map.Monsters)
-            {
-                if (m_engine.FOVManager.Visible(m.Position))
-                    returnList.Add(m);
-            }
-            return returnList;
+            return m_engine.MonstersInPlayerLOS();
         }
     }
 }
