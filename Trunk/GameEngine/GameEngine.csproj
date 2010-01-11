@@ -113,6 +113,8 @@
     <Compile Include="SkillEffectEngine.cs" />
     <Compile Include="Weapons\Club.cs" />
     <Compile Include="Weapons\Axe.cs" />
+    <Compile Include="Weapons\RangedWeaponBase.cs" />
+    <Compile Include="Weapons\SimpleSling.cs" />
     <Compile Include="Weapons\Spear.cs" />
     <Compile Include="Weapons\SimpleBow.cs" />
     <Compile Include="Weapons\MeleeWeapon.cs" />
