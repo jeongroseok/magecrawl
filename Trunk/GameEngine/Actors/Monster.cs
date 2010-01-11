@@ -145,7 +145,7 @@ namespace Magecrawl.GameEngine.Actors
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
-            CTAttackCost = Double.Parse(reader.ReadElementContentAsString());
+            CTAttackCost = reader.ReadElementContentAsDouble();
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)

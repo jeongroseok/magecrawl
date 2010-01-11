@@ -3,7 +3,6 @@ using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
-using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -51,7 +50,6 @@ namespace Magecrawl.GameEngine
                 DamageTarget(damageDone, attackedCharacter, null);
                 return true;
             }
-
             return false;
         }
 
