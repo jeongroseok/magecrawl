@@ -9,7 +9,7 @@ namespace Magecrawl.GameEngine.Weapons
     {
         internal MeleeWeapon(ICharacter owner)
         {
-            m_owner = owner;
+            Owner = owner;
             m_itemDescription = "Your Natural Weapons";
             m_flavorText = String.Empty;
             m_name = "Melee";
@@ -19,7 +19,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get 
             {
-                return m_owner.MeleeDamage;
+                return Owner.MeleeDamage;
             }
         }
 
@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get
             {
-                return m_owner.MeleeSpeed;
+                return Owner.MeleeSpeed;
             }
         }
 
@@ -46,16 +46,16 @@ namespace Magecrawl.GameEngine.Weapons
         {
             List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 0), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 0), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, 1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, -1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(-1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(0, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(0, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(1, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(-1, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(-1, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(1, -1), 1.0f));
 
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision, true);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, Owner.Position, Owner.Vision, true);
 
             return targetablePoints;
         }

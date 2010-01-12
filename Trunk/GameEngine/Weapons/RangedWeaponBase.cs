@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.Weapons
                     if ((distance <= range) && (distance >= minDistance))
                     {
                         float weaponStrength = 1.0f - (Math.Max(distance - falloffDistance, 0) * falloffPerSquare);
-                        targetablePoints.Add(new EffectivePoint(new Point(m_owner.Position.X + i, m_owner.Position.Y + j), weaponStrength));
+                        targetablePoints.Add(new EffectivePoint(new Point(Owner.Position.X + i, Owner.Position.Y + j), weaponStrength));
                     }
                 }
             }

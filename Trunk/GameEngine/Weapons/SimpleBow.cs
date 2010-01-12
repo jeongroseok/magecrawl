@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
-            m_owner = null;
+            Owner = null;
             m_name = name;
             m_damage = damage;
             m_ctCostToAttack = ctCost;
@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine.Weapons
 
             List<EffectivePoint> targetablePoints = GenerateRangedTargetablePoints(SimpleBowRange, SimpleBowMinRange, SimpleBowFalloffStart, SimpleBowFalloffAmount);
 
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision, true);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, Owner.Position, Owner.Vision, true);
 
             return targetablePoints;
         }
