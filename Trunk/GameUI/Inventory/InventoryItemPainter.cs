@@ -9,7 +9,7 @@ namespace Magecrawl.GameUI.Inventory
 
     internal sealed class InventoryItemPainter : PainterBase
     {
-        private const int SelectedItemOffset = 8;
+        private const int SelectedItemOffset = 5;
         private const int SelectedItemWidth = UIHelper.ScreenWidth - (SelectedItemOffset * 2);
         private const int SelectedItemHeight = UIHelper.ScreenHeight - (SelectedItemOffset * 2) - 10;
         private IItem m_selectedItem;

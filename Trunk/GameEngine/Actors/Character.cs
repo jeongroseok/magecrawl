@@ -32,7 +32,29 @@ namespace Magecrawl.GameEngine.Actors
 
         public double CTCostModifierToAct { get; internal set; }
 
-        protected int m_uniqueID;
+        private WeaponBase m_equipedWeapon;
+        public IWeapon CurrentWeapon
+        {
+            get
+            {
+                if (m_equipedWeapon == null)
+                    return new MeleeWeapon(this);
+                return m_equipedWeapon;
+            }
+        }
+
+        private WeaponBase m_secondaryWeapon;
+        public IWeapon SecondaryWeapon
+        {
+            get
+            {
+                if (m_secondaryWeapon == null)
+                    return new MeleeWeapon(this);
+                return m_secondaryWeapon;
+            }
+        }
+
+        private int m_uniqueID;
         public int UniqueID
         {
             get
@@ -61,6 +83,8 @@ namespace Magecrawl.GameEngine.Actors
             MaxHP = maxHP;
             Vision = visionRange;
             Name = name;
+            m_equipedWeapon = null;
+            m_secondaryWeapon = null;
 
             CTIncreaseModifier = ctIncreaseModifer;
             CTCostModifierToMove = ctMoveCost;
@@ -70,6 +94,52 @@ namespace Magecrawl.GameEngine.Actors
             
             m_uniqueID = s_idCounter;
             s_idCounter++;
+        }
+
+        internal IWeapon EquipWeapon(IWeapon weapon)
+        {
+            if (weapon == null)
+                throw new System.ArgumentException("EquipWeapon - Null weapon");
+            WeaponBase currentWeapon = weapon as WeaponBase;
+
+            IWeapon oldWeapon = UnequipWeapon();
+
+            currentWeapon.Owner = this;
+            m_equipedWeapon = currentWeapon;
+            return oldWeapon;
+        }
+
+        public IWeapon UnequipWeapon()
+        {
+            if (m_equipedWeapon == null)
+                return null;
+            WeaponBase oldWeapon = m_equipedWeapon as WeaponBase;
+            oldWeapon.Owner = null;
+            m_equipedWeapon = null;
+            return oldWeapon;
+        }
+
+        internal IWeapon EquipSecondaryWeapon(IWeapon weapon)
+        {
+            if (weapon == null)
+                throw new System.ArgumentException("EquipSecondaryWeapon - Null weapon");
+            WeaponBase currentWeapon = weapon as WeaponBase;
+
+            IWeapon oldWeapon = UnequipSecondaryWeapon();
+
+            currentWeapon.Owner = this;
+            m_secondaryWeapon = currentWeapon;
+            return oldWeapon;
+        }
+
+        public IWeapon UnequipSecondaryWeapon()
+        {
+            if (m_secondaryWeapon == null)
+                return null;
+            WeaponBase oldWeapon = m_secondaryWeapon as WeaponBase;
+            oldWeapon.Owner = null;
+            m_secondaryWeapon = null;
+            return oldWeapon;
         }
 
         internal virtual double CTCostModifierToAttack
@@ -90,14 +160,6 @@ namespace Magecrawl.GameEngine.Actors
 
         // Everyone should override these. 
         // I want character to have a constructor to reduce copying, but there are some things that should be overridded
-        public virtual IWeapon CurrentWeapon
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
         public virtual DiceRoll MeleeDamage
         {
             get
@@ -153,6 +215,10 @@ namespace Magecrawl.GameEngine.Actors
             CT = reader.ReadElementContentAsInt();
             Vision = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
+
+            m_equipedWeapon = ReadWeaponFromSave(reader);
+            m_secondaryWeapon = ReadWeaponFromSave(reader);
+
             CTIncreaseModifier = reader.ReadElementContentAsDouble();
             CTCostModifierToMove = reader.ReadElementContentAsDouble();
             CTCostModifierToAct = reader.ReadElementContentAsDouble();
@@ -179,6 +245,10 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("CT", CT.ToString());
             writer.WriteElementString("VisionRange", Vision.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
+
+            WriteWeaponToSave(writer, m_equipedWeapon);
+            WriteWeaponToSave(writer, m_secondaryWeapon);
+
             writer.WriteElementString("CTIncraseModifier", CTIncreaseModifier.ToString());
             writer.WriteElementString("CTCostModifierToMove", CTCostModifierToMove.ToString());
             writer.WriteElementString("CTCostModifierToAct ", CTCostModifierToAct.ToString());
@@ -188,7 +258,7 @@ namespace Magecrawl.GameEngine.Actors
             m_affects.ForEach(a => a.Apply(this));
         }
 
-        protected WeaponBase ReadWeaponFromSave(XmlReader reader)
+        private WeaponBase ReadWeaponFromSave(XmlReader reader)
         {
             WeaponBase weapon = null;
             reader.ReadStartElement();
@@ -203,7 +273,7 @@ namespace Magecrawl.GameEngine.Actors
             return weapon;
         }
 
-        protected void WriteWeaponToSave(XmlWriter writer, WeaponBase weapon)
+        private void WriteWeaponToSave(XmlWriter writer, WeaponBase weapon)
         {
             writer.WriteStartElement("EquipedWeapon");
             Item itemToSave = weapon as Item;

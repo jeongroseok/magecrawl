@@ -17,6 +17,7 @@
   <KeyMapping Key="TCODK_F3" Action="DebugFOVOnOff" />
   <KeyMapping Key="TCODK_ENTER" Action="Select" />
 
+  <KeyMapping Key="`" Action="SwapWeapon" />
   <KeyMapping Key="?" Action="Help" />
   <KeyMapping Key="q" Action="Quit" />
   <KeyMapping Key="e" Action="Equipment" />

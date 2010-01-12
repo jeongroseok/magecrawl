@@ -18,13 +18,11 @@ namespace Magecrawl.GameEngine.Actors
 
         public int MaxMP { get; internal set; }
 
-        private WeaponBase m_equipedWeapon;
         private List<Item> m_itemList;
 
         public Player() : base()
         {
             m_itemList = null;
-            m_equipedWeapon = null;
             CurrentMP = 0;
             MaxMP = 0;
         }
@@ -32,42 +30,10 @@ namespace Magecrawl.GameEngine.Actors
         public Player(Point p) : base("Donblas", p, 10, 6)
         {
             m_itemList = new List<Item>();
-            m_equipedWeapon = null;
             CurrentMP = 10;
             MaxMP = 10;
-        }
-
-        internal IWeapon EquipWeapon(IWeapon weapon)
-        {
-            if (weapon == null)
-                throw new System.ArgumentException("EquipWeapon - Null weapon");
-            WeaponBase currentWeapon = weapon as WeaponBase;
-
-            IWeapon oldWeapon = UnequipWeapon();
-            
-            currentWeapon.Owner = this;
-            m_equipedWeapon = currentWeapon;
-            return oldWeapon;
-        }
-
-        public IWeapon UnequipWeapon()
-        {
-            if (m_equipedWeapon == null)
-                return null;
-            WeaponBase oldWeapon = m_equipedWeapon as WeaponBase;
-            oldWeapon.Owner = null;
-            m_equipedWeapon = null;
-            return oldWeapon;
-        }
-
-        public override IWeapon CurrentWeapon               
-        {
-            get
-            {
-                if (m_equipedWeapon == null)
-                    return new MeleeWeapon(this);
-                return m_equipedWeapon;
-            }
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Simple Sling"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));
         }
 
         public IList<ISpell> Spells
@@ -136,8 +102,6 @@ namespace Magecrawl.GameEngine.Actors
             CurrentMP = reader.ReadElementContentAsInt();
             MaxMP = reader.ReadElementContentAsInt();
 
-            m_equipedWeapon = ReadWeaponFromSave(reader);
-
             m_itemList = new List<Item>();
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
@@ -157,8 +121,6 @@ namespace Magecrawl.GameEngine.Actors
 
             writer.WriteElementString("CurrentMagic", CurrentMP.ToString());
             writer.WriteElementString("MaxMagic", MaxMP.ToString());
-
-            WriteWeaponToSave(writer, m_equipedWeapon);
 
             ListSerialization.WriteListToXML(writer, m_itemList, "Items");
             writer.WriteEndElement();

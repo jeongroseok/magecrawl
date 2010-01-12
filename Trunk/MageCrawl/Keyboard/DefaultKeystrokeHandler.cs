@@ -287,6 +287,12 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("Equipment");
         }
 
+        private void SwapWeapon()
+        {
+            m_engine.PlayerSwapPrimarySecondaryWeapons();
+            m_gameInstance.UpdatePainters();
+        }
+
         private void TextBoxPageUp()
         {
             m_gameInstance.TextBox.TextBoxScrollUp();

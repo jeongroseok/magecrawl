@@ -10,16 +10,16 @@ namespace Magecrawl.GameUI.Equipment
     internal sealed class EquipmentPainter : PainterBase
     {
         private const int EquipmentWindowOffset = 5;
-        private const int EquipmentAdditionalHeightOffset = 12;
+        private const int EquipmentAdditionalHeightOffset = 15;
         private const int EquipmentWindowTopY = EquipmentAdditionalHeightOffset + EquipmentWindowOffset;
         private const int EquipmentItemWidth = UIHelper.ScreenWidth - 10;
-        private const int EquipmentItemHeight = 18;
+        private const int EquipmentItemHeight = 21;
 
         private IPlayer m_player;
         private bool m_enabled;
         private int m_cursorPosition;
         private bool m_shouldNotResetCursorPosition;    // If set, the next time we show the equipment window, we don't reset the position.
-        private List<string> m_equipmentListTypes = new List<string>() { "Weapon", "Headpiece", "Armor", "Gloves", "Boots" };
+        private List<string> m_equipmentListTypes = new List<string>() { "Weapon", "Secondary Weapon", "Headpiece", "Armor", "Gloves", "Boots" };
 
         private DialogColorHelper m_dialogColorHelper;
 
@@ -48,10 +48,10 @@ namespace Magecrawl.GameUI.Equipment
                 {
                     m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, true);
                     screen.PrintLine(m_equipmentListTypes[i] + ":", EquipmentWindowOffset + 2, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
-                    if (equipmentList[i] != null)
-                        screen.PrintLine(equipmentList[i].DisplayName, EquipmentWindowOffset + 14, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
+                    if (equipmentList[i] != null && !(equipmentList[i].DisplayName == "Melee" && m_equipmentListTypes[i] == "Secondary Weapon"))
+                        screen.PrintLine(equipmentList[i].DisplayName, EquipmentWindowOffset + 22, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
                     else
-                        screen.PrintLine("None", EquipmentWindowOffset + 14, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
+                        screen.PrintLine("None", EquipmentWindowOffset + 22, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
                 }
                 m_dialogColorHelper.ResetColors(screen);
             }   
@@ -61,6 +61,7 @@ namespace Magecrawl.GameUI.Equipment
         {
             List<INamedItem> equipmentList = new List<INamedItem>();
             equipmentList.Add(m_player.CurrentWeapon);
+            equipmentList.Add(m_player.SecondaryWeapon);
             equipmentList.Add(null);
             equipmentList.Add(null);
             equipmentList.Add(null);

@@ -190,6 +190,18 @@ namespace Magecrawl.GameEngine
             return m_engine.CalculateTileVisibility();
         }
 
+        public bool PlayerSwapPrimarySecondaryWeapons()
+        {            
+            m_engine.BeforePlayerAction();
+            bool didAnything = m_engine.PlayerSwapPrimarySecondaryWeapons();
+            if (didAnything)
+            {
+                m_engine.SendTextOutput("Weapons Swapped");
+                m_engine.AfterPlayerAction();
+            }
+            return didAnything;
+        }
+
         public List<ItemOptions> GetOptionsForInventoryItem(IItem item)
         {
             return m_engine.GetOptionsForInventoryItem(item as Item);
