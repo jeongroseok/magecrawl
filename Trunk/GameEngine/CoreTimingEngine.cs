@@ -18,7 +18,7 @@ namespace Magecrawl.GameEngine
         private const int CTPerIteration = 5;
         private const int CTBaseCostToMove = 100;
         private const int CTBaseCostForAction = 100;
-        private const int CTBaseCostForMinorAction = 100;
+        private const int CTBaseCostForMinorAction = 50;
         private const int CTBaseCostForWeaponAttack = 100;
 
         internal CoreTimingEngine()

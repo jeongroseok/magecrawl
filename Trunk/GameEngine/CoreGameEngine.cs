@@ -348,18 +348,22 @@ namespace Magecrawl.GameEngine
             return item.PlayerOptions;
         }
 
-        internal bool PlayerSwapPrimarySecondaryWeapons()
+        internal bool SwapPrimarySecondaryWeapons(Character character, bool canSwapToNothing)
         {
             // If we're swapping to nothing, stop.
-            if (m_player.SecondaryWeapon.GetType() == typeof(MeleeWeapon))
+            if (character.SecondaryWeapon.GetType() == typeof(MeleeWeapon) && !canSwapToNothing)
                 return false;
 
-            IWeapon swapWeapon = m_player.UnequipWeapon();
-            m_player.EquipWeapon(m_player.UnequipSecondaryWeapon());
-            if(swapWeapon != null)
-                m_player.EquipSecondaryWeapon(swapWeapon);
+            IWeapon mainWeapon = character.UnequipWeapon();
+            IWeapon secondaryWeapon = character.UnequipSecondaryWeapon();
+            
+            if (secondaryWeapon != null)
+                character.EquipWeapon(secondaryWeapon);
+            
+            if (mainWeapon != null)
+                character.EquipSecondaryWeapon(mainWeapon);
 
-            m_timingEngine.ActorDidMinorAction(m_player);
+            m_timingEngine.ActorDidMinorAction(character);
             return true;
         }
 

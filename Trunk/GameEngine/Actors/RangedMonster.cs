@@ -37,7 +37,7 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
                     if (!moveSucessful)
-                        engine.Attack(this, engine.Player.Position);
+                        Attack(engine, false);
 
                     return;
                 }
@@ -45,13 +45,12 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     if (m_isStoneLoaded)
                     {
-                        EquipWeapon((WeaponBase)engine.ItemFactory.CreateItem("Simple Sling"));
+                        if (!CurrentWeapon.IsRanged)
+                            engine.SwapPrimarySecondaryWeapons(this, true);
 
                         if (CurrentWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
                         {
-                            engine.SendTextOutput(string.Format("{0} slings a stone at {1}.", Name, engine.Player.Name));
-                            engine.Attack(this, engine.Player.Position);
-                            m_isStoneLoaded = false;
+                            Attack(engine, true);
                         }
                         else
                         {
@@ -59,8 +58,6 @@ namespace Magecrawl.GameEngine.Actors
                             if (!moveSucessful)
                                 engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));                            
                         }
-
-                        UnequipWeapon();
 
                         return;
                     }
@@ -87,6 +84,23 @@ namespace Magecrawl.GameEngine.Actors
                 return;
             }
             throw new InvalidOperationException("RangedMonster Action should never reach end of statement");
+        }
+
+        private void Attack(CoreGameEngine engine, bool fromRange)
+        {
+            if (fromRange)
+            {
+                if (!CurrentWeapon.IsRanged)
+                    engine.SwapPrimarySecondaryWeapons(this, true);
+                engine.SendTextOutput(string.Format("{0} slings a stone at {1}.", Name, engine.Player.Name));
+                m_isStoneLoaded = false;
+            }
+            else
+            {
+                if (CurrentWeapon.IsRanged)
+                    engine.SwapPrimarySecondaryWeapons(this, true);
+            }
+            engine.Attack(this, engine.Player.Position);
         }
 
         public override void ReadXml(System.Xml.XmlReader reader)

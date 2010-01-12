@@ -193,7 +193,7 @@ namespace Magecrawl.GameEngine
         public bool PlayerSwapPrimarySecondaryWeapons()
         {            
             m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerSwapPrimarySecondaryWeapons();
+            bool didAnything = m_engine.SwapPrimarySecondaryWeapons(m_engine.Player, false);
             if (didAnything)
             {
                 m_engine.SendTextOutput("Weapons Swapped");

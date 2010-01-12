@@ -4,6 +4,7 @@ using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -30,6 +31,12 @@ namespace Magecrawl.GameEngine.Actors
         public object Clone()
         {
             Monster newMonster = (Monster)this.MemberwiseClone();
+
+            if (CurrentWeapon.GetType() != typeof(MeleeWeapon))
+                newMonster.EquipWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(CurrentWeapon.DisplayName));
+
+            if (SecondaryWeapon.GetType() != typeof(MeleeWeapon))
+                newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(SecondaryWeapon.DisplayName));
 
             if (m_affects.Count > 0)
                 throw new NotImplementedException("Have not implemented Clone() on monster when Affects are on it");
