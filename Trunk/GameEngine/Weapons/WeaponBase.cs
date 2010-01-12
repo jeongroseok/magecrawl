@@ -11,7 +11,6 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal abstract class WeaponBase : IWeapon, Item
     {
-        protected ICharacter m_owner;
         protected string m_name;
         protected DiceRoll m_damage;
         protected string m_itemDescription;
@@ -23,17 +22,7 @@ namespace Magecrawl.GameEngine.Weapons
             return this.MemberwiseClone();
         }
 
-        internal ICharacter Owner
-        {
-            get
-            {
-                return m_owner;
-            }
-            set
-            {
-                m_owner = value;
-            }
-        }
+        internal ICharacter Owner {  get; set; }
 
         public virtual double CTCostToAttack
         {

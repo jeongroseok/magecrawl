@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             m_itemDescription = description;
             m_flavorText = flavorText;
-            m_owner = null;
+            Owner = null;
             m_name = name;
             m_damage = damage;
             m_ctCostToAttack = ctCost;
@@ -24,16 +24,16 @@ namespace Magecrawl.GameEngine.Weapons
         {
             List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 0), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 0), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, 1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, 1), .5f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, -1), .5f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(-1, 1), .5f));
-            targetablePoints.Add(new EffectivePoint(m_owner.Position + new Point(1, -1), .5f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(-1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(0, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(0, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(1, 1), .5f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(-1, -1), .5f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(-1, 1), .5f));
+            targetablePoints.Add(new EffectivePoint(Owner.Position + new Point(1, -1), .5f));
 
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, m_owner.Position, m_owner.Vision, true);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, Owner.Position, Owner.Vision, true);
 
             return targetablePoints;
         }
