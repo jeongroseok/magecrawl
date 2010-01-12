@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using libtcodWrapper;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -77,14 +78,22 @@ namespace Magecrawl.GameEngine.Actors
                     double ctMoveCost = Double.Parse(reader.GetAttribute("ctMoveCost"));
                     double ctAttackCost = Double.Parse(reader.GetAttribute("ctAttackCost"));
 
-                    DiceRoll damage = new DiceRoll(reader.GetAttribute("Damage"));
+                    DiceRoll damage = new DiceRoll(reader.GetAttribute("MeleeDamage"));
+
+                    string primaryWeaponString = reader.GetAttribute("MeleeWeapon");
+                    string rangedWeaponString = reader.GetAttribute("RangedWeapon");
 
                     double ctActCost = 1.0;
                     string actCostString = reader.GetAttribute("ctActCost");
                     if (actCostString != null)
                         ctActCost = Double.Parse(actCostString);
 
-                    m_monsterMapping.Add(name, CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, damage, ctIncrease, ctMoveCost, ctActCost, ctAttackCost));
+                    Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, damage, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);
+                    if(primaryWeaponString != null)
+                        newMonster.EquipWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(primaryWeaponString));
+                    if(rangedWeaponString != null)
+                        newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(rangedWeaponString));
+                    m_monsterMapping.Add(name, newMonster);
                 }
             }
             reader.Close();
