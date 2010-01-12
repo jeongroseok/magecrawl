@@ -61,20 +61,14 @@ namespace Magecrawl.GameEngine.Items
                 {
                     string name = reader.GetAttribute("Name");
                     string baseType = reader.GetAttribute("BaseType");
-                    string damage = reader.GetAttribute("Damage");
-                    string[] damageParts = damage.Split(',');
-                    
-                    short rolls = short.Parse(damageParts[0]);
-                    short diceFaces = short.Parse(damageParts[1]);
-                    short toAdd = short.Parse(damageParts[2]);
-                    short multiplier = short.Parse(damageParts[3]);
-                    DiceRoll damageRoll = new DiceRoll(rolls, diceFaces, toAdd, multiplier);
+
+                    DiceRoll damage = new DiceRoll(reader.GetAttribute("Damage"));
 
                     double ctCost = Double.Parse(reader.GetAttribute("CTCost"));
                     
                     string description = reader.GetAttribute("Description");
                     string flavorText = reader.GetAttribute("FlavorText");
-                    m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damageRoll, ctCost, description, flavorText));
+                    m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damage, ctCost, description, flavorText));
                 }
                 if (reader.LocalName == "Potion")
                 {
