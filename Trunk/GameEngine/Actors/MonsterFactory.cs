@@ -77,24 +77,26 @@ namespace Magecrawl.GameEngine.Actors
                     double ctMoveCost = Double.Parse(reader.GetAttribute("ctMoveCost"));
                     double ctAttackCost = Double.Parse(reader.GetAttribute("ctAttackCost"));
 
+                    DiceRoll damage = new DiceRoll(reader.GetAttribute("Damage"));
+
                     double ctActCost = 1.0;
                     string actCostString = reader.GetAttribute("ctActCost");
                     if (actCostString != null)
                         ctActCost = Double.Parse(actCostString);
 
-                    m_monsterMapping.Add(name, CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, ctIncrease, ctMoveCost, ctActCost, ctAttackCost));
+                    m_monsterMapping.Add(name, CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, damage, ctIncrease, ctMoveCost, ctActCost, ctAttackCost));
                 }
             }
             reader.Close();
         }
 
-        private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
         {
             Assembly weaponsAssembly = this.GetType().Assembly;
             Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Actors." + typeName);
             if (type != null)
             {
-                return Activator.CreateInstance(type, name, p, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost) as Monster;
+                return Activator.CreateInstance(type, name, p, maxHP, vision, damage, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost) as Monster;
             }
             else
             {

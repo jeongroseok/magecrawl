@@ -14,8 +14,8 @@ namespace Magecrawl.GameEngine.Actors
         private WeaponBase m_equipedWeapon;
         private bool m_seenPlayerBefore;
 
-        public RangedMonster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
-            : base(name, p, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
+        public RangedMonster(string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+            : base(name, p, maxHP, vision, damage, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
             m_isStoneLoaded = m_random.Chance(75);  // Sometimes it doesn't have a stone in the sling.
             m_equipedWeapon = null;

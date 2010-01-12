@@ -13,11 +13,13 @@ namespace Magecrawl.GameEngine.Actors
         // Share one RNG between monsters
         protected static TCODRandom m_random;
         protected double CTAttackCost { get; set; }
+        private DiceRoll m_damage;
 
-        public Monster(string name, Point p, int maxHP, int vision, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
+            m_damage = damage;
         }
 
         static Monster()
@@ -140,7 +142,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return new DiceRoll(1, 1);
+                return m_damage;
             }
         }
 
@@ -166,6 +168,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             base.ReadXml(reader);
             CTAttackCost = reader.ReadElementContentAsDouble();
+            m_damage.ReadXml(reader);
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
@@ -173,6 +176,7 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("Type", Name);
             base.WriteXml(writer);
             writer.WriteElementString("MeleeSpeed", CTAttackCost.ToString());
+            m_damage.WriteXml(writer);
         }
 
         #endregion
