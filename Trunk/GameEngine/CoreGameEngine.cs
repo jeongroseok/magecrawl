@@ -348,6 +348,21 @@ namespace Magecrawl.GameEngine
             return item.PlayerOptions;
         }
 
+        internal bool PlayerSwapPrimarySecondaryWeapons()
+        {
+            // If we're swapping to nothing, stop.
+            if (m_player.SecondaryWeapon.GetType() == typeof(MeleeWeapon))
+                return false;
+
+            IWeapon swapWeapon = m_player.UnequipWeapon();
+            m_player.EquipWeapon(m_player.UnequipSecondaryWeapon());
+            if(swapWeapon != null)
+                m_player.EquipSecondaryWeapon(swapWeapon);
+
+            m_timingEngine.ActorDidMinorAction(m_player);
+            return true;
+        }
+
         // TODO - This should be somewhere else
         internal bool PlayerSelectedItemOption(IItem item, string option)
         {
@@ -367,9 +382,27 @@ namespace Magecrawl.GameEngine
                     didSomething = true;
                     break;
                 }
+                case "Equip as Secondary":
+                {
+                    // This probally should live in the player code
+                    m_player.RemoveItem(item as Item);
+                    Item oldWeapon = m_player.EquipSecondaryWeapon(item as IWeapon) as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    didSomething = true;
+                    break;
+                }
                 case "Unequip":
                 {
                     Item oldWeapon = m_player.UnequipWeapon() as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    didSomething = true;
+                    break;
+                }
+                case "Unequip as Secondary":
+                {
+                    Item oldWeapon = m_player.UnequipSecondaryWeapon() as Item;
                     if (oldWeapon != null)
                         m_player.TakeItem(oldWeapon);
                     didSomething = true;

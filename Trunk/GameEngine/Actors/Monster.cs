@@ -154,14 +154,6 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public override IWeapon CurrentWeapon
-        {
-            get
-            {
-                return new GameEngine.Weapons.MeleeWeapon(this);
-            }
-        }
-
         #region SaveLoad
 
         public override void ReadXml(System.Xml.XmlReader reader)

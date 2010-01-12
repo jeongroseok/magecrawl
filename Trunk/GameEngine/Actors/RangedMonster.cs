@@ -11,14 +11,12 @@ namespace Magecrawl.GameEngine.Actors
     internal class RangedMonster : Monster
     {
         private bool m_isStoneLoaded;
-        private WeaponBase m_equipedWeapon;
         private bool m_seenPlayerBefore;
 
         public RangedMonster(string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, vision, damage, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
             m_isStoneLoaded = m_random.Chance(75);  // Sometimes it doesn't have a stone in the sling.
-            m_equipedWeapon = null;
             m_seenPlayerBefore = false;
         }
 
@@ -47,10 +45,9 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     if (m_isStoneLoaded)
                     {
-                        m_equipedWeapon = (WeaponBase)engine.ItemFactory.CreateItem("Simple Sling");
-                        m_equipedWeapon.Owner = this;
+                        EquipWeapon((WeaponBase)engine.ItemFactory.CreateItem("Simple Sling"));
 
-                        if (m_equipedWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
+                        if (CurrentWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
                         {
                             engine.SendTextOutput(string.Format("{0} slings a stone at {1}.", Name, engine.Player.Name));
                             engine.Attack(this, engine.Player.Position);
@@ -63,7 +60,7 @@ namespace Magecrawl.GameEngine.Actors
                                 engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));                            
                         }
 
-                        m_equipedWeapon = null;
+                        UnequipWeapon();
 
                         return;
                     }
@@ -92,24 +89,11 @@ namespace Magecrawl.GameEngine.Actors
             throw new InvalidOperationException("RangedMonster Action should never reach end of statement");
         }
 
-        public override IWeapon CurrentWeapon
-        {
-            get
-            {
-                if (m_equipedWeapon != null)
-                    return m_equipedWeapon;
-                else
-                    return base.CurrentWeapon;
-            }
-        }
-
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
             m_isStoneLoaded = Boolean.Parse(reader.ReadElementContentAsString());
-            m_seenPlayerBefore = Boolean.Parse(reader.ReadElementContentAsString());
-            
-            m_equipedWeapon = ReadWeaponFromSave(reader);
+            m_seenPlayerBefore = Boolean.Parse(reader.ReadElementContentAsString());         
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
@@ -117,8 +101,6 @@ namespace Magecrawl.GameEngine.Actors
             base.WriteXml(writer);
             writer.WriteElementString("StoneLoaded", m_isStoneLoaded.ToString());
             writer.WriteElementString("SeenPlayerBefore", m_seenPlayerBefore.ToString());
-
-            WriteWeaponToSave(writer, m_equipedWeapon);
         }
     }
 }

@@ -40,6 +40,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        IWeapon SecondaryWeapon
+        {
+            get;
+        }
+
         DiceRoll MeleeDamage
         {
             get;

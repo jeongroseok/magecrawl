@@ -106,11 +106,18 @@ namespace Magecrawl.GameEngine.Weapons
             get
             {
                 List<ItemOptions> optionList = new List<ItemOptions>();
-                if (m_owner == null)
-                    optionList.Add(new ItemOptions("Equip", true));
-                else
+                
+                if (CoreGameEngine.Instance.Player.CurrentWeapon == this)
                     optionList.Add(new ItemOptions("Unequip", true));
-                optionList.Add(new ItemOptions("Drop", true));
+                else if (CoreGameEngine.Instance.Player.SecondaryWeapon == this)
+                    optionList.Add(new ItemOptions("Unequip as Secondary", true));
+                else
+                {
+                    optionList.Add(new ItemOptions("Equip", true));
+                    optionList.Add(new ItemOptions("Equip as Secondary", true));
+                    optionList.Add(new ItemOptions("Drop", true));
+                }
+                
                 return optionList;
             }
         }

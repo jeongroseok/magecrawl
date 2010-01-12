@@ -66,6 +66,7 @@ namespace Magecrawl.GameEngine.Interfaces
         bool DangerInLOS();
         List<ICharacter> MonstersInPlayerLOS();
 
+        bool PlayerSwapPrimarySecondaryWeapons();
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
         
