@@ -111,8 +111,7 @@ namespace Magecrawl.GameEngine.Actors
 
         protected bool OtherNearbyEnemies(CoreGameEngine engine)
         {
-            var v = engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 4).ToList();
-            return engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 4).Count() > 1;
+            return engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 5).Count() > 1;
         }
 
         protected bool IsPlayerVisible(CoreGameEngine engine)
