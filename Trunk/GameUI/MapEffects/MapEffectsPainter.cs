@@ -21,15 +21,25 @@ namespace Magecrawl.GameUI.MapEffects
         private Point m_mapUpCorner;
         private EffectTypes m_type;
         private Color m_color;
-
-        private EffectDone m_done;
+        private bool m_done;
+        private EffectDone m_doneDelegate;
 
         // For RangedBolt
         private List<Point> m_path;
 
         public MapEffectsPainter() : base() 
         {
-            m_done = null;
+            m_doneDelegate = null;
+        }
+
+        // Used when we're responding to a callback from the game engine that something happened on someone else's turn.
+        public void DrawAnimationSynchronous(PaintingCoordinator coord, RootConsole screen)
+        {
+            while (!m_done)
+            {
+                coord.DrawNewFrame(screen);
+                screen.Flush();
+            }
         }
 
         public override void DrawNewFrame(Console screen)
@@ -61,8 +71,12 @@ namespace Magecrawl.GameUI.MapEffects
 
         private void FinishAnimation()
         {
-            m_done();
-            m_done = null;
+            m_done = true;
+            
+            if(m_doneDelegate != null)
+                m_doneDelegate();
+
+            m_doneDelegate = null;
             m_type = EffectTypes.None;
             return;
         }
@@ -71,9 +85,11 @@ namespace Magecrawl.GameUI.MapEffects
         {
             m_type = EffectTypes.RangedBolt;
             m_animationStartTime = TCODSystem.ElapsedMilliseconds;
-            m_done = effectDoneDelegate;
+            m_doneDelegate = effectDoneDelegate;
             m_path = path;
+            m_path.RemoveAt(m_path.Count - 1);
             m_color = color;
+            m_done = false;
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)

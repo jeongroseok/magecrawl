@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using libtcodWrapper;
 using Magecrawl.Exceptions;
 using Magecrawl.GameEngine;
@@ -54,11 +55,12 @@ namespace Magecrawl
 
             TextOutputFromGame outputDelegate = new TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
+            RangedAttackAgainstPlayer rangedAttack = new RangedAttackAgainstPlayer(HandleRangedAttack);
 
             if (System.IO.File.Exists("Donblas.sav"))
             {
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
-                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, "Donblas.sav");
+                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, rangedAttack, "Donblas.sav");
 
                 SetupKeyboardHandlers();  // Requires game engine.
                 SetHandlerName("Default");
@@ -66,7 +68,7 @@ namespace Magecrawl
             else
             {
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
-                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate);
+                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, rangedAttack);
 
                 SetupKeyboardHandlers();  // Requires game engine.
                 if (!Preferences.Instance.DebuggingMode)
@@ -124,6 +126,14 @@ namespace Magecrawl
             TextBox.Draw(m_console);
             m_painters.DrawNewFrame(m_console);
             m_console.Flush();
+        }
+
+        private void HandleRangedAttack(List<Point> rangedPath)
+        {
+            ResetHandlerName();
+            UpdatePainters();
+            m_painters.HandleRequest(new ShowRangedBolt(null, rangedPath, ColorPresets.White));
+            m_painters.DrawAnimationSynchronous(m_console);
         }
 
         private void HandleException(bool death)
