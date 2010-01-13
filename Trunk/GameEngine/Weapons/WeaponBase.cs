@@ -9,15 +9,16 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal abstract class WeaponBase : IWeapon, Item
+    internal abstract class WeaponBase : Item, IWeapon
     {
-        protected string m_name;
         protected DiceRoll m_damage;
-        protected string m_itemDescription;
-        protected string m_flavorText;
         protected double m_ctCostToAttack;
 
-        public object Clone()
+        protected WeaponBase(string name, string itemDescription, string flavorText) : base(name, itemDescription, flavorText)
+        {
+        }
+
+        public override object Clone()
         {
             return this.MemberwiseClone();
         }
@@ -45,30 +46,6 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        public virtual string DisplayName
-        {
-            get
-            {
-                return m_name;
-            }
-        }
-
-        public string ItemDescription
-        {
-            get
-            {
-                return m_itemDescription;
-            }
-        }
-
-        public string FlavorDescription
-        {
-            get
-            {
-                return m_flavorText;
-            }
-        }
-
         public virtual bool IsRanged
         {
             get
@@ -89,25 +66,7 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
-        #region SaveLoad
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        virtual public void ReadXml(XmlReader reader)
-        {
-        }
-
-        virtual public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElementString("Type", m_name);
-        }
-
-        #endregion
-
-        public virtual List<ItemOptions> PlayerOptions
+        public override List<ItemOptions> PlayerOptions
         {
             get
             {

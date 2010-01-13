@@ -6,55 +6,25 @@ namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Potion : Item
     {
-        private string m_name;
-        private string m_itemDescription;
-        private string m_flavorText;
         private string m_effectType;
         private int m_strength;
 
-        internal Potion(string name, string effectType, int strength, string itemDescription, string flavorText)
+        internal Potion(string name, string effectType, int strength, string itemDescription, string flavorText) : base(name, itemDescription, flavorText)
         {
-            m_name = name;
             m_effectType = effectType;
             m_strength = strength;
-            m_itemDescription = itemDescription;
-            m_flavorText = flavorText;            
         }
 
-        public object Clone()
+        public override object Clone()
         {
             return this.MemberwiseClone();
         }
 
         public string Name
         {
-            get 
-            {
-                return m_name;
-            }
-        }
-
-        public string DisplayName
-        {
             get
             {
-                return Name;
-            }
-        }
-
-        public string ItemDescription
-        {
-            get
-            {
-                return m_itemDescription;
-            }
-        }
-
-        public string FlavorDescription
-        {
-            get
-            {
-                return m_flavorText;
+                return DisplayName;
             }
         }
 
@@ -74,7 +44,7 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
-        public List<Magecrawl.GameEngine.Interfaces.ItemOptions> PlayerOptions
+        public override List<Magecrawl.GameEngine.Interfaces.ItemOptions> PlayerOptions
         {
             get
             {
@@ -84,20 +54,6 @@ namespace Magecrawl.GameEngine.Items
                     new ItemOptions("Drop", true)
                 };
             }
-        }
-
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            writer.WriteElementString("Type", m_name);
         }
     }
 }
