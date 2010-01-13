@@ -37,7 +37,7 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
                     if (!moveSucessful)
-                        Attack(engine, false);
+                        Attack(engine, false, null);
 
                     return;
                 }
@@ -50,7 +50,7 @@ namespace Magecrawl.GameEngine.Actors
 
                         if (CurrentWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
                         {
-                            Attack(engine, true);
+                            Attack(engine, true, pathToPlayer);
                         }
                         else
                         {
@@ -86,13 +86,14 @@ namespace Magecrawl.GameEngine.Actors
             throw new InvalidOperationException("RangedMonster Action should never reach end of statement");
         }
 
-        private void Attack(CoreGameEngine engine, bool fromRange)
+        private void Attack(CoreGameEngine engine, bool fromRange, List<Point> pathToPlayer)
         {
             if (fromRange)
             {
                 if (!CurrentWeapon.IsRanged)
                     engine.SwapPrimarySecondaryWeapons(this, true);
                 engine.SendTextOutput(string.Format("{0} slings a stone at {1}.", Name, engine.Player.Name));
+                CoreGameEngine.Instance.RangedAttackOnPlayer(pathToPlayer);
                 m_isStoneLoaded = false;
             }
             else

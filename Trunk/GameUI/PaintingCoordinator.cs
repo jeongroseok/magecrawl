@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
@@ -54,6 +55,20 @@ namespace Magecrawl.GameUI
             m_painters.Add(new OneButtonDialog());
         }
 
+        public void Dispose()
+        {
+            foreach (PainterBase p in m_painters)
+            {
+                p.Dispose();
+            }
+            m_painters = null;
+        }
+
+        public void DrawAnimationSynchronous(RootConsole console)
+        {
+            m_painters.OfType<MapEffectsPainter>().First().DrawAnimationSynchronous(this, console);
+        }
+
         public void UpdateFromNewData(IGameEngine engine)
         {
             TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
@@ -71,15 +86,6 @@ namespace Magecrawl.GameUI
             {
                 p.DrawNewFrame(console);
             }
-        }
-
-        public void Dispose()
-        {
-            foreach (PainterBase p in m_painters)
-            {
-                p.Dispose();
-            }
-            m_painters = null;
         }
 
         internal bool MapCursorEnabled

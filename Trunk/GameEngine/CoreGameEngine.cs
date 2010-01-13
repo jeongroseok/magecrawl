@@ -34,6 +34,7 @@ namespace Magecrawl.GameEngine
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
+        private event RangedAttackAgainstPlayer m_rangeOnPlayer;
 
         internal FOVManager FOVManager
         {
@@ -54,9 +55,9 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate)
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack)
         {
-            CommonStartup(textOutput, playerDiedDelegate);
+            CommonStartup(textOutput, playerDiedDelegate, rangedAttack);
 
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
@@ -108,9 +109,9 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome To Magecrawl.");
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, string saveGameName)
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack, string saveGameName)
         {
-            CommonStartup(textOutput, playerDiedDelegate);
+            CommonStartup(textOutput, playerDiedDelegate, rangedAttack);
 
             m_saveLoad.LoadGame(saveGameName);
 
@@ -119,11 +120,12 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome Back To Magecrawl");
         }
 
-        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate)
+        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack)
         {
             m_instance = this;
             m_playerDied += playerDiedDelegate;
             m_textOutput += textOutput;
+            m_rangeOnPlayer += rangedAttack;
 
             // Needs to happen before anything that could create a weapon
             ItemFactory = new ItemFactory();
@@ -323,7 +325,12 @@ namespace Magecrawl.GameEngine
         internal void SendTextOutput(string s)
         {
             m_textOutput(s);
-        }            
+        }
+
+        internal void RangedAttackOnPlayer(List<Point> rangedPath)
+        {
+            m_rangeOnPlayer(rangedPath);
+        }
 
         public List<ICharacter> MonstersInPlayerLOS()
         {
