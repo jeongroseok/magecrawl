@@ -6,8 +6,12 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    abstract internal class RangedWeaponBase : WeaponBase, Item
+    abstract internal class RangedWeaponBase : WeaponBase
     {
+        protected RangedWeaponBase(string name, string itemDescription, string flavorText) : base(name, itemDescription, flavorText)
+        {
+        }
+
         public override bool IsRanged
         {
             get

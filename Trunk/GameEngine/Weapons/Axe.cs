@@ -8,14 +8,11 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal class Axe : WeaponBase, Item
+    internal class Axe : WeaponBase
     {
-        public Axe(string name, DiceRoll damage, double ctCost, string description, string flavorText)
+        public Axe(string name, DiceRoll damage, double ctCost, string description, string flavorText) : base(name, description, flavorText)
         {
-            m_itemDescription = description;
-            m_flavorText = flavorText;
             Owner = null;
-            m_name = name;
             m_damage = damage;
             m_ctCostToAttack = ctCost;
         }

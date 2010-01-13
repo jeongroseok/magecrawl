@@ -10,12 +10,9 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal class SimpleSling : RangedWeaponBase
     {
-        public SimpleSling(string name, DiceRoll damage, double ctCost, string description, string flavorText)
+        public SimpleSling(string name, DiceRoll damage, double ctCost, string description, string flavorText) : base(name, description, flavorText)
         {
-            m_itemDescription = description;
-            m_flavorText = flavorText;
             Owner = null;
-            m_name = name;
             m_damage = damage;
             m_ctCostToAttack = ctCost;
         }
