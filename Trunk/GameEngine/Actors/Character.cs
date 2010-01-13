@@ -106,6 +106,9 @@ namespace Magecrawl.GameEngine.Actors
 
             currentWeapon.Owner = this;
             m_equipedWeapon = currentWeapon;
+            if (m_equipedWeapon.IsRanged)
+                m_equipedWeapon.IsLoaded = true;
+
             return oldWeapon;
         }
 
@@ -129,6 +132,9 @@ namespace Magecrawl.GameEngine.Actors
 
             currentWeapon.Owner = this;
             m_secondaryWeapon = currentWeapon;
+            if (m_secondaryWeapon.IsRanged)
+                m_secondaryWeapon.IsLoaded = true;
+
             return oldWeapon;
         }
 

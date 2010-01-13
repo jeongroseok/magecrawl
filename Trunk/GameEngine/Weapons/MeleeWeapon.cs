@@ -59,5 +59,13 @@ namespace Magecrawl.GameEngine.Weapons
 
             return targetablePoints;
         }
+
+        public override string AttackVerb
+        {
+            get
+            {
+                return "strikes";
+            }
+        }
     }
 }

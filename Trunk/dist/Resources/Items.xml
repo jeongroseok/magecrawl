@@ -3,10 +3,10 @@
 <Weapon Name="Bronze Spear" Damage="2,2,0,1" CTCost="1" BaseType="Spear"
         Description="A simple spear, topped with a bronze tip." 
         FlavorText="The spear has been used as a thrusting weapon for ages, providing reach to strike at the enemy first."/>
-<Weapon Name="Simple Short Bow" Damage="1,2,1,1" CTCost="1.2" BaseType="SimpleBow"
+<Weapon Name="Short Bow" Damage="1,2,1,1" CTCost="1.2" BaseType="SimpleBow"
         Description="A simple, albeit primitive short bow. Made of a flexable wooden shaft and a sinew bowstring."
         FlavorText="Bows like this were taking down small game centuries ago. Simple to make, maintain, and carry."/>
-<Weapon Name="Simple Sling" Damage="1,2,0,1" CTCost="1.2" BaseType="SimpleSling"
+<Weapon Name="Sling" Damage="1,2,0,1" CTCost="1.2" BaseType="SimpleSling"
         Description="A simple, albeit primitive sling. Made of braided flax."
         FlavorText="Slings have been mentioned even in the most ancient texts as weapons of sheperds and soldiers."/>
 <Weapon Name="Wooden Sword" Damage="1,5,-1,1" CTCost="1" BaseType="Club"

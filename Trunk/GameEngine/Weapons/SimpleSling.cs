@@ -23,7 +23,7 @@ namespace Magecrawl.GameEngine.Weapons
         public override List<EffectivePoint> CalculateTargetablePoints()
         {
             const int SimpleSlingRange = 5;
-            const int SimpleSlingMinRange = 1;
+            const int SimpleSlingMinRange = 2;
             const int SimpleSlingFalloffStart = SimpleSlingRange;
             const float SimpleSlingFalloffAmount = 0;
 
@@ -32,6 +32,14 @@ namespace Magecrawl.GameEngine.Weapons
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, Owner.Position, Owner.Vision, true);
 
             return targetablePoints;
+        }
+
+        public override string AttackVerb
+        {
+            get
+            {
+                return "slings a stone at";
+            }
         }
     }
 }

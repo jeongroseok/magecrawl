@@ -24,6 +24,11 @@ namespace Magecrawl.GameEngine.Weapons
 
         internal ICharacter Owner {  get; set; }
 
+        public abstract string AttackVerb
+        {
+            get;
+        }
+
         public virtual double CTCostToAttack
         {
             get
@@ -72,6 +77,18 @@ namespace Magecrawl.GameEngine.Weapons
             }
         }
 
+        public virtual bool IsLoaded
+        {
+            get
+            {
+                return true;
+            }
+            internal set
+            {
+                throw new System.InvalidOperationException("Can't set loaded on WeaponBase");
+            }
+        }
+
         #region SaveLoad
 
         public XmlSchema GetSchema()
@@ -79,11 +96,11 @@ namespace Magecrawl.GameEngine.Weapons
             return null;
         }
 
-        public void ReadXml(XmlReader reader)
+        virtual public void ReadXml(XmlReader reader)
         {
         }
 
-        public void WriteXml(XmlWriter writer)
+        virtual public void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString("Type", m_name);
         }

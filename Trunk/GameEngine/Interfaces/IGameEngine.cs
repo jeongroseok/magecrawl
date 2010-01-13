@@ -55,6 +55,7 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerAttack(Point target);
         bool PlayerCouldCastSpell(ISpell spell);
         bool PlayerCastSpell(ISpell spell, Point target);
+        bool ReloadWeapon();
         
         // If you go up on level 0 or down at end, dialog should come up to let them know what's going on
         StairMovmentType IsStairMovementSpecial(bool headingUp);
