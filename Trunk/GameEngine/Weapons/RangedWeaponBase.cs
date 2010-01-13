@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
 
@@ -14,6 +15,8 @@ namespace Magecrawl.GameEngine.Weapons
                 return true;
             }
         }
+
+        public override bool IsLoaded { get; internal set; }
 
         protected List<EffectivePoint> GenerateRangedTargetablePoints(int range, int minDistance, int falloffDistance, float falloffPerSquare)
         {
@@ -32,6 +35,20 @@ namespace Magecrawl.GameEngine.Weapons
                 }
             }
             return targetablePoints;
+        }
+
+        public override void ReadXml(XmlReader reader)
+        {
+            base.ReadXml(reader);
+
+            IsLoaded = Boolean.Parse(reader.ReadElementContentAsString());
+        }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            base.WriteXml(writer);
+
+            writer.WriteElementString("IsLoaded", IsLoaded.ToString());
         }
     }
 }

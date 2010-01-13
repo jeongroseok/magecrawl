@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -313,6 +313,13 @@ namespace Magecrawl.GameEngine
             if (didAnything)
                 m_timingEngine.ActorDidAction(attacker);
             return didAnything;
+        }
+
+        internal bool ReloadWeapon(Character character)
+        {
+            ((WeaponBase)character.CurrentWeapon).IsLoaded = true;
+            m_timingEngine.ActorDidMinorAction(character);
+            return true;
         }
 
         internal bool PlayerMoveUpStairs(Player player, Map map)

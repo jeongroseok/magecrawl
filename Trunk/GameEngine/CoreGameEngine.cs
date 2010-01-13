@@ -267,6 +267,11 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.Wait(c);
         }
 
+        internal bool ReloadWeapon(Character character)
+        {
+            return m_physicsEngine.ReloadWeapon(character);
+        }
+
         internal bool PlayerGetItem()
         {
             return m_physicsEngine.PlayerGetItem();

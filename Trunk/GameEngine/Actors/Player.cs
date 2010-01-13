@@ -32,7 +32,7 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
             CurrentMP = 10;
             MaxMP = 10;
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Simple Sling"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sling"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));
         }
 

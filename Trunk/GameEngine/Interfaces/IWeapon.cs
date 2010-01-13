@@ -17,6 +17,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        bool IsLoaded
+        {
+            get;
+        }
+
         double CTCostToAttack
         {
             get;

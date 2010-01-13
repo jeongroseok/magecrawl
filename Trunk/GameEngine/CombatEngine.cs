@@ -3,6 +3,7 @@ using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
+using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -40,6 +41,9 @@ namespace Magecrawl.GameEngine
             if (!attacker.CurrentWeapon.PositionInTargetablePoints(attackTarget))
                 throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
 
+            if (!attacker.CurrentWeapon.IsLoaded)
+                throw new ArgumentException("CombatEngine attacking something with current weapon unloaded?");
+
             float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackTarget);
             int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
 
@@ -48,6 +52,10 @@ namespace Magecrawl.GameEngine
             {
                 CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
                 DamageTarget(damageDone, attackedCharacter, null);
+
+                if (attacker.CurrentWeapon.IsRanged)
+                    ((WeaponBase)attacker.CurrentWeapon).IsLoaded = false;
+
                 return true;
             }
             return false;
@@ -93,6 +101,8 @@ namespace Magecrawl.GameEngine
             bool defenderIsPlayer = defender is Player;
             bool attackKillsTarget = defender.CurrentHP <= damage;
 
+            string verb = ((WeaponBase)attacker.CurrentWeapon).AttackVerb;
+
             if (damage == -1)
             {
                 if (attackerIsPlayer)
@@ -105,29 +115,29 @@ namespace Magecrawl.GameEngine
             else if (damage == 0)
             {
                 if (attackerIsPlayer)
-                    return string.Format("{0} strikes and does no damage to the {1}.", attacker.Name, defender.Name);
+                    return string.Format("{0} {1} and does no damage to the {2}.", attacker.Name, verb, defender.Name);
                 else if (defenderIsPlayer)
-                    return string.Format("The {0} strikes and does no damage to {1}.", attacker.Name, defender.Name);
+                    return string.Format("The {0} {1} and does no damage to {2}.", attacker.Name, verb, defender.Name);
                 else
-                    return string.Format("The {0} strikes and does no damage to the {1}.", attacker.Name, defender.Name);
+                    return string.Format("The {0} {1} and does no damage to the {2}.", attacker.Name, verb, defender.Name);
             }
             else if (attackKillsTarget)
             {
                 if (attackerIsPlayer)
-                    return string.Format("{0} strikes and kills the {1} with {2} damage.", attacker.Name, defender.Name, damage.ToString());
+                    return string.Format("{0} {1} and kills the {2} with {3} damage.", attacker.Name, verb, defender.Name, damage.ToString());
                 else if (defenderIsPlayer)
-                    return string.Format("The {0} strikes and kills {1} with {2} damage.", attacker.Name, defender.Name, damage.ToString());
+                    return string.Format("The {0} {1} and kills {2} with {3} damage.", attacker.Name, verb, defender.Name, damage.ToString());
                 else
-                    return string.Format("The {0} strikes and kills the {1} with {2} damage.", attacker.Name, defender.Name, damage.ToString());
+                    return string.Format("The {0} {1} and kills the {3} with {3} damage.", attacker.Name, verb, defender.Name, damage.ToString());
             }
             else
             {
                 if (attackerIsPlayer)
-                    return string.Format("{0} strikes the {1} for {2} damage.", attacker.Name, defender.Name, damage.ToString());
+                    return string.Format("{0} {1} the {2} for {3} damage.", attacker.Name, verb, defender.Name, damage.ToString());
                 else if (defenderIsPlayer)
-                    return string.Format("The {0} strikes {1} for {2} damage.", attacker.Name, defender.Name, damage.ToString());
+                    return string.Format("The {0} {1} {2} for {3} damage.", attacker.Name, verb, defender.Name, damage.ToString());
                 else
-                    return string.Format("The {0} strikes the {1} for {2} damage.", attacker.Name, defender.Name, damage.ToString());
+                    return string.Format("The {0} {1} the {2} for {3} damage.", attacker.Name, verb, defender.Name, damage.ToString());
             }
         }
     }

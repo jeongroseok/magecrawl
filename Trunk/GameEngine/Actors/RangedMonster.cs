@@ -10,13 +10,11 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal class RangedMonster : Monster
     {
-        private bool m_isStoneLoaded;
         private bool m_seenPlayerBefore;
 
         public RangedMonster(string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, vision, damage, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
-            m_isStoneLoaded = m_random.Chance(75);  // Sometimes it doesn't have a stone in the sling.
             m_seenPlayerBefore = false;
         }
 
@@ -43,44 +41,33 @@ namespace Magecrawl.GameEngine.Actors
                 }
                 else
                 {
-                    if (m_isStoneLoaded)
+                    if (!CurrentWeapon.IsRanged)
                     {
-                        if (!CurrentWeapon.IsRanged)
-                            engine.SwapPrimarySecondaryWeapons(this, true);
-
-                        if (CurrentWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
-                        {
-                            Attack(engine, true, pathToPlayer);
-                        }
-                        else
-                        {
-                            bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
-                            if (!moveSucessful)
-                                engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));                            
-                        }
-
-                        return;
+                        engine.SwapPrimarySecondaryWeapons(this, true);
+                    }
+                    else if (!CurrentWeapon.IsLoaded)
+                    {
+                        engine.ReloadWeapon(this);
+                    }
+                    else if (CurrentWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
+                    {
+                        Attack(engine, true, pathToPlayer);
                     }
                     else
                     {
-                        // Load stone.
-                        m_isStoneLoaded = true;
-                        engine.Wait(this);
-                        return;
+                        bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
+                        if (!moveSucessful)
+                            engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));
                     }
+                    return;
                 }
             }
             else
             {
-                if (!m_isStoneLoaded && m_seenPlayerBefore)
-                {
-                    // Load stone.
-                    m_isStoneLoaded = true;
-                    engine.Wait(this);
-                    return;
-                }
-
-                WanderRandomly(engine);
+                if (!CurrentWeapon.IsLoaded)
+                    engine.ReloadWeapon(this);
+                else
+                    WanderRandomly(engine);
                 return;
             }
             throw new InvalidOperationException("RangedMonster Action should never reach end of statement");
@@ -92,9 +79,8 @@ namespace Magecrawl.GameEngine.Actors
             {
                 if (!CurrentWeapon.IsRanged)
                     engine.SwapPrimarySecondaryWeapons(this, true);
-                engine.SendTextOutput(string.Format("{0} slings a stone at {1}.", Name, engine.Player.Name));
+
                 CoreGameEngine.Instance.RangedAttackOnPlayer(pathToPlayer);
-                m_isStoneLoaded = false;
             }
             else
             {
@@ -107,14 +93,12 @@ namespace Magecrawl.GameEngine.Actors
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
-            m_isStoneLoaded = Boolean.Parse(reader.ReadElementContentAsString());
             m_seenPlayerBefore = Boolean.Parse(reader.ReadElementContentAsString());         
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             base.WriteXml(writer);
-            writer.WriteElementString("StoneLoaded", m_isStoneLoaded.ToString());
             writer.WriteElementString("SeenPlayerBefore", m_seenPlayerBefore.ToString());
         }
     }

@@ -109,6 +109,15 @@ namespace Magecrawl.GameEngine
             return didAnything;            
         }
 
+        public bool ReloadWeapon()
+        {
+            m_engine.BeforePlayerAction();
+            bool didAnything = m_engine.ReloadWeapon(m_engine.Player);
+            if (didAnything)
+                m_engine.AfterPlayerAction();
+            return didAnything;
+        }
+
         public bool PlayerCouldCastSpell(ISpell spell)
         {
             return m_engine.Player.CurrentMP >= ((Spell)spell).Cost;

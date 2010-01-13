@@ -223,10 +223,18 @@ namespace Magecrawl.Keyboard
 
         private void Attack()
         {
-            List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
-            OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
-            NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-            m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster);
+            if (!m_engine.Player.CurrentWeapon.IsLoaded)
+            {
+                m_engine.ReloadWeapon();
+                m_gameInstance.TextBox.AddText(string.Format("{0} reloads the {0}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
+            }
+            else
+            {
+                List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
+                OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
+                NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
+                m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster);
+            }
         }
 
         private class SingleRangedAnimationHelper
