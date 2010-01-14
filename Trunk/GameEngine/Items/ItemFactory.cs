@@ -70,8 +70,9 @@ namespace Magecrawl.GameEngine.Items
                     string flavorText = reader.GetAttribute("FlavorText");
                     m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damage, ctCost, description, flavorText));
                 }
-                if (reader.LocalName == "Potion")
+                if (reader.LocalName == "Potion" || reader.LocalName == "Scroll")
                 {
+                    bool potion = reader.LocalName == "Potion";
                     string name = reader.GetAttribute("Name");
                     string effectType = reader.GetAttribute("EffectType");
 
@@ -81,7 +82,10 @@ namespace Magecrawl.GameEngine.Items
                     string itemDescription = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
 
-                    m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
+                    if (potion)
+                        m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
+                    else
+                        m_itemMapping.Add(name, new Scroll(name, effectType, strength, itemDescription, flavorText));
                 }
             }
             reader.Close();

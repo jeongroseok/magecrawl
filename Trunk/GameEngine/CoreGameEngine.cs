@@ -425,8 +425,15 @@ namespace Magecrawl.GameEngine
                     break;
                 }
                 case "Drink":
+                {
                     didSomething = m_physicsEngine.PlayerDrinkPotion(item as Potion);
                     break;
+                }
+                case "Read":
+                {
+                    didSomething = m_physicsEngine.PlayerReadScroll(item as Scroll);
+                    break;
+                }
             }
             if (didSomething)
                 m_timingEngine.ActorDidAction(m_player);
