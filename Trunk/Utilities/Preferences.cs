@@ -70,6 +70,7 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["PlayerName"] = "PlayerName";
             m_preferences["SinglePressOperate"] = false;
             m_preferences["FloorColorVisible"] = Color.FromRGB(42, 42, 42);
             m_preferences["FloorColorNotVisible"] = Color.FromRGB(15, 15, 15);
@@ -114,9 +115,18 @@ namespace Magecrawl.Utilities
                     case "WallColorNotVisible":
                         ReadColorData(reader, reader.LocalName);
                         break;
+                    case "PlayerName":
+                        ReadStringData(reader, reader.LocalName);
+                        break;
                 }
             }
             reader.Close();
+        }
+
+        private void ReadStringData(XmlReader reader, string preferenceName)
+        {
+            reader.Read();
+            m_preferences[preferenceName] = reader.Value;
         }
 
         private void ReadColorData(XmlReader reader, string preferenceName)
