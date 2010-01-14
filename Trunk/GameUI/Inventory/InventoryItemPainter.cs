@@ -42,7 +42,7 @@ namespace Magecrawl.GameUI.Inventory
                 screen.PutChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SpecialCharacter.TEES);
                 screen.PutChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + SelectedItemHeight - 1, SpecialCharacter.TEEN);
 
-                screen.PrintLineRect(m_selectedItem.ItemDescription + "\n\n" + m_selectedItem.FlavorDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
+                DrawItemInRightPane(screen);
 
                 m_dialogColorHelper.SaveColors(screen);
                 
@@ -55,6 +55,17 @@ namespace Magecrawl.GameUI.Inventory
 
                 m_dialogColorHelper.ResetColors(screen);
             }   
+        }
+
+        private void DrawItemInRightPane(Console screen)
+        {
+            string itemDescription = m_selectedItem.ItemDescription + "\n\n" + m_selectedItem.FlavorDescription;
+
+            IWand asWand = m_selectedItem as IWand;
+            if (asWand != null)
+                itemDescription += "\n\n" + string.Format("Charges: {0} of {1}", asWand.Charges, asWand.MaxCharges); 
+
+            screen.PrintLineRect(itemDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
         }
 
         internal void Show(IItem selectedItem, List<ItemOptions> optionList)

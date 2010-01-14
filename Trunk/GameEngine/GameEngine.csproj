@@ -72,9 +72,12 @@
     <Compile Include="Interfaces\INamedItem.cs" />
     <Compile Include="Interfaces\ISpell.cs" />
     <Compile Include="Interfaces\ITargetablePoints.cs" />
+    <Compile Include="Interfaces\IWand.cs" />
+    <Compile Include="Items\IItemWithEffects.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Potion.cs" />
     <Compile Include="Items\Scroll.cs" />
+    <Compile Include="Items\Wand.cs" />
     <Compile Include="Level\Generator\MapChunk.cs" />
     <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
     <Compile Include="Level\Generator\MapNode.cs" />

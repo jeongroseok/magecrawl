@@ -1,24 +1,33 @@
 ﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Items
 {
-    internal sealed class Scroll : Item, IItemWithEffects
+    internal sealed class Wand : Item, IWand, IItemWithEffects
     {
         private string m_effectType;
         private int m_strength;
 
-        internal Scroll(string name, string effectType, int strength, string itemDescription, string flavorText)
+        internal Wand(string name, string effectType, int strength, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
             : base(name, itemDescription, flavorText)
         {
             m_effectType = effectType;
             m_strength = strength;
+            NewWandPossibleCharges = newWandPossibleCharges;
+            Charges = 0;
+            MaxCharges = maxCharges;
         }
 
         public override object Clone()
         {
             return this.MemberwiseClone();
         }
+
+        public int Charges { get; internal set; }
+        public int MaxCharges { get; internal set; }
+
+        internal DiceRoll NewWandPossibleCharges { get; set; }
 
         public string Name
         {
@@ -48,7 +57,7 @@ namespace Magecrawl.GameEngine.Items
         {
             get
             {
-                return "{0} reads the {1} and it turns into dust.";
+                return "{0} zaps the {1}.";
             }
         }
 
@@ -58,10 +67,24 @@ namespace Magecrawl.GameEngine.Items
             {
                 return new List<ItemOptions>() 
                 {
-                    new ItemOptions("Read", true),
+                    new ItemOptions("Zap", true),
                     new ItemOptions("Drop", true)
                 };
             }
+        }
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            base.ReadXml(reader);
+            Charges = reader.ReadElementContentAsInt();
+            MaxCharges = reader.ReadElementContentAsInt();
+        }
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            writer.WriteElementString("CurrentCharges", Charges.ToString());
+            writer.WriteElementString("MaxCharges", MaxCharges.ToString());
         }
     }
 }

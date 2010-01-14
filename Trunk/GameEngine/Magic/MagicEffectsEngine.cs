@@ -34,17 +34,10 @@ namespace Magecrawl.GameEngine.Magic
             return false;
         }
 
-        internal void DrinkPotion(Character drinker, Potion potion)
+        internal void UseItemWithEffect(Character drinker, IItemWithEffects item)
         {
-            string effectString = string.Format("{0} drinks the {1}.", drinker.Name, potion.Name);
-            DoEffect(drinker, potion.EffectType, potion.Strength, drinker.Position, effectString);
-            return;
-        }
-
-        internal void ReadScroll(Character reader, Scroll scroll)
-        {
-            string effectString = string.Format("{0} reads the {1} and it disintegrats.", reader.Name, scroll.Name);
-            DoEffect(reader, scroll.EffectType, scroll.Strength, reader.Position, effectString);
+            string effectString = string.Format(item.OnUseString, drinker.Name, item.Name);
+            DoEffect(drinker, item.EffectType, item.Strength, drinker.Position, effectString);
             return;
         }
 
@@ -73,11 +66,13 @@ namespace Magecrawl.GameEngine.Magic
                     }
                     return true;
                 }
-                case "Ranged Single Target":
+                case "RangedSingleTarget":
                 {
                     OnRangedAffect rangedAttackDelegate = (c, s) =>
                     {
-                        int damage = (new DiceRoll(1, 3, 0, s)).Roll();
+                        int damage = 0;
+                        for(int i = 0 ; i < s ; ++i)
+                            damage += (new DiceRoll(1, 4, 0, 1)).Roll();
                         m_combatEngine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                     };
                     return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, rangedAttackDelegate);

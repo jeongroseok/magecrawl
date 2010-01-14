@@ -4,7 +4,7 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Items
 {
-    internal sealed class Potion : Item
+    internal sealed class Potion : Item, IItemWithEffects
     {
         private string m_effectType;
         private int m_strength;
@@ -41,6 +41,14 @@ namespace Magecrawl.GameEngine.Items
             get
             {
                 return m_strength;
+            }
+        }
+
+        public string OnUseString
+        {
+            get
+            {
+                return "{0} drinks the {1}.";
             }
         }
 

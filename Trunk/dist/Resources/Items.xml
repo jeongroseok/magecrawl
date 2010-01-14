@@ -24,7 +24,9 @@
         FlavorText="This extract from a rare jungle plant will increase your movements and reflexes for a short time. Some have become addicted to the rush, and its sale is restricted in many areas."/>
 <Potion Name="Minor Mana Potion" EffectType="HealMPCaster" Strength="1" ItemDescription="Drinking will increase your mana somewhat."
         FlavorText="Hundreds of lightning bugs are harvested during the nights of spring and are condensed into this blue syrup."/>
-<Scroll Name="Scroll of Haste" EffectType="Haste" Strength="2" ItemDescription="Reading this scroll will warp time for a short period of time, speeding your actions."
+<Scroll Name="Scroll of Haste" EffectType="Haste" Strength="2" ItemDescription="Reading this scroll will warp time around you for a short period of time, speeding your actions."
         FlavorText="The text of this scroll is blury and hard to keep in focus."/>
-
+<Wand   Name="Wand of Haste" EffectType="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
+        ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
+        FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
 </Items>
