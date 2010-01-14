@@ -36,8 +36,15 @@ namespace Magecrawl.GameEngine.Magic
 
         internal void DrinkPotion(Character drinker, Potion potion)
         {
-            string effectString = string.Format("{0} drank the {1}.", drinker.Name, potion.Name);
+            string effectString = string.Format("{0} drinks the {1}.", drinker.Name, potion.Name);
             DoEffect(drinker, potion.EffectType, potion.Strength, drinker.Position, effectString);
+            return;
+        }
+
+        internal void ReadScroll(Character reader, Scroll scroll)
+        {
+            string effectString = string.Format("{0} reads the {1} and it disintegrats.", reader.Name, scroll.Name);
+            DoEffect(reader, scroll.EffectType, scroll.Strength, reader.Position, effectString);
             return;
         }
 

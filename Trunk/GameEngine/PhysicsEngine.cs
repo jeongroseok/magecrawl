@@ -273,6 +273,18 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
+
+        public bool PlayerReadScroll(Scroll scroll)
+        {
+            if (m_player.Items.Contains(scroll))
+            {
+                m_player.RemoveItem(scroll);
+                m_magicEffects.ReadScroll(m_player, scroll);
+                return true;
+            }
+            return false;
+        }
+
         public bool Operate(Character characterOperating, Point pointToOperateAt)
         {
             OperableMapObject operateObj = m_map.MapObjects.OfType<OperableMapObject>().SingleOrDefault(x => x.Position == pointToOperateAt);

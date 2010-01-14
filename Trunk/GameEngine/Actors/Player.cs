@@ -34,6 +34,7 @@ namespace Magecrawl.GameEngine.Actors
             MaxMP = 10;
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sling"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Scroll of Haste"));
         }
 
         public IList<ISpell> Spells
