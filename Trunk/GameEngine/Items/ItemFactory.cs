@@ -27,7 +27,12 @@ namespace Magecrawl.GameEngine.Items
 
         public Item CreateItem(string name)
         {
-            return (Item)m_itemMapping[name].Clone();
+            Item newItem = (Item)m_itemMapping[name].Clone();
+
+            Wand newItemAsWand = newItem as Wand;
+            if (newItemAsWand != null)
+                newItemAsWand.Charges = newItemAsWand.NewWandPossibleCharges.Roll();
+            return newItem;
         }
 
         public Item CreateRandomItem()
@@ -76,8 +81,7 @@ namespace Magecrawl.GameEngine.Items
                     string name = reader.GetAttribute("Name");
                     string effectType = reader.GetAttribute("EffectType");
 
-                    string strengthString = reader.GetAttribute("Strength");
-                    int strength = int.Parse(strengthString);
+                    int strength = int.Parse(reader.GetAttribute("Strength"));
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
@@ -86,6 +90,21 @@ namespace Magecrawl.GameEngine.Items
                         m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
                     else
                         m_itemMapping.Add(name, new Scroll(name, effectType, strength, itemDescription, flavorText));
+                }
+                if (reader.LocalName == "Wand")
+                {
+                    string name = reader.GetAttribute("Name");
+                    string effectType = reader.GetAttribute("EffectType");
+
+                    int strength = int.Parse(reader.GetAttribute("Strength"));
+
+                    string itemDescription = reader.GetAttribute("ItemDescription");
+                    string flavorText = reader.GetAttribute("FlavorText");
+
+                    DiceRoll startingCharges = new DiceRoll(reader.GetAttribute("StartCharges"));
+                    int maxNumberCharges = int.Parse(reader.GetAttribute("MaxCharges"));
+
+                    m_itemMapping.Add(name, new Wand(name, effectType, strength, itemDescription, flavorText, maxNumberCharges, startingCharges));
                 }
             }
             reader.Close();
