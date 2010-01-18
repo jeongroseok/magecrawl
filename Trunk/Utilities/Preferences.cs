@@ -70,6 +70,7 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["Fullscreen"] = false;
             m_preferences["PlayerName"] = "PlayerName";
             m_preferences["SinglePressOperate"] = false;
             m_preferences["FloorColorVisible"] = Color.FromRGB(42, 42, 42);
@@ -107,6 +108,7 @@ namespace Magecrawl.Utilities
                 {
                     case "DebuggingMode":
                     case "SinglePressOperate":
+                    case "Fullscreen":
                         ReadBooleanData(reader, reader.LocalName);
                         break;
                     case "FloorColorVisible":

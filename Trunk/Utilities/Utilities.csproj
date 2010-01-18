@@ -47,6 +47,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="BresenhamLine.cs" />
     <Compile Include="ColorGenerator.cs" />
     <Compile Include="DiceRoll.cs" />
     <Compile Include="Direction.cs" />

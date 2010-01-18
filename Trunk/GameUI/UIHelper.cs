@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using libtcodWrapper;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
@@ -36,7 +37,7 @@ namespace Magecrawl.GameUI
             RootConsole.Height = ScreenHeight;
             RootConsole.Font = fontReq;
             RootConsole.WindowTitle = "MageCrawl";
-            RootConsole.Fullscreen = false;
+            RootConsole.Fullscreen = (bool)Preferences.Instance["Fullscreen"];
             TCODSystem.FPS = 30;
             RootConsole rootConsole = libtcodWrapper.RootConsole.GetInstance();
             rootConsole.ForegroundColor = ForegroundColor;

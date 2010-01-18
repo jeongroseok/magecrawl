@@ -13,7 +13,7 @@ namespace Magecrawl.GameUI.MapEffects
 
         private enum EffectTypes 
         {
-            None, RangedBolt 
+            None, RangedBolt
         }
         
         private uint m_animationStartTime;
@@ -26,6 +26,7 @@ namespace Magecrawl.GameUI.MapEffects
 
         // For RangedBolt
         private List<Point> m_path;
+        private int m_tailLength;
 
         public MapEffectsPainter() : base() 
         {
@@ -49,22 +50,32 @@ namespace Magecrawl.GameUI.MapEffects
             {
                 case EffectTypes.RangedBolt:
                 {
-                    if (m_path.Count <= frameNumber)
-                    {
-                        FinishAnimation();
-                    }
-                    else
-                    {
-                        Point boltPoint = m_path[(int)frameNumber];
-                        Point screenPosition = new Point(m_mapUpCorner.X + boltPoint.X + 1, m_mapUpCorner.Y + boltPoint.Y + 1);
-                        screen.PutChar(screenPosition.X, screenPosition.Y, '*', Background.None);
-                        screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
-                    }
+                    DrawRangedBoltFrame(screen, frameNumber, m_tailLength);
                     return;
                 }
                 case EffectTypes.None:
                 {
                     return;
+                }
+            }
+        }
+
+        private void DrawRangedBoltFrame(Console screen, uint frameNumber, int sizeOfTail)
+        {
+            if ((m_path.Count + sizeOfTail) <= frameNumber)
+            {
+                FinishAnimation();
+            }
+            else
+            {
+                int startingFrame = (int)System.Math.Max(frameNumber - sizeOfTail, 0);
+                int endingFrame = (int)System.Math.Min(m_path.Count-1, frameNumber);
+                for (int i = startingFrame; i <= endingFrame; ++i)
+                {
+                    Point boltPoint = m_path[i];
+                    Point screenPosition = new Point(m_mapUpCorner.X + boltPoint.X + 1, m_mapUpCorner.Y + boltPoint.Y + 1);
+                    screen.PutChar(screenPosition.X, screenPosition.Y, '*', Background.None);
+                    screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
                 }
             }
         }
@@ -81,14 +92,18 @@ namespace Magecrawl.GameUI.MapEffects
             return;
         }
 
-        public void DrawRangedBolt(EffectDone effectDoneDelegate, List<Point> path, Color color)
+        public void DrawRangedBolt(EffectDone effectDoneDelegate, List<Point> path, Color color, int tailLength, bool drawLastTargetSquare)
         {
             m_type = EffectTypes.RangedBolt;
             m_animationStartTime = TCODSystem.ElapsedMilliseconds;
             m_doneDelegate = effectDoneDelegate;
             m_path = path;
-            m_path.RemoveAt(m_path.Count - 1);
+
+            if(!drawLastTargetSquare)
+                m_path.RemoveAt(m_path.Count - 1);
+
             m_color = color;
+            m_tailLength = tailLength;
             m_done = false;
         }
 

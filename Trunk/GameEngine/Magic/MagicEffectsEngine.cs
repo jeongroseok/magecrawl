@@ -41,9 +41,44 @@ namespace Magecrawl.GameEngine.Magic
             return;
         }
 
+        public List<Point> SpellCastDrawablePoints(Spell spell, Point target)
+        {
+            List<Point> returnList = null;
+            switch (spell.EffectType)
+            {
+                case "RangedSingleTarget":
+                    returnList = m_physicsEngine.GenerateRangedAttackListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target);
+                    break;
+                case "RangedBlast":
+                    returnList = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target, true);
+                    break;
+                default:
+                    return null;
+            }
+            if (returnList != null)
+            {
+                TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
+                return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
+            }
+            return returnList;
+        }
+
+        public bool IsValidTargetForSpell(Spell spell, Point target)
+        {
+            switch (spell.EffectType)
+            {
+                case "RangedSingleTarget":
+                    return CoreGameEngine.Instance.Map.Monsters.Where(x => x.Position == target).Count() > 0;
+                case "RangedBlast":
+                    return CoreGameEngine.Instance.Player.Position != target;
+                default:
+                    return true;
+            }
+        }
+
         private bool DoEffect(Character caster, string effect, int strength, Point target, string printOnEffect)
         {
-            List<ICharacter> actorList = new List<ICharacter>(CoreGameEngine.Instance.Map.Monsters);
+            List<Character> actorList = CoreGameEngine.Instance.Map.Monsters.OfType<Character>().ToList();
             actorList.Add(CoreGameEngine.Instance.Player);
             switch (effect)
             {
@@ -76,6 +111,25 @@ namespace Magecrawl.GameEngine.Magic
                         m_combatEngine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                     };
                     return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, rangedAttackDelegate);
+                }
+                case "RangedBlast":
+                {
+                    List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, caster.Position, target, true);
+                    int range = Math.Max(2 * strength, 8);
+                    if (pathOfBlast.Count > range)
+                        pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);
+                    foreach (Point p in pathOfBlast)
+                    {
+                        Character hitCharacter = actorList.Where(a => a.Position == p).FirstOrDefault();
+                        if (hitCharacter != null)
+                        {
+                            int damage = 0;
+                            for (int i = 0; i < strength; ++i)
+                                damage += (new DiceRoll(1, 4, 0, 1)).Roll();
+                            m_combatEngine.DamageTarget(damage, hitCharacter, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        }
+                    }
+                    return true;
                 }
                 case "Haste":
                 case "False Life":
@@ -115,7 +169,7 @@ namespace Magecrawl.GameEngine.Magic
 
         private delegate void OnRangedAffect(Character c, int strength);
 
-        private bool HandleRangedAffect(Character caster, int strength, Point target, string printOnEffect, List<ICharacter> actorList, OnRangedAffect onHitAction)
+        private bool HandleRangedAffect(Character caster, int strength, Point target, string printOnEffect, List<Character> actorList, OnRangedAffect onHitAction)
         {
             foreach (Character c in actorList)
             {
@@ -152,8 +206,9 @@ namespace Magecrawl.GameEngine.Magic
 
         private static void DamageDoneDelegate(int damage, Character target, bool targetKilled)
         {
-            string centerString = targetKilled ? "was struck and killed with" : "took";
-            CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} {1} {2} damage.", target.Name, centerString, damage));
+            string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
+            
+            CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} {1}.", target.Name, string.Format(centerString, damage)));
         }
     }
 }
