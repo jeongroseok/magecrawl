@@ -57,10 +57,11 @@ namespace Magecrawl
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
             RangedAttackAgainstPlayer rangedAttack = new RangedAttackAgainstPlayer(HandleRangedAttack);
 
-            if (System.IO.File.Exists("Donblas.sav"))
+            string saveFilePath = Preferences.Instance["PlayerName"] + ".sav";
+            if (System.IO.File.Exists(saveFilePath))
             {
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
-                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, rangedAttack, "Donblas.sav");
+                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, rangedAttack, saveFilePath);
 
                 SetupKeyboardHandlers();  // Requires game engine.
                 SetHandlerName("Default");
@@ -132,7 +133,7 @@ namespace Magecrawl
         {
             ResetHandlerName();
             UpdatePainters();
-            m_painters.HandleRequest(new ShowRangedBolt(null, rangedPath, ColorPresets.White));
+            m_painters.HandleRequest(new ShowRangedBolt(null, rangedPath, ColorPresets.White, false));
             m_painters.DrawAnimationSynchronous(m_console);
         }
 

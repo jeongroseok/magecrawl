@@ -111,6 +111,7 @@
     <Compile Include="PhysicsEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicGameEngine.cs" />
+    <Compile Include="RangedAttackPathfinder.cs" />
     <Compile Include="SaveLoad\ListSerialization.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />

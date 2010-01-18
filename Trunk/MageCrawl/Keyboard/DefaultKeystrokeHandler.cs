@@ -268,7 +268,7 @@ namespace Magecrawl.Keyboard
                     SingleRangedAnimationHelper rangedHelper = new SingleRangedAnimationHelper(selection, m_engine, m_gameInstance);
                     EffectDone onEffectDone = new EffectDone(rangedHelper.Invoke);
                     Color color = TCODColorPresets.White;
-                    m_gameInstance.SetHandlerName("Effects", new ShowRangedBolt(onEffectDone, pathToTarget, color));
+                    m_gameInstance.SetHandlerName("Effects", new ShowRangedBolt(onEffectDone, pathToTarget, color, false));
                     return true;
                 }
                 else

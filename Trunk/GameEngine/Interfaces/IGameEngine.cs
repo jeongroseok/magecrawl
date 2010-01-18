@@ -71,6 +71,10 @@ namespace Magecrawl.GameEngine.Interfaces
         bool PlayerSwapPrimarySecondaryWeapons();
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
+
+        bool IsValidTargetForSpell(ISpell spell, Point target);
+        List<Point> SpellCastDrawablePoints(ISpell spell, Point target);
+        bool IsRangedPathBetweenPoints(Point x, Point y);
         
         // TODO: What to do here when you zap a want and need a target?
         bool PlayerSelectedItemOption(IItem item, string option);

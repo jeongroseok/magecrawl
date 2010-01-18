@@ -212,6 +212,31 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
+        internal List<Point> SpellCastDrawablePoints(Spell spell, Point target)
+        {
+            return m_magicEffects.SpellCastDrawablePoints(spell, target);
+        }
+
+        public bool IsRangedPathBetweenPoints(Point x, Point y)
+        {
+            return GenerateRangedAttackListOfPoints(m_map, x, y) != null;
+        }
+
+        internal bool IsValidTargetForSpell(Spell spell, Point target)
+        {
+            return m_magicEffects.IsValidTargetForSpell(spell, target);
+        }
+
+        internal List<Point> GenerateRangedAttackListOfPoints(Map map, Point caster, Point target)
+        {
+            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, false);
+        }
+
+        internal List<Point> GenerateBlastListOfPoints(Map map, Point caster, Point target, bool doReflect)
+        {
+            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, true);
+        }
+
         private void UpdatePlayerVisitedStatus()
         {
             m_fovManager.CalculateForMultipleCalls(m_map, m_player.Position, m_player.Vision);

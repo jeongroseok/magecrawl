@@ -249,6 +249,16 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CastSpell(caster, spell, target);
         }
 
+        internal List<Point> SpellCastDrawablePoints(Spell spell, Point target)
+        {
+            return m_physicsEngine.SpellCastDrawablePoints(spell, target);
+        }
+
+        internal bool IsValidTargetForSpell(Spell spell, Point target)
+        {
+            return m_physicsEngine.IsValidTargetForSpell(spell, target);
+        }
+
         internal bool UseSkill(Character attacker, SkillType skill, Point target)
         {
             return m_physicsEngine.UseSkill(attacker, skill, target);
@@ -303,6 +313,11 @@ namespace Magecrawl.GameEngine
         internal List<Point> PathToPoint(Character actor, Point dest, bool canOperate, bool usePlayerLOS, bool monstersBlockPath)
         {
             return m_pathFinding.Travel(actor, dest, canOperate, m_physicsEngine, usePlayerLOS, monstersBlockPath);
+        }
+
+        public bool IsRangedPathBetweenPoints(Point x, Point y)
+        {
+            return m_physicsEngine.IsRangedPathBetweenPoints(x, y);
         }
 
         // This is used by the Movability Debug View. If you think you need it, you don't. Talk to Chris. 
