@@ -10,13 +10,13 @@ namespace Magecrawl.GameUI.Dialogs
     {
         private bool m_enabled;
         private Dictionary<string, string> m_keyMappings;
-        private float m_startTime;
-        private static int m_numberOfCalls;
+        private DialogColorHelper m_dialogColorHelper;
+        private bool m_creditsDone;
 
         internal HelpPainter()
         {
             m_enabled = false;
-            m_numberOfCalls = 0;
+            m_dialogColorHelper = new DialogColorHelper();
         }
 
         public override void DrawNewFrame(Console screen)
@@ -26,18 +26,19 @@ namespace Magecrawl.GameUI.Dialogs
 
             if (m_enabled)
             {
-                screen.DrawFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, true, "Help");
+                screen.Clear();
 
-                // Work around broken ConsoleCreditsRender which returns true when it shouldn't
-                bool dialogDone = TCODSystem.ElapsedMilliseconds > m_startTime + 13000;
-                if (!dialogDone && m_numberOfCalls < 2)
-                    screen.ConsoleCreditsRender(RightThird + 10, 54, true);
+                if (!m_creditsDone)
+                {
+                    m_dialogColorHelper.SaveColors(screen);
+                    m_creditsDone = screen.ConsoleCreditsRender(RightThird + 10, 54, true);
+                    m_dialogColorHelper.ResetColors(screen);
+                }
+
+                screen.DrawFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, false, "Help");
 
                 string thanksText = "Copyright Chris Hamons 2009.\nThank you Ben Ledom for\nearly development help.\n\nSoli Deo Gloria";
                 screen.PrintLineRect(thanksText, RightThird - 19, 52, 45, 7, LineAlignment.Left);
-
-                //// string helpText = "Magecrawl is a roguelike game with an arcane theme. ";
-                //// screen.PrintLineRect(helpText, 2, 2, UIHelper.ScreenWidth - 4, 18, LineAlignment.Left);
 
                 const int SymbolStartY = 3;
                 const int SymbolVerticalOffset = -8;
@@ -115,8 +116,7 @@ namespace Magecrawl.GameUI.Dialogs
         {
             m_enabled = true;
             m_keyMappings = keyMappings;
-            m_startTime = TCODSystem.ElapsedMilliseconds;
-            m_numberOfCalls++;
+            m_creditsDone = false;
         }
 
         internal void Disable()
