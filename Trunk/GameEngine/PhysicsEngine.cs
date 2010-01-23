@@ -229,12 +229,12 @@ namespace Magecrawl.GameEngine
 
         internal List<Point> GenerateRangedAttackListOfPoints(Map map, Point caster, Point target)
         {
-            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, false);
+            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, false, false);
         }
 
-        internal List<Point> GenerateBlastListOfPoints(Map map, Point caster, Point target, bool doReflect)
+        internal List<Point> GenerateBlastListOfPoints(Map map, Point caster, Point target, bool bounceOffWalls)
         {
-            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, true);
+            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, true, bounceOffWalls);
         }
 
         private void UpdatePlayerVisitedStatus()

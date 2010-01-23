@@ -75,6 +75,11 @@ namespace Magecrawl.GameEngine
 
         public void DamageTarget(int damage, Character target, DamageDoneDelegate del)
         {
+            // Sometimes bouncy spells and other things can hit a creature two or more times.
+            // If the creature is dead and the map agrees, return early, since the poor sob is already dead and gone.
+            if (target.CurrentHP <= 0 && !m_map.Monsters.Contains(target))
+                return;
+
             target.CurrentHP -= damage;
             bool targetKilled = target.CurrentHP <= 0;
             if (targetKilled)
