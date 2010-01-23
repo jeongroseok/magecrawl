@@ -50,15 +50,18 @@ namespace Magecrawl.GameEngine.Magic
                     returnList = m_physicsEngine.GenerateRangedAttackListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target);
                     break;
                 case "RangedBlast":
+                {
                     returnList = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target, true);
+                    TrimPathDueToSpellLength(spell.Strength, returnList);
                     break;
+                }
                 default:
                     return null;
             }
             if (returnList != null)
             {
-                TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
-                return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
+                //TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
+                //return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
             }
             return returnList;
         }
@@ -115,9 +118,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "RangedBlast":
                 {
                     List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, caster.Position, target, true);
-                    int range = Math.Max(2 * strength, 8);
-                    if (pathOfBlast.Count > range)
-                        pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);
+                    TrimPathDueToSpellLength(strength, pathOfBlast);
                     foreach (Point p in pathOfBlast)
                     {
                         Character hitCharacter = actorList.Where(a => a.Position == p).FirstOrDefault();
@@ -167,6 +168,13 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
+        private static void TrimPathDueToSpellLength(int strength, List<Point> pathOfBlast)
+        {
+            int range = Math.Max(2 * strength, 8);
+            if (pathOfBlast.Count > range)
+                pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);
+        }
+
         private delegate void OnRangedAffect(Character c, int strength);
 
         private bool HandleRangedAffect(Character caster, int strength, Point target, string printOnEffect, List<Character> actorList, OnRangedAffect onHitAction)
@@ -207,8 +215,9 @@ namespace Magecrawl.GameEngine.Magic
         private static void DamageDoneDelegate(int damage, Character target, bool targetKilled)
         {
             string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
-            
-            CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} {1}.", target.Name, string.Format(centerString, damage)));
+
+            string prefix = target.GetType() == typeof(IPlayer) ? "" : "The";
+            CoreGameEngine.Instance.SendTextOutput(string.Format("{0} {1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
         }
     }
 }

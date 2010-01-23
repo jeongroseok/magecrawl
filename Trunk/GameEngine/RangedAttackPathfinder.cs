@@ -5,17 +5,21 @@ using System.Text;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.GameEngine
 {
     internal static class RangedAttackPathfinder
     {
-        internal static List<Point> RangedListOfPoints(Map map, Point caster, Point target, bool continuePastTarget)
+        internal static List<Point> RangedListOfPoints(Map map, Point caster, Point target, bool continuePastTarget, bool bounceOffWalls)
         {
+            if (caster == target)
+                return null;
+
             List<Point> returnList = GenerateListOfPointsSinglePass(map, caster, target);
 
             // The calcualted list might have caster as element 0
-            if (returnList[0] == caster)
+            if (returnList.Count > 0 && returnList[0] == caster)
                 returnList.RemoveAt(0);
 
             if (!returnList.Contains(target))
@@ -23,17 +27,45 @@ namespace Magecrawl.GameEngine
 
             if (continuePastTarget)
             {
-                Point delta = target - caster;
-                Point startingPoint = target;
-                Point endingPoint = target + delta;
-                while (true)
                 {
-                    List<Point> listExtension = GenerateListOfPointsSinglePass(map, startingPoint, endingPoint);
-                    if (listExtension.Count == 0)
-                        break;
-                    returnList.AddRange(listExtension);
-                    startingPoint = endingPoint;
-                    endingPoint = endingPoint + delta;
+                    Point delta = target - caster;
+                    Point startingPoint = target;
+                    Point endingPoint = target + delta;
+                    while (true)
+                    {
+                        List<Point> listExtension = GenerateListOfPointsSinglePass(map, startingPoint, endingPoint);
+                        if (listExtension.Count == 0)
+                            break;
+                        returnList.AddRange(listExtension);
+                        startingPoint = endingPoint;
+                        endingPoint = endingPoint + delta;
+                    }
+                }
+
+                // At this point, we know that the target was passed (we didn't return null)
+                // and that we won't still till we hit a wall. To reflect, we can just bounce the last few cells
+                if (bounceOffWalls)
+                {
+                    const int bounceLength = 3;
+
+                    Point lastPointInList = returnList.EndElement();
+
+                    // "Bounce" towards caster, but we have to be a square past past us
+                    Direction directionOfBounce = PointDirectionUtils.ConvertTwoPointsToDirection(lastPointInList, caster);
+                    Point spotToAimBounce = caster;
+                    for (int i = 0; i < bounceLength; i++)
+                    {
+                        Point newSpot = PointDirectionUtils.ConvertDirectionToDestinationPoint(spotToAimBounce, directionOfBounce);
+                        if (ValidPoint(map, newSpot))
+                            spotToAimBounce = newSpot;
+                        else
+                            break;
+                    }
+
+                    List<Point> bounceList = GenerateListOfPointsSinglePass(map, lastPointInList, spotToAimBounce);
+                    bounceList.Insert(0, lastPointInList);    //The starting point gets hit twice
+                    for (int i = 0; i < bounceLength && bounceList.Count > i; ++i)
+                        returnList.Add(bounceList[i]);
                 }
             }
 
@@ -44,16 +76,13 @@ namespace Magecrawl.GameEngine
         {
             List<Point> returnList = new List<Point>();
 
-            foreach (Point p in BresenhamLine.RenderLine(caster, target))
+            foreach (Point p in BresenhamLine.GenerateLineList(caster, target))
             {
                 if (!ValidPoint(map, p))
                     break;
                 returnList.Add(p);
             }
 
-            // the Bresenham algorithsm doesn't add the end point.
-            if (!returnList.Contains(target) && ValidPoint(map, target))
-                returnList.Add(target);
             return returnList;
         }
 
