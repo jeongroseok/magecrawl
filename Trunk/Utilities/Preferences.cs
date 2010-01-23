@@ -70,6 +70,8 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["UseSavegameCompression"] = false;
+            m_preferences["PermaDeath"] = false;
             m_preferences["Fullscreen"] = false;
             m_preferences["PlayerName"] = "PlayerName";
             m_preferences["SinglePressOperate"] = false;
@@ -109,6 +111,8 @@ namespace Magecrawl.Utilities
                     case "DebuggingMode":
                     case "SinglePressOperate":
                     case "Fullscreen":
+                    case "PermaDeath":
+                    case "UseSavegameCompression":
                         ReadBooleanData(reader, reader.LocalName);
                         break;
                     case "FloorColorVisible":
