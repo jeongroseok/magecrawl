@@ -9,7 +9,7 @@ namespace Magecrawl.GameUI.MapEffects
 
     internal sealed class MapEffectsPainter : MapPainterBase
     {
-        private const int MillisecondsPerFrame = 500;
+        private const int MillisecondsPerFrame = 60;
 
         private enum EffectTypes 
         {

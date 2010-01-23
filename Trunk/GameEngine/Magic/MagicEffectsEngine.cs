@@ -60,8 +60,11 @@ namespace Magecrawl.GameEngine.Magic
             }
             if (returnList != null)
             {
-                //TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
-                //return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
+                if (!(bool)Preferences.Instance["DebugRangedAttack"]) //If we debugging the ranged attack, don't limit to our LOS
+                {
+                    TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
+                    return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
+                }
             }
             return returnList;
         }
@@ -170,7 +173,7 @@ namespace Magecrawl.GameEngine.Magic
 
         private static void TrimPathDueToSpellLength(int strength, List<Point> pathOfBlast)
         {
-            int range = Math.Max(2 * strength, 8);
+            int range = Math.Max(2 * strength, 10);
             if (pathOfBlast.Count > range)
                 pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);
         }
