@@ -70,6 +70,7 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["DebugRangedAttack"] = false;
             m_preferences["UseSavegameCompression"] = false;
             m_preferences["PermaDeath"] = true;
             m_preferences["Fullscreen"] = false;
