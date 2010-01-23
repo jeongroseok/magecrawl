@@ -37,6 +37,11 @@ namespace Magecrawl.GameEngine
                         if (listExtension.Count == 0)
                             break;
                         returnList.AddRange(listExtension);
+                        
+                        // If our extension didn't reach the ending point, we must have hit a wall.
+                        if (!listExtension.Contains(endingPoint))
+                            break;
+
                         startingPoint = endingPoint;
                         endingPoint = endingPoint + delta;
                     }
