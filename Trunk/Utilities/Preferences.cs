@@ -71,7 +71,7 @@ namespace Magecrawl.Utilities
             m_preferences["DebuggingMode"] = false;
 #endif
             m_preferences["UseSavegameCompression"] = false;
-            m_preferences["PermaDeath"] = false;
+            m_preferences["PermaDeath"] = true;
             m_preferences["Fullscreen"] = false;
             m_preferences["PlayerName"] = "PlayerName";
             m_preferences["SinglePressOperate"] = false;
