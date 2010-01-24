@@ -235,14 +235,14 @@ namespace Magecrawl.GameEngine
             m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision, needsToBeVisible);
         }
 
+        public void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList)
+        {
+            m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList);
+        }
+
         public List<Point> SpellCastDrawablePoints(ISpell spell, Point target)
         {
             return m_engine.SpellCastDrawablePoints((Spell)spell, target);
-        }
-
-        public bool IsValidTargetForSpell(ISpell spell, Point target)
-        {
-            return m_engine.IsValidTargetForSpell((Spell)spell, target);
         }
 
         public bool IsRangedPathBetweenPoints(Point x, Point y)

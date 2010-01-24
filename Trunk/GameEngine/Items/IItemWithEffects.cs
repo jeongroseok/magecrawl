@@ -1,6 +1,6 @@
 ﻿namespace Magecrawl.GameEngine.Items
 {
-    interface IItemWithEffects
+    public interface IItemWithEffects
     {
         string Name
         {

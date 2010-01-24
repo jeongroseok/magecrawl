@@ -129,11 +129,22 @@ namespace Magecrawl
             m_console.Flush();
         }
 
-        private void HandleRangedAttack(List<Point> rangedPath)
+        private void HandleRangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint)
         {
-            ResetHandlerName();
             UpdatePainters();
-            m_painters.HandleRequest(new ShowRangedBolt(null, rangedPath, ColorPresets.White, false));
+            ResetHandlerName();
+            SendPaintersRequest(new DisableAllOverlays());
+            bool drawLastFrame = !targetAtEndPoint;
+            Color colorOfBolt = ColorPresets.White;
+            int tailLength = 1;
+
+            if (attackingMethod is ISpell)
+            {
+                drawLastFrame |= SpellGraphicsInfo.DrawLastFrame((ISpell)attackingMethod);  // Draw the last frame if we wouldn't otherwise and the spell asks us to.
+                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool((ISpell)attackingMethod);
+                tailLength = SpellGraphicsInfo.GetTailLength((ISpell)attackingMethod);
+            }
+            m_painters.HandleRequest(new ShowRangedBolt(null, rangedPath, colorOfBolt, drawLastFrame, tailLength));
             m_painters.DrawAnimationSynchronous(m_console);
         }
 
@@ -146,7 +157,7 @@ namespace Magecrawl
         private void HandleGameOver(string textToDisplay)
         {
             // Put death information out here.
-            m_painters.UpdateFromNewData(m_engine);
+            UpdatePainters();
             SendPaintersRequest(new DisableAllOverlays());
             m_painters.DrawNewFrame(m_console);
             TextBox.AddText(textToDisplay);

@@ -13,11 +13,6 @@ namespace Magecrawl.GameUI.Map.Requests
         private int m_tailLength;
         private bool m_drawLastTargetSquare;
 
-        public ShowRangedBolt(EffectDone doneDelegate, List<Point> path, Color color, bool drawLastTargetSquare) 
-            : this(doneDelegate, path, color, drawLastTargetSquare, 1)
-        {
-        }
-
         public ShowRangedBolt(EffectDone doneDelegate, List<Point> path, Color color, bool drawLastTargetSquare, int tailLength)
         {
             m_doneDelegate = doneDelegate;

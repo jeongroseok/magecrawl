@@ -37,7 +37,7 @@ namespace Magecrawl.GameEngine.Affects
             {
                 if (i % CoreTimingEngine.CTNeededForNewTurn == 0)
                 {
-                    CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, m_affected, null);
+                    CoreGameEngine.Instance.CombatEngine.DamageTarget(m_damagePerInterval, m_affected);
                 }
             }            
         }

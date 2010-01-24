@@ -23,7 +23,7 @@ namespace Magecrawl.GameEngine.Weapons
             return this.MemberwiseClone();
         }
 
-        internal ICharacter Owner {  get; set; }
+        internal ICharacter Owner { get; set; }
 
         public abstract string AttackVerb
         {

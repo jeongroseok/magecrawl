@@ -28,6 +28,8 @@ namespace Magecrawl.GameEngine.Weapons
 
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, Owner.Position, Owner.Vision, true);
 
+            CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(Owner.Position, targetablePoints);
+
             return targetablePoints;
         }
 

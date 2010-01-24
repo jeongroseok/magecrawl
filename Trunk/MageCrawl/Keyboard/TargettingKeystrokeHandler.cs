@@ -62,6 +62,9 @@ namespace Magecrawl.Keyboard
         {
             m_targetablePoints = (List<EffectivePoint>)objOne;
             m_selectionDelegate = (OnTargetSelection)objTwo;
+
+            if (m_selectionDelegate == null)
+                throw new ArgumentNullException("Selection delegate for targetting must not be null");
             
             if (objThree != null)
                 m_alternateSelectionKey = (NamedKey)objThree;

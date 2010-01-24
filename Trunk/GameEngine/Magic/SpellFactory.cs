@@ -57,7 +57,10 @@ namespace Magecrawl.GameEngine.Magic
 
                     string targetType = reader.GetAttribute("TargetType");
 
-                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, strength, targetType));
+                    string rangeString = reader.GetAttribute("Range");
+                    int range = rangeString != null ? int.Parse(rangeString) : -1;
+
+                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, strength, range, targetType));
                 }
             }
             reader.Close();

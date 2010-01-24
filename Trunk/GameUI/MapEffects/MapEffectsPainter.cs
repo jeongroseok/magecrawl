@@ -69,7 +69,7 @@ namespace Magecrawl.GameUI.MapEffects
             else
             {
                 int startingFrame = (int)System.Math.Max(frameNumber - sizeOfTail, 0);
-                int endingFrame = (int)System.Math.Min(m_path.Count-1, frameNumber);
+                int endingFrame = (int)System.Math.Min(m_path.Count - 1, frameNumber);
                 for (int i = startingFrame; i <= endingFrame; ++i)
                 {
                     Point boltPoint = m_path[i];
@@ -84,7 +84,7 @@ namespace Magecrawl.GameUI.MapEffects
         {
             m_done = true;
             
-            if(m_doneDelegate != null)
+            if (m_doneDelegate != null)
                 m_doneDelegate();
 
             m_doneDelegate = null;
@@ -99,7 +99,7 @@ namespace Magecrawl.GameUI.MapEffects
             m_doneDelegate = effectDoneDelegate;
             m_path = path;
 
-            if(!drawLastTargetSquare)
+            if (!drawLastTargetSquare)
                 m_path.RemoveAt(m_path.Count - 1);
 
             m_color = color;

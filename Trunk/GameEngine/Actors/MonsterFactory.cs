@@ -89,9 +89,9 @@ namespace Magecrawl.GameEngine.Actors
                         ctActCost = Double.Parse(actCostString);
 
                     Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, damage, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);
-                    if(primaryWeaponString != null)
+                    if (primaryWeaponString != null)
                         newMonster.EquipWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(primaryWeaponString));
-                    if(rangedWeaponString != null)
+                    if (rangedWeaponString != null)
                         newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(rangedWeaponString));
                     m_monsterMapping.Add(name, newMonster);
                 }

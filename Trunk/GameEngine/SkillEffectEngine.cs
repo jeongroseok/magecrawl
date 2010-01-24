@@ -5,7 +5,10 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    enum SkillType { Rush }
+    internal enum SkillType
+    {
+        Rush 
+    }
 
     internal sealed class SkillEffectEngine
     {

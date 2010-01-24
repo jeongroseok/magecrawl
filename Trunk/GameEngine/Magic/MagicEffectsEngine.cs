@@ -25,7 +25,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CurrentMP >= spell.Cost)
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell.EffectType, spell.Strength, target, effectString))
+                if (DoEffect(caster, spell, spell.EffectType, spell.Strength, target, effectString))
                 {
                     caster.CurrentMP -= spell.Cost;
                     return true;
@@ -37,7 +37,7 @@ namespace Magecrawl.GameEngine.Magic
         internal void UseItemWithEffect(Character drinker, IItemWithEffects item)
         {
             string effectString = string.Format(item.OnUseString, drinker.Name, item.Name);
-            DoEffect(drinker, item.EffectType, item.Strength, drinker.Position, effectString);
+            DoEffect(drinker, item, item.EffectType, item.Strength, drinker.Position, effectString);
             return;
         }
 
@@ -47,8 +47,10 @@ namespace Magecrawl.GameEngine.Magic
             switch (spell.EffectType)
             {
                 case "RangedSingleTarget":
+                {
                     returnList = m_physicsEngine.GenerateRangedAttackListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target);
                     break;
+                }
                 case "RangedBlast":
                 {
                     returnList = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target, true);
@@ -60,7 +62,8 @@ namespace Magecrawl.GameEngine.Magic
             }
             if (returnList != null)
             {
-                if (!(bool)Preferences.Instance["DebugRangedAttack"]) //If we debugging the ranged attack, don't limit to our LOS
+                // If we debugging the ranged attack, don't limit to our LOS
+                if (!(bool)Preferences.Instance["DebugRangedAttack"]) 
                 {
                     TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
                     return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
@@ -69,38 +72,24 @@ namespace Magecrawl.GameEngine.Magic
             return returnList;
         }
 
-        public bool IsValidTargetForSpell(Spell spell, Point target)
-        {
-            switch (spell.EffectType)
-            {
-                case "RangedSingleTarget":
-                    return CoreGameEngine.Instance.Map.Monsters.Where(x => x.Position == target).Count() > 0;
-                case "RangedBlast":
-                    return CoreGameEngine.Instance.Player.Position != target;
-                default:
-                    return true;
-            }
-        }
-
-        private bool DoEffect(Character caster, string effect, int strength, Point target, string printOnEffect)
+        private bool DoEffect(Character invoker, object invokingMethod, string effect, int strength, Point target, string printOnEffect)
         {
             List<Character> actorList = CoreGameEngine.Instance.Map.Monsters.OfType<Character>().ToList();
             actorList.Add(CoreGameEngine.Instance.Player);
+            CoreGameEngine.Instance.SendTextOutput(printOnEffect);
             switch (effect)
             {
                 case "HealCaster":
                 {
-                    int healAmount = caster.Heal((new DiceRoll(strength, 4, 1)).Roll());
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", caster.Name, healAmount));
+                    int healAmount = invoker.Heal((new DiceRoll(strength, 4, 1)).Roll());
+                    CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
                 }
                 case "HealMPCaster":
                 {
-                    Player player = caster as Player;
+                    Player player = invoker as Player;
                     if (player != null)
                     {
-                        CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                         player.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
                         if (player.CurrentMP > player.MaxMP)
                             player.CurrentMP = player.MaxMP;
@@ -109,29 +98,20 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "RangedSingleTarget":
                 {
-                    OnRangedAffect rangedAttackDelegate = (c, s) =>
-                    {
-                        int damage = 0;
-                        for(int i = 0 ; i < s ; ++i)
-                            damage += (new DiceRoll(1, 4, 0, 1)).Roll();
-                        m_combatEngine.DamageTarget(damage, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                    };
-                    return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, rangedAttackDelegate);
+                    m_combatEngine.AttackRanged(invoker, target, CalculateDamgeFromSpell(strength), invokingMethod, DamageDoneDelegate);
+                    return true;
                 }
                 case "RangedBlast":
                 {
-                    List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, caster.Position, target, true);
+                    List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, invoker.Position, target, true);
                     TrimPathDueToSpellLength(strength, pathOfBlast);
+                    CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, pathOfBlast, m_combatEngine.FindTargetAtPosition(pathOfBlast.Last()) != null);
                     foreach (Point p in pathOfBlast)
                     {
-                        Character hitCharacter = actorList.Where(a => a.Position == p).FirstOrDefault();
+                        Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                        {
-                            int damage = 0;
-                            for (int i = 0; i < strength; ++i)
-                                damage += (new DiceRoll(1, 4, 0, 1)).Roll();
-                            m_combatEngine.DamageTarget(damage, hitCharacter, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                        }
+                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, 
+                                new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
                     }
                     return true;
                 }
@@ -139,36 +119,39 @@ namespace Magecrawl.GameEngine.Magic
                 case "False Life":
                 case "Eagle Eye":
                 {
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    caster.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
+                    invoker.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
                     return true;
                 }
                 case "Poison Bolt":
                 {
-                    OnRangedAffect poisonBoltHitDelegate = (c, s) =>
-                    {
-                        m_combatEngine.DamageTarget(1, c, new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                        c.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
-                    };
-                    return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, poisonBoltHitDelegate);
+                    m_combatEngine.AttackRanged(invoker, target, 1, invokingMethod, DamageDoneDelegate);
+                    Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
+                    if (targetCharacter != null)
+                        targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
+                    return true;
                 }
                 case "Blink":
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    return HandleTeleport(caster, 5);
+                    return HandleRandomTeleport(invoker, 5);
                 case "Teleport":
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    return HandleTeleport(caster, 25);
+                    return HandleRandomTeleport(invoker, 25);
                 case "Slow":
                 {
-                    OnRangedAffect slowHitDelegate = (c, s) =>
-                    {
-                        c.AddAffect(Affects.AffectFactory.CreateAffect("Slow", strength));
-                    };
-                    return HandleRangedAffect(caster, strength, target, printOnEffect, actorList, slowHitDelegate);
+                    Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
+                    if (targetCharacter != null)
+                        targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect("Slow", strength));
+                    return true;
                 }
                 default:
                     return false;
             }
+        }
+
+        private static int CalculateDamgeFromSpell(int strength)
+        {
+            int damage = 0;
+            for (int i = 0; i < strength; ++i)
+                damage += (new DiceRoll(1, 4, 0, 1)).Roll();
+            return damage;
         }
 
         private static void TrimPathDueToSpellLength(int strength, List<Point> pathOfBlast)
@@ -180,24 +163,7 @@ namespace Magecrawl.GameEngine.Magic
 
         private delegate void OnRangedAffect(Character c, int strength);
 
-        private bool HandleRangedAffect(Character caster, int strength, Point target, string printOnEffect, List<Character> actorList, OnRangedAffect onHitAction)
-        {
-            foreach (Character c in actorList)
-            {
-                if (c.Position == target)
-                {
-                    if (c != caster)
-                    {
-                        CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                        onHitAction(c, strength);
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private bool HandleTeleport(Character caster, int range)
+        private bool HandleRandomTeleport(Character caster, int range)
         {
             List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(caster.Position, range);
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetablePoints, caster.Position, caster.Vision, false);
@@ -209,7 +175,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 int element = random.GetRandomInt(0, targetablePoints.Count - 1);
                 EffectivePoint pointToTeleport = targetablePoints[element];
-                CoreGameEngine.Instance.SendTextOutput("Things become fuzzy as you shift into a new position.");
+                CoreGameEngine.Instance.SendTextOutput(string.Format("Things become fuzzy as {0} shifts into a new position.", caster.Name));
                 m_physicsEngine.WarpToPosition(caster, pointToTeleport.Position);
             }
             return true;
@@ -219,7 +185,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
 
-            string prefix = target.GetType() == typeof(IPlayer) ? "" : "The";
+            string prefix = target.GetType() == typeof(IPlayer) ? string.Empty : "The";
             CoreGameEngine.Instance.SendTextOutput(string.Format("{0} {1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
         }
     }

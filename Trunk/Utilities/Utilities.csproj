@@ -51,7 +51,6 @@
     <Compile Include="DiceRoll.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="EffectivePoint.cs" />
-    <Compile Include="ListExtensions.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Point.cs" />
