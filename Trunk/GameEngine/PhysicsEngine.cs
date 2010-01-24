@@ -33,7 +33,7 @@ namespace Magecrawl.GameEngine
             m_map = map;
             m_timingEngine = new CoreTimingEngine();
             m_fovManager = new FOVManager(this, map);
-            m_combatEngine = new CombatEngine(player, map);
+            m_combatEngine = new CombatEngine(this, player, map);
             m_movableHash = new Dictionary<Point, bool>();
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
             m_skillEngine = new SkillEffectEngine(this, m_combatEngine);
@@ -227,9 +227,9 @@ namespace Magecrawl.GameEngine
             return m_magicEffects.IsValidTargetForSpell(spell, target);
         }
 
-        internal List<Point> GenerateRangedAttackListOfPoints(Map map, Point caster, Point target)
+        internal List<Point> GenerateRangedAttackListOfPoints(Map map, Point attcker, Point target)
         {
-            return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, false, false);
+            return RangedAttackPathfinder.RangedListOfPoints(map, attcker, target, false, false);
         }
 
         internal List<Point> GenerateBlastListOfPoints(Map map, Point caster, Point target, bool bounceOffWalls)

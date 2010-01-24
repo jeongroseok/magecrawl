@@ -6,7 +6,7 @@ using Magecrawl.Utilities;
 namespace Magecrawl.GameEngine.Interfaces
 {
     public delegate void PlayerDiedDelegate();
-    public delegate void RangedAttackAgainstPlayer(List<Point> rangedPath);
+    public delegate void RangedAttack(List<Point> rangedPath);
     public delegate void TextOutputFromGame(string s);
 
     public enum TileVisibility 

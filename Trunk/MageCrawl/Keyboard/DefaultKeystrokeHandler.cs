@@ -237,45 +237,12 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        private class SingleRangedAnimationHelper
-        {
-            private Point m_point;
-            private IGameEngine m_engine;
-            private GameInstance m_gameInstance;
-
-            internal SingleRangedAnimationHelper(Point point, IGameEngine engine, GameInstance gameInstance)
-            {
-                m_point = point;
-                m_engine = engine;
-                m_gameInstance = gameInstance;
-            }
-
-            internal void Invoke()
-            {
-                m_engine.PlayerAttack(m_point);
-                m_gameInstance.ResetHandlerName();
-                m_gameInstance.UpdatePainters();
-            }
-        }
-
         private bool OnAttack(Point selection)
         {
             if (selection != m_engine.Player.Position)
             {
-                if (m_engine.Player.CurrentWeapon.IsRanged)
-                {
-                    List<Point> pathToTarget = m_engine.PlayerPathToPoint(selection);
-                    SingleRangedAnimationHelper rangedHelper = new SingleRangedAnimationHelper(selection, m_engine, m_gameInstance);
-                    EffectDone onEffectDone = new EffectDone(rangedHelper.Invoke);
-                    Color color = TCODColorPresets.White;
-                    m_gameInstance.SetHandlerName("Effects", new ShowRangedBolt(onEffectDone, pathToTarget, color, false));
-                    return true;
-                }
-                else
-                {
-                    m_engine.PlayerAttack(selection);
-                    return false;
-                }
+                m_engine.PlayerAttack(selection);
+                return true;
             }
             return false;
         }

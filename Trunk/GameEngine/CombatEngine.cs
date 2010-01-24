@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
@@ -13,13 +14,15 @@ namespace Magecrawl.GameEngine
         // Cared and fed by CoreGameEngine, local copy for convenience
         private Player m_player;
         private Map m_map;
+        private PhysicsEngine m_physicsEngine;
 
         private TCODRandom m_random;
 
-        internal CombatEngine(Player player, Map map)
+        internal CombatEngine(PhysicsEngine engine, Player player, Map map)
         {
             m_player = player;
             m_map = map;
+            m_physicsEngine = engine;
             m_random = new TCODRandom();
         }
 
@@ -47,18 +50,23 @@ namespace Magecrawl.GameEngine
             float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackTarget);
             int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
 
+            if (attacker.CurrentWeapon.IsRanged)
+            {
+                List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, attackTarget);
+                CoreGameEngine.Instance.ShowRangedAttack(attackPath);
+            }
+
             Character attackedCharacter = FindTargetAtPosition(attackTarget);
             if (attackedCharacter != null)
             {
                 CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
                 DamageTarget(damageDone, attackedCharacter, null);
-
-                if (attacker.CurrentWeapon.IsRanged)
-                    ((WeaponBase)attacker.CurrentWeapon).IsLoaded = false;
-
-                return true;
             }
-            return false;
+
+            if (attacker.CurrentWeapon.IsRanged)
+                ((WeaponBase)attacker.CurrentWeapon).IsLoaded = false;
+
+            return true;
         }
 
         public Character FindTargetAtPosition(Point attackTarget)
