@@ -55,7 +55,7 @@ namespace Magecrawl
 
             TextOutputFromGame outputDelegate = new TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
             PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
-            RangedAttackAgainstPlayer rangedAttack = new RangedAttackAgainstPlayer(HandleRangedAttack);
+            RangedAttack rangedAttack = new RangedAttack(HandleRangedAttack);
 
             string saveFilePath = Preferences.Instance["PlayerName"] + ".sav";
             if (System.IO.File.Exists(saveFilePath))

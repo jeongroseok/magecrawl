@@ -96,6 +96,11 @@ namespace Magecrawl.GameEngine.Actors
             return false;
         }
 
+        protected bool MoveTowardsPlayer(CoreGameEngine engine)
+        {
+            return MoveTowardsPlayer(engine, GetPathToPlayer(engine));
+        }
+
         protected bool MoveTowardsPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
         {
             Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]);

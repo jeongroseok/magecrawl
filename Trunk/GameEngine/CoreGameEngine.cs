@@ -34,7 +34,7 @@ namespace Magecrawl.GameEngine
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;
-        private event RangedAttackAgainstPlayer m_rangeOnPlayer;
+        private event RangedAttack m_rangedAttack;
 
         internal FOVManager FOVManager
         {
@@ -55,7 +55,7 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack)
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack)
         {
             CommonStartup(textOutput, playerDiedDelegate, rangedAttack);
 
@@ -109,7 +109,7 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome To Magecrawl.");
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack, string saveGameName)
+        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack, string saveGameName)
         {
             CommonStartup(textOutput, playerDiedDelegate, rangedAttack);
 
@@ -120,12 +120,12 @@ namespace Magecrawl.GameEngine
             SendTextOutput("Welcome Back To Magecrawl");
         }
 
-        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack)
+        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack)
         {
             m_instance = this;
             m_playerDied += playerDiedDelegate;
             m_textOutput += textOutput;
-            m_rangeOnPlayer += rangedAttack;
+            m_rangedAttack += rangedAttack;
 
             // Needs to happen before anything that could create a weapon
             ItemFactory = new ItemFactory();
@@ -347,9 +347,9 @@ namespace Magecrawl.GameEngine
             m_textOutput(s);
         }
 
-        internal void RangedAttackOnPlayer(List<Point> rangedPath)
+        internal void ShowRangedAttack(List<Point> rangedPath)
         {
-            m_rangeOnPlayer(rangedPath);
+            m_rangedAttack(rangedPath);
         }
 
         public List<ICharacter> MonstersInPlayerLOS()
@@ -375,10 +375,10 @@ namespace Magecrawl.GameEngine
             return item.PlayerOptions;
         }
 
-        internal bool SwapPrimarySecondaryWeapons(Character character, bool canSwapToNothing)
+        internal bool SwapPrimarySecondaryWeapons(Character character)
         {
-            // If we're swapping to nothing, stop.
-            if (character.SecondaryWeapon.GetType() == typeof(MeleeWeapon) && !canSwapToNothing)
+            // If we're swapping to Melee and we're Melee
+            if (character.CurrentWeapon.GetType() == typeof(MeleeWeapon) && character.SecondaryWeapon.GetType() == typeof(MeleeWeapon))
                 return false;
 
             IWeapon mainWeapon = character.UnequipWeapon();

@@ -29,21 +29,19 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (IsPlayerVisible(engine))
             {
-                List<Point> pathToPlayer = GetPathToPlayer(engine);
-                int distanceToPlayer = pathToPlayer.Count;
+                int distanceToPlayer =  GetPathToPlayer(engine).Count;
                 if (distanceToPlayer == 1)
                 {
                     bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
                     if (!moveSucessful)
-                        Attack(engine, false, null);
-
+                        Attack(engine, false);
                     return;
                 }
                 else
                 {
                     if (!CurrentWeapon.IsRanged)
                     {
-                        engine.SwapPrimarySecondaryWeapons(this, true);
+                        engine.SwapPrimarySecondaryWeapons(this);
                     }
                     else if (!CurrentWeapon.IsLoaded)
                     {
@@ -51,13 +49,13 @@ namespace Magecrawl.GameEngine.Actors
                     }
                     else if (CurrentWeapon.EffectiveStrengthAtPoint(engine.Player.Position) > 0)
                     {
-                        Attack(engine, true, pathToPlayer);
+                        Attack(engine, true);
                     }
                     else
                     {
                         bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);
                         if (!moveSucessful)
-                            engine.Move(this, PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]));
+                            MoveTowardsPlayer(engine);
                     }
                     return;
                 }
@@ -73,19 +71,17 @@ namespace Magecrawl.GameEngine.Actors
             throw new InvalidOperationException("RangedMonster Action should never reach end of statement");
         }
 
-        private void Attack(CoreGameEngine engine, bool fromRange, List<Point> pathToPlayer)
+        private void Attack(CoreGameEngine engine, bool fromRange)
         {
             if (fromRange)
             {
                 if (!CurrentWeapon.IsRanged)
-                    engine.SwapPrimarySecondaryWeapons(this, true);
-
-                CoreGameEngine.Instance.RangedAttackOnPlayer(pathToPlayer);
+                    engine.SwapPrimarySecondaryWeapons(this);
             }
             else
             {
                 if (CurrentWeapon.IsRanged)
-                    engine.SwapPrimarySecondaryWeapons(this, true);
+                    engine.SwapPrimarySecondaryWeapons(this);
             }
             engine.Attack(this, engine.Player.Position);
         }

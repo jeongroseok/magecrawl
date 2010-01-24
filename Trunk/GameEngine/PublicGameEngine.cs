@@ -18,13 +18,13 @@ namespace Magecrawl.GameEngine
     {
         private CoreGameEngine m_engine;
 
-        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttackAgainstPlayer rangedAttack)
+        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
             m_engine = new CoreGameEngine(textOutput, playerDiedDelegate, rangedAttack);
         }
 
-        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerStateChanged, RangedAttackAgainstPlayer rangedAttack, string saveGameName)
+        public PublicGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerStateChanged, RangedAttack rangedAttack, string saveGameName)
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
             m_engine = new CoreGameEngine(textOutput, playerStateChanged, rangedAttack, saveGameName);
@@ -202,7 +202,7 @@ namespace Magecrawl.GameEngine
         public bool PlayerSwapPrimarySecondaryWeapons()
         {            
             m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.SwapPrimarySecondaryWeapons(m_engine.Player, false);
+            bool didAnything = m_engine.SwapPrimarySecondaryWeapons(m_engine.Player);
             if (didAnything)
             {
                 m_engine.SendTextOutput("Weapons Swapped");
