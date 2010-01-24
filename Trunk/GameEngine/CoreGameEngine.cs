@@ -254,11 +254,6 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.SpellCastDrawablePoints(spell, target);
         }
 
-        internal bool IsValidTargetForSpell(Spell spell, Point target)
-        {
-            return m_physicsEngine.IsValidTargetForSpell(spell, target);
-        }
-
         internal bool UseSkill(Character attacker, SkillType skill, Point target)
         {
             return m_physicsEngine.UseSkill(attacker, skill, target);
@@ -347,9 +342,9 @@ namespace Magecrawl.GameEngine
             m_textOutput(s);
         }
 
-        internal void ShowRangedAttack(List<Point> rangedPath)
+        internal void ShowRangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint)
         {
-            m_rangedAttack(rangedPath);
+            m_rangedAttack(attackingMethod, rangedPath, targetAtEndPoint);
         }
 
         public List<ICharacter> MonstersInPlayerLOS()
@@ -454,6 +449,12 @@ namespace Magecrawl.GameEngine
             if (didSomething)
                 m_timingEngine.ActorDidAction(m_player);
             return didSomething;
+        }
+
+        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<EffectivePoint> pointList)
+        {
+            pointList.RemoveAll(x => !IsRangedPathBetweenPoints(centerPoint, x.Position));
+            pointList.RemoveAll(x => !IsRangedPathBetweenPoints(x.Position, centerPoint));
         }
     }
 }

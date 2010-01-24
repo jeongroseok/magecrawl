@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.Weapons;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (IsPlayerVisible(engine))
             {
-                int distanceToPlayer =  GetPathToPlayer(engine).Count;
+                int distanceToPlayer = GetPathToPlayer(engine).Count;
                 if (distanceToPlayer == 1)
                 {
                     bool moveSucessful = IfNearbyEnemeiesTryToMoveAway(engine);

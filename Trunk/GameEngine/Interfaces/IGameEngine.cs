@@ -6,7 +6,10 @@ using Magecrawl.Utilities;
 namespace Magecrawl.GameEngine.Interfaces
 {
     public delegate void PlayerDiedDelegate();
-    public delegate void RangedAttack(List<Point> rangedPath);
+
+    // attackingMethod can be an IWeapon, ISpell, IItem
+    public delegate void RangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint);
+
     public delegate void TextOutputFromGame(string s);
 
     public enum TileVisibility 
@@ -72,7 +75,6 @@ namespace Magecrawl.GameEngine.Interfaces
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
 
-        bool IsValidTargetForSpell(ISpell spell, Point target);
         List<Point> SpellCastDrawablePoints(ISpell spell, Point target);
         bool IsRangedPathBetweenPoints(Point x, Point y);
         
@@ -81,6 +83,7 @@ namespace Magecrawl.GameEngine.Interfaces
 
         TileVisibility[,] CalculateTileVisibility();
         void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
+        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList);
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();

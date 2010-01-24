@@ -125,13 +125,13 @@ namespace Magecrawl.Utilities
                 case Direction.East:
                     return new List<Direction>() { Direction.Northwest, Direction.West, Direction.Southwest }.Randomize();
                 case Direction.Northeast:
-                    return new List<Direction>() { Direction.West, Direction.Southwest, Direction.South}.Randomize();
+                    return new List<Direction>() { Direction.West, Direction.Southwest, Direction.South }.Randomize();
                 case Direction.Northwest:
                     return new List<Direction>() { Direction.East, Direction.Southeast, Direction.South }.Randomize();
                 case Direction.Southeast:
-                    return new List<Direction>() { Direction.Northwest, Direction.North, Direction.West}.Randomize();
+                    return new List<Direction>() { Direction.Northwest, Direction.North, Direction.West }.Randomize();
                 case Direction.Southwest:
-                    return new List<Direction>() { Direction.Northeast, Direction.North, Direction.East}.Randomize();
+                    return new List<Direction>() { Direction.Northeast, Direction.North, Direction.East }.Randomize();
                 default:
                     throw new ArgumentException("ConvertDirectionToDestinationPoint - Invalid Direction");
             }

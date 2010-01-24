@@ -5,10 +5,10 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine.Actors
 {

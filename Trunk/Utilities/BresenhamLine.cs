@@ -16,7 +16,7 @@ namespace Magecrawl.Utilities
 
             int currentX = startPoint.X;
             int currentY = startPoint.Y;          
-            while(!TCODLineDrawing.StepLine(ref currentX, ref currentY))
+            while (!TCODLineDrawing.StepLine(ref currentX, ref currentY))
             {
                 returnList.Add(new Point(currentX, currentY));
             }

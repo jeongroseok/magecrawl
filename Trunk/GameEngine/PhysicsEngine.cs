@@ -222,11 +222,6 @@ namespace Magecrawl.GameEngine
             return GenerateRangedAttackListOfPoints(m_map, x, y) != null;
         }
 
-        internal bool IsValidTargetForSpell(Spell spell, Point target)
-        {
-            return m_magicEffects.IsValidTargetForSpell(spell, target);
-        }
-
         internal List<Point> GenerateRangedAttackListOfPoints(Map map, Point attcker, Point target)
         {
             return RangedAttackPathfinder.RangedListOfPoints(map, attcker, target, false, false);

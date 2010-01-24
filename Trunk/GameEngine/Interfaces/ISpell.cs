@@ -18,5 +18,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        int Range
+        {
+            get;
+        }
     }
 }

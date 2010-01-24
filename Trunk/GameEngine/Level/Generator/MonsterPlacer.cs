@@ -35,8 +35,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                 {
                     Point position = pointsWithClearTerrain[0];
                     pointsWithClearTerrain.RemoveAt(0);
-                    //Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(position);
-                    if( i % 2 == 0)
+
+                    // Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(position);
+                    if (i % 2 == 0)
                         map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Slinger", position));
                     else
                         map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Wolf", position));

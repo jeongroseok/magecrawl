@@ -11,6 +11,8 @@ namespace Magecrawl.GameEngine
 {
     internal sealed class CombatEngine : IDisposable
     {
+        public delegate void DamageDoneDelegate(int damage, Character target, bool targetKilled);
+
         // Cared and fed by CoreGameEngine, local copy for convenience
         private Player m_player;
         private Map m_map;
@@ -44,27 +46,40 @@ namespace Magecrawl.GameEngine
             if (!attacker.CurrentWeapon.PositionInTargetablePoints(attackTarget))
                 throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
 
-            if (!attacker.CurrentWeapon.IsLoaded)
-                throw new ArgumentException("CombatEngine attacking something with current weapon unloaded?");
-
             float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackTarget);
             int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
 
             if (attacker.CurrentWeapon.IsRanged)
             {
-                List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, attackTarget);
-                CoreGameEngine.Instance.ShowRangedAttack(attackPath);
-            }
+                if (!attacker.CurrentWeapon.IsLoaded)
+                    throw new ArgumentException("CombatEngine attacking something with current weapon unloaded?");
 
-            Character attackedCharacter = FindTargetAtPosition(attackTarget);
-            if (attackedCharacter != null)
-            {
-                CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
-                DamageTarget(damageDone, attackedCharacter, null);
-            }
-
-            if (attacker.CurrentWeapon.IsRanged)
+                AttackRanged(attacker, attackTarget, damageDone, attacker.CurrentWeapon,
+                    (dmg, target, killed) => CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, target)));
                 ((WeaponBase)attacker.CurrentWeapon).IsLoaded = false;
+            }
+            else
+            {
+                Character attackedCharacter = FindTargetAtPosition(attackTarget);
+                if (attackedCharacter != null)
+                {
+                    CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
+                    DamageTarget(damageDone, attackedCharacter);
+                }
+            }
+
+            return true;
+        }
+
+        internal bool AttackRanged(Character attacker, Point attackTarget, int damageDone, object attackingMethod, DamageDoneDelegate del)
+        {            
+            List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, attackTarget);
+            Character attackedCharacter = FindTargetAtPosition(attackTarget);
+
+            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, attackPath, attackedCharacter != null);
+
+            if (attackedCharacter != null)
+                DamageTarget(damageDone, attackedCharacter, del);
 
             return true;
         }
@@ -79,7 +94,10 @@ namespace Magecrawl.GameEngine
             return null;
         }
 
-        public delegate void DamageDoneDelegate(int damage, Character target, bool targetKilled);
+        public void DamageTarget(int damage, Character target)
+        {
+            DamageTarget(damage, target, null);
+        }
 
         public void DamageTarget(int damage, Character target, DamageDoneDelegate del)
         {

@@ -226,7 +226,7 @@ namespace Magecrawl.Keyboard
             if (!m_engine.Player.CurrentWeapon.IsLoaded)
             {
                 m_engine.ReloadWeapon();
-                m_gameInstance.TextBox.AddText(string.Format("{0} reloads the {0}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
+                m_gameInstance.TextBox.AddText(string.Format("{0} reloads the {1}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
             }
             else
             {
@@ -240,10 +240,7 @@ namespace Magecrawl.Keyboard
         private bool OnAttack(Point selection)
         {
             if (selection != m_engine.Player.Position)
-            {
                 m_engine.PlayerAttack(selection);
-                return true;
-            }
             return false;
         }
 

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
 namespace Magecrawl.GameEngine
 {
@@ -51,14 +48,14 @@ namespace Magecrawl.GameEngine
                 // and that we won't still till we hit a wall. To reflect, we can just bounce the last few cells
                 if (bounceOffWalls)
                 {
-                    const int bounceLength = 3;
+                    const int BounceLength = 3;
 
-                    Point lastPointInList = returnList.EndElement();
+                    Point lastPointInList = returnList.Last();
 
                     // "Bounce" towards caster, but we have to be a square past past us
                     Direction directionOfBounce = PointDirectionUtils.ConvertTwoPointsToDirection(lastPointInList, caster);
                     Point spotToAimBounce = caster;
-                    for (int i = 0; i < bounceLength; i++)
+                    for (int i = 0; i < BounceLength; i++)
                     {
                         Point newSpot = PointDirectionUtils.ConvertDirectionToDestinationPoint(spotToAimBounce, directionOfBounce);
                         if (ValidPoint(map, newSpot))
@@ -68,8 +65,8 @@ namespace Magecrawl.GameEngine
                     }
 
                     List<Point> bounceList = GenerateListOfPointsSinglePass(map, lastPointInList, spotToAimBounce);
-                    bounceList.Insert(0, lastPointInList);    //The starting point gets hit twice
-                    for (int i = 0; i < bounceLength && bounceList.Count > i; ++i)
+                    bounceList.Insert(0, lastPointInList);  // The starting point gets hit twice
+                    for (int i = 0; i < BounceLength && bounceList.Count > i; ++i)
                         returnList.Add(bounceList[i]);
                 }
             }
