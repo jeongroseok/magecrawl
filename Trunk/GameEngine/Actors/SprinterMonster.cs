@@ -15,6 +15,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (IsPlayerVisible(engine) && GetPathToPlayer(engine).Count == 2)
             {
+                UpdateKnownPlayerLocation(engine);
                 if (engine.UseSkill(this, SkillType.Rush, engine.Player.Position))
                     return;
             }

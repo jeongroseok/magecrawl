@@ -29,6 +29,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (IsPlayerVisible(engine))
             {
+                UpdateKnownPlayerLocation(engine);
                 int distanceToPlayer = GetPathToPlayer(engine).Count;
                 if (distanceToPlayer == 1)
                 {
@@ -62,6 +63,9 @@ namespace Magecrawl.GameEngine.Actors
             }
             else
             {
+                if (WalkTowardsLastKnownPosition(engine))
+                    return;
+
                 if (!CurrentWeapon.IsLoaded)
                     engine.ReloadWeapon(this);
                 else
