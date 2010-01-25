@@ -104,6 +104,11 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        protected List<Point> GetPathToCharacter(CoreGameEngine engine, ICharacter c)
+        {
+            return engine.PathToPoint(this, c.Position, false, false, true);
+        }
+
         protected List<Point> GetPathToPlayer(CoreGameEngine engine)
         {
             return engine.PathToPoint(this, engine.Player.Position, false, false, true);
@@ -153,9 +158,14 @@ namespace Magecrawl.GameEngine.Actors
             return false;
         }
 
-        protected bool OtherNearbyEnemies(CoreGameEngine engine)
+        protected List<ICharacter> OtherNearbyEnemies(CoreGameEngine engine)
         {
-            return engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 5).Count() > 1;
+            return engine.MonstersInPlayerLOS().Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 5).ToList();
+        }
+
+        protected bool AreOtherNearbyEnemies(CoreGameEngine engine)
+        {
+            return OtherNearbyEnemies(engine).Count() > 1;
         }
 
         protected bool IsPlayerVisible(CoreGameEngine engine)

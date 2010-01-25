@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine
         internal ItemFactory ItemFactory;
         internal MonsterFactory MonsterFactory;
         internal MapObjectFactory MapObjectFactory;
-        internal uint TurnCount;
+        internal int TurnCount { get; set;}
 
         private event PlayerDiedDelegate m_playerDied;
         private event TextOutputFromGame m_textOutput;

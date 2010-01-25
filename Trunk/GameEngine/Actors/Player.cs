@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.Actors
             MaxMP = 0;
         }
 
-        public Player(Point p) : base((string)Preferences.Instance["PlayerName"], p, 10, 6)
+        public Player(Point p) : base((string)Preferences.Instance["PlayerName"], p, 20, 6)
         {
             m_itemList = new List<Item>();
             CurrentMP = 10;

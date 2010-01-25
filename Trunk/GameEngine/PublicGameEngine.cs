@@ -73,6 +73,14 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        public int TurnCount 
+        {
+            get
+            {
+                return m_engine.TurnCount;
+            }
+        }
+
         public bool MovePlayer(Direction direction)
         {
             m_engine.BeforePlayerAction();

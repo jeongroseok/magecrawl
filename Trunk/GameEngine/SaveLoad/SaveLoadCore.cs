@@ -68,6 +68,8 @@ namespace Magecrawl.GameEngine.SaveLoad
             if (versionString != SaveVersion.ToString())
                 throw new System.InvalidOperationException("Attemping to load bad savefile.");
 
+            CoreGameEngine.Instance.TurnCount = reader.ReadElementContentAsInt();
+
             int numberOfLevelsToLoad = reader.ReadElementContentAsInt();
 
             int currentLevel = reader.ReadElementContentAsInt();
@@ -99,6 +101,7 @@ namespace Magecrawl.GameEngine.SaveLoad
             writer.WriteStartElement("MagecrawlSaveFile");
             writer.WriteElementString("Version", SaveVersion.ToString());
 
+            writer.WriteElementString("TurnCount", CoreGameEngine.Instance.TurnCount.ToString());
             writer.WriteElementString("DungonLength", CoreGameEngine.Instance.NumberOfLevels.ToString());
             writer.WriteElementString("CurrentLevel", CoreGameEngine.Instance.CurrentLevel.ToString());
 

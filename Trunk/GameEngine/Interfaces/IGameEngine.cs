@@ -50,6 +50,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        int TurnCount 
+        {
+            get;
+        }
+
         bool MovePlayer(Direction direction);
         bool Operate(Point pointToOperateAt);
         bool PlayerWait();
