@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
 <Monsters>
 <Monster Name="Wolf" Type="Sprinter"         Symbol="w" HP="2" Vision="6" MeleeDamage="1,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Orc" Type="Standard"          Symbol="O" HP="2" Vision="4" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Orc Barbarian" Type="Bruiser" Symbol="O" HP="2" Vision="4" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Orc Warrior" Type="Standard"  Symbol="O" HP="2" Vision="4" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 <Monster Name="Kobold" Type="Swarmer"        Symbol="k" HP="2" Vision="4" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 <Monster Name="Baby Dragon" Type="Elite"     Symbol="D" HP="2" Vision="4" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
 <Monster Name="Goblin Healer" Type="Healer"  Symbol="g" HP="2" Vision="4" MeleeWeapon="Wooden Cudgel" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>

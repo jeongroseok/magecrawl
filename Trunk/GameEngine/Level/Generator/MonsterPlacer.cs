@@ -37,10 +37,18 @@ namespace Magecrawl.GameEngine.Level.Generator
                     pointsWithClearTerrain.RemoveAt(0);
 
                     // Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(position);
-                    if (i % 2 == 0)
-                        map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Slinger", position));
-                    else
-                        map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Wolf", position));
+                    switch (i % 3)
+                    {
+                        case 0:
+                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Orc Barbarian", position));
+                            break;
+                        case 1:
+                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Slinger", position));
+                            break;
+                        case 2:
+                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Wolf", position));
+                            break;
+                    }
                 }
             }
         }

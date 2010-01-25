@@ -7,7 +7,8 @@ namespace Magecrawl.GameEngine
 {
     internal enum SkillType
     {
-        Rush 
+        Rush,
+        DoubleSwing
     }
 
     internal sealed class SkillEffectEngine
@@ -27,9 +28,31 @@ namespace Magecrawl.GameEngine
             {
                 case SkillType.Rush:
                     return HandleRush(attacker, skill, target);
+                case SkillType.DoubleSwing:
+                    return HandleDoubleSwing(attacker, skill, target);
                 default:
                     return false;
             }
+        }
+
+        private bool HandleDoubleSwing(Character attacker, SkillType skill, Point target)
+        {
+            // First the distance between us and target must be 1 (Right next to).
+            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(attacker, target, false, false, true);
+            if (pathToPoint.Count != 1)
+                return false;
+
+            // Second there must be a valid target
+            Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
+            if (targetCharacter == null)
+                return false;
+
+            // If we get here, it's a valid double swing. Attack two times in a row.
+            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} wildly swings at {1} twice.", attacker.Name, targetCharacter.Name));           
+            m_combatEngine.Attack(attacker, target);
+            m_combatEngine.Attack(attacker, target);
+
+            return true;
         }
 
         private bool HandleRush(Character attacker, SkillType skill, Point target)
