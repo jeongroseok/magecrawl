@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Actors
 
         private bool IfNearbyEnemeiesTryToMoveAway(CoreGameEngine engine)
         {
-            if (OtherNearbyEnemies(engine))
+            if (AreOtherNearbyEnemies(engine))
                 return MoveAwayFromPlayer(engine);
             return false;
         }

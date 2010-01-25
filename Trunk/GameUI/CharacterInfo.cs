@@ -27,6 +27,7 @@ namespace Magecrawl.GameUI
         private int m_currentLevel;
         private bool m_inDanger;
         private List<ICharacter> m_monstersNearby;
+        private int m_turnCount;
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
@@ -34,6 +35,7 @@ namespace Magecrawl.GameUI
             m_currentLevel = engine.CurrentLevel;
             m_inDanger = engine.DangerInLOS();
             m_monstersNearby = engine.MonstersInPlayerLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
+            m_turnCount = engine.TurnCount;
         }
 
         private int HealthBarLength(ICharacter character, bool fuzzy)
@@ -149,11 +151,11 @@ namespace Magecrawl.GameUI
 
             if (Preferences.Instance.DebuggingMode)
             {
-                string inDanger = m_inDanger ? "Danger" : String.Empty;
-                screen.PrintLine(inDanger, 52, 55, LineAlignment.Left);
+                string turnCount = m_turnCount.ToString();
+                screen.PrintLine("Turn Count - " + turnCount, 52, 55, LineAlignment.Left);
 
                 string level = (m_currentLevel + 1).ToString();
-                screen.PrintLine(level, 52, 56, LineAlignment.Left);
+                screen.PrintLine("Level - " + level, 52, 56, LineAlignment.Left);
 
                 string position = m_player.Position.ToString();
                 screen.PrintLine(position, 52, 57, LineAlignment.Left);

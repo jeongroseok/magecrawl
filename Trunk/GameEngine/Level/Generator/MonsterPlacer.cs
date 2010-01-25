@@ -43,10 +43,13 @@ namespace Magecrawl.GameEngine.Level.Generator
                             map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Orc Barbarian", position));
                             break;
                         case 1:
-                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Slinger", position));
+                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Healer", position));
                             break;
                         case 2:
                             map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Wolf", position));
+                            break;
+                        case 3:
+                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Slinger", position));
                             break;
                     }
                 }
