@@ -4,6 +4,7 @@ using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
@@ -15,12 +16,14 @@ namespace Magecrawl.GameEngine.Actors
         protected static TCODRandom m_random;
         protected double CTAttackCost { get; set; }
         private DiceRoll m_damage;
+        protected Point m_playerLastKnownPosition;
 
         public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
             m_damage = damage;
+            m_playerLastKnownPosition = Point.Invalid;
         }
 
         static Monster()
@@ -52,6 +55,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (IsPlayerVisible(engine))
             {
+                UpdateKnownPlayerLocation(engine);
                 List<Point> pathToPlayer = GetPathToPlayer(engine);
 
                 if (IsNextToPlayer(engine, pathToPlayer))
@@ -62,17 +66,43 @@ namespace Magecrawl.GameEngine.Actors
 
                 if (HasPathToPlayer(engine, pathToPlayer))
                 {
-                    if (MoveTowardsPlayer(engine, pathToPlayer))
+                    if (MoveOnPath(engine, pathToPlayer))
                         return;
                 }
             }
-
-            // We have nothing else to do, so wander
-            WanderRandomly(engine);
-            return;
+            else
+            {
+                if (WalkTowardsLastKnownPosition(engine))
+                    return;
+                
+                WanderRandomly(engine);   // We have nothing else to do, so wander                
+                return;
+            }
         }
 
         #region ActionParts
+
+        protected void UpdateKnownPlayerLocation(CoreGameEngine engine)
+        {
+            m_playerLastKnownPosition = engine.Player.Position;
+        }
+
+        protected bool WalkTowardsLastKnownPosition(CoreGameEngine engine)
+        {
+            if (m_playerLastKnownPosition == Point.Invalid)
+                return false;
+
+            List<Point> pathTowards = engine.PathToPoint(this, m_playerLastKnownPosition, false, false, true);
+            if (pathTowards == null || pathTowards.Count == 0)
+            {
+                m_playerLastKnownPosition = Point.Invalid;
+                return false;
+            }
+            else
+            {
+                return MoveOnPath(engine, pathTowards);
+            }
+        }
 
         protected List<Point> GetPathToPlayer(CoreGameEngine engine)
         {
@@ -98,13 +128,13 @@ namespace Magecrawl.GameEngine.Actors
 
         protected bool MoveTowardsPlayer(CoreGameEngine engine)
         {
-            return MoveTowardsPlayer(engine, GetPathToPlayer(engine));
+            return MoveOnPath(engine, GetPathToPlayer(engine));
         }
 
-        protected bool MoveTowardsPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
+        protected bool MoveOnPath(CoreGameEngine engine, List<Point> path)
         {
-            Direction towardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(Position, pathToPlayer[0]);
-            if (engine.Move(this, towardsPlayer))
+            Direction nextPosition = PointDirectionUtils.ConvertTwoPointsToDirection(Position, path[0]);
+            if (engine.Move(this, nextPosition))
                 return true;
             return false;
         }
@@ -173,6 +203,7 @@ namespace Magecrawl.GameEngine.Actors
             base.ReadXml(reader);
             CTAttackCost = reader.ReadElementContentAsDouble();
             m_damage.ReadXml(reader);
+            m_playerLastKnownPosition.ReadXml(reader);
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
@@ -181,6 +212,7 @@ namespace Magecrawl.GameEngine.Actors
             base.WriteXml(writer);
             writer.WriteElementString("MeleeSpeed", CTAttackCost.ToString());
             m_damage.WriteXml(writer);
+            m_playerLastKnownPosition.WriteToXml(writer, "PlayerLastKnownPosition");
         }
 
         #endregion
