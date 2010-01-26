@@ -9,12 +9,16 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Weapons
 {
-    internal abstract class WeaponBase : Item, IWeapon
+    internal abstract class WeaponBase : ItemWithOwner, IWeapon
     {
         protected DiceRoll m_damage;
         protected double m_ctCostToAttack;
 
-        protected WeaponBase(string name, string itemDescription, string flavorText) : base(name, itemDescription, flavorText)
+        protected WeaponBase(string name, string itemDescription, string flavorText) : this(null, name, itemDescription, flavorText)
+        {
+        }
+
+        protected WeaponBase(ICharacter owner, string name, string itemDescription, string flavorText) : base(owner, name, itemDescription, flavorText)
         {
         }
 
@@ -22,8 +26,6 @@ namespace Magecrawl.GameEngine.Weapons
         {
             return this.MemberwiseClone();
         }
-
-        internal ICharacter Owner { get; set; }
 
         public abstract string AttackVerb
         {

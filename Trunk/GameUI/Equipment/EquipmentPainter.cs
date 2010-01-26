@@ -63,7 +63,7 @@ namespace Magecrawl.GameUI.Equipment
             equipmentList.Add(m_player.CurrentWeapon);
             equipmentList.Add(m_player.SecondaryWeapon);
             equipmentList.Add(null);
-            equipmentList.Add(null);
+            equipmentList.Add(m_player.ChestArmor);
             equipmentList.Add(null);
             equipmentList.Add(null);
             return equipmentList;

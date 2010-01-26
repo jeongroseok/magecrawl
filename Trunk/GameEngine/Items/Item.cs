@@ -64,5 +64,37 @@ namespace Magecrawl.GameEngine.Items
         {
             writer.WriteElementString("Type", m_name);
         }
+
+        static public void WriteXmlEntireNode(Item item, string elementName, XmlWriter writer)
+        {
+            writer.WriteStartElement(elementName);
+            if (item != null)
+                item.WriteXml(writer);
+            else
+                writer.WriteElementString("Type", "None");
+            writer.WriteEndElement();
+        }
+
+        static public Item ReadXmlEntireNode(XmlReader reader, ICharacter owner)
+        {
+            ItemWithOwner returnItem = (ItemWithOwner)ReadXmlEntireNode(reader);
+            if (returnItem != null)
+                returnItem.Owner = owner;
+            return returnItem;
+        }
+
+        static public Item ReadXmlEntireNode(XmlReader reader)
+        {
+            Item returnItem = null;
+            reader.ReadStartElement();
+            string equipedWeaponTypeString = reader.ReadElementString();
+            if (equipedWeaponTypeString != "None")
+            {
+                returnItem = CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
+                returnItem.ReadXml(reader);
+            }
+            reader.ReadEndElement();
+            return returnItem;
+        }
     }
 }
