@@ -35,5 +35,20 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        IArmor Headpiece
+        {
+            get;
+        }
+        
+        IArmor Gloves
+        {
+            get;
+        }
+
+        IArmor Boots
+        {
+            get;
+        }
     }
 }

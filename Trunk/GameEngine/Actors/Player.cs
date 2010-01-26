@@ -18,6 +18,9 @@ namespace Magecrawl.GameEngine.Actors
         public int MaxMP { get; internal set; }
 
         public IArmor ChestArmor { get; internal set; }
+        public IArmor Headpiece { get; internal set; }
+        public IArmor Gloves { get; internal set; }
+        public IArmor Boots { get; internal set; }
 
         private List<Item> m_itemList;
 
@@ -34,10 +37,11 @@ namespace Magecrawl.GameEngine.Actors
             CurrentMP = 10;
             MaxMP = 10;
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sling"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Scroll of Haste"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand of Haste"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));            
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Armor"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Cap"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Gloves"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Boots"));
         }
 
         public IList<ISpell> Spells
@@ -78,6 +82,24 @@ namespace Magecrawl.GameEngine.Actors
                 ChestArmor = (IArmor)item;
                 return previousArmor;
             }
+            if (item is Headpiece)
+            {
+                IItem previousArmor = (IItem)Headpiece;
+                Headpiece = (IArmor)item;
+                return previousArmor;
+            }
+            if (item is Gloves)
+            {
+                IItem previousArmor = (IItem)Gloves;
+                Gloves = (IArmor)item;
+                return previousArmor;
+            }
+            if (item is Boots)
+            {
+                IItem previousArmor = (IItem)Boots;
+                Boots = (IArmor)item;
+                return previousArmor;
+            }
 
             return base.Equip(item);
         }
@@ -88,6 +110,24 @@ namespace Magecrawl.GameEngine.Actors
             {
                 IItem previousArmor = (IItem)ChestArmor;
                 ChestArmor = null;
+                return previousArmor;
+            }
+            if (item is Headpiece)
+            {
+                IItem previousArmor = (IItem)Headpiece;
+                Headpiece = null;
+                return previousArmor;
+            }
+            if (item is Gloves)
+            {
+                IItem previousArmor = (IItem)Gloves;
+                Gloves = null;
+                return previousArmor;
+            }
+            if (item is Boots)
+            {
+                IItem previousArmor = (IItem)Boots;
+                Boots = null;
                 return previousArmor;
             }
 
@@ -131,6 +171,9 @@ namespace Magecrawl.GameEngine.Actors
             MaxMP = reader.ReadElementContentAsInt();
 
             ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader, this);
+            Headpiece = (IArmor)Item.ReadXmlEntireNode(reader, this);
+            Gloves = (IArmor)Item.ReadXmlEntireNode(reader, this);
+            Boots = (IArmor)Item.ReadXmlEntireNode(reader, this);
 
             m_itemList = new List<Item>();
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
@@ -153,6 +196,9 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("MaxMagic", MaxMP.ToString());
 
             Item.WriteXmlEntireNode((Item)ChestArmor, "ChestArmor", writer);
+            Item.WriteXmlEntireNode((Item)Headpiece, "Headpiece", writer);
+            Item.WriteXmlEntireNode((Item)Gloves, "Gloves", writer);
+            Item.WriteXmlEntireNode((Item)Boots, "Boots", writer);
 
             ListSerialization.WriteListToXML(writer, m_itemList, "Items");
             writer.WriteEndElement();

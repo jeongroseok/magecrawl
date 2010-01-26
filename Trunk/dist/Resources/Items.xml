@@ -31,4 +31,10 @@
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
 <Armor  Name="Leather Armor" BaseType="ChestArmor" ItemDescription="Item Description"
         FlavorText="Flavor Text"/>
+<Armor  Name="Leather Cap" BaseType="Headpiece" ItemDescription="Item Description"
+        FlavorText="Flavor Text"/>
+<Armor  Name="Leather Gloves" BaseType="Gloves" ItemDescription="Item Description"
+        FlavorText="Flavor Text"/>
+<Armor  Name="Leather Boots" BaseType="Boots" ItemDescription="Item Description"
+        FlavorText="Flavor Text"/>
 </Items>
