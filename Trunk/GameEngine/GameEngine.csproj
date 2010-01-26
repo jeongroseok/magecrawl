@@ -63,6 +63,9 @@
     <Compile Include="Affects\FalseLife.cs" />
     <Compile Include="Affects\Haste.cs" />
     <Compile Include="Affects\Poison.cs" />
+    <Compile Include="Armor\ArmorBase.cs" />
+    <Compile Include="Armor\ChestArmor.cs" />
+    <Compile Include="Interfaces\IArmor.cs" />
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />
     <Compile Include="CombatEngine.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Interfaces\IWand.cs" />
     <Compile Include="Items\IItemWithEffects.cs" />
     <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemWithOwner.cs" />
     <Compile Include="Items\Potion.cs" />
     <Compile Include="Items\Scroll.cs" />
     <Compile Include="Items\Wand.cs" />

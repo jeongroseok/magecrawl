@@ -376,11 +376,11 @@ namespace Magecrawl.GameEngine
             if (character.CurrentWeapon.GetType() == typeof(MeleeWeapon) && character.SecondaryWeapon.GetType() == typeof(MeleeWeapon))
                 return false;
 
-            IWeapon mainWeapon = character.UnequipWeapon();
+            IWeapon mainWeapon = (IWeapon)character.Unequip((IItem)character.CurrentWeapon);
             IWeapon secondaryWeapon = character.UnequipSecondaryWeapon();
             
             if (secondaryWeapon != null)
-                character.EquipWeapon(secondaryWeapon);
+                character.Equip((IItem)secondaryWeapon);
             
             if (mainWeapon != null)
                 character.EquipSecondaryWeapon(mainWeapon);
@@ -402,7 +402,7 @@ namespace Magecrawl.GameEngine
                 {
                     // This probally should live in the player code
                     m_player.RemoveItem(item as Item);
-                    Item oldWeapon = m_player.EquipWeapon(item as IWeapon) as Item;
+                    Item oldWeapon = m_player.Equip(item) as Item;
                     if (oldWeapon != null)
                         m_player.TakeItem(oldWeapon);
                     didSomething = true;
@@ -420,7 +420,7 @@ namespace Magecrawl.GameEngine
                 }
                 case "Unequip":
                 {
-                    Item oldWeapon = m_player.UnequipWeapon() as Item;
+                    Item oldWeapon = m_player.Unequip(item) as Item;
                     if (oldWeapon != null)
                         m_player.TakeItem(oldWeapon);
                     didSomething = true;

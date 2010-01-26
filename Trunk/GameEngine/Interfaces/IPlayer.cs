@@ -30,5 +30,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        IArmor ChestArmor
+        {
+            get;
+        }
     }
 }

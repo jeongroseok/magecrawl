@@ -96,7 +96,22 @@ namespace Magecrawl.GameEngine.Actors
             s_idCounter++;
         }
 
-        internal IWeapon EquipWeapon(IWeapon weapon)
+        virtual internal IItem Equip(IItem item)
+        {
+            if (item is IWeapon)
+                return (IItem)EquipWeapon((IWeapon)item);
+
+            throw new System.InvalidOperationException("Don't know how to equip - " + item.GetType());
+        }
+
+        virtual internal IItem Unequip(IItem item)
+        {
+            if (item is IWeapon)
+                return (IItem)UnequipWeapon();
+            throw new System.InvalidOperationException("Don't know how to unequip - " + item.GetType());
+        }
+
+        private IWeapon EquipWeapon(IWeapon weapon)
         {
             if (weapon == null)
                 throw new System.ArgumentException("EquipWeapon - Null weapon");
@@ -112,7 +127,7 @@ namespace Magecrawl.GameEngine.Actors
             return oldWeapon;
         }
 
-        public IWeapon UnequipWeapon()
+        private IWeapon UnequipWeapon()
         {
             if (m_equipedWeapon == null)
                 return null;
@@ -257,7 +272,7 @@ namespace Magecrawl.GameEngine.Actors
 
             writer.WriteElementString("CTIncraseModifier", CTIncreaseModifier.ToString());
             writer.WriteElementString("CTCostModifierToMove", CTCostModifierToMove.ToString());
-            writer.WriteElementString("CTCostModifierToAct ", CTCostModifierToAct.ToString());
+            writer.WriteElementString("CTCostModifierToAct", CTCostModifierToAct.ToString());
 
             ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");
 
@@ -266,28 +281,12 @@ namespace Magecrawl.GameEngine.Actors
 
         private WeaponBase ReadWeaponFromSave(XmlReader reader)
         {
-            WeaponBase weapon = null;
-            reader.ReadStartElement();
-            string equipedWeaponTypeString = reader.ReadElementString();
-            if (equipedWeaponTypeString != "None")
-            {
-                weapon = (WeaponBase)CoreGameEngine.Instance.ItemFactory.CreateItem(equipedWeaponTypeString);
-                weapon.ReadXml(reader);
-                weapon.Owner = this;
-            }
-            reader.ReadEndElement();
-            return weapon;
+            return (WeaponBase)Item.ReadXmlEntireNode(reader, this);
         }
 
         private void WriteWeaponToSave(XmlWriter writer, WeaponBase weapon)
         {
-            writer.WriteStartElement("EquipedWeapon");
-            Item itemToSave = weapon as Item;
-            if (itemToSave != null)
-                itemToSave.WriteXml(writer);
-            else
-                writer.WriteElementString("Type", "None");
-            writer.WriteEndElement();
+            Item.WriteXmlEntireNode(weapon, "EquipedWeapon", writer);
         }
 
         #endregion

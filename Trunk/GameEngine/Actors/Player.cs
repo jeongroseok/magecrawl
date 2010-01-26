@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Affects;
+using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -17,6 +16,8 @@ namespace Magecrawl.GameEngine.Actors
         public int CurrentMP { get; internal set; }
 
         public int MaxMP { get; internal set; }
+
+        public IArmor ChestArmor { get; internal set; }
 
         private List<Item> m_itemList;
 
@@ -35,7 +36,8 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sling"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Scroll of Haste"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand of Haste"));            
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand of Haste"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Armor"));
         }
 
         public IList<ISpell> Spells
@@ -66,6 +68,30 @@ namespace Magecrawl.GameEngine.Actors
             {
                 return m_affects.Select(a => a.Name).ToList();
             }
+        }
+
+        internal override IItem Equip(IItem item)
+        {
+            if (item is ChestArmor)
+            {
+                IItem previousArmor = (IItem)ChestArmor;
+                ChestArmor = (IArmor)item;
+                return previousArmor;
+            }
+
+            return base.Equip(item);
+        }
+
+        internal override IItem Unequip(IItem item)
+        {
+            if (item is ChestArmor)
+            {
+                IItem previousArmor = (IItem)ChestArmor;
+                ChestArmor = null;
+                return previousArmor;
+            }
+
+            return base.Unequip(item);
         }
 
         internal void TakeItem(Item i)
@@ -104,6 +130,8 @@ namespace Magecrawl.GameEngine.Actors
             CurrentMP = reader.ReadElementContentAsInt();
             MaxMP = reader.ReadElementContentAsInt();
 
+            ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader, this);
+
             m_itemList = new List<Item>();
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
@@ -123,6 +151,8 @@ namespace Magecrawl.GameEngine.Actors
 
             writer.WriteElementString("CurrentMagic", CurrentMP.ToString());
             writer.WriteElementString("MaxMagic", MaxMP.ToString());
+
+            Item.WriteXmlEntireNode((Item)ChestArmor, "ChestArmor", writer);
 
             ListSerialization.WriteListToXML(writer, m_itemList, "Items");
             writer.WriteEndElement();

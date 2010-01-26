@@ -7,9 +7,8 @@ namespace Magecrawl.GameEngine.Weapons
 {
     internal class MeleeWeapon : WeaponBase
     {
-        internal MeleeWeapon(ICharacter owner) : base("Melee", "Your Natural Weapons", String.Empty)
+        internal MeleeWeapon(ICharacter owner) : base(owner, "Melee", "Your Natural Weapons", String.Empty)
         {
-            Owner = owner;
         }
 
         public override DiceRoll Damage

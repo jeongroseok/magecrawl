@@ -75,6 +75,15 @@ namespace Magecrawl.GameEngine.Items
                     string flavorText = reader.GetAttribute("FlavorText");
                     m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damage, ctCost, description, flavorText));
                 }
+                if (reader.LocalName == "Armor")
+                {
+                    string name = reader.GetAttribute("Name");
+                    string baseType = reader.GetAttribute("BaseType");
+
+                    string description = reader.GetAttribute("Description");
+                    string flavorText = reader.GetAttribute("FlavorText");
+                    m_itemMapping.Add(name, (Item)CreateArmorCore(baseType, name, description, flavorText));
+                }
                 if (reader.LocalName == "Potion" || reader.LocalName == "Scroll")
                 {
                     bool potion = reader.LocalName == "Potion";
@@ -110,18 +119,24 @@ namespace Magecrawl.GameEngine.Items
             reader.Close();
         }
 
-        private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, double ctCost, string description, string flavorTest)
+        private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, double ctCost, string description, string flavorText)
         {
-            Assembly weaponsAssembly = this.GetType().Assembly;
-            Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Weapons." + typeName);
+            return (IWeapon)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Weapons", typeName), name, damage, ctCost, description, flavorText);
+        }
+
+        private IArmor CreateArmorCore(string typeName, string name, string description, string flavorText)
+        {
+            return (IArmor)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Armor", typeName), name, description, flavorText);
+        }
+
+        private Type GetTypeToMake(string space, string typeName)
+        {
+            Assembly thisAssembly = this.GetType().Assembly;
+            Type type = thisAssembly.GetType(space + "." + typeName);
             if (type != null)
-            {
-                return Activator.CreateInstance(type, name, damage, ctCost, description, flavorTest) as IWeapon;
-            }
+                return type;
             else
-            {
-                throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
-            }
+                throw new ArgumentException("CreateItemFromNamespace - don't know how to make: " + typeName);
         }
     }
 }

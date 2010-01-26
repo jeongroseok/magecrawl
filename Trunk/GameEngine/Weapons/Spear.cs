@@ -12,7 +12,6 @@ namespace Magecrawl.GameEngine.Weapons
     {
         public Spear(string name, DiceRoll damage, double ctCost, string description, string flavorText) : base(name, description, flavorText)
         {
-            Owner = null;
             m_damage = damage;
             m_ctCostToAttack = ctCost;
         }

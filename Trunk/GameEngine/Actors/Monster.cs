@@ -36,7 +36,7 @@ namespace Magecrawl.GameEngine.Actors
             Monster newMonster = (Monster)this.MemberwiseClone();
 
             if (CurrentWeapon.GetType() != typeof(MeleeWeapon))
-                newMonster.EquipWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(CurrentWeapon.DisplayName));
+                newMonster.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem(CurrentWeapon.DisplayName));
 
             if (SecondaryWeapon.GetType() != typeof(MeleeWeapon))
                 newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(SecondaryWeapon.DisplayName));

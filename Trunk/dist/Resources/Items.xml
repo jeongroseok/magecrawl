@@ -29,4 +29,6 @@
 <Wand   Name="Wand of Haste" EffectType="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
         ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
+<Armor  Name="Leather Armor" BaseType="ChestArmor" ItemDescription="Item Description"
+        FlavorText="Flavor Text"/>
 </Items>
