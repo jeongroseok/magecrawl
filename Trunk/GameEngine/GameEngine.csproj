@@ -65,6 +65,9 @@
     <Compile Include="Affects\Poison.cs" />
     <Compile Include="Armor\ArmorBase.cs" />
     <Compile Include="Armor\ChestArmor.cs" />
+    <Compile Include="Armor\Boots.cs" />
+    <Compile Include="Armor\Gloves.cs" />
+    <Compile Include="Armor\Headpiece.cs" />
     <Compile Include="Interfaces\IArmor.cs" />
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />
