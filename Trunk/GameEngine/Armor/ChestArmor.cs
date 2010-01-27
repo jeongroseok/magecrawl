@@ -8,7 +8,8 @@ namespace Magecrawl.GameEngine.Armor
 {
     internal class ChestArmor : ArmorBase
     {
-        public ChestArmor(string name, string description, string flavorText) : base(name, description, flavorText)
+        public ChestArmor(string name, ArmorWeight weight, string description, string flavorText)
+            : base(name, weight, description, flavorText)
         {
         }
 

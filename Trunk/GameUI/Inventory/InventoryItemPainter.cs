@@ -63,7 +63,11 @@ namespace Magecrawl.GameUI.Inventory
 
             IWand asWand = m_selectedItem as IWand;
             if (asWand != null)
-                itemDescription += "\n\n" + string.Format("Charges: {0} of {1}", asWand.Charges, asWand.MaxCharges); 
+                itemDescription += "\n\n\n" + string.Format("Charges: {0} of {1}", asWand.Charges, asWand.MaxCharges);
+
+            IArmor asArmor = m_selectedItem as IArmor;
+            if (asArmor != null)
+                itemDescription += "\n\n\n" + string.Format("Weight: {0}", asArmor.Weight);
 
             screen.PrintLineRect(itemDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
         }

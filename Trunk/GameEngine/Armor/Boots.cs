@@ -8,7 +8,8 @@ namespace Magecrawl.GameEngine.Armor
 {
     internal class Gloves : ArmorBase
     {
-        public Gloves(string name, string description, string flavorText) : base(name, description, flavorText)
+        public Gloves(string name, ArmorWeight weight, string description, string flavorText)
+            : base(name, weight, description, flavorText)
         {
         }
 
