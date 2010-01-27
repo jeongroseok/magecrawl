@@ -80,9 +80,11 @@ namespace Magecrawl.GameEngine.Items
                     string name = reader.GetAttribute("Name");
                     string baseType = reader.GetAttribute("BaseType");
 
-                    string description = reader.GetAttribute("Description");
+                    string description = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
-                    m_itemMapping.Add(name, (Item)CreateArmorCore(baseType, name, description, flavorText));
+                    ArmorWeight weight = (ArmorWeight)Enum.Parse(typeof(ArmorWeight), reader.GetAttribute("ArmorWeight"));
+
+                    m_itemMapping.Add(name, (Item)CreateArmorCore(baseType, name, weight, description, flavorText));
                 }
                 if (reader.LocalName == "Potion" || reader.LocalName == "Scroll")
                 {
@@ -138,9 +140,9 @@ namespace Magecrawl.GameEngine.Items
             return (IWeapon)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Weapons", typeName), name, damage, ctCost, description, flavorText);
         }
 
-        private IArmor CreateArmorCore(string typeName, string name, string description, string flavorText)
+        private IArmor CreateArmorCore(string typeName, string name, ArmorWeight weight, string description, string flavorText)
         {
-            return (IArmor)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Armor", typeName), name, description, flavorText);
+            return (IArmor)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Armor", typeName), name, weight, description, flavorText);
         }
 
         private Type GetTypeToMake(string space, string typeName)

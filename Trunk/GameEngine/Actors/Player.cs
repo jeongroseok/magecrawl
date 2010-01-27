@@ -47,6 +47,10 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Helmet"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Gloves"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Boots"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Chainmail Armor"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Steel Helmet"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Mail Gauntlets"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Mail Greaves"));
         }
 
         public IList<ISpell> Spells

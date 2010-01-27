@@ -5,7 +5,17 @@ using System.Text;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
+    public enum ArmorWeight
+    {
+        Light,
+        Standard,
+        Heavy
+    }
     public interface IArmor : INamedItem
     {
+        ArmorWeight Weight
+        {
+            get;
+        }
     }
 }
