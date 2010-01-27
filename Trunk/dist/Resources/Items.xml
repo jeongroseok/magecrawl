@@ -39,12 +39,20 @@
 <Wand   Name="Wand Of Magic Missile" EffectType="RangedSingleTarget" TargettingType="Single Range" Range="4" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."
         FlavorText="A simple polished wooden dowel commonly found in schools of magic."/>
-<Armor  Name="Leather Armor" BaseType="ChestArmor" ItemDescription="Item Description"
-        FlavorText="Flavor Text"/>
-<Armor  Name="Leather Cap" BaseType="Headpiece" ItemDescription="Item Description"
-        FlavorText="Flavor Text"/>
-<Armor  Name="Leather Gloves" BaseType="Gloves" ItemDescription="Item Description"
-        FlavorText="Flavor Text"/>
-<Armor  Name="Leather Boots" BaseType="Boots" ItemDescription="Item Description"
-        FlavorText="Flavor Text"/>
+<Armor  Name="Robe" BaseType="ChestArmor" ItemDescription="A simple robe favored by acolytes and mage apprentices."
+        FlavorText="Water resistant and warm, but provides little combat protection."/>
+<Armor  Name="Wool Cap" BaseType="Headpiece" ItemDescription="Simple woolen cap, tan and somewhat stiff from wear."
+        FlavorText="Provides little protection from anything beyond sunlight and rain."/>
+<Armor  Name="Wool Gloves" BaseType="Gloves" ItemDescription="Woolen work gloves."
+        FlavorText="Used commonly in field work."/>
+<Armor  Name="Sandles" BaseType="Boots" ItemDescription="Formed from sturdy cloth or leather with leather strapes."
+        FlavorText="Protects against rocks and thorns underfoot."/>
+<Armor  Name="Leather Armor" BaseType="ChestArmor" ItemDescription="Tanned animal hides fashioned into a simple breastplate."
+        FlavorText="Able to mildly turn knifes and arrow strikes to the body."/>
+<Armor  Name="Leather Helmet" BaseType="Headpiece" ItemDescription="Beaten animal hides cured into a sturdy helmet."
+        FlavorText="Warm and uncomfortable in the sun but very sturdy."/>
+<Armor  Name="Leather Gloves" BaseType="Gloves" ItemDescription="Boiled leather worked into simple armor for the hands."
+        FlavorText="Hardened through a time consuming process of boiling with wax and worked with tools repeadily."/>
+<Armor  Name="Leather Boots" BaseType="Boots" ItemDescription="Well fashioned leather boots."
+        FlavorText="Sturdy thick leather sole laced up to the calf."/>
 </Items>
