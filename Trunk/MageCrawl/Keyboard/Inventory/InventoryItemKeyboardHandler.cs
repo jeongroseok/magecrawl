@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Inventory
 {
@@ -31,7 +32,37 @@ namespace Magecrawl.Keyboard.Inventory
 
         private void InventoryItemOptionSelectedDelegate(IItem item, string optionName)
         {
-            m_engine.PlayerSelectedItemOption(item, optionName);
+            string targettingNeeded = m_engine.GetTargettingTypeForInventoryItem(item);
+            
+            if(targettingNeeded == null)
+            {
+                InvokeSelected(item, optionName, null);
+            }
+            else if (targettingNeeded == "Self")
+            {
+                InvokeSelected(item, optionName, m_engine.Player.Position);
+            }
+            else if (targettingNeeded.StartsWith("Single Range"))
+            {
+                m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
+
+                int range = int.Parse(targettingNeeded.Split(':')[1]);
+                List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, range);
+                m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
+                m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);
+
+                m_gameInstance.SetHandlerName("Target", targetablePoints, new OnTargetSelection(x => {InvokeSelected(item, optionName, x); return false;})
+                    , null, TargettingKeystrokeHandler.TargettingType.Monster);
+            }
+            else
+            {
+                throw new InvalidOperationException("Don't know how to do that kind of targettings");                       
+            }
+        }
+
+        private void InvokeSelected(IItem item, string optionName, object arguemnt)
+        {
+            m_engine.PlayerSelectedItemOption(item, optionName, arguemnt);
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();

@@ -4,13 +4,13 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Items
 {
-    internal sealed class Wand : Item, IWand, IItemWithEffects
+    internal sealed class Wand : ItemWithEffects, IWand
     {
         private string m_effectType;
         private int m_strength;
 
-        internal Wand(string name, string effectType, int strength, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
-            : base(name, itemDescription, flavorText)
+        internal Wand(string name, string effectType, string targettingType, int strength, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
+            : base(name, effectType, targettingType, strength, itemDescription, flavorText)
         {
             m_effectType = effectType;
             m_strength = strength;
@@ -29,31 +29,7 @@ namespace Magecrawl.GameEngine.Items
 
         internal DiceRoll NewWandPossibleCharges { get; set; }
 
-        public string Name
-        {
-            get
-            {
-                return DisplayName;
-            }
-        }
-
-        public string EffectType
-        {
-            get
-            {
-                return m_effectType;
-            }
-        }
-
-        public int Strength
-        {
-            get
-            {
-                return m_strength;
-            }
-        }
-
-        public string OnUseString
+        public override string OnUseString
         {
             get
             {

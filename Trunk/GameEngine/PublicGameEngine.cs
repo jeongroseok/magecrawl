@@ -229,10 +229,17 @@ namespace Magecrawl.GameEngine
             return m_engine.GetOptionsForEquipmentItem(item as Item);
         }
 
-        public bool PlayerSelectedItemOption(IItem item, string option)
+        public string GetTargettingTypeForInventoryItem(IItem item)
+        {
+            if (item is ItemWithEffects)
+                return ((ItemWithEffects)item).TargettingType;
+            return null;
+        }
+
+        public bool PlayerSelectedItemOption(IItem item, string option, object argument)
         {
             m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerSelectedItemOption(item, option);
+            bool didAnything = m_engine.PlayerSelectedItemOption(item, option, argument);
             if (didAnything)
                 m_engine.AfterPlayerAction();
             return didAnything;
