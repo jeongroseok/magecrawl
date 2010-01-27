@@ -26,9 +26,19 @@
         FlavorText="Hundreds of lightning bugs are harvested during the nights of spring and are condensed into this blue syrup."/>
 <Scroll Name="Scroll of Haste" EffectType="Haste" Strength="2" ItemDescription="Reading this scroll will warp time around you for a short period of time, speeding your actions."
         FlavorText="The text of this scroll is blury and hard to keep in focus."/>
+<Scroll Name="Scroll of Teleportation" EffectType="Teleport" Strength="1" ItemDescription="Reading this scroll will warp space around you, moving you to a new location instantly."
+        FlavorText=">A thick parchment engraved in ink which fades and returns into view."/>
+<Potion Name="Scroll of Blinking" EffectType="Blink" Strength="1" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."
+        FlavorText=">Sparkely concoction filled with points of light that dance into and out of existance."/>
 <Wand   Name="Wand of Haste" EffectType="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
         ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
+<Wand   Name="Wand Of Ice Bolt" EffectType="RangedSingleTarget" TargettingType="Single Range" Range="5" Strength="3" StartCharges="1,4,1,1" MaxCharges="6"
+        ItemDescription="Zapping it creates a 2 foot long icicle and hurle it at the target."
+        FlavorText="A frozen icicle shaped wand, never melting no matter the temperature."/>
+<Wand   Name="Wand Of Magic Missile" EffectType="RangedSingleTarget" TargettingType="Single Range" Range="4" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
+        ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."
+        FlavorText="A simple polished wooden dowel commonly found in schools of magic."/>
 <Armor  Name="Leather Armor" BaseType="ChestArmor" ItemDescription="Item Description"
         FlavorText="Flavor Text"/>
 <Armor  Name="Leather Cap" BaseType="Headpiece" ItemDescription="Item Description"

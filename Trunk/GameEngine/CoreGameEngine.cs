@@ -390,7 +390,7 @@ namespace Magecrawl.GameEngine
         }
 
         // TODO - This should be somewhere else
-        internal bool PlayerSelectedItemOption(IItem item, string option)
+        internal bool PlayerSelectedItemOption(IItem item, string option, object argument)
         {
             bool didSomething = false;
             switch (option)
@@ -437,12 +437,12 @@ namespace Magecrawl.GameEngine
                 case "Drink":
                 case "Read":
                 {
-                    didSomething = m_physicsEngine.UseItemWithEffect(item as IItemWithEffects);
+                    didSomething = m_physicsEngine.UseItemWithEffect((ItemWithEffects)item, (Point)argument);
                     break;
                 }
                 case "Zap":
                 {
-                    didSomething = m_physicsEngine.PlayerZapWand(item as Wand);
+                    didSomething = m_physicsEngine.PlayerZapWand((Wand)item, (Point)argument);
                     break;
                 }
             }

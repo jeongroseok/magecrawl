@@ -72,7 +72,10 @@ namespace Magecrawl.GameEngine
         }
 
         internal bool AttackRanged(Character attacker, Point attackTarget, int damageDone, object attackingMethod, DamageDoneDelegate del)
-        {            
+        {
+            if (attacker.Position == attackTarget)
+                return false;
+
             List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, attackTarget);
             Character attackedCharacter = FindTargetAtPosition(attackTarget);
 

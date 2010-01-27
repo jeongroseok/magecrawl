@@ -282,27 +282,27 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
-        public bool UseItemWithEffect(IItemWithEffects item)
+        public bool UseItemWithEffect(ItemWithEffects item, Point targetedPoint)
         {
             if (m_player.Items.Contains((Item)item))
             {
                 m_player.RemoveItem((Item)item);
-                m_magicEffects.UseItemWithEffect(m_player, item);
+                m_magicEffects.UseItemWithEffect(m_player, item, targetedPoint);
                 return true;
             }
             return false;
         }
 
-        internal bool PlayerZapWand(Wand wand)
+        internal bool PlayerZapWand(Wand wand, Point targetedPoint)
         {
             if (m_player.Items.Contains(wand))
             {
-                m_magicEffects.UseItemWithEffect(m_player, wand);
+                m_magicEffects.UseItemWithEffect(m_player, wand, targetedPoint);
                 wand.Charges -= 1;
                 if (wand.Charges <= 0)
                 {
                     m_player.RemoveItem(wand);
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("{0} disintegrates as its last bit of magic is wrested from it.", wand.Name));
+                    CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} disintegrates as its last bit of magic is wrested from it.", wand.Name));
                 }
                 return true;
             }

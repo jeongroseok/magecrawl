@@ -34,10 +34,10 @@ namespace Magecrawl.GameEngine.Magic
             return false;
         }
 
-        internal void UseItemWithEffect(Character drinker, IItemWithEffects item)
+        internal void UseItemWithEffect(Character invoker, ItemWithEffects item, Point targetedPoint)
         {
-            string effectString = string.Format(item.OnUseString, drinker.Name, item.Name);
-            DoEffect(drinker, item, item.EffectType, item.Strength, drinker.Position, effectString);
+            string effectString = string.Format(item.OnUseString, invoker.Name, item.Name);
+            DoEffect(invoker, item, item.EffectType, item.Strength, targetedPoint, effectString);
             return;
         }
 

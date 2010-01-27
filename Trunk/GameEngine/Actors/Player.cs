@@ -37,7 +37,8 @@ namespace Magecrawl.GameEngine.Actors
             CurrentMP = 10;
             MaxMP = 10;
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sling"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Bronze Spear"));            
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Ice Bolt"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Armor"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Cap"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Gloves"));

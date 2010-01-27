@@ -77,14 +77,14 @@ namespace Magecrawl.GameEngine.Interfaces
         List<ICharacter> MonstersInPlayerLOS();
 
         bool PlayerSwapPrimarySecondaryWeapons();
-        List<ItemOptions> GetOptionsForInventoryItem(IItem item);
-        List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
 
         List<Point> SpellCastDrawablePoints(ISpell spell, Point target);
         bool IsRangedPathBetweenPoints(Point x, Point y);
-        
-        // TODO: What to do here when you zap a want and need a target?
-        bool PlayerSelectedItemOption(IItem item, string option);
+
+        List<ItemOptions> GetOptionsForInventoryItem(IItem item);
+        List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
+        string GetTargettingTypeForInventoryItem(IItem item);
+        bool PlayerSelectedItemOption(IItem item, string option, object argument);
 
         TileVisibility[,] CalculateTileVisibility();
         void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
