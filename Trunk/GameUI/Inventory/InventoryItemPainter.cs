@@ -101,6 +101,14 @@ namespace Magecrawl.GameUI.Inventory
 
         internal void SelectOptionOnCurrent(InventoryItemOptionSelected onSelected)
         {
+            // If there were no options and hit enter...
+            if (m_optionList.Count == 0)
+            {
+                // Callback on null to cause windows to disappear then break.
+                onSelected(null, null);
+                return;
+            }
+
             if (m_optionList[m_cursorPosition].Enabled)
                 onSelected(m_selectedItem, m_optionList[m_cursorPosition].Option);
         }

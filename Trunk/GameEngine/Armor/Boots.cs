@@ -20,10 +20,14 @@ namespace Magecrawl.GameEngine.Armor
                 List<ItemOptions> optionList = new List<ItemOptions>();
 
                 if (CoreGameEngine.Instance.Player.Gloves == this)
-                    optionList.Add(new ItemOptions("Unequip", true));
+                {
+                    if (!CanNotUnequip)
+                        optionList.Add(new ItemOptions("Unequip", true));
+                }
                 else
                 {
-                    optionList.Add(new ItemOptions("Equip", true));
+                    if (IsUnequipable(CoreGameEngine.Instance.Player.Boots))
+                        optionList.Add(new ItemOptions("Equip", true));
                     optionList.Add(new ItemOptions("Drop", true));
                 }
 

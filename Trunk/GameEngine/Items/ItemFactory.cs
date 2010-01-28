@@ -13,6 +13,7 @@ namespace Magecrawl.GameEngine.Items
     internal sealed class ItemFactory
     {
         private Dictionary<string, Item> m_itemMapping;
+        private HashSet<Item> m_itemsNotToDrop;
         private static TCODRandom m_random;
 
         static ItemFactory()
@@ -37,14 +38,19 @@ namespace Magecrawl.GameEngine.Items
 
         public Item CreateRandomItem()
         {
-            int targetLocation = m_random.GetRandomInt(0, m_itemMapping.Count - 1);
-            string itemName = m_itemMapping.Keys.ToList()[targetLocation];
-            return CreateItem(itemName);
+            while (true)
+            {
+                int targetLocation = m_random.GetRandomInt(0, m_itemMapping.Count - 1);
+                string itemName = m_itemMapping.Keys.ToList()[targetLocation];
+                if(!m_itemsNotToDrop.Contains(m_itemMapping[itemName]))
+                    return CreateItem(itemName);
+            }
         }
 
         private void LoadMappings()
         {
             m_itemMapping = new Dictionary<string, Item>();
+            m_itemsNotToDrop = new HashSet<Item>();
 
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
@@ -74,6 +80,8 @@ namespace Magecrawl.GameEngine.Items
                     string description = reader.GetAttribute("Description");
                     string flavorText = reader.GetAttribute("FlavorText");
                     m_itemMapping.Add(name, (Item)CreateWeaponCore(baseType, name, damage, ctCost, description, flavorText));
+
+                    CheckForNotDropList(reader, name);
                 }
                 if (reader.LocalName == "Armor")
                 {
@@ -85,6 +93,8 @@ namespace Magecrawl.GameEngine.Items
                     ArmorWeight weight = (ArmorWeight)Enum.Parse(typeof(ArmorWeight), reader.GetAttribute("ArmorWeight"));
 
                     m_itemMapping.Add(name, (Item)CreateArmorCore(baseType, name, weight, description, flavorText));
+
+                    CheckForNotDropList(reader, name);
                 }
                 if (reader.LocalName == "Potion" || reader.LocalName == "Scroll")
                 {
@@ -108,6 +118,8 @@ namespace Magecrawl.GameEngine.Items
                         m_itemMapping.Add(name, new Potion(name, effectType, targettingType, strength, itemDescription, flavorText));
                     else
                         m_itemMapping.Add(name, new Scroll(name, effectType, targettingType, strength, itemDescription, flavorText));
+
+                    CheckForNotDropList(reader, name);
                 }
                 if (reader.LocalName == "Wand")
                 {
@@ -130,9 +142,18 @@ namespace Magecrawl.GameEngine.Items
                     int maxNumberCharges = int.Parse(reader.GetAttribute("MaxCharges"));
 
                     m_itemMapping.Add(name, new Wand(name, effectType, targettingType, strength, itemDescription, flavorText, maxNumberCharges, startingCharges));
+
+                    CheckForNotDropList(reader, name);
                 }
             }
             reader.Close();
+        }
+
+        private void CheckForNotDropList(XmlReader reader, string name)
+        {
+            string doNotDropString = reader.GetAttribute("DoNotDrop");
+            if (doNotDropString != null && doNotDropString == "True")
+                m_itemsNotToDrop.Add(m_itemMapping[name]);
         }
 
         private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, double ctCost, string description, string flavorText)
