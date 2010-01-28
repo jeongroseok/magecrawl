@@ -14,6 +14,7 @@ namespace Magecrawl.GameEngine.Affects
 
         internal static AffectBase CreateAffect(string affectName, int level)
         {
+            // MEF?
             switch (affectName)
             {
                 case "Haste":
@@ -26,6 +27,8 @@ namespace Magecrawl.GameEngine.Affects
                     return new EagleEye(level);
                 case "Poison":
                     return new Poison(level);
+                case "Earthen Armor":
+                    return new EarthenArmor(level);
                 default:
                     return null;
             }

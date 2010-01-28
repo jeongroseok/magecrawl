@@ -66,4 +66,7 @@
         FlavorText="The small metal ring segments allow enough flexability to wield weapons without much loss of movement."/>
 <Armor  Name="Mail Greaves" BaseType="Boots" ArmorWeight="Standard" ItemDescription="Intermeshed metal rings provide protection for the legs and feet."
         FlavorText="Mail production is labor intensive to produce and requires regular maintenance to prevent rusting."/>
+
+<Armor  Name="Earthen Armor" BaseType="ChestArmor" ArmorWeight="Heavy" DoNotDrop="True" ItemDescription="Elemental rock and stone provide a heavy but strong protection from harm."
+        FlavorText="Those who wear this armor take upon themselves attributes of earth elements: slow, incredable resistance to harm, and a chalky smell."/>
 </Items>

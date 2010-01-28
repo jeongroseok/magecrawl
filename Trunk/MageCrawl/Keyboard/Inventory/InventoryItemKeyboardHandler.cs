@@ -32,6 +32,12 @@ namespace Magecrawl.Keyboard.Inventory
 
         private void InventoryItemOptionSelectedDelegate(IItem item, string optionName)
         {
+            if (item == null)
+            {
+                Escape();
+                return;
+            }
+
             string targettingNeeded = m_engine.GetTargettingTypeForInventoryItem(item);
             
             if(targettingNeeded == null)

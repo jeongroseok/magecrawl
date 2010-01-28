@@ -62,7 +62,8 @@ namespace Magecrawl.GameEngine.Actors
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Zap"), SpellFactory.CreateSpell("Lightning Bolt"),
                     SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye"),
                     SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
-                    SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow")
+                    SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow"),
+                    SpellFactory.CreateSpell("Earthen Armor")
                 };
             }
         }

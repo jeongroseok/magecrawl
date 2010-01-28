@@ -118,6 +118,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Haste":
                 case "False Life":
                 case "Eagle Eye":
+                case "Earthen Armor":
                 {
                     invoker.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
                     return true;

@@ -11,4 +11,5 @@
 <Spell Name="Poison Touch" School="Earth" EffectType="Poison Bolt" TargetType="Single Range" Range="1" Cost="1" Strength="1"/>
 <Spell Name="Blink" School="Arcane" EffectType="Blink" TargetType="Self" Cost="2" Strength="1"/>
 <Spell Name="Teleport" School="Arcane" EffectType="Teleport" TargetType="Self" Cost="5" Strength="1"/>
+<Spell Name="Earthen Armor" School="Earth" EffectType="Earthen Armor" TargetType="Self" Cost="1" Strength="1"/>
 </Spells>
