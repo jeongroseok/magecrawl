@@ -5,11 +5,12 @@ namespace Magecrawl.GameEngine.Armor
 {
     internal abstract class ArmorBase : ItemWithOwner, IArmor
     {
-        ArmorWeight m_weight;
-        internal ArmorBase(string name, ArmorWeight weight, string itemDescription, string flavorText)
+        internal ArmorBase(string name, ArmorWeight weight, double defense, double evade, string itemDescription, string flavorText)
             : base(null, name, itemDescription, flavorText)
         {
-            m_weight = weight;
+            Weight = weight;
+            Defense = defense;
+            Evade = evade;
             CanNotUnequip = false;
         }
 
@@ -33,10 +34,20 @@ namespace Magecrawl.GameEngine.Armor
 
         public ArmorWeight Weight
         {
-            get
-            {
-                return m_weight;
-            }
+            get;
+            private set;
+        }
+
+        public double Defense
+        {
+            get;
+            private set;
+        }
+
+        public double Evade
+        {
+            get;
+            private set;
         }
 
         public override void ReadXml(System.Xml.XmlReader reader)
