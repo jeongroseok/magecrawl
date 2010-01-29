@@ -12,7 +12,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal class Character : Interfaces.ICharacter, IXmlSerializable
+    internal class Character : ICharacter, IXmlSerializable
     {
         public Point Position { get; internal set; }
 
@@ -168,6 +168,22 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return CurrentWeapon.CTCostToAttack;
+            }
+        }
+
+        public virtual double Evade
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public virtual double Defense
+        {
+            get
+            {
+                return 0;
             }
         }
 

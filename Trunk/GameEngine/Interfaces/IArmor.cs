@@ -17,5 +17,15 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        double Defense
+        {
+            get;
+        }
+
+        double Evade
+        {
+            get;
+        }
     }
 }

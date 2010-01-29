@@ -38,7 +38,7 @@ namespace Magecrawl.GameUI.Equipment
 
                 screen.DrawFrame(EquipmentWindowOffset + 1, EquipmentWindowTopY + EquipmentItemHeight - 6, EquipmentItemWidth - 2, 5, true);
 
-                string weaponString = string.Format("Damage: {0}", m_player.CurrentWeapon.Damage.ToString());
+                string weaponString = string.Format("Damage: {0}     Evade: {1}     Defense: {2}", m_player.CurrentWeapon.Damage.ToString(), m_player.Evade.ToString(), m_player.Defense.ToString());
                 screen.PrintLine(weaponString, EquipmentWindowOffset + 3, EquipmentWindowTopY + EquipmentItemHeight - 4, LineAlignment.Left);
 
                 List<INamedItem> equipmentList = CreateEquipmentListFromPlayer();

@@ -18,12 +18,14 @@ namespace Magecrawl.GameEngine.Actors
         private DiceRoll m_damage;
         protected Point m_playerLastKnownPosition;
 
-        public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double defense, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
             m_damage = damage;
             m_playerLastKnownPosition = Point.Invalid;
+            m_defense = defense;
+            m_evade = evade;
         }
 
         static Monster()
@@ -189,6 +191,24 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         #endregion
+
+        private double m_defense;
+        public override double Defense
+        {
+            get
+            {
+                return m_defense;
+            }
+        }
+
+        private double m_evade;
+        public override double Evade
+        {
+            get
+            {
+                return m_evade;
+            }
+        }
 
         public override DiceRoll MeleeDamage
         {

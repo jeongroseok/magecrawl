@@ -170,6 +170,24 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public override double Evade
+        {
+            get
+            {
+                List<IArmor> armorList = new List<IArmor>() { ChestArmor, Boots, Headpiece, Gloves };
+                return armorList.Where(x => x != null).Sum(x => x.Evade);
+            }
+        }
+
+        public override double Defense
+        {
+            get
+            {
+                List<IArmor> armorList = new List<IArmor>() { ChestArmor, Boots, Headpiece, Gloves };
+                return armorList.Where(x => x != null).Sum(x => x.Defense);
+            }
+        }
+
         #region SaveLoad
 
         public override void ReadXml(XmlReader reader)

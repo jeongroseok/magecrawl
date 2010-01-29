@@ -92,7 +92,10 @@ namespace Magecrawl.GameEngine.Items
                     string flavorText = reader.GetAttribute("FlavorText");
                     ArmorWeight weight = (ArmorWeight)Enum.Parse(typeof(ArmorWeight), reader.GetAttribute("ArmorWeight"));
 
-                    m_itemMapping.Add(name, (Item)CreateArmorCore(baseType, name, weight, description, flavorText));
+                    double defense = double.Parse(reader.GetAttribute("Defense"));
+                    double evade = double.Parse(reader.GetAttribute("Evade"));
+
+                    m_itemMapping.Add(name, (Item)CreateArmorCore(baseType, name, weight, defense, evade, description, flavorText));
 
                     CheckForNotDropList(reader, name);
                 }
@@ -161,9 +164,9 @@ namespace Magecrawl.GameEngine.Items
             return (IWeapon)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Weapons", typeName), name, damage, ctCost, description, flavorText);
         }
 
-        private IArmor CreateArmorCore(string typeName, string name, ArmorWeight weight, string description, string flavorText)
+        private IArmor CreateArmorCore(string typeName, string name, ArmorWeight weight, double defense, double evade, string description, string flavorText)
         {
-            return (IArmor)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Armor", typeName), name, weight, description, flavorText);
+            return (IArmor)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Armor", typeName), name, weight, defense, evade, description, flavorText);
         }
 
         private Type GetTypeToMake(string space, string typeName)
