@@ -60,7 +60,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get
             {
-                return "strikes";
+                return "strikes at";
             }
         }
     }

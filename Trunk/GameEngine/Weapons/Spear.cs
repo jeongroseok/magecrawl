@@ -38,7 +38,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get
             {
-                return "stabs";
+                return "stabs at";
             }
         }
     }
