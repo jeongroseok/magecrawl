@@ -69,6 +69,7 @@
     <Compile Include="Armor\Boots.cs" />
     <Compile Include="Armor\Gloves.cs" />
     <Compile Include="Armor\Headpiece.cs" />
+    <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="Interfaces\IArmor.cs" />
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />

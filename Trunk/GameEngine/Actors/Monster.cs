@@ -192,6 +192,7 @@ namespace Magecrawl.GameEngine.Actors
 
         #endregion
 
+        // Override since monsters don't use equipment yet
         private double m_defense;
         public override double Defense
         {

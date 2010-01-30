@@ -175,7 +175,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return 0;
+                return CombatDefenseCalculator.CalculateEvade(this);
             }
         }
 
@@ -183,7 +183,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return 0;
+                return CombatDefenseCalculator.CalculateDefense(this);
             }
         }
 

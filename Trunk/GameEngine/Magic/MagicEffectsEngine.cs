@@ -98,7 +98,7 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "RangedSingleTarget":
                 {
-                    m_combatEngine.AttackRanged(invoker, target, CalculateDamgeFromSpell(strength), invokingMethod, DamageDoneDelegate);
+                    m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(strength), invokingMethod, DamageDoneDelegate);
                     return true;
                 }
                 case "RangedBlast":
@@ -125,7 +125,7 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Poison Bolt":
                 {
-                    m_combatEngine.AttackRanged(invoker, target, 1, invokingMethod, DamageDoneDelegate);
+                    m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
                     Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
                     if (targetCharacter != null)
                         targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));

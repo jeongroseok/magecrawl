@@ -46,16 +46,13 @@ namespace Magecrawl.GameEngine
             if (!attacker.CurrentWeapon.PositionInTargetablePoints(attackTarget))
                 throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
 
-            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackTarget);
-            int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
-
             if (attacker.CurrentWeapon.IsRanged)
             {
                 if (!attacker.CurrentWeapon.IsLoaded)
                     throw new ArgumentException("CombatEngine attacking something with current weapon unloaded?");
 
-                AttackRanged(attacker, attackTarget, damageDone, attacker.CurrentWeapon,
-                    (dmg, target, killed) => CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, target)));
+                AttackRanged(attacker, attackTarget, attacker.CurrentWeapon,
+                    (dmg, target, killed) => CoreGameEngine.Instance.SendTextOutput(CreateDamageString(dmg, attacker, target)));
                 ((WeaponBase)attacker.CurrentWeapon).IsLoaded = false;
             }
             else
@@ -63,6 +60,7 @@ namespace Magecrawl.GameEngine
                 Character attackedCharacter = FindTargetAtPosition(attackTarget);
                 if (attackedCharacter != null)
                 {
+                    int damageDone = CalculateWeaponStrike(attacker, attackedCharacter);
                     CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
                     DamageTarget(damageDone, attackedCharacter);
                 }
@@ -71,18 +69,34 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        internal bool AttackRanged(Character attacker, Point attackTarget, int damageDone, object attackingMethod, DamageDoneDelegate del)
+        private void AttackRanged(Character attacker, Point attackTarget, object attackingMethod, DamageDoneDelegate del)
         {
-            if (attacker.Position == attackTarget)
+            Character targetCharacter = FindTargetAtPosition(attackTarget);
+            int damageDone = CalculateWeaponStrike(attacker, targetCharacter);
+            RangedBoltToLocation(attacker, attackTarget, damageDone, attackingMethod, del);
+        }
+
+        private int CalculateWeaponStrike(Character attacker, Character attackedCharacter)
+        {
+            if (attackedCharacter == null)
+                return -1;
+            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackedCharacter.Position);
+            int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
+            return damageDone;
+        }
+
+        internal bool RangedBoltToLocation(Character attacker, Point target, int damageDone, object attackingMethod, DamageDoneDelegate del)
+        {
+            if (attacker.Position == target)
                 return false;
 
-            List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, attackTarget);
-            Character attackedCharacter = FindTargetAtPosition(attackTarget);
+            List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, target);
 
-            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, attackPath, attackedCharacter != null);
+            Character targetCharacter = FindTargetAtPosition(target);
+            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, attackPath, targetCharacter != null);
 
-            if (attackedCharacter != null)
-                DamageTarget(damageDone, attackedCharacter, del);
+            if (targetCharacter != null)
+                DamageTarget(damageDone, targetCharacter, del);
 
             return true;
         }
@@ -107,6 +121,10 @@ namespace Magecrawl.GameEngine
             // Sometimes bouncy spells and other things can hit a creature two or more times.
             // If the creature is dead and the map agrees, return early, since the poor sob is already dead and gone.
             if (target.CurrentHP <= 0 && !m_map.Monsters.Contains(target))
+                return;
+
+            // -1 damage is coded for a miss
+            if (damage == -1)
                 return;
 
             target.CurrentHP -= damage;
