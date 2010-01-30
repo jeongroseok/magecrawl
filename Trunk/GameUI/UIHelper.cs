@@ -11,11 +11,11 @@ namespace Magecrawl.GameUI
         // settings here. We always need an odd MapWidth and such, so just doing math is hard.
         public const int ScreenWidth = 80;
         public const int ScreenHeight = 60;
-        public const int MapWidth = 51;
-        public const int MapHeight = 43;
-        public const int CharInfoWidth = 29;
-        public const int CharInfoHeight = 60;
-        public const int TextBoxHeight = 17;
+        public const int MapWidth = 53;
+        public const int MapHeight = 45;
+        public const int CharInfoWidth = 27;
+        public const int TextBoxHeight = 15;
+        public const int CharInfoHeight = ScreenHeight - TextBoxHeight;
 
         private const string Font = "arial12x12.png";
         private const int NumberCharsHorz = 32;

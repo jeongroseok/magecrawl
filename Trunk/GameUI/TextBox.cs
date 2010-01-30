@@ -12,7 +12,7 @@ namespace Magecrawl.GameUI
         private int m_textBoxPosition;
 
         private const int TextBoxYPosition = UIHelper.MapHeight;
-        private const int TextBoxWidth = UIHelper.MapWidth;
+        private const int TextBoxWidth = UIHelper.ScreenWidth;
         private const int TextBoxHeight = UIHelper.TextBoxHeight;
 
         public TextBox()

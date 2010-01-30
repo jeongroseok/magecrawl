@@ -152,16 +152,16 @@ namespace Magecrawl.GameUI
             if (Preferences.Instance.DebuggingMode)
             {
                 string turnCount = m_turnCount.ToString();
-                screen.PrintLine("Turn Count - " + turnCount, 52, 55, LineAlignment.Left);
+                screen.PrintLine("Turn Count - " + turnCount, 54, 40, LineAlignment.Left);
 
                 string level = (m_currentLevel + 1).ToString();
-                screen.PrintLine("Level - " + level, 52, 56, LineAlignment.Left);
+                screen.PrintLine("Level - " + level, 54, 41, LineAlignment.Left);
 
                 string position = m_player.Position.ToString();
-                screen.PrintLine(position, 52, 57, LineAlignment.Left);
+                screen.PrintLine(position, 54, 42, LineAlignment.Left);
 
                 string fps = TCODSystem.FPS.ToString();
-                screen.PrintLine(fps, 52, 58, LineAlignment.Left);
+                screen.PrintLine(fps, 54, 43, LineAlignment.Left);
             }
         }
     }
