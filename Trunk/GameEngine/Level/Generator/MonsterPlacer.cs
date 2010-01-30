@@ -4,11 +4,19 @@ using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using libtcodWrapper;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
     internal static class MonsterPlacer
     {
+        static TCODRandom m_random;
+
+        static MonsterPlacer()
+        {
+            m_random = new TCODRandom();
+        }
+
         // Priority is how dangerous this room is: 0 - unguarded, 10 - Must protect with everything
         internal static void PlaceMonster(Map map, Point upperLeft, Point lowerRight, List<Point> pointsNotToPlaceOn, int priority)
         {
@@ -36,8 +44,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     Point position = pointsWithClearTerrain[0];
                     pointsWithClearTerrain.RemoveAt(0);
 
-                    // Monster newMonster = CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(position);
-                    switch (i % 3)
+                    switch (m_random.GetRandomInt(0, 4))
                     {
                         case 0:
                             map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Orc Barbarian", position));
@@ -50,6 +57,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                             break;
                         case 3:
                             map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Goblin Slinger", position));
+                            break;
+                        case 4:
+                            map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Orc Warrior", position));
                             break;
                     }
                 }
