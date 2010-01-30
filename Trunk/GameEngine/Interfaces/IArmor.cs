@@ -7,9 +7,10 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public enum ArmorWeight
     {
-        Light,
-        Standard,
-        Heavy
+        None = 0,
+        Light = 1,
+        Standard = 2,
+        Heavy = 3
     }
     public interface IArmor : INamedItem
     {

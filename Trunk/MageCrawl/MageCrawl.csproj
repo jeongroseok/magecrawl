@@ -153,6 +153,9 @@
     <Content Include="..\dist\Preferences.xml">
       <Link>Resources\Preferences.xml</Link>
     </Content>
+    <Content Include="..\dist\Resources\CombatConstants.xml">
+      <Link>Resources\CombatConstants.xml</Link>
+    </Content>
     <Content Include="..\dist\Resources\Items.xml">
       <Link>Resources\Items.xml</Link>
     </Content>
