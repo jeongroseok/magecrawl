@@ -70,6 +70,7 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["ShowAttackRolls"] = true;
             m_preferences["DebugRangedAttack"] = false;
             m_preferences["UseSavegameCompression"] = false;
             m_preferences["PermaDeath"] = true;
@@ -114,6 +115,7 @@ namespace Magecrawl.Utilities
                     case "Fullscreen":
                     case "PermaDeath":
                     case "UseSavegameCompression":
+                    case "ShowAttackRolls":
                         ReadBooleanData(reader, reader.LocalName);
                         break;
                     case "FloorColorVisible":

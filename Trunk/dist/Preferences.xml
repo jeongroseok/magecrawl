@@ -3,4 +3,5 @@
   <DebuggingMode>True</DebuggingMode>
   <SinglePressOperate>False</SinglePressOperate>
   <PlayerName>Donblas</PlayerName>
+  <ShowAttackRolls>True</ShowAttackRolls>
 </Preferences>
