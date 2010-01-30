@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <Monsters>
-<Monster Name="Wolf" Type="Sprinter"         Symbol="w" HP="2" Vision="6" Defense="1" Evade="0" MeleeDamage="1,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Orc Barbarian" Type="Bruiser" Symbol="O" HP="2" Vision="4" Defense="1" Evade="0" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Orc Warrior" Type="Standard"  Symbol="O" HP="2" Vision="4" Defense="1" Evade="0" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Kobold" Type="Swarmer"        Symbol="k" HP="2" Vision="4" Defense="1" Evade="0" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Baby Dragon" Type="Elite"     Symbol="D" HP="2" Vision="4" Defense="1" Evade="0" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Goblin Healer" Type="Healer"  Symbol="g" HP="2" Vision="4" Defense="1" Evade="0" MeleeWeapon="Wooden Cudgel" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Goblin Slinger" Type="Ranged" Symbol="g" HP="2" Vision="6" Defense="1" Evade="0" RangedWeapon="Sling" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".5" ctAttackCost="1.0"/>
+<Monster Name="Wolf" Type="Sprinter"         Symbol="w" HP="2" Vision="6" Defense="0" Evade="10" MeleeDamage="1,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Orc Barbarian" Type="Bruiser" Symbol="O" HP="2" Vision="4" Defense="3" Evade="5" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Orc Warrior" Type="Standard"  Symbol="O" HP="2" Vision="4" Defense="4" Evade="0" MeleeDamage="1,3,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Kobold" Type="Swarmer"        Symbol="k" HP="2" Vision="4" Defense="1" Evade="5" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Baby Dragon" Type="Elite"     Symbol="D" HP="2" Vision="4" Defense="6" Evade="0" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Goblin Healer" Type="Healer"  Symbol="g" HP="2" Vision="4" Defense="2" Evade="5" MeleeWeapon="Wooden Cudgel" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Goblin Slinger" Type="Ranged" Symbol="g" HP="2" Vision="6" Defense="2" Evade="5" RangedWeapon="Sling" MeleeDamage="1,1,0,1" ctIncrease="1.0" ctMoveCost=".5" ctAttackCost="1.0"/>
 </Monsters>

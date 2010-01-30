@@ -80,6 +80,19 @@ namespace Magecrawl.GameEngine
         {
             if (attackedCharacter == null)
                 return -1;
+
+            // First check against evade
+            int evadeRoll = m_random.GetRandomInt(0, 99);
+
+            if ((bool)Preferences.Instance["ShowAttackRolls"])
+            {
+                CoreGameEngine.Instance.SendTextOutput(string.Format("{0} rolls to hit {1}. Rolled {2} needs above {3} to hit.",
+                    attacker.Name, attackedCharacter.Name, evadeRoll, attackedCharacter.Evade));
+            }
+
+            if (evadeRoll < attackedCharacter.Evade)
+                return -1;
+
             float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackedCharacter.Position);
             int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
             return damageDone;
