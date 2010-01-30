@@ -93,9 +93,32 @@ namespace Magecrawl.GameEngine
             if (evadeRoll < attackedCharacter.Evade)
                 return -1;
 
+            // Calculate damage
             float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackedCharacter.Position);
-            int damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
-            return damageDone;
+            double baseDamageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
+
+            // And reduce from armor
+            double damageDone = ReduceDamageFromArmor(attackedCharacter, baseDamageDone);
+
+            if ((bool)Preferences.Instance["ShowAttackRolls"])
+            {
+                CoreGameEngine.Instance.SendTextOutput(string.Format("Base Damage: {0}  Defense Of Target {1}  Final Damage {2}",
+                    baseDamageDone, attackedCharacter.Defense, damageDone));
+            }
+
+            return (int)Math.Round(damageDone);
+        }
+
+
+        private double ReduceDamageFromArmor(Character attackedCharacter, double baseDamageDone)
+        {
+            int damageReduce = 0;
+            for (int i = 0; i < attackedCharacter.Defense; ++i)
+            {
+                if (m_random.Chance(25))
+                    damageReduce++;
+            }
+            return Math.Max(baseDamageDone - damageReduce, 0);
         }
 
         internal bool RangedBoltToLocation(Character attacker, Point target, int damageDone, object attackingMethod, DamageDoneDelegate del)
