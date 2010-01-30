@@ -8,12 +8,12 @@ namespace Magecrawl.Utilities
     public struct DiceRoll
     {
         private static Random random = new Random();
-        public static DiceRoll Invalid = new DiceRoll(-1, -1, -1, -1);
+        public static DiceRoll Invalid = new DiceRoll(-1, -1, -1, -1.0);
 
         public short Rolls;
         public short DiceFaces;
+        public double Multiplier;
         public short ToAdd;
-        public short Multiplier;
 
         public DiceRoll(int rolls, int diceFaces)
             : this((short)rolls, (short)diceFaces, (short)0, (short)1)
@@ -25,8 +25,8 @@ namespace Magecrawl.Utilities
         {
         }
 
-        public DiceRoll(int rolls, int diceFaces, int toAdd, int multiplier)
-            : this((short)rolls, (short)diceFaces, (short)toAdd, (short)multiplier)
+        public DiceRoll(int rolls, int diceFaces, int toAdd, double multiplier)
+            : this((short)rolls, (short)diceFaces, (short)toAdd, multiplier)
         {
         }
 
@@ -47,10 +47,10 @@ namespace Magecrawl.Utilities
             Rolls = short.Parse(damageParts[0]);
             DiceFaces = short.Parse(damageParts[1]);
             ToAdd = short.Parse(damageParts[2]);
-            Multiplier = short.Parse(damageParts[3]);
+            Multiplier = double.Parse(damageParts[3]);
         }
 
-        public DiceRoll(short rolls, short diceFaces, short toAdd, short multiplier)
+        public DiceRoll(short rolls, short diceFaces, short toAdd, double multiplier)
         {
             Rolls = rolls;
             DiceFaces = diceFaces;
@@ -70,10 +70,7 @@ namespace Magecrawl.Utilities
 
         public int RollMaxDamage()
         {
-            if (Multiplier != 0)
-                return (int)Math.Round((double)(Multiplier * (DiceFaces * Rolls)) + ToAdd);
-            else
-                return (DiceFaces * Rolls) + ToAdd;
+            return (int)Math.Round((double)(Multiplier * (DiceFaces * Rolls)) + ToAdd);
         }
 
         public override string ToString()
@@ -114,7 +111,7 @@ namespace Magecrawl.Utilities
             reader.ReadEndElement();
 
             reader.ReadStartElement();
-            Multiplier = (short)reader.ReadContentAsFloat();
+            Multiplier = (short)reader.ReadContentAsDouble();
             reader.ReadEndElement();
 
             reader.ReadStartElement();
