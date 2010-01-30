@@ -67,7 +67,7 @@ namespace Magecrawl.GameEngine
             Stairs incommingStairs = null;
             using (TCODRandom random = new TCODRandom())
             {
-                for (int i = 0; i < 10; ++i)
+                for (int i = 0; i < 5; ++i)
                 {
                     MapGeneratorBase mapGenerator = null;
                     try
@@ -348,6 +348,11 @@ namespace Magecrawl.GameEngine
             m_rangedAttack(attackingMethod, rangedPath, targetAtEndPoint);
         }
 
+        public bool DangerPlayerInLOS()
+        {
+            return m_physicsEngine.DangerPlayerInLOS();
+        }
+
         public List<ICharacter> MonstersInPlayerLOS()
         {
             List<ICharacter> returnList = new List<ICharacter>();
@@ -437,6 +442,7 @@ namespace Magecrawl.GameEngine
                 }
                 case "Drink":
                 case "Read":
+                case "Use":
                 {
                     didSomething = m_physicsEngine.UseItemWithEffect((ItemWithEffects)item, (Point)argument);
                     break;

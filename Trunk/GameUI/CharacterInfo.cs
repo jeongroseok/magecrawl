@@ -116,7 +116,7 @@ namespace Magecrawl.GameUI
                 screen.SetCharBackground(StartingX + 2 + j, 3, ManaBarColor(m_player));
 
             string needsLoadedString = m_player.CurrentWeapon.IsLoaded ? string.Empty : "(empty)";
-            screen.PrintLine(string.Format("Weapon: {0} {1}", m_player.CurrentWeapon.DisplayName, needsLoadedString), StartingX + 2, 6, LineAlignment.Left);
+            screen.PrintLine(string.Format("Weapon: {0}{1}", m_player.CurrentWeapon.DisplayName, needsLoadedString), StartingX + 2, 6, LineAlignment.Left);
             
             int nextAvailablePosition = 8;
 

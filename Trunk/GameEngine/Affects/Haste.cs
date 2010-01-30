@@ -18,7 +18,7 @@ namespace Magecrawl.GameEngine.Affects
         public Haste(int strength)
             : base(new DiceRoll(strength, 6, 2, 2).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
-            m_modifier = 1 + (.2 * strength);
+            m_modifier = 1 + (.25 * strength);
         }
 
         public override void Apply(Character appliedTo)

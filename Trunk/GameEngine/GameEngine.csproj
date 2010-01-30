@@ -87,6 +87,7 @@
     <Compile Include="Items\ItemWithOwner.cs" />
     <Compile Include="Items\Potion.cs" />
     <Compile Include="Items\Scroll.cs" />
+    <Compile Include="Items\Supplies.cs" />
     <Compile Include="Items\Wand.cs" />
     <Compile Include="Level\Generator\MapChunk.cs" />
     <Compile Include="Level\Generator\MapGenerationFailureException.cs" />

@@ -300,14 +300,7 @@ namespace Magecrawl.GameEngine
 
         public bool DangerInLOS()
         {
-            m_engine.FOVManager.CalculateForMultipleCalls(m_engine.Map, m_engine.Player.Position, m_engine.Player.Vision);
-
-            foreach (Monster m in m_engine.Map.Monsters)
-            {
-                if (m_engine.FOVManager.Visible(m.Position))
-                    return true;
-            }
-            return false;
+            return m_engine.DangerPlayerInLOS();
         }
 
         public List<ICharacter> MonstersInPlayerLOS()
