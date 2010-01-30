@@ -107,6 +107,7 @@ namespace Magecrawl.GameEngine
             CommonStartupAfterMapPlayer();
 
             SendTextOutput("Welcome To Magecrawl.");
+            SendTextOutput("If this is your first time, press '?' for help.");
         }
 
         public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack, string saveGameName)

@@ -37,7 +37,7 @@ namespace Magecrawl.GameUI.Dialogs
 
                 screen.DrawFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, false, "Help");
 
-                string thanksText = "Copyright Chris Hamons 2009.\nThank you Ben Ledom for\nearly development help.\n\nSoli Deo Gloria";
+                string thanksText = "Copyright Chris Hamons 2010.\nThank you Ben for\nearly development help.\n\nSoli Deo Gloria";
                 screen.PrintLineRect(thanksText, RightThird - 19, 52, 45, 7, LineAlignment.Left);
 
                 const int SymbolStartY = 3;
@@ -45,16 +45,13 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.PrintLine("Map Symbols", LeftThird + SymbolVerticalOffset, SymbolStartY, LineAlignment.Left);
                 screen.PrintLine("------------------------", LeftThird + SymbolVerticalOffset, SymbolStartY + 1, LineAlignment.Left);
                 screen.PrintLine("@ - You", LeftThird + SymbolVerticalOffset, SymbolStartY + 2, LineAlignment.Left);
-                screen.PrintLine("# - Wall", LeftThird + SymbolVerticalOffset, SymbolStartY + 3, LineAlignment.Left);
-                screen.PrintLine("  - Floor", LeftThird + SymbolVerticalOffset, SymbolStartY + 4, LineAlignment.Left);
-                screen.PrintLine("; - Open Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 5, LineAlignment.Left);
-                screen.PrintLine(": - Closed Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 6, LineAlignment.Left);
-                screen.PrintLine("_ - Cosmetic", LeftThird + SymbolVerticalOffset, SymbolStartY + 7, LineAlignment.Left);
-                screen.PrintLine("& - Item on Ground", LeftThird + SymbolVerticalOffset, SymbolStartY + 8, LineAlignment.Left);
-                screen.PrintLine("%% - Stack of Items", LeftThird + SymbolVerticalOffset, SymbolStartY + 9, LineAlignment.Left);
-                screen.PrintLine("M - Monster", LeftThird + SymbolVerticalOffset, SymbolStartY + 10, LineAlignment.Left);
+                screen.PrintLine("; - Open Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 3, LineAlignment.Left);
+                screen.PrintLine(": - Closed Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 4, LineAlignment.Left);
+                screen.PrintLine("_ - Cosmetic", LeftThird + SymbolVerticalOffset, SymbolStartY + 5, LineAlignment.Left);
+                screen.PrintLine("& - Item on Ground", LeftThird + SymbolVerticalOffset, SymbolStartY + 6, LineAlignment.Left);
+                screen.PrintLine("%% - Stack of Items", LeftThird + SymbolVerticalOffset, SymbolStartY + 7, LineAlignment.Left);
 
-                const int ActionStartY = SymbolStartY + 13;
+                const int ActionStartY = SymbolStartY + 10;
                 const int ActionVerticalOffset = -8;
                 screen.PrintLine("Action Keys", LeftThird + ActionVerticalOffset, ActionStartY, LineAlignment.Left);
                 screen.PrintLine("------------------------", LeftThird + ActionVerticalOffset, ActionStartY + 1, LineAlignment.Left);
@@ -71,12 +68,12 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.PrintLine("Up Stairs          - " + m_keyMappings["UpStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 12, LineAlignment.Left);
                 screen.PrintLine("Swap Weapons       - " + m_keyMappings["SwapWeapon"], LeftThird + ActionVerticalOffset, ActionStartY + 13, LineAlignment.Left);
 
-                const int RebindingStartY = SymbolStartY + 1;
+                const int RebindingStartY = SymbolStartY;
                 string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";
                 screen.DrawFrame(RightThird - 12, RebindingStartY, 31, 9, true);
                 screen.PrintLineRect(rebindingText, RightThird - 11, RebindingStartY + 1, 29, 8, LineAlignment.Left);
 
-                const int DirectionStartY = ActionStartY + 15;
+                const int DirectionStartY = ActionStartY + 16;
                 const int DirectionVerticalOffset = -8;
                 screen.PrintLine("Direction Keys (+Ctrl to Run)", LeftThird + DirectionVerticalOffset, DirectionStartY, LineAlignment.Left);
                 screen.PrintLine("------------------------", LeftThird + DirectionVerticalOffset, DirectionStartY + 1, LineAlignment.Left);
