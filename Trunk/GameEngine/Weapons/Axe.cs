@@ -34,7 +34,7 @@ namespace Magecrawl.GameEngine.Weapons
         {
             get
             {
-                return "slashes";
+                return "slashes at";
             }
         }
     }

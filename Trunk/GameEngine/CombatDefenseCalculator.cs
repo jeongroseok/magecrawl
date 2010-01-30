@@ -76,7 +76,7 @@ namespace Magecrawl.GameEngine
 
         private static IEnumerable<IArmor> GetArmorList(IPlayer player)
         {
-            List<IArmor> armorList = new List<IArmor>() { player.ChestArmor, player.ChestArmor, player.ChestArmor, player.ChestArmor };
+            List<IArmor> armorList = new List<IArmor>() { player.ChestArmor, player.Gloves, player.Boots, player.Headpiece};
             return armorList.Where(x => x != null);
         }
 

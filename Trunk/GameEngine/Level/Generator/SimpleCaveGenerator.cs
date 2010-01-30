@@ -153,7 +153,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     }
                 }
 
-                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.GetRandomInt(2, 6));
+                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.GetRandomInt(2, 4));
             }
         }
 

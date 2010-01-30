@@ -31,11 +31,13 @@ namespace Magecrawl.GameEngine.Actors
             MaxMP = 0;
         }
 
-        public Player(Point p) : base((string)Preferences.Instance["PlayerName"], p, 20, 6)
+        public Player(Point p) : base((string)Preferences.Instance["PlayerName"], p, 12, 6)
         {
             m_itemList = new List<Item>();
             CurrentMP = 10;
             MaxMP = 10;
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
