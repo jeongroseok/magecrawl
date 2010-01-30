@@ -158,7 +158,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return new DiceRoll(1, 1);
+                return new DiceRoll(1, 2);
             }
         }
         
