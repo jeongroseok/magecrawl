@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
@@ -38,8 +39,9 @@ namespace Magecrawl.GameEngine.Actors
             MaxMP = 10;
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
@@ -61,6 +63,14 @@ namespace Magecrawl.GameEngine.Actors
                     SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow")*/
                 };
             }
+        }
+
+        // Returns amount actually healed by
+        public int HealMP(int toHeal)
+        {
+            int previousMP = CurrentMP;
+            CurrentMP = Math.Min(CurrentMP + toHeal, MaxMP);
+            return CurrentMP - previousMP;
         }
 
         public IList<IItem> Items

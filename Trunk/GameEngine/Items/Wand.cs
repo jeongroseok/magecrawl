@@ -6,14 +6,9 @@ namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Wand : ItemWithEffects, IWand
     {
-        private string m_effectType;
-        private int m_strength;
-
         internal Wand(string name, string effectType, string targettingType, int strength, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
             : base(name, effectType, targettingType, strength, itemDescription, flavorText)
         {
-            m_effectType = effectType;
-            m_strength = strength;
             NewWandPossibleCharges = newWandPossibleCharges;
             Charges = 0;
             MaxCharges = maxCharges;

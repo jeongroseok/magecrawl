@@ -282,6 +282,18 @@ namespace Magecrawl.GameEngine
             return false;
         }
 
+        public bool DangerPlayerInLOS()
+        {
+            FOVManager.CalculateForMultipleCalls(m_map, m_player.Position, m_player.Vision);
+
+            foreach (Monster m in m_map.Monsters)
+            {
+                if (FOVManager.Visible(m.Position))
+                    return true;
+            }
+            return false;
+        }
+
         public bool UseItemWithEffect(ItemWithEffects item, Point targetedPoint)
         {
             if (m_player.Items.Contains((Item)item))

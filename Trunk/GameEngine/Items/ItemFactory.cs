@@ -99,9 +99,12 @@ namespace Magecrawl.GameEngine.Items
 
                     CheckForNotDropList(reader, name);
                 }
-                if (reader.LocalName == "Potion" || reader.LocalName == "Scroll")
+                if (reader.LocalName == "Potion" || reader.LocalName == "Scroll" || reader.LocalName == "Supplies")
                 {
                     bool potion = reader.LocalName == "Potion";
+                    bool supplies = reader.LocalName == "Supplies";
+                    bool scroll = reader.LocalName == "Scroll";
+                    
                     string name = reader.GetAttribute("Name");
                     string effectType = reader.GetAttribute("EffectType");
 
@@ -119,8 +122,12 @@ namespace Magecrawl.GameEngine.Items
 
                     if (potion)
                         m_itemMapping.Add(name, new Potion(name, effectType, targettingType, strength, itemDescription, flavorText));
-                    else
+                    else if (scroll)
                         m_itemMapping.Add(name, new Scroll(name, effectType, targettingType, strength, itemDescription, flavorText));
+                    else if (supplies)
+                        m_itemMapping.Add(name, new Supplies(name, effectType, targettingType, strength, itemDescription, flavorText));
+                    else
+                        throw new Exception("Unknown type in ItemFaction");
 
                     CheckForNotDropList(reader, name);
                 }

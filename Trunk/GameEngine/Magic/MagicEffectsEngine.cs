@@ -79,9 +79,33 @@ namespace Magecrawl.GameEngine.Magic
             CoreGameEngine.Instance.SendTextOutput(printOnEffect);
             switch (effect)
             {
+                case "Rest":
+                {
+                    if (m_physicsEngine.DangerPlayerInLOS())
+                        return false;
+                    CoreGameEngine.Instance.SendTextOutput(string.Format("As the campsite forms, time seems to drift away as {0} begins to relax deeply.", invoker.Name));
+                    const int roundsToRest = 5;
+                    for (int i = 0; i < roundsToRest ; ++i)
+                    {
+                        if (m_physicsEngine.DangerPlayerInLOS())
+                        {
+                            CoreGameEngine.Instance.SendTextOutput(string.Format("The resting enchantment detects danger and jerks {0} awake as it fades from existence.", invoker.Name));
+                            break;
+                        }
+                        invoker.Heal(invoker.MaxHP / roundsToRest);
+                        ((Player)invoker).HealMP(((Player)invoker).MaxMP / roundsToRest);
+                        
+                        m_physicsEngine.Wait(invoker);
+                        m_physicsEngine.AfterPlayerAction(CoreGameEngine.Instance);
+
+                        if (i+1 == roundsToRest)
+                            CoreGameEngine.Instance.SendTextOutput(string.Format("The resting enchantment fades and {0} awake refreshed.", invoker.Name));
+                    }
+                    return true;
+                }
                 case "HealCaster":
                 {
-                    int healAmount = invoker.Heal((new DiceRoll(strength, 4, 1)).Roll());
+                    int healAmount = invoker.Heal((new DiceRoll(strength, 6, 2)).Roll());
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
                 }
@@ -89,11 +113,7 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     Player player = invoker as Player;
                     if (player != null)
-                    {
-                        player.CurrentMP += (new DiceRoll(strength, 4, 2)).Roll();
-                        if (player.CurrentMP > player.MaxMP)
-                            player.CurrentMP = player.MaxMP;
-                    }
+                        player.HealMP((new DiceRoll(strength, 4, 3)).Roll());
                     return true;
                 }
                 case "RangedSingleTarget":
@@ -110,8 +130,10 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, 
+                        {
+                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter,
                                 new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        }
                     }
                     return true;
                 }
