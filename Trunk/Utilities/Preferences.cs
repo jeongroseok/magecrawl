@@ -70,9 +70,9 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
-            m_preferences["ShowAttackRolls"] = true;
+            m_preferences["ShowAttackRolls"] = false;
             m_preferences["DebugRangedAttack"] = false;
-            m_preferences["UseSavegameCompression"] = false;
+            m_preferences["UseSavegameCompression"] = true;
             m_preferences["PermaDeath"] = true;
             m_preferences["Fullscreen"] = false;
             m_preferences["PlayerName"] = "PlayerName";

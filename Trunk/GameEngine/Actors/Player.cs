@@ -36,21 +36,12 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
             CurrentMP = 10;
             MaxMP = 10;
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sling"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Ice Bolt"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Sandles"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Armor"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Helmet"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Gloves"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Leather Boots"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Chainmail Armor"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Steel Helmet"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Mail Gauntlets"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Mail Greaves"));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Sandles"));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
         }
 
         public IList<ISpell> Spells

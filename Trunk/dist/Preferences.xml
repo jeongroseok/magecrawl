@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" ?>
 <Preferences>
-  <DebuggingMode>True</DebuggingMode>
-  <SinglePressOperate>False</SinglePressOperate>
   <PlayerName>Donblas</PlayerName>
-  <ShowAttackRolls>True</ShowAttackRolls>
+  <!-- <Fullscreen>True</Fullscreen> -->
+  <!-- <SinglePressOperate>True</SinglePressOperate> -->
+  <!-- <ShowAttackRolls>True</ShowAttackRolls> -->
+  <!-- <FloorColorVisible>42, 42, 42</FloorColorVisible> -->
+  <!-- <FloorColorNotVisible>15, 15, 15</FloorColorNotVisible> -->
+  <!-- <WallColorVisible>83, 41, 0</WallColorVisible> -->
+  <!-- <WallColorNotVisible>40, 20, 0</WallColorNotVisible> -->
 </Preferences>
