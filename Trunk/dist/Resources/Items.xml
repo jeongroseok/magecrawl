@@ -9,13 +9,13 @@
 <Weapon Name="Sling" Damage="1,2,0,1" CTCost="1.2" BaseType="SimpleSling"
         Description="A simple, albeit primitive sling. Made of braided flax."
         FlavorText="Slings have been mentioned even in the most ancient texts as weapons of sheperds and soldiers."/>
-<Weapon Name="Wooden Sword" Damage="1,5,-1,1" CTCost="1" BaseType="Sword"
+<Weapon Name="Wooden Sword" Damage="1,6,0,1" CTCost="1" BaseType="Sword"
         Description="A simple wooden sword. Full of spliters."
         FlavorText="Swords like these are used by youth to build strong muscles."/>
 <Weapon Name="Wooden Cudgel" Damage="1,3,0,1" CTCost="1" BaseType="Club"
         Description="A simple wooden club. Design unchanged for centuries."
         FlavorText="When all else fails, beating ones enemies senseless with a wooden stick is a crude but effective tactic."/>
-<Weapon Name="Great Axe" Damage="1,4,0,2" CTCost="1.5" BaseType="Axe"
+<Weapon Name="Great Axe" Damage="1,4,0,1.5" CTCost="1.5" BaseType="Axe"
         Description="A sturdy oak shaft connected to a doubled bladed sharpened head."
         FlavorText="Famously used by the barbarian nations to the north to great effect."/>
 <Potion Name="Minor Health Potion" EffectType="HealCaster" Strength="1" ItemDescription="Drinking will restore your health slightly." 
