@@ -67,7 +67,19 @@ namespace Magecrawl.GameUI.Inventory
 
             IArmor asArmor = m_selectedItem as IArmor;
             if (asArmor != null)
-                itemDescription += "\n\n\n" + string.Format("Weight: {0}", asArmor.Weight);
+            {
+                itemDescription += "\n";
+                itemDescription += "\n\n" + string.Format("Defense: {0}", asArmor.Defense);
+                itemDescription += "\n\n" + string.Format("Evade: {0}", asArmor.Evade);
+                itemDescription += "\n\n" + string.Format("Weight: {0}", asArmor.Weight);
+            }
+
+            IWeapon asWeapon = m_selectedItem as IWeapon;
+            if (asWeapon!= null)
+            {
+                itemDescription += "\n";
+                itemDescription += "\n\n" + string.Format("Damage: {0}", asWeapon.Damage);
+            }
 
             screen.PrintLineRect(itemDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
         }

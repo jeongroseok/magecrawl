@@ -83,7 +83,7 @@ namespace Magecrawl.GameEngine.Interfaces
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
-        string GetTargettingTypeForInventoryItem(IItem item);
+        string GetTargettingTypeForInventoryItem(IItem item, string action);
         bool PlayerSelectedItemOption(IItem item, string option, object argument);
 
         TileVisibility[,] CalculateTileVisibility();
