@@ -336,9 +336,9 @@ namespace Magecrawl.GameEngine.Level
             {
                 string typeString = reader.ReadElementContentAsString();
                 Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem(typeString);
+                newItem.ReadXml(reader);
                 Point position = new Point();
                 position = position.ReadXml(reader);
-                newItem.ReadXml(reader);
                 m_items.Add(new Pair<Item, Point>(newItem, position));
             });
             ListSerialization.ReadListFromXML(reader, readDelegate);
