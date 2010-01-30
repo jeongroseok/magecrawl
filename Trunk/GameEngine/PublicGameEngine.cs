@@ -229,8 +229,10 @@ namespace Magecrawl.GameEngine
             return m_engine.GetOptionsForEquipmentItem(item as Item);
         }
 
-        public string GetTargettingTypeForInventoryItem(IItem item)
+        public string GetTargettingTypeForInventoryItem(IItem item, string action)
         {
+            if (action == "Drop")
+                return null;
             if (item is ItemWithEffects)
                 return ((ItemWithEffects)item).TargettingType;
             return null;

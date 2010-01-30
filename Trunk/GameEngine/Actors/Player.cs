@@ -36,6 +36,8 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
             CurrentMP = 10;
             MaxMP = 10;
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
@@ -51,10 +53,10 @@ namespace Magecrawl.GameEngine.Actors
                 return new List<ISpell>() 
                 {
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Zap"), SpellFactory.CreateSpell("Lightning Bolt"),
-                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye"),
+                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("Earthen Armor")
+                    /* SpellFactory.CreateSpell("False Life"), SpellFactory.CreateSpell("Eagle Eye"),
                     SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
-                    SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow"),
-                    SpellFactory.CreateSpell("Earthen Armor")
+                    SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow")*/
                 };
             }
         }

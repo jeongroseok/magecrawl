@@ -38,7 +38,7 @@ namespace Magecrawl.Keyboard.Inventory
                 return;
             }
 
-            string targettingNeeded = m_engine.GetTargettingTypeForInventoryItem(item);
+            string targettingNeeded = m_engine.GetTargettingTypeForInventoryItem(item, optionName);
             
             if(targettingNeeded == null)
             {
