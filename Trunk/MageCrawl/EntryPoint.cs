@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Magecrawl
 {
@@ -6,9 +8,23 @@ namespace Magecrawl
     {
         public static void Main()
         {
-            using (GameInstance inst = new GameInstance())
+            try
             {
-                inst.Go();
+                using (GameInstance inst = new GameInstance())
+                {
+                    inst.Go();
+                }
+            }
+            catch (System.Exception e)
+            {
+                using (TextWriter tw = new StreamWriter("DebuggingLog.txt"))
+                {
+                    tw.WriteLine("Data - " + e.Data);
+                    tw.WriteLine("Message - " + e.Message);
+                    tw.WriteLine("Source - " + e.Source);
+                    tw.WriteLine("StackTrace - " + e.StackTrace);
+                    tw.WriteLine("TargetSite - " + e.TargetSite);
+                }
             }
         }
     }

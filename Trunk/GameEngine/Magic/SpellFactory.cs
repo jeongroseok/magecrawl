@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Xml;
-using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -24,6 +22,9 @@ namespace Magecrawl.GameEngine.Magic
 
         private static void LoadMappings()
         {
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             m_spellMapping = new Dictionary<string, Spell>();
 
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -64,6 +65,8 @@ namespace Magecrawl.GameEngine.Magic
                 }
             }
             reader.Close();
+
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
     }
 }

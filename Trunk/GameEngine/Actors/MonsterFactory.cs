@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
@@ -48,6 +50,10 @@ namespace Magecrawl.GameEngine.Actors
 
         private void LoadMappings()
         {
+            // Save off previous culture and switch to invariant for serialization.
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             m_monsterMapping = new Dictionary<string, Monster>();
 
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -100,6 +106,8 @@ namespace Magecrawl.GameEngine.Actors
                 }
             }
             reader.Close();
+
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
         private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, int vision, DiceRoll damage, double defense, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
