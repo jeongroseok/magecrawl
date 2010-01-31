@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
@@ -49,6 +51,10 @@ namespace Magecrawl.GameEngine.Items
 
         private void LoadMappings()
         {
+            // Save off previous culture and switch to invariant for serialization.
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             m_itemMapping = new Dictionary<string, Item>();
             m_itemsNotToDrop = new HashSet<Item>();
 
@@ -157,6 +163,7 @@ namespace Magecrawl.GameEngine.Items
                 }
             }
             reader.Close();
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
         private void CheckForNotDropList(XmlReader reader, string name)
