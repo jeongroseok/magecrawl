@@ -32,9 +32,9 @@ namespace Magecrawl.GameEngine
         internal MapObjectFactory MapObjectFactory;
         internal int TurnCount { get; set;}
 
-        private event PlayerDiedDelegate m_playerDied;
-        private event TextOutputFromGame m_textOutput;
-        private event RangedAttack m_rangedAttack;
+        internal event TextOutputFromGame TextOutputEvent;
+        internal event PlayerDied PlayerDiedEvent;
+        internal event RangedAttack RangedAttackEvent;
 
         internal FOVManager FOVManager
         {
@@ -55,10 +55,26 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack)
+        public CoreGameEngine()
         {
-            CommonStartup(textOutput, playerDiedDelegate, rangedAttack);
+            m_instance = this;
 
+            // Needs to happen before anything that could create a weapon
+            ItemFactory = new ItemFactory();
+            MonsterFactory = new MonsterFactory();
+            MapObjectFactory = new MapObjectFactory();
+
+            m_saveLoad = new SaveLoadCore();
+
+            m_timingEngine = new CoreTimingEngine();
+
+            m_dungeon = new Dictionary<int, Map>();
+
+            StairsMapping.Setup();
+        }
+
+        public void CreateNewWorld()
+        {
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
             Point playerPosition = Point.Invalid;
@@ -110,36 +126,12 @@ namespace Magecrawl.GameEngine
             SendTextOutput("If this is your first time, press '?' for help.");
         }
 
-        public CoreGameEngine(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack, string saveGameName)
+        public void LoadSaveFile(string saveGameName)
         {
-            CommonStartup(textOutput, playerDiedDelegate, rangedAttack);
-
             m_saveLoad.LoadGame(saveGameName);
 
             CommonStartupAfterMapPlayer();
-
             SendTextOutput("Welcome Back To Magecrawl");
-        }
-
-        private void CommonStartup(TextOutputFromGame textOutput, PlayerDiedDelegate playerDiedDelegate, RangedAttack rangedAttack)
-        {
-            m_instance = this;
-            m_playerDied += playerDiedDelegate;
-            m_textOutput += textOutput;
-            m_rangedAttack += rangedAttack;
-
-            // Needs to happen before anything that could create a weapon
-            ItemFactory = new ItemFactory();
-            MonsterFactory = new MonsterFactory();
-            MapObjectFactory = new MapObjectFactory();
-
-            m_saveLoad = new SaveLoadCore();
-            
-            m_timingEngine = new CoreTimingEngine();
-
-            m_dungeon = new Dictionary<int, Map>();
-
-            StairsMapping.Setup();
         }
 
         private void CommonStartupAfterMapPlayer()
@@ -335,17 +327,17 @@ namespace Magecrawl.GameEngine
 
         internal void PlayerDied()
         {
-            m_playerDied();
+            PlayerDiedEvent();
         }
 
         internal void SendTextOutput(string s)
         {
-            m_textOutput(s);
+            TextOutputEvent(s);
         }
 
         internal void ShowRangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint)
         {
-            m_rangedAttack(attackingMethod, rangedPath, targetAtEndPoint);
+            RangedAttackEvent(attackingMethod, rangedPath, targetAtEndPoint);
         }
 
         public bool DangerPlayerInLOS()

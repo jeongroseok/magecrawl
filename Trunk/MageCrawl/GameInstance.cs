@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.IO;
+using System.Reflection;
 using libtcodWrapper;
 using Magecrawl.Exceptions;
 using Magecrawl.GameEngine;
@@ -20,7 +24,12 @@ namespace Magecrawl
         internal bool IsQuitting { get; set; }
         internal TextBox TextBox { get; set; }
         private RootConsole m_console;
+
+        [Import]
         private IGameEngine m_engine;
+
+        private CompositionContainer m_container;
+
         private KeystrokeManager m_keystroke;
         private PaintingCoordinator m_painters;
 
@@ -32,6 +41,9 @@ namespace Magecrawl
 
         internal GameInstance()
         {
+            m_console = UIHelper.SetupUI();
+            Compose();
+
             TextBox = new TextBox();
             m_painters = new PaintingCoordinator();
 
@@ -39,11 +51,20 @@ namespace Magecrawl
             ShouldSaveOnClose = !Preferences.Instance.DebuggingMode;
         }
 
+        public void Compose()
+        {
+            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
+            {
+                m_container = new CompositionContainer(
+                    new AggregateCatalog(new AssemblyCatalog(System.Reflection.Assembly.GetExecutingAssembly()),
+                    new DirectoryCatalog(".")));
+                m_container.ComposeParts(this);
+            }
+        }
+
         public void Dispose()
         {
-            if (m_engine != null)
-                m_engine.Dispose();
-            m_engine = null;
+            m_container.Dispose();
             if (m_painters != null)
                 m_painters.Dispose();
             m_painters = null;
@@ -51,17 +72,14 @@ namespace Magecrawl
         
         internal void Go()
         {
-            m_console = UIHelper.SetupUI();
-
-            TextOutputFromGame outputDelegate = new TextOutputFromGame(TextBox.TextInputFromEngineDelegate);
-            PlayerDiedDelegate diedDelegate = new PlayerDiedDelegate(HandlePlayerDied);
-            RangedAttack rangedAttack = new RangedAttack(HandleRangedAttack);
-
+            SetupEngineOutputDelegate();
             string saveFilePath = Preferences.Instance["PlayerName"] + ".sav";
             if (System.IO.File.Exists(saveFilePath))
             {
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
-                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, rangedAttack, saveFilePath);
+                {
+                    m_engine.LoadSaveFile(saveFilePath);
+                }
 
                 SetupKeyboardHandlers();  // Requires game engine.
                 SetHandlerName("Default");
@@ -69,7 +87,9 @@ namespace Magecrawl
             else
             {
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
-                    m_engine = new PublicGameEngine(outputDelegate, diedDelegate, rangedAttack);
+                {
+                    m_engine.CreateNewWorld();
+                }
 
                 SetupKeyboardHandlers();  // Requires game engine.
                 if (!Preferences.Instance.DebuggingMode)
@@ -119,6 +139,13 @@ namespace Magecrawl
             {
                 m_engine.Save();
             }
+        }
+
+        private void SetupEngineOutputDelegate()
+        {
+            m_engine.PlayerDiedEvent += HandlePlayerDied;
+            m_engine.RangedAttackEvent += HandleRangedAttack;
+            m_engine.TextOutputEvent += TextBox.TextInputFromEngineDelegate;
         }
 
         public void DrawFrame()
