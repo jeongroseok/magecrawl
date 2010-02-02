@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Reflection;
 using libtcodWrapper;
@@ -25,10 +23,7 @@ namespace Magecrawl
         internal TextBox TextBox { get; set; }
         private RootConsole m_console;
 
-        [Import]
         private IGameEngine m_engine;
-
-        private CompositionContainer m_container;
 
         private KeystrokeManager m_keystroke;
         private PaintingCoordinator m_painters;
@@ -42,7 +37,10 @@ namespace Magecrawl
         internal GameInstance()
         {
             m_console = UIHelper.SetupUI();
-            Compose();
+            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
+            {
+                m_engine = new PublicGameEngine();
+            }
 
             TextBox = new TextBox();
             m_painters = new PaintingCoordinator();
@@ -51,20 +49,11 @@ namespace Magecrawl
             ShouldSaveOnClose = !Preferences.Instance.DebuggingMode;
         }
 
-        public void Compose()
-        {
-            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
-            {
-                m_container = new CompositionContainer(
-                    new AggregateCatalog(new AssemblyCatalog(System.Reflection.Assembly.GetExecutingAssembly()),
-                    new DirectoryCatalog(".")));
-                m_container.ComposeParts(this);
-            }
-        }
-
         public void Dispose()
         {
-            m_container.Dispose();
+            if (m_engine != null)
+                m_engine.Dispose();
+            m_engine = null;
             if (m_painters != null)
                 m_painters.Dispose();
             m_painters = null;
@@ -73,6 +62,7 @@ namespace Magecrawl
         internal void Go()
         {
             SetupEngineOutputDelegate();
+
             string saveFilePath = Preferences.Instance["PlayerName"] + ".sav";
             if (System.IO.File.Exists(saveFilePath))
             {

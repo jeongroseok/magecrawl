@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
@@ -13,7 +12,6 @@ namespace Magecrawl.GameEngine
     // So in the current archtecture, each public method should do the action requested,
     // and _then_ call the CoreTimingEngine somehow to let others have their time slice before returning
     // This is very synchronous, but easy to do.
-    [Export(typeof(IGameEngine))]
     public class PublicGameEngine : IGameEngine
     {
         private CoreGameEngine m_engine;
