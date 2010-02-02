@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public delegate void PlayerDiedDelegate();
+    public delegate void PlayerDied();
 
     // attackingMethod can be an IWeapon, ISpell, IItem
     public delegate void RangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint);
@@ -35,6 +35,13 @@ namespace Magecrawl.GameEngine.Interfaces
 
     public interface IGameEngine : IDisposable
     {
+        void CreateNewWorld();        
+        void LoadSaveFile(string saveGameName);
+
+        event TextOutputFromGame TextOutputEvent;
+        event PlayerDied PlayerDiedEvent;
+        event RangedAttack RangedAttackEvent;
+
         IPlayer Player
         {
             get;
