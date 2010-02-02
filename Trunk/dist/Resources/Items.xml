@@ -44,7 +44,7 @@
 
 <Armor  Name="Robe" BaseType="ChestArmor" ArmorWeight="Light" Defense="0" Evade="1"
         ItemDescription="A simple robe favored by acolytes and mage apprentices."
-        FlavorText="Water resistant and warm, but provides little comb0at protection."/>
+        FlavorText="Water resistant and warm, but provides little combat protection."/>
 <Armor  Name="Wool Cap" BaseType="Headpiece" ArmorWeight="Light" Defense="0" Evade="1"
         ItemDescription="Simple woolen cap, tan and somewhat stiff from wear."
         FlavorText="Provides little protection from anything beyond sunlight and rain."/>
