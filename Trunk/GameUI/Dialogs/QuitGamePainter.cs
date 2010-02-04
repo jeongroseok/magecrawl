@@ -69,6 +69,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         internal void Disable()
         {
+            m_yesSelected = false;
             m_enabled = false;
         }
 
