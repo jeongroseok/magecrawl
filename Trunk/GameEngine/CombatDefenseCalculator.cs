@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.GameEngine.Armor;
-using System.Xml;
 using System.IO;
+using System.Linq;
+using System.Xml;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {
@@ -83,7 +81,7 @@ namespace Magecrawl.GameEngine
         private static ArmorWeight GetTotalArmorWeight(IPlayer player)
         {
             ArmorWeight largestWeight = ArmorWeight.None;
-            foreach(IArmor a in GetArmorList(player))
+            foreach (IArmor a in GetArmorList(player))
             {
                 if (a.Weight > largestWeight)
                     largestWeight = a.Weight;

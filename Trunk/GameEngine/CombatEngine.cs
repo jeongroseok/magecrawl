@@ -109,7 +109,6 @@ namespace Magecrawl.GameEngine
             return (int)Math.Round(damageDone);
         }
 
-
         private double ReduceDamageFromArmor(Character attackedCharacter, double baseDamageDone)
         {
             int damageReduce = 0;

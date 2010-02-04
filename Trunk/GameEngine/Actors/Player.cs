@@ -93,25 +93,25 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (item is ChestArmor)
             {
-                IItem previousArmor = (IItem)ChestArmor;
+                IItem previousArmor = ChestArmor;
                 ChestArmor = (IArmor)item;
                 return previousArmor;
             }
             if (item is Headpiece)
             {
-                IItem previousArmor = (IItem)Headpiece;
+                IItem previousArmor = Headpiece;
                 Headpiece = (IArmor)item;
                 return previousArmor;
             }
             if (item is Gloves)
             {
-                IItem previousArmor = (IItem)Gloves;
+                IItem previousArmor = Gloves;
                 Gloves = (IArmor)item;
                 return previousArmor;
             }
             if (item is Boots)
             {
-                IItem previousArmor = (IItem)Boots;
+                IItem previousArmor = Boots;
                 Boots = (IArmor)item;
                 return previousArmor;
             }
@@ -123,25 +123,25 @@ namespace Magecrawl.GameEngine.Actors
         {
             if (item is ChestArmor)
             {
-                IItem previousArmor = (IItem)ChestArmor;
+                IItem previousArmor = ChestArmor;
                 ChestArmor = null;
                 return previousArmor;
             }
             if (item is Headpiece)
             {
-                IItem previousArmor = (IItem)Headpiece;
+                IItem previousArmor = Headpiece;
                 Headpiece = null;
                 return previousArmor;
             }
             if (item is Gloves)
             {
-                IItem previousArmor = (IItem)Gloves;
+                IItem previousArmor = Gloves;
                 Gloves = null;
                 return previousArmor;
             }
             if (item is Boots)
             {
-                IItem previousArmor = (IItem)Boots;
+                IItem previousArmor = Boots;
                 Boots = null;
                 return previousArmor;
             }

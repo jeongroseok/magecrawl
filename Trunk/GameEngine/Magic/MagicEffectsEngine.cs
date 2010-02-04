@@ -84,21 +84,21 @@ namespace Magecrawl.GameEngine.Magic
                     if (m_physicsEngine.DangerPlayerInLOS())
                         return false;
                     CoreGameEngine.Instance.SendTextOutput(string.Format("As the campsite forms, time seems to drift away as {0} begins to relax deeply.", invoker.Name));
-                    const int roundsToRest = 5;
-                    for (int i = 0; i < roundsToRest ; ++i)
+                    const int RoundsToRest = 5;
+                    for (int i = 0; i < RoundsToRest; ++i)
                     {
                         if (m_physicsEngine.DangerPlayerInLOS())
                         {
                             CoreGameEngine.Instance.SendTextOutput(string.Format("The resting enchantment detects danger and jerks {0} awake as it fades from existence.", invoker.Name));
                             break;
                         }
-                        invoker.Heal(invoker.MaxHP / roundsToRest);
-                        ((Player)invoker).HealMP(((Player)invoker).MaxMP / roundsToRest);
+                        invoker.Heal(invoker.MaxHP / RoundsToRest);
+                        ((Player)invoker).HealMP(((Player)invoker).MaxMP / RoundsToRest);
                         
                         m_physicsEngine.Wait(invoker);
                         m_physicsEngine.AfterPlayerAction(CoreGameEngine.Instance);
 
-                        if (i+1 == roundsToRest)
+                        if (i + 1 == RoundsToRest)
                             CoreGameEngine.Instance.SendTextOutput(string.Format("The resting enchantment fades and {0} awake refreshed.", invoker.Name));
                     }
                     return true;

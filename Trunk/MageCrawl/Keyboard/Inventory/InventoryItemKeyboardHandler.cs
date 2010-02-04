@@ -40,7 +40,7 @@ namespace Magecrawl.Keyboard.Inventory
 
             string targettingNeeded = m_engine.GetTargettingTypeForInventoryItem(item, optionName);
             
-            if(targettingNeeded == null)
+            if (targettingNeeded == null)
             {
                 InvokeSelected(item, optionName, null);
             }
@@ -57,8 +57,8 @@ namespace Magecrawl.Keyboard.Inventory
                 m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
                 m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);
 
-                m_gameInstance.SetHandlerName("Target", targetablePoints, new OnTargetSelection(x => {InvokeSelected(item, optionName, x); return false;})
-                    , null, TargettingKeystrokeHandler.TargettingType.Monster);
+                m_gameInstance.SetHandlerName("Target", targetablePoints, new OnTargetSelection(x => { InvokeSelected(item, optionName, x); return false; }),
+                    null, TargettingKeystrokeHandler.TargettingType.Monster);
             }
             else
             {

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Magecrawl.GameEngine.Actors;
+﻿using System.Collections.Generic;
+using libtcodWrapper;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
-using libtcodWrapper;
 
 namespace Magecrawl.GameEngine.Level.Generator
 {
     internal static class MonsterPlacer
     {
-        static TCODRandom m_random;
+        private static TCODRandom m_random;
 
         static MonsterPlacer()
         {

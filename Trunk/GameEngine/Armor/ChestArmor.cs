@@ -13,7 +13,6 @@ namespace Magecrawl.GameEngine.Armor
         {
         }
 
-
         public override List<ItemOptions> PlayerOptions
         {
             get
@@ -22,12 +21,12 @@ namespace Magecrawl.GameEngine.Armor
 
                 if (CoreGameEngine.Instance.Player.ChestArmor == this)
                 {
-                    if(!CanNotUnequip)
+                    if (!CanNotUnequip)
                         optionList.Add(new ItemOptions("Unequip", true));
                 }
                 else
                 {
-                    if(IsUnequipable(CoreGameEngine.Instance.Player.ChestArmor))
+                    if (IsUnequipable(CoreGameEngine.Instance.Player.ChestArmor))
                         optionList.Add(new ItemOptions("Equip", true));
                     optionList.Add(new ItemOptions("Drop", true));
                 }

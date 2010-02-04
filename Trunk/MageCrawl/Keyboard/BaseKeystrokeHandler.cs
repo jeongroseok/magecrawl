@@ -65,15 +65,14 @@ namespace Magecrawl.Keyboard
                     else
                     {
                         AddErrorIfNotReported("Error in keymapping - unable to find \"" + customFileName + "\" for keymapping.\nUsing \"Arrows\" for default.\n");
-                        return Path.Combine("Resources", "ArrowKeysMapping.xml"); ;
+                        return Path.Combine("Resources", "ArrowKeysMapping.xml");
                     }
                 }
                 else
                 {
                     AddErrorIfNotReported("Error in keymapping - CustomKeymappingFilename is not set.\nUsing \"Arrows\" for default.\n");
-                    return Path.Combine("Resources", "ArrowKeysMapping.xml"); ;
+                    return Path.Combine("Resources", "ArrowKeysMapping.xml");
                 }
-
             }
             throw new InvalidOperationException("Unable to locate keymapping");
         }

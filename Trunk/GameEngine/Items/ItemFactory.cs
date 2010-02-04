@@ -44,7 +44,7 @@ namespace Magecrawl.GameEngine.Items
             {
                 int targetLocation = m_random.GetRandomInt(0, m_itemMapping.Count - 1);
                 string itemName = m_itemMapping.Keys.ToList()[targetLocation];
-                if(!m_itemsNotToDrop.Contains(m_itemMapping[itemName]))
+                if (!m_itemsNotToDrop.Contains(m_itemMapping[itemName]))
                     return CreateItem(itemName);
             }
         }
