@@ -27,6 +27,14 @@ namespace Magecrawl.GameEngine.MapObjects
             }
         }
 
+        public override bool IsTransarent
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override bool CanOperate
         {
             get 

@@ -57,6 +57,14 @@ namespace Magecrawl.GameEngine.MapObjects
             }
         }
 
+        public override bool IsTransarent
+        {
+            get
+            {
+                return m_opened;
+            }
+        }
+
         public override bool CanOperate
         {
             get 
