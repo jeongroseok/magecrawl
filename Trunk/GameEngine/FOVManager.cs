@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine
 {
@@ -44,16 +46,24 @@ namespace Magecrawl.GameEngine
             Point viewRange = lowerRightPointViewRange - upperLeftPointViewRange;
 
             m_fov.ClearMap();
-            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(map, viewPoint, upperLeftPointViewRange, viewRange.X, viewRange.Y, true);
 
-            // If we every have cells that are see through but not walkable, we'll need more here
             for (int i = upperLeftPointViewRange.X; i < upperLeftPointViewRange.X + viewRange.X; ++i)
             {
                 for (int j = upperLeftPointViewRange.Y; j < upperLeftPointViewRange.Y + viewRange.Y; ++j)
                 {
-                    bool isMoveable = moveableGrid[i, j];
-                    m_fov.SetCell(i, j, isMoveable, isMoveable);
+                    bool isFloor = map.GetTerrainAt(i, j) == TerrainType.Floor;
+                    m_fov.SetCell(i, j, isFloor, isFloor);
                 }
+            }
+
+            foreach (MapObject obj in map.MapObjects.Where(x => x.IsSolid))
+            {
+                m_fov.SetCell(obj.Position.X, obj.Position.Y, obj.IsTransarent, !obj.IsSolid);
+            }
+
+            foreach (Monster m in map.Monsters)
+            {
+                m_fov.SetCell(m.Position.X, m.Position.Y, false, false);
             }
         }
 

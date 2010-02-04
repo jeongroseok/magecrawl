@@ -12,6 +12,11 @@ namespace Magecrawl.GameEngine.MapObjects
             get;
         }
 
+        public abstract bool IsTransarent
+        {
+            get;
+        }
+
         public abstract bool CanOperate
         {
             get;
