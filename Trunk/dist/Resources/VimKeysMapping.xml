@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<KeyMappings>
+  <KeyMapping Key="j" Action="North" />
+  <KeyMapping Key="k" Action="South" />
+  <KeyMapping Key="h" Action="West" />
+  <KeyMapping Key="l" Action="East" />
+  <KeyMapping Key="y" Action="Northwest" />
+  <KeyMapping Key="b" Action="Southwest" />
+  <KeyMapping Key="u" Action="Northeast" />
+  <KeyMapping Key="n" Action="Southeast" />
+</KeyMappings>
