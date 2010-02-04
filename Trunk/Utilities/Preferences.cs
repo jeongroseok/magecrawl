@@ -70,6 +70,8 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["Keymapping"] = "Arrows";
+            m_preferences["CustomKeymappingFilename"] = String.Empty;
             m_preferences["ShowAttackRolls"] = false;
             m_preferences["DebugRangedAttack"] = false;
             m_preferences["UseSavegameCompression"] = true;
@@ -125,6 +127,8 @@ namespace Magecrawl.Utilities
                         ReadColorData(reader, reader.LocalName);
                         break;
                     case "PlayerName":
+                    case "Keymapping":
+                    case "CustomKeymappingFilename":
                         ReadStringData(reader, reader.LocalName);
                         break;
                 }

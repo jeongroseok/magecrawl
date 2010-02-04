@@ -84,10 +84,5 @@ namespace Magecrawl.GameUI
             while (m_textList.Count > MaxNumberOfLines)
                 m_textList.RemoveAt(m_textList.Count - 1);
         }
-
-        public void TextInputFromEngineDelegate(string s)
-        {
-            AddText(s);
-        }
     }
 }

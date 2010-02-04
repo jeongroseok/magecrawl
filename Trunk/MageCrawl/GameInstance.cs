@@ -135,7 +135,7 @@ namespace Magecrawl
         {
             m_engine.PlayerDiedEvent += HandlePlayerDied;
             m_engine.RangedAttackEvent += HandleRangedAttack;
-            m_engine.TextOutputEvent += TextBox.TextInputFromEngineDelegate;
+            m_engine.TextOutputEvent += TextBox.AddText;
         }
 
         public void DrawFrame()
@@ -253,6 +253,13 @@ namespace Magecrawl
             OneButtonDialogKeyboardHandler oneButtonHandler = new OneButtonDialogKeyboardHandler(m_engine, this);
             oneButtonHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("OneButtonDialog", oneButtonHandler);
+
+            if (BaseKeystrokeHandler.ErrorsParsingKeymapFiles != string.Empty)
+            {
+                TextBox.AddText(string.Empty);
+                TextBox.AddText(BaseKeystrokeHandler.ErrorsParsingKeymapFiles);
+                TextBox.AddText(string.Empty);
+            }
         }
 
         internal void SetHandlerName(string s)

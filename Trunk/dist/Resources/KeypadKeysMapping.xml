@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<KeyMappings>
+  <KeyMapping Key="TCODK_KP8" Action="North" />
+  <KeyMapping Key="TCODK_KP2" Action="South" />
+  <KeyMapping Key="TCODK_KP4" Action="West" />
+  <KeyMapping Key="TCODK_KP6" Action="East" />
+  <KeyMapping Key="TCODK_KP7" Action="Northwest" />
+  <KeyMapping Key="TCODK_KP1" Action="Southwest" />
+  <KeyMapping Key="TCODK_KP9" Action="Northeast" />
+  <KeyMapping Key="TCODK_KP3" Action="Southeast" />
+  <KeyMapping Key="TCODK_KPENTER" Action="AlternateSelect" />
+</KeyMappings>
