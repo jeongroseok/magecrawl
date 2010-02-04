@@ -11,12 +11,15 @@ namespace Magecrawl.Keyboard
     internal abstract class BaseKeystrokeHandler : IKeystrokeHandler
     {
         public static string ErrorsParsingKeymapFiles = String.Empty;
-        protected Dictionary<NamedKey, MethodInfo> m_keyMappings = null;
-        protected NamedKey m_enterKey;
+        protected Dictionary<NamedKey, MethodInfo> m_keyMappings;
+        protected Dictionary<string, NamedKey> m_actionKeyMapping;
 
         public void LoadKeyMappings(bool requireAllActions)
         {
             m_keyMappings = new Dictionary<NamedKey, MethodInfo>();
+            m_actionKeyMapping = new Dictionary<string, NamedKey>();
+
+            // We depend on this order so specific actions "like rest" can be overwritten by arrow mapping files.
             ParseKeymappingFile(requireAllActions, "KeyMappings.xml");
             ParseKeymappingFile(requireAllActions, GetArrowMappingConfigPath());
         }
@@ -92,11 +95,12 @@ namespace Magecrawl.Keyboard
                     string actionName = reader.GetAttribute("Action");
 
                     if (isDirectionAction(actionName))
+                    {
                         FindAndAddKeyHandler(requireAllActions, keyString + "Control", "Run" + actionName);
+                        m_actionKeyMapping["Run" + actionName] = new NamedKey(keyString + "Control");
+                    }
 
-                    if (actionName == "Select")
-                        m_enterKey = new NamedKey(keyString);
-
+                    m_actionKeyMapping[actionName] = new NamedKey(keyString);
                     FindAndAddKeyHandler(requireAllActions, keyString, actionName);
                 }
             }
@@ -135,6 +139,10 @@ namespace Magecrawl.Keyboard
                 case "Southwest":
                 case "Northeast":
                 case "Southeast":
+                case "AlternateNorth":
+                case "AlternateSouth":
+                case "AlternateWest":
+                case "AlternateEast":
                     return true;
                 default:
                     return false;
@@ -155,9 +163,49 @@ namespace Magecrawl.Keyboard
         {
         }
 
+        protected void AlternateNorth()
+        {
+            HandleKeystroke(m_actionKeyMapping["North"]);
+        }
+
+        protected void AlternateSouth()
+        {
+            HandleKeystroke(m_actionKeyMapping["South"]);
+        }
+
+        protected void AlternateWest()
+        {
+            HandleKeystroke(m_actionKeyMapping["West"]);
+        }
+
+        protected void AlternateEast()
+        {
+            HandleKeystroke(m_actionKeyMapping["East"]);
+        }
+
+        protected void RunAlternateNorth()
+        {
+            HandleKeystroke(m_actionKeyMapping["RunNorth"]);
+        }
+
+        protected void RunAlternateSouth()
+        {
+            HandleKeystroke(m_actionKeyMapping["RunSouth"]);
+        }
+
+        protected void RunAlternateWest()
+        {
+            HandleKeystroke(m_actionKeyMapping["RunWest"]);
+        }
+
+        protected void RunAlternateEast()
+        {
+            HandleKeystroke(m_actionKeyMapping["RunEast"]);
+        }
+
         protected void AlternateSelect()
         {
-            HandleKeystroke(m_enterKey);
+            HandleKeystroke(m_actionKeyMapping["Select"]);
         }
     }
 }

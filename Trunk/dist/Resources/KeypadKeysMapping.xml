@@ -9,4 +9,9 @@
   <KeyMapping Key="TCODK_KP9" Action="Northeast" />
   <KeyMapping Key="TCODK_KP3" Action="Southeast" />
   <KeyMapping Key="TCODK_KPENTER" Action="AlternateSelect" />
+  <KeyMapping Key="TCODK_UP" Action="AlternateNorth" />
+  <KeyMapping Key="TCODK_DOWN" Action="AlternateSouth" />
+  <KeyMapping Key="TCODK_LEFT" Action="AlternateWest" />
+  <KeyMapping Key="TCODK_RIGHT" Action="AlternateEast" />
+  <KeyMapping Key="TCODK_KP5" Action="Wait" />
 </KeyMappings>
