@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -39,7 +38,7 @@ namespace Magecrawl.GameEngine.Actors
             List<ICharacter> nearbyAllies = OtherNearbyEnemies(engine);
             if (nearbyAllies.Count > 0 && CanUseFirstAid())
             {
-                foreach(ICharacter allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))
+                foreach (ICharacter allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))
                 {
                     List<Point> pathToAlly = GetPathToCharacter(engine, allyNeedingHealing);
                     if (pathToAlly != null)

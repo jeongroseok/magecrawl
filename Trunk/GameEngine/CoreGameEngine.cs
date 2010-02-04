@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine
         internal ItemFactory ItemFactory;
         internal MonsterFactory MonsterFactory;
         internal MapObjectFactory MapObjectFactory;
-        internal int TurnCount { get; set;}
+        internal int TurnCount { get; set; }
 
         internal event TextOutputFromGame TextOutputEvent;
         internal event PlayerDied PlayerDiedEvent;
@@ -374,11 +374,11 @@ namespace Magecrawl.GameEngine
             if (character.CurrentWeapon.GetType() == typeof(MeleeWeapon) && character.SecondaryWeapon.GetType() == typeof(MeleeWeapon))
                 return false;
 
-            IWeapon mainWeapon = (IWeapon)character.Unequip((IItem)character.CurrentWeapon);
+            IWeapon mainWeapon = (IWeapon)character.Unequip(character.CurrentWeapon);
             IWeapon secondaryWeapon = character.UnequipSecondaryWeapon();
             
             if (secondaryWeapon != null)
-                character.Equip((IItem)secondaryWeapon);
+                character.Equip(secondaryWeapon);
             
             if (mainWeapon != null)
                 character.EquipSecondaryWeapon(mainWeapon);

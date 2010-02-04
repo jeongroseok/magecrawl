@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Affects
         }
 
         public Light(int strength)
-            : base(new DiceRoll(strength, 10, 1).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+            : base(new DiceRoll(strength, 6, 12).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_visionBoost = strength / 2;
             if (m_visionBoost < 2)

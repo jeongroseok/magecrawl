@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.GameEngine.Armor;
-using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Items;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Affects
 {
-    class EarthenArmor : AffectBase
+    internal class EarthenArmor : AffectBase
     {
         private ChestArmor m_previousArmor;
 
@@ -66,7 +63,7 @@ namespace Magecrawl.GameEngine.Affects
             Player player = removedFrom as Player;
             if (player == null)
                 throw new NotImplementedException("Can't apply earth armor to non-players until they have armor");
-            IItem shouldBeEarthenArmor = player.Unequip((IItem)player.ChestArmor);
+            IItem shouldBeEarthenArmor = player.Unequip(player.ChestArmor);
             if (m_previousArmor != null)
                 player.Equip(m_previousArmor);
             if (shouldBeEarthenArmor.DisplayName != "Earthen Armor")

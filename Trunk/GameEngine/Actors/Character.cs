@@ -99,7 +99,7 @@ namespace Magecrawl.GameEngine.Actors
         virtual internal IItem Equip(IItem item)
         {
             if (item is IWeapon)
-                return (IItem)EquipWeapon((IWeapon)item);
+                return EquipWeapon((IWeapon)item);
 
             throw new System.InvalidOperationException("Don't know how to equip - " + item.GetType());
         }
@@ -107,7 +107,7 @@ namespace Magecrawl.GameEngine.Actors
         virtual internal IItem Unequip(IItem item)
         {
             if (item is IWeapon)
-                return (IItem)UnequipWeapon();
+                return UnequipWeapon();
             throw new System.InvalidOperationException("Don't know how to unequip - " + item.GetType());
         }
 

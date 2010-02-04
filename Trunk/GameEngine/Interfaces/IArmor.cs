@@ -12,7 +12,7 @@ namespace Magecrawl.GameEngine.Interfaces
         Standard = 2,
         Heavy = 3
     }
-    public interface IArmor : INamedItem
+    public interface IArmor : IItem, INamedItem
     {
         ArmorWeight Weight
         {

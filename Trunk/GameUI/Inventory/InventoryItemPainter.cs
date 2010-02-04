@@ -75,7 +75,7 @@ namespace Magecrawl.GameUI.Inventory
             }
 
             IWeapon asWeapon = m_selectedItem as IWeapon;
-            if (asWeapon!= null)
+            if (asWeapon != null)
             {
                 itemDescription += "\n";
                 itemDescription += "\n\n" + string.Format("Damage: {0}", asWeapon.Damage);
