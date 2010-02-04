@@ -10,6 +10,9 @@ namespace Magecrawl.Keyboard
 {
     internal abstract class BaseKeystrokeHandler : IKeystrokeHandler
     {
+        private static StreamReader m_keyMappingsStream;
+        private static StreamReader m_arrowMappingsStream;
+
         public static string ErrorsParsingKeymapFiles = String.Empty;
         protected Dictionary<NamedKey, MethodInfo> m_keyMappings;
         protected Dictionary<string, NamedKey> m_actionKeyMapping;
@@ -19,9 +22,20 @@ namespace Magecrawl.Keyboard
             m_keyMappings = new Dictionary<NamedKey, MethodInfo>();
             m_actionKeyMapping = new Dictionary<string, NamedKey>();
 
+            if (m_keyMappingsStream == null)
+            {
+                m_keyMappingsStream = new StreamReader("KeyMappings.xml");
+                m_arrowMappingsStream = new StreamReader(GetArrowMappingConfigPath());                
+            }
+            else
+            {
+                m_keyMappingsStream.BaseStream.Seek(0, SeekOrigin.Begin);
+                m_arrowMappingsStream.BaseStream.Seek(0, SeekOrigin.Begin);
+            }
+
             // We depend on this order so specific actions "like rest" can be overwritten by arrow mapping files.
-            ParseKeymappingFile(requireAllActions, "KeyMappings.xml");
-            ParseKeymappingFile(requireAllActions, GetArrowMappingConfigPath());
+            ParseKeymappingFile(requireAllActions, m_keyMappingsStream);
+            ParseKeymappingFile(requireAllActions, m_arrowMappingsStream);
         }
 
         private string GetArrowMappingConfigPath()
@@ -70,12 +84,12 @@ namespace Magecrawl.Keyboard
                 ErrorsParsingKeymapFiles += s;
         }
 
-        private void ParseKeymappingFile(bool requireAllActions, string fileToParse)
+        private void ParseKeymappingFile(bool requireAllActions, StreamReader stream)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
             settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(fileToParse), settings);
+            XmlReader reader = XmlReader.Create(stream, settings);
             reader.Read();  // XML declaration
             reader.Read();  // KeyMappings element
             if (reader.LocalName != "KeyMappings")
