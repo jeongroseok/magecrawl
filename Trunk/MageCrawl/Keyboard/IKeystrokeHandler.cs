@@ -34,22 +34,35 @@ namespace Magecrawl.Keyboard
                 ControlPressed = true;
                 name = name.Remove(name.Length - 7);
             }
-            try
+
+            if (name.StartsWith("TCODK"))
             {
-                Code = (KeyCode)Enum.Parse(typeof(KeyCode), name);
-                Character = '\0';
+                try
+                {
+                    Code = (KeyCode)Enum.Parse(typeof(KeyCode), name);
+                    Character = '\0';
+                }
+                catch (ArgumentException)
+                {
+                    HandleCharacterElement(name);
+                }
             }
-            catch (ArgumentException)
+            else
             {
-                if (name.Length == 1)
-                {
-                    Code = KeyCode.TCODK_CHAR;
-                    Character = name[0];
-                }
-                else
-                {
-                    throw new ArgumentException("Not a valid key name.", "name");
-                }
+                HandleCharacterElement(name);
+            }
+        }
+
+        private void HandleCharacterElement(string name)
+        {
+            if (name.Length == 1)
+            {
+                Code = KeyCode.TCODK_CHAR;
+                Character = name[0];
+            }
+            else
+            {
+                throw new ArgumentException("Not a valid key name.", "name");
             }
         }
 
