@@ -23,8 +23,8 @@ namespace Magecrawl.GameEngine.Affects
                     return new Slow(level);
                 case "False Life":
                     return new FalseLife(level);
-                case "Eagle Eye":
-                    return new EagleEye(level);
+                case "Light":
+                    return new Light(level);
                 case "Poison":
                     return new Poison(level);
                 case "Earthen Armor":
