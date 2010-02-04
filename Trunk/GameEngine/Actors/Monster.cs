@@ -82,6 +82,11 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public void NoticeRangedAttack(Point attackerPosition)
+        {
+            m_playerLastKnownPosition = attackerPosition;
+        }
+
         #region ActionParts
 
         protected void UpdateKnownPlayerLocation(CoreGameEngine engine)

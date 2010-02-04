@@ -134,6 +134,9 @@ namespace Magecrawl.GameEngine
             if (targetCharacter != null)
                 DamageTarget(damageDone, targetCharacter, del);
 
+            if (targetCharacter is Monster)
+                ((Monster)targetCharacter).NoticeRangedAttack(attacker.Position);
+
             return true;
         }
 
