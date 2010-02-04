@@ -4,18 +4,20 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Affects
 {
-    internal class EagleEye : AffectBase
+    internal class Light : AffectBase
     {
         private int m_visionBoost;
 
-        public EagleEye() : base(0)
+        public Light() : base(0)
         {
         }
 
-        public EagleEye(int strength)
+        public Light(int strength)
             : base(new DiceRoll(strength, 10, 1).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
-            m_visionBoost = Math.Min(strength / 2, 2);
+            m_visionBoost = strength / 2;
+            if (m_visionBoost < 2)
+                m_visionBoost = 2;
         }
 
         public override void Apply(Character appliedTo)
@@ -32,7 +34,7 @@ namespace Magecrawl.GameEngine.Affects
         {
             get
             {
-                return "Eagle Eye";
+                return "Light";
             }
         }
 
