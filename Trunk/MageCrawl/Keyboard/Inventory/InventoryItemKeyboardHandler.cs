@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.Utilities;
+using Magecrawl.Keyboard.Requests;
 
 namespace Magecrawl.Keyboard.Inventory
 {
@@ -19,10 +20,10 @@ namespace Magecrawl.Keyboard.Inventory
             m_handlerWhoCalledMe = String.Empty;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
             m_gameInstance.UpdatePainters();
-            m_handlerWhoCalledMe = (string)objOne;
+            m_handlerWhoCalledMe = (string)request;
         }
 
         private void Select()
@@ -57,8 +58,8 @@ namespace Magecrawl.Keyboard.Inventory
                 m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
                 m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);
 
-                m_gameInstance.SetHandlerName("Target", targetablePoints, new OnTargetSelection(x => { InvokeSelected(item, optionName, x); return false; }),
-                    null, TargettingKeystrokeHandler.TargettingType.Monster);
+                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, new OnTargetSelection(x => { InvokeSelected(item, optionName, x); return false; }),
+                    NamedKey.Invalid, TargettingKeystrokeHandler.TargettingType.Monster));
             }
             else
             {

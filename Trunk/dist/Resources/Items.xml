@@ -29,7 +29,7 @@
         FlavorText="The text of this scroll is blury and hard to keep in focus."/>
 <Scroll Name="Scroll of Teleportation" EffectType="Teleport" Strength="1" ItemDescription="Reading this scroll will warp space around you, moving you to a new location instantly."
         FlavorText=">A thick parchment engraved in ink which fades and returns into view."/>
-<Potion Name="Scroll of Blinking" EffectType="Blink" Strength="1" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."
+<Potion Name="Potion of Blinking" EffectType="Blink" Strength="1" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."
         FlavorText=">Sparkely concoction filled with points of light that dance into and out of existance."/>
 <Supplies Name="Camp Supplies" EffectType="Rest" Strength="1" ItemDescription="These magical supplies will setup a camp in which an entire night of sleep can be obtained in a few moments. Effect ends early if danger is spoted."
         FlavorText="Contains: Self deploying tent, firewood with blaze scroll, rations, and specially treated quintessence powder to power the entire enchantment."/>

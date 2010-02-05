@@ -18,10 +18,9 @@ namespace Magecrawl.Keyboard
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
-            RequestBase request = (RequestBase)objOne;
-            m_gameInstance.SendPaintersRequest(request);
+            m_gameInstance.SendPaintersRequest((RequestBase)request);
             m_gameInstance.UpdatePainters();
         }
     }
