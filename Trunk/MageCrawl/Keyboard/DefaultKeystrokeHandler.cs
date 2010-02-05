@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using libtcodWrapper;
-using Magecrawl.Exceptions;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
-using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
@@ -15,14 +11,18 @@ namespace Magecrawl.Keyboard
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
-        private AutoTraveler m_autoTraveler;
+        private PlayerActions m_playerActions;
 
         public DefaultKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
             m_gameInstance = instance;
-            m_keyMappings = null;
-            m_autoTraveler = new AutoTraveler(engine, instance);
+            m_playerActions = new PlayerActions(engine, instance);
+        }
+        
+        private NamedKey GetNamedKeyForMethodInfo(MethodInfo info)
+        {
+            return m_keyMappings.Keys.Where(k => m_keyMappings[k] == info).Single();
         }
 
         #region Mappable key commands
@@ -35,98 +35,82 @@ namespace Magecrawl.Keyboard
         // If you add new non-debug commands, remember to update HelpPainter.cs
         private void North()
         {
-            m_engine.MovePlayer(Direction.North);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.North);            
         }
 
         private void South()
         {
-            m_engine.MovePlayer(Direction.South);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.South);
         }
 
         private void East()
         {
-            m_engine.MovePlayer(Direction.East);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.East);
         }
 
         private void West()
         {
-            m_engine.MovePlayer(Direction.West);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.West);
         }
 
         private void Northeast()
         {
-            m_engine.MovePlayer(Direction.Northeast);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.Northeast);
         }
 
         private void Northwest()
         {
-            m_engine.MovePlayer(Direction.Northwest);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.Northwest);
         }
 
         private void Southeast()
         {
-            m_engine.MovePlayer(Direction.Southeast);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.Southeast);
         }
 
         private void Southwest()
         {
-            m_engine.MovePlayer(Direction.Southwest);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Move(Direction.Southwest);
         }
 
         private void RunNorth()
         {
-            m_autoTraveler.RunInDirection(Direction.North);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.North);
         }
 
         private void RunSouth()
         {
-            m_autoTraveler.RunInDirection(Direction.South);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.South);
         }
 
         private void RunEast()
         {
-            m_autoTraveler.RunInDirection(Direction.East);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.East);
         }
 
         private void RunWest()
         {
-            m_autoTraveler.RunInDirection(Direction.West);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.West);
         }
 
         private void RunNortheast()
         {
-            m_autoTraveler.RunInDirection(Direction.Northeast);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.Northeast);
         }
 
         private void RunNorthwest()
         {
-            m_autoTraveler.RunInDirection(Direction.Northwest);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.Northwest);
         }
 
         private void RunSoutheast()
         {
-            m_autoTraveler.RunInDirection(Direction.Southeast);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.Southeast);
         }
 
         private void RunSouthwest()
         {
-            m_autoTraveler.RunInDirection(Direction.Southwest);
-            m_gameInstance.UpdatePainters();
+            m_playerActions.Run(Direction.Southwest);
         }
 
         private void Quit()
@@ -136,46 +120,13 @@ namespace Magecrawl.Keyboard
 
         private void Operate()
         {
-            List<EffectivePoint> targetPoints = CalculateOperatePoints();
-            if (Preferences.Instance.SinglePressOperate && targetPoints.Count == 1)
-            {
-                m_engine.Operate(targetPoints[0].Position);
-                m_gameInstance.UpdatePainters();
-            }
-            else
-            {
-                OnTargetSelection operateDelegate = new OnTargetSelection(OnOperate);
-                NamedKey operateKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-                m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey, TargettingKeystrokeHandler.TargettingType.Operatable);
-            }
-        }
-
-        private bool OnOperate(Point selection)
-        {
-            if (selection != m_engine.Player.Position)
-                m_engine.Operate(selection);
-            return false;
-        }
-
-        private List<EffectivePoint> CalculateOperatePoints()
-        {
-            List<EffectivePoint> listOfSelectablePoints = new List<EffectivePoint>();
-
-            foreach (IMapObject mapObj in m_engine.Map.MapObjects)
-            {
-                if (PointDirectionUtils.LatticeDistance(m_engine.Player.Position, mapObj.Position) == 1)
-                {
-                    listOfSelectablePoints.Add(new EffectivePoint(mapObj.Position, 1.0f));
-                }
-            }
-
-            return listOfSelectablePoints;
+            NamedKey operateKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
+            m_playerActions.Operate(operateKey);
         }
 
         private void GetItem()
         {
-            m_engine.PlayerGetItem();
-            m_gameInstance.UpdatePainters();
+            m_playerActions.GetItem();
         }
 
         private void Save()
@@ -212,36 +163,13 @@ namespace Magecrawl.Keyboard
 
         private void Wait()
         {
-            m_engine.PlayerWait();
-            m_gameInstance.UpdatePainters();
-        }
-
-        private NamedKey GetNamedKeyForMethodInfo(MethodInfo info)
-        {
-            return m_keyMappings.Keys.Where(k => m_keyMappings[k] == info).Single();
+            m_playerActions.Wait();
         }
 
         private void Attack()
         {
-            if (!m_engine.Player.CurrentWeapon.IsLoaded)
-            {
-                m_engine.ReloadWeapon();
-                m_gameInstance.TextBox.AddText(string.Format("{0} reloads the {1}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
-            }
-            else
-            {
-                List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
-                OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
-                NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-                m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster);
-            }
-        }
-
-        private bool OnAttack(Point selection)
-        {
-            if (selection != m_engine.Player.Position)
-                m_engine.PlayerAttack(selection);
-            return false;
+            NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
+            m_playerActions.Attack(attackKey);            
         }
 
         private void ViewMode()
@@ -261,8 +189,7 @@ namespace Magecrawl.Keyboard
 
         private void SwapWeapon()
         {
-            m_engine.PlayerSwapPrimarySecondaryWeapons();
-            m_gameInstance.UpdatePainters();
+            m_playerActions.SwapWeapon();
         }
 
         private void TextBoxPageUp()
@@ -301,45 +228,18 @@ namespace Magecrawl.Keyboard
 
         private void DownStairs()
         {
-            HandleStairs(m_engine.PlayerMoveDownStairs);
+            m_playerActions.DownStairs();
         }
 
         private void UpStairs()
         {
-            HandleStairs(m_engine.PlayerMoveUpStairs);
-        }
-
-        private delegate bool StairMovement();
-        private void HandleStairs(StairMovement s)
-        {
-            StairMovmentType stairMovement = m_engine.IsStairMovementSpecial(s == m_engine.PlayerMoveUpStairs);
-            switch (stairMovement)
-            {
-                case StairMovmentType.QuitGame:
-                    m_gameInstance.SetHandlerName("QuitGame", QuitReason.leaveDungeom);
-                    break;
-                case StairMovmentType.WinGame:
-                    // Don't save if player closes window with dialog up.
-                    m_gameInstance.ShouldSaveOnClose = false;
-                    string winString = "Congratulations, you have completed the magecrawl tech demo! " + m_engine.Player.Name + " continues on without you in search of further treasure and fame. Consider telling your story to others, including the creator.";
-                    m_gameInstance.SetHandlerName("OneButtonDialog", winString, new OnOneButtonComplete(OnWinDialogComplete));
-                    break;
-                case StairMovmentType.None:
-                    s();
-                    m_gameInstance.UpdatePainters();
-                    return;
-            }
-        }
-
-        private void OnWinDialogComplete()
-        {
-            throw new PlayerWonException();
+            m_playerActions.UpStairs();
         }
 
         private void MoveToLocation()
         {
             NamedKey movementKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
-            m_autoTraveler.MoveToLocation(movementKey);
+            m_playerActions.MoveToLocation(movementKey);
         }
 
         // If you add new non-debug commands, remember to update HelpPainter.cs
