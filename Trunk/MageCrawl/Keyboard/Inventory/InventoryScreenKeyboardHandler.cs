@@ -20,9 +20,9 @@ namespace Magecrawl.Keyboard.Inventory
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
-            if (objOne != null && ((bool)objOne) == true)
+            if (request != null && ((bool)request) == true)
                 m_gameInstance.SendPaintersRequest(new SaveListSelectionPosition());
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Items.OfType<INamedItem>().ToList(), "Inventory"));

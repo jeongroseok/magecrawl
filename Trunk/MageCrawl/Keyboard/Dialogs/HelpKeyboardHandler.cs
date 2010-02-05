@@ -18,9 +18,9 @@ namespace Magecrawl.GameUI.Dialogs
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
-            Dictionary<NamedKey, MethodInfo> parentsKeymappings = (Dictionary<NamedKey, MethodInfo>)objOne;
+            Dictionary<NamedKey, MethodInfo> parentsKeymappings = (Dictionary<NamedKey, MethodInfo>)request;
             Dictionary<string, string> keyMappings = new Dictionary<string, string>();
             foreach (NamedKey k in parentsKeymappings.Keys)
             {

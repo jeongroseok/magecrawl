@@ -4,6 +4,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.Keyboard;
 using Magecrawl.Utilities;
+using Magecrawl.Keyboard.Requests;
 
 namespace Magecrawl
 {
@@ -55,7 +56,7 @@ namespace Magecrawl
             else
             {
                 OnTargetSelection operateDelegate = new OnTargetSelection(OnOperate);
-                m_gameInstance.SetHandlerName("Target", targetPoints, operateDelegate, operateKey, TargettingKeystrokeHandler.TargettingType.Operatable);
+                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, operateDelegate, operateKey, TargettingKeystrokeHandler.TargettingType.Operatable));
             }
         }
 
@@ -70,7 +71,7 @@ namespace Magecrawl
             {
                 List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
                 OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
-                m_gameInstance.SetHandlerName("Target", targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster);
+                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster));
             }
         }
 
@@ -110,7 +111,7 @@ namespace Magecrawl
                     // Don't save if player closes window with dialog up.
                     m_gameInstance.ShouldSaveOnClose = false;
                     string winString = "Congratulations, you have completed the magecrawl tech demo! " + m_engine.Player.Name + " continues on without you in search of further treasure and fame. Consider telling your story to others, including the creator.";
-                    m_gameInstance.SetHandlerName("OneButtonDialog", winString, new OnOneButtonComplete(OnWinDialogComplete));
+                    m_gameInstance.SetHandlerName("OneButtonDialog", new OneButtonDialogKeyboardRequest(winString, new OnOneButtonComplete(OnWinDialogComplete)));
                     break;
                 case StairMovmentType.None:
                     s();

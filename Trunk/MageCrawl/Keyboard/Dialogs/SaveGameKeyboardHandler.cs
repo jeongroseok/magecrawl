@@ -15,7 +15,7 @@ namespace Magecrawl.Keyboard.Dialogs
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
             m_gameInstance.SendPaintersRequest(new EnableSaveDialog(true));
             m_gameInstance.UpdatePainters();

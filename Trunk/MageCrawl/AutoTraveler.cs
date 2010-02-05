@@ -5,6 +5,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Utilities;
+using Magecrawl.Keyboard.Requests;
 
 namespace Magecrawl
 {
@@ -42,7 +43,7 @@ namespace Magecrawl
         {
             List<EffectivePoint> targetPoints = GeneratePointsOneCanMoveTo();
             OnTargetSelection movementDelegate = new OnTargetSelection(OnMovementLocationSelected);
-            m_gameInstance.SetHandlerName("Target", targetPoints, movementDelegate, movementKey, TargettingKeystrokeHandler.TargettingType.OpenFloor);
+            m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, movementDelegate, movementKey, TargettingKeystrokeHandler.TargettingType.OpenFloor));
         }
 
         public void RunInDirection(Direction direction)

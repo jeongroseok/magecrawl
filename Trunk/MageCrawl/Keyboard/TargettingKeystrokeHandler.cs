@@ -5,6 +5,7 @@ using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
+using Magecrawl.Keyboard.Requests;
 
 namespace Magecrawl.Keyboard
 {
@@ -58,20 +59,21 @@ namespace Magecrawl.Keyboard
             }
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
-            m_targetablePoints = (List<EffectivePoint>)objOne;
-            m_selectionDelegate = (OnTargetSelection)objTwo;
+            TargettingKeystrokeRequest targettingRequest = (TargettingKeystrokeRequest)request;
+            m_targetablePoints = targettingRequest.TargetablePoints;
+            m_selectionDelegate = targettingRequest.SelectionDelegate;
 
             if (m_selectionDelegate == null)
                 throw new ArgumentNullException("Selection delegate for targetting must not be null");
             
-            if (objThree != null)
-                m_alternateSelectionKey = (NamedKey)objThree;
+            if (targettingRequest.AlternateSelectionKey != NamedKey.Invalid)
+                m_alternateSelectionKey = targettingRequest.AlternateSelectionKey;
             else
                 m_alternateSelectionKey = NamedKey.Invalid;
 
-            m_targettingType = (TargettingType)objFour;
+            m_targettingType = targettingRequest.TargettingType;
 
             SelectionPoint = SetTargettingInitialSpot(m_engine);
 

@@ -264,28 +264,13 @@ namespace Magecrawl
 
         internal void SetHandlerName(string s)
         {
-            SetHandlerName(s, null, null, null, null);
+            SetHandlerName(s, null);
         }
 
-        internal void SetHandlerName(string s, object objOne)
-        {
-            SetHandlerName(s, objOne, null, null, null);
-        }
-
-        internal void SetHandlerName(string s, object objOne, object objTwo)
-        {
-            SetHandlerName(s, objOne, objTwo, null, null);
-        }
-
-        internal void SetHandlerName(string s, object objOne, object objTwo, object objThree)
-        {
-            SetHandlerName(s, objOne, objTwo, objThree, null);
-        }
-
-        internal void SetHandlerName(string s, object objOne, object objTwo, object objThree, object objFour)
+        internal void SetHandlerName(string s, object request)
         {
             m_keystroke.CurrentHandlerName = s;
-            m_keystroke.CurrentHandler.NowPrimaried(objOne, objTwo, objThree, objFour);
+            m_keystroke.CurrentHandler.NowPrimaried(request);
         }
 
         internal void ResetHandlerName()

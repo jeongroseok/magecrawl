@@ -10,6 +10,7 @@ using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
+using Magecrawl.Keyboard.Requests;
 
 namespace Magecrawl.Keyboard.Magic
 {
@@ -27,9 +28,9 @@ namespace Magecrawl.Keyboard.Magic
             m_gameInstance = instance;
         }
 
-        public override void NowPrimaried(object objOne, object objTwo, object objThree, object objFour)
+        public override void NowPrimaried(object request)
         {
-            m_keystroke = (NamedKey)objOne;
+            m_keystroke = (NamedKey)request;
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
             ListItemShouldBeEnabled magicSpellEnabledDelegate = s => m_engine.PlayerCouldCastSpell((ISpell)s);
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Spells.OfType<INamedItem>().ToList(), "Spellbook", magicSpellEnabledDelegate));
@@ -70,7 +71,7 @@ namespace Magecrawl.Keyboard.Magic
                         m_engine.PlayerCastSpell(spell, s);
                     return false;
                 });
-                m_gameInstance.SetHandlerName("Target", targetablePoints, selectionDelegate, m_keystroke, TargettingKeystrokeHandler.TargettingType.Monster);
+                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, selectionDelegate, m_keystroke, TargettingKeystrokeHandler.TargettingType.Monster));
             }
             else if (spell.TargetType == "Self")
             {
