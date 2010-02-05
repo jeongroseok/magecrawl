@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Keyboard;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.Keyboard
+namespace Magecrawl
 {
     internal sealed class AutoTraveler
     {
