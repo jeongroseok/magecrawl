@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
@@ -142,7 +143,16 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
-                    invoker.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
+                    AffectBase previousAffect = invoker.Affects.Where(x => x.Name == effect).FirstOrDefault();
+                    if (previousAffect != null)
+                    {
+                        previousAffect.Extend(1.5);
+                        CoreGameEngine.Instance.SendTextOutput("The previous affect is strengthen in length.");
+                    }
+                    else
+                    {
+                        invoker.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
+                    }
                     return true;
                 }
                 case "Poison Bolt":

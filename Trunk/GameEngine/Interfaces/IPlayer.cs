@@ -16,17 +16,17 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        IList<IItem> Items
+        IEnumerable<IItem> Items
         {
             get;
         }
 
-        IList<ISpell> Spells
+        IEnumerable<ISpell> Spells
         {
             get;
         }
 
-        IList<string> StatusEffects
+        IEnumerable<string> StatusEffects
         {
             get;
         }

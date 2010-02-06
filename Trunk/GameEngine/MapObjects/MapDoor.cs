@@ -73,7 +73,7 @@ namespace Magecrawl.GameEngine.MapObjects
             }
         }
 
-        public override void Operate()
+        public override void Operate(ICharacter actor)
         {
             m_opened = !m_opened;
         }

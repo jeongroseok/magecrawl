@@ -12,7 +12,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal sealed class Player : Character, Interfaces.IPlayer, IXmlSerializable
+    internal sealed class Player : Character, IPlayer, IXmlSerializable
     {
         public int CurrentMP { get; internal set; }
 
@@ -50,7 +50,7 @@ namespace Magecrawl.GameEngine.Actors
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
         }
 
-        public IList<ISpell> Spells
+        public IEnumerable<ISpell> Spells
         {
             get 
             {
@@ -73,7 +73,7 @@ namespace Magecrawl.GameEngine.Actors
             return CurrentMP - previousMP;
         }
 
-        public IList<IItem> Items
+        public IEnumerable<IItem> Items
         {
             get
             {
@@ -81,7 +81,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public IList<string> StatusEffects
+        public IEnumerable<string> StatusEffects
         {
             get
             {

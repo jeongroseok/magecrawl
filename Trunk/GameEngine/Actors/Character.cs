@@ -236,6 +236,14 @@ namespace Magecrawl.GameEngine.Actors
             affectToAdd.Apply(this);
         }
 
+        public IEnumerable<AffectBase> Affects
+        {
+            get
+            {
+                return m_affects;
+            }
+        }
+
         #region SaveLoad
 
         public virtual System.Xml.Schema.XmlSchema GetSchema()

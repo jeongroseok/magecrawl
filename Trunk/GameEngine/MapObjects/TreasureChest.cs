@@ -3,11 +3,14 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using libtcodWrapper;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.MapObjects
 {
     internal sealed class TreasureChest : OperableMapObject
     {
+        private TCODRandom m_random = new TCODRandom();
         private Point m_position;
 
         public TreasureChest()
@@ -64,15 +67,29 @@ namespace Magecrawl.GameEngine.MapObjects
             }
         }
 
-        public override void Operate()
+        public override void Operate(ICharacter actor)
         {
             // Remove me first
             CoreGameEngine.Instance.Map.RemoveMapItem(this);
-
+            CoreGameEngine.Instance.SendTextOutput(string.Format("{0} opens a Treasure Chest", actor.Name));
             // Now drop a random item
             // This should be level dependent
-            Item newItem = CoreGameEngine.Instance.ItemFactory.CreateRandomItem();
-            CoreGameEngine.Instance.Map.AddItem(new Pair<Items.Item, Point>(newItem, Position));
+            for (int i = 0; i < m_random.GetRandomInt(1, 3); ++i)
+            {
+                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateRandomItem();
+                CoreGameEngine.Instance.SendTextOutput(string.Format("{0} finds at {1}", actor.Name, newItem.DisplayName));
+                if (actor is Player)
+                {
+                    ((Player)actor).TakeItem(newItem);
+                }
+                else
+                {
+                    CoreGameEngine.Instance.Map.AddItem(new Pair<Items.Item, Point>(newItem, Position));
+#if DEBUG
+                    throw new System.NotImplementedException("Non players opening chests?");
+#endif
+                }
+            }
         }
 
         #region SaveLoad
