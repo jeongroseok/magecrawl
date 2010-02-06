@@ -105,7 +105,7 @@ namespace Magecrawl.GameEngine
                     catch (MapGenerationFailureException)
                     {
                         // Let's try again.
-                        if (failedMapCreationAttempts < 10)
+                        if (failedMapCreationAttempts < 20)
                         {
                             i--;
                             failedMapCreationAttempts++;
