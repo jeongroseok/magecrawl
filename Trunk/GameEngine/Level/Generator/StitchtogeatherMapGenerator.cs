@@ -90,7 +90,34 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             GenerateUpDownStairs(map, incommingStairs);
 
+            StripImpossibleDoors(map);
+
             return map;
+        }
+
+        private void StripImpossibleDoors(Map map)
+        {
+            // This needs to strip doors that have more than two open tiles around it.
+            foreach (MapDoor door in map.MapObjects.OfType<MapDoor>())
+            {
+                int numberWallsSurroundingDoor = CountNumberOfSurroundingWallTilesOneStepAway(map, door.Position.X, door.Position.Y);
+                int numberOfFloorSurroundingDoor = 8 - numberWallsSurroundingDoor;
+                if (!map.IsPointOnMap(door.Position) || map.GetTerrainAt(door.Position) == TerrainType.Wall || 
+                    (numberOfFloorSurroundingDoor != 2 && numberOfFloorSurroundingDoor != 4) )
+                {
+                    map.RemoveMapItem(door);
+                }
+            }
+
+            List<Point> doorPositions = map.MapObjects.OfType<MapDoor>().Select(x => x.Position).ToList();
+            foreach (MapDoor door in map.MapObjects.OfType<MapDoor>())
+            {
+                if (doorPositions.Exists(x => x != door.Position && PointDirectionUtils.NormalDistance(x, door.Position) < 2))
+                {
+                    map.RemoveMapItem(door);
+                    doorPositions.Remove(door.Position);
+                }
+            }
         }
 
         private MapChunk GetRandomChunkFromList(List<MapChunk> chunk)
@@ -121,7 +148,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
                     parentChain.Push(entranceChunk, entraceUpperLeftCorner, Point.Invalid);
 
-                    entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner);
+                    entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner, m_random);
                     PossiblyUpdateLargestSmallestPoint(entraceUpperLeftCorner, entranceChunk);
                     map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", entranceChunk.PlayerPosition + entraceUpperLeftCorner));
 
@@ -273,6 +300,9 @@ namespace Magecrawl.GameEngine.Level.Generator
                         string chunkType = definationParts[2];
                         MapChunk newChunk = new MapChunk(width, height, chunkType);
                         newChunk.ReadSegmentFromFile(inputFile);
+
+                        if (chunkType != "Hall")
+                            newChunk.Doors.AddRange(newChunk.Seams);
 
                         switch (chunkType)
                         {

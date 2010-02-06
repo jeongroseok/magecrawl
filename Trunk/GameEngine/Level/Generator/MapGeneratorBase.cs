@@ -233,10 +233,11 @@ namespace Magecrawl.GameEngine.Level.Generator
             {
                 for (int j = -1; j <= 1; ++j)
                 {
-                    // We don't have to check for inrangeness here. This is only called on maps
-                    // that iterate over the nonborder, so there's always a board of walls
-                    if (map.GetTerrainAt(x + i, y + j) == TerrainType.Wall)
-                        numberOfFloorTileSurrounding++;
+                    if (map.IsPointOnMap(x + i, y + j))
+                    {
+                        if (map.GetTerrainAt(x + i, y + j) == TerrainType.Wall)
+                            numberOfFloorTileSurrounding++;
+                    }
                 }
             }
             return numberOfFloorTileSurrounding;
