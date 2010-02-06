@@ -321,5 +321,31 @@ namespace Magecrawl.GameEngine
         {
             return m_engine.MonstersInPlayerLOS();
         }
+
+        public List<string> GetDescriptionForTile(Point p)
+        {
+            if (!m_engine.FOVManager.VisibleSingleShot(m_engine.Map, m_engine.Player.Position, m_engine.Player.Vision, p))
+                return new List<string>();
+
+            List<string> descriptionList = new List<string>();
+            if (m_engine.Player.Position == p)
+                descriptionList.Add(m_engine.Player.Name);
+
+            ICharacter monsterAtLocation = m_engine.Map.Monsters.Where(monster => monster.Position == p).FirstOrDefault();
+            if (monsterAtLocation != null)
+                descriptionList.Add(monsterAtLocation.Name);
+
+            IMapObject mapObjectAtLocation = m_engine.Map.MapObjects.Where(mapObject => mapObject.Position == p).FirstOrDefault();
+            if (mapObjectAtLocation != null)
+                descriptionList.Add(mapObjectAtLocation.Name);
+
+            foreach(Pair<IItem, Point> i in m_engine.Map.Items.Where(i => i.Second == p))
+                descriptionList.Add(i.First.DisplayName);
+
+            if (descriptionList.Count == 0)
+                descriptionList.Add(m_engine.Map.GetTerrainAt(p).ToString());
+            return descriptionList;
+        }
+
     }
 }

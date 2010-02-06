@@ -29,6 +29,14 @@ namespace Magecrawl.GameEngine.MapObjects
             m_opened = isOpen;
         }
 
+        public override string Name
+        {
+            get
+            {
+                return m_opened ? "Opened Door" : "Closed Door";
+            }
+        }
+
         public override MapObjectType Type
         {
             get
