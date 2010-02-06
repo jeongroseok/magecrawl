@@ -15,6 +15,11 @@ namespace Magecrawl.GameEngine.Interfaces
 
     public interface IMapObject
     {
+        string Name
+        {
+            get;
+        }
+
         MapObjectType Type
         {
             get;

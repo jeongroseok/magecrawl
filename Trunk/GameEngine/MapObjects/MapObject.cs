@@ -7,6 +7,11 @@ namespace Magecrawl.GameEngine.MapObjects
 {
     internal abstract class MapObject : IMapObject, IXmlSerializable
     {
+        public abstract string Name
+        {
+            get;
+        }
+
         public abstract bool IsSolid
         {
             get;

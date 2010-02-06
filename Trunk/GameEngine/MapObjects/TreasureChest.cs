@@ -23,6 +23,14 @@ namespace Magecrawl.GameEngine.MapObjects
             m_position = position;
         }
 
+        public override string Name
+        {
+            get
+            {
+                return "Treasure Chest" ;
+            }
+        }
+
         public override MapObjectType Type
         {
             get

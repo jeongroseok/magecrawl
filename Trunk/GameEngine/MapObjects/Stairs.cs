@@ -19,6 +19,14 @@ namespace Magecrawl.GameEngine.MapObjects
             m_guid = Guid.NewGuid();
         }
 
+        public override string Name
+        {
+            get 
+            {
+                return m_type == MapObjectType.StairsUp ? "Stairs Up" : "Stairs Down";
+            }
+        }
+
         public override bool IsSolid
         {
             get 

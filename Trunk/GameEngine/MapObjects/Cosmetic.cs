@@ -20,6 +20,14 @@ namespace Magecrawl.GameEngine.MapObjects
             m_position = position;
         }
 
+        public override string Name
+        {
+            get
+            {
+                return "Table";
+            }
+        }
+
         public override bool IsSolid
         {
             get 
