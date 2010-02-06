@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
-using Magecrawl.Utilities;
 using Magecrawl.Keyboard.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Inventory
 {

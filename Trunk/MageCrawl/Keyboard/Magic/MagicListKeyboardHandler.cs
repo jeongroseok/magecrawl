@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Xml;
-using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
-using Magecrawl.GameUI.MapEffects;
-using Magecrawl.Utilities;
 using Magecrawl.Keyboard.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Magic
 {

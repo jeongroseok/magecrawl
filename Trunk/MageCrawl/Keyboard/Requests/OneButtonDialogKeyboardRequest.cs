@@ -2,7 +2,7 @@
 
 namespace Magecrawl.Keyboard.Requests
 {
-    struct OneButtonDialogKeyboardRequest
+    internal class OneButtonDialogKeyboardRequest
     {
         public OneButtonDialogKeyboardRequest(string text, OnOneButtonComplete completionDelegate)
         {

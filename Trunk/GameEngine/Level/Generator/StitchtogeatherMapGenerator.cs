@@ -103,7 +103,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 int numberWallsSurroundingDoor = CountNumberOfSurroundingWallTilesOneStepAway(map, door.Position.X, door.Position.Y);
                 int numberOfFloorSurroundingDoor = 8 - numberWallsSurroundingDoor;
                 if (!map.IsPointOnMap(door.Position) || map.GetTerrainAt(door.Position) == TerrainType.Wall || 
-                    (numberOfFloorSurroundingDoor != 2 && numberOfFloorSurroundingDoor != 4) )
+                    (numberOfFloorSurroundingDoor != 2 && numberOfFloorSurroundingDoor != 4))
                 {
                     map.RemoveMapItem(door);
                 }

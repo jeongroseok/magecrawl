@@ -4,8 +4,8 @@ using System.Linq;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
-using Magecrawl.Utilities;
 using Magecrawl.Keyboard.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl
 {
