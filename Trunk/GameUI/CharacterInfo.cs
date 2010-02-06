@@ -120,7 +120,7 @@ namespace Magecrawl.GameUI
             
             int nextAvailablePosition = 8;
 
-            if (m_player.StatusEffects.Count > 0)
+            if (m_player.StatusEffects.Count() > 0)
             {
                 screen.PrintLine("Status Effects:", StartingX + 2, nextAvailablePosition, LineAlignment.Left);
                 StringBuilder statusEffects = new StringBuilder();

@@ -326,7 +326,7 @@ namespace Magecrawl.GameEngine
             OperableMapObject operateObj = m_map.MapObjects.OfType<OperableMapObject>().SingleOrDefault(x => x.Position == pointToOperateAt);
             if (operateObj != null)
             {
-                operateObj.Operate();
+                operateObj.Operate(characterOperating);
                 m_timingEngine.ActorDidAction(characterOperating);
                 return true;
             }

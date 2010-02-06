@@ -35,6 +35,11 @@ namespace Magecrawl.GameEngine.Affects
             CTLeft -= decrease;
         }
 
+        public void Extend(double ratio)
+        {
+            CTLeft = (int)(CTLeft * ratio);
+        }
+
         #region IXmlSerializable Members
 
         public System.Xml.Schema.XmlSchema GetSchema()
