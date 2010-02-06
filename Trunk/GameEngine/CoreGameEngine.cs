@@ -83,12 +83,15 @@ namespace Magecrawl.GameEngine
             Stairs incommingStairs = null;
             using (TCODRandom random = new TCODRandom())
             {
-                for (int i = 0; i < 5; ++i)
+                bool generateCave = false;
+                for (int i = 0; i < 50; ++i)
                 {
+                    if(failedMapCreationAttempts == 0)
+                        generateCave = random.Chance(50);
                     MapGeneratorBase mapGenerator = null;
                     try
                     {
-                        if (random.Chance(50))
+                        if (generateCave)
                             mapGenerator = new SimpleCaveGenerator(random);
                         else
                             mapGenerator = new StitchtogeatherMapGenerator(random);
