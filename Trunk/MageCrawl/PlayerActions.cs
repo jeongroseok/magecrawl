@@ -3,12 +3,12 @@ using Magecrawl.Exceptions;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.Keyboard;
-using Magecrawl.Utilities;
 using Magecrawl.Keyboard.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl
 {
-    class PlayerActions
+    internal class PlayerActions
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;

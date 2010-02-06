@@ -129,8 +129,8 @@ namespace Magecrawl.GameEngine.Level.Generator
             return true;
         }
 
-        const int normalChanceToPlaceDoorAtSpot = 35;
-        const int treasureRoomChanceToPlaceDoorAtSpot = 95;
+        private const int NormalChanceToPlaceDoorAtSpot = 35;
+        private const int TreasureRoomChanceToPlaceDoorAtSpot = 95;
 
         internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner, TCODRandom random)
         {
@@ -147,7 +147,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
 
-            int chanceToPlaceDoor = (this.Type == MapNodeType.TreasureRoom ? treasureRoomChanceToPlaceDoorAtSpot : normalChanceToPlaceDoorAtSpot);
+            int chanceToPlaceDoor = this.Type == MapNodeType.TreasureRoom ? TreasureRoomChanceToPlaceDoorAtSpot : NormalChanceToPlaceDoorAtSpot;
             Doors.Where(x => m_random.Chance(chanceToPlaceDoor)).ToList().ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Map Door", upperLeftCorner + doorPosition)));
 
             Cosmetics.ForEach(cosmeticPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Cosmetic", upperLeftCorner + cosmeticPosition)));

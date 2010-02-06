@@ -3,7 +3,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Requests
 {
-    class TargettingKeystrokeRequest
+    internal class TargettingKeystrokeRequest
     {
         public TargettingKeystrokeRequest(List<EffectivePoint> targetablePoints, OnTargetSelection selectionDelegate, NamedKey alternateSelectionKey, TargettingKeystrokeHandler.TargettingType targettingType)
         {
