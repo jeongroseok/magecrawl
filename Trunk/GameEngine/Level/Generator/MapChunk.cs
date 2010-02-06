@@ -91,7 +91,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     if (IsPositionClear(map, upperLeftCorner))
                     {
                         // But we don't want to use it to place, since we want to override the entrace.
-                        PlaceChunkOnMapAtPosition(map, upperLeftCorner);
+                        PlaceChunkOnMapAtPosition(map, upperLeftCorner, m_random);
                         MonsterPlacer.PlaceMonster(map, upperLeftCorner, upperLeftCorner + new Point(Width, Height), GetSeamPointsOnMapGrid(upperLeftCorner), GetMonsterPlacementPriority());
                         Seams.Remove(s);
                         return upperLeftCorner;
@@ -129,7 +129,10 @@ namespace Magecrawl.GameEngine.Level.Generator
             return true;
         }
 
-        internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner)
+        const int normalChanceToPlaceDoorAtSpot = 35;
+        const int treasureRoomChanceToPlaceDoorAtSpot = 95;
+
+        internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner, TCODRandom random)
         {
             for (int i = 0; i < Width; ++i)
             {
@@ -144,7 +147,8 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
 
-            Doors.ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Map Door", upperLeftCorner + doorPosition)));
+            int chanceToPlaceDoor = (this.Type == MapNodeType.TreasureRoom ? treasureRoomChanceToPlaceDoorAtSpot : normalChanceToPlaceDoorAtSpot);
+            Doors.Where(x => m_random.Chance(chanceToPlaceDoor)).ToList().ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Map Door", upperLeftCorner + doorPosition)));
 
             Cosmetics.ForEach(cosmeticPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Cosmetic", upperLeftCorner + cosmeticPosition)));
         }
