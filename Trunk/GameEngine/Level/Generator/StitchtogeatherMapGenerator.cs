@@ -85,7 +85,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             if (!CheckConnectivity(map))
                 throw new MapGenerationFailureException("Generated non-connected map");
 
-            if (m_placed < 20)
+            if (m_placed < 30)
                 throw new MapGenerationFailureException("Too few items placed to be reasonabily sized");
 
             GenerateUpDownStairs(map, incommingStairs);
