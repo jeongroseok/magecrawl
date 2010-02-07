@@ -12,11 +12,13 @@ namespace Magecrawl.GameUI.Dialogs
         private Dictionary<string, string> m_keyMappings;
         private DialogColorHelper m_dialogColorHelper;
         private bool m_creditsDone;
+        private bool m_firstFrame;
 
         internal HelpPainter()
         {
             m_enabled = false;
             m_dialogColorHelper = new DialogColorHelper();
+            m_firstFrame = true;
         }
 
         public override void DrawNewFrame(Console screen)
@@ -27,6 +29,12 @@ namespace Magecrawl.GameUI.Dialogs
             if (m_enabled)
             {
                 screen.Clear();
+
+                if (m_firstFrame)
+                {
+                    screen.ResetCreditsAnimation();
+                    m_firstFrame = false;
+                }
 
                 if (!m_creditsDone)
                 {
@@ -114,6 +122,7 @@ namespace Magecrawl.GameUI.Dialogs
             m_enabled = true;
             m_keyMappings = keyMappings;
             m_creditsDone = false;
+            m_firstFrame = true;
         }
 
         internal void Disable()
