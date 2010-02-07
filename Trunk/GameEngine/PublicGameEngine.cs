@@ -339,13 +339,12 @@ namespace Magecrawl.GameEngine
             if (mapObjectAtLocation != null)
                 descriptionList.Add(mapObjectAtLocation.Name);
 
-            foreach(Pair<IItem, Point> i in m_engine.Map.Items.Where(i => i.Second == p))
+            foreach (Pair<IItem, Point> i in m_engine.Map.Items.Where(i => i.Second == p))
                 descriptionList.Add(i.First.DisplayName);
 
             if (descriptionList.Count == 0)
                 descriptionList.Add(m_engine.Map.GetTerrainAt(p).ToString());
             return descriptionList;
         }
-
     }
 }
