@@ -86,7 +86,7 @@ namespace Magecrawl.GameEngine
                 bool generateCave = false;
                 for (int i = 0; i < 50; ++i)
                 {
-                    if(failedMapCreationAttempts == 0)
+                    if (failedMapCreationAttempts == 0)
                         generateCave = random.Chance(50);
                     MapGeneratorBase mapGenerator = null;
                     try

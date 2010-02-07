@@ -1,10 +1,10 @@
 ﻿using System.Xml;
+using libtcodWrapper;
+using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
-using libtcodWrapper;
-using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.MapObjects
 {
@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             get
             {
-                return "Treasure Chest" ;
+                return "Treasure Chest";
             }
         }
 
@@ -80,6 +80,7 @@ namespace Magecrawl.GameEngine.MapObjects
             // Remove me first
             CoreGameEngine.Instance.Map.RemoveMapItem(this);
             CoreGameEngine.Instance.SendTextOutput(string.Format("{0} opens a Treasure Chest", actor.Name));
+            
             // Now drop a random item
             // This should be level dependent
             for (int i = 0; i < m_random.GetRandomInt(1, 3); ++i)
