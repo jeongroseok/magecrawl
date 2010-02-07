@@ -390,64 +390,9 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        // TODO - This should be somewhere else
         internal bool PlayerSelectedItemOption(IItem item, string option, object argument)
         {
-            bool didSomething = false;
-            switch (option)
-            {
-                case "Drop":
-                    didSomething = m_physicsEngine.PlayerDropItem(item as Item);
-                    break;
-                case "Equip": 
-                {
-                    // This probally should live in the player code
-                    m_player.RemoveItem(item as Item);
-                    Item oldWeapon = m_player.Equip(item) as Item;
-                    if (oldWeapon != null)
-                        m_player.TakeItem(oldWeapon);
-                    didSomething = true;
-                    break;
-                }
-                case "Equip as Secondary":
-                {
-                    // This probally should live in the player code
-                    m_player.RemoveItem(item as Item);
-                    Item oldWeapon = m_player.EquipSecondaryWeapon(item as IWeapon) as Item;
-                    if (oldWeapon != null)
-                        m_player.TakeItem(oldWeapon);
-                    didSomething = true;
-                    break;
-                }
-                case "Unequip":
-                {
-                    Item oldWeapon = m_player.Unequip(item) as Item;
-                    if (oldWeapon != null)
-                        m_player.TakeItem(oldWeapon);
-                    didSomething = true;
-                    break;
-                }
-                case "Unequip as Secondary":
-                {
-                    Item oldWeapon = m_player.UnequipSecondaryWeapon() as Item;
-                    if (oldWeapon != null)
-                        m_player.TakeItem(oldWeapon);
-                    didSomething = true;
-                    break;
-                }
-                case "Drink":
-                case "Read":
-                case "Use":
-                {
-                    didSomething = m_physicsEngine.UseItemWithEffect((ItemWithEffects)item, (Point)argument);
-                    break;
-                }
-                case "Zap":
-                {
-                    didSomething = m_physicsEngine.PlayerZapWand((Wand)item, (Point)argument);
-                    break;
-                }
-            }
+            bool didSomething = m_physicsEngine.HandleInventoryAction(item, option, argument);
             if (didSomething)
                 m_timingEngine.ActorDidAction(m_player);
             return didSomething;

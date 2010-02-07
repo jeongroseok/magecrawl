@@ -426,5 +426,62 @@ namespace Magecrawl.GameEngine
                 monster.Action(engine);
             }
         }
+
+        internal bool HandleInventoryAction(IItem item, string option, object argument)
+        {
+            switch (option)
+            {
+                case "Drop":
+                {
+                    return PlayerDropItem(item as Item);
+                }
+                case "Equip":
+                {
+                    // This probally should live in the player code
+                    m_player.RemoveItem(item as Item);
+                    Item oldWeapon = m_player.Equip(item) as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    return true;
+                }
+                case "Equip as Secondary":
+                {
+                    // This probally should live in the player code
+                    m_player.RemoveItem(item as Item);
+                    Item oldWeapon = m_player.EquipSecondaryWeapon(item as IWeapon) as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    return true;
+                }
+                case "Unequip":
+                {
+                    Item oldWeapon = m_player.Unequip(item) as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    return true;
+                }
+                case "Unequip as Secondary":
+                {
+                    Item oldWeapon = m_player.UnequipSecondaryWeapon() as Item;
+                    if (oldWeapon != null)
+                        m_player.TakeItem(oldWeapon);
+                    return true;
+                }
+                case "Drink":
+                case "Read":
+                case "Use":
+                {
+                    return UseItemWithEffect((ItemWithEffects)item, (Point)argument);
+                }
+                case "Zap":
+                {
+                    return PlayerZapWand((Wand)item, (Point)argument);
+                }
+                default:
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
     }
 }
