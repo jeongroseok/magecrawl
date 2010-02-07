@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine
 {
     internal sealed class PathfindingMap : IDisposable
     {
-        private TCODPathFinding m_pathFinding;
+        private TCODAStrPathFinding m_pathFinding;
         private TCODFov m_fov;
         private Map m_map;
         private Player m_player;
@@ -22,7 +22,7 @@ namespace Magecrawl.GameEngine
             m_map = map;
             m_fov = new TCODFov(map.Width, map.Height);
             m_fov.ClearMap();
-            m_pathFinding = new TCODPathFinding(m_fov, 1.41f);
+            m_pathFinding = new TCODAStrPathFinding(m_fov, 1.41f);
         }
         
         public void Dispose()
