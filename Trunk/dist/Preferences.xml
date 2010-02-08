@@ -4,7 +4,8 @@
   <!-- Valid Values For Keymapping: Arrows, Keypad, VIM, Custom -->
   <!-- If you define custom, you must define CustomKeymappingFilename-->
   <Keymapping>Arrows</Keymapping>
-  
+
+  <BumpToAttack>True</BumpToAttack>
   <!-- If you define Custom for Keymapping, you need to define what filename we should try to load.-->
   <!-- <CustomKeymappingFilename>Custom.xml</CustomKeymappingFilename> -->
   

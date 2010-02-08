@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.Exceptions;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
@@ -23,7 +24,15 @@ namespace Magecrawl
 
         public void Move(Direction d)
         {
-            m_engine.MovePlayer(d);
+            bool didMove = m_engine.MovePlayer(d);
+
+            if (!didMove && (bool)Preferences.Instance["BumpToAttack"])
+            {
+                Point targetPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(m_engine.Player.Position, d); 
+                if(m_engine.Map.Monsters.Where(m => m.Position == targetPosition).Count() > 0)
+                    m_engine.PlayerAttack(targetPosition);
+            }
+
             m_gameInstance.UpdatePainters();
         }
 
