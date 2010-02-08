@@ -30,11 +30,11 @@ namespace Magecrawl.GameEngine.Items
         {
             get 
             {
-                return new List<ItemOptions>() 
-                {
-                    new ItemOptions("Use", true),
-                    new ItemOptions("Drop", true)
-                };
+                List<ItemOptions> returnList = new List<ItemOptions>();
+                if (!CoreGameEngine.Instance.DangerPlayerInLOS())
+                    returnList.Add(new ItemOptions("Use", true));
+                returnList.Add(new ItemOptions("Drop", true));
+                return returnList;
             }
         }
     }

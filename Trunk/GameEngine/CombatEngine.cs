@@ -17,6 +17,7 @@ namespace Magecrawl.GameEngine
         private Player m_player;
         private Map m_map;
         private PhysicsEngine m_physicsEngine;
+        internal int LastTurnPlayerWasRangedAttacked { get; private set; }
 
         private TCODRandom m_random;
 
@@ -25,6 +26,7 @@ namespace Magecrawl.GameEngine
             m_player = player;
             m_map = map;
             m_physicsEngine = engine;
+            LastTurnPlayerWasRangedAttacked = int.MinValue;
             m_random = new TCODRandom();
         }
 
@@ -135,6 +137,8 @@ namespace Magecrawl.GameEngine
 
             if (targetCharacter is Monster)
                 ((Monster)targetCharacter).NoticeRangedAttack(attacker.Position);
+            else
+                LastTurnPlayerWasRangedAttacked = CoreGameEngine.Instance.TurnCount;
 
             return true;
         }
