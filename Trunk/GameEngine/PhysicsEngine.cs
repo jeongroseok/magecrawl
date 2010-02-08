@@ -286,7 +286,7 @@ namespace Magecrawl.GameEngine
         {
             FOVManager.CalculateForMultipleCalls(m_map, m_player.Position, m_player.Vision);
 
-            const int NumberOfTurnsFromRangedAttackUntilSafe = 5;
+            const int NumberOfTurnsFromRangedAttackUntilSafe = 3;
             if (m_combatEngine.LastTurnPlayerWasRangedAttacked != int.MinValue &&
                 CoreGameEngine.Instance.TurnCount - m_combatEngine.LastTurnPlayerWasRangedAttacked < NumberOfTurnsFromRangedAttackUntilSafe)
                 return true;
