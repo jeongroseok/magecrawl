@@ -43,16 +43,16 @@
         ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."
         FlavorText="A simple polished wooden dowel commonly found in schools of magic."/>
 
-<Armor  Name="Robe" BaseType="ChestArmor" ArmorWeight="Light" Defense="0" Evade="1"
+<Armor  Name="Robe" BaseType="ChestArmor" ArmorWeight="Light" DoNotDrop="True" Defense="0" Evade="1"
         ItemDescription="A simple robe favored by acolytes and mage apprentices."
         FlavorText="Water resistant and warm, but provides little combat protection."/>
-<Armor  Name="Wool Cap" BaseType="Headpiece" ArmorWeight="Light" Defense="0" Evade="1"
+<Armor  Name="Wool Cap" BaseType="Headpiece" ArmorWeight="Light" DoNotDrop="True" Defense="0" Evade="1"
         ItemDescription="Simple woolen cap, tan and somewhat stiff from wear."
         FlavorText="Provides little protection from anything beyond sunlight and rain."/>
-<Armor  Name="Wool Gloves" BaseType="Gloves" ArmorWeight="Light" Defense="0" Evade="1"
+<Armor  Name="Wool Gloves" BaseType="Gloves" ArmorWeight="Light" DoNotDrop="True" Defense="0" Evade="1"
         ItemDescription="Woolen work gloves."
         FlavorText="Used commonly in field work."/>
-<Armor  Name="Sandles" BaseType="Boots" ArmorWeight="Light" Defense="0" Evade="1"
+<Armor  Name="Sandles" BaseType="Boots" ArmorWeight="Light" DoNotDrop="True" Defense="0" Evade="1"
         ItemDescription="Formed from sturdy cloth or leather with leather strapes."
         FlavorText="Protects against rocks and thorns underfoot."/>
   
