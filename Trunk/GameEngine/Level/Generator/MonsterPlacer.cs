@@ -7,12 +7,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 {
     internal static class MonsterPlacer
     {
-        private static TCODRandom m_random;
-
-        static MonsterPlacer()
-        {
-            m_random = new TCODRandom();
-        }
+        private static TCODRandom m_random = new TCODRandom();
 
         // Priority is how dangerous this room is: 0 - unguarded, 10 - Must protect with everything
         internal static void PlaceMonster(Map map, Point upperLeft, Point lowerRight, List<Point> pointsNotToPlaceOn, int priority)

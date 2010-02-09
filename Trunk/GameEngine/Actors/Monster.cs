@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Actors
     internal abstract class Monster : Character, ICloneable
     {
         // Share one RNG between monsters
-        protected static TCODRandom m_random;
+        protected static TCODRandom m_random = new TCODRandom();
         protected double CTAttackCost { get; set; }
         private DiceRoll m_damage;
         protected Point m_playerLastKnownPosition;
@@ -26,11 +26,6 @@ namespace Magecrawl.GameEngine.Actors
             m_playerLastKnownPosition = Point.Invalid;
             m_defense = defense;
             m_evade = evade;
-        }
-
-        static Monster()
-        {
-            m_random = new TCODRandom();
         }
 
         public object Clone()
