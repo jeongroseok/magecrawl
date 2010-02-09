@@ -56,6 +56,10 @@ namespace Magecrawl
 
             while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
             {
+                // If user hits a key while traveling, stop
+                if (libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed).Pressed)
+                    break;
+
                 ableToMoveNextSquare = m_engine.MovePlayer(direction);
                 m_gameInstance.UpdatePainters();
 
@@ -73,6 +77,10 @@ namespace Magecrawl
 
             while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
             {
+                // If user hits a key while traveling, stop
+                if (libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed).Pressed)
+                    break;
+
                 List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
                 if (pathToPoint == null || pathToPoint.Count == 0)
                     return false;
