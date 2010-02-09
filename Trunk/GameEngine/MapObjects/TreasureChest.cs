@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.MapObjects
 {
     internal sealed class TreasureChest : OperableMapObject
     {
-        private TCODRandom m_random = new TCODRandom();
+        private static TCODRandom m_random = new TCODRandom();
         private Point m_position;
 
         public TreasureChest()

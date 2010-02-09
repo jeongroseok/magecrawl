@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Level.Generator
     internal sealed class StitchRatio : IDisposable
     {
         private int[,] m_ratioTable;
-        private TCODRandom m_random;
+        private static TCODRandom m_random = new TCODRandom();
         private int m_wantedNumberOfNodes;
         private int m_generatedNumberOfNodes;
 
@@ -18,7 +18,6 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             m_wantedNumberOfNodes = wantedNumberOfNodes;
             m_generatedNumberOfNodes = 0;
-            m_random = new TCODRandom();
 
             int nodeTypeLength = Enum.GetValues(typeof(MapNodeType)).Length;
             m_ratioTable = new int[nodeTypeLength, nodeTypeLength];

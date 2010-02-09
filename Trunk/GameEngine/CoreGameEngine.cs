@@ -84,7 +84,7 @@ namespace Magecrawl.GameEngine
             using (TCODRandom random = new TCODRandom())
             {
                 bool generateCave = false;
-                for (int i = 0; i < 50; ++i)
+                for (int i = 0; i < 5; ++i)
                 {
                     if (failedMapCreationAttempts == 0)
                         generateCave = random.Chance(50);

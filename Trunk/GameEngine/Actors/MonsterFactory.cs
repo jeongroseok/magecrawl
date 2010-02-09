@@ -16,15 +16,11 @@ namespace Magecrawl.GameEngine.Actors
     {
         private Dictionary<string, Monster> m_monsterMapping;
 
-        private static TCODRandom m_random;
-
-        static MonsterFactory()
-        {
-            m_random = new TCODRandom();
-        }
+        private TCODRandom m_random;
 
         internal MonsterFactory()
         {
+            m_random = new TCODRandom();
             m_monsterMapping = new Dictionary<string, Monster>();
             LoadMappings();
         }

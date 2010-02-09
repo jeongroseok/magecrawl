@@ -16,15 +16,11 @@ namespace Magecrawl.GameEngine.Items
     {
         private Dictionary<string, Item> m_itemMapping;
         private HashSet<Item> m_itemsNotToDrop;
-        private static TCODRandom m_random;
-
-        static ItemFactory()
-        {
-            m_random = new TCODRandom();
-        }
+        private TCODRandom m_random;
 
         internal ItemFactory()
         {
+            m_random = new TCODRandom();
             LoadMappings();
         }
 
