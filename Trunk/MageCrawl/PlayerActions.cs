@@ -88,7 +88,7 @@ namespace Magecrawl
             else
             {
                 List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
-                OnTargetSelection attackDelegate = new OnTargetSelection(OnAttack);
+                OnTargetSelection attackDelegate = new OnTargetSelection(OnRangedAttack);
                 m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster));
             }
         }
@@ -143,7 +143,7 @@ namespace Magecrawl
             throw new PlayerWonException();
         }
 
-        private bool OnAttack(Point selection)
+        private bool OnRangedAttack(Point selection)
         {
             if (selection != m_engine.Player.Position)
                 m_engine.PlayerAttack(selection);
