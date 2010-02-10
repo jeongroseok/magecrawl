@@ -278,6 +278,11 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.PlayerGetItem();
         }
 
+        internal bool PlayerGetItem(IItem item)
+        {
+            return m_physicsEngine.PlayerGetItem(item);
+        }
+
         internal bool PlayerMoveUpStairs()
         {
             return m_physicsEngine.PlayerMoveUpStairs(Player, Map);

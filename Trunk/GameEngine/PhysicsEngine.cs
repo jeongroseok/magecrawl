@@ -256,18 +256,31 @@ namespace Magecrawl.GameEngine
 
         public bool PlayerGetItem()
         {
-            foreach (Pair<Item, Point> i in m_map.InternalItems)
+            Pair<Item, Point> itemToPickup = m_map.InternalItems.Where(i => i.Second == m_player.Position).FirstOrDefault();
+            if(itemToPickup != null)
             {
-                if (m_player.Position == i.Second)
-                {
-                    m_map.RemoveItem(i);
-                    m_player.TakeItem(i.First);
-                    m_timingEngine.ActorDidAction(m_player);
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("Picked up a {0}.", i.First.DisplayName));
-                    return true;
-                }
+                m_map.RemoveItem(itemToPickup);
+                m_player.TakeItem(itemToPickup.First);
+                m_timingEngine.ActorDidAction(m_player);
+                CoreGameEngine.Instance.SendTextOutput(string.Format("Picked up a {0}.", itemToPickup.First.DisplayName));
+                return true;
             }
 
+            return false;
+        }
+
+        public bool PlayerGetItem(IItem item)
+        {
+            List<Pair<Item, Point>> items = m_map.InternalItems.Where(i => i.Second == m_player.Position).ToList();
+            Pair<Item, Point> itemPair = items.Where(i => i.First == item).FirstOrDefault();
+            if (itemPair != null)
+            {
+                m_map.RemoveItem(itemPair);
+                m_player.TakeItem(itemPair.First);
+                m_timingEngine.ActorDidAction(m_player);
+                CoreGameEngine.Instance.SendTextOutput(string.Format("Picked up a {0}.", itemPair.First.DisplayName));
+                return true;
+            }
             return false;
         }
 

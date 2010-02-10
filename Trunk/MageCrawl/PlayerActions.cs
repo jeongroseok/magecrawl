@@ -44,8 +44,17 @@ namespace Magecrawl
 
         public void GetItem()
         {
-            m_engine.PlayerGetItem();
-            m_gameInstance.UpdatePainters();
+            List<INamedItem> itemsAtLocation = m_engine.Map.Items.Where(i => i.Second == m_engine.Player.Position).Select(i => i.First).OfType<INamedItem>().ToList();
+            if (itemsAtLocation.Count > 1)
+            {
+                m_gameInstance.SetHandlerName("ItemOnGroundSelection", itemsAtLocation);
+                return;
+            }
+            else
+            {
+                m_engine.PlayerGetItem();
+                m_gameInstance.UpdatePainters();
+            }
         }
 
         public void Wait()

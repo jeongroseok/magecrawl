@@ -163,6 +163,15 @@ namespace Magecrawl.GameEngine
             return didAnything;            
         }
 
+        public bool PlayerGetItem(IItem item)
+        {
+            m_engine.BeforePlayerAction();
+            bool didAnything = m_engine.PlayerGetItem(item);
+            if (didAnything)
+                m_engine.AfterPlayerAction();
+            return didAnything;      
+        }
+
         public void Save()
         {
             m_engine.Save();
