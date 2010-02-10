@@ -72,7 +72,7 @@ namespace Magecrawl
         public void Operate(NamedKey operateKey)
         {
             List<EffectivePoint> targetPoints = CalculateOperatePoints();
-            if (Preferences.Instance.SinglePressOperate && targetPoints.Count == 1)
+            if ((bool)m_preferences["SinglePressOperate"] && targetPoints.Count == 1)
             {
                 m_engine.Operate(targetPoints[0].Position);
                 m_gameInstance.UpdatePainters();
