@@ -42,29 +42,7 @@ namespace Magecrawl
         public void MoveToLocation(NamedKey movementKey)
         {
             List<EffectivePoint> targetPoints = GeneratePointsOneCanMoveTo();
-            OnTargetSelection movementDelegate = new OnTargetSelection(OnMovementLocationSelected);
-            m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, movementDelegate, movementKey, TargettingKeystrokeHandler.TargettingType.OpenFloor));
-        }
-
-        public void RunInDirection(Direction direction)
-        {
-            // Don't show the overlap as we travel
-            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
-            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
-
-            bool ableToMoveNextSquare = true;
-
-            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
-            {
-                // If user hits a key while traveling, stop
-                if (libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed).Pressed)
-                    break;
-
-                ableToMoveNextSquare = m_engine.MovePlayer(direction);
-                m_gameInstance.UpdatePainters();
-
-                m_gameInstance.DrawFrame();
-            }
+            m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, OnMovementLocationSelected, movementKey, TargettingKeystrokeHandler.TargettingType.OpenFloor));
         }
 
         private bool OnMovementLocationSelected(Point selected)
@@ -93,6 +71,27 @@ namespace Magecrawl
                 m_gameInstance.DrawFrame();
             }
             return false;
+        }
+
+        public void RunInDirection(Direction direction)
+        {
+            // Don't show the overlap as we travel
+            m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
+            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(false));
+
+            bool ableToMoveNextSquare = true;
+
+            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
+            {
+                // If user hits a key while traveling, stop
+                if (libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed).Pressed)
+                    break;
+
+                ableToMoveNextSquare = m_engine.MovePlayer(direction);
+                m_gameInstance.UpdatePainters();
+
+                m_gameInstance.DrawFrame();
+            }
         }
     }
 }
