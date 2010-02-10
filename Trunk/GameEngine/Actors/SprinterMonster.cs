@@ -13,11 +13,15 @@ namespace Magecrawl.GameEngine.Actors
 
         public override void Action(CoreGameEngine engine)
         {
-            if (IsPlayerVisible(engine) && GetPathToPlayer(engine).Count == 2)
+            if (IsPlayerVisible(engine))
             {
                 UpdateKnownPlayerLocation(engine);
-                if (engine.UseSkill(this, SkillType.Rush, engine.Player.Position))
-                    return;
+                List<Point> pathToPlayer = GetPathToPlayer(engine);
+                if (pathToPlayer != null && pathToPlayer.Count == 2)
+                {
+                    if (engine.UseSkill(this, SkillType.Rush, engine.Player.Position))
+                        return;
+                }
             }
 
             DefaultAction(engine);
