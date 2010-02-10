@@ -254,6 +254,10 @@ namespace Magecrawl
             oneButtonHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("OneButtonDialog", oneButtonHandler);
 
+            ItemOnGroundSelectionKeyboardHandler itemOnGroundHandler = new ItemOnGroundSelectionKeyboardHandler(m_engine, this);
+            itemOnGroundHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("ItemOnGroundSelection", itemOnGroundHandler);
+
             if (BaseKeystrokeHandler.ErrorsParsingKeymapFiles != string.Empty)
             {
                 TextBox.AddText(string.Empty);

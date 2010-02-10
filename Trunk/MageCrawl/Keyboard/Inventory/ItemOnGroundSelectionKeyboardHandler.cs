@@ -9,12 +9,12 @@ using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.Keyboard.Inventory
 {
-    internal class InventoryScreenKeyboardHandler : BaseKeystrokeHandler
+    internal class ItemOnGroundSelectionKeyboardHandler : BaseKeystrokeHandler
     {
         private IGameEngine m_engine;
         private GameInstance m_gameInstance;
 
-        public InventoryScreenKeyboardHandler(IGameEngine engine, GameInstance instance)
+        public ItemOnGroundSelectionKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
             m_gameInstance = instance;
@@ -22,10 +22,9 @@ namespace Magecrawl.Keyboard.Inventory
 
         public override void NowPrimaried(object request)
         {
-            if (request != null && ((bool)request) == true)
-                m_gameInstance.SendPaintersRequest(new SaveListSelectionPosition());
+            List<INamedItem> itemsAtLocation = (List<INamedItem>)request;
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Items.OfType<INamedItem>().ToList(), "Inventory"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemsAtLocation, "Items On Ground"));
             m_gameInstance.UpdatePainters();
         }
 
@@ -48,12 +47,8 @@ namespace Magecrawl.Keyboard.Inventory
             if (item == null)
                 return;
 
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
-            m_gameInstance.SetHandlerName("InventoryItem", "Inventory");
-            
-            List<ItemOptions> optionList = m_engine.GetOptionsForInventoryItem((IItem)item);
-            m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(true, (IItem)item, optionList));
-            m_gameInstance.UpdatePainters();
+            m_engine.PlayerGetItem((IItem)item);
+            Escape();
         }
 
         private void Select()
