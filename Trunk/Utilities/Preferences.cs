@@ -46,14 +46,6 @@ namespace Magecrawl.Utilities
             }
         }
 
-        public bool SinglePressOperate
-        {
-            get
-            {
-                return (bool)m_preferences["SinglePressOperate"];
-            }
-        }
-
         // For all properties not exposed by "nice" helper functions
         public object this[string s]
         {
