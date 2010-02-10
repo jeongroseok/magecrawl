@@ -70,6 +70,7 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["BumpToOpenDoors"] = false;
             m_preferences["BumpToAttack"] = false;
             m_preferences["Keymapping"] = "Arrows";
             m_preferences["CustomKeymappingFilename"] = String.Empty;
@@ -120,6 +121,7 @@ namespace Magecrawl.Utilities
                     case "UseSavegameCompression":
                     case "ShowAttackRolls":
                     case "BumpToAttack":
+                    case "BumpToOpenDoors":
                         ReadBooleanData(reader, reader.LocalName);
                         break;
                     case "FloorColorVisible":

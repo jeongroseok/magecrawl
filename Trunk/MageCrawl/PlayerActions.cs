@@ -24,13 +24,19 @@ namespace Magecrawl
 
         public void Move(Direction d)
         {
-            bool didMove = m_engine.MovePlayer(d);
+            bool didAct = m_engine.MovePlayer(d);
 
-            if (!didMove && (bool)Preferences.Instance["BumpToAttack"])
+            Point targetPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(m_engine.Player.Position, d); 
+            if (!didAct && (bool)Preferences.Instance["BumpToAttack"])
             {
-                Point targetPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(m_engine.Player.Position, d); 
-                if(m_engine.Map.Monsters.Where(m => m.Position == targetPosition).Count() > 0)
-                    m_engine.PlayerAttack(targetPosition);
+                if (m_engine.Map.Monsters.Where(m => m.Position == targetPosition).Count() > 0)
+                    didAct = m_engine.PlayerAttack(targetPosition);
+            }
+
+            if (!didAct && (bool)Preferences.Instance["BumpToOpenDoors"])
+            {
+                if (m_engine.Map.MapObjects.Where(i => i.Name == "Closed Door" && i.Position == targetPosition).Count() > 0)
+                    didAct = m_engine.Operate(targetPosition);
             }
 
             m_gameInstance.UpdatePainters();
