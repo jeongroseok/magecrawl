@@ -70,11 +70,10 @@ namespace Magecrawl.GameEngine.Actors
             else
             {
                 if (WalkTowardsLastKnownPosition(engine))
-                    return;
-                
-                WanderRandomly(engine);   // We have nothing else to do, so wander                
-                return;
+                    return;                              
             }
+            WanderRandomly(engine);   // We have nothing else to do, so wander                
+            return;
         }
 
         public void NoticeRangedAttack(Point attackerPosition)
