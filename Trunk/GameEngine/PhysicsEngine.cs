@@ -257,7 +257,7 @@ namespace Magecrawl.GameEngine
         public bool PlayerGetItem()
         {
             Pair<Item, Point> itemToPickup = m_map.InternalItems.Where(i => i.Second == m_player.Position).FirstOrDefault();
-            if(itemToPickup != null)
+            if (itemToPickup != null)
             {
                 m_map.RemoveItem(itemToPickup);
                 m_player.TakeItem(itemToPickup.First);
