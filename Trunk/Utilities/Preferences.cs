@@ -62,6 +62,7 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            m_preferences["DisableAutoTargetting"] = false;
             m_preferences["BumpToOpenDoors"] = false;
             m_preferences["BumpToAttack"] = false;
             m_preferences["Keymapping"] = "Arrows";
@@ -114,6 +115,7 @@ namespace Magecrawl.Utilities
                     case "ShowAttackRolls":
                     case "BumpToAttack":
                     case "BumpToOpenDoors":
+                    case "DisableAutoTargetting":
                         ReadBooleanData(reader, reader.LocalName);
                         break;
                     case "FloorColorVisible":

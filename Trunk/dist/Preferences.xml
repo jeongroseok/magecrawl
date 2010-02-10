@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" ?>
 <Preferences>
   <PlayerName>Donblas</PlayerName>
+  
   <!-- Valid Values For Keymapping: Arrows, Keypad, VIM, Custom -->
   <!-- If you define custom, you must define CustomKeymappingFilename-->
   <Keymapping>Arrows</Keymapping>
 
-  <BumpToAttack>True</BumpToAttack>
-  <BumpToOpenDoors>True</BumpToOpenDoors>
+  <BumpToAttack>True</BumpToAttack> <!-- Moving into others will attack if able -->
+  <BumpToOpenDoors>True</BumpToOpenDoors> <!-- Moving into doors will open if able -->
+  
   <!-- If you define Custom for Keymapping, you need to define what filename we should try to load.-->
   <!-- <CustomKeymappingFilename>Custom.xml</CustomKeymappingFilename> -->
-  
+
+  <!-- <DisableAutoTargetting>True</DisableAutoTargetting> --> <!-- Don't move targetting cursor to available target initially. -->
   <!-- <Fullscreen>True</Fullscreen> -->
-  <!-- <SinglePressOperate>True</SinglePressOperate> -->
-  <!-- <ShowAttackRolls>True</ShowAttackRolls> -->
+  <!-- <SinglePressOperate>True</SinglePressOperate> --> <!-- If next to only one item that can operate, hitting operate will do it with no targetting. -->
   
   <!-- Change the colors shown on the map. RGB -->
   <!-- <FloorColorVisible>42, 42, 42</FloorColorVisible> -->
