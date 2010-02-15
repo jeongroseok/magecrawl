@@ -97,13 +97,12 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private void StripImpossibleDoors(Map map)
         {
-            // This needs to strip doors that have more than two open tiles around it.
             foreach (MapDoor door in map.MapObjects.OfType<MapDoor>())
             {
                 int numberWallsSurroundingDoor = CountNumberOfSurroundingWallTilesOneStepAway(map, door.Position.X, door.Position.Y);
                 int numberOfFloorSurroundingDoor = 8 - numberWallsSurroundingDoor;
-                if (!map.IsPointOnMap(door.Position) || map.GetTerrainAt(door.Position) == TerrainType.Wall || 
-                    (numberOfFloorSurroundingDoor != 2 && numberOfFloorSurroundingDoor != 4))
+                if (!map.IsPointOnMap(door.Position) || map.GetTerrainAt(door.Position) == TerrainType.Wall ||
+                    !WallsOnOneSetOfSides(map, door))
                 {
                     map.RemoveMapItem(door);
                 }
@@ -118,6 +117,14 @@ namespace Magecrawl.GameEngine.Level.Generator
                     doorPositions.Remove(door.Position);
                 }
             }
+        }
+
+        private bool WallsOnOneSetOfSides(Map map, MapDoor door)
+        {
+            return ((map.GetTerrainAt(door.Position + new Point(1, 0)) == TerrainType.Wall &&
+                     map.GetTerrainAt(door.Position + new Point(-1, 0)) == TerrainType.Wall) ||
+                     (map.GetTerrainAt(door.Position + new Point(0, 1)) == TerrainType.Wall &&
+                     map.GetTerrainAt(door.Position + new Point(0, -1)) == TerrainType.Wall));
         }
 
         private MapChunk GetRandomChunkFromList(List<MapChunk> chunk)
