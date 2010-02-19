@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Xml;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Interfaces;
@@ -189,6 +191,10 @@ namespace Magecrawl.GameUI.Map
 
         private void LoadMonsterSymbols()
         {
+            // Save off previous culture and switch to invariant for serialization.
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             m_monsterSymbols = new Dictionary<string, char>();
 
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -216,6 +222,8 @@ namespace Magecrawl.GameUI.Map
                 }
             }
             reader.Close();
+
+            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

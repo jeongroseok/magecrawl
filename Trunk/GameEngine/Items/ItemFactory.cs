@@ -159,6 +159,7 @@ namespace Magecrawl.GameEngine.Items
                 }
             }
             reader.Close();
+
             Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
