@@ -5,6 +5,44 @@ namespace Magecrawl.Utilities
 {
     public static class PointListUtils
     {
+        public static List<Point> PointListFromCone(Point center, Direction d, int coneLength)
+        {
+            if (d == Direction.Northeast || d == Direction.Northwest || d == Direction.Southeast || d == Direction.Southwest)
+                throw new NotImplementedException("Codes on diagonals not implemented yet");
+
+            if (d == Direction.None)
+                return null;
+
+            List<Point> affectedPoints = new List<Point>();
+
+            Point firstPointInDirection = PointDirectionUtils.ConvertDirectionToDestinationPoint(center, d);
+            if (center == firstPointInDirection)
+                return affectedPoints;
+
+            int deltaX = firstPointInDirection.X - center.X;
+            int deltaY = firstPointInDirection.Y - center.Y;
+            Point coneCenterForDistance = firstPointInDirection;
+            for (int i = 0; i < coneLength; ++i)
+            {
+                affectedPoints.Add(coneCenterForDistance);
+                for (int z = 0; z < i + 1; ++z)
+                {
+                    if (deltaX != 0)
+                    {
+                        affectedPoints.Add(new Point(coneCenterForDistance.X, coneCenterForDistance.Y - (z + 1)));
+                        affectedPoints.Add(new Point(coneCenterForDistance.X, coneCenterForDistance.Y + (z + 1)));
+                    }
+                    else
+                    {
+                        affectedPoints.Add(new Point(coneCenterForDistance.X - (z + 1), coneCenterForDistance.Y));
+                        affectedPoints.Add(new Point(coneCenterForDistance.X + (z + 1), coneCenterForDistance.Y));
+                    }
+                }
+                coneCenterForDistance = new Point(coneCenterForDistance.X + deltaX, coneCenterForDistance.Y + deltaY);
+            }
+            return affectedPoints;
+        }
+
         public static List<EffectivePoint> EffectivePointListFromBurstPosition(Point center, int burstDistance)
         {
             List<EffectivePoint> returnValue = new List<EffectivePoint>();

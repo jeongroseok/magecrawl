@@ -9,8 +9,6 @@ namespace Magecrawl.Keyboard
 {
     internal class DefaultKeystrokeHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
         private PlayerActions m_playerActions;
 
         public DefaultKeystrokeHandler(IGameEngine engine, GameInstance instance)

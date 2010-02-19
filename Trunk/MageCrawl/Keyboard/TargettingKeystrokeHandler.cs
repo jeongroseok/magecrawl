@@ -19,8 +19,6 @@ namespace Magecrawl.Keyboard
             None, Monster, Operatable, OpenFloor
         }
             
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
         private List<EffectivePoint> m_targetablePoints;
         private OnTargetSelection m_selectionDelegate;
         private NamedKey m_alternateSelectionKey;
@@ -68,10 +66,7 @@ namespace Magecrawl.Keyboard
             if (m_selectionDelegate == null)
                 throw new ArgumentNullException("Selection delegate for targetting must not be null");
             
-            if (targettingRequest.AlternateSelectionKey != NamedKey.Invalid)
-                m_alternateSelectionKey = targettingRequest.AlternateSelectionKey;
-            else
-                m_alternateSelectionKey = NamedKey.Invalid;
+            m_alternateSelectionKey = targettingRequest.AlternateSelectionKey;
 
             m_targettingType = targettingRequest.TargettingType;
 

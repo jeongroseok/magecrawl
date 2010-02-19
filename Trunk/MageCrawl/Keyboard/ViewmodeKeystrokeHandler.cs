@@ -6,9 +6,6 @@ namespace Magecrawl.Keyboard
 {
     internal class ViewmodeKeystrokeHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         private Point SelectionPoint { get; set; }
 
         public ViewmodeKeystrokeHandler(IGameEngine engine, GameInstance instance)

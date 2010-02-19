@@ -9,9 +9,6 @@ namespace Magecrawl.GameUI.Dialogs
 {
     internal class HelpKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public HelpKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

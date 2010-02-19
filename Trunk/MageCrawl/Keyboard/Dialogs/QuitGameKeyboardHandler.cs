@@ -7,9 +7,6 @@ namespace Magecrawl.GameUI.Dialogs
 {
     internal class QuitGameKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public QuitGameKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

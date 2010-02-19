@@ -9,9 +9,6 @@ namespace Magecrawl.Keyboard.Inventory
 {
     internal class EquipmentScreenKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public EquipmentScreenKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;
