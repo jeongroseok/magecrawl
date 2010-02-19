@@ -9,9 +9,6 @@ namespace Magecrawl.Keyboard
 {
     internal class MapEffectsKeystrokeHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public MapEffectsKeystrokeHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

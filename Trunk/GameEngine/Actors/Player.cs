@@ -43,6 +43,7 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand of Haste"));            
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));
@@ -57,7 +58,8 @@ namespace Magecrawl.GameEngine.Actors
                 return new List<ISpell>() 
                 {
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Zap"), SpellFactory.CreateSpell("Lightning Bolt"),
-                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("Earthen Armor"), SpellFactory.CreateSpell("Light")
+                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("Earthen Armor"), SpellFactory.CreateSpell("Light"),
+                    SpellFactory.CreateSpell("Cone Of Cold")
                     /* SpellFactory.CreateSpell("False Life"),
                     SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
                     SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow")*/

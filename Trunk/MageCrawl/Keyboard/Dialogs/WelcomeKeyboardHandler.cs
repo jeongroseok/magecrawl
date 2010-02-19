@@ -5,9 +5,6 @@ namespace Magecrawl.Keyboard.Dialogs
 {
     internal class WelcomeKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public WelcomeKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

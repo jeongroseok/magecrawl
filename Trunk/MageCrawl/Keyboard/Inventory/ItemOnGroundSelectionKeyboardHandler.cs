@@ -11,9 +11,6 @@ namespace Magecrawl.Keyboard.Inventory
 {
     internal class ItemOnGroundSelectionKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public ItemOnGroundSelectionKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

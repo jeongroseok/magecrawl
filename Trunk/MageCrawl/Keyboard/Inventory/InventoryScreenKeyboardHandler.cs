@@ -11,9 +11,6 @@ namespace Magecrawl.Keyboard.Inventory
 {
     internal class InventoryScreenKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public InventoryScreenKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

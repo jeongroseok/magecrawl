@@ -6,9 +6,6 @@ namespace Magecrawl.Keyboard.Dialogs
 {
     internal class SaveGameKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         public SaveGameKeyboardHandler(IGameEngine engine, GameInstance instance)
         {
             m_engine = engine;

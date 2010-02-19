@@ -10,11 +10,8 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Magic
 {
-    internal class MagicListKeyboardHandler : BaseKeystrokeHandler
+    internal class MagicListKeyboardHandler : InvokingKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
-
         // When we're brought up, get the keystroke used to call us, so we can use it to select target(s)
         private NamedKey m_keystroke;
 
@@ -53,32 +50,9 @@ namespace Magecrawl.Keyboard.Magic
             if (!m_engine.PlayerCouldCastSpell(spell))
                 return;
 
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));           
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
 
-            if (spell.TargetType.StartsWith("Single Range"))
-            {
-                List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, spell.Range);
-                m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
-                m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);                
-
-                OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
-                {
-                    if (s != m_engine.Player.Position)
-                        m_engine.PlayerCastSpell(spell, s);
-                    return false;
-                });
-                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, selectionDelegate, m_keystroke, TargettingKeystrokeHandler.TargettingType.Monster));
-            }
-            else if (spell.TargetType == "Self")
-            {
-                m_engine.PlayerCastSpell(spell, m_engine.Player.Position);
-                m_gameInstance.ResetHandlerName();
-                m_gameInstance.UpdatePainters();
-            }
-            else
-            {
-                throw new System.ArgumentException("Don't know how to cast things with target type: " + spell.TargetType);
-            }
+            HandleInvoke(m_keystroke, spell.TargetType, spell.Range, x => m_engine.PlayerCastSpell(spell, x));
         }
 
         private void Select()

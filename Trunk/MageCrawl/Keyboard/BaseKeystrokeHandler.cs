@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
-using Magecrawl.GameUI;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
     internal abstract class BaseKeystrokeHandler : IKeystrokeHandler
     {
+        protected IGameEngine m_engine;
+        protected GameInstance m_gameInstance;
+
         private static StreamReader m_keyMappingsStream;
         private static StreamReader m_arrowMappingsStream;
 

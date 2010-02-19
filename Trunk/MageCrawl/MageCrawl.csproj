@@ -78,6 +78,7 @@
     <Compile Include="Keyboard\Dialogs\OneButtonDialogKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\HelpKeyboardHandler.cs" />
     <Compile Include="Keyboard\Inventory\ItemOnGroundSelectionKeyboardHandler.cs" />
+    <Compile Include="Keyboard\InvokingKeystrokeHandler.cs" />
     <Compile Include="Keyboard\MapEffectsKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\QuitGameKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\SaveGameKeyboardHandler.cs" />

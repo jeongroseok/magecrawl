@@ -9,8 +9,6 @@ namespace Magecrawl.GameUI.Dialogs
 
     internal class OneButtonDialogKeyboardHandler : BaseKeystrokeHandler
     {
-        private IGameEngine m_engine;
-        private GameInstance m_gameInstance;
         private OnOneButtonComplete m_completeDelegate;
 
         public OneButtonDialogKeyboardHandler(IGameEngine engine, GameInstance instance)
