@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 using Magecrawl.GameEngine.Interfaces;
 
@@ -20,6 +22,10 @@ namespace Magecrawl.GameEngine
 
         private static void LoadSettings()
         {
+            // Save off previous culture and switch to invariant for serialization.
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
             settings.IgnoreComments = true;
@@ -50,6 +56,8 @@ namespace Magecrawl.GameEngine
                 }
             }
             reader.Close();
+
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
         public static double CalculateDefense(ICharacter character)
