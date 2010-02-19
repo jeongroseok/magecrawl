@@ -158,9 +158,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Poison Bolt":
                 {
                     m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
-                    Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
-                    if (targetCharacter != null)
-                        targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect("Poison", strength));
+                    AddAffactToTarget("Poison", strength, target);
                     return true;
                 }
                 case "Blink":
@@ -169,14 +167,19 @@ namespace Magecrawl.GameEngine.Magic
                     return HandleRandomTeleport(invoker, 25);
                 case "Slow":
                 {
-                    Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
-                    if (targetCharacter != null)
-                        targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect("Slow", strength));
+                    AddAffactToTarget("Slow", strength, target);
                     return true;
                 }
                 default:
                     return false;
             }
+        }
+
+        private void AddAffactToTarget(string name, int strength, Point target)
+        {
+            Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
+            if (targetCharacter != null)
+                targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect(name, strength));
         }
 
         private static int CalculateDamgeFromSpell(int strength)
