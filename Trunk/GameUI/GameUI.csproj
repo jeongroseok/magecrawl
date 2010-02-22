@@ -86,6 +86,7 @@
     <Compile Include="Map\MapPainter.cs" />
     <Compile Include="MapEffects\MapEffectsPainter.cs" />
     <Compile Include="Map\MapPainterBase.cs" />
+    <Compile Include="Map\Requests\EnableTooltips.cs" />
     <Compile Include="Map\Requests\ToggleDebuggingFOV.cs" />
     <Compile Include="PaintingCoordinator.cs" />
     <Compile Include="Map\PlayerTargetingPainter.cs" />

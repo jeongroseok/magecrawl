@@ -18,6 +18,7 @@ namespace Magecrawl.Keyboard
         {
             SelectionPoint = m_engine.Player.Position;
             m_gameInstance.SendPaintersRequest(new EnableMapCursor(true, SelectionPoint));
+            m_gameInstance.SendPaintersRequest(new EnableToolTips(true));
             m_gameInstance.UpdatePainters();
         }
 
@@ -29,6 +30,7 @@ namespace Magecrawl.Keyboard
         private void Escape()
         {
             m_gameInstance.SendPaintersRequest(new EnableMapCursor(false));
+            m_gameInstance.SendPaintersRequest(new EnableToolTips(false));
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
