@@ -82,6 +82,7 @@
     <Compile Include="Interfaces\ISpell.cs" />
     <Compile Include="Interfaces\ITargetablePoints.cs" />
     <Compile Include="Interfaces\IWand.cs" />
+    <Compile Include="Interfaces\TargettingInfo.cs" />
     <Compile Include="Items\ItemWithEffects.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemWithOwner.cs" />

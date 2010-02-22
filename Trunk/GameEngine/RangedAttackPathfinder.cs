@@ -10,6 +10,21 @@ namespace Magecrawl.GameEngine
     {
         internal static List<Point> RangedListOfPoints(Map map, Point caster, Point target, bool continuePastTarget, bool bounceOffWalls)
         {
+            Point firstWall = Point.Invalid;
+            return RangedListOfPointsCore(map, caster, target, continuePastTarget, bounceOffWalls, ref firstWall);
+        }
+
+        internal static Point GetWallHitByBlast(Map map, Point caster, Point target)
+        {
+            Point firstWall = Point.Invalid;
+            RangedListOfPointsCore(map, caster, target, true, false, ref firstWall);
+            return firstWall;
+        }
+
+        // Since c# 3.5 doens't have optional paramters, we have to wrap the method in two callers, one which uses the optional, 
+        // and one that throws it away.
+        private static List<Point> RangedListOfPointsCore(Map map, Point caster, Point target, bool continuePastTarget, bool bounceOffWalls, ref Point firstWall)
+        {
             if (caster == target)
                 return null;
 
@@ -24,13 +39,14 @@ namespace Magecrawl.GameEngine
 
             if (continuePastTarget)
             {
+                // { is for scoping variables
                 {
                     Point delta = target - caster;
                     Point startingPoint = target;
                     Point endingPoint = target + delta;
                     while (true)
                     {
-                        List<Point> listExtension = GenerateListOfPointsSinglePass(map, startingPoint, endingPoint);
+                        List<Point> listExtension = GenerateListOfPointsSinglePass(map, startingPoint, endingPoint, ref firstWall);
                         if (listExtension.Count == 0)
                             break;
                         returnList.AddRange(listExtension);
@@ -76,12 +92,21 @@ namespace Magecrawl.GameEngine
 
         private static List<Point> GenerateListOfPointsSinglePass(Map map, Point caster, Point target)
         {
+            Point firstWall = Point.Invalid;
+            return GenerateListOfPointsSinglePass(map, caster, target, ref firstWall);
+        }
+
+        private static List<Point> GenerateListOfPointsSinglePass(Map map, Point caster, Point target, ref Point firstWall)
+        {
             List<Point> returnList = new List<Point>();
 
             foreach (Point p in BresenhamLine.GenerateLineList(caster, target))
             {
                 if (!ValidPoint(map, p))
+                {
+                    firstWall = p;
                     break;
+                }
                 returnList.Add(p);
             }
 

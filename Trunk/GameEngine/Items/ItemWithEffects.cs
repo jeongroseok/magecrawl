@@ -2,12 +2,11 @@
 {
     internal abstract class ItemWithEffects : Item
     {
-        internal ItemWithEffects(string name, string effectType, string targettingType, int strength, string itemDescription, string flavorText)
+        internal ItemWithEffects(string name, string effectType, int strength, string itemDescription, string flavorText)
             : base(name, itemDescription, flavorText)
         {
             Name = name;
             EffectType = effectType;
-            TargettingType = targettingType;
             Strength = strength;
         }
 
@@ -18,12 +17,6 @@
         }
 
         internal string EffectType
-        {
-            get;
-            private set;
-        }
-
-        internal string TargettingType
         {
             get;
             private set;

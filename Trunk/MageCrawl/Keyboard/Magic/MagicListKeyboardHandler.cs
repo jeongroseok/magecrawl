@@ -52,7 +52,7 @@ namespace Magecrawl.Keyboard.Magic
 
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
 
-            HandleInvoke(m_keystroke, spell.TargetType, spell.Range, x => m_engine.PlayerCastSpell(spell, x));
+            HandleInvoke(spell, spell.Targeting, x => m_engine.PlayerCastSpell(spell, x), m_keystroke);
         }
 
         private void Select()

@@ -36,12 +36,15 @@
 <Wand   Name="Wand of Haste" EffectType="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
         ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
-<Wand   Name="Wand Of Ice Bolt" EffectType="RangedSingleTarget" TargettingType="Single Range" Range="5" Strength="3" StartCharges="1,4,1,1" MaxCharges="6"
+<Wand   Name="Wand Of Ice Bolt" EffectType="RangedSingleTarget" Strength="3" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping it creates a 2 foot long icicle and hurle it at the target."
         FlavorText="A frozen icicle shaped wand, never melting no matter the temperature."/>
-<Wand   Name="Wand Of Magic Missile" EffectType="RangedSingleTarget" TargettingType="Single Range" Range="4" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
+<Wand   Name="Wand Of Magic Missile" EffectType="RangedSingleTarget" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."
         FlavorText="A simple polished wooden dowel commonly found in schools of magic."/>
+<Wand   Name="Wand Of Sparks" EffectType="ConeAttack" Strength="1" StartCharges="1,3,1,1" MaxCharges="4"
+        ItemDescription="Zapping produces a shower of sparks striking a nearby targets."
+        FlavorText="One of the first wands apprentice pyromancers learn to craft."/>
 
 <Armor  Name="Robe" BaseType="ChestArmor" ArmorWeight="Light" DoNotDrop="True" Defense="0" Evade="1"
         ItemDescription="A simple robe favored by acolytes and mage apprentices."

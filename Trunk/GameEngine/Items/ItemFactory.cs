@@ -111,11 +111,6 @@ namespace Magecrawl.GameEngine.Items
                     string effectType = reader.GetAttribute("EffectType");
 
                     string targettingType = reader.GetAttribute("TargettingType");
-                    string range = reader.GetAttribute("Range");
-                    if (targettingType == null)
-                        targettingType = "Self";
-                    else
-                        targettingType += ":" + range;
 
                     int strength = int.Parse(reader.GetAttribute("Strength"));
 
@@ -123,11 +118,11 @@ namespace Magecrawl.GameEngine.Items
                     string flavorText = reader.GetAttribute("FlavorText");
 
                     if (potion)
-                        m_itemMapping.Add(name, new Potion(name, effectType, targettingType, strength, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
                     else if (scroll)
-                        m_itemMapping.Add(name, new Scroll(name, effectType, targettingType, strength, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Scroll(name, effectType, strength, itemDescription, flavorText));
                     else if (supplies)
-                        m_itemMapping.Add(name, new Supplies(name, effectType, targettingType, strength, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Supplies(name, effectType, strength, itemDescription, flavorText));
                     else
                         throw new Exception("Unknown type in ItemFaction");
 
@@ -138,13 +133,6 @@ namespace Magecrawl.GameEngine.Items
                     string name = reader.GetAttribute("Name");
                     string effectType = reader.GetAttribute("EffectType");
 
-                    string targettingType = reader.GetAttribute("TargettingType");
-                    string range = reader.GetAttribute("Range");
-                    if (targettingType == null)
-                        targettingType = "Self";
-                    else
-                        targettingType += ":" + range;
-
                     int strength = int.Parse(reader.GetAttribute("Strength"));
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
@@ -153,7 +141,7 @@ namespace Magecrawl.GameEngine.Items
                     DiceRoll startingCharges = new DiceRoll(reader.GetAttribute("StartCharges"));
                     int maxNumberCharges = int.Parse(reader.GetAttribute("MaxCharges"));
 
-                    m_itemMapping.Add(name, new Wand(name, effectType, targettingType, strength, itemDescription, flavorText, maxNumberCharges, startingCharges));
+                    m_itemMapping.Add(name, new Wand(name, effectType, strength, itemDescription, flavorText, maxNumberCharges, startingCharges));
 
                     CheckForNotDropList(reader, name);
                 }

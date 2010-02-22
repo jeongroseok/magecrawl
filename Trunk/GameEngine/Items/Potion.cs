@@ -6,8 +6,8 @@ namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Potion : ItemWithEffects
     {
-        internal Potion(string name, string effectType, string targettingType, int strength, string itemDescription, string flavorText)
-            : base(name, effectType, targettingType, strength, itemDescription, flavorText)
+        internal Potion(string name, string effectType, int strength, string itemDescription, string flavorText)
+            : base(name, effectType, strength, itemDescription, flavorText)
         {
         }
 

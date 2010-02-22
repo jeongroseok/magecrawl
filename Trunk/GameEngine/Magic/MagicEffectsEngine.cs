@@ -42,48 +42,69 @@ namespace Magecrawl.GameEngine.Magic
             return;
         }
 
-        public List<Point> SpellCastDrawablePoints(Spell spell, Point target)
+        internal static TargetingInfo GetAffectTargettingType(string affactString, int strength)
         {
-            List<Point> returnList = null;
-            switch (spell.EffectType)
+            switch (affactString)
             {
+                case "Rest":
+                case "HealCaster":
+                case "HealMPCaster":
+                case "Haste":
+                case "False Life":
+                case "Light":
+                case "Earthen Armor":
+                case "Blink":
+                case "Teleport":
+                    return new TargetingInfo(TargetingInfo.TargettingType.Self);
                 case "RangedSingleTarget":
-                {
-                    returnList = m_physicsEngine.GenerateRangedAttackListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target);
-                    break;
-                }
+                case "Slow":
+                case "Poison Bolt":
+                    return new TargetingInfo(TargetingInfo.TargettingType.RangedSingle, 5);
                 case "RangedBlast":
+                    return new TargetingInfo(TargetingInfo.TargettingType.RangedBlast, 5);
+                case "ConeAttack":
+                    return new TargetingInfo(TargetingInfo.TargettingType.Cone, 3);
+                default:
+                    throw new InvalidOperationException("Don't know affect targetting type for: " + affactString);
+            }
+        }
+
+        internal List<Point> TargettedDrawablePoints(TargetingInfo targeting, int strength, Point target)
+        {
+            switch (targeting.Type)
+            {
+                case TargetingInfo.TargettingType.RangedBlast:
                 {
-                    returnList = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target, true);
-                    TrimPathDueToSpellLength(spell.Strength, returnList);
-                    break;
+                    List<Point> returnList = m_physicsEngine.GenerateBlastListOfPointsShowBounceIfSeeWall(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player, target);
+                    TrimPathDueToSpellLength(strength, returnList);
+                    return returnList;
                 }
+                case TargetingInfo.TargettingType.Cone:
+                {
+                    Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(CoreGameEngine.Instance.Player.Position, target);
+                    List<Point> returnList = PointListUtils.PointListFromCone(CoreGameEngine.Instance.Player.Position, direction, 3);
+                    m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
+                    return returnList;
+                }
+                case TargetingInfo.TargettingType.RangedSingle:
+                case TargetingInfo.TargettingType.Self:
                 default:
                     return null;
             }
-            if (returnList != null)
-            {
-                // If we debugging the ranged attack, don't limit to our LOS
-                if (!(bool)Preferences.Instance["DebugRangedAttack"]) 
-                {
-                    TileVisibility[,] visibilityGrid = m_physicsEngine.CalculateTileVisibility();
-                    return returnList.Where(p => visibilityGrid[p.X, p.Y] == TileVisibility.Visible).ToList();
-                }
-            }
-            return returnList;
         }
 
         private bool DoEffect(Character invoker, object invokingMethod, string effect, int strength, Point target, string printOnEffect)
         {
             List<Character> actorList = CoreGameEngine.Instance.Map.Monsters.OfType<Character>().ToList();
             actorList.Add(CoreGameEngine.Instance.Player);
-            CoreGameEngine.Instance.SendTextOutput(printOnEffect);
             switch (effect)
             {
                 case "Rest":
                 {
                     if (m_physicsEngine.DangerPlayerInLOS())
                         return false;
+
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("As the campsite forms, time seems to drift away as {0} begins to relax deeply.", invoker.Name));
                     const int RoundsToRest = 5;
                     for (int i = 0; i < RoundsToRest; ++i)
@@ -106,12 +127,14 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "HealCaster":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     int healAmount = invoker.Heal((new DiceRoll(strength, 6, 2)).Roll());
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
                 }
                 case "HealMPCaster":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     Player player = invoker as Player;
                     if (player != null)
                         player.HealMP((new DiceRoll(strength, 4, 3)).Roll());
@@ -119,15 +142,41 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "RangedSingleTarget":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+
+                    // This will call ShowRangedAttack inside.
                     m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(strength), invokingMethod, DamageDoneDelegate);
                     return true;
                 }
                 case "RangedBlast":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, invoker.Position, target, true);
                     TrimPathDueToSpellLength(strength, pathOfBlast);
-                    CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, pathOfBlast, m_combatEngine.FindTargetAtPosition(pathOfBlast.Last()) != null);
+                    bool targetAtLastPoint = m_combatEngine.FindTargetAtPosition(pathOfBlast.Last()) != null;
+                    CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.RangedBoltOrBlast, pathOfBlast, targetAtLastPoint);
                     foreach (Point p in pathOfBlast)
+                    {
+                        Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
+                        if (hitCharacter != null)
+                        {
+                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter,
+                                new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
+                        }
+                    }
+                    return true;
+                }
+                case "ConeAttack":
+                {
+                    Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, target);
+                    List<Point> pointsInConeAttack = PointListUtils.PointListFromCone(invoker.Position, direction, 3);
+                    if (pointsInConeAttack == null || pointsInConeAttack.Count == 0)
+                        return false;   // Nothing to roast, not sure how we could get here however...
+
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    ShowConeAttack(invoker, invokingMethod, pointsInConeAttack);
+
+                    foreach (Point p in pointsInConeAttack)
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
@@ -143,6 +192,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     AffectBase previousAffect = invoker.Affects.Where(x => x.Name == effect).FirstOrDefault();
                     if (previousAffect != null)
                     {
@@ -157,22 +207,37 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Poison Bolt":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
                     AddAffactToTarget("Poison", strength, target);
                     return true;
                 }
                 case "Blink":
+                {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     return HandleRandomTeleport(invoker, 5);
+                }
                 case "Teleport":
+                {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     return HandleRandomTeleport(invoker, 25);
+                }
                 case "Slow":
                 {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     AddAffactToTarget("Slow", strength, target);
                     return true;
                 }
                 default:
-                    return false;
+                    throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + effect);
             }
+        }
+
+        private static void ShowConeAttack(Character invoker, object invokingMethod, List<Point> pointsInConeAttack)
+        {
+            List<Point> localPointList = new List<Point>(pointsInConeAttack);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(localPointList, invoker.Position, invoker.Vision, true);
+            CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, localPointList, false);
         }
 
         private void AddAffactToTarget(string name, int strength, Point target)
@@ -192,6 +257,9 @@ namespace Magecrawl.GameEngine.Magic
 
         private static void TrimPathDueToSpellLength(int strength, List<Point> pathOfBlast)
         {
+            if (pathOfBlast == null)
+                return;
+
             int range = Math.Max(2 * strength, 10);
             if (pathOfBlast.Count > range)
                 pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);

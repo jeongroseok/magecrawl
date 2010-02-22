@@ -73,8 +73,12 @@ namespace Magecrawl.GameEngine
 
         // This needs to be really _fast_. We're going to stick the not moveable points in a has table,
         // then compare each pointList to the terrian and if still good see if in hash table
+        // Please keep in sync with Point version below
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)
         {
+            if (pointList == null)
+                return;
+
             m_fovManager.CalculateForMultipleCalls(m_map, characterPosition, visionRange);
             m_movableHash.Clear();
 
@@ -90,6 +94,30 @@ namespace Magecrawl.GameEngine
                 m_map.GetTerrainAt(point.Position) == TerrainType.Wall || 
                 m_movableHash.ContainsKey(point.Position) ||
                 (needsToBeVisible && !m_fovManager.Visible(point.Position)));
+        }
+
+        // This needs to be really _fast_, and so we're going to violate a rule of duplication. 
+        // Please keep in sync with EffectPoint version above
+        public void FilterNotTargetablePointsFromList(List<Point> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)
+        {
+            if (pointList == null)
+                return;
+
+            m_fovManager.CalculateForMultipleCalls(m_map, characterPosition, visionRange);
+            m_movableHash.Clear();
+
+            foreach (MapObject obj in m_map.MapObjects)
+            {
+                if (obj.IsSolid)
+                    m_movableHash[obj.Position] = true;
+            }
+
+            // Remove it if it's not on map, or is wall, or same square as something solid from above, is it's not visible.
+            pointList.RemoveAll(point =>
+                !m_map.IsPointOnMap(point) ||
+                m_map.GetTerrainAt(point) == TerrainType.Wall ||
+                m_movableHash.ContainsKey(point) ||
+                (needsToBeVisible && !m_fovManager.Visible(point)));
         }
 
         // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
@@ -212,9 +240,20 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        internal List<Point> SpellCastDrawablePoints(Spell spell, Point target)
+        internal List<Point> TargettedDrawablePoints(object targettingObject, Point target)
         {
-            return m_magicEffects.SpellCastDrawablePoints(spell, target);
+            Spell asSpell = targettingObject as Spell;
+            if(asSpell != null)
+                return m_magicEffects.TargettedDrawablePoints(asSpell.Targeting, asSpell.Strength, target);
+
+            ItemWithEffects asItem = targettingObject as ItemWithEffects;
+            if (asItem != null)
+            {
+                TargetingInfo targetInfo = MagicEffectsEngine.GetAffectTargettingType(asItem.EffectType, asItem.Strength);
+                return m_magicEffects.TargettedDrawablePoints(targetInfo, asItem.Strength, target);
+            }
+
+            return null;
         }
 
         public bool IsRangedPathBetweenPoints(Point x, Point y)
@@ -230,6 +269,17 @@ namespace Magecrawl.GameEngine
         internal List<Point> GenerateBlastListOfPoints(Map map, Point caster, Point target, bool bounceOffWalls)
         {
             return RangedAttackPathfinder.RangedListOfPoints(map, caster, target, true, bounceOffWalls);
+        }
+
+        // So if we're previewing the position of a blast, and we can't see the wall we're going to bounce
+        // off of, don't show the bounce at all...
+        internal List<Point> GenerateBlastListOfPointsShowBounceIfSeeWall(Map map, ICharacter caster, Point target)
+        {
+            Point wallPosition = RangedAttackPathfinder.GetWallHitByBlast(map, caster.Position, target);
+            if (m_fovManager.VisibleSingleShot(map, caster.Position, caster.Vision, wallPosition))
+                return RangedAttackPathfinder.RangedListOfPoints(map, caster.Position, target, true, true);
+            else
+                return RangedAttackPathfinder.RangedListOfPoints(map, caster.Position, target, true, false);
         }
 
         private void UpdatePlayerVisitedStatus()

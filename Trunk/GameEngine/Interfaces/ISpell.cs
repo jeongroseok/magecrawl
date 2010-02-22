@@ -9,17 +9,12 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        string TargetType
-        {
-            get;
-        }
-
         string School
         {
             get;
         }
 
-        int Range
+        TargetingInfo Targeting
         {
             get;
         }

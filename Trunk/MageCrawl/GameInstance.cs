@@ -146,23 +146,35 @@ namespace Magecrawl
             m_console.Flush();
         }
 
-        private void HandleRangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint)
+        private void HandleRangedAttack(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint)
         {
             UpdatePainters();
             ResetHandlerName();
             SendPaintersRequest(new DisableAllOverlays());
-            bool drawLastFrame = !targetAtEndPoint;
+            
             Color colorOfBolt = ColorPresets.White;
-            int tailLength = 1;
-
             if (attackingMethod is ISpell)
-            {
-                drawLastFrame |= SpellGraphicsInfo.DrawLastFrame((ISpell)attackingMethod);  // Draw the last frame if we wouldn't otherwise and the spell asks us to.
                 colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool((ISpell)attackingMethod);
-                tailLength = SpellGraphicsInfo.GetTailLength((ISpell)attackingMethod);
+
+            if (type == ShowRangedAttackType.RangedBoltOrBlast)
+            {
+                bool drawLastFrame = !targetAtEndPoint;
+                int tailLength = 1;
+
+                if (attackingMethod is ISpell)
+                {
+                    ISpell attackingSpell = (ISpell)attackingMethod;
+                    drawLastFrame |= SpellGraphicsInfo.DrawLastFrame(attackingSpell);  // Draw the last frame if we wouldn't otherwise and the spell asks us to.
+                    tailLength = SpellGraphicsInfo.GetTailLength(attackingSpell);
+                }
+                m_painters.HandleRequest(new ShowRangedBolt(null, (List<Point>)data, colorOfBolt, drawLastFrame, tailLength));
+                m_painters.DrawAnimationSynchronous(m_console);
             }
-            m_painters.HandleRequest(new ShowRangedBolt(null, rangedPath, colorOfBolt, drawLastFrame, tailLength));
-            m_painters.DrawAnimationSynchronous(m_console);
+            else if (type == ShowRangedAttackType.Cone)
+            {
+                m_painters.HandleRequest(new ShowConeBlast(null, (List<Point>)data, colorOfBolt));
+                m_painters.DrawAnimationSynchronous(m_console);
+            }
         }
 
         private void HandleException(bool death)

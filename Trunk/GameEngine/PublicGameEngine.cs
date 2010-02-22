@@ -41,7 +41,7 @@ namespace Magecrawl.GameEngine
             m_engine = new CoreGameEngine();
             m_engine.TextOutputEvent += new TextOutputFromGame(s => TextOutputEvent(s));
             m_engine.PlayerDiedEvent += new PlayerDied(() => PlayerDiedEvent());
-            m_engine.RangedAttackEvent += new RangedAttack((a, r, t) => RangedAttackEvent(a, r, t));
+            m_engine.RangedAttackEvent += new RangedAttack((a, type, d, targetAtEnd) => RangedAttackEvent(a, type, d, targetAtEnd));
         }
 
         public void Dispose()
@@ -252,12 +252,15 @@ namespace Magecrawl.GameEngine
             return m_engine.GetOptionsForEquipmentItem(item as Item);
         }
 
-        public string GetTargettingTypeForInventoryItem(IItem item, string action)
+        public TargetingInfo GetTargettingTypeForInventoryItem(IItem item, string action)
         {
             if (action == "Drop")
                 return null;
-            if (item is ItemWithEffects)
-                return ((ItemWithEffects)item).TargettingType;
+
+            ItemWithEffects itemWithEffects = item as ItemWithEffects;
+            if (itemWithEffects != null)
+                return MagicEffectsEngine.GetAffectTargettingType(itemWithEffects.EffectType, itemWithEffects.Strength); 
+
             return null;
         }
 
@@ -280,9 +283,9 @@ namespace Magecrawl.GameEngine
             m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList);
         }
 
-        public List<Point> SpellCastDrawablePoints(ISpell spell, Point target)
+        public List<Point> TargettedDrawablePoints(object targettingObject, Point target)
         {
-            return m_engine.SpellCastDrawablePoints((Spell)spell, target);
+            return m_engine.TargettedDrawablePoints(targettingObject, target);
         }
 
         public bool IsRangedPathBetweenPoints(Point x, Point y)

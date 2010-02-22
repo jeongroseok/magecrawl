@@ -72,7 +72,11 @@ namespace Magecrawl.Keyboard
 
             SelectionPoint = SetTargettingInitialSpot(m_engine);
 
-            m_gameInstance.SendPaintersRequest(new EnablePlayerTargeting(true, m_targetablePoints));
+            EnablePlayerTargeting enableRequest = new EnablePlayerTargeting(true, m_targetablePoints);
+            if (targettingRequest.HaloDelegate != null)
+                enableRequest.HaloDelegate = x => targettingRequest.HaloDelegate(x);
+
+            m_gameInstance.SendPaintersRequest(enableRequest);
             m_gameInstance.SendPaintersRequest(new EnableMapCursor(true, SelectionPoint));
 
             // If we have no targetable points, just exit now

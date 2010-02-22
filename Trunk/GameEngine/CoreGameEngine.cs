@@ -245,9 +245,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CastSpell(caster, spell, target);
         }
 
-        internal List<Point> SpellCastDrawablePoints(Spell spell, Point target)
+        internal List<Point> TargettedDrawablePoints(object targettingObject, Point target)
         {
-            return m_physicsEngine.SpellCastDrawablePoints(spell, target);
+            return m_physicsEngine.TargettedDrawablePoints(targettingObject, target);
         }
 
         internal bool UseSkill(Character attacker, SkillType skill, Point target)
@@ -328,6 +328,11 @@ namespace Magecrawl.GameEngine
             m_physicsEngine.FilterNotTargetablePointsFromList(pointList, characterPosition, visionRange, needsToBeVisible);
         }
 
+        public void FilterNotTargetablePointsFromList(List<Point> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)
+        {
+            m_physicsEngine.FilterNotTargetablePointsFromList(pointList, characterPosition, visionRange, needsToBeVisible);
+        }
+
         public TileVisibility[,] CalculateTileVisibility()
         {
             return m_physicsEngine.CalculateTileVisibility();
@@ -343,9 +348,9 @@ namespace Magecrawl.GameEngine
             TextOutputEvent(s);
         }
 
-        internal void ShowRangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint)
+        internal void ShowRangedAttack(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint)
         {
-            RangedAttackEvent(attackingMethod, rangedPath, targetAtEndPoint);
+            RangedAttackEvent(attackingMethod, type, data, targetAtEndPoint);
         }
 
         public bool DangerPlayerInLOS()

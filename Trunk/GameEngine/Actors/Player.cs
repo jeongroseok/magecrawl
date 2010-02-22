@@ -43,7 +43,7 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand of Haste"));            
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Sparks"));            
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));

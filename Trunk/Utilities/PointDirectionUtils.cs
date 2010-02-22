@@ -83,7 +83,7 @@ namespace Magecrawl.Utilities
                 else if (deltaY == -1)
                     return Direction.North;
                 else
-                    throw new System.ArgumentOutOfRangeException("ConvertPositionDeltaToDirection - No direction?");
+                    return Direction.None;
             }
         }
 

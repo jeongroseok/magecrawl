@@ -5,8 +5,8 @@ namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Scroll : ItemWithEffects
     {
-        internal Scroll(string name, string effectType, string targettingType, int strength, string itemDescription, string flavorText)
-            : base(name, effectType, targettingType, strength, itemDescription, flavorText)
+        internal Scroll(string name, string effectType, int strength, string itemDescription, string flavorText)
+            : base(name, effectType, strength, itemDescription, flavorText)
         {
         }
 

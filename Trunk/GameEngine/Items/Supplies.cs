@@ -8,8 +8,8 @@ namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Supplies : ItemWithEffects
     {
-        internal Supplies(string name, string effectType, string targettingType, int strength, string itemDescription, string flavorText)
-            : base(name, effectType, targettingType, strength, itemDescription, flavorText)
+        internal Supplies(string name, string effectType, int strength, string itemDescription, string flavorText)
+            : base(name, effectType, strength, itemDescription, flavorText)
         {
         }
 
