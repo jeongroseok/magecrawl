@@ -7,8 +7,9 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public delegate void PlayerDied();
 
+    public enum ShowRangedAttackType { RangedBoltOrBlast, Cone };
     // attackingMethod can be an IWeapon, ISpell, IItem
-    public delegate void RangedAttack(object attackingMethod, List<Point> rangedPath, bool targetAtEndPoint);
+    public delegate void RangedAttack(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint);
 
     public delegate void TextOutputFromGame(string s);
 
@@ -86,17 +87,19 @@ namespace Magecrawl.GameEngine.Interfaces
 
         bool PlayerSwapPrimarySecondaryWeapons();
 
-        List<Point> SpellCastDrawablePoints(ISpell spell, Point target);
+        // Takes either an IItem or ISpell
+        List<Point> TargettedDrawablePoints(object targettingObject, Point target);
+
         bool IsRangedPathBetweenPoints(Point x, Point y);
+        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList);
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
-        string GetTargettingTypeForInventoryItem(IItem item, string action);
+        TargetingInfo GetTargettingTypeForInventoryItem(IItem item, string action);
         bool PlayerSelectedItemOption(IItem item, string option, object argument);
 
         TileVisibility[,] CalculateTileVisibility();
         void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
-        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList);
 
         List<string> GetDescriptionForTile(Point p);
         

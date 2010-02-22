@@ -3,10 +3,18 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
+    public delegate List<Point> PlayerTargettingHaloDelegate(Point p);
+
     public class EnablePlayerTargeting : RequestBase
     {
         private List<EffectivePoint> m_targetablePoints;
         private bool m_enable;
+
+        public PlayerTargettingHaloDelegate HaloDelegate
+        {
+            get;
+            set;
+        }
 
         public EnablePlayerTargeting(bool enable)
         {
@@ -29,7 +37,7 @@ namespace Magecrawl.GameUI.Map.Requests
             if (p != null)
             {
                 if (m_enable)
-                    p.EnablePlayerTargeting(m_targetablePoints);
+                    p.EnablePlayerTargeting(m_targetablePoints, HaloDelegate);
                 else
                     p.DisableAllOverlays();
             }

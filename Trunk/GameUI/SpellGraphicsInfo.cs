@@ -52,6 +52,8 @@ namespace Magecrawl.GameUI
                     return ColorPresets.LightBlue;
                 case "Earth":
                     return ColorPresets.SaddleBrown;
+                case "Water":
+                    return ColorPresets.SteelBlue;
                 default:
                     return TCODColorPresets.White;
             }

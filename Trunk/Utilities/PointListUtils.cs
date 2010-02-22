@@ -5,17 +5,17 @@ namespace Magecrawl.Utilities
 {
     public static class PointListUtils
     {
-        public static List<Point> PointListFromCone(Point center, Direction d, int coneLength)
+        public static List<Point> PointListFromCone(Point center, Direction direction, int coneLength)
         {
-            if (d == Direction.Northeast || d == Direction.Northwest || d == Direction.Southeast || d == Direction.Southwest)
-                throw new NotImplementedException("Codes on diagonals not implemented yet");
-
-            if (d == Direction.None)
+            if (direction == Direction.None)
                 return null;
+
+            if (direction == Direction.Northeast || direction == Direction.Northwest || direction == Direction.Southeast || direction == Direction.Southwest)
+                throw new NotImplementedException("Codes on diagonals not implemented yet");
 
             List<Point> affectedPoints = new List<Point>();
 
-            Point firstPointInDirection = PointDirectionUtils.ConvertDirectionToDestinationPoint(center, d);
+            Point firstPointInDirection = PointDirectionUtils.ConvertDirectionToDestinationPoint(center, direction);
             if (center == firstPointInDirection)
                 return affectedPoints;
 

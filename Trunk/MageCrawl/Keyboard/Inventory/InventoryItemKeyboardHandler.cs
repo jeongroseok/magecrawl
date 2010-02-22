@@ -38,15 +38,11 @@ namespace Magecrawl.Keyboard.Inventory
                 return;
             }
 
-            string targettingNeededCompoundString = m_engine.GetTargettingTypeForInventoryItem(item, optionName);
-            string [] targettingComponts = targettingNeededCompoundString.Split(':');
-            int range = -1;
-            if (targettingComponts.Length > 1)
-                range = int.Parse(targettingComponts[1]);
-
+            TargetingInfo targetInfo = m_engine.GetTargettingTypeForInventoryItem(item, optionName);
+            
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
 
-            HandleInvoke(NamedKey.Invalid, targettingComponts[0], range, x => m_engine.PlayerSelectedItemOption(item, optionName, x));
+            HandleInvoke(item, targetInfo, x => m_engine.PlayerSelectedItemOption(item, optionName, x), NamedKey.Invalid);
         }
 
         private void Escape()

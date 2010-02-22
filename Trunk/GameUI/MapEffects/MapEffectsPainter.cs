@@ -10,10 +10,12 @@ namespace Magecrawl.GameUI.MapEffects
     internal sealed class MapEffectsPainter : MapPainterBase
     {
         private const int MillisecondsPerFrame = 60;
+        
+        private static TCODRandom m_random = new TCODRandom();
 
         private enum EffectTypes 
         {
-            None, RangedBolt
+            None, RangedBolt, Cone
         }
         
         private uint m_animationStartTime;
@@ -24,8 +26,9 @@ namespace Magecrawl.GameUI.MapEffects
         private bool m_done;
         private EffectDone m_doneDelegate;
 
+        private List<Point> m_points;
+
         // For RangedBolt
-        private List<Point> m_path;
         private int m_tailLength;
 
         public MapEffectsPainter() : base() 
@@ -49,33 +52,53 @@ namespace Magecrawl.GameUI.MapEffects
             switch (m_type)
             {
                 case EffectTypes.RangedBolt:
-                {
-                    DrawRangedBoltFrame(screen, frameNumber, m_tailLength);
+                    DrawRangedBoltFrame(screen, frameNumber);
                     return;
-                }
+                case EffectTypes.Cone:
+                    DrawConeFrame(screen, frameNumber);
+                    return;
                 case EffectTypes.None:
-                {
+                default:
                     return;
-                }
             }
         }
 
-        private void DrawRangedBoltFrame(Console screen, uint frameNumber, int sizeOfTail)
+        private void DrawRangedBoltFrame(Console screen, uint frameNumber)
         {
-            if ((m_path.Count + sizeOfTail) <= frameNumber)
+            if ((m_points.Count + m_tailLength) <= frameNumber)
             {
                 FinishAnimation();
             }
             else
             {
-                int startingFrame = (int)System.Math.Max(frameNumber - sizeOfTail, 0);
-                int endingFrame = (int)System.Math.Min(m_path.Count - 1, frameNumber);
+                int startingFrame = (int)System.Math.Max(frameNumber - m_tailLength, 0);
+                int endingFrame = (int)System.Math.Min(m_points.Count - 1, frameNumber);
                 for (int i = startingFrame; i <= endingFrame; ++i)
                 {
-                    Point boltPoint = m_path[i];
+                    Point boltPoint = m_points[i];
                     Point screenPosition = new Point(m_mapUpCorner.X + boltPoint.X + 1, m_mapUpCorner.Y + boltPoint.Y + 1);
                     screen.PutChar(screenPosition.X, screenPosition.Y, '*', Background.None);
                     screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
+                }
+            }
+        }
+
+        private void DrawConeFrame(Console screen, uint frameNumber)
+        {
+            if (frameNumber > 9)
+            {
+                FinishAnimation();
+            }
+            else
+            {
+                foreach(Point p in m_points)
+                {
+                    if (m_random.Chance(27))
+                    {
+                        Point screenPosition = new Point(m_mapUpCorner.X + p.X + 1, m_mapUpCorner.Y + p.Y + 1);
+                        screen.PutChar(screenPosition.X, screenPosition.Y, '#', Background.None);
+                        screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
+                    }
                 }
             }
         }
@@ -97,13 +120,24 @@ namespace Magecrawl.GameUI.MapEffects
             m_type = EffectTypes.RangedBolt;
             m_animationStartTime = TCODSystem.ElapsedMilliseconds;
             m_doneDelegate = effectDoneDelegate;
-            m_path = path;
+            m_points = path;
 
             if (!drawLastTargetSquare)
-                m_path.RemoveAt(m_path.Count - 1);
+                m_points.RemoveAt(m_points.Count - 1);
 
             m_color = color;
             m_tailLength = tailLength;
+            m_done = false;
+        }
+
+        public void DrawConeBlast(EffectDone effectDoneDelegate, List<Point> points, Color color)
+        {
+            m_type = EffectTypes.Cone;
+            m_animationStartTime = TCODSystem.ElapsedMilliseconds;
+            m_doneDelegate = effectDoneDelegate;
+            m_points = points;
+
+            m_color = color;
             m_done = false;
         }
 

@@ -6,7 +6,7 @@
   <!-- If you define custom, you must define CustomKeymappingFilename-->
   <Keymapping>Arrows</Keymapping>
 
-  <BumpToAttack>True</BumpToAttack> <!-- Moving into others will attack if able -->
+  <BumpToAttack>False</BumpToAttack> <!-- Moving into others will attack if able -->
   <BumpToOpenDoors>True</BumpToOpenDoors> <!-- Moving into doors will open if able -->
   
   <!-- If you define Custom for Keymapping, you need to define what filename we should try to load.-->

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
@@ -130,7 +131,7 @@ namespace Magecrawl.GameEngine
             List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, target);
 
             Character targetCharacter = FindTargetAtPosition(target);
-            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, attackPath, targetCharacter != null);
+            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, ShowRangedAttackType.RangedBoltOrBlast, attackPath, targetCharacter != null);
 
             if (targetCharacter != null)
                 DamageTarget(damageDone, targetCharacter, del);
