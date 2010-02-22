@@ -172,6 +172,10 @@ namespace Magecrawl.GameEngine
 
             target.CurrentHP -= damage;
             bool targetKilled = target.CurrentHP <= 0;
+            
+            if (del != null)
+                del(damage, target, targetKilled);
+
             if (targetKilled)
             {
                 if (target is Monster)
@@ -183,8 +187,6 @@ namespace Magecrawl.GameEngine
                     CoreGameEngine.Instance.PlayerDied();
                 }
             }
-            if (del != null)
-                del(damage, target, targetKilled);
         }
 
         private string CreateDamageString(int damage, Character attacker, Character defender)
