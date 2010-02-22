@@ -175,6 +175,12 @@ namespace Magecrawl
                 m_painters.HandleRequest(new ShowConeBlast(null, (List<Point>)data, colorOfBolt));
                 m_painters.DrawAnimationSynchronous(m_console);
             }
+            else if (type == ShowRangedAttackType.RangedExplodingPoint)
+            {
+                var animationData = (Pair<List<Point>, List<List<Point>>>)data;
+                m_painters.HandleRequest(new ShowExploadingPoint(null, animationData.First, animationData.Second, colorOfBolt));
+                m_painters.DrawAnimationSynchronous(m_console);
+            }
         }
 
         private void HandleException(bool death)

@@ -9,13 +9,13 @@ namespace Magecrawl.GameUI.MapEffects
 
     internal sealed class MapEffectsPainter : MapPainterBase
     {
-        private const int MillisecondsPerFrame = 60;
+        private const int MillisecondsPerFrame = 65;
         
         private static TCODRandom m_random = new TCODRandom();
 
         private enum EffectTypes 
         {
-            None, RangedBolt, Cone
+            None, RangedBolt, Cone, ExploadingPoint
         }
         
         private uint m_animationStartTime;
@@ -30,6 +30,10 @@ namespace Magecrawl.GameUI.MapEffects
 
         // For RangedBolt
         private int m_tailLength;
+
+        // For ExploadingPoints
+        private List<Point> m_path;
+        private List<List<Point>> m_blast;
 
         public MapEffectsPainter() : base() 
         {
@@ -57,9 +61,43 @@ namespace Magecrawl.GameUI.MapEffects
                 case EffectTypes.Cone:
                     DrawConeFrame(screen, frameNumber);
                     return;
+                case EffectTypes.ExploadingPoint:
+                    DrawExploadingPointFrame(screen, frameNumber);
+                    return;
                 case EffectTypes.None:
                 default:
                     return;
+            }
+        }
+
+        private void DrawExploadingPointFrame(Console screen, uint frameNumber)
+        {
+            if ((m_path.Count + (m_blast.Count*2) - 1) < frameNumber)
+            {
+                FinishAnimation();
+            }
+            else
+            {
+                if (frameNumber < m_path.Count)
+                {                    
+                    DrawPoint(screen,  m_path[(int)frameNumber], '*');
+                }
+                else
+                {
+                    int explosionPosition = (int)(frameNumber - m_path.Count);
+
+                    // Each "blast" frame last twice as long, as set odd frames back one
+                    if ((explosionPosition % 2) == 1)
+                        explosionPosition--;
+
+                    for (int i = 0; i <= explosionPosition; ++i)
+                    {
+                        foreach (Point p in m_blast[i/2])
+                        {
+                            DrawPoint(screen, p, '*');
+                        }
+                    }
+                }
             }
         }
 
@@ -74,12 +112,7 @@ namespace Magecrawl.GameUI.MapEffects
                 int startingFrame = (int)System.Math.Max(frameNumber - m_tailLength, 0);
                 int endingFrame = (int)System.Math.Min(m_points.Count - 1, frameNumber);
                 for (int i = startingFrame; i <= endingFrame; ++i)
-                {
-                    Point boltPoint = m_points[i];
-                    Point screenPosition = new Point(m_mapUpCorner.X + boltPoint.X + 1, m_mapUpCorner.Y + boltPoint.Y + 1);
-                    screen.PutChar(screenPosition.X, screenPosition.Y, '*', Background.None);
-                    screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
-                }
+                    DrawPoint(screen, m_points[i], '*');
             }
         }
 
@@ -94,13 +127,16 @@ namespace Magecrawl.GameUI.MapEffects
                 foreach(Point p in m_points)
                 {
                     if (m_random.Chance(27))
-                    {
-                        Point screenPosition = new Point(m_mapUpCorner.X + p.X + 1, m_mapUpCorner.Y + p.Y + 1);
-                        screen.PutChar(screenPosition.X, screenPosition.Y, '#', Background.None);
-                        screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
-                    }
+                        DrawPoint(screen, p, '#');
                 }
             }
+        }
+
+        private void DrawPoint(Console screen, Point p, char c)
+        {
+            Point screenPosition = new Point(m_mapUpCorner.X + p.X + 1, m_mapUpCorner.Y + p.Y + 1);
+            screen.PutChar(screenPosition.X, screenPosition.Y, c, Background.None);
+            screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
         }
 
         private void FinishAnimation()
@@ -140,6 +176,20 @@ namespace Magecrawl.GameUI.MapEffects
             m_color = color;
             m_done = false;
         }
+
+
+        public void DrawExploadingPointBlast(EffectDone effectDoneDelegate, List<Point> path, List<List<Point>> blast, Color color)
+        {
+            m_type = EffectTypes.ExploadingPoint;
+            m_animationStartTime = TCODSystem.ElapsedMilliseconds;
+            m_doneDelegate = effectDoneDelegate;
+            m_path = path;
+            m_blast = blast;
+
+            m_color = color;
+            m_done = false;
+        }
+
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {

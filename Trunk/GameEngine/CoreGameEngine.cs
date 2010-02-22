@@ -413,5 +413,11 @@ namespace Magecrawl.GameEngine
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(centerPoint, x.Position));
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(x.Position, centerPoint));
         }
+
+        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<Point> pointList)
+        {
+            pointList.RemoveAll(x => !IsRangedPathBetweenPoints(centerPoint, x));
+            pointList.RemoveAll(x => !IsRangedPathBetweenPoints(x, centerPoint));
+        }
     }
 }

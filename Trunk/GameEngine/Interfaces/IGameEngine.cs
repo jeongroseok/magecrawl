@@ -7,7 +7,7 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public delegate void PlayerDied();
 
-    public enum ShowRangedAttackType { RangedBoltOrBlast, Cone };
+    public enum ShowRangedAttackType { RangedBoltOrBlast, Cone, RangedExplodingPoint };
     // attackingMethod can be an IWeapon, ISpell, IItem
     public delegate void RangedAttack(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint);
 

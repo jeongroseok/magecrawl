@@ -59,7 +59,7 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Zap"), SpellFactory.CreateSpell("Lightning Bolt"),
                     SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("Earthen Armor"), SpellFactory.CreateSpell("Light"),
-                    SpellFactory.CreateSpell("Cone Of Cold")
+                    SpellFactory.CreateSpell("Cone Of Cold"), SpellFactory.CreateSpell("Fireball")
                     /* SpellFactory.CreateSpell("False Life"),
                     SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
                     SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow")*/
