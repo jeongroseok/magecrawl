@@ -7,7 +7,7 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public class TargetingInfo
     {
-        public enum TargettingType { Self, RangedSingle, RangedBlast, Cone };
+        public enum TargettingType { Self, RangedSingle, RangedBlast, Cone, RangedExplodingPoint };
         
         public TargettingType Type { get; set; }
         public int Range { get; set; }

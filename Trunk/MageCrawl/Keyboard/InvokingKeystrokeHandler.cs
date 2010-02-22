@@ -24,30 +24,31 @@ namespace Magecrawl.Keyboard
                 {
                     case TargetingInfo.TargettingType.RangedSingle:
                     case TargetingInfo.TargettingType.RangedBlast:
-                        {
-                            List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, targetInfo.Range);
-                            m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
-                            m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);
+                    case TargetingInfo.TargettingType.RangedExplodingPoint:
+                    {
+                        List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, targetInfo.Range);
+                        m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
+                        m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);
 
-                            OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
-                            {
-                                if (s != m_engine.Player.Position)
-                                    onInvoke(s);
-                                return false;
-                            });
-                            m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, selectionDelegate, invokeKey,
-                                TargettingKeystrokeHandler.TargettingType.Monster, p => m_engine.TargettedDrawablePoints(invokingObject, p)));
-                            return;
-                        }
-                    case TargetingInfo.TargettingType.Cone:
+                        OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
                         {
-                            Point playerPosition = m_engine.Player.Position;
-                            List<EffectivePoint> targetablePoints = GetConeTargetablePoints(playerPosition);
-                            m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, new OnTargetSelection(x => { onInvoke(x); return false; }),
-                                NamedKey.Invalid, TargettingKeystrokeHandler.TargettingType.Monster, 
-                                p => m_engine.TargettedDrawablePoints(invokingObject, p)));
-                            return;
-                        }
+                            if (s != m_engine.Player.Position)
+                                onInvoke(s);
+                            return false;
+                        });
+                        m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, selectionDelegate, invokeKey,
+                            TargettingKeystrokeHandler.TargettingType.Monster, p => m_engine.TargettedDrawablePoints(invokingObject, p)));
+                        return;
+                    }
+                    case TargetingInfo.TargettingType.Cone:
+                    {
+                        Point playerPosition = m_engine.Player.Position;
+                        List<EffectivePoint> targetablePoints = GetConeTargetablePoints(playerPosition);
+                        m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, new OnTargetSelection(x => { onInvoke(x); return false; }),
+                            NamedKey.Invalid, TargettingKeystrokeHandler.TargettingType.Monster, 
+                            p => m_engine.TargettedDrawablePoints(invokingObject, p)));
+                        return;
+                    }
                     case TargetingInfo.TargettingType.Self:
                     {
                         onInvoke(m_engine.Player.Position);

@@ -64,6 +64,8 @@ namespace Magecrawl.GameEngine.Magic
                     return new TargetingInfo(TargetingInfo.TargettingType.RangedBlast, 5);
                 case "ConeAttack":
                     return new TargetingInfo(TargetingInfo.TargettingType.Cone, 3);
+                case "ExplodingRangedPoint":
+                    return new TargetingInfo(TargetingInfo.TargettingType.RangedExplodingPoint, 7);
                 default:
                     throw new InvalidOperationException("Don't know affect targetting type for: " + affactString);
             }
@@ -83,6 +85,12 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(CoreGameEngine.Instance.Player.Position, target);
                     List<Point> returnList = PointListUtils.PointListFromCone(CoreGameEngine.Instance.Player.Position, direction, 3);
+                    m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
+                    return returnList;
+                }
+                case TargetingInfo.TargettingType.RangedExplodingPoint:
+                {
+                    List<Point> returnList = PointListUtils.PointListFromBurstPosition(target, 2);
                     m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
                     return returnList;
                 }
@@ -159,10 +167,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                        {
-                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter,
-                                new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                        }
+                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
                     }
                     return true;
                 }
@@ -180,11 +185,24 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                        {
-                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter,
-                                new CombatEngine.DamageDoneDelegate(DamageDoneDelegate));
-                        }
+                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
                     }
+                    return true;
+                }
+                case "ExplodingRangedPoint":
+                {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    const int burstWidth = 2;
+                    
+                    ShowExplodingRangedPointAttack(invoker, invokingMethod, target, burstWidth);
+
+                    foreach (Point p in PointListUtils.PointListFromBurstPosition(target, burstWidth))
+                    {
+                        Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
+                        if (hitCharacter != null)
+                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
+                    }
+
                     return true;
                 }
                 case "Haste":
@@ -233,11 +251,27 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
+        private void ShowExplodingRangedPointAttack(Character invoker, object invokingMethod, Point target, int burstWidth)
+        {
+            List<Point> pointsInBallPath = RangedAttackPathfinder.RangedListOfPoints(CoreGameEngine.Instance.Map, invoker.Position, target, false, false);
+
+            List<List<Point>> pointsInExplosion = new List<List<Point>>();
+            for (int i = 1; i <= burstWidth; ++i)
+            {
+                List<Point> explosionRing = PointListUtils.PointListFromBurstPosition(target, i);
+                CoreGameEngine.Instance.FilterNotTargetablePointsFromList(explosionRing, invoker.Position, invoker.Vision, true);
+                pointsInExplosion.Add(explosionRing);
+            }
+
+            var pathData = new Pair<List<Point>, List<List<Point>>>(pointsInBallPath, pointsInExplosion);
+            CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.RangedExplodingPoint, pathData, false);
+        }
+
         private static void ShowConeAttack(Character invoker, object invokingMethod, List<Point> pointsInConeAttack)
         {
-            List<Point> localPointList = new List<Point>(pointsInConeAttack);
-            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(localPointList, invoker.Position, invoker.Vision, true);
-            CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, localPointList, false);
+            List<Point> coneBlastList = new List<Point>(pointsInConeAttack);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(coneBlastList, invoker.Position, invoker.Vision, true);            
+            CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, coneBlastList, false);
         }
 
         private void AddAffactToTarget(string name, int strength, Point target)

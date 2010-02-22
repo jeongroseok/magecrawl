@@ -43,7 +43,7 @@ namespace Magecrawl.Utilities
             return affectedPoints;
         }
 
-        public static List<EffectivePoint> EffectivePointListFromBurstPosition(Point center, int burstDistance)
+       public static List<EffectivePoint> EffectivePointListFromBurstPosition(Point center, int burstDistance)
         {
             List<EffectivePoint> returnValue = new List<EffectivePoint>();
             for (int i = -burstDistance; i <= burstDistance; ++i)
@@ -63,6 +63,7 @@ namespace Magecrawl.Utilities
         public static List<Point> PointListFromBurstPosition(Point center, int burstDistance)
         {
             List<Point> returnValue = new List<Point>();
+
             for (int i = -burstDistance; i <= burstDistance; ++i)
             {
                 for (int j = -burstDistance; j <= burstDistance; ++j)

@@ -5,16 +5,18 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Map.Requests
 {
-    public class ShowConeBlast : RequestBase
+    public class ShowExploadingPoint : RequestBase
     {
-        private List<Point> m_points;
+        private List<Point> m_path;
+        private List<List<Point>> m_blast;
         private EffectDone m_doneDelegate;
         private Color m_color;
 
-        public ShowConeBlast(EffectDone doneDelegate, List<Point> points, Color color)
+        public ShowExploadingPoint(EffectDone doneDelegate, List<Point> path, List<List<Point>> blast, Color color)
         {
             m_doneDelegate = doneDelegate;
-            m_points = points;
+            m_path = path;
+            m_blast = blast;
             m_color = color;
         }
 
@@ -22,7 +24,7 @@ namespace Magecrawl.GameUI.Map.Requests
         {
             MapEffectsPainter m = painter as MapEffectsPainter;
             if (m != null)
-                m.DrawConeBlast(m_doneDelegate, m_points, m_color);
+                m.DrawExploadingPointBlast(m_doneDelegate, m_path, m_blast, m_color);
         }
     }
 }

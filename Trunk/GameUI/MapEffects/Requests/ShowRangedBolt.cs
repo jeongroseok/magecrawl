@@ -26,9 +26,7 @@ namespace Magecrawl.GameUI.Map.Requests
         {
             MapEffectsPainter m = painter as MapEffectsPainter;
             if (m != null)
-            {
                 m.DrawRangedBolt(m_doneDelegate, m_path, m_color, m_tailLength, m_drawLastTargetSquare);
-            }
         }
     }
 }
