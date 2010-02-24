@@ -3,7 +3,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public interface ICharacter
+    public interface ICharacter : INamedItem
     {
         string Name
         {

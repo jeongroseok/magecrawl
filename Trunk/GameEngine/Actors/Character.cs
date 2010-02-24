@@ -71,6 +71,14 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public string DisplayName
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
         private static int s_idCounter = 0;
         
         protected List<AffectBase> m_affects;
