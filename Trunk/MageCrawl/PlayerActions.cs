@@ -164,7 +164,9 @@ namespace Magecrawl
             {
                 if (PointDirectionUtils.LatticeDistance(m_engine.Player.Position, mapObj.Position) == 1)
                 {
-                    listOfSelectablePoints.Add(new EffectivePoint(mapObj.Position, 1.0f));
+                    // If there are any monsters at that location, don't select it.
+                    if(m_engine.Map.Monsters.Where(x => x.Position == mapObj.Position).Count() == 0)
+                        listOfSelectablePoints.Add(new EffectivePoint(mapObj.Position, 1.0f));
                 }
             }
 
