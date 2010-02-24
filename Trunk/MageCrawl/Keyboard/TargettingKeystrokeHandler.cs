@@ -167,7 +167,7 @@ namespace Magecrawl.Keyboard
 
         private Point SetTargettingInitialSpot(IGameEngine engine)
         {
-            if(!(bool)Preferences.Instance["DisableAutoTargetting"])
+            if (!(bool)Preferences.Instance["DisableAutoTargetting"])
             {
                 switch (m_targettingType)
                 {

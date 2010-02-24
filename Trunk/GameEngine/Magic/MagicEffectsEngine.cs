@@ -196,11 +196,11 @@ namespace Magecrawl.GameEngine.Magic
                 case "ExplodingRangedPoint":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    const int burstWidth = 2;
+                    const int BurstWidth = 2;
                     
-                    ShowExplodingRangedPointAttack(invoker, invokingMethod, target, burstWidth);
+                    ShowExplodingRangedPointAttack(invoker, invokingMethod, target, BurstWidth);
 
-                    foreach (Point p in PointListUtils.PointListFromBurstPosition(target, burstWidth))
+                    foreach (Point p in PointListUtils.PointListFromBurstPosition(target, BurstWidth))
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)

@@ -72,7 +72,7 @@ namespace Magecrawl.GameUI.MapEffects
 
         private void DrawExploadingPointFrame(Console screen, uint frameNumber)
         {
-            if ((m_path.Count + (m_blast.Count*2) - 1) < frameNumber)
+            if ((m_path.Count + (m_blast.Count * 2) - 1) < frameNumber)
             {
                 FinishAnimation();
             }
@@ -92,7 +92,7 @@ namespace Magecrawl.GameUI.MapEffects
 
                     for (int i = 0; i <= explosionPosition; ++i)
                     {
-                        foreach (Point p in m_blast[i/2])
+                        foreach (Point p in m_blast[i / 2])
                         {
                             DrawPoint(screen, p, '*');
                         }
@@ -124,7 +124,7 @@ namespace Magecrawl.GameUI.MapEffects
             }
             else
             {
-                foreach(Point p in m_points)
+                foreach (Point p in m_points)
                 {
                     if (m_random.Chance(27))
                         DrawPoint(screen, p, '#');
@@ -177,7 +177,6 @@ namespace Magecrawl.GameUI.MapEffects
             m_done = false;
         }
 
-
         public void DrawExploadingPointBlast(EffectDone effectDoneDelegate, List<Point> path, List<List<Point>> blast, Color color)
         {
             m_type = EffectTypes.ExploadingPoint;
@@ -189,7 +188,6 @@ namespace Magecrawl.GameUI.MapEffects
             m_color = color;
             m_done = false;
         }
-
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {

@@ -46,7 +46,7 @@ namespace Magecrawl.GameUI.Map
                 if (m_haloDelegate != null)
                 {
                     List<Point> pointsToPaint = m_haloDelegate(m_cursorPosition);
-                    if(pointsToPaint != null)
+                    if (pointsToPaint != null)
                     {
                         foreach (Point p in pointsToPaint)
                         {

@@ -121,10 +121,10 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private bool WallsOnOneSetOfSides(Map map, MapDoor door)
         {
-            return ((map.GetTerrainAt(door.Position + new Point(1, 0)) == TerrainType.Wall &&
+            return (map.GetTerrainAt(door.Position + new Point(1, 0)) == TerrainType.Wall &&
                      map.GetTerrainAt(door.Position + new Point(-1, 0)) == TerrainType.Wall) ||
                      (map.GetTerrainAt(door.Position + new Point(0, 1)) == TerrainType.Wall &&
-                     map.GetTerrainAt(door.Position + new Point(0, -1)) == TerrainType.Wall));
+                     map.GetTerrainAt(door.Position + new Point(0, -1)) == TerrainType.Wall);
         }
 
         private MapChunk GetRandomChunkFromList(List<MapChunk> chunk)
