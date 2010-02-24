@@ -24,6 +24,7 @@ namespace Magecrawl.Keyboard
         private NamedKey m_alternateSelectionKey;
         private bool m_doNotResetHandler;
         private TargettingType m_targettingType;
+        private ICharacter m_lastTargetted;
 
         private Point SelectionPoint { get; set; }
 
@@ -32,6 +33,7 @@ namespace Magecrawl.Keyboard
             m_engine = engine;
             m_gameInstance = instance;
             m_targettingType = TargettingType.None;
+            m_lastTargetted = null;
         }
 
         public override void HandleKeystroke(NamedKey keystroke)
@@ -93,6 +95,10 @@ namespace Magecrawl.Keyboard
 
         private void Attack()
         {
+            ICharacter possiblyTargettedMonster = m_engine.Map.Monsters.Where(x => x.Position == SelectionPoint).FirstOrDefault();
+            if (m_targettingType == TargettingType.Monster && possiblyTargettedMonster != null)
+                m_lastTargetted = possiblyTargettedMonster;
+
             m_doNotResetHandler = m_selectionDelegate(SelectionPoint);
             Escape();
         }
@@ -167,10 +173,20 @@ namespace Magecrawl.Keyboard
                 {
                     case TargettingType.Monster:
                     {
+                        if (m_lastTargetted != null && m_lastTargetted.IsAlive && EffectivePoint.PositionInTargetablePoints(m_lastTargetted.Position, m_targetablePoints))
+                            return m_lastTargetted.Position;
+
+                        List<ICharacter> monstersInRange = new List<ICharacter>();
                         foreach (ICharacter m in engine.Map.Monsters)
                         {
                             if (EffectivePoint.PositionInTargetablePoints(m.Position, m_targetablePoints))
-                                return m.Position;
+                                monstersInRange.Add(m);
+                        }
+                        ICharacter lowestHPMonster = monstersInRange.OrderBy(x => x.CurrentHP / x.MaxHP).Reverse().FirstOrDefault();
+                        if (lowestHPMonster != null)
+                        {
+                            m_lastTargetted = lowestHPMonster;
+                            return lowestHPMonster.Position;
                         }
                         break;
                     }
