@@ -8,27 +8,32 @@ using Magecrawl.GameUI.Map.Requests;
 
 namespace Magecrawl.Keyboard.Debug
 {
-    internal class TextElement : INamedItem
+    internal class DebugDialogKeyboardHandler : BaseKeystrokeHandler
     {
-        private string m_name;
-
-        public TextElement(string name)
+        private class TextElement : INamedItem
         {
-            m_name = name;
-        }
+            private string m_name;
 
-        public string DisplayName
-        {
-            get 
+            public TextElement(string name)
             {
-                return m_name;
+                m_name = name;
+            }
+
+            public string DisplayName
+            {
+                get
+                {
+                    return m_name;
+                }
             }
         }
-    }
 
-    class DebugDialogKeyboardHandler : BaseKeystrokeHandler
-    {
-        enum OptionMode { Options, CreateItem, MapDebugging }
+        private enum OptionMode 
+        {
+            Options,
+            CreateItem, 
+            MapDebugging 
+        }
 
         private OptionMode m_option;
 
@@ -159,7 +164,7 @@ namespace Magecrawl.Keyboard.Debug
 
         private void Select()
         {
-            switch(m_option)
+            switch (m_option)
             {
                 case OptionMode.Options:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(OptionSelectedDelegate));

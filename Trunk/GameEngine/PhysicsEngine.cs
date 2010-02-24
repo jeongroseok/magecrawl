@@ -243,7 +243,7 @@ namespace Magecrawl.GameEngine
         internal List<Point> TargettedDrawablePoints(object targettingObject, Point target)
         {
             Spell asSpell = targettingObject as Spell;
-            if(asSpell != null)
+            if (asSpell != null)
                 return m_magicEffects.TargettedDrawablePoints(asSpell.Targeting, asSpell.Strength, target);
 
             ItemWithEffects asItem = targettingObject as ItemWithEffects;

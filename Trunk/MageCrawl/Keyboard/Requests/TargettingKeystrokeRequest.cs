@@ -9,7 +9,8 @@ namespace Magecrawl.Keyboard.Requests
     {
         public TargettingKeystrokeRequest(List<EffectivePoint> targetablePoints, OnTargetSelection selectionDelegate, NamedKey alternateSelectionKey, TargettingKeystrokeHandler.TargettingType targettingType)
             : this(targetablePoints, selectionDelegate, alternateSelectionKey, targettingType, null)
-        {}
+        {
+        }
 
         public TargettingKeystrokeRequest(List<EffectivePoint> targetablePoints, OnTargetSelection selectionDelegate, NamedKey alternateSelectionKey, TargettingKeystrokeHandler.TargettingType targettingType, PlayerTargettingHaloDelegate haloDelegate)
         {

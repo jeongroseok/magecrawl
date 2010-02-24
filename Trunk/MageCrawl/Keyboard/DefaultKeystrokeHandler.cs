@@ -141,7 +141,6 @@ namespace Magecrawl.Keyboard
             }
         }
 
-
         private void Wait()
         {
             m_playerActions.Wait();
