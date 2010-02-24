@@ -392,9 +392,13 @@ namespace Magecrawl.GameEngine
 
         public bool Operate(Character characterOperating, Point pointToOperateAt)
         {
+            // We can't operate if anyone is at that location.
+            if (m_combatEngine.FindTargetAtPosition(pointToOperateAt) != null)
+                return false;
+
             OperableMapObject operateObj = m_map.MapObjects.OfType<OperableMapObject>().SingleOrDefault(x => x.Position == pointToOperateAt);
             if (operateObj != null)
-            {
+            {                
                 operateObj.Operate(characterOperating);
                 m_timingEngine.ActorDidAction(characterOperating);
                 return true;
