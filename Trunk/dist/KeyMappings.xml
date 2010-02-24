@@ -4,9 +4,7 @@
   <KeyMapping Key="TCODK_PAGEDOWN" Action="TextBoxPageDown" />
   <KeyMapping Key="TCODK_BACKSPACE" Action="TextBoxClear" />
   <KeyMapping Key="TCODK_ESCAPE" Action="Escape" />
-  <KeyMapping Key="TCODK_F1" Action="DebugMoveableOnOff" />
-  <KeyMapping Key="TCODK_F2" Action="DebuggingFOVOnOff" />
-  <KeyMapping Key="TCODK_F3" Action="DebugFOVOnOff" />
+  <KeyMapping Key="~" Action="DebugMode" />
   <KeyMapping Key="TCODK_ENTER" Action="Select" />
 
   <KeyMapping Key="`" Action="SwapWeapon" />

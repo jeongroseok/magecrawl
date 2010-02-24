@@ -9,6 +9,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
         private List<INamedItem> m_data;
         private string m_title;
         private ListItemShouldBeEnabled m_selectionDelegate;
+        private bool m_useLetters;
 
         public ShowListSelectionWindow(bool enable)
         {
@@ -20,16 +21,17 @@ namespace Magecrawl.GameUI.ListSelection.Requests
                 throw new System.ArgumentException("ShowListSelectionWindow(bool show) must only be called if show is false");        
         }
 
-        public ShowListSelectionWindow(bool enable, List<INamedItem> data, string title)
-            : this(enable, data, title, i => { return true; })
+        public ShowListSelectionWindow(bool enable, List<INamedItem> data,  bool useLetters, string title)
+            : this(enable, data, useLetters, title, i => { return true; })
         {
         }
 
-        public ShowListSelectionWindow(bool enable, List<INamedItem> data, string title, ListItemShouldBeEnabled selectionDelegate)
+        public ShowListSelectionWindow(bool enable, List<INamedItem> data, bool useLetters, string title, ListItemShouldBeEnabled selectionDelegate)
         {
             m_show = enable;
             m_data = data;
             m_title = title;
+            m_useLetters = useLetters;
             m_selectionDelegate = selectionDelegate;
         }
 
@@ -39,7 +41,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
             if (l != null)
             {
                 if (m_show)
-                    l.Enable(m_data, m_title, m_selectionDelegate);
+                    l.Enable(m_data, m_title, m_useLetters, m_selectionDelegate);
                 else
                     l.Disable();
             }

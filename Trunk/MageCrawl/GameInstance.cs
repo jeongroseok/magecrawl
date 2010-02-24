@@ -10,6 +10,7 @@ using Magecrawl.GameUI;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
+using Magecrawl.Keyboard.Debug;
 using Magecrawl.Keyboard.Dialogs;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
@@ -275,6 +276,10 @@ namespace Magecrawl
             ItemOnGroundSelectionKeyboardHandler itemOnGroundHandler = new ItemOnGroundSelectionKeyboardHandler(m_engine, this);
             itemOnGroundHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("ItemOnGroundSelection", itemOnGroundHandler);
+
+            DebugDialogKeyboardHandler debugHandler = new DebugDialogKeyboardHandler(m_engine, this);
+            debugHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("DebugMode", debugHandler);
 
             if (BaseKeystrokeHandler.ErrorsParsingKeymapFiles != string.Empty)
             {

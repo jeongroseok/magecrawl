@@ -22,7 +22,7 @@ namespace Magecrawl.Keyboard.Inventory
             if (request != null && ((bool)request) == true)
                 m_gameInstance.SendPaintersRequest(new SaveListSelectionPosition());
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Items.OfType<INamedItem>().ToList(), "Inventory"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Items.OfType<INamedItem>().ToList(), true, "Inventory"));
             m_gameInstance.UpdatePainters();
         }
 
@@ -36,7 +36,7 @@ namespace Magecrawl.Keyboard.Inventory
             }
             else if (keystroke.Code == libtcodWrapper.KeyCode.TCODK_CHAR)
             {
-                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, new ListItemSelected(ItemSelectedDelegate)));
+                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, ItemSelectedDelegate));
             }
         }
 

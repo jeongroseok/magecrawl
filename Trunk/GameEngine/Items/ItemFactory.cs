@@ -45,6 +45,11 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
+        internal List<Item> GetAllDropableItemsListForDebug()
+        {
+            return m_itemMapping.Values.Where(x => !m_itemsNotToDrop.Contains(x)).ToList();
+        }
+
         private void LoadMappings()
         {
             // Save off previous culture and switch to invariant for serialization.
