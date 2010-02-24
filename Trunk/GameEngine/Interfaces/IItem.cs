@@ -11,6 +11,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        string ItemSchool
+        {
+            get;
+        }
+
         string FlavorDescription
         {
             get;

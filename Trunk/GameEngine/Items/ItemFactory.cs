@@ -121,11 +121,12 @@ namespace Magecrawl.GameEngine.Items
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
+                    string spellSchool = reader.GetAttribute("School");
 
                     if (potion)
-                        m_itemMapping.Add(name, new Potion(name, effectType, strength, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Potion(name, effectType, strength, spellSchool, itemDescription, flavorText));
                     else if (scroll)
-                        m_itemMapping.Add(name, new Scroll(name, effectType, strength, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Scroll(name, effectType, strength, spellSchool, itemDescription, flavorText));
                     else if (supplies)
                         m_itemMapping.Add(name, new Supplies(name, effectType, strength, itemDescription, flavorText));
                     else
@@ -142,11 +143,12 @@ namespace Magecrawl.GameEngine.Items
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
+                    string spellSchool = reader.GetAttribute("School");
 
                     DiceRoll startingCharges = new DiceRoll(reader.GetAttribute("StartCharges"));
                     int maxNumberCharges = int.Parse(reader.GetAttribute("MaxCharges"));
 
-                    m_itemMapping.Add(name, new Wand(name, effectType, strength, itemDescription, flavorText, maxNumberCharges, startingCharges));
+                    m_itemMapping.Add(name, new Wand(name, effectType, strength, spellSchool, itemDescription, flavorText, maxNumberCharges, startingCharges));
 
                     CheckForNotDropList(reader, name);
                 }
