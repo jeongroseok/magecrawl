@@ -64,5 +64,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        bool IsAlive
+        {
+            get;
+        }
     }
 }

@@ -32,6 +32,14 @@ namespace Magecrawl.GameEngine.Actors
 
         public double CTCostModifierToAct { get; internal set; }
 
+        public bool IsAlive
+        {
+            get
+            {
+                return CurrentHP > 0;
+            }
+        }
+
         private WeaponBase m_equipedWeapon;
         public IWeapon CurrentWeapon
         {
