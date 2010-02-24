@@ -31,7 +31,8 @@ namespace Magecrawl.Keyboard.Debug
         private enum OptionMode 
         {
             Options,
-            CreateItem, 
+            CreateItem,
+            CreateMonster,
             MapDebugging 
         }
 
@@ -53,7 +54,7 @@ namespace Magecrawl.Keyboard.Debug
         private void SetDebugMenu()
         {
             m_option = OptionMode.Options;
-            List<INamedItem> itemList = new List<INamedItem>() { new TextElement("Create Item"), new TextElement("Map Debug Settings"), new TextElement("Exit") };
+            List<INamedItem> itemList = new List<INamedItem>() { new TextElement("Create Item"), new TextElement("Create Monster"), new TextElement("Map Debug Settings"), new TextElement("Exit") };
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemList, false, "Debug Options"));
         }
 
@@ -61,6 +62,12 @@ namespace Magecrawl.Keyboard.Debug
         {
             m_option = OptionMode.CreateItem;
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.DebugRequest("GetAllItemList", null), false, "Item To Spawn"));
+        }
+
+        private void SetMonsterMenu()
+        {
+            m_option = OptionMode.CreateMonster;
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.DebugRequest("GetAllMonsterList", null), false, "Item To Spawn"));
         }
 
         private void CreateMapDebugSettings()
@@ -84,6 +91,12 @@ namespace Magecrawl.Keyboard.Debug
                     m_gameInstance.UpdatePainters();
                     return;
                 }
+                case "Create Monster":
+                {
+                    SetMonsterMenu();
+                    m_gameInstance.UpdatePainters();
+                    return;
+                }
                 case "Map Debug Settings":
                 {
                     CreateMapDebugSettings();
@@ -104,6 +117,15 @@ namespace Magecrawl.Keyboard.Debug
             if (item == null)
                 return;
             m_engine.DebugRequest("SpawnItem", item.DisplayName);
+            m_option = OptionMode.Options;
+            Escape();
+        }
+
+        private void CreateMonsterSelectedDelegate(INamedItem item)
+        {
+            if (item == null)
+                return;
+            m_engine.DebugRequest("SpawnMonster", item.DisplayName);
             m_option = OptionMode.Options;
             Escape();
         }
@@ -174,6 +196,9 @@ namespace Magecrawl.Keyboard.Debug
                     return;
                 case OptionMode.MapDebugging:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(MapDebuggingSelectedDelegate));
+                    return;
+                case OptionMode.CreateMonster:
+                    m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateMonsterSelectedDelegate));
                     return;
             }            
         }

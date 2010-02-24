@@ -371,6 +371,31 @@ namespace Magecrawl.GameEngine
                 case "SpawnItem":
                     m_engine.Map.AddItem(new Pair<Item, Point>(m_engine.ItemFactory.CreateItem((string)argument), m_engine.Player.Position));
                     return null;
+                case "GetAllMonsterList":
+                    return m_engine.MonsterFactory.GetAllMonsterListForDebug().OfType<INamedItem>().ToList();
+                case "SpawnMonster":
+                {
+                    Point playerPos = m_engine.Player.Position;
+                    for (int i = -1; i <= 1; ++i)
+                    {
+                        for (int j = -1; j <= 1; ++j)
+                        {
+                            if (i == 0 && j == 0)
+                                continue;
+                            Point newPosition = playerPos + new Point(i, j);
+                            if (m_engine.Map.IsPointOnMap(newPosition))
+                            {
+                                if (m_engine.PathToPoint(m_engine.Player, newPosition, false, true, false) != null && 
+                                    m_engine.Map.Monsters.Where(m => m.Position == newPosition).Count() == 0)
+                                {
+                                    m_engine.Map.AddMonster(m_engine.MonsterFactory.CreateMonster((string)argument, newPosition));
+                                    return null;
+                                }
+                            }
+                        }
+                    }
+                    return null;
+                }
                 default:
                     return null;
             }

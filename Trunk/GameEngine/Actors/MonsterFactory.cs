@@ -44,6 +44,11 @@ namespace Magecrawl.GameEngine.Actors
             return CreateMonster(monsterName, p); 
         }
 
+        internal List<Monster> GetAllMonsterListForDebug()
+        {
+            return m_monsterMapping.Values.ToList();
+        }
+
         private void LoadMappings()
         {
             // Save off previous culture and switch to invariant for serialization.
