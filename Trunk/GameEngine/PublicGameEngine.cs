@@ -358,5 +358,22 @@ namespace Magecrawl.GameEngine
                 descriptionList.Add(m_engine.Map.GetTerrainAt(p).ToString());
             return descriptionList;
         }
+
+        // This is a catch all debug request interface, used for debug menus.
+        // While I could provide a nice interface typesafe and all for all requests,
+        // this is easier to do. What was that about the cobbler's children again?
+        public object DebugRequest(string request, object argument)
+        {
+            switch (request)
+            {
+                case "GetAllItemList":
+                    return m_engine.ItemFactory.GetAllDropableItemsListForDebug().OfType<INamedItem>().ToList();
+                case "SpawnItem":
+                    m_engine.Map.AddItem(new Pair<Item, Point>(m_engine.ItemFactory.CreateItem((string)argument), m_engine.Player.Position));
+                    return null;
+                default:
+                    return null;
+            }
+        }
     }
 }

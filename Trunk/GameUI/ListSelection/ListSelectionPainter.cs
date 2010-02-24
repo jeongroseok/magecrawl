@@ -87,7 +87,7 @@ namespace Magecrawl.GameUI.ListSelection
                         if (m_useCharactersNextToItems)
                             printString = string.Format("{0} - {1}", currentLetter, displayString);
                         else
-                            printString = "  " + displayString;
+                            printString = " - " + displayString;
                         screen.PrintLine(printString, InventoryWindowOffset + 1, InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Left);
                     }
 
@@ -122,7 +122,7 @@ namespace Magecrawl.GameUI.ListSelection
             }
         }
 
-        internal void Enable(List<INamedItem> data, string title, ListItemShouldBeEnabled shouldBeSelectedDelegate)
+        internal void Enable(List<INamedItem> data, string title, bool useLetters, ListItemShouldBeEnabled shouldBeSelectedDelegate)
         {
             if (!m_shouldNotResetCursorPosition)
             {
@@ -134,6 +134,9 @@ namespace Magecrawl.GameUI.ListSelection
             {
                 m_shouldNotResetCursorPosition = false;
             }
+            
+            // This gets set before UpdateFromNewData in case we say we want letters but have too many items
+            m_useCharactersNextToItems = useLetters;
 
             UpdateFromNewData(data);
             m_shouldBeSelectedDelegate = shouldBeSelectedDelegate;
@@ -167,8 +170,6 @@ namespace Magecrawl.GameUI.ListSelection
             // If we're going to run out of letters, don't show em.
             if (m_itemList.Count > 26 * 2)
                 m_useCharactersNextToItems = false;
-            else
-                m_useCharactersNextToItems = true;
         }
 
         private List<char> GetListOfLettersUsed()

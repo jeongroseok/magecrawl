@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\PlayerWonExceptoin.cs" />
     <Compile Include="AutoTraveler.cs" />
+    <Compile Include="Keyboard\Debug\DebugDialogKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\OneButtonDialogKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\HelpKeyboardHandler.cs" />
     <Compile Include="Keyboard\Inventory\ItemOnGroundSelectionKeyboardHandler.cs" />

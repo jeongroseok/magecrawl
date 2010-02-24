@@ -21,7 +21,7 @@ namespace Magecrawl.Keyboard.Inventory
         {
             List<INamedItem> itemsAtLocation = (List<INamedItem>)request;
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemsAtLocation, "Items On Ground"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemsAtLocation, true, "Items On Ground"));
             m_gameInstance.UpdatePainters();
         }
 

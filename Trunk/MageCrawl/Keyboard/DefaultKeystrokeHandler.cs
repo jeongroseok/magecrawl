@@ -132,32 +132,15 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("SaveGame");
         }
 
-        private void DebugMoveableOnOff()
+        private void DebugMode()
         {
             if (Preferences.Instance.DebuggingMode)
             {
-                m_gameInstance.SendPaintersRequest(new ToggleDebuggingMoveable(m_engine));
+                m_gameInstance.SetHandlerName("DebugMode");
                 m_gameInstance.UpdatePainters();
             }
         }
 
-        private void DebuggingFOVOnOff()
-        {
-            if (Preferences.Instance.DebuggingMode)
-            {
-                m_gameInstance.SendPaintersRequest(new ToggleDebuggingFOV(m_engine));
-                m_gameInstance.UpdatePainters();
-            }
-        }
-
-        private void DebugFOVOnOff()
-        {
-            if (Preferences.Instance.DebuggingMode)
-            {
-                m_gameInstance.SendPaintersRequest(new SwapFOVEnabledStatus());
-                m_gameInstance.UpdatePainters();
-            }
-        }
 
         private void Wait()
         {

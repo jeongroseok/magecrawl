@@ -106,5 +106,6 @@ namespace Magecrawl.GameEngine.Interfaces
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();
         Dictionary<ICharacter, List<Point>> CellsInAllMonstersFOV();
+        object DebugRequest(string request, object argument);
     }
 }
