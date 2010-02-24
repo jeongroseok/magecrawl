@@ -155,7 +155,9 @@ namespace Magecrawl
             
             Color colorOfBolt = ColorPresets.White;
             if (attackingMethod is ISpell)
-                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool((ISpell)attackingMethod);
+                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(((ISpell)attackingMethod).School);
+            else if (attackingMethod is IItem)
+                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(((IItem)attackingMethod).ItemSchool);
 
             if (type == ShowRangedAttackType.RangedBoltOrBlast)
             {

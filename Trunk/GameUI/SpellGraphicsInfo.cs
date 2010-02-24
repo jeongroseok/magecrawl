@@ -36,9 +36,9 @@ namespace Magecrawl.GameUI
             return 1;
         }
 
-        public static Color GetColorOfSpellFromSchool(ISpell spell)
+        public static Color GetColorOfSpellFromSchool(string schoolName)
         {
-            switch (spell.School)
+            switch (schoolName)
             {
                 case "Light":
                     return ColorPresets.Wheat;

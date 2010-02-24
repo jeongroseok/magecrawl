@@ -6,12 +6,13 @@ namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Wand : ItemWithEffects, IWand
     {
-        internal Wand(string name, string effectType, int strength, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
+        internal Wand(string name, string effectType, int strength, string spellSchool, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
             : base(name, effectType, strength, itemDescription, flavorText)
         {
             NewWandPossibleCharges = newWandPossibleCharges;
             Charges = 0;
             MaxCharges = maxCharges;
+            ItemSchool = spellSchool;
         }
 
         public override object Clone()
