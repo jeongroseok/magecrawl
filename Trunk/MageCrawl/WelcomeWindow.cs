@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using libtcodWrapper;
 
 namespace Magecrawl
@@ -38,16 +38,15 @@ namespace Magecrawl
         private MagicTypes m_currentElementPointedTo;
         private Result m_windowResult;
         private List<string> m_fileNameList;
-        private string m_fileInput = "";
+        private string m_fileInput = string.Empty;
         private bool m_loopFinished;
 
-        private const int lengthOfEachElement = 180;
-        private const int numberOfSaveFilesToList = 15;
-        private const int textEntryLength = 15;
+        private const int LengthOfEachElement = 180;
+        private const int NumberOfSaveFilesToList = 15;
+        private const int TextEntryLength = 15;
 
-        //What "frame" are we on (draw request).
-        //We only move the element select each lengthOfEachElement
-        //And we also scan the hard drive for save file updates each time.
+        // What "frame" are we on (draw request).
+        // We only move the element select each LengthOfEachElement
         private int m_frame = 0;
 
         public WelcomeWindow()
@@ -56,7 +55,7 @@ namespace Magecrawl
             m_random = new TCODRandom();
             m_windowResult = new Result();
 
-            m_currentElementPointedTo = (MagicTypes)m_random.GetRandomInt(0, 6);    //Pick a random element to start on.
+            m_currentElementPointedTo = (MagicTypes)m_random.GetRandomInt(0, 6);    // Pick a random element to start on.
 
             m_flavorText = new Dictionary<MagicTypes, string>();
             m_flavorText[MagicTypes.Fire] = "Ignis: Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
@@ -108,7 +107,7 @@ namespace Magecrawl
 
         private void PassNewFrame()
         {
-            if (m_frame > lengthOfEachElement)
+            if (m_frame > LengthOfEachElement)
             {
                 IncrementElementPointedTo();
                 m_frame = 0;
@@ -117,36 +116,18 @@ namespace Magecrawl
             {
                 m_frame++;
             }
-        }
-        
-        private void DrawFileEntry()
-        {
-            if (m_menuItemPointedTo == SelectedOption.NewGame)
-            {
-                int fileEntryOffset = 22;
-                m_console.PrintLine("Enter Name", 3, fileEntryOffset, LineAlignment.Left);
-                m_console.DrawFrame(2, fileEntryOffset+1, textEntryLength + 2, 3, true);
-                m_console.PrintLineRect(m_fileInput, 4, fileEntryOffset+2, textEntryLength - 2, 1, LineAlignment.Left);
-
-                if (libtcodWrapper.TCODSystem.ElapsedMilliseconds % 1500 < 700)
-                    m_console.SetCharBackground(4 + m_fileInput.Length, fileEntryOffset+2, libtcodWrapper.TCODColorPresets.Gray);
-            }
-            else
-            {
-                m_fileInput = "";
-            }
-        }
+        }       
 
         private void HandleKeystroke()
         {
             KeyPress k = libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed);
             if (IsKeyCodeOfCharacter(k))
             {
-                HandleCharacterInTextbox(ref m_fileInput, textEntryLength - 2, k);
+                HandleCharacterInTextbox(ref m_fileInput, TextEntryLength - 2, k);
             }
             else
             {
-                switch(k.KeyCode)
+                switch (k.KeyCode)
                 {
                     case KeyCode.TCODK_BACKSPACE:
                         HandleBackspaceInTextbox(ref m_fileInput);
@@ -162,11 +143,11 @@ namespace Magecrawl
                     case KeyCode.TCODK_ENTER:
                     case KeyCode.TCODK_KPENTER:
                     {
-                        switch(m_menuItemPointedTo)
+                        switch (m_menuItemPointedTo)
                         {
                             case SelectedOption.NewGame:
                             {
-                                if(!DoesSaveFileExist())
+                                if (!DoesSaveFileExist())
                                 {
                                     m_windowResult.Choice = SelectedOption.NewGame;
                                     m_windowResult.CharacterName = m_fileInput;
@@ -176,7 +157,7 @@ namespace Magecrawl
                             }
                             case SelectedOption.Load:
                             {
-                                if(DoesSaveFileExist())
+                                if (DoesSaveFileExist())
                                 {
                                     m_windowResult.Choice = SelectedOption.Load;
                                     m_windowResult.CharacterName = m_fileInput;
@@ -194,6 +175,24 @@ namespace Magecrawl
                         break;
                     }
                 }
+            }
+        }
+
+        private void DrawFileEntry()
+        {
+            if (m_menuItemPointedTo == SelectedOption.NewGame)
+            {
+                int fileEntryOffset = 22;
+                m_console.PrintLine("Enter Name", 3, fileEntryOffset, LineAlignment.Left);
+                m_console.DrawFrame(2, fileEntryOffset + 1, TextEntryLength + 2, 3, true);
+                m_console.PrintLineRect(m_fileInput, 4, fileEntryOffset + 2, TextEntryLength - 2, 1, LineAlignment.Left);
+
+                if (libtcodWrapper.TCODSystem.ElapsedMilliseconds % 1500 < 700)
+                    m_console.SetCharBackground(4 + m_fileInput.Length, fileEntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
+            }
+            else
+            {
+                m_fileInput = string.Empty;
             }
         }
 
