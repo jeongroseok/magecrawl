@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using libtcodWrapper;
 using Magecrawl.GameEngine.Actors;
@@ -131,7 +132,8 @@ namespace Magecrawl.GameEngine
 
         public void LoadSaveFile(string saveGameName)
         {
-            m_saveLoad.LoadGame(saveGameName);
+            string saveGameDirectory = GetSaveDirectoryCreateIfNotExist();
+            m_saveLoad.LoadGame(Path.Combine(saveGameDirectory, saveGameName));
 
             CommonStartupAfterMapPlayer();
             SendTextOutput("Welcome Back To Magecrawl");
@@ -227,7 +229,17 @@ namespace Magecrawl.GameEngine
         internal void Save()
         {
             SendTextOutput("Saving Game.");
-            m_saveLoad.SaveGame(m_player.Name + ".sav");
+            string saveGameDirectory = GetSaveDirectoryCreateIfNotExist();
+
+            m_saveLoad.SaveGame(Path.Combine(saveGameDirectory, m_player.Name) + ".sav");
+        }
+
+        private static string GetSaveDirectoryCreateIfNotExist()
+        {
+            string saveGameDirectory = Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Saves");
+            if (!Directory.Exists(saveGameDirectory))
+                Directory.CreateDirectory(saveGameDirectory);
+            return saveGameDirectory;
         }
 
         internal bool Move(Character c, Direction direction)

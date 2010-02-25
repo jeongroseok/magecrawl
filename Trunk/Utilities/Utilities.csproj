@@ -47,6 +47,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="AssemblyDirectory.cs" />
     <Compile Include="ColorGenerator.cs" />
     <Compile Include="DiceRoll.cs" />
     <Compile Include="Direction.cs" />
