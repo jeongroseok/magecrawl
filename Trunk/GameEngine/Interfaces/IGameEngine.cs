@@ -42,7 +42,7 @@ namespace Magecrawl.GameEngine.Interfaces
 
     public interface IGameEngine : IDisposable
     {
-        void CreateNewWorld();        
+        void CreateNewWorld(string playerName);        
         void LoadSaveFile(string saveGameName);
 
         event TextOutputFromGame TextOutputEvent;

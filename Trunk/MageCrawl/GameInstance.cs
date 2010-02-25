@@ -37,7 +37,7 @@ namespace Magecrawl
 
         internal GameInstance()
         {
-            m_console = UIHelper.SetupUI();
+            m_console = RootConsole.GetInstance();
             using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
             {
                 m_engine = new PublicGameEngine();
@@ -60,13 +60,16 @@ namespace Magecrawl
             m_painters = null;
         }
         
-        internal void Go()
+        internal void Go(string playerName, bool loadFromFile)
         {
             SetupEngineOutputDelegate();
 
-            string saveFilePath = Preferences.Instance["PlayerName"] + ".sav";
-            if (System.IO.File.Exists(saveFilePath))
+            if (loadFromFile)
             {
+                string saveFilePath = playerName + ".sav";
+                if (!System.IO.File.Exists(saveFilePath))
+                    throw new InvalidOperationException("Tried to load savegame menu requested but not found: " + saveFilePath);
+                
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
                 {
                     m_engine.LoadSaveFile(saveFilePath);
@@ -79,7 +82,7 @@ namespace Magecrawl
             {
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
                 {
-                    m_engine.CreateNewWorld();
+                    m_engine.CreateNewWorld(playerName);
                 }
 
                 SetupKeyboardHandlers();  // Requires game engine.

@@ -74,7 +74,6 @@ namespace Magecrawl.Utilities
             m_preferences["UseSavegameCompression"] = true;
             m_preferences["PermaDeath"] = true;
             m_preferences["Fullscreen"] = false;
-            m_preferences["PlayerName"] = "PlayerName";
             m_preferences["SinglePressOperate"] = false;
             m_preferences["FloorColorVisible"] = Color.FromRGB(42, 42, 42);
             m_preferences["FloorColorNotVisible"] = Color.FromRGB(15, 15, 15);
@@ -130,7 +129,6 @@ namespace Magecrawl.Utilities
                     case "WallColorNotVisible":
                         ReadColorData(reader, reader.LocalName);
                         break;
-                    case "PlayerName":
                     case "Keymapping":
                     case "CustomKeymappingFilename":
                         ReadStringData(reader, reader.LocalName);

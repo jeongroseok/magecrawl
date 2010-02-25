@@ -73,7 +73,7 @@ namespace Magecrawl.GameEngine
             StairsMapping.Setup();
         }
 
-        public void CreateNewWorld()
+        public void CreateNewWorld(string playerName)
         {
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
@@ -119,7 +119,7 @@ namespace Magecrawl.GameEngine
             }
 
             Point initialStairsUpPosition = m_dungeon[0].MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().First().Position;
-            m_player = new Player(initialStairsUpPosition);
+            m_player = new Player(playerName, initialStairsUpPosition);
 
             TurnCount = 0;
 
