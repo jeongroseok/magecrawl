@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using libtcodWrapper;
+using Magecrawl.GameUI;
 
 namespace Magecrawl
 {
@@ -30,6 +31,12 @@ namespace Magecrawl
             Arcane
         }
 
+        private const int LengthOfEachElement = 180;
+        private const int NumberOfSaveFilesToList = 15;
+        private const int TextEntryLength = 15;
+        private const int EntryOffset = 22;
+
+        private DialogColorHelper m_dialogHelper;
         private RootConsole m_console;
         private TCODRandom m_random;
         private Dictionary<MagicTypes, string> m_flavorText;
@@ -40,17 +47,14 @@ namespace Magecrawl
         private List<string> m_fileNameList;
         private string m_fileInput = string.Empty;
         private bool m_loopFinished;
-
-        private const int LengthOfEachElement = 180;
-        private const int NumberOfSaveFilesToList = 15;
-        private const int TextEntryLength = 15;
-
+        
         // What "frame" are we on (draw request).
         // We only move the element select each LengthOfEachElement
         private int m_frame = 0;
 
         public WelcomeWindow()
         {
+            m_dialogHelper = new DialogColorHelper();
             m_console = libtcodWrapper.RootConsole.GetInstance();
             m_random = new TCODRandom();
             m_windowResult = new Result();
@@ -66,6 +70,8 @@ namespace Magecrawl
             m_flavorText[MagicTypes.Darkness] = "Anosios: Drawn from a pure lust for power. A mockery of Agios, capable of producing much pain, summoning unholy aid, and raising the dead to serve.";
             m_flavorText[MagicTypes.Arcane] = "Apokryfos: Magic born from the fabric of reality. Infinitely flexible and neutral to all other school of magic.";
 
+            GetListOfSaveFiles();
+
             m_menuItemList = new List<string>() { "New Game", "Load Game", "Quit" };
             m_menuItemPointedTo = SelectedOption.NewGame;
         }
@@ -80,7 +86,7 @@ namespace Magecrawl
         public Result Run()
         {
             m_loopFinished = false;
-            m_console.ForegroundColor = ColorPresets.WhiteSmoke;
+            m_console.ForegroundColor = UIHelper.ForegroundColor;
             m_console.BackgroundColor = ColorPresets.Black;
 
             do
@@ -94,7 +100,7 @@ namespace Magecrawl
                 m_console.PrintLine("Tech Demo III", RootConsole.Width / 2, 3, LineAlignment.Center);
 
                 DrawMenu();
-
+                DrawLoadFilesMenu();
                 DrawFileEntry();
 
                 m_console.Flush();
@@ -104,7 +110,7 @@ namespace Magecrawl
             while (!m_loopFinished && !m_console.IsWindowClosed());
             return m_windowResult;
         }
-
+        
         private void PassNewFrame()
         {
             if (m_frame > LengthOfEachElement)
@@ -135,10 +141,12 @@ namespace Magecrawl
                     case KeyCode.TCODK_UP:
                         if (m_menuItemPointedTo > 0)
                             m_menuItemPointedTo--;
+                        m_fileInput = string.Empty;
                         break;
                     case KeyCode.TCODK_DOWN:
                         if ((int)m_menuItemPointedTo < m_menuItemList.Count - 1)
                             m_menuItemPointedTo++;
+                        m_fileInput = string.Empty;
                         break;
                     case KeyCode.TCODK_ENTER:
                     case KeyCode.TCODK_KPENTER:
@@ -147,7 +155,7 @@ namespace Magecrawl
                         {
                             case SelectedOption.NewGame:
                             {
-                                if (!DoesSaveFileExist())
+                                if (m_fileInput.Length != 0 && !DoesInputNameSaveFileExist())
                                 {
                                     m_windowResult.Choice = SelectedOption.NewGame;
                                     m_windowResult.CharacterName = m_fileInput;
@@ -157,12 +165,6 @@ namespace Magecrawl
                             }
                             case SelectedOption.Load:
                             {
-                                if (DoesSaveFileExist())
-                                {
-                                    m_windowResult.Choice = SelectedOption.Load;
-                                    m_windowResult.CharacterName = m_fileInput;
-                                    m_loopFinished = true;
-                                }
                                 break;
                             }
                             case SelectedOption.Quit:
@@ -178,21 +180,25 @@ namespace Magecrawl
             }
         }
 
+        private void DrawLoadFilesMenu()
+        {
+            if (m_menuItemPointedTo == SelectedOption.Load && SaveFilesExist())
+            {
+                m_console.PrintLine("Save Files", 3, EntryOffset, LineAlignment.Left);
+                //m_console.DrawFrame(2, EntryOffset + 1, TextEntryLength + 2, 3, true);
+            }
+        }
+
         private void DrawFileEntry()
         {
             if (m_menuItemPointedTo == SelectedOption.NewGame)
             {
-                int fileEntryOffset = 22;
-                m_console.PrintLine("Enter Name", 3, fileEntryOffset, LineAlignment.Left);
-                m_console.DrawFrame(2, fileEntryOffset + 1, TextEntryLength + 2, 3, true);
-                m_console.PrintLineRect(m_fileInput, 4, fileEntryOffset + 2, TextEntryLength - 2, 1, LineAlignment.Left);
+                m_console.PrintLine("Enter Name", 3, EntryOffset, LineAlignment.Left);
+                m_console.DrawFrame(2, EntryOffset + 1, TextEntryLength + 2, 3, true);
+                m_console.PrintLineRect(m_fileInput, 4, EntryOffset + 2, TextEntryLength - 2, 1, LineAlignment.Left);
 
                 if (libtcodWrapper.TCODSystem.ElapsedMilliseconds % 1500 < 700)
-                    m_console.SetCharBackground(4 + m_fileInput.Length, fileEntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
-            }
-            else
-            {
-                m_fileInput = string.Empty;
+                    m_console.SetCharBackground(4 + m_fileInput.Length, EntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
             }
         }
 
@@ -200,25 +206,17 @@ namespace Magecrawl
         {
             const int MenuUpperX = 4;
             const int MenuUpperY = 14;
-            m_console.ForegroundColor = ColorPresets.WhiteSmoke;
+            
+            m_dialogHelper.SaveColors(m_console);
+
             m_console.DrawFrame(MenuUpperX - 2, MenuUpperY - 2, 17, (m_menuItemList.Count * 2) + 3, true);
             for (int i = 0; i < m_menuItemList.Count; i++)
             {
-                if (i == (int)m_menuItemPointedTo)
-                {
-                    m_console.ForegroundColor = ColorPresets.WhiteSmoke;
-                    m_console.BackgroundColor = ColorPresets.Blue;
-                }
-                else
-                {
-                    m_console.ForegroundColor = ColorPresets.Gray;
-                    m_console.BackgroundColor = ColorPresets.Black;
-                }
-
+                bool isEnabled = i == (int)SelectedOption.Load ? SaveFilesExist() : true;
+                m_dialogHelper.SetColors(m_console, i == (int)m_menuItemPointedTo, isEnabled);
                 m_console.PrintLine(m_menuItemList[i], MenuUpperX, MenuUpperY + (i * 2), Background.Set, LineAlignment.Left);
             }
-            m_console.ForegroundColor = ColorPresets.WhiteSmoke;
-            m_console.BackgroundColor = ColorPresets.Black;
+            m_dialogHelper.ResetColors(m_console);
         }
 
         private void IncrementElementPointedTo()
@@ -228,20 +226,22 @@ namespace Magecrawl
                 m_currentElementPointedTo = MagicTypes.Fire;
         }
 
-        public bool DoesSaveFileExist()
+        private bool SaveFilesExist()
         {
-            if (m_fileInput.Length == 0)
-                return false;
+            return m_fileNameList.Count > 0;
+        }
+
+        public bool DoesInputNameSaveFileExist()
+        {
             return File.Exists(m_fileInput + ".sav");
         }
 
-        public static List<string> GetListOfSaveFiles()
+        public void GetListOfSaveFiles()
         {
+            m_fileNameList = new List<string>();
             string[] fullPathList = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.sav");
-            List<string> nameList = new List<string>();
             foreach (string s in fullPathList)
-                nameList.Add(Path.GetFileNameWithoutExtension(s));
-            return nameList;
+                m_fileNameList.Add(Path.GetFileNameWithoutExtension(s));
         }
 
         private static bool IsKeyCodeOfCharacter(KeyPress k)

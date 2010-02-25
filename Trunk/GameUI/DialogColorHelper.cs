@@ -3,13 +3,13 @@ using libtcodWrapper;
 
 namespace Magecrawl.GameUI
 {
-    internal sealed class DialogColorHelper
+    public sealed class DialogColorHelper
     {
         private Color m_savedForeground;
         private Color m_savedBackground;
         private bool m_stuffSaved;
 
-        internal DialogColorHelper()
+        public DialogColorHelper()
         {
             m_stuffSaved = false;
         }
