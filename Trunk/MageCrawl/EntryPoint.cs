@@ -17,12 +17,12 @@ namespace Magecrawl
                     result = welcomeWindow.Run();
                 }
 
-                if (result.Choice == WelcomeWindow.SelectedOption.Quit || libtcodWrapper.RootConsole.GetInstance().IsWindowClosed())
+                if (result.Quitting || libtcodWrapper.RootConsole.GetInstance().IsWindowClosed())
                     return;
 
                 using (GameInstance inst = new GameInstance())
                 {
-                    inst.Go(result.CharacterName, result.Choice == WelcomeWindow.SelectedOption.Load);
+                    inst.Go(result.CharacterName, result.LoadCharacter);
                 }
             }
             catch (System.Exception e)

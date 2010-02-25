@@ -8,16 +8,10 @@ namespace Magecrawl
 {
     internal class WelcomeWindow : System.IDisposable
     {
-        public enum SelectedOption
-        {
-            NewGame = 0,
-            Load = 1,
-            Quit = 2
-        }
-
         public struct Result
         {
-            public SelectedOption Choice;
+            public bool Quitting;
+            public bool LoadCharacter;
             public string CharacterName;
         }
 
@@ -32,22 +26,27 @@ namespace Magecrawl
             Arcane
         }
 
+        private const int ScrollAmount = 3;
         private const int LengthOfEachElement = 180;
-        private const int NumberOfSaveFilesToList = 15;
-        private const int TextEntryLength = 15;
-        private const int EntryOffset = 22;
+        private const int TextEntryLength = 20;
+        private const int EntryOffset = 36;
+        private const int LoadFileListOffset = 40;
+        private const int NumberOfSaveFilesToList = UIHelper.ScreenHeight - LoadFileListOffset - 5;
 
         private DialogColorHelper m_dialogHelper;
         private RootConsole m_console;
         private TCODRandom m_random;
         private Dictionary<MagicTypes, string> m_flavorText;
-        private List<string> m_menuItemList;
-        private SelectedOption m_menuItemPointedTo;
         private MagicTypes m_currentElementPointedTo;
         private Result m_windowResult;
         private List<string> m_fileNameList;
         private string m_fileInput = string.Empty;
         private bool m_loopFinished;
+
+        private int m_lowerRange;                       // If we're scrolling, the loweset number item to show
+        private int m_higherRange;                      // Last item to show
+        private bool m_isScrollingNeeded;               // Do we need to scroll at all?
+        private int m_cursorPosition;                   // What item is the cursor on, -1 is the text box
         
         // What "frame" are we on (draw request).
         // We only move the element select each LengthOfEachElement
@@ -72,9 +71,9 @@ namespace Magecrawl
             m_flavorText[MagicTypes.Arcane] = "Apokryfos: Magic born from the fabric of reality. Infinitely flexible and neutral to all other school of magic.";
 
             GetListOfSaveFiles();
-
-            m_menuItemList = new List<string>() { "New Game", "Load Game", "Quit" };
-            m_menuItemPointedTo = SelectedOption.NewGame;
+            m_lowerRange = 0;
+            m_cursorPosition = -1;
+            m_isScrollingNeeded = m_fileNameList.Count > NumberOfSaveFilesToList;
         }
 
         public void Dispose()
@@ -100,7 +99,6 @@ namespace Magecrawl
                 m_console.PrintLine("Welcome To Magecrawl", RootConsole.Width / 2, 1, LineAlignment.Center);
                 m_console.PrintLine("Tech Demo III", RootConsole.Width / 2, 3, LineAlignment.Center);
 
-                DrawMenu();
                 DrawLoadFilesMenu();
                 DrawFileEntry();
 
@@ -130,50 +128,44 @@ namespace Magecrawl
             KeyPress k = libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed);
             if (IsKeyCodeOfCharacter(k))
             {
-                HandleCharacterInTextbox(ref m_fileInput, TextEntryLength - 2, k);
+                HandleCharacterInTextbox(k);
             }
             else
             {
                 switch (k.KeyCode)
                 {
                     case KeyCode.TCODK_BACKSPACE:
-                        HandleBackspaceInTextbox(ref m_fileInput);
+                        HandleBackspaceInTextbox();
+                        break;
+                    case KeyCode.TCODK_ESCAPE:
+                        m_windowResult.Quitting = true;
+                        m_loopFinished = true;
                         break;
                     case KeyCode.TCODK_UP:
-                        if (m_menuItemPointedTo > 0)
-                            m_menuItemPointedTo--;
-                        m_fileInput = string.Empty;
+                        MoveInventorySelection(true);
                         break;
                     case KeyCode.TCODK_DOWN:
-                        if ((int)m_menuItemPointedTo < m_menuItemList.Count - 1)
-                            m_menuItemPointedTo++;
-                        m_fileInput = string.Empty;
+                        MoveInventorySelection(false);
                         break;
                     case KeyCode.TCODK_ENTER:
                     case KeyCode.TCODK_KPENTER:
                     {
-                        switch (m_menuItemPointedTo)
+                        if (m_cursorPosition == -1)
                         {
-                            case SelectedOption.NewGame:
+                            if (m_fileInput.Length > 0)
                             {
-                                if (m_fileInput.Length != 0 && !DoesInputNameSaveFileExist())
-                                {
-                                    m_windowResult.Choice = SelectedOption.NewGame;
-                                    m_windowResult.CharacterName = m_fileInput;
-                                    m_loopFinished = true;
-                                }
-                                break;
-                            }
-                            case SelectedOption.Load:
-                            {
-                                break;
-                            }
-                            case SelectedOption.Quit:
-                            {
-                                m_windowResult.Choice = SelectedOption.Quit;
+                                m_windowResult.LoadCharacter = DoesInputNameSaveFileExist();
+                                m_windowResult.Quitting = false;
+                                m_windowResult.CharacterName = m_fileInput;
                                 m_loopFinished = true;
-                                break;
                             }
+                        }
+                        else
+                        {
+                            m_windowResult.LoadCharacter = true;
+                            m_windowResult.Quitting = false;
+                            m_windowResult.CharacterName = m_fileNameList[m_cursorPosition];
+                            m_loopFinished = true;
                         }
                         break;
                     }
@@ -181,55 +173,89 @@ namespace Magecrawl
             }
         }
 
+
+        internal void MoveInventorySelection(bool movingUp)
+        {
+            if (movingUp)
+            {
+                if (m_cursorPosition >= 0)
+                {
+                    if (m_isScrollingNeeded && (m_cursorPosition == m_lowerRange))
+                    {
+                        m_lowerRange -= ScrollAmount;
+                        if (m_lowerRange < 0)
+                            m_lowerRange = 0;
+                    }
+                    m_cursorPosition--;
+                }
+            }
+            if (!movingUp && m_cursorPosition < m_fileNameList.Count - 1)
+            {
+                // If we need scrolling and we're pointed at the end of the list and there's more to show.
+                if (m_isScrollingNeeded && (m_cursorPosition == (m_lowerRange - 1 + NumberOfSaveFilesToList)) && (m_lowerRange + NumberOfSaveFilesToList < m_fileNameList.Count))
+                {
+                    m_lowerRange += ScrollAmount;
+                    if ((m_lowerRange + NumberOfSaveFilesToList) > m_fileNameList.Count)
+                        m_lowerRange = m_fileNameList.Count - NumberOfSaveFilesToList;
+
+                    m_cursorPosition++;
+                }
+                else
+                {
+                    if ((m_cursorPosition + 1) < m_fileNameList.Count)
+                        m_cursorPosition++;
+                }
+                m_fileInput = string.Empty;
+            }
+        }
+
         private void DrawLoadFilesMenu()
         {
-            if (m_menuItemPointedTo == SelectedOption.Load && SaveFilesExist())
+            if (SaveFilesExist())
             {
-                m_console.PrintLine("Save Files", 3, EntryOffset, LineAlignment.Left);
-                //m_console.DrawFrame(2, EntryOffset + 1, TextEntryLength + 2, 3, true);
-                int sizeOfFrame = (m_fileNameList.Count < NumberOfSaveFilesToList) ? m_fileNameList.Count : NumberOfSaveFilesToList + 1;
+                m_dialogHelper.SaveColors(m_console);
+                m_higherRange = m_isScrollingNeeded ? m_lowerRange + NumberOfSaveFilesToList : m_fileNameList.Count;
+
+                m_console.DrawFrame(1, LoadFileListOffset, TextEntryLength + 4, UIHelper.ScreenHeight - LoadFileListOffset - 1, true);
+
                 int numberToList = (m_fileNameList.Count < NumberOfSaveFilesToList) ? m_fileNameList.Count : NumberOfSaveFilesToList;
 
-                m_console.DrawFrame(8, EntryOffset + 1, TextEntryLength + 2, sizeOfFrame + 2, true);
-                for (int i = 0; i < numberToList; i++)
-                    m_console.PrintLineRect(m_fileNameList[i], 4, EntryOffset + 2 + i, TextEntryLength - 4, 1, LineAlignment.Left);
-
-                if (numberToList == NumberOfSaveFilesToList)
+                int positionalOffsetFromTop = 0;
+                for (int i = m_lowerRange; i < m_higherRange; i++)
                 {
-                    m_console.PrintLineRect("                   ", 3, EntryOffset + 6 + numberToList, TextEntryLength - 4, 1, LineAlignment.Left);
-                    m_console.PrintLineRect("..more..", 4, EntryOffset + 6 + numberToList, TextEntryLength - 4, 1, LineAlignment.Left);
-                }	
+                    m_dialogHelper.SetColors(m_console, i == m_cursorPosition, true);
+                    m_console.PrintLineRect(m_fileNameList[i], 3, LoadFileListOffset + 2 + positionalOffsetFromTop, TextEntryLength + 2, 1, LineAlignment.Left);
+                    positionalOffsetFromTop++;
+                }
+
+                if (m_lowerRange != 0)
+                {
+                    m_dialogHelper.SetColors(m_console, false, true);
+                    m_console.PrintLineRect("..more..", 3, LoadFileListOffset + 1, TextEntryLength + 2, 1, LineAlignment.Left);
+                }
+
+                if (m_higherRange < m_fileNameList.Count)
+                {
+                    m_dialogHelper.SetColors(m_console, false, true);
+                    m_console.PrintLineRect("..more..", 3, LoadFileListOffset + 2 + numberToList, TextEntryLength + 2, 1, LineAlignment.Left);
+                }
+                m_dialogHelper.ResetColors(m_console);
             }
         }
 
         private void DrawFileEntry()
         {
-            if (m_menuItemPointedTo == SelectedOption.NewGame)
-            {
-                m_console.PrintLine("Enter Name", 3, EntryOffset, LineAlignment.Left);
-                m_console.DrawFrame(2, EntryOffset + 1, TextEntryLength + 2, 3, true);
-                m_console.PrintLineRect(m_fileInput, 4, EntryOffset + 2, TextEntryLength - 2, 1, LineAlignment.Left);
+            if(m_cursorPosition == -1)
+                m_console.PrintLine("Enter Name", 2, EntryOffset, LineAlignment.Left);
 
+            m_console.DrawFrame(1, EntryOffset + 1, TextEntryLength + 4, 3, true);
+            m_console.PrintLineRect(m_fileInput, 3, EntryOffset + 2, TextEntryLength, 1, LineAlignment.Left);
+
+            if (m_cursorPosition == -1 && m_fileInput.Length < TextEntryLength)
+            {
                 if (libtcodWrapper.TCODSystem.ElapsedMilliseconds % 1500 < 700)
-                    m_console.SetCharBackground(4 + m_fileInput.Length, EntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
+                    m_console.SetCharBackground(3 + m_fileInput.Length, EntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
             }
-        }
-
-        private void DrawMenu()
-        {
-            const int MenuUpperX = 4;
-            const int MenuUpperY = 14;
-            
-            m_dialogHelper.SaveColors(m_console);
-
-            m_console.DrawFrame(MenuUpperX - 2, MenuUpperY - 2, 17, (m_menuItemList.Count * 2) + 3, true);
-            for (int i = 0; i < m_menuItemList.Count; i++)
-            {
-                bool isEnabled = i == (int)SelectedOption.Load ? SaveFilesExist() : true;
-                m_dialogHelper.SetColors(m_console, i == (int)m_menuItemPointedTo, isEnabled);
-                m_console.PrintLine(m_menuItemList[i], MenuUpperX, MenuUpperY + (i * 2), Background.Set, LineAlignment.Left);
-            }
-            m_dialogHelper.ResetColors(m_console);
         }
 
         private void IncrementElementPointedTo()
@@ -246,7 +272,7 @@ namespace Magecrawl
 
         public bool DoesInputNameSaveFileExist()
         {
-            return File.Exists(m_fileInput + ".sav");
+            return m_fileNameList.Exists(x => x == m_fileInput);
         }
 
         public void GetListOfSaveFiles()
@@ -266,20 +292,26 @@ namespace Magecrawl
                 || k.KeyCode == KeyCode.TCODK_8 || k.KeyCode == KeyCode.TCODK_9;
         }
 
-        private static void HandleCharacterInTextbox(ref string buffer, int maxLength, KeyPress key)
+        private void HandleCharacterInTextbox(KeyPress key)
         {
-            if (buffer.Length < maxLength)
+            if (m_cursorPosition == -1)
             {
-                bool validCharacter = !(((char)key.Character).ToString().IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1);
-                if (validCharacter)
-                    buffer = buffer + (char)key.Character;
+                if (m_fileInput.Length < TextEntryLength)
+                {
+                    bool validCharacter = !(((char)key.Character).ToString().IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1);
+                    if (validCharacter)
+                        m_fileInput = m_fileInput + (char)key.Character;
+                }
             }
         }
 
-        private static void HandleBackspaceInTextbox(ref string buffer)
+        private void HandleBackspaceInTextbox()
         {
-            if (buffer.Length > 0)
-                buffer = buffer.Substring(0, buffer.Length - 1);
+            if (m_cursorPosition == -1)
+            {
+                if (m_fileInput.Length > 0)
+                    m_fileInput = m_fileInput.Substring(0, m_fileInput.Length - 1);
+            }
         }
     }
 }

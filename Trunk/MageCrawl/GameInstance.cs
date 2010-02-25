@@ -67,9 +67,7 @@ namespace Magecrawl
             if (loadFromFile)
             {
                 string saveFilePath = playerName + ".sav";
-                if (!System.IO.File.Exists(saveFilePath))
-                    throw new InvalidOperationException("Tried to load savegame menu requested but not found: " + saveFilePath);
-                
+ 
                 using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
                 {
                     m_engine.LoadSaveFile(saveFilePath);
