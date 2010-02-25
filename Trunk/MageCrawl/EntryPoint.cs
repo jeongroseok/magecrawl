@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Magecrawl.GameUI;
 
 namespace Magecrawl
 {
@@ -8,9 +9,20 @@ namespace Magecrawl
         {
             try
             {
+                UIHelper.SetupUI();
+                WelcomeWindow.Result result;
+                
+                using (WelcomeWindow welcomeWindow = new WelcomeWindow())
+                {
+                    result = welcomeWindow.Run();
+                }
+
+                if (result.Choice == WelcomeWindow.SelectedOption.Quit || libtcodWrapper.RootConsole.GetInstance().IsWindowClosed())
+                    return;
+
                 using (GameInstance inst = new GameInstance())
                 {
-                    inst.Go();
+                    inst.Go(result.CharacterName, result.Choice == WelcomeWindow.SelectedOption.Load);
                 }
             }
             catch (System.Exception e)

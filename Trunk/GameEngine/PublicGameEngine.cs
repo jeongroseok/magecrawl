@@ -25,9 +25,9 @@ namespace Magecrawl.GameEngine
             SetupCoreGameEngine();
         }
 
-        public void CreateNewWorld()
+        public void CreateNewWorld(string playerName)
         {
-            m_engine.CreateNewWorld();
+            m_engine.CreateNewWorld(playerName);
         }
 
         public void LoadSaveFile(string saveGameName)

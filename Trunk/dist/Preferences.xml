@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" ?>
-<Preferences>
-  <PlayerName>Donblas</PlayerName>
-  
+<Preferences> 
   <!-- Valid Values For Keymapping: Arrows, Keypad, VIM, Custom -->
   <!-- If you define custom, you must define CustomKeymappingFilename-->
   <Keymapping>Arrows</Keymapping>
