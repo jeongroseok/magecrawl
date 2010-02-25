@@ -2,6 +2,7 @@
 using System.IO;
 using libtcodWrapper;
 using Magecrawl.GameUI;
+using Magecrawl.Utilities;
 
 namespace Magecrawl
 {
@@ -186,6 +187,18 @@ namespace Magecrawl
             {
                 m_console.PrintLine("Save Files", 3, EntryOffset, LineAlignment.Left);
                 //m_console.DrawFrame(2, EntryOffset + 1, TextEntryLength + 2, 3, true);
+                int sizeOfFrame = (m_fileNameList.Count < NumberOfSaveFilesToList) ? m_fileNameList.Count : NumberOfSaveFilesToList + 1;
+                int numberToList = (m_fileNameList.Count < NumberOfSaveFilesToList) ? m_fileNameList.Count : NumberOfSaveFilesToList;
+
+                m_console.DrawFrame(8, EntryOffset + 1, TextEntryLength + 2, sizeOfFrame + 2, true);
+                for (int i = 0; i < numberToList; i++)
+                    m_console.PrintLineRect(m_fileNameList[i], 4, EntryOffset + 2 + i, TextEntryLength - 4, 1, LineAlignment.Left);
+
+                if (numberToList == NumberOfSaveFilesToList)
+                {
+                    m_console.PrintLineRect("                   ", 3, EntryOffset + 6 + numberToList, TextEntryLength - 4, 1, LineAlignment.Left);
+                    m_console.PrintLineRect("..more..", 4, EntryOffset + 6 + numberToList, TextEntryLength - 4, 1, LineAlignment.Left);
+                }	
             }
         }
 
@@ -238,8 +251,9 @@ namespace Magecrawl
 
         public void GetListOfSaveFiles()
         {
+            string saveGameDirectory = Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Saves");
             m_fileNameList = new List<string>();
-            string[] fullPathList = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.sav");
+            string[] fullPathList = Directory.GetFiles(saveGameDirectory, "*.sav");
             foreach (string s in fullPathList)
                 m_fileNameList.Add(Path.GetFileNameWithoutExtension(s));
         }
