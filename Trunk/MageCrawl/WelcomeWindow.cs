@@ -27,16 +27,22 @@ namespace Magecrawl
         }
 
         private const int ScrollAmount = 3;
-        private const int LengthOfEachElement = 180;
-        private const int TextEntryLength = 20;
-        private const int EntryOffset = 36;
-        private const int LoadFileListOffset = 40;
-        private const int NumberOfSaveFilesToList = UIHelper.ScreenHeight - LoadFileListOffset - 5;
+        private const int LengthOfEachElement = 250;
+        
+        private const int SpellListOffset = 42;
+        private const int EntryOffset = 8;
+        private const int LoadFileListOffset = EntryOffset + 4;
+
+        private const int EntryWidth = 2;
+        private const int NumberOfSaveFilesToList = 18;
+        private const int NumberOfSpells = 6;
+        private const int TextEntryLength = 23; // This should be odd to make centering easy
 
         private DialogColorHelper m_dialogHelper;
         private RootConsole m_console;
         private TCODRandom m_random;
         private Dictionary<MagicTypes, string> m_flavorText;
+        private Dictionary<MagicTypes, List<string>> m_spellLists;
         private MagicTypes m_currentElementPointedTo;
         private Result m_windowResult;
         private List<string> m_fileNameList;
@@ -62,13 +68,22 @@ namespace Magecrawl
             m_currentElementPointedTo = (MagicTypes)m_random.GetRandomInt(0, 6);    // Pick a random element to start on.
 
             m_flavorText = new Dictionary<MagicTypes, string>();
-            m_flavorText[MagicTypes.Fire] = "Ignis: Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
-            m_flavorText[MagicTypes.Water] = "Potizo: As seen in the seas, water can both protect and destory life with ease. Icey effects can also slow and disable.";
-            m_flavorText[MagicTypes.Air] = "Aeras: Born from the wind, air-based magic can enchant, entice, and when necessary strike with thunder and hail.";
-            m_flavorText[MagicTypes.Earth] = "Choma: Sturdy and dependable, the earth excels in defense and striking nearby foes with the force of a landslide.";
-            m_flavorText[MagicTypes.Light] = "Agios: Gifted from the Creator. Best at mending wounds, summoning aid and protection. Strong at smiting unholy abominations.";
-            m_flavorText[MagicTypes.Darkness] = "Anosios: Drawn from a pure lust for power. A mockery of Agios, capable of producing much pain, summoning unholy aid, and raising the dead to serve.";
-            m_flavorText[MagicTypes.Arcane] = "Apokryfos: Magic born from the fabric of reality. Infinitely flexible and neutral to all other school of magic.";
+            m_flavorText[MagicTypes.Fire] = "Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
+            m_flavorText[MagicTypes.Water] = "As seen in the seas, water can both protect and destory life with ease. Icey effects can also slow and disable.";
+            m_flavorText[MagicTypes.Air] = "Born from the wind, air-based magic can enchant, entice, and when necessary strike with thunder and hail.";
+            m_flavorText[MagicTypes.Earth] = "Sturdy and dependable, the earth excels in defense and striking nearby foes with the force of a landslide.";
+            m_flavorText[MagicTypes.Light] = "Gifted from the Creator. Light magic is best at mending wounds, summoning aid and protection. Strong at smiting unholy abominations.";
+            m_flavorText[MagicTypes.Darkness] = "Darkness magic is drawn from a pure lust for power. A mockery of the light, capable of producing much pain, summoning forbidden aid, and raising the dead to serve.";
+            m_flavorText[MagicTypes.Arcane] = "Arcane magic is born from altering the fabric of reality. Infinitely flexible and neutral to all other school of magic.";
+
+            m_spellLists = new Dictionary<MagicTypes, List<string>>();
+            m_spellLists[MagicTypes.Fire] = new List<string>() { "Firebolt", "Warmth", "Fireblast", "Fireball", "Wall Of Fire", "Firestorm"};
+            m_spellLists[MagicTypes.Water] = new List<string>() { "Cold Snap", "Icy Armor", "Frigid Aura", "Ice Bolt", "Shatter", "Cone Of Cold" };
+            m_spellLists[MagicTypes.Air] = new List<string>() { "Shock", "Swiftness", "Confuse", "Lightning Bolt", "Storm Armor", "Hurricane" };
+            m_spellLists[MagicTypes.Earth] = new List<string>() { "Stone Armor", "Aftershock", "Strength Of The Earth", "Stoneskin", "Summon Earth Elemental", "Earthquake"};
+            m_spellLists[MagicTypes.Light] = new List<string>() { "Mend", "Smite", "Armor of Light", "Heal", "Summon Archon", "Wrath" };
+            m_spellLists[MagicTypes.Darkness] = new List<string>() { "Pain", "Drain Life", "Raise Dead", "Darkness", "Summon Wraith", "Lich Form" };
+            m_spellLists[MagicTypes.Arcane] = new List<string>() { "Force Bolt", "Arcane Armor", "Blink", "Slow", "Destructive Teleport", "Wave of Force" };
 
             GetListOfSaveFiles();
             m_lowerRange = 0;
@@ -96,11 +111,13 @@ namespace Magecrawl
                 m_console.Clear();
 
                 m_console.DrawFrame(0, 0, RootConsole.Width, RootConsole.Height, true);
-                m_console.PrintLine("Welcome To Magecrawl", RootConsole.Width / 2, 1, LineAlignment.Center);
-                m_console.PrintLine("Tech Demo III", RootConsole.Width / 2, 3, LineAlignment.Center);
+                m_console.PrintLine("Welcome To Magecrawl", RootConsole.Width / 2, 2, LineAlignment.Center);
+                m_console.PrintLine("Tech Demo III", RootConsole.Width / 2, 4, LineAlignment.Center);
 
                 DrawLoadFilesMenu();
                 DrawFileEntry();
+                DrawGraphic();
+                DrawSpellList();
 
                 m_console.Flush();
 
@@ -109,7 +126,7 @@ namespace Magecrawl
             while (!m_loopFinished && !m_console.IsWindowClosed());
             return m_windowResult;
         }
-        
+
         private void PassNewFrame()
         {
             if (m_frame > LengthOfEachElement)
@@ -173,7 +190,6 @@ namespace Magecrawl
             }
         }
 
-
         internal void MoveInventorySelection(bool movingUp)
         {
             if (movingUp)
@@ -209,6 +225,37 @@ namespace Magecrawl
             }
         }
 
+        private void DrawGraphic()
+        {
+            const int GraphicTextX = 32;
+            const int GraphicTextY = 42;
+            const int GraphicTextWidth = 40;
+            const int GraphicTextHeight = 10;
+
+            int numberOfLines = m_console.PrintLineRect(m_flavorText[m_currentElementPointedTo], GraphicTextX + 2, GraphicTextY + 2, GraphicTextWidth - 4, GraphicTextHeight, LineAlignment.Left);
+            m_console.DrawFrame(GraphicTextX, GraphicTextY, GraphicTextWidth, numberOfLines + 4, false);
+
+            const int GraphicX = 32;
+            const int GraphicY = 8;
+
+            m_console.DrawFrame(GraphicX, GraphicY, GraphicTextWidth, 32, false);
+        }
+
+        private void DrawSpellList()
+        {
+            m_console.DrawFrame(EntryWidth, SpellListOffset-3, TextEntryLength + 4, 3, true);
+            m_console.PrintLine(m_currentElementPointedTo.ToString() + " Spells", EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset - 2, LineAlignment.Center);
+
+            m_console.DrawFrame(EntryWidth, SpellListOffset, TextEntryLength + 4, 15, true);
+
+            int numberOfSpellsToShow = m_frame / (LengthOfEachElement / NumberOfSpells);
+            numberOfSpellsToShow = System.Math.Min(numberOfSpellsToShow + 1, NumberOfSpells);
+            for(int i = 0 ; i < numberOfSpellsToShow ; ++i)
+            {
+                m_console.PrintLine(m_spellLists[m_currentElementPointedTo][i], EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset + 2 + (2 * i), LineAlignment.Center); 
+            }
+        }
+
         private void DrawLoadFilesMenu()
         {
             if (SaveFilesExist())
@@ -216,7 +263,7 @@ namespace Magecrawl
                 m_dialogHelper.SaveColors(m_console);
                 m_higherRange = m_isScrollingNeeded ? m_lowerRange + NumberOfSaveFilesToList : m_fileNameList.Count;
 
-                m_console.DrawFrame(1, LoadFileListOffset, TextEntryLength + 4, UIHelper.ScreenHeight - LoadFileListOffset - 1, true);
+                m_console.DrawFrame(EntryWidth, LoadFileListOffset, TextEntryLength + 4, NumberOfSaveFilesToList + 4, true);
 
                 int numberToList = (m_fileNameList.Count < NumberOfSaveFilesToList) ? m_fileNameList.Count : NumberOfSaveFilesToList;
 
@@ -224,20 +271,20 @@ namespace Magecrawl
                 for (int i = m_lowerRange; i < m_higherRange; i++)
                 {
                     m_dialogHelper.SetColors(m_console, i == m_cursorPosition, true);
-                    m_console.PrintLineRect(m_fileNameList[i], 3, LoadFileListOffset + 2 + positionalOffsetFromTop, TextEntryLength + 2, 1, LineAlignment.Left);
+                    m_console.PrintLineRect(m_fileNameList[i], EntryWidth + 2, LoadFileListOffset + 2 + positionalOffsetFromTop, TextEntryLength + 2, 1, LineAlignment.Left);
                     positionalOffsetFromTop++;
                 }
 
                 if (m_lowerRange != 0)
                 {
                     m_dialogHelper.SetColors(m_console, false, true);
-                    m_console.PrintLineRect("..more..", 3, LoadFileListOffset + 1, TextEntryLength + 2, 1, LineAlignment.Left);
+                    m_console.PrintLineRect("..more..", EntryWidth + 2, LoadFileListOffset + 1, TextEntryLength + 2, 1, LineAlignment.Left);
                 }
 
                 if (m_higherRange < m_fileNameList.Count)
                 {
                     m_dialogHelper.SetColors(m_console, false, true);
-                    m_console.PrintLineRect("..more..", 3, LoadFileListOffset + 2 + numberToList, TextEntryLength + 2, 1, LineAlignment.Left);
+                    m_console.PrintLineRect("..more..", EntryWidth + 2, LoadFileListOffset + 2 + numberToList, TextEntryLength + 2, 1, LineAlignment.Left);
                 }
                 m_dialogHelper.ResetColors(m_console);
             }
@@ -246,15 +293,15 @@ namespace Magecrawl
         private void DrawFileEntry()
         {
             if(m_cursorPosition == -1)
-                m_console.PrintLine("Enter Name", 2, EntryOffset, LineAlignment.Left);
+                m_console.PrintLine("Enter Name", EntryWidth + 1, EntryOffset, LineAlignment.Left);
 
-            m_console.DrawFrame(1, EntryOffset + 1, TextEntryLength + 4, 3, true);
-            m_console.PrintLineRect(m_fileInput, 3, EntryOffset + 2, TextEntryLength, 1, LineAlignment.Left);
+            m_console.DrawFrame(EntryWidth, EntryOffset + 1, TextEntryLength + 4, 3, true);
+            m_console.PrintLineRect(m_fileInput, EntryWidth + 2, EntryOffset + 2, TextEntryLength, 1, LineAlignment.Left);
 
             if (m_cursorPosition == -1 && m_fileInput.Length < TextEntryLength)
             {
                 if (libtcodWrapper.TCODSystem.ElapsedMilliseconds % 1500 < 700)
-                    m_console.SetCharBackground(3 + m_fileInput.Length, EntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
+                    m_console.SetCharBackground(EntryWidth + 2 + m_fileInput.Length, EntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
             }
         }
 
