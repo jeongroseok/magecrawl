@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
@@ -34,13 +34,13 @@ namespace Magecrawl.GameUI.Map
             m_cursorPosition = cursorPosition;
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
                 foreach (EffectivePoint point in m_targetablePoints)
                 {
-                    ColorSquare(screen, point.Position, point.EffectiveStrength, TCODColorPresets.BrightGreen / 2); 
+                    ColorSquare(screen, point.Position, point.EffectiveStrength, ColorPresetsFromTCOD.BrightGreen.Divide(2)); 
                 }
 
                 if (m_haloDelegate != null)
@@ -50,24 +50,24 @@ namespace Magecrawl.GameUI.Map
                     {
                         foreach (Point p in pointsToPaint)
                         {
-                            ColorSquare(screen, p, .75, TCODColorPresets.Yellow);
+                            ColorSquare(screen, p, .75, ColorPresets.Yellow);
                         }
                     }
                 }
             }
         }
 
-        private void ColorSquare(Console screen, Point p, double strength, Color color)
+        private void ColorSquare(TCODConsole screen, Point p, double strength, TCODColor color)
         {
             int screenPlacementX = m_mapUpCorner.X + p.X + 1;
             int screenPlacementY = m_mapUpCorner.Y + p.Y + 1;
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
             {
-                Color attackColor = Color.Interpolate(TCODColorPresets.Black, color, strength);
-                Color currentColor = screen.GetCharBackground(screenPlacementX, screenPlacementY);
-                Color newColor = Color.Interpolate(currentColor, attackColor, .5f);
-                screen.SetCharBackground(screenPlacementX, screenPlacementY, newColor);
+                TCODColor attackColor = TCODColor.Interpolate(ColorPresets.Black, color, (float)strength);
+                TCODColor currentColor = screen.getCharBackground(screenPlacementX, screenPlacementY);
+                TCODColor newColor = TCODColor.Interpolate(currentColor, attackColor, .5f);
+                screen.setCharBackground(screenPlacementX, screenPlacementY, newColor);
             }
         }
 

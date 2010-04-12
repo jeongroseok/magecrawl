@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Level;
@@ -85,7 +85,7 @@ namespace Magecrawl.GameEngine
                 return -1;
 
             // First check against evade
-            int evadeRoll = m_random.GetRandomInt(0, 99);
+            int evadeRoll = m_random.getInt(0, 99);
 
             if ((bool)Preferences.Instance["ShowAttackRolls"])
             {

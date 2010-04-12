@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -25,22 +25,22 @@ namespace Magecrawl.GameUI.Inventory
             m_dialogColorHelper = new DialogColorHelper();
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
-                screen.DrawFrame(SelectedItemOffset, SelectedItemOffset, SelectedItemWidth, SelectedItemHeight, true);
+                screen.printFrame(SelectedItemOffset, SelectedItemOffset, SelectedItemWidth, SelectedItemHeight, true);
 
                 // Draw Header.
-                screen.DrawHLine(SelectedItemOffset + 1, SelectedItemOffset + 2, SelectedItemWidth - 2);
-                screen.PutChar(SelectedItemOffset, SelectedItemOffset + 2, SpecialCharacter.TEEE);
-                screen.PutChar(SelectedItemOffset + SelectedItemWidth - 1, SelectedItemOffset + 2, SpecialCharacter.TEEW);
-                screen.PrintLine(m_selectedItem.DisplayName, SelectedItemOffset + (SelectedItemWidth / 2), SelectedItemOffset + 1, LineAlignment.Center);
+                screen.hline(SelectedItemOffset + 1, SelectedItemOffset + 2, SelectedItemWidth - 2);
+                screen.putChar(SelectedItemOffset, SelectedItemOffset + 2, (int)TCODSpecialCharacter.TeeEast);
+                screen.putChar(SelectedItemOffset + SelectedItemWidth - 1, SelectedItemOffset + 2, (int)TCODSpecialCharacter.TeeWest);
+                screen.printEx(SelectedItemOffset + (SelectedItemWidth / 2), SelectedItemOffset + 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_selectedItem.DisplayName);
 
                 // Split in half for description.
-                screen.DrawVLine(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SelectedItemHeight - 3);
-                screen.PutChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SpecialCharacter.TEES);
-                screen.PutChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + SelectedItemHeight - 1, SpecialCharacter.TEEN);
+                screen.vline(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SelectedItemHeight - 3);
+                screen.putChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, (int)TCODSpecialCharacter.TeeSouth);
+                screen.putChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + SelectedItemHeight - 1, (int)TCODSpecialCharacter.TeeNorth);
 
                 DrawItemInRightPane(screen);
 
@@ -50,14 +50,14 @@ namespace Magecrawl.GameUI.Inventory
                 for (int i = 0; i < m_optionList.Count; ++i)
                 {
                     m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, m_optionList[i].Enabled);
-                    screen.PrintLine(m_optionList[i].Option, SelectedItemOffset + 2, SelectedItemOffset + 4 + (i * 2), Background.Set, LineAlignment.Left);
+                    screen.print(SelectedItemOffset + 2, SelectedItemOffset + 4 + (i * 2), m_optionList[i].Option);
                 }
 
                 m_dialogColorHelper.ResetColors(screen);
             }   
         }
 
-        private void DrawItemInRightPane(Console screen)
+        private void DrawItemInRightPane(TCODConsole screen)
         {
             string itemDescription = m_selectedItem.ItemDescription + "\n\n" + m_selectedItem.FlavorDescription;
 
@@ -81,7 +81,7 @@ namespace Magecrawl.GameUI.Inventory
                 itemDescription += "\n\n" + string.Format("Damage: {0}", asWeapon.Damage);
             }
 
-            screen.PrintLineRect(itemDescription, SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, LineAlignment.Left);
+            screen.printRect(SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, itemDescription);
         }
 
         internal void Show(IItem selectedItem, List<ItemOptions> optionList)

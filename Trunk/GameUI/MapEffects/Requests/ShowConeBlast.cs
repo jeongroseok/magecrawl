@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
 
@@ -9,9 +9,9 @@ namespace Magecrawl.GameUI.Map.Requests
     {
         private List<Point> m_points;
         private EffectDone m_doneDelegate;
-        private Color m_color;
+        private TCODColor m_color;
 
-        public ShowConeBlast(EffectDone doneDelegate, List<Point> points, Color color)
+        public ShowConeBlast(EffectDone doneDelegate, List<Point> points, TCODColor color)
         {
             m_doneDelegate = doneDelegate;
             m_points = points;

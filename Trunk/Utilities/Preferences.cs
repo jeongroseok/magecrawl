@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
-using libtcodWrapper;
+using libtcod;
 
 namespace Magecrawl.Utilities
 {
@@ -75,10 +75,10 @@ namespace Magecrawl.Utilities
             m_preferences["PermaDeath"] = true;
             m_preferences["Fullscreen"] = false;
             m_preferences["SinglePressOperate"] = false;
-            m_preferences["FloorColorVisible"] = Color.FromRGB(42, 42, 42);
-            m_preferences["FloorColorNotVisible"] = Color.FromRGB(15, 15, 15);
-            m_preferences["WallColorVisible"] = Color.FromRGB(83, 41, 0);
-            m_preferences["WallColorNotVisible"] = Color.FromRGB(40, 20, 0);
+            m_preferences["FloorColorVisible"] = new TCODColor(42, 42, 42);
+            m_preferences["FloorColorNotVisible"] = new TCODColor(15, 15, 15);
+            m_preferences["WallColorVisible"] = new TCODColor(83, 41, 0);
+            m_preferences["WallColorNotVisible"] = new TCODColor(40, 20, 0);
         }
 
         private void LoadSettings()
@@ -150,7 +150,7 @@ namespace Magecrawl.Utilities
         {
             reader.Read();
             string[] colorParts = reader.Value.Split(',');
-            m_preferences[preferenceName] = Color.FromRGB(Byte.Parse(colorParts[0]), Byte.Parse(colorParts[1]), Byte.Parse(colorParts[2]));
+            m_preferences[preferenceName] = new TCODColor(Byte.Parse(colorParts[0]), Byte.Parse(colorParts[1]), Byte.Parse(colorParts[2]));
         }
 
         private void ReadBooleanData(XmlReader reader, string preferenceName)

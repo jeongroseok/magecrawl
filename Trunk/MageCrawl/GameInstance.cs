@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.Exceptions;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
@@ -22,7 +22,7 @@ namespace Magecrawl
     {
         internal bool IsQuitting { get; set; }
         internal TextBox TextBox { get; set; }
-        private RootConsole m_console;
+        private TCODConsole m_console;
 
         private IGameEngine m_engine;
 
@@ -37,7 +37,7 @@ namespace Magecrawl
 
         internal GameInstance()
         {
-            m_console = RootConsole.GetInstance();
+            m_console = TCODConsole.root;
             using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
             {
                 m_engine = new PublicGameEngine();
@@ -124,10 +124,10 @@ namespace Magecrawl
                     }
                 }
             }
-            while (!m_console.IsWindowClosed() && !IsQuitting);
+            while (!TCODConsole.isWindowClosed() && !IsQuitting);
             
             // User closed the window, save and bail.
-            if (m_console.IsWindowClosed() && !IsQuitting && ShouldSaveOnClose)
+            if (TCODConsole.isWindowClosed() && !IsQuitting && ShouldSaveOnClose)
             {
                 m_engine.Save();
             }
@@ -142,10 +142,10 @@ namespace Magecrawl
 
         public void DrawFrame()
         {
-            m_console.Clear();
+            m_console.clear();
             TextBox.Draw(m_console);
             m_painters.DrawNewFrame(m_console);
-            m_console.Flush();
+            TCODConsole.flush();
         }
 
         private void HandleRangedAttack(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint)
@@ -154,7 +154,7 @@ namespace Magecrawl
             ResetHandlerName();
             SendPaintersRequest(new DisableAllOverlays());
             
-            Color colorOfBolt = ColorPresets.White;
+            TCODColor colorOfBolt = ColorPresets.White;
             if (attackingMethod is ISpell)
                 colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(((ISpell)attackingMethod).School);
             else if (attackingMethod is IItem)
@@ -202,11 +202,11 @@ namespace Magecrawl
             TextBox.AddText(textToDisplay);
             TextBox.AddText("Press 'q' to exit.");
             TextBox.Draw(m_console);
-            m_console.Flush();
+            TCODConsole.flush();
 
-            while (!m_console.IsWindowClosed())
+            while (!TCODConsole.isWindowClosed())
             {
-                if (libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed).Character == 'q')
+                if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Character == 'q')
                     break;
             }
         }

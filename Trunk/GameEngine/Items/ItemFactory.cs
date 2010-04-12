@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Xml;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -38,7 +38,7 @@ namespace Magecrawl.GameEngine.Items
         {
             while (true)
             {
-                int targetLocation = m_random.GetRandomInt(0, m_itemMapping.Count - 1);
+                int targetLocation = m_random.getInt(0, m_itemMapping.Count - 1);
                 string itemName = m_itemMapping.Keys.ToList()[targetLocation];
                 if (!m_itemsNotToDrop.Contains(m_itemMapping[itemName]))
                     return CreateItem(itemName);

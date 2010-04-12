@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Level;
@@ -11,11 +11,11 @@ namespace Magecrawl.GameEngine
 {
     internal sealed class FOVManager : IDisposable
     {
-        private TCODFov m_fov;
+        private TCODMap m_fov;
 
         internal FOVManager(PhysicsEngine physicsEngine, Map map)
         {
-            m_fov = new TCODFov(map.Width, map.Height);
+            m_fov = new TCODMap(map.Width, map.Height);
         }
 
         public void Dispose()
@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine
         public void UpdateNewMap(PhysicsEngine physicsEngine, Map map)
         {
             m_fov.Dispose();
-            m_fov = new TCODFov(map.Width, map.Height);
+            m_fov = new TCODMap(map.Width, map.Height);
         }
 
         // This is to be private. Only the FOVManager should update.
@@ -44,32 +44,32 @@ namespace Magecrawl.GameEngine
             Point lowerRightPointViewRange = map.CoercePointOntoMap(viewPoint + new Point(viewableRadius, viewableRadius));
             Point viewRange = lowerRightPointViewRange - upperLeftPointViewRange;
 
-            m_fov.ClearMap();
+            m_fov.clear();
 
             for (int i = upperLeftPointViewRange.X; i < upperLeftPointViewRange.X + viewRange.X; ++i)
             {
                 for (int j = upperLeftPointViewRange.Y; j < upperLeftPointViewRange.Y + viewRange.Y; ++j)
                 {
                     bool isFloor = map.GetTerrainAt(i, j) == TerrainType.Floor;
-                    m_fov.SetCell(i, j, isFloor, isFloor);
+                    m_fov.setProperties(i, j, isFloor, isFloor);
                 }
             }
 
             foreach (MapObject obj in map.MapObjects.Where(x => x.IsSolid))
             {
-                m_fov.SetCell(obj.Position.X, obj.Position.Y, obj.IsTransarent, !obj.IsSolid);
+                m_fov.setProperties(obj.Position.X, obj.Position.Y, obj.IsTransarent, !obj.IsSolid);
             }
 
             foreach (Monster m in map.Monsters)
             {
-                m_fov.SetCell(m.Position.X, m.Position.Y, false, false);
+                m_fov.setProperties(m.Position.X, m.Position.Y, false, false);
             }
         }
 
         private void CalculateCore(Map map, Point viewPoint, int viewableDistance)
         {
             UpdateFOV(map, viewPoint, viewableDistance);
-            m_fov.CalculateFOV(viewPoint.X, viewPoint.Y, viewableDistance, true, FovAlgorithm.Shadow);
+            m_fov.computeFov(viewPoint.X, viewPoint.Y, viewableDistance, true, TCODFOVTypes.ShadowFov);
         }
 
         // Calculate FOV for multipe Visible calls
@@ -81,7 +81,7 @@ namespace Magecrawl.GameEngine
         // CalculateForMultipleCalls needs to be called if you want good data.
         public bool Visible(Point pointWantToView)
         {
-            return m_fov.CheckTileFOV(pointWantToView.X, pointWantToView.Y);
+            return m_fov.isInFov(pointWantToView.X, pointWantToView.Y);
         }
 
         // Used when we're only calculating a few points and precalculating is not worth it. Use CalculateForMultipleCalls/Visible 
@@ -89,7 +89,7 @@ namespace Magecrawl.GameEngine
         public bool VisibleSingleShot(Map map, Point viewPoint, int viewableDistance, Point pointWantToView)
         {
             CalculateCore(map, viewPoint, viewableDistance);
-            return m_fov.CheckTileFOV(pointWantToView.X, pointWantToView.Y);
+            return m_fov.isInFov(pointWantToView.X, pointWantToView.Y);
         }
     }
 }

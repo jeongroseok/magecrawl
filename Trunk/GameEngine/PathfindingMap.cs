@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.MapObjects;
@@ -11,8 +11,8 @@ namespace Magecrawl.GameEngine
 {
     internal sealed class PathfindingMap : IDisposable
     {
-        private TCODAStrPathFinding m_pathFinding;
-        private TCODFov m_fov;
+        private TCODPath m_pathFinding;
+        private TCODMap m_fov;
         private Map m_map;
         private Player m_player;
 
@@ -20,9 +20,9 @@ namespace Magecrawl.GameEngine
         {
             m_player = player;
             m_map = map;
-            m_fov = new TCODFov(map.Width, map.Height);
-            m_fov.ClearMap();
-            m_pathFinding = new TCODAStrPathFinding(m_fov, 1.41f);
+            m_fov = new TCODMap(map.Width, map.Height);
+            m_fov.clear();
+            m_pathFinding = new TCODPath(m_fov, 1.41f);
         }
         
         public void Dispose()
@@ -44,17 +44,17 @@ namespace Magecrawl.GameEngine
         {
             UpdateInternalFOV(actor.Position, dest, canOperate, engine, usePlayerLOS, monstersBlockPath);
 
-            bool pathExists = m_pathFinding.ComputePath(actor.Position.X, actor.Position.Y, dest.X, dest.Y);
+            bool pathExists = m_pathFinding.compute(actor.Position.X, actor.Position.Y, dest.X, dest.Y);
             if (!pathExists)
                 return null;
             
             List<Point> path = new List<Point>();
-            int pathLength = m_pathFinding.GetPathSize();
+            int pathLength = m_pathFinding.size();
             for (int i = 0; i < pathLength; ++i)
             {
                 int currentX;
                 int currentY;
-                m_pathFinding.GetPointOnPath(i, out currentX, out currentY);
+                m_pathFinding.get(i, out currentX, out currentY);
                 path.Add(new Point(currentX, currentY));
             }
 
@@ -103,7 +103,7 @@ namespace Magecrawl.GameEngine
                 for (int j = 0; j < m_map.Height; ++j)
                 {
                     bool isMoveable = moveableGrid[i, j];
-                    m_fov.SetCell(i, j, isMoveable, isMoveable);
+                    m_fov.setProperties(i, j, isMoveable, isMoveable);
                 }
             }
         }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
 
@@ -9,11 +9,11 @@ namespace Magecrawl.GameUI.Map.Requests
     {
         private List<Point> m_path;
         private EffectDone m_doneDelegate;
-        private Color m_color;
+        private TCODColor m_color;
         private int m_tailLength;
         private bool m_drawLastTargetSquare;
 
-        public ShowRangedBolt(EffectDone doneDelegate, List<Point> path, Color color, bool drawLastTargetSquare, int tailLength)
+        public ShowRangedBolt(EffectDone doneDelegate, List<Point> path, TCODColor color, bool drawLastTargetSquare, int tailLength)
         {
             m_doneDelegate = doneDelegate;
             m_path = path;

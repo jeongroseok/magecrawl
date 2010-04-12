@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameUI;
 using Magecrawl.Utilities;
 
@@ -39,7 +39,7 @@ namespace Magecrawl
         private const int TextEntryLength = 23; // This should be odd to make centering easy
 
         private DialogColorHelper m_dialogHelper;
-        private RootConsole m_console;
+        private TCODConsole m_console;
         private TCODRandom m_random;
         private Dictionary<MagicTypes, string> m_flavorText;
         private Dictionary<MagicTypes, List<string>> m_spellLists;
@@ -61,11 +61,11 @@ namespace Magecrawl
         public WelcomeWindow()
         {
             m_dialogHelper = new DialogColorHelper();
-            m_console = libtcodWrapper.RootConsole.GetInstance();
+            m_console = TCODConsole.root;
             m_random = new TCODRandom();
             m_windowResult = new Result();
 
-            m_currentElementPointedTo = (MagicTypes)m_random.GetRandomInt(0, 6);    // Pick a random element to start on.
+            m_currentElementPointedTo = (MagicTypes)m_random.getInt(0, 6);    // Pick a random element to start on.
 
             m_flavorText = new Dictionary<MagicTypes, string>();
             m_flavorText[MagicTypes.Fire] = "Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
@@ -101,29 +101,29 @@ namespace Magecrawl
         public Result Run()
         {
             m_loopFinished = false;
-            m_console.ForegroundColor = UIHelper.ForegroundColor;
-            m_console.BackgroundColor = ColorPresets.Black;
+            m_console.setForegroundColor(UIHelper.ForegroundColor);
+            m_console.setBackgroundColor(ColorPresets.Black);
 
             do
             {
                 PassNewFrame();
 
-                m_console.Clear();
+                m_console.clear();
 
-                m_console.DrawFrame(0, 0, RootConsole.Width, RootConsole.Height, true);
-                m_console.PrintLine("Welcome To Magecrawl", RootConsole.Width / 2, 2, LineAlignment.Center);
-                m_console.PrintLine("Tech Demo III", RootConsole.Width / 2, 4, LineAlignment.Center);
+                m_console.printFrame(0, 0, m_console.getWidth(), m_console.getHeight(), true);
+                m_console.printEx(m_console.getWidth() / 2, 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, "Welcome To Magecrawl");
+                m_console.printEx(m_console.getWidth() / 2, 4, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, "Tech Demo III");
 
                 DrawLoadFilesMenu();
                 DrawFileEntry();
                 DrawGraphic();
                 DrawSpellList();
 
-                m_console.Flush();
+                TCODConsole.flush();
 
                 HandleKeystroke();
             }
-            while (!m_loopFinished && !m_console.IsWindowClosed());
+            while (!m_loopFinished && !TCODConsole.isWindowClosed());
             return m_windowResult;
         }
 
@@ -142,7 +142,7 @@ namespace Magecrawl
 
         private void HandleKeystroke()
         {
-            KeyPress k = libtcodWrapper.Keyboard.CheckForKeypress(KeyPressType.Pressed);
+            TCODKey k = TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed);
             if (IsKeyCodeOfCharacter(k))
             {
                 HandleCharacterInTextbox(k);
@@ -151,21 +151,21 @@ namespace Magecrawl
             {
                 switch (k.KeyCode)
                 {
-                    case KeyCode.TCODK_BACKSPACE:
+                    case TCODKeyCode.Backspace:
                         HandleBackspaceInTextbox();
                         break;
-                    case KeyCode.TCODK_ESCAPE:
+                    case TCODKeyCode.Escape:
                         m_windowResult.Quitting = true;
                         m_loopFinished = true;
                         break;
-                    case KeyCode.TCODK_UP:
+                    case TCODKeyCode.Up:
                         MoveInventorySelection(true);
                         break;
-                    case KeyCode.TCODK_DOWN:
+                    case TCODKeyCode.Down:
                         MoveInventorySelection(false);
                         break;
-                    case KeyCode.TCODK_ENTER:
-                    case KeyCode.TCODK_KPENTER:
+                    case TCODKeyCode.Enter:
+                    case TCODKeyCode.KeypadEnter:
                     {
                         if (m_cursorPosition == -1)
                         {
@@ -232,27 +232,27 @@ namespace Magecrawl
             const int GraphicTextWidth = 40;
             const int GraphicTextHeight = 10;
 
-            int numberOfLines = m_console.PrintLineRect(m_flavorText[m_currentElementPointedTo], GraphicTextX + 2, GraphicTextY + 2, GraphicTextWidth - 4, GraphicTextHeight, LineAlignment.Left);
-            m_console.DrawFrame(GraphicTextX, GraphicTextY, GraphicTextWidth, numberOfLines + 4, false);
+            int numberOfLines = m_console.printRect(GraphicTextX + 2, GraphicTextY + 2, GraphicTextWidth - 4, GraphicTextHeight, m_flavorText[m_currentElementPointedTo]);
+            m_console.printFrame(GraphicTextX, GraphicTextY, GraphicTextWidth, numberOfLines + 4, false);
 
             const int GraphicX = 32;
             const int GraphicY = 8;
 
-            m_console.DrawFrame(GraphicX, GraphicY, GraphicTextWidth, 32, false);
+            m_console.printFrame(GraphicX, GraphicY, GraphicTextWidth, 32, false);
         }
 
         private void DrawSpellList()
         {
-            m_console.DrawFrame(EntryWidth, SpellListOffset-3, TextEntryLength + 4, 3, true);
-            m_console.PrintLine(m_currentElementPointedTo.ToString() + " Spells", EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset - 2, LineAlignment.Center);
+            m_console.printFrame(EntryWidth, SpellListOffset-3, TextEntryLength + 4, 3, true);
+            m_console.printEx(EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset - 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_currentElementPointedTo.ToString() + " Spells");
 
-            m_console.DrawFrame(EntryWidth, SpellListOffset, TextEntryLength + 4, 15, true);
+            m_console.printFrame(EntryWidth, SpellListOffset, TextEntryLength + 4, 15, true);
 
             int numberOfSpellsToShow = m_frame / (LengthOfEachElement / NumberOfSpells);
             numberOfSpellsToShow = System.Math.Min(numberOfSpellsToShow + 1, NumberOfSpells);
             for(int i = 0 ; i < numberOfSpellsToShow ; ++i)
             {
-                m_console.PrintLine(m_spellLists[m_currentElementPointedTo][i], EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset + 2 + (2 * i), LineAlignment.Center); 
+                m_console.printEx(EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset + 2 + (2 * i), TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_spellLists[m_currentElementPointedTo][i]); 
             }
         }
 
@@ -263,7 +263,7 @@ namespace Magecrawl
                 m_dialogHelper.SaveColors(m_console);
                 m_higherRange = m_isScrollingNeeded ? m_lowerRange + NumberOfSaveFilesToList : m_fileNameList.Count;
 
-                m_console.DrawFrame(EntryWidth, LoadFileListOffset, TextEntryLength + 4, NumberOfSaveFilesToList + 4, true);
+                m_console.printFrame(EntryWidth, LoadFileListOffset, TextEntryLength + 4, NumberOfSaveFilesToList + 4, true);
 
                 int numberToList = (m_fileNameList.Count < NumberOfSaveFilesToList) ? m_fileNameList.Count : NumberOfSaveFilesToList;
 
@@ -271,20 +271,20 @@ namespace Magecrawl
                 for (int i = m_lowerRange; i < m_higherRange; i++)
                 {
                     m_dialogHelper.SetColors(m_console, i == m_cursorPosition, true);
-                    m_console.PrintLineRect(m_fileNameList[i], EntryWidth + 2, LoadFileListOffset + 2 + positionalOffsetFromTop, TextEntryLength + 2, 1, LineAlignment.Left);
+                    m_console.printRect(EntryWidth + 2, LoadFileListOffset + 2 + positionalOffsetFromTop, TextEntryLength + 2, 1, m_fileNameList[i]);
                     positionalOffsetFromTop++;
                 }
 
                 if (m_lowerRange != 0)
                 {
                     m_dialogHelper.SetColors(m_console, false, true);
-                    m_console.PrintLineRect("..more..", EntryWidth + 2, LoadFileListOffset + 1, TextEntryLength + 2, 1, LineAlignment.Left);
+                    m_console.printRect(EntryWidth + 2, LoadFileListOffset + 1, TextEntryLength + 2, 1, "..more..");
                 }
 
                 if (m_higherRange < m_fileNameList.Count)
                 {
                     m_dialogHelper.SetColors(m_console, false, true);
-                    m_console.PrintLineRect("..more..", EntryWidth + 2, LoadFileListOffset + 2 + numberToList, TextEntryLength + 2, 1, LineAlignment.Left);
+                    m_console.printRect(EntryWidth + 2, LoadFileListOffset + 2 + numberToList, TextEntryLength + 2, 1, "..more..");
                 }
                 m_dialogHelper.ResetColors(m_console);
             }
@@ -293,15 +293,15 @@ namespace Magecrawl
         private void DrawFileEntry()
         {
             if(m_cursorPosition == -1)
-                m_console.PrintLine("Enter Name", EntryWidth + 1, EntryOffset, LineAlignment.Left);
+                m_console.print(EntryWidth + 1, EntryOffset, "Enter Name");
 
-            m_console.DrawFrame(EntryWidth, EntryOffset + 1, TextEntryLength + 4, 3, true);
-            m_console.PrintLineRect(m_fileInput, EntryWidth + 2, EntryOffset + 2, TextEntryLength, 1, LineAlignment.Left);
+            m_console.printFrame(EntryWidth, EntryOffset + 1, TextEntryLength + 4, 3, true);
+            m_console.printRect(EntryWidth + 2, EntryOffset + 2, TextEntryLength, 1, m_fileInput);
 
             if (m_cursorPosition == -1 && m_fileInput.Length < TextEntryLength)
             {
-                if (libtcodWrapper.TCODSystem.ElapsedMilliseconds % 1500 < 700)
-                    m_console.SetCharBackground(EntryWidth + 2 + m_fileInput.Length, EntryOffset + 2, libtcodWrapper.TCODColorPresets.Gray);
+                if (TCODSystem.getElapsedMilli() % 1500 < 700)
+                    m_console.setCharBackground(EntryWidth + 2 + m_fileInput.Length, EntryOffset + 2, TCODColor.grey);
             }
         }
 
@@ -331,15 +331,15 @@ namespace Magecrawl
                 m_fileNameList.Add(Path.GetFileNameWithoutExtension(s));
         }
 
-        private static bool IsKeyCodeOfCharacter(KeyPress k)
+        private static bool IsKeyCodeOfCharacter(TCODKey k)
         {
-            return k.KeyCode == KeyCode.TCODK_CHAR || k.KeyCode == KeyCode.TCODK_0 || k.KeyCode == KeyCode.TCODK_1
-                || k.KeyCode == KeyCode.TCODK_2 || k.KeyCode == KeyCode.TCODK_3 || k.KeyCode == KeyCode.TCODK_4
-                || k.KeyCode == KeyCode.TCODK_5 || k.KeyCode == KeyCode.TCODK_6 || k.KeyCode == KeyCode.TCODK_7
-                || k.KeyCode == KeyCode.TCODK_8 || k.KeyCode == KeyCode.TCODK_9;
+            return k.KeyCode == TCODKeyCode.Char || k.KeyCode == TCODKeyCode.Zero || k.KeyCode == TCODKeyCode.One
+                || k.KeyCode == TCODKeyCode.Two || k.KeyCode == TCODKeyCode.Three || k.KeyCode == TCODKeyCode.Four
+                || k.KeyCode == TCODKeyCode.Five || k.KeyCode == TCODKeyCode.Six || k.KeyCode == TCODKeyCode.Seven
+                || k.KeyCode == TCODKeyCode.Eight || k.KeyCode == TCODKeyCode.Nine;
         }
 
-        private void HandleCharacterInTextbox(KeyPress key)
+        private void HandleCharacterInTextbox(TCODKey key)
         {
             if (m_cursorPosition == -1)
             {

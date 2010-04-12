@@ -3,8 +3,9 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
@@ -36,7 +37,7 @@ namespace Magecrawl.GameUI
             return 1;
         }
 
-        public static Color GetColorOfSpellFromSchool(string schoolName)
+        public static TCODColor GetColorOfSpellFromSchool(string schoolName)
         {
             switch (schoolName)
             {
@@ -55,7 +56,7 @@ namespace Magecrawl.GameUI
                 case "Water":
                     return ColorPresets.SteelBlue;
                 default:
-                    return TCODColorPresets.White;
+                    return ColorPresets.White;
             }
         }
 

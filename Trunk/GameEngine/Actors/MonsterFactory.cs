@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Xml;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -39,7 +39,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public Monster CreateRandomMonster(Point p)
         {
-            int targetLocation = m_random.GetRandomInt(0, m_monsterMapping.Count - 1);
+            int targetLocation = m_random.getInt(0, m_monsterMapping.Count - 1);
             string monsterName = m_monsterMapping.Keys.ToList()[targetLocation];
             return CreateMonster(monsterName, p); 
         }

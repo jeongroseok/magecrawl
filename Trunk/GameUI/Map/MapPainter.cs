@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -11,15 +11,15 @@ namespace Magecrawl.GameUI.Map
 {
     internal sealed class MapPainter : MapPainterBase
     {
-        private Console m_offscreenConsole;
+        private TCODConsole m_offscreenConsole;
         private bool m_honorFOV;
         private TileVisibility[,] m_tileVisibility;
         private Dictionary<string, char> m_monsterSymbols;
 
         public MapPainter()
         {
-            m_offscreenConsole = RootConsole.GetNewConsole(OffscreenWidth, OffscreenHeight);
-            m_offscreenConsole.ForegroundColor = UIHelper.ForegroundColor;
+            m_offscreenConsole = new TCODConsole(OffscreenWidth, OffscreenHeight);
+            m_offscreenConsole.setForegroundColor(UIHelper.ForegroundColor);
             m_honorFOV = true;
             LoadMonsterSymbols();
         }
@@ -39,9 +39,9 @@ namespace Magecrawl.GameUI.Map
         {
             TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
 
-            m_offscreenConsole.Clear();
+            m_offscreenConsole.clear();
 
-            m_offscreenConsole.DrawFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, "Map");
+            m_offscreenConsole.printFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, TCODBackgroundFlag.Set, "Map");
 
             int lowX = cursorPosition.X - (MapDrawnWidth / 2);
             int lowY = cursorPosition.Y - (MapDrawnHeight / 2);
@@ -53,7 +53,7 @@ namespace Magecrawl.GameUI.Map
                     if (engine.Map.IsPointOnMap(p))
                     {
                         TerrainType t = engine.Map.GetTerrainAt(p);
-                        Color c = ConvertTerrainSpotToColor(t, m_tileVisibility[i, j]);
+                        TCODColor c = ConvertTerrainSpotToColor(t, m_tileVisibility[i, j]);
                         DrawThing(mapUpCorner, p, m_offscreenConsole, c);
                     }
                 }
@@ -84,9 +84,9 @@ namespace Magecrawl.GameUI.Map
             DrawThing(mapUpCorner, engine.Player.Position, m_offscreenConsole, '@');
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
-            m_offscreenConsole.Blit(0, 0, OffscreenWidth, OffscreenHeight, screen, 0, 0);
+            TCODConsole.blit(m_offscreenConsole, 0, 0, OffscreenWidth, OffscreenHeight, screen, 0, 0);
         }
 
         public override void Dispose()
@@ -96,38 +96,38 @@ namespace Magecrawl.GameUI.Map
             m_offscreenConsole = null;
         }
 
-        private static void DrawThing(Point mapUpCorner, Point position, Console screen, Color c)
+        private static void DrawThing(Point mapUpCorner, Point position, TCODConsole screen, TCODColor c)
         {
             int screenPlacementX = mapUpCorner.X + position.X + 1;
             int screenPlacementY = mapUpCorner.Y + position.Y + 1;
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
-                screen.SetCharBackground(screenPlacementX, screenPlacementY, c);
+                screen.setCharBackground(screenPlacementX, screenPlacementY, c);
         }
 
-        private static void DrawThing(Point mapUpCorner, Point position, Console screen, char symbol)
+        private static void DrawThing(Point mapUpCorner, Point position, TCODConsole screen, char symbol)
         {
             int screenPlacementX = mapUpCorner.X + position.X + 1;
             int screenPlacementY = mapUpCorner.Y + position.Y + 1;
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
-                screen.PutChar(screenPlacementX, screenPlacementY, symbol, Background.None);
+                screen.putChar(screenPlacementX, screenPlacementY, symbol, TCODBackgroundFlag.None);
         }
 
-        private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, Console screen, char symbol, char multipleSymbol)
+        private static void DrawThingIfMultipleSpecialSymbol(Point mapUpCorner, Point position, TCODConsole screen, char symbol, char multipleSymbol)
         {
             int screenPlacementX = mapUpCorner.X + position.X + 1;
             int screenPlacementY = mapUpCorner.Y + position.Y + 1;
 
             if (IsDrawableTile(screenPlacementX, screenPlacementY))
             {
-                char currentChar = screen.GetChar(screenPlacementX, screenPlacementY);
+                char currentChar = (char)screen.getChar(screenPlacementX, screenPlacementY);
 
                 // If we already have one of those, or the multipleSymbol, draw the multipleSymbole, else draw normal.
                 if (currentChar == symbol || currentChar == multipleSymbol)
-                    screen.PutChar(screenPlacementX, screenPlacementY, multipleSymbol, Background.None);
+                    screen.putChar(screenPlacementX, screenPlacementY, multipleSymbol, TCODBackgroundFlag.None);
                 else
-                    screen.PutChar(screenPlacementX, screenPlacementY, symbol, Background.None);
+                    screen.putChar(screenPlacementX, screenPlacementY, symbol, TCODBackgroundFlag.None);
             }
         }
 
@@ -167,7 +167,7 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        private Color ConvertTerrainSpotToColor(TerrainType terrain, TileVisibility visibility)
+        private TCODColor ConvertTerrainSpotToColor(TerrainType terrain, TileVisibility visibility)
         {
             if (m_honorFOV && visibility == TileVisibility.Unvisited)
                 return ColorPresets.Black;
@@ -176,14 +176,14 @@ namespace Magecrawl.GameUI.Map
             {
                 case TerrainType.Floor:
                     if (visible)
-                        return (Color)Preferences.Instance["FloorColorVisible"];
+                        return (TCODColor)Preferences.Instance["FloorColorVisible"];
                     else
-                        return (Color)Preferences.Instance["FloorColorNotVisible"];
+                        return (TCODColor)Preferences.Instance["FloorColorNotVisible"];
                 case TerrainType.Wall:
                     if (visible)
-                        return (Color)Preferences.Instance["WallColorVisible"];
+                        return (TCODColor)Preferences.Instance["WallColorVisible"];
                     else
-                        return (Color)Preferences.Instance["WallColorNotVisible"];
+                        return (TCODColor)Preferences.Instance["WallColorNotVisible"];
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }

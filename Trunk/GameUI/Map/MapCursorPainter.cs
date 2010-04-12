@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -29,15 +29,15 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_isSelectionCursor)
             {
-                screen.SetCharBackground(ScreenCenter.X + 1, ScreenCenter.Y + 1, TCODColorPresets.DarkYellow);
+                screen.setCharBackground(ScreenCenter.X + 1, ScreenCenter.Y + 1, TCODColor.darkYellow);
 
                 if (ToolTipsEnabled)
                 {
-                    if (TCODSystem.ElapsedMilliseconds - m_lastCursorMovedTime > TimeUntilToolTipPopup)
+                    if (TCODSystem.getElapsedMilli() - m_lastCursorMovedTime > TimeUntilToolTipPopup)
                     {
                         if (m_currentToolTips.Count > 0)
                         {
@@ -52,18 +52,18 @@ namespace Magecrawl.GameUI.Map
                             if (m_currentToolTips.Count > MaxNumberOfLinesToShow)
                                 longestLine = System.Math.Max(longestLine, 10);
 
-                            screen.BackgroundColor = TCODColorPresets.DarkGray;
+                            screen.setBackgroundColor(ColorPresets.DarkGray);
 
                             int frameHeight = m_currentToolTips.Count > MaxNumberOfLinesToShow ? 3 + numberOfLinesToShow : 2 + numberOfLinesToShow;
-                            screen.DrawFrame(ScreenCenter.X + 2, ScreenCenter.Y - 2, longestLine + 2, frameHeight, false, new Background(BackgroundFlag.Multiply));
+                            screen.printFrame(ScreenCenter.X + 2, ScreenCenter.Y - 2, longestLine + 2, frameHeight, false);
 
                             for (int i = 0; i < numberOfLinesToShow; ++i)
-                                screen.PrintLine(m_currentToolTips[i], ScreenCenter.X + 3, ScreenCenter.Y - 1 + i, new Background(BackgroundFlag.Multiply), LineAlignment.Left);
+                                screen.printEx(ScreenCenter.X + 3, ScreenCenter.Y - 1 + i, TCODBackgroundFlag.Multiply, TCODAlignment.LeftAlignment, m_currentToolTips[i]);
 
                             if (m_currentToolTips.Count > MaxNumberOfLinesToShow)
-                                screen.PrintLine("...more...", ScreenCenter.X + 3, ScreenCenter.Y - 1 + MaxNumberOfLinesToShow, new Background(BackgroundFlag.Multiply), LineAlignment.Left);
+                                screen.printEx(ScreenCenter.X + 3, ScreenCenter.Y - 1 + MaxNumberOfLinesToShow, TCODBackgroundFlag.Multiply, TCODAlignment.LeftAlignment, "...more...");
 
-                            screen.BackgroundColor = TCODColorPresets.Black;
+                            screen.setBackgroundColor(ColorPresets.Black);
                         }
                     }
                 }
@@ -72,7 +72,7 @@ namespace Magecrawl.GameUI.Map
 
         public void NewCursorPosition()
         {
-            m_lastCursorMovedTime = TCODSystem.ElapsedMilliseconds;
+            m_lastCursorMovedTime = TCODSystem.getElapsedMilli();
         }
 
         internal override void DisableAllOverlays()

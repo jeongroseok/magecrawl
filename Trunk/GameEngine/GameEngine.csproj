@@ -140,9 +140,9 @@
     <Compile Include="Weapons\Sword.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="libtcodWrapper, Version=1.5.0.2, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dist\libtcodWrapper.dll</HintPath>
+      <HintPath>..\dist\libtcod-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

@@ -1,4 +1,4 @@
-﻿using libtcodWrapper;
+﻿using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -28,33 +28,33 @@ namespace Magecrawl.GameUI.Dialogs
             m_dialogColorHelper = new DialogColorHelper();
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             const int WelcomeScreenOffset = 13;
             if (m_enabled)
             {
-                m_yesEnabled = TCODSystem.ElapsedSeconds > m_timeToEnableYes;
+                m_yesEnabled = TCODSystem.getElapsedSeconds() > m_timeToEnableYes;
 
                 // Don't make debugger wait
                 if (Preferences.Instance.DebuggingMode)
                     m_yesEnabled = true;
 
                 m_dialogColorHelper.SaveColors(screen);
-                screen.DrawFrame(WelcomeScreenOffset, WelcomeScreenOffset + 5, UIHelper.ScreenWidth - (2 * WelcomeScreenOffset), 11, true);
+                screen.printFrame(WelcomeScreenOffset, WelcomeScreenOffset + 5, UIHelper.ScreenWidth - (2 * WelcomeScreenOffset), 11, true);
                 string quitString;
                 if (m_quitReason == QuitReason.quitAction)
                     quitString = "Quitting the game will delete your current character. To stop playing now and continue your adventure later, use save instead.";
                 else
                     quitString = "Leaving the dungeon will end the game early and delete your current character. To stop playing now and continue your adventure later, use save instead.";
 
-                screen.PrintLineRect(quitString, UIHelper.ScreenWidth / 2, 7 + WelcomeScreenOffset, UIHelper.ScreenWidth - 4 - (2 * WelcomeScreenOffset), UIHelper.ScreenHeight - (2 * WelcomeScreenOffset), LineAlignment.Center);
+                screen.printRectEx(UIHelper.ScreenWidth / 2, 7 + WelcomeScreenOffset, UIHelper.ScreenWidth - 4 - (2 * WelcomeScreenOffset), UIHelper.ScreenHeight - (2 * WelcomeScreenOffset), TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, quitString);
 
-                screen.PrintLine("Really Quit?",  UIHelper.ScreenWidth / 2, 11 + WelcomeScreenOffset, LineAlignment.Center);
+                screen.printEx(UIHelper.ScreenWidth / 2, 11 + WelcomeScreenOffset, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, "Really Quit?");
 
                 m_dialogColorHelper.SetColors(screen, m_yesSelected, m_yesEnabled);
-                screen.PrintLine("Yes", (UIHelper.ScreenWidth / 2) - 6, 13 + WelcomeScreenOffset, LineAlignment.Left);
+                screen.print((UIHelper.ScreenWidth / 2) - 6, 13 + WelcomeScreenOffset, "Yes");
                 m_dialogColorHelper.SetColors(screen, !m_yesSelected, true);
-                screen.PrintLine("No", (UIHelper.ScreenWidth / 2) + 4, 13 + WelcomeScreenOffset, LineAlignment.Left);
+                screen.print((UIHelper.ScreenWidth / 2) + 4, 13 + WelcomeScreenOffset, "No");
 
                 m_dialogColorHelper.ResetColors(screen);
             }
@@ -62,7 +62,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         internal void Enable(QuitReason reason)
         {
-            m_timeToEnableYes = TCODSystem.ElapsedSeconds + 1;
+            m_timeToEnableYes = TCODSystem.getElapsedSeconds() + 1;
             m_enabled = true;
             m_quitReason = reason;
         }

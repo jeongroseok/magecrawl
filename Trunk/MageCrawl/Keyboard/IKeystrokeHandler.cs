@@ -1,5 +1,5 @@
 ﻿using System;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
@@ -14,7 +14,7 @@ namespace Magecrawl.Keyboard
 
     public class NamedKey
     {
-        public KeyCode Code;
+        public TCODKeyCode Code;
         public char Character;
         public bool ControlPressed;
 
@@ -22,7 +22,7 @@ namespace Magecrawl.Keyboard
 
         public NamedKey()
         {
-            Code = (KeyCode)(-1);
+            Code = (TCODKeyCode)(-1);
             Character = (char)0;
             ControlPressed = false;
         }
@@ -35,11 +35,11 @@ namespace Magecrawl.Keyboard
                 name = name.Remove(name.Length - 7);
             }
 
-            if (name.StartsWith("TCODK"))
+            if (name.Length > 1)
             {
                 try
                 {
-                    Code = (KeyCode)Enum.Parse(typeof(KeyCode), name);
+                    Code = (TCODKeyCode)Enum.Parse(typeof(TCODKeyCode), name);
                     Character = '\0';
                 }
                 catch (ArgumentException)
@@ -57,7 +57,7 @@ namespace Magecrawl.Keyboard
         {
             if (name.Length == 1)
             {
-                Code = KeyCode.TCODK_CHAR;
+                Code = TCODKeyCode.Char;
                 Character = name[0];
             }
             else
@@ -93,9 +93,9 @@ namespace Magecrawl.Keyboard
 
         public override string ToString()
         {
-            if (Code != (KeyCode)0 && Code != KeyCode.TCODK_CHAR)
+            if (Code != (TCODKeyCode)0 && Code != TCODKeyCode.Char)
             {
-                if (Code == KeyCode.TCODK_UP || Code == KeyCode.TCODK_DOWN || Code == KeyCode.TCODK_LEFT || Code == KeyCode.TCODK_RIGHT)
+                if (Code == TCODKeyCode.Up || Code == TCODKeyCode.Down || Code == TCODKeyCode.Left || Code == TCODKeyCode.Right)
                 {
                     return "Arrow " + Code.ToString().Replace("TCODK_", String.Empty).ToLower().UpperCaseFirstLetter();
                 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Affects;
 using Magecrawl.GameEngine.Interfaces;
@@ -315,7 +315,7 @@ namespace Magecrawl.GameEngine.Magic
                 return true;
             using (TCODRandom random = new TCODRandom())
             {
-                int element = random.GetRandomInt(0, targetablePoints.Count - 1);
+                int element = random.getInt(0, targetablePoints.Count - 1);
                 EffectivePoint pointToTeleport = targetablePoints[element];
                 CoreGameEngine.Instance.SendTextOutput(string.Format("Things become fuzzy as {0} shifts into a new position.", caster.Name));
                 m_physicsEngine.WarpToPosition(caster, pointToTeleport.Position);

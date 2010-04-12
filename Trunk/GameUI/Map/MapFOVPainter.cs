@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -41,7 +41,7 @@ namespace Magecrawl.GameUI.Map
             m_tileVisibility = visibility;
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
@@ -62,9 +62,9 @@ namespace Magecrawl.GameUI.Map
                                 if (isVisible == TileVisibility.Unvisited)
                                 {
                                     // If it's unvisisted, nuke the square completed black
-                                    screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
-                                    screen.SetCharForeground(screenPlacementX, screenPlacementY, TCODColorPresets.Black);
-                                    screen.PutChar(screenPlacementX, screenPlacementY, ' ');
+                                    screen.setCharBackground(screenPlacementX, screenPlacementY, ColorPresets.Black);
+                                    screen.setCharForeground(screenPlacementX, screenPlacementY, ColorPresets.Black);
+                                    screen.putChar(screenPlacementX, screenPlacementY, ' ');
                                 }
                             }
                         }

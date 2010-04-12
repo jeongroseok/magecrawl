@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
@@ -267,7 +267,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 throw new ArgumentException("Not enough Seams for " + Type.ToString());
             while (Seams.Count > NumberOfNeighbors(Type))
             {
-                Point removedPoint = Seams[m_random.GetRandomInt(0, Seams.Count - 1)];
+                Point removedPoint = Seams[m_random.getInt(0, Seams.Count - 1)];
                 Seams.Remove(removedPoint);
                 MapSegment[removedPoint.X, removedPoint.Y].Terrain = TerrainType.Wall;
             }

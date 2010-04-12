@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.Utilities;
 
@@ -10,9 +10,9 @@ namespace Magecrawl.GameUI.Map.Requests
         private List<Point> m_path;
         private List<List<Point>> m_blast;
         private EffectDone m_doneDelegate;
-        private Color m_color;
+        private TCODColor m_color;
 
-        public ShowExploadingPoint(EffectDone doneDelegate, List<Point> path, List<List<Point>> blast, Color color)
+        public ShowExploadingPoint(EffectDone doneDelegate, List<Point> path, List<List<Point>> blast, TCODColor color)
         {
             m_doneDelegate = doneDelegate;
             m_path = path;

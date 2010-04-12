@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Keyboard;
@@ -52,16 +52,16 @@ namespace Magecrawl.Keyboard
 
         public void HandleKeyStroke()
         {
-            KeyPress key = libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed);
+            TCODKey key = TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed);
 
             NamedKey namedKey;
 
             // Some keys, like backspace, space, and tab have both a character and a code. We only stick one in the dictionary
             // Strip the other one out.
-            if (key.KeyCode == KeyCode.TCODK_CHAR)
-                namedKey = new NamedKey() { Character = (char)key.Character, Code = KeyCode.TCODK_CHAR, ControlPressed = key.Control };
+            if (key.KeyCode == TCODKeyCode.Char)
+                namedKey = new NamedKey() { Character = (char)key.Character, Code = TCODKeyCode.Char, ControlPressed = (key.LeftControl | key.RightControl) };
             else
-                namedKey = new NamedKey() { Character = (char)0, Code = key.KeyCode, ControlPressed = key.Control };
+                namedKey = new NamedKey() { Character = (char)0, Code = key.KeyCode, ControlPressed = (key.LeftControl | key.RightControl) };
 
             m_currentHandler.HandleKeystroke(namedKey);
         }

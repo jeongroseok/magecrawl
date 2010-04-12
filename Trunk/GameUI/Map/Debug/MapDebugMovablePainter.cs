@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -44,7 +44,7 @@ namespace Magecrawl.GameUI.Map.Debug
                 m_moveableGrid = engine.PlayerMoveableToEveryPoint();
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
@@ -58,9 +58,9 @@ namespace Magecrawl.GameUI.Map.Debug
                         if (IsDrawableTile(screenPlacementX, screenPlacementY))
                         {
                             if (m_moveableGrid[i, j])
-                                screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.DarkGreen);
+                                screen.setCharBackground(screenPlacementX, screenPlacementY, ColorPresets.DarkGreen);
                             else
-                                screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.DarkRed);
+                                screen.setCharBackground(screenPlacementX, screenPlacementY, ColorPresets.DarkRed);
                         }
                     }
                 }

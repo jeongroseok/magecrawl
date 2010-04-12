@@ -1,5 +1,6 @@
 ﻿using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
+using libtcod;
 
 namespace Magecrawl.Keyboard.Dialogs
 {
@@ -19,7 +20,7 @@ namespace Magecrawl.Keyboard.Dialogs
 
         public override void HandleKeystroke(NamedKey keystroke)
         {
-            if (keystroke.Code != libtcodWrapper.KeyCode.TCODK_NONE)
+            if (keystroke.Code != TCODKeyCode.NoKey)
             {
                 m_gameInstance.SendPaintersRequest(new EnableWelcome(false));
                 m_gameInstance.UpdatePainters();

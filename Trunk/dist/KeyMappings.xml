@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <KeyMappings>
-  <KeyMapping Key="TCODK_PAGEUP" Action="TextBoxPageUp" />
-  <KeyMapping Key="TCODK_PAGEDOWN" Action="TextBoxPageDown" />
-  <KeyMapping Key="TCODK_BACKSPACE" Action="TextBoxClear" />
-  <KeyMapping Key="TCODK_ESCAPE" Action="Escape" />
+  <KeyMapping Key="Pageup" Action="TextBoxPageUp" />
+  <KeyMapping Key="Pagedown" Action="TextBoxPageDown" />
+  <KeyMapping Key="Backspace" Action="TextBoxClear" />
+  <KeyMapping Key="Escape" Action="Escape" />
   <KeyMapping Key="~" Action="DebugMode" />
-  <KeyMapping Key="TCODK_ENTER" Action="Select" />
+  <KeyMapping Key="Enter" Action="Select" />
 
   <KeyMapping Key="`" Action="SwapWeapon" />
   <KeyMapping Key="?" Action="Help" />

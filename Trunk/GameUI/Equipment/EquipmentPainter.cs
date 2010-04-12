@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -30,16 +30,16 @@ namespace Magecrawl.GameUI.Equipment
             m_shouldNotResetCursorPosition = false;
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
-                screen.DrawFrame(EquipmentWindowOffset, EquipmentWindowTopY, EquipmentItemWidth, EquipmentItemHeight, true, "Equipment");
+                screen.printFrame(EquipmentWindowOffset, EquipmentWindowTopY, EquipmentItemWidth, EquipmentItemHeight, true, TCODBackgroundFlag.Set, "Equipment");
 
-                screen.DrawFrame(EquipmentWindowOffset + 1, EquipmentWindowTopY + EquipmentItemHeight - 6, EquipmentItemWidth - 2, 5, true);
+                screen.printFrame(EquipmentWindowOffset + 1, EquipmentWindowTopY + EquipmentItemHeight - 6, EquipmentItemWidth - 2, 5, true);
 
                 string weaponString = string.Format("Damage: {0}     Evade: {1}     Defense: {2}", m_player.CurrentWeapon.Damage.ToString(), m_player.Evade.ToString(), m_player.Defense.ToString());
-                screen.PrintLine(weaponString, EquipmentWindowOffset + 3, EquipmentWindowTopY + EquipmentItemHeight - 4, LineAlignment.Left);
+                screen.print(EquipmentWindowOffset + 3, EquipmentWindowTopY + EquipmentItemHeight - 4, weaponString);
 
                 List<INamedItem> equipmentList = CreateEquipmentListFromPlayer();
 
@@ -47,11 +47,11 @@ namespace Magecrawl.GameUI.Equipment
                 for (int i = 0; i < equipmentList.Count; ++i)
                 {
                     m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, true);
-                    screen.PrintLine(m_equipmentListTypes[i] + ":", EquipmentWindowOffset + 2, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
+                    screen.print(EquipmentWindowOffset + 2, EquipmentWindowTopY + (2 * i) + 2, m_equipmentListTypes[i] + ":");
                     if (equipmentList[i] != null && !(equipmentList[i].DisplayName == "Melee" && m_equipmentListTypes[i] == "Secondary Weapon"))
-                        screen.PrintLine(equipmentList[i].DisplayName, EquipmentWindowOffset + 22, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
+                        screen.print(EquipmentWindowOffset + 22, EquipmentWindowTopY + (2 * i) + 2, equipmentList[i].DisplayName);
                     else
-                        screen.PrintLine("None", EquipmentWindowOffset + 22, EquipmentWindowTopY + (2 * i) + 2, LineAlignment.Left);
+                        screen.print(EquipmentWindowOffset + 22, EquipmentWindowTopY + (2 * i) + 2, "None");
                 }
                 m_dialogColorHelper.ResetColors(screen);
             }   

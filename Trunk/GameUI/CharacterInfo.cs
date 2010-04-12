@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -61,68 +61,68 @@ namespace Magecrawl.GameUI
             return (int)Math.Floor(((double)character.CurrentMP / (double)character.MaxMP) * 20.0);
         }
 
-        private Color EnemyHealthBarColor(ICharacter character)
+        private TCODColor EnemyHealthBarColor(ICharacter character)
         {
             double percentage = ((double)character.CurrentHP / (double)character.MaxHP) * 100;
             if (percentage > 95)
-                return ColorPresets.DarkBlue / 2;
+                return TCODColor.darkBlue.Divide(2);
             else if (percentage > 70)
-                return ColorPresets.DarkGreen / 2;
+                return TCODColor.darkGreen.Divide(2);
             else if (percentage > 35)
-                return ColorPresets.DarkOrange / 2;
+                return TCODColor.darkOrange.Divide(2);
             else
-                return ColorPresets.DarkRed / 2;
+                return TCODColor.darkRed.Divide(2);
         }
 
-        private Color PlayerHealthBarColor(ICharacter character)
+        private TCODColor PlayerHealthBarColor(ICharacter character)
         {
             double percentage = ((double)character.CurrentHP / (double)character.MaxHP) * 100;
             if (percentage > 95)
-                return ColorPresets.Red / 2;
+                return TCODColor.red.Divide(2);
             else if (percentage > 70)
-                return ColorPresets.Red / 2.5;
+                return TCODColor.red.Divide(2.5);
             else if (percentage > 35)
-                return ColorPresets.Red / 3;
+                return TCODColor.red.Divide(3);
             else
-                return ColorPresets.DarkRed / 2;
+                return TCODColor.darkRed.Divide(2);
         }
 
-        private Color ManaBarColor(IPlayer character)
+        private TCODColor ManaBarColor(IPlayer character)
         {
             double percentage = ((double)character.CurrentMP / (double)character.MaxMP) * 100;
             if (percentage > 95)
-                return ColorPresets.Blue / 1.5;
+                return TCODColor.blue.Divide(1.5);
             else if (percentage > 70)
-                return ColorPresets.Blue / 2;
+                return TCODColor.blue.Divide(2);
             else if (percentage > 35)
-                return ColorPresets.Blue / 3;
+                return TCODColor.blue.Divide(3);
             else
-                return ColorPresets.Blue / 4;
+                return TCODColor.blue.Divide(4);
         }
 
-        public override void DrawNewFrame(libtcodWrapper.Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
-            screen.DrawFrame(StartingX, 0, InfoWidth, InfoHeight, true);
-            screen.PrintLine(m_player.Name, ScreenCenter, 1, LineAlignment.Center);
+            screen.printFrame(StartingX, 0, InfoWidth, InfoHeight, true);
+            screen.printEx(ScreenCenter, 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_player.Name);
 
             string hpString = string.Format("HP: {0}/{1}", m_player.CurrentHP, m_player.MaxHP);
-            screen.PrintLine(hpString, StartingX + 12, 2, LineAlignment.Center);
+            screen.printEx(StartingX + 12, 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, hpString);
             for (int j = 0; j < HealthBarLength(m_player, false); ++j)
-                screen.SetCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColor(m_player));
+                screen.setCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColor(m_player));
 
             string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
-            screen.PrintLine(magicString, StartingX + 12, 3, LineAlignment.Center);
+            screen.printEx(StartingX + 12, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, magicString);
             for (int j = 0; j < ManaBarLength(m_player); ++j)
-                screen.SetCharBackground(StartingX + 2 + j, 3, ManaBarColor(m_player));
+                screen.setCharBackground(StartingX + 2 + j, 3, ManaBarColor(m_player));
 
             string needsLoadedString = m_player.CurrentWeapon.IsLoaded ? string.Empty : "(empty)";
-            screen.PrintLine(string.Format("Weapon: {0}{1}", m_player.CurrentWeapon.DisplayName, needsLoadedString), StartingX + 2, 6, LineAlignment.Left);
+            screen.print(StartingX + 2, 6, string.Format("Weapon: {0}{1}", m_player.CurrentWeapon.DisplayName, needsLoadedString));
             
             int nextAvailablePosition = 8;
 
             if (m_player.StatusEffects.Count() > 0)
             {
-                screen.PrintLine("Status Effects:", StartingX + 2, nextAvailablePosition, LineAlignment.Left);
+                screen.print(StartingX + 2, nextAvailablePosition, "Status Effects:");
                 StringBuilder statusEffects = new StringBuilder();
                 foreach (string s in m_player.StatusEffects)
                 {
@@ -130,7 +130,7 @@ namespace Magecrawl.GameUI
                 }
 
                 // TODO - What happens if this is more then 2 lines worth?
-                int statusEfectLength = screen.PrintLineRect(statusEffects.ToString(), StartingX + 2, nextAvailablePosition + 1, InfoWidth - 4, 2, LineAlignment.Left);
+                int statusEfectLength = screen.printRect(StartingX + 2, nextAvailablePosition + 1, InfoWidth - 4, 2, statusEffects.ToString());
 
                 nextAvailablePosition += 2 + statusEfectLength;
             }
@@ -138,13 +138,13 @@ namespace Magecrawl.GameUI
             if (m_monstersNearby.Count > 0)
             {
                 string countAmount = m_monstersNearby.Count < 8 ? m_monstersNearby.Count.ToString() : "8+";
-                screen.PrintLine(string.Format("Nearby Enemies ({0}):", countAmount), StartingX + 2, nextAvailablePosition, LineAlignment.Left);
+                screen.print(StartingX + 2, nextAvailablePosition, string.Format("Nearby Enemies ({0}):", countAmount));
                 for (int i = 0; i < m_monstersNearby.Count; ++i)
                 {
                     ICharacter currentMonster = m_monstersNearby[i];
-                    screen.PrintLine(currentMonster.Name, StartingX + 12, nextAvailablePosition + 1 + i, LineAlignment.Center);
+                    screen.printEx(StartingX + 12, nextAvailablePosition + 1 + i, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, currentMonster.Name);
                     for (int j = 0; j < HealthBarLength(currentMonster, true); ++j)
-                        screen.SetCharBackground(StartingX + 2 + j, nextAvailablePosition + 1 + i, EnemyHealthBarColor(currentMonster));
+                        screen.setCharBackground(StartingX + 2 + j, nextAvailablePosition + 1 + i, EnemyHealthBarColor(currentMonster));
                 }
                 nextAvailablePosition += 2;
             }
@@ -152,16 +152,16 @@ namespace Magecrawl.GameUI
             if (Preferences.Instance.DebuggingMode)
             {
                 string turnCount = m_turnCount.ToString();
-                screen.PrintLine("Turn Count - " + turnCount, 54, 40, LineAlignment.Left);
+                screen.print(54, 40, "Turn Count - " + turnCount);
 
                 string level = (m_currentLevel + 1).ToString();
-                screen.PrintLine("Level - " + level, 54, 41, LineAlignment.Left);
+                screen.print(54, 41, "Level - " + level);
 
                 string position = m_player.Position.ToString();
-                screen.PrintLine(position, 54, 42, LineAlignment.Left);
+                screen.print(54, 42, position);
 
-                string fps = TCODSystem.FPS.ToString();
-                screen.PrintLine(fps, 54, 43, LineAlignment.Left);
+                string fps = TCODSystem.getFps().ToString();
+                screen.print(54, 43, fps);
             }
         }
     }

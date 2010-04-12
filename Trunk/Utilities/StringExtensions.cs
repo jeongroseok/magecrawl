@@ -1,5 +1,5 @@
 ﻿using System;
-using libtcodWrapper;
+using libtcod;
 
 namespace Magecrawl.Utilities
 {

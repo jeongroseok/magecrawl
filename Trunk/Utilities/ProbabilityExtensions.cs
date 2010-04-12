@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 
 namespace Magecrawl.Utilities
 {
@@ -9,7 +9,7 @@ namespace Magecrawl.Utilities
     {
         public static bool Chance(this TCODRandom r, int probability)
         {
-            return r.GetRandomInt(0, 99) < probability;
+            return r.getInt(0, 99) < probability;
         }
 
         public static List<T> Randomize<T>(this List<T> list)
