@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
@@ -19,8 +19,8 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             Map map;
 
-            int width = m_random.GetRandomInt(40, 60);
-            int height = m_random.GetRandomInt(40, 60);
+            int width = m_random.getInt(40, 60);
+            int height = m_random.getInt(40, 60);
             map = new Map(width, height);
             Map duplicateMap = new Map(width, height);
 
@@ -130,7 +130,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private void GenerateMonstersAndChests(Map map, Point pointToAvoid)
         {
-            int treasureToGenerate = m_random.GetRandomInt(3, 6);
+            int treasureToGenerate = m_random.getInt(3, 6);
             int treasuresGenerated = 0;
 
             Point segmentSizedPoint = new Point(SegmentSize, SegmentSize);
@@ -153,7 +153,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     }
                 }
 
-                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.GetRandomInt(2, 4));
+                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.getInt(2, 4));
             }
         }
 

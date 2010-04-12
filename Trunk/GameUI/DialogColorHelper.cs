@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
     public sealed class DialogColorHelper
     {
-        private Color m_savedForeground;
-        private Color m_savedBackground;
+        private TCODColor m_savedForeground;
+        private TCODColor m_savedBackground;
         private bool m_stuffSaved;
 
         public DialogColorHelper()
@@ -14,49 +15,49 @@ namespace Magecrawl.GameUI
             m_stuffSaved = false;
         }
 
-        public void ResetColors(Console screen)
+        public void ResetColors(TCODConsole screen)
         {
             if (m_stuffSaved)
             {
-                screen.ForegroundColor = m_savedForeground;
-                screen.BackgroundColor = m_savedBackground;
+                screen.setForegroundColor(m_savedForeground);
+                screen.setBackgroundColor(m_savedBackground);
                 m_stuffSaved = false;
             }
         }
 
-        public void SaveColors(Console screen)
+        public void SaveColors(TCODConsole screen)
         {
-            m_savedForeground = screen.ForegroundColor;
-            m_savedBackground = screen.BackgroundColor;
+            m_savedForeground = screen.getForegroundColor();
+            m_savedBackground = screen.getBackgroundColor();
             m_stuffSaved = true;
         }
 
-        public void SetColors(Console screen, bool selected, bool enabled)
+        public void SetColors(TCODConsole screen, bool selected, bool enabled)
         {
             if (enabled)
             {
                 if (selected)
                 {
-                    screen.ForegroundColor = ColorPresets.LightGray;
-                    screen.BackgroundColor = TCODColorPresets.BrightBlue;
+                    screen.setForegroundColor(ColorPresets.LightGray);
+                    screen.setBackgroundColor(ColorPresetsFromTCOD.BrightBlue);
                 }
                 else
                 {
-                    screen.ForegroundColor = TCODColorPresets.Gray;
-                    screen.BackgroundColor = TCODColorPresets.Black;
+                    screen.setForegroundColor(ColorPresets.Gray);
+                    screen.setBackgroundColor(ColorPresets.Black);
                 }
             }
             else
             {
                 if (selected)
                 {
-                    screen.ForegroundColor = TCODColorPresets.Red;
-                    screen.BackgroundColor = TCODColorPresets.BrightYellow;
+                    screen.setForegroundColor(ColorPresets.Red);
+                    screen.setBackgroundColor(ColorPresetsFromTCOD.BrightYellow);
                 }
                 else
                 {
-                    screen.ForegroundColor = TCODColorPresets.Red;
-                    screen.BackgroundColor = TCODColorPresets.Black;
+                    screen.setForegroundColor(ColorPresets.Red);
+                    screen.setBackgroundColor(ColorPresets.Black);
                 }
             }
         }

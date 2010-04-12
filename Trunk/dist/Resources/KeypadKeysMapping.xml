@@ -1,17 +1,17 @@
 <?xml version="1.0" ?>
 <KeyMappings>
-  <KeyMapping Key="TCODK_KP8" Action="North" />
-  <KeyMapping Key="TCODK_KP2" Action="South" />
-  <KeyMapping Key="TCODK_KP4" Action="West" />
-  <KeyMapping Key="TCODK_KP6" Action="East" />
-  <KeyMapping Key="TCODK_KP7" Action="Northwest" />
-  <KeyMapping Key="TCODK_KP1" Action="Southwest" />
-  <KeyMapping Key="TCODK_KP9" Action="Northeast" />
-  <KeyMapping Key="TCODK_KP3" Action="Southeast" />
-  <KeyMapping Key="TCODK_KPENTER" Action="AlternateSelect" />
-  <KeyMapping Key="TCODK_UP" Action="AlternateNorth" />
-  <KeyMapping Key="TCODK_DOWN" Action="AlternateSouth" />
-  <KeyMapping Key="TCODK_LEFT" Action="AlternateWest" />
-  <KeyMapping Key="TCODK_RIGHT" Action="AlternateEast" />
-  <KeyMapping Key="TCODK_KP5" Action="Wait" />
+  <KeyMapping Key="KeypadEight" Action="North" />
+  <KeyMapping Key="KeypadTwo" Action="South" />
+  <KeyMapping Key="KeypadFour" Action="West" />
+  <KeyMapping Key="KeypadSix" Action="East" />
+  <KeyMapping Key="KeypadSeven" Action="Northwest" />
+  <KeyMapping Key="KeypadOne" Action="Southwest" />
+  <KeyMapping Key="KeypadNine" Action="Northeast" />
+  <KeyMapping Key="KeypadThree" Action="Southeast" />
+  <KeyMapping Key="KeypadEnter" Action="AlternateSelect" />
+  <KeyMapping Key="Up" Action="AlternateNorth" />
+  <KeyMapping Key="Down" Action="AlternateSouth" />
+  <KeyMapping Key="Left" Action="AlternateWest" />
+  <KeyMapping Key="Right" Action="AlternateEast" />
+  <KeyMapping Key="KeypadFive" Action="Wait" />
 </KeyMappings>

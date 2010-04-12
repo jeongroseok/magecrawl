@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Equipment;
@@ -64,7 +64,7 @@ namespace Magecrawl.GameUI
             m_painters = null;
         }
 
-        public void DrawAnimationSynchronous(RootConsole console)
+        public void DrawAnimationSynchronous(TCODConsole console)
         {
             m_painters.OfType<MapEffectsPainter>().First().DrawAnimationSynchronous(this, console);
         }
@@ -80,7 +80,7 @@ namespace Magecrawl.GameUI
             }
         }
 
-        public void DrawNewFrame(Console console)
+        public void DrawNewFrame(TCODConsole console)
         {
             foreach (PainterBase p in m_painters)
             {

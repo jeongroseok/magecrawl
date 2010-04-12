@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
@@ -20,10 +20,8 @@ namespace Magecrawl.GameUI
         private const string Font = "arial12x12.png";
         private const int NumberCharsHorz = 32;
         private const int NumberCharsVert = 8;
-        private static CustomFontRequestFontTypes flags = CustomFontRequestFontTypes.Grayscale | CustomFontRequestFontTypes.LayoutTCOD;
-        private static CustomFontRequest fontReq = new CustomFontRequest(Font, flags, NumberCharsHorz, NumberCharsVert);
 
-        public static Color ForegroundColor
+        public static TCODColor ForegroundColor
         {
             get
             {
@@ -31,16 +29,16 @@ namespace Magecrawl.GameUI
             }
         }
 
-        public static RootConsole SetupUI()
+        public static TCODConsole SetupUI()
         {
-            RootConsole.Width = ScreenWidth;
-            RootConsole.Height = ScreenHeight;
-            RootConsole.Font = fontReq;
-            RootConsole.WindowTitle = "MageCrawl";
-            RootConsole.Fullscreen = (bool)Preferences.Instance["Fullscreen"];
-            TCODSystem.FPS = 30;
-            RootConsole rootConsole = libtcodWrapper.RootConsole.GetInstance();
-            rootConsole.ForegroundColor = ForegroundColor;
+            TCODConsole.setCustomFont(Font, (int)(TCODFontFlags.Grayscale | TCODFontFlags.LayoutTCOD), NumberCharsHorz, NumberCharsVert);
+            TCODConsole.initRoot(ScreenWidth, ScreenHeight, "MageCrawl", (bool)Preferences.Instance["Fullscreen"], TCODRendererType.SDL);
+
+            TCODSystem.setFps(30);
+            TCODConsole rootConsole = TCODConsole.root;
+            rootConsole.setForegroundColor(ForegroundColor);
+            rootConsole.setAlignment(TCODAlignment.LeftAlignment);
+            rootConsole.setBackgroundFlag(TCODBackgroundFlag.Set);
             return rootConsole;
         }
     }

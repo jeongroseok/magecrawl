@@ -48,7 +48,9 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyDirectory.cs" />
+    <Compile Include="ColorExtensions.cs" />
     <Compile Include="ColorGenerator.cs" />
+    <Compile Include="ColorPresets.cs" />
     <Compile Include="DiceRoll.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="EffectivePoint.cs" />
@@ -64,9 +66,8 @@
     <Compile Include="BresenhamLine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="libtcodWrapper, Version=1.5.0.2, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dist\libtcodWrapper.dll</HintPath>
+    <Reference Include="libtcod-net">
+      <HintPath>..\dist\libtcod-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

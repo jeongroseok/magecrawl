@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
@@ -129,7 +129,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
         private MapChunk GetRandomChunkFromList(List<MapChunk> chunk)
         {
-            MapChunk newChunk = new MapChunk(chunk[m_random.GetRandomInt(0, chunk.Count - 1)]);
+            MapChunk newChunk = new MapChunk(chunk[m_random.getInt(0, chunk.Count - 1)]);
             newChunk.Prepare();
             return newChunk;
         }
@@ -150,7 +150,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     MapChunk entranceChunk = GetRandomChunkFromList(m_entrances);
 
                     // We need to place entrace so it's at our expected location
-                    Point randomCenter = new Point(m_random.GetRandomInt(100, 150), m_random.GetRandomInt(100, 150));
+                    Point randomCenter = new Point(m_random.getInt(100, 150), m_random.getInt(100, 150));
                     Point entraceUpperLeftCorner = randomCenter - entranceChunk.PlayerPosition;
 
                     parentChain.Push(entranceChunk, entraceUpperLeftCorner, Point.Invalid);

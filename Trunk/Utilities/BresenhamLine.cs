@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using libtcodWrapper;
+using libtcod;
 
 namespace Magecrawl.Utilities
 {
@@ -12,11 +12,11 @@ namespace Magecrawl.Utilities
         {
             List<Point> returnList = new List<Point>();
 
-            TCODLineDrawing.InitLine(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
+            TCODLine.init(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
 
             int currentX = startPoint.X;
             int currentY = startPoint.Y;          
-            while (!TCODLineDrawing.StepLine(ref currentX, ref currentY))
+            while (!TCODLine.step(ref currentX, ref currentY))
             {
                 returnList.Add(new Point(currentX, currentY));
             }

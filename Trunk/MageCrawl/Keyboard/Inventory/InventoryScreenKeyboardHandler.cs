@@ -6,6 +6,7 @@ using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
+using libtcod;
 
 namespace Magecrawl.Keyboard.Inventory
 {
@@ -34,7 +35,7 @@ namespace Magecrawl.Keyboard.Inventory
             {
                 action.Invoke(this, null);
             }
-            else if (keystroke.Code == libtcodWrapper.KeyCode.TCODK_CHAR)
+            else if (keystroke.Code == TCODKeyCode.Char)
             {
                 m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, ItemSelectedDelegate));
             }

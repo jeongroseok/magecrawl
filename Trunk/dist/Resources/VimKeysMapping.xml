@@ -8,8 +8,8 @@
   <KeyMapping Key="b" Action="Southwest" />
   <KeyMapping Key="u" Action="Northeast" />
   <KeyMapping Key="n" Action="Southeast" />
-  <KeyMapping Key="TCODK_UP" Action="AlternateNorth" />
-  <KeyMapping Key="TCODK_DOWN" Action="AlternateSouth" />
-  <KeyMapping Key="TCODK_LEFT" Action="AlternateWest" />
-  <KeyMapping Key="TCODK_RIGHT" Action="AlternateEast" />
+  <KeyMapping Key="Up" Action="AlternateNorth" />
+  <KeyMapping Key="Down" Action="AlternateSouth" />
+  <KeyMapping Key="Left" Action="AlternateWest" />
+  <KeyMapping Key="Right" Action="AlternateEast" />
 </KeyMappings>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interfaces

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
 
@@ -36,7 +36,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     Point position = pointsWithClearTerrain[0];
                     pointsWithClearTerrain.RemoveAt(0);
 
-                    switch (m_random.GetRandomInt(0, 4))
+                    switch (m_random.getInt(0, 4))
                     {
                         case 0:
                             map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateMonster("Orc Barbarian", position));

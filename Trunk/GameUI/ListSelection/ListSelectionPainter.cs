@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -44,12 +44,12 @@ namespace Magecrawl.GameUI.ListSelection
             m_shouldNotResetCursorPosition = false;
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
                 m_higherRange = m_isScrollingNeeded ? m_lowerRange + NumberOfLinesDisplayable : m_itemList.Count;
-                screen.DrawFrame(InventoryWindowOffset, InventoryWindowOffset, InventoryItemWidth, InventoryItemHeight, true, m_title);
+                screen.printFrame(InventoryWindowOffset, InventoryWindowOffset, InventoryItemWidth, InventoryItemHeight, true, TCODBackgroundFlag.Set, m_title);
                 
                 // Start lettering from our placementOffset.
                 char currentLetter = 'a';
@@ -71,13 +71,13 @@ namespace Magecrawl.GameUI.ListSelection
                         // This is the case for Tab Seperated Spaces, used for magic lists and such
                         string[] sectionArray = displayString.Split(new char[] { '\t' }, 3);
 
-                        screen.PrintLine(currentLetter + " - " + sectionArray[0], InventoryWindowOffset + 1, InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Left);
+                        screen.print(InventoryWindowOffset + 1, InventoryWindowOffset + 1 + positionalOffsetFromTop, currentLetter + " - " + sectionArray[0]);
                         if (sectionArray.Length > 1)
                         {
-                            screen.PrintLine(sectionArray[1], InventoryWindowOffset + (InventoryItemWidth / 2), InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Left);
+                            screen.print(InventoryWindowOffset + (InventoryItemWidth / 2), InventoryWindowOffset + 1 + positionalOffsetFromTop, sectionArray[1]);
                             if (sectionArray.Length > 2)
                             {
-                                screen.PrintLine(sectionArray[2], InventoryWindowOffset - 2 + InventoryItemWidth, InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Right);
+                                screen.printEx(InventoryWindowOffset - 2 + InventoryItemWidth, InventoryWindowOffset + 1 + positionalOffsetFromTop, TCODBackgroundFlag.Set, TCODAlignment.RightAlignment, sectionArray[2]);
                             }
                         }
                     }
@@ -88,7 +88,7 @@ namespace Magecrawl.GameUI.ListSelection
                             printString = string.Format("{0} - {1}", currentLetter, displayString);
                         else
                             printString = " - " + displayString;
-                        screen.PrintLine(printString, InventoryWindowOffset + 1, InventoryWindowOffset + 1 + positionalOffsetFromTop, Background.Set, LineAlignment.Left);
+                        screen.print(InventoryWindowOffset + 1, InventoryWindowOffset + 1 + positionalOffsetFromTop, printString);
                     }
 
                     currentLetter = IncrementLetter(currentLetter);

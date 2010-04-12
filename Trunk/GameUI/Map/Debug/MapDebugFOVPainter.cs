@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -13,7 +13,7 @@ namespace Magecrawl.GameUI.Map.Debug
         private Point m_mapUpCorner;
         private List<Point> m_playerFOV;
         private Dictionary<ICharacter, List<Point>> m_monsterFOV;
-        private Dictionary<int, Color> m_monsterFOVColor;
+        private Dictionary<int, TCODColor> m_monsterFOVColor;
 
         public MapDebugFOVPainter()
         {
@@ -23,10 +23,10 @@ namespace Magecrawl.GameUI.Map.Debug
             m_width = 0;
             m_height = 0;
             m_mapUpCorner = new Point();
-            m_monsterFOVColor = new Dictionary<int, Color>();
+            m_monsterFOVColor = new Dictionary<int, TCODColor>();
         }
 
-        private Color GetColorForMonster(ICharacter character)
+        private TCODColor GetColorForMonster(ICharacter character)
         {
             if (!m_monsterFOVColor.ContainsKey(character.UniqueID))
             {
@@ -60,7 +60,7 @@ namespace Magecrawl.GameUI.Map.Debug
             }
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (m_enabled)
             {
@@ -69,7 +69,7 @@ namespace Magecrawl.GameUI.Map.Debug
                     int screenPlacementX = m_mapUpCorner.X + p.X + 1;
                     int screenPlacementY = m_mapUpCorner.Y + p.Y + 1;
                     if (IsDrawableTile(screenPlacementX, screenPlacementY))
-                        screen.SetCharBackground(screenPlacementX, screenPlacementY, TCODColorPresets.DarkRed);
+                        screen.setCharBackground(screenPlacementX, screenPlacementY, ColorPresets.DarkRed);
                 }
                 foreach (ICharacter c in m_monsterFOV.Keys)
                 {
@@ -79,8 +79,8 @@ namespace Magecrawl.GameUI.Map.Debug
                         int screenPlacementY = m_mapUpCorner.Y + p.Y + 1;
                         if (IsDrawableTile(screenPlacementX, screenPlacementY))
                         {
-                            Color currentColor = screen.GetCharBackground(screenPlacementX, screenPlacementY);
-                            screen.SetCharBackground(screenPlacementX, screenPlacementY, Color.Interpolate(currentColor, GetColorForMonster(c), .6));
+                            TCODColor currentColor = screen.getCharBackground(screenPlacementX, screenPlacementY);
+                            screen.setCharBackground(screenPlacementX, screenPlacementY, TCODColor.Interpolate(currentColor, GetColorForMonster(c), .6f));
                         }
                     }
                 }

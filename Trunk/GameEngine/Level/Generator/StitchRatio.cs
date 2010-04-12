@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level.Generator
@@ -92,7 +92,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             while (true)
             {
-                MapNodeType attempt = possibleList[m_random.GetRandomInt(0, listLength - 1)];
+                MapNodeType attempt = possibleList[m_random.getInt(0, listLength - 1)];
                 if (m_random.Chance(GetGenerationChance(parent, attempt)))
                 {
                     if (attempt != MapNodeType.None)

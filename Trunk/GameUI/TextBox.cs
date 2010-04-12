@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -21,10 +21,10 @@ namespace Magecrawl.GameUI
             m_textBoxPosition = 0;
         }
 
-        public void Draw(RootConsole screen)
+        public void Draw(TCODConsole screen)
         {
             const int LinesInTextConsole = TextBoxHeight - 2;
-            screen.DrawFrame(0, TextBoxYPosition, TextBoxWidth, TextBoxHeight, true);
+            screen.printFrame(0, TextBoxYPosition, TextBoxWidth, TextBoxHeight, true);
 
             if (m_textList.Count == 0)
                 return;        // No Text == Nothing to Draw.
@@ -42,18 +42,18 @@ namespace Magecrawl.GameUI
                 string currentString = m_textList[m_textBoxPosition + currentElement];
                 
                 // If it's over 1 line long, we treat it special. See if it will be early.
-                int numberOfLinesLong = screen.GetHeightPrintLineRectWouldUse(currentString, 1, TextBoxYPosition, TextBoxWidth - 2, 8, LineAlignment.Left);
+                int numberOfLinesLong = screen.getHeightRect(1, TextBoxYPosition, TextBoxWidth - 2, 8, currentString);
 
                 if (numberOfLinesLong > 1)
                 {
                     i += numberOfLinesLong - 1;
                     if (i >= LinesInTextConsole)
                         break;
-                    screen.PrintLineRect(currentString, 1, TextBoxYPosition + LinesInTextConsole - i, TextBoxWidth - 2, numberOfLinesLong, LineAlignment.Left);
+                    screen.printRect(1, TextBoxYPosition + LinesInTextConsole - i, TextBoxWidth - 2, numberOfLinesLong, currentString);
                 }
                 else
                 {
-                    screen.PrintLine(currentString, 1, TextBoxYPosition + LinesInTextConsole - i, LineAlignment.Left);
+                    screen.print(1, TextBoxYPosition + LinesInTextConsole - i, currentString);
                 }
                 currentElement++;
             }

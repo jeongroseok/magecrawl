@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Magecrawl.GameUI;
+using libtcod;
 
 namespace Magecrawl
 {
@@ -17,7 +18,7 @@ namespace Magecrawl
                     result = welcomeWindow.Run();
                 }
 
-                if (result.Quitting || libtcodWrapper.RootConsole.GetInstance().IsWindowClosed())
+                if (result.Quitting || TCODConsole.isWindowClosed())
                     return;
 
                 using (GameInstance inst = new GameInstance())
@@ -29,7 +30,7 @@ namespace Magecrawl
             {
                 // In debug builds, we want the exception to be rethrown to make debugging easier. In release builds, we want it to get written to a file.
 #if DEBUG
-                throw e;
+                throw;
 #else
                 using (TextWriter tw = new StreamWriter("DebuggingLog.txt"))
                 {

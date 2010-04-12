@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -22,7 +22,7 @@ namespace Magecrawl.GameUI.MapEffects
 
         private Point m_mapUpCorner;
         private EffectTypes m_type;
-        private Color m_color;
+        private TCODColor m_color;
         private bool m_done;
         private EffectDone m_doneDelegate;
 
@@ -41,18 +41,18 @@ namespace Magecrawl.GameUI.MapEffects
         }
 
         // Used when we're responding to a callback from the game engine that something happened on someone else's turn.
-        public void DrawAnimationSynchronous(PaintingCoordinator coord, RootConsole screen)
+        public void DrawAnimationSynchronous(PaintingCoordinator coord, TCODConsole screen)
         {
             while (!m_done)
             {
                 coord.DrawNewFrame(screen);
-                screen.Flush();
+                TCODConsole.flush();
             }
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
-            uint frameNumber = (TCODSystem.ElapsedMilliseconds - m_animationStartTime) / MillisecondsPerFrame;
+            uint frameNumber = (TCODSystem.getElapsedMilli() - m_animationStartTime) / MillisecondsPerFrame;
             switch (m_type)
             {
                 case EffectTypes.RangedBolt:
@@ -70,7 +70,7 @@ namespace Magecrawl.GameUI.MapEffects
             }
         }
 
-        private void DrawExploadingPointFrame(Console screen, uint frameNumber)
+        private void DrawExploadingPointFrame(TCODConsole screen, uint frameNumber)
         {
             if ((m_path.Count + (m_blast.Count * 2) - 1) < frameNumber)
             {
@@ -101,7 +101,7 @@ namespace Magecrawl.GameUI.MapEffects
             }
         }
 
-        private void DrawRangedBoltFrame(Console screen, uint frameNumber)
+        private void DrawRangedBoltFrame(TCODConsole screen, uint frameNumber)
         {
             if ((m_points.Count + m_tailLength) <= frameNumber)
             {
@@ -116,7 +116,7 @@ namespace Magecrawl.GameUI.MapEffects
             }
         }
 
-        private void DrawConeFrame(Console screen, uint frameNumber)
+        private void DrawConeFrame(TCODConsole screen, uint frameNumber)
         {
             if (frameNumber > 9)
             {
@@ -132,11 +132,11 @@ namespace Magecrawl.GameUI.MapEffects
             }
         }
 
-        private void DrawPoint(Console screen, Point p, char c)
+        private void DrawPoint(TCODConsole screen, Point p, char c)
         {
             Point screenPosition = new Point(m_mapUpCorner.X + p.X + 1, m_mapUpCorner.Y + p.Y + 1);
-            screen.PutChar(screenPosition.X, screenPosition.Y, c, Background.None);
-            screen.SetCharForeground(screenPosition.X, screenPosition.Y, m_color);
+            screen.putChar(screenPosition.X, screenPosition.Y, c, TCODBackgroundFlag.None);
+            screen.setCharForeground(screenPosition.X, screenPosition.Y, m_color);
         }
 
         private void FinishAnimation()
@@ -151,10 +151,10 @@ namespace Magecrawl.GameUI.MapEffects
             return;
         }
 
-        public void DrawRangedBolt(EffectDone effectDoneDelegate, List<Point> path, Color color, int tailLength, bool drawLastTargetSquare)
+        public void DrawRangedBolt(EffectDone effectDoneDelegate, List<Point> path, TCODColor color, int tailLength, bool drawLastTargetSquare)
         {
             m_type = EffectTypes.RangedBolt;
-            m_animationStartTime = TCODSystem.ElapsedMilliseconds;
+            m_animationStartTime = TCODSystem.getElapsedMilli();
             m_doneDelegate = effectDoneDelegate;
             m_points = path;
 
@@ -166,10 +166,10 @@ namespace Magecrawl.GameUI.MapEffects
             m_done = false;
         }
 
-        public void DrawConeBlast(EffectDone effectDoneDelegate, List<Point> points, Color color)
+        public void DrawConeBlast(EffectDone effectDoneDelegate, List<Point> points, TCODColor color)
         {
             m_type = EffectTypes.Cone;
-            m_animationStartTime = TCODSystem.ElapsedMilliseconds;
+            m_animationStartTime = TCODSystem.getElapsedMilli();
             m_doneDelegate = effectDoneDelegate;
             m_points = points;
 
@@ -177,10 +177,10 @@ namespace Magecrawl.GameUI.MapEffects
             m_done = false;
         }
 
-        public void DrawExploadingPointBlast(EffectDone effectDoneDelegate, List<Point> path, List<List<Point>> blast, Color color)
+        public void DrawExploadingPointBlast(EffectDone effectDoneDelegate, List<Point> path, List<List<Point>> blast, TCODColor color)
         {
             m_type = EffectTypes.ExploadingPoint;
-            m_animationStartTime = TCODSystem.ElapsedMilliseconds;
+            m_animationStartTime = TCODSystem.getElapsedMilli();
             m_doneDelegate = effectDoneDelegate;
             m_path = path;
             m_blast = blast;

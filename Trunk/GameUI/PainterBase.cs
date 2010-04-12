@@ -1,4 +1,4 @@
-﻿using libtcodWrapper;
+﻿using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -6,7 +6,7 @@ namespace Magecrawl.GameUI
 {
     internal abstract class PainterBase : IHandlePainterRequest
     {
-        public abstract void DrawNewFrame(Console screen);
+        public abstract void DrawNewFrame(TCODConsole screen);
 
         public virtual void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {

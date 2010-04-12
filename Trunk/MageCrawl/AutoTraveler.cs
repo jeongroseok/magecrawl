@@ -6,6 +6,7 @@ using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Requests;
 using Magecrawl.Utilities;
+using libtcod;
 
 namespace Magecrawl
 {
@@ -56,7 +57,7 @@ namespace Magecrawl
             while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
             {
                 // If user hits a key while traveling, stop
-                if (libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed).Pressed)
+                if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)
                     break;
 
                 List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
@@ -84,7 +85,7 @@ namespace Magecrawl
             while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
             {
                 // If user hits a key while traveling, stop
-                if (libtcodWrapper.Keyboard.CheckForKeypress(libtcodWrapper.KeyPressType.Pressed).Pressed)
+                if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)
                     break;
 
                 ableToMoveNextSquare = m_engine.MovePlayer(direction);

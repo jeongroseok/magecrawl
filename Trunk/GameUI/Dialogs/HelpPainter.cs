@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using libtcodWrapper;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
@@ -21,91 +21,90 @@ namespace Magecrawl.GameUI.Dialogs
             m_firstFrame = true;
         }
 
-        public override void DrawNewFrame(Console screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             const int LeftThird = UIHelper.ScreenWidth / 6;
             const int RightThird = 4 * UIHelper.ScreenWidth / 6;
 
             if (m_enabled)
             {
-                screen.Clear();
+                screen.clear();
 
                 if (m_firstFrame)
                 {
-                    screen.ResetCreditsAnimation();
+                    TCODConsole.resetCredits();
                     m_firstFrame = false;
                 }
 
                 if (!m_creditsDone)
                 {
                     m_dialogColorHelper.SaveColors(screen);
-                    m_creditsDone = screen.ConsoleCreditsRender(RightThird + 10, 54, true);
+                    m_creditsDone = TCODConsole.renderCredits(RightThird + 10, 54, true);
                     m_dialogColorHelper.ResetColors(screen);
                 }
 
-                screen.DrawFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, false, "Help");
+                screen.printFrame(0, 0, UIHelper.ScreenWidth, UIHelper.ScreenHeight, false, TCODBackgroundFlag.Set, "Help");
 
-                string thanksText = "Copyright Chris Hamons 2010.\nThank you Ben for\nearly development help.\n\nSoli Deo Gloria";
-                screen.PrintLineRect(thanksText, RightThird - 19, 52, 45, 7, LineAlignment.Left);
+                screen.printRect(RightThird - 19, 52, 45, 7, "Copyright Chris Hamons 2010.\nThank you Ben for\nearly development help.\n\nSoli Deo Gloria");
 
                 const int SymbolStartY = 3;
                 const int SymbolVerticalOffset = -8;
-                screen.PrintLine("Map Symbols", LeftThird + SymbolVerticalOffset, SymbolStartY, LineAlignment.Left);
-                screen.PrintLine("------------------------", LeftThird + SymbolVerticalOffset, SymbolStartY + 1, LineAlignment.Left);
-                screen.PrintLine("@ - You", LeftThird + SymbolVerticalOffset, SymbolStartY + 2, LineAlignment.Left);
-                screen.PrintLine("; - Open Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 3, LineAlignment.Left);
-                screen.PrintLine(": - Closed Door", LeftThird + SymbolVerticalOffset, SymbolStartY + 4, LineAlignment.Left);
-                screen.PrintLine("_ - Cosmetic", LeftThird + SymbolVerticalOffset, SymbolStartY + 5, LineAlignment.Left);
-                screen.PrintLine("& - Item on Ground", LeftThird + SymbolVerticalOffset, SymbolStartY + 6, LineAlignment.Left);
-                screen.PrintLine("%% - Stack of Items", LeftThird + SymbolVerticalOffset, SymbolStartY + 7, LineAlignment.Left);
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY, "Map Symbols");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 1, "------------------------");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 2, "@ - You");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 3, "; - Open Door");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 4, ": - Closed Door");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 5, "_ - Cosmetic");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 6, "& - Item on Ground");
+                screen.print(LeftThird + SymbolVerticalOffset, SymbolStartY + 7, "%% - Stack of Items");
 
                 const int ActionStartY = SymbolStartY + 10;
                 const int ActionVerticalOffset = -8;
-                screen.PrintLine("Action Keys", LeftThird + ActionVerticalOffset, ActionStartY, LineAlignment.Left);
-                screen.PrintLine("------------------------", LeftThird + ActionVerticalOffset, ActionStartY + 1, LineAlignment.Left);
-                screen.PrintLine("Attack (or reload) - " + m_keyMappings["Attack"], LeftThird + ActionVerticalOffset, ActionStartY + 2, LineAlignment.Left);
-                screen.PrintLine("Get Item           - " + m_keyMappings["GetItem"], LeftThird + ActionVerticalOffset, ActionStartY + 3, LineAlignment.Left);
-                screen.PrintLine("Cast Spell         - " + m_keyMappings["CastSpell"], LeftThird + ActionVerticalOffset, ActionStartY + 4, LineAlignment.Left);
-                screen.PrintLine("Inventory          - " + m_keyMappings["Inventory"], LeftThird + ActionVerticalOffset, ActionStartY + 5, LineAlignment.Left);
-                screen.PrintLine("Equipment          - " + m_keyMappings["Equipment"], LeftThird + ActionVerticalOffset, ActionStartY + 6, LineAlignment.Left);
-                screen.PrintLine("Operate            - " + m_keyMappings["Operate"], LeftThird + ActionVerticalOffset, ActionStartY + 7, LineAlignment.Left);
-                screen.PrintLine("Wait               - " + m_keyMappings["Wait"], LeftThird + ActionVerticalOffset, ActionStartY + 8, LineAlignment.Left);
-                screen.PrintLine("Move To Location   - " + m_keyMappings["MoveToLocation"], LeftThird + ActionVerticalOffset, ActionStartY + 9, LineAlignment.Left);
-                screen.PrintLine("View Mode          - " + m_keyMappings["ViewMode"], LeftThird + ActionVerticalOffset, ActionStartY + 10, LineAlignment.Left);
-                screen.PrintLine("Down Stairs        - " + m_keyMappings["DownStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 11, LineAlignment.Left);
-                screen.PrintLine("Up Stairs          - " + m_keyMappings["UpStairs"], LeftThird + ActionVerticalOffset, ActionStartY + 12, LineAlignment.Left);
-                screen.PrintLine("Swap Weapons       - " + m_keyMappings["SwapWeapon"], LeftThird + ActionVerticalOffset, ActionStartY + 13, LineAlignment.Left);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY, "Action Keys");
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 1, "------------------------");
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 2, "Attack (or reload) - " + m_keyMappings["Attack"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 3, "Get Item           - " + m_keyMappings["GetItem"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 4, "Cast Spell         - " + m_keyMappings["CastSpell"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 5, "Inventory          - " + m_keyMappings["Inventory"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 6, "Equipment          - " + m_keyMappings["Equipment"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 7, "Operate            - " + m_keyMappings["Operate"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 8, "Wait               - " + m_keyMappings["Wait"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 9, "Move To Location   - " + m_keyMappings["MoveToLocation"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 10, "View Mode          - " + m_keyMappings["ViewMode"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 11, "Down Stairs        - " + m_keyMappings["DownStairs"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 12, "Up Stairs          - " + m_keyMappings["UpStairs"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 13, "Swap Weapons       - " + m_keyMappings["SwapWeapon"]);
 
                 const int RebindingStartY = SymbolStartY;
                 string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";
-                screen.DrawFrame(RightThird - 12, RebindingStartY, 31, 9, true);
-                screen.PrintLineRect(rebindingText, RightThird - 11, RebindingStartY + 1, 29, 8, LineAlignment.Left);
+                screen.printFrame(RightThird - 12, RebindingStartY, 31, 9, true);
+                screen.printRect(RightThird - 11, RebindingStartY + 1, 29, 8, rebindingText);
 
                 const int DirectionStartY = ActionStartY + 16;
                 const int DirectionVerticalOffset = -8;
-                screen.PrintLine("Direction Keys (+Ctrl to Run)", LeftThird + DirectionVerticalOffset, DirectionStartY, LineAlignment.Left);
-                screen.PrintLine("------------------------", LeftThird + DirectionVerticalOffset, DirectionStartY + 1, LineAlignment.Left);
-                screen.PrintLine("North      - " + m_keyMappings["North"], LeftThird + DirectionVerticalOffset, DirectionStartY + 2, LineAlignment.Left);
-                screen.PrintLine("West       - " + m_keyMappings["West"], LeftThird + DirectionVerticalOffset, DirectionStartY + 3, LineAlignment.Left);
-                screen.PrintLine("East       - " + m_keyMappings["East"], LeftThird + DirectionVerticalOffset, DirectionStartY + 4, LineAlignment.Left);
-                screen.PrintLine("South      - " + m_keyMappings["South"], LeftThird + DirectionVerticalOffset, DirectionStartY + 5, LineAlignment.Left);
-                screen.PrintLine("North West - " + m_keyMappings["Northwest"], LeftThird + DirectionVerticalOffset, DirectionStartY + 6, LineAlignment.Left);
-                screen.PrintLine("North East - " + m_keyMappings["Northeast"], LeftThird + DirectionVerticalOffset, DirectionStartY + 7, LineAlignment.Left);
-                screen.PrintLine("South West - " + m_keyMappings["Southwest"], LeftThird + DirectionVerticalOffset, DirectionStartY + 8, LineAlignment.Left);
-                screen.PrintLine("South East - " + m_keyMappings["Southeast"], LeftThird + DirectionVerticalOffset, DirectionStartY + 9, LineAlignment.Left);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY, "Direction Keys (+Ctrl to Run)");
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 1, "------------------------");
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 2, "North      - " + m_keyMappings["North"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 3, "West       - " + m_keyMappings["West"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 4, "East       - " + m_keyMappings["East"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 5, "South      - " + m_keyMappings["South"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 6, "North West - " + m_keyMappings["Northwest"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 7, "North East - " + m_keyMappings["Northeast"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 8, "South West - " + m_keyMappings["Southwest"]);
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 9, "South East - " + m_keyMappings["Southeast"]);
 
                 const int OtherKeysStartY = ActionStartY;
                 const int OtherKeysVerticalOffset = -12;
-                screen.PrintLine("Other Keys", RightThird + OtherKeysVerticalOffset, OtherKeysStartY, LineAlignment.Left);
-                screen.PrintLine("----------------------------", RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 1, LineAlignment.Left);
-                screen.PrintLine("Text Box Page Up   - " + m_keyMappings["TextBoxPageUp"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 2, LineAlignment.Left);
-                screen.PrintLine("Text Box Page Down - " + m_keyMappings["TextBoxPageDown"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 3, LineAlignment.Left);
-                screen.PrintLine("Text Box Clear     - " + m_keyMappings["TextBoxClear"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 4, LineAlignment.Left);
-                screen.PrintLine("Escape             - " + m_keyMappings["Escape"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 5, LineAlignment.Left);
-                screen.PrintLine("Select             - " + m_keyMappings["Select"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 6, LineAlignment.Left);
-                screen.PrintLine("Save               - " + m_keyMappings["Save"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 7, LineAlignment.Left);
-                screen.PrintLine("Help               - " + m_keyMappings["Help"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 8, LineAlignment.Left);
-                screen.PrintLine("Quit               - " + m_keyMappings["Quit"], RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 9, LineAlignment.Left);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY, "Other Keys");
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 1, "----------------------------");
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 2, "Text Box Page Up   - " + m_keyMappings["TextBoxPageUp"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 3, "Text Box Page Down - " + m_keyMappings["TextBoxPageDown"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 4, "Text Box Clear     - " + m_keyMappings["TextBoxClear"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 5, "Escape             - " + m_keyMappings["Escape"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 6, "Select             - " + m_keyMappings["Select"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 7, "Save               - " + m_keyMappings["Save"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 8, "Help               - " + m_keyMappings["Help"]);
+                screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 9, "Quit               - " + m_keyMappings["Quit"]);
             }
         }
 
