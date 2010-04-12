@@ -57,7 +57,7 @@ namespace Magecrawl.GameEngine.Actors
             {
                 return new List<ISpell>() 
                 {
-                    SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Zap"), SpellFactory.CreateSpell("Lightning Bolt"),
+                    SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Force Bolt"), SpellFactory.CreateSpell("Lightning Bolt"),
                     SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("Earthen Armor"), SpellFactory.CreateSpell("Light"),
                     SpellFactory.CreateSpell("Cone Of Cold"), SpellFactory.CreateSpell("Fireball")
                     /* SpellFactory.CreateSpell("False Life"),
