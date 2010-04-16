@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Affects
 {
@@ -38,6 +35,16 @@ namespace Magecrawl.GameEngine.Affects
         public void Extend(double ratio)
         {
             CTLeft = (int)(CTLeft * ratio);
+        }
+
+        public void Dismiss()
+        {
+            CTLeft = 0;
+        }
+
+        virtual public bool ProvidesEquipment(IArmor armor)
+        {
+            return false;
         }
 
         #region IXmlSerializable Members

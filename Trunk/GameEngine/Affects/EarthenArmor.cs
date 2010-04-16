@@ -28,6 +28,11 @@ namespace Magecrawl.GameEngine.Affects
             }
         }
 
+        override public bool ProvidesEquipment(IArmor armor)
+        {
+            return armor.DisplayName == "Earthen Armor";
+        }
+
         #region SaveLoad
 
         public override void ReadXml(System.Xml.XmlReader reader)
@@ -50,7 +55,8 @@ namespace Magecrawl.GameEngine.Affects
             if (player == null)
                 throw new NotImplementedException("Can't apply earth armor to non-players until they have armor");
             ChestArmor itemPreviousEquiped = (ChestArmor)appliedTo.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Earthen Armor"));
-            ((ArmorBase)player.ChestArmor).CanNotUnequip = true;
+            ((ArmorBase)player.ChestArmor).Summoned = true;
+
 
             // On load, we saved read the previous item, but the character himself doesn't know yet what he was wearing, so don't overwrite it.
             // See Character/Player ReadXML ordering.

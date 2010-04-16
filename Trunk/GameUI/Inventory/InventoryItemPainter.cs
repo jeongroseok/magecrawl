@@ -9,9 +9,10 @@ namespace Magecrawl.GameUI.Inventory
 
     internal sealed class InventoryItemPainter : PainterBase
     {
-        private const int SelectedItemOffset = 5;
-        private const int SelectedItemWidth = UIHelper.ScreenWidth - (SelectedItemOffset * 2);
-        private const int SelectedItemHeight = UIHelper.ScreenHeight - (SelectedItemOffset * 2) - 10;
+        private const int SelectedItemOffsetX = 5;
+        private const int SelectedItemOffsetY = 9;
+        private const int SelectedItemWidth = UIHelper.ScreenWidth - (SelectedItemOffsetX * 2);
+        private const int SelectedItemHeight = UIHelper.ScreenHeight - (SelectedItemOffsetY * 2) - 10;
         private IItem m_selectedItem;
         private bool m_enabled;
         private int m_cursorPosition;
@@ -29,18 +30,18 @@ namespace Magecrawl.GameUI.Inventory
         {
             if (m_enabled)
             {
-                screen.printFrame(SelectedItemOffset, SelectedItemOffset, SelectedItemWidth, SelectedItemHeight, true);
+                screen.printFrame(SelectedItemOffsetX, SelectedItemOffsetY, SelectedItemWidth, SelectedItemHeight, true);
 
                 // Draw Header.
-                screen.hline(SelectedItemOffset + 1, SelectedItemOffset + 2, SelectedItemWidth - 2);
-                screen.putChar(SelectedItemOffset, SelectedItemOffset + 2, (int)TCODSpecialCharacter.TeeEast);
-                screen.putChar(SelectedItemOffset + SelectedItemWidth - 1, SelectedItemOffset + 2, (int)TCODSpecialCharacter.TeeWest);
-                screen.printEx(SelectedItemOffset + (SelectedItemWidth / 2), SelectedItemOffset + 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_selectedItem.DisplayName);
+                screen.hline(SelectedItemOffsetX + 1, SelectedItemOffsetY + 2, SelectedItemWidth - 2);
+                screen.putChar(SelectedItemOffsetX, SelectedItemOffsetY + 2, (int)TCODSpecialCharacter.TeeEast);
+                screen.putChar(SelectedItemOffsetX + SelectedItemWidth - 1, SelectedItemOffsetY + 2, (int)TCODSpecialCharacter.TeeWest);
+                screen.printEx(SelectedItemOffsetX + (SelectedItemWidth / 2), SelectedItemOffsetY + 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_selectedItem.DisplayName);
 
                 // Split in half for description.
-                screen.vline(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, SelectedItemHeight - 3);
-                screen.putChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + 2, (int)TCODSpecialCharacter.TeeSouth);
-                screen.putChar(SelectedItemOffset + (SelectedItemWidth / 3), SelectedItemOffset + SelectedItemHeight - 1, (int)TCODSpecialCharacter.TeeNorth);
+                screen.vline(SelectedItemOffsetX + (SelectedItemWidth / 3), SelectedItemOffsetY + 2, SelectedItemHeight - 3);
+                screen.putChar(SelectedItemOffsetX + (SelectedItemWidth / 3), SelectedItemOffsetY + 2, (int)TCODSpecialCharacter.TeeSouth);
+                screen.putChar(SelectedItemOffsetX + (SelectedItemWidth / 3), SelectedItemOffsetY + SelectedItemHeight - 1, (int)TCODSpecialCharacter.TeeNorth);
 
                 DrawItemInRightPane(screen);
 
@@ -50,7 +51,7 @@ namespace Magecrawl.GameUI.Inventory
                 for (int i = 0; i < m_optionList.Count; ++i)
                 {
                     m_dialogColorHelper.SetColors(screen, i == m_cursorPosition, m_optionList[i].Enabled);
-                    screen.print(SelectedItemOffset + 2, SelectedItemOffset + 4 + (i * 2), m_optionList[i].Option);
+                    screen.print(SelectedItemOffsetX + 2, SelectedItemOffsetY + 4 + (i * 2), m_optionList[i].Option);
                 }
 
                 m_dialogColorHelper.ResetColors(screen);
@@ -81,7 +82,7 @@ namespace Magecrawl.GameUI.Inventory
                 itemDescription += "\n\n" + string.Format("Damage: {0}", asWeapon.Damage);
             }
 
-            screen.printRect(SelectedItemOffset + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffset + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, itemDescription);
+            screen.printRect(SelectedItemOffsetX + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffsetY + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, itemDescription);
         }
 
         internal void Show(IItem selectedItem, List<ItemOptions> optionList)

@@ -6,9 +6,9 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Armor
 {
-    internal class Gloves : ArmorBase
+    internal class Boots : ArmorBase
     {
-        public Gloves(string name, ArmorWeight weight, double defense, double evade, string description, string flavorText)
+        public Boots(string name, ArmorWeight weight, double defense, double evade, string description, string flavorText)
             : base(name, weight, defense, evade, description, flavorText)
         {
         }
@@ -17,21 +17,7 @@ namespace Magecrawl.GameEngine.Armor
         {
             get
             {
-                List<ItemOptions> optionList = new List<ItemOptions>();
-
-                if (CoreGameEngine.Instance.Player.Gloves == this)
-                {
-                    if (!CanNotUnequip)
-                        optionList.Add(new ItemOptions("Unequip", true));
-                }
-                else
-                {
-                    if (IsUnequipable(CoreGameEngine.Instance.Player.Boots))
-                        optionList.Add(new ItemOptions("Equip", true));
-                    optionList.Add(new ItemOptions("Drop", true));
-                }
-
-                return optionList;
+                return PlayerOptionsInternal(CoreGameEngine.Instance.Player.Boots);
             }
         }
     }

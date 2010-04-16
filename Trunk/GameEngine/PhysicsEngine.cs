@@ -9,6 +9,8 @@ using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Armor;
+using Magecrawl.GameEngine.Affects;
 
 namespace Magecrawl.GameEngine
 {
@@ -549,6 +551,23 @@ namespace Magecrawl.GameEngine
                 case "Zap":
                 {
                     return PlayerZapWand((Wand)item, (Point)argument);
+                }
+                case "Dismiss Spell":
+                {
+                    ArmorBase armor = (ArmorBase)item;
+                    if (armor.Summoned)
+                    {
+                        foreach (AffectBase affect in m_player.Affects)
+                        {
+                            if (affect.ProvidesEquipment(armor))
+                            {
+                                affect.Dismiss();
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+
                 }
                 default:
                 {

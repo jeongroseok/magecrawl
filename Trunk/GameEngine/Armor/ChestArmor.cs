@@ -17,21 +17,7 @@ namespace Magecrawl.GameEngine.Armor
         {
             get
             {
-                List<ItemOptions> optionList = new List<ItemOptions>();
-
-                if (CoreGameEngine.Instance.Player.ChestArmor == this)
-                {
-                    if (!CanNotUnequip)
-                        optionList.Add(new ItemOptions("Unequip", true));
-                }
-                else
-                {
-                    if (IsUnequipable(CoreGameEngine.Instance.Player.ChestArmor))
-                        optionList.Add(new ItemOptions("Equip", true));
-                    optionList.Add(new ItemOptions("Drop", true));
-                }
-
-                return optionList;
+                return PlayerOptionsInternal(CoreGameEngine.Instance.Player.ChestArmor);
             }
         }
     }
