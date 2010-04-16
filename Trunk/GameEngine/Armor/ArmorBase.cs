@@ -1,4 +1,5 @@
-﻿using Magecrawl.GameEngine.Interfaces;
+﻿using System.Collections.Generic;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 
 namespace Magecrawl.GameEngine.Armor
@@ -11,7 +12,7 @@ namespace Magecrawl.GameEngine.Armor
             Weight = weight;
             Defense = defense;
             Evade = evade;
-            CanNotUnequip = false;
+            Summoned = false;
         }
 
         public override object Clone()
@@ -19,7 +20,7 @@ namespace Magecrawl.GameEngine.Armor
             return this.MemberwiseClone();
         }
 
-        public bool CanNotUnequip
+        public bool Summoned
         {
             get;
             set;
@@ -27,9 +28,35 @@ namespace Magecrawl.GameEngine.Armor
 
         protected bool IsUnequipable(IArmor armor)
         {
+            return !IsSummoned(armor);
+        }
+
+        protected bool IsSummoned(IArmor armor)
+        {
             if (armor == null)
                 return true;
-            return !((ArmorBase)armor).CanNotUnequip;
+            return ((ArmorBase)armor).Summoned;
+        }
+
+        protected List<ItemOptions> PlayerOptionsInternal(IArmor armor)
+        {
+            List<ItemOptions> optionList = new List<ItemOptions>();
+
+            if (armor == this)
+            {
+                if (IsUnequipable(armor))
+                    optionList.Add(new ItemOptions("Unequip", true));
+                if (IsSummoned(armor))
+                    optionList.Add(new ItemOptions("Dismiss Spell", true));
+            }
+            else
+            {
+                if (IsUnequipable(armor))
+                    optionList.Add(new ItemOptions("Equip", true));
+                optionList.Add(new ItemOptions("Drop", true));
+            }
+
+            return optionList;
         }
 
         public ArmorWeight Weight
@@ -53,13 +80,13 @@ namespace Magecrawl.GameEngine.Armor
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
-            CanNotUnequip = bool.Parse(reader.ReadElementContentAsString());
+            Summoned = bool.Parse(reader.ReadElementContentAsString());
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             base.WriteXml(writer);
-            writer.WriteElementString("CanNotUnequip", CanNotUnequip.ToString());
+            writer.WriteElementString("Summoned", Summoned.ToString());
         }
     }
 }
