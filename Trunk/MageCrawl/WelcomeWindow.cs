@@ -326,9 +326,12 @@ namespace Magecrawl
         {
             string saveGameDirectory = Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Saves");
             m_fileNameList = new List<string>();
-            string[] fullPathList = Directory.GetFiles(saveGameDirectory, "*.sav");
-            foreach (string s in fullPathList)
-                m_fileNameList.Add(Path.GetFileNameWithoutExtension(s));
+            if (Directory.Exists(saveGameDirectory))
+            {
+                string[] fullPathList = Directory.GetFiles(saveGameDirectory, "*.sav");
+                foreach (string s in fullPathList)
+                    m_fileNameList.Add(Path.GetFileNameWithoutExtension(s));
+            }
         }
 
         private static bool IsKeyCodeOfCharacter(TCODKey k)
