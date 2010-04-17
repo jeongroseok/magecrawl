@@ -8,6 +8,7 @@ using System.Threading;
 using System.Xml;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Items
@@ -113,7 +114,9 @@ namespace Magecrawl.GameEngine.Items
                     bool scroll = reader.LocalName == "Scroll";
                     
                     string name = reader.GetAttribute("Name");
-                    string effectType = reader.GetAttribute("EffectType");
+
+                    string spellName = reader.GetAttribute("SpellName");
+                    Spell spell = SpellFactory.CreateSpell(spellName);
 
                     string targettingType = reader.GetAttribute("TargettingType");
 
@@ -121,14 +124,13 @@ namespace Magecrawl.GameEngine.Items
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
-                    string spellSchool = reader.GetAttribute("School");
 
                     if (potion)
-                        m_itemMapping.Add(name, new Potion(name, effectType, strength, spellSchool, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Potion(name, spell, strength, itemDescription, flavorText));
                     else if (scroll)
-                        m_itemMapping.Add(name, new Scroll(name, effectType, strength, spellSchool, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Scroll(name, spell, strength, itemDescription, flavorText));
                     else if (supplies)
-                        m_itemMapping.Add(name, new Supplies(name, effectType, strength, itemDescription, flavorText));
+                        m_itemMapping.Add(name, new Supplies(name, spell, strength, itemDescription, flavorText));
                     else
                         throw new Exception("Unknown type in ItemFaction");
 
@@ -137,18 +139,19 @@ namespace Magecrawl.GameEngine.Items
                 if (reader.LocalName == "Wand")
                 {
                     string name = reader.GetAttribute("Name");
-                    string effectType = reader.GetAttribute("EffectType");
+                    
+                    string spellName = reader.GetAttribute("SpellName");
+                    Spell spell = SpellFactory.CreateSpell(spellName);
 
                     int strength = int.Parse(reader.GetAttribute("Strength"));
 
                     string itemDescription = reader.GetAttribute("ItemDescription");
                     string flavorText = reader.GetAttribute("FlavorText");
-                    string spellSchool = reader.GetAttribute("School");
 
                     DiceRoll startingCharges = new DiceRoll(reader.GetAttribute("StartCharges"));
                     int maxNumberCharges = int.Parse(reader.GetAttribute("MaxCharges"));
 
-                    m_itemMapping.Add(name, new Wand(name, effectType, strength, spellSchool, itemDescription, flavorText, maxNumberCharges, startingCharges));
+                    m_itemMapping.Add(name, new Wand(name, spell, strength, itemDescription, flavorText, maxNumberCharges, startingCharges));
 
                     CheckForNotDropList(reader, name);
                 }

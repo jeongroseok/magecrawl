@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Potion : ItemWithEffects
     {
-        internal Potion(string name, string effectType, int strength, string spellSchool, string itemDescription, string flavorText)
-            : base(name, effectType, strength, itemDescription, flavorText)
-        {
-            ItemSchool = spellSchool;
+        internal Potion(string name, Spell spell, int strength, string itemDescription, string flavorText)
+            : base(name, spell, strength, itemDescription, flavorText)
+        { 
         }
 
         public override object Clone()

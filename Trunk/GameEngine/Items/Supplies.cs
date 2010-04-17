@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Supplies : ItemWithEffects
     {
-        internal Supplies(string name, string effectType, int strength, string itemDescription, string flavorText)
-            : base(name, effectType, strength, itemDescription, flavorText)
+        internal Supplies(string name, Spell spell, int strength, string itemDescription, string flavorText)
+            : base(name, spell, strength, itemDescription, flavorText)
         {
         }
 

@@ -1,12 +1,14 @@
-﻿namespace Magecrawl.GameEngine.Items
+﻿using Magecrawl.GameEngine.Magic;
+
+namespace Magecrawl.GameEngine.Items
 {
     internal abstract class ItemWithEffects : Item
     {
-        internal ItemWithEffects(string name, string effectType, int strength, string itemDescription, string flavorText)
+        internal ItemWithEffects(string name, Spell spell, int strength, string itemDescription, string flavorText)
             : base(name, itemDescription, flavorText)
         {
             Name = name;
-            EffectType = effectType;
+            Spell = spell;
             Strength = strength;
         }
 
@@ -16,7 +18,7 @@
             private set;
         }
 
-        internal string EffectType
+        internal Spell Spell
         {
             get;
             private set;
@@ -26,6 +28,14 @@
         {
             get;
             private set;
+        }
+
+        override public string ItemEffectSchool
+        {
+            get
+            {
+                return Spell.School;
+            }
         }
 
         abstract public string OnUseString

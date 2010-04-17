@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Scroll : ItemWithEffects
     {
-        internal Scroll(string name, string effectType, int strength, string spellSchool, string itemDescription, string flavorText)
-            : base(name, effectType, strength, itemDescription, flavorText)
+        internal Scroll(string name, Spell spell, int strength, string itemDescription, string flavorText)
+            : base(name, spell, strength, itemDescription, flavorText)
         {
-            ItemSchool = spellSchool;
         }
 
         public override object Clone()

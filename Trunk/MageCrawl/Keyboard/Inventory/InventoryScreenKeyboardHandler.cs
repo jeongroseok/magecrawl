@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
-using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
-using libtcod;
 
 namespace Magecrawl.Keyboard.Inventory
 {

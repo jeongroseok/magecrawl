@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -56,7 +58,17 @@ namespace Magecrawl.GameEngine.Magic
                     string strengthString = reader.GetAttribute("Strength");
                     int strength = int.Parse(strengthString);
 
-                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, strength));
+                    int range = -1;
+                    string rangeString = reader.GetAttribute("Range");
+                    if (rangeString != null)
+                        range = int.Parse(rangeString);
+
+                    TargetingInfo.TargettingType targettingType = TargetingInfo.TargettingType.Self;
+                    string targettingString = reader.GetAttribute("TargettingType");
+                    if (targettingString != null)
+                        targettingType = (TargetingInfo.TargettingType)Enum.Parse(typeof(TargetingInfo.TargettingType), targettingString);
+
+                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, strength, targettingType, range));
                 }
             }
             reader.Close();

@@ -14,14 +14,18 @@ namespace Magecrawl.GameEngine.Magic
         private int m_cost;
         private int m_strength;
         private string m_school;
+        private TargetingInfo.TargettingType m_targettingType;
+        private int m_range;
 
-        internal Spell(string name, string school, string effectType, int cost, int strength)
+        internal Spell(string name, string school, string effectType, int cost, int strength, TargetingInfo.TargettingType targettingType, int range)
         {
             m_name = name;
             m_effectType = effectType;
             m_cost = cost;
             m_strength = strength;
             m_school = school;
+            m_targettingType = targettingType;
+            m_range = range;
         }
 
         public string Name
@@ -76,7 +80,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             get 
             {
-                return MagicEffectsEngine.GetAffectTargettingType(m_effectType, m_strength);
+                return new TargetingInfo(m_targettingType, m_range);
             }
         }
     }
