@@ -19,31 +19,31 @@
         Description="A sturdy oak shaft connected to a doubled bladed sharpened head."
         FlavorText="Famously used by the barbarian nations to the north to great effect. Cumbersome to wield for most."/>
   
-<Potion Name="Minor Health Potion" EffectType="HealCaster" Strength="1" ItemDescription="Drinking will restore your health slightly." 
+<Potion Name="Minor Health Potion" SpellName="Heal" Strength="1" ItemDescription="Drinking will restore your health slightly." 
         FlavorText="Distilled by a junior alchemist, this potion is dark brown in color and smells of cinnamon."/>
-<Potion Name="Haste Potion" EffectType="Haste" Strength="1" ItemDescription="Drinking will speed you up for a short time."
+<Potion Name="Haste Potion" SpellName="Haste" Strength="1" ItemDescription="Drinking will speed you up for a short time."
         FlavorText="This extract from a rare jungle plant will increase your movements and reflexes for a short time. Some have become addicted to the rush, and its sale is restricted in many areas."/>
-<Potion Name="Minor Mana Potion" EffectType="HealMPCaster" Strength="1" ItemDescription="Drinking will increase your mana somewhat."
+<Potion Name="Minor Mana Potion" SpellName="HealMP" Strength="1" ItemDescription="Drinking will increase your mana somewhat."
         FlavorText="Hundreds of lightning bugs are harvested during the nights of spring and are condensed into this blue syrup."/>
-<Scroll Name="Scroll of Haste" EffectType="Haste" Strength="2" ItemDescription="Reading this scroll will warp time around you for a short period of time, speeding your actions."
+<Scroll Name="Scroll of Haste" SpellName="Haste" Strength="2" ItemDescription="Reading this scroll will warp time around you for a short period of time, speeding your actions."
         FlavorText="The text of this scroll is blury and hard to keep in focus."/>
-<Scroll Name="Scroll of Teleportation" EffectType="Teleport" Strength="1" ItemDescription="Reading this scroll will warp space around you, moving you to a new location instantly."
+<Scroll Name="Scroll of Teleportation" SpellName="Teleport" Strength="1" ItemDescription="Reading this scroll will warp space around you, moving you to a new location instantly."
         FlavorText=">A thick parchment engraved in ink which fades and returns into view."/>
-<Potion Name="Potion of Blinking" EffectType="Blink" Strength="1" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."
+<Potion Name="Potion of Blinking" SpellName="Blink" Strength="1" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."
         FlavorText=">Sparkely concoction filled with points of light that dance into and out of existance."/>
-<Supplies Name="Camp Supplies" EffectType="Rest" Strength="1" ItemDescription="These magical supplies will setup a camp in which an entire night of sleep can be obtained in a few moments. Effect ends early if danger is spoted."
+<Supplies Name="Camp Supplies" SpellName="Camp" Strength="1" ItemDescription="These magical supplies will setup a camp in which an entire night of sleep can be obtained in a few moments. Effect ends early if danger is spoted."
         FlavorText="Contains: Self deploying tent, firewood with blaze scroll, rations, and specially treated quintessence powder to power the entire enchantment."/>
-<Wand   Name="Wand of Haste" EffectType="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
+<Wand   Name="Wand of Haste" SpellName="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
         ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
 
-<Wand   Name="Wand Of Ice Bolt" EffectType="RangedSingleTarget" School="Water" Strength="3" StartCharges="1,4,1,1" MaxCharges="6"
+<Wand   Name="Wand Of Ice Bolt" SpellName="Ice Bolt" Strength="3" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping it creates a 2 foot long icicle and hurle it at the target."
         FlavorText="A frozen icicle shaped wand, never melting no matter the temperature."/>
-<Wand   Name="Wand Of Magic Missile" EffectType="RangedSingleTarget" School="Arcane" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
+<Wand   Name="Wand Of Magic Missile" SpellName="Force Bolt" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."
         FlavorText="A simple polished wooden dowel commonly found in schools of magic."/>
-<Wand   Name="Wand Of Sparks" EffectType="ConeAttack" School="Fire" Strength="1" StartCharges="1,3,1,1" MaxCharges="4"
+<Wand   Name="Wand Of Sparks" SpellName="Cone Of Sparks" Strength="1" StartCharges="1,3,1,1" MaxCharges="4"
         ItemDescription="Zapping produces a shower of sparks striking a nearby targets."
         FlavorText="One of the first wands apprentice pyromancers learn to craft."/>
 

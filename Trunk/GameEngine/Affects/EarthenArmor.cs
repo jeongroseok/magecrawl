@@ -57,7 +57,6 @@ namespace Magecrawl.GameEngine.Affects
             ChestArmor itemPreviousEquiped = (ChestArmor)appliedTo.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Earthen Armor"));
             ((ArmorBase)player.ChestArmor).Summoned = true;
 
-
             // On load, we saved read the previous item, but the character himself doesn't know yet what he was wearing, so don't overwrite it.
             // See Character/Player ReadXML ordering.
             if (!(m_previousArmor != null && itemPreviousEquiped == null))

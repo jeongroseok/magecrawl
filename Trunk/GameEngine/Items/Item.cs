@@ -18,7 +18,6 @@ namespace Magecrawl.GameEngine.Items
             m_name = name;
             m_itemDescription = itemDescription;
             m_flavorText = flavorText;
-            ItemSchool = null;
         }
 
         public abstract object Clone();
@@ -52,10 +51,12 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
-        public string ItemSchool
+        virtual public string ItemEffectSchool
         {
-            get;
-            protected set;
+            get
+            {
+                return null;
+            }
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()

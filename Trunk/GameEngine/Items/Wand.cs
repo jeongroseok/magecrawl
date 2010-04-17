@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Items
 {
     internal sealed class Wand : ItemWithEffects, IWand
     {
-        internal Wand(string name, string effectType, int strength, string spellSchool, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
-            : base(name, effectType, strength, itemDescription, flavorText)
+        internal Wand(string name, Spell spell, int strength, string itemDescription, string flavorText, int maxCharges, DiceRoll newWandPossibleCharges)
+            : base(name, spell, strength, itemDescription, flavorText)
         {
             NewWandPossibleCharges = newWandPossibleCharges;
             Charges = 0;
             MaxCharges = maxCharges;
-            ItemSchool = spellSchool;
         }
 
         public override object Clone()

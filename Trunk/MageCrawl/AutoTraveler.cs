@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Requests;
 using Magecrawl.Utilities;
-using libtcod;
 
 namespace Magecrawl
 {

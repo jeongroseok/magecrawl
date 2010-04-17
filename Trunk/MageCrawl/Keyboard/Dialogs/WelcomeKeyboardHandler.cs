@@ -1,6 +1,6 @@
-﻿using Magecrawl.GameEngine.Interfaces;
+﻿using libtcod;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
-using libtcod;
 
 namespace Magecrawl.Keyboard.Dialogs
 {

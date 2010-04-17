@@ -66,7 +66,7 @@ namespace Magecrawl.GameEngine.Weapons
             {
                 throw new System.InvalidOperationException("Can't set loaded on WeaponBase");
             }
-        }
+        }        
 
         public override List<ItemOptions> PlayerOptions
         {

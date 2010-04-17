@@ -259,7 +259,7 @@ namespace Magecrawl.GameEngine
 
             ItemWithEffects itemWithEffects = item as ItemWithEffects;
             if (itemWithEffects != null)
-                return MagicEffectsEngine.GetAffectTargettingType(itemWithEffects.EffectType, itemWithEffects.Strength); 
+                return itemWithEffects.Spell.Targeting;
 
             return null;
         }

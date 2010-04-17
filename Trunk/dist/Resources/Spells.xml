@@ -1,18 +1,23 @@
 <?xml version="1.0" ?>
 <Spells>
 <Spell Name="Heal" School="Light" EffectType="HealCaster" Cost="1" Strength="1"/>
-<Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="1" Strength="1"/>
-<Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" Strength="2" DrawingAttributes="DrawLastFrame:Tail=3"/>
+<Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="1" Strength="1" TargettingType="RangedSingle" Range="5"/>
+<Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" Strength="1" TargettingType="RangedSingle" Range="5"/>
+<Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" Strength="2" TargettingType="RangedBlast" Range="5" DrawingAttributes="DrawLastFrame:Tail=3"/>
 <Spell Name="Earthen Armor" School="Earth" EffectType="Earthen Armor" Cost="1" Strength="1"/>  
 <Spell Name="Haste" School="Arcane" EffectType="Haste" Cost="3" Strength="1"/>
 <Spell Name="Light" School="Light" EffectType="Light" Cost="1" Strength="1"/>
-<Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" Strength="1"/>
-<Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="3" Strength="2"/>
+<Spell Name="Cone Of Sparks" School="Fire" EffectType="ConeAttack" Cost="3" Strength="1" TargettingType="Cone" Range="3"/>
+<Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" Strength="1" TargettingType="Cone" Range="3"/>
+<Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="3" Strength="2" TargettingType="RangedExplodingPoint" Range="5"/>
   
 <Spell Name="Slow" School="Arcane" EffectType="Slow" Cost="4" Strength="1"/>
 <Spell Name="False Life" School="Darkness" EffectType="False Life" Cost="1" Strength="1"/>
-<Spell Name="Poison Bolt" School="Earth" EffectType="Poison Bolt" Cost="2" Strength="1"/>
-<Spell Name="Poison Touch" School="Earth" EffectType="Poison Bolt" Cost="1" Strength="1"/>
+<Spell Name="Poison Bolt" School="Earth" EffectType="Poison Bolt" Cost="2" Strength="1" TargettingType="RangedSingle" Range="5"/>
+<Spell Name="Poison Touch" School="Earth" EffectType="Poison Bolt" Cost="1" Strength="1" TargettingType="RangedSingle" Range="1"/>
 <Spell Name="Blink" School="Arcane" EffectType="Blink" Cost="2" Strength="1"/>
 <Spell Name="Teleport" School="Arcane" EffectType="Teleport" Cost="5" Strength="1"/>
+
+<Spell Name="HealMP" School="Arcane" EffectType="HealMPCaster" Cost="0" Strength="1"/>
+<Spell Name="Camp" School="Arcane" EffectType="Camp" Cost="0" Strength="1"/>
 </Spells>

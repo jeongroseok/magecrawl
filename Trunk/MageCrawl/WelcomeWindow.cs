@@ -77,10 +77,10 @@ namespace Magecrawl
             m_flavorText[MagicTypes.Arcane] = "Arcane magic is born from altering the fabric of reality. Infinitely flexible and neutral to all other school of magic.";
 
             m_spellLists = new Dictionary<MagicTypes, List<string>>();
-            m_spellLists[MagicTypes.Fire] = new List<string>() { "Firebolt", "Warmth", "Fireblast", "Fireball", "Wall Of Fire", "Firestorm"};
+            m_spellLists[MagicTypes.Fire] = new List<string>() { "Firebolt", "Warmth", "Fireblast", "Fireball", "Wall Of Fire", "Firestorm" };
             m_spellLists[MagicTypes.Water] = new List<string>() { "Cold Snap", "Icy Armor", "Frigid Aura", "Ice Bolt", "Shatter", "Cone Of Cold" };
             m_spellLists[MagicTypes.Air] = new List<string>() { "Shock", "Swiftness", "Confuse", "Lightning Bolt", "Storm Armor", "Hurricane" };
-            m_spellLists[MagicTypes.Earth] = new List<string>() { "Stone Armor", "Aftershock", "Strength Of The Earth", "Stoneskin", "Summon Earth Elemental", "Earthquake"};
+            m_spellLists[MagicTypes.Earth] = new List<string>() { "Stone Armor", "Aftershock", "Strength Of The Earth", "Stoneskin", "Summon Earth Elemental", "Earthquake" };
             m_spellLists[MagicTypes.Light] = new List<string>() { "Mend", "Smite", "Armor of Light", "Heal", "Summon Archon", "Wrath" };
             m_spellLists[MagicTypes.Darkness] = new List<string>() { "Pain", "Drain Life", "Raise Dead", "Darkness", "Summon Wraith", "Lich Form" };
             m_spellLists[MagicTypes.Arcane] = new List<string>() { "Force Bolt", "Arcane Armor", "Blink", "Slow", "Destructive Teleport", "Wave of Force" };
@@ -243,14 +243,14 @@ namespace Magecrawl
 
         private void DrawSpellList()
         {
-            m_console.printFrame(EntryWidth, SpellListOffset-3, TextEntryLength + 4, 3, true);
+            m_console.printFrame(EntryWidth, SpellListOffset - 3, TextEntryLength + 4, 3, true);
             m_console.printEx(EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset - 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_currentElementPointedTo.ToString() + " Spells");
 
             m_console.printFrame(EntryWidth, SpellListOffset, TextEntryLength + 4, 15, true);
 
             int numberOfSpellsToShow = m_frame / (LengthOfEachElement / NumberOfSpells);
             numberOfSpellsToShow = System.Math.Min(numberOfSpellsToShow + 1, NumberOfSpells);
-            for(int i = 0 ; i < numberOfSpellsToShow ; ++i)
+            for (int i = 0; i < numberOfSpellsToShow; ++i)
             {
                 m_console.printEx(EntryWidth + (TextEntryLength / 2) + 2, SpellListOffset + 2 + (2 * i), TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_spellLists[m_currentElementPointedTo][i]); 
             }
@@ -292,7 +292,7 @@ namespace Magecrawl
 
         private void DrawFileEntry()
         {
-            if(m_cursorPosition == -1)
+            if (m_cursorPosition == -1)
                 m_console.print(EntryWidth + 1, EntryOffset, "Enter Name");
 
             m_console.printFrame(EntryWidth, EntryOffset + 1, TextEntryLength + 4, 3, true);

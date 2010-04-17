@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Affects;
+using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Level;
@@ -9,8 +11,6 @@ using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Armor;
-using Magecrawl.GameEngine.Affects;
 
 namespace Magecrawl.GameEngine
 {
@@ -250,10 +250,7 @@ namespace Magecrawl.GameEngine
 
             ItemWithEffects asItem = targettingObject as ItemWithEffects;
             if (asItem != null)
-            {
-                TargetingInfo targetInfo = MagicEffectsEngine.GetAffectTargettingType(asItem.EffectType, asItem.Strength);
-                return m_magicEffects.TargettedDrawablePoints(targetInfo, asItem.Strength, target);
-            }
+                return m_magicEffects.TargettedDrawablePoints(asItem.Spell.Targeting, asItem.Strength, target);
 
             return null;
         }
@@ -567,7 +564,6 @@ namespace Magecrawl.GameEngine
                         }
                     }
                     return false;
-
                 }
                 default:
                 {

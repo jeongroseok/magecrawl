@@ -38,37 +38,8 @@ namespace Magecrawl.GameEngine.Magic
         internal void UseItemWithEffect(Character invoker, ItemWithEffects item, Point targetedPoint)
         {
             string effectString = string.Format(item.OnUseString, invoker.Name, item.Name);
-            DoEffect(invoker, item, item.EffectType, item.Strength, targetedPoint, effectString);
+            DoEffect(invoker, item, item.Spell.EffectType, item.Strength, targetedPoint, effectString);
             return;
-        }
-
-        internal static TargetingInfo GetAffectTargettingType(string affactString, int strength)
-        {
-            switch (affactString)
-            {
-                case "Rest":
-                case "HealCaster":
-                case "HealMPCaster":
-                case "Haste":
-                case "False Life":
-                case "Light":
-                case "Earthen Armor":
-                case "Blink":
-                case "Teleport":
-                    return new TargetingInfo(TargetingInfo.TargettingType.Self);
-                case "RangedSingleTarget":
-                case "Slow":
-                case "Poison Bolt":
-                    return new TargetingInfo(TargetingInfo.TargettingType.RangedSingle, 5);
-                case "RangedBlast":
-                    return new TargetingInfo(TargetingInfo.TargettingType.RangedBlast, 5);
-                case "ConeAttack":
-                    return new TargetingInfo(TargetingInfo.TargettingType.Cone, 3);
-                case "ExplodingRangedPoint":
-                    return new TargetingInfo(TargetingInfo.TargettingType.RangedExplodingPoint, 7);
-                default:
-                    throw new InvalidOperationException("Don't know affect targetting type for: " + affactString);
-            }
         }
 
         internal List<Point> TargettedDrawablePoints(TargetingInfo targeting, int strength, Point target)
@@ -103,11 +74,9 @@ namespace Magecrawl.GameEngine.Magic
 
         private bool DoEffect(Character invoker, object invokingMethod, string effect, int strength, Point target, string printOnEffect)
         {
-            List<Character> actorList = CoreGameEngine.Instance.Map.Monsters.OfType<Character>().ToList();
-            actorList.Add(CoreGameEngine.Instance.Player);
             switch (effect)
             {
-                case "Rest":
+                case "Camp":
                 {
                     if (m_physicsEngine.DangerPlayerInLOS())
                         return false;

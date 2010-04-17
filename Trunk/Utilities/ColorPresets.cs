@@ -263,7 +263,6 @@ namespace Magecrawl.Utilities
         /// <summary>
         /// The color LightBlue; RGB (173, 216, 230)
         /// </summary>
-
         public static readonly TCODColor LightBlue = new TCODColor(173, 216, 230);
         /// <summary>
         /// The color LightCoral; RGB (240, 128, 128)
@@ -678,5 +677,4 @@ namespace Magecrawl.Utilities
         /// </summary>
         public static readonly TCODColor DarkPurple = new TCODColor(51, 0, 51);
     }
-
 }

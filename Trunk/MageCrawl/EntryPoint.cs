@@ -1,6 +1,5 @@
-﻿using System.IO;
+﻿using libtcod;
 using Magecrawl.GameUI;
-using libtcod;
 
 namespace Magecrawl
 {
