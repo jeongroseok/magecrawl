@@ -1,6 +1,7 @@
 relre:.vshost.exe
 relre:.Cache
 relre:.suo
+relre:.pidb
 relre:.csproj.user
 relre:obj/
 relre:dist/MageCrawl.exe
@@ -13,5 +14,7 @@ relre:dist/GameEngine.pdb
 relre:dist/Utilities.dll
 relre:dist/Utilities.pdb
 relre:.sav
+relre:.DS_Store
+relre:.userprefs
 glob:Trunk/dist/*.eqconfig
 relre:.swp
