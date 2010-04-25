@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<KeyMappings>
+  <KeyMapping Key="KeypadEight" Action="North" />
+  <KeyMapping Key="KeypadTwo" Action="South" />
+  <KeyMapping Key="KeypadFour" Action="West" />
+  <KeyMapping Key="KeypadSix" Action="East" />
+  <KeyMapping Key="KeypadSeven" Action="Northwest" />
+  <KeyMapping Key="KeypadOne" Action="Southwest" />
+  <KeyMapping Key="KeypadNine" Action="Northeast" />
+  <KeyMapping Key="KeypadThree" Action="Southeast" />
+  <KeyMapping Key="KeypadEnter" Action="AlternateSelect" />
+  <KeyMapping Key="Up" Action="AlternateNorth" />
+  <KeyMapping Key="Down" Action="AlternateSouth" />
+  <KeyMapping Key="Left" Action="AlternateWest" />
+  <KeyMapping Key="Right" Action="AlternateEast" />
+  <KeyMapping Key="KeypadFive" Action="Wait" />
+</KeyMappings>

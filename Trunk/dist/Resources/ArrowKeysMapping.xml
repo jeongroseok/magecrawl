@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<KeyMappings>
+  <KeyMapping Key="Up" Action="North" />
+  <KeyMapping Key="Down" Action="South" />
+  <KeyMapping Key="Left" Action="West" />
+  <KeyMapping Key="Right" Action="East" />
+  <KeyMapping Key="Insert" Action="Northwest" />
+  <KeyMapping Key="Delete" Action="Southwest" />
+  <KeyMapping Key="Home" Action="Northeast" />
+  <KeyMapping Key="End" Action="Southeast" />
+</KeyMappings>

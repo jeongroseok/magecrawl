@@ -1,0 +1,8 @@
+#  x	y->		NoneGivenYet 	None	Entrance	Hall	MainRoom	TreasureRoom	SideRoom
+NoneGivenYet	0				0		0			0		0			0				0 
+None			0				100		0			0		0			0				0
+Entrance		0				10		0			70		10			0				10
+Hall			0				20		0			25		40			0				15
+MainRoom		0				35		0			40		0			10				15
+TreasureRoom	0				100		0			0		0			0				0
+SideRoom		0				75		0			25		0			0				0
