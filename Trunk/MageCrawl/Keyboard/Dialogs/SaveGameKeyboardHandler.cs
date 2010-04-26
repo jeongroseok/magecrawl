@@ -1,4 +1,4 @@
-﻿using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Dialogs.Requests;
 

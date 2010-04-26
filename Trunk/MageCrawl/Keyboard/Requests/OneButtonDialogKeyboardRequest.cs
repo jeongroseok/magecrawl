@@ -1,4 +1,4 @@
-﻿using Magecrawl.GameUI.Dialogs;
+using Magecrawl.GameUI.Dialogs;
 
 namespace Magecrawl.Keyboard.Requests
 {
