@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Reflection;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;

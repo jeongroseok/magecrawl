@@ -1,4 +1,4 @@
-﻿using libtcod;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
 

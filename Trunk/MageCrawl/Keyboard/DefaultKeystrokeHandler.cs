@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Reflection;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
@@ -220,6 +220,12 @@ namespace Magecrawl.Keyboard
         {
             NamedKey movementKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());
             m_playerActions.MoveToLocation(movementKey);
+        }
+
+        // TODO - Update HelpPainter.cs
+        private void ShowSkillTree()
+        {
+            m_gameInstance.SetHandlerName("SkillTree");
         }
 
         // If you add new non-debug commands, remember to update HelpPainter.cs

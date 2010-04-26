@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Keyboard.Requests;
 using Magecrawl.Utilities;

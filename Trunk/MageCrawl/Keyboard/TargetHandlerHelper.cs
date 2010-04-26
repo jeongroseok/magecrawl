@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -14,6 +14,7 @@ using Magecrawl.Keyboard.Debug;
 using Magecrawl.Keyboard.Dialogs;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
+using Magecrawl.Keyboard.SkillTree;
 using Magecrawl.Utilities;
 
 namespace Magecrawl
@@ -279,6 +280,10 @@ namespace Magecrawl
             ItemOnGroundSelectionKeyboardHandler itemOnGroundHandler = new ItemOnGroundSelectionKeyboardHandler(m_engine, this);
             itemOnGroundHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("ItemOnGroundSelection", itemOnGroundHandler);
+
+            SkillTreeKeyboardHandler skillTreeHander = new SkillTreeKeyboardHandler(m_engine, this);
+            skillTreeHander.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("SkillTree", skillTreeHander);
 
             DebugDialogKeyboardHandler debugHandler = new DebugDialogKeyboardHandler(m_engine, this);
             debugHandler.LoadKeyMappings(false);
