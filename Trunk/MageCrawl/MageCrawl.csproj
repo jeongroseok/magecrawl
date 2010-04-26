@@ -88,6 +88,7 @@
     <Compile Include="Keyboard\Magic\MagicListKeyboardHandler.cs" />
     <Compile Include="Keyboard\Requests\OneButtonDialogKeyboardRequest.cs" />
     <Compile Include="Keyboard\Requests\TargettingKeystrokeRequest.cs" />
+    <Compile Include="Keyboard\SkillTree\SkillTreeKeyboardHandler.cs" />
     <Compile Include="Keyboard\TargettingKeystrokeHandler.cs" />
     <Compile Include="Keyboard\BaseKeystrokeHandler.cs">
     </Compile>
