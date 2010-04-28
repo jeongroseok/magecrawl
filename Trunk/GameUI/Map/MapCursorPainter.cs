@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -55,7 +55,7 @@ namespace Magecrawl.GameUI.Map
                             screen.setBackgroundColor(ColorPresets.DarkGray);
 
                             int frameHeight = m_currentToolTips.Count > MaxNumberOfLinesToShow ? 3 + numberOfLinesToShow : 2 + numberOfLinesToShow;
-                            screen.printFrame(ScreenCenter.X + 2, ScreenCenter.Y - 2, longestLine + 2, frameHeight, false);
+                            screen.printFrame(ScreenCenter.X + 2, ScreenCenter.Y - 2, longestLine + 2, frameHeight, false, TCODBackgroundFlag.Multiply);
 
                             for (int i = 0; i < numberOfLinesToShow; ++i)
                                 screen.printEx(ScreenCenter.X + 3, ScreenCenter.Y - 1 + i, TCODBackgroundFlag.Multiply, TCODAlignment.LeftAlignment, m_currentToolTips[i]);
