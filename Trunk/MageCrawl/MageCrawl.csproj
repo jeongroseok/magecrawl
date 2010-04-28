@@ -73,7 +73,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\PlayerWonExceptoin.cs" />
+    <Compile Include="Exceptions\PlayerWonException.cs" />
     <Compile Include="AutoTraveler.cs" />
     <Compile Include="Keyboard\Debug\DebugDialogKeyboardHandler.cs" />
     <Compile Include="Keyboard\Dialogs\OneButtonDialogKeyboardHandler.cs" />
