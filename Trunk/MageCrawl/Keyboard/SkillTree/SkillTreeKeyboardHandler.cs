@@ -25,5 +25,46 @@ namespace Magecrawl.Keyboard.SkillTree
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }
+
+        private void North()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.North));
+        }
+
+        private void South()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.South));
+        }
+
+        private void East()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.East));
+        }
+
+        private void West()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.West));
+        }
+
+        private void Northeast()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.Northeast));
+        }
+
+        private void Northwest()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.Northwest));
+        }
+
+        private void Southeast()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.Southeast));
+        }
+
+        private void Southwest()
+        {
+            m_gameInstance.SendPaintersRequest(new MoveSkillTreeCursor(Direction.Southwest));
+        }
+
     }
 }
