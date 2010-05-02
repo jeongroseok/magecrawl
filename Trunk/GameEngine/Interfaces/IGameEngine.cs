@@ -108,6 +108,8 @@ namespace Magecrawl.GameEngine.Interfaces
         void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
 
         List<string> GetDescriptionForTile(Point p);
+
+        ISkill GetSkill(string name);
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();

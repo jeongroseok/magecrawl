@@ -190,5 +190,8 @@
     <None Include="..\dist\Map\DungeonChunks.dat">
       <Link>Resources\DungeonChunks.dat</Link>
     </None>
+    <None Include="..\dist\Resources\SkillTree.dat">
+      <Link>Resources\SkillTree.dat</Link>
+    </None>
   </ItemGroup>
 </Project>
