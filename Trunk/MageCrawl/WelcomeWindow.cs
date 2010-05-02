@@ -27,7 +27,7 @@ namespace Magecrawl
         }
 
         private const int ScrollAmount = 3;
-        private const int LengthOfEachElement = 1250;
+        private const int LengthOfEachElement = 1300;
         
         private const int SpellListOffset = 42;
         private const int EntryOffset = 8;
@@ -66,12 +66,11 @@ namespace Magecrawl
             m_random = new TCODRandom();
             m_windowResult = new Result();
 
-            //m_currentElementPointedTo = (MagicTypes)m_random.getInt(0, 6);    // Pick a random element to start on.
-            m_currentElementPointedTo = MagicTypes.Arcane;
+            m_currentElementPointedTo = (MagicTypes)m_random.getInt(0, 6);    // Pick a random element to start on.
 
             m_flavorText = new Dictionary<MagicTypes, string>();
             m_flavorText[MagicTypes.Fire] = "Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
-            m_flavorText[MagicTypes.Water] = "As seen in the seas, water can both protect and destory life with ease. Icey effects can also slow and disable.";
+            m_flavorText[MagicTypes.Water] = "As seen in the seas, water can both protect and destory life with ease. Icey effects also slow and disable.";
             m_flavorText[MagicTypes.Air] = "Born from the wind, air-based magic can enchant, entice, and when necessary strike with thunder and hail.";
             m_flavorText[MagicTypes.Earth] = "Sturdy and dependable, the earth excels in defense and striking nearby foes with the force of a landslide.";
             m_flavorText[MagicTypes.Light] = "Gifted from the Creator. Light magic is best at mending wounds, summoning aid and protection. Strong at smiting unholy abominations.";
@@ -80,12 +79,12 @@ namespace Magecrawl
 
             m_mainText = new Dictionary<MagicTypes, string>();
             m_mainText[MagicTypes.Fire] = "It is our passions that seperate us from the other schools, our passion for life, our passion for knowledges, our passion for power.\n\nIt is your fiery passion that brought you to this school. Your instructors will shape your unrefined passion into power. Power to shape even the very flames beneath this mountain. \n\nTo be a pyromancer is to be channel forces so great as to be nearly out of control and yet hold onto it with your very will.\n\nRemember this as you enter these halls, as many have before you.\n\n\n\n\n\n\nSenior Pyromancer Nathan\nWelcoming Ceremony\n372 CT";
-            m_mainText[MagicTypes.Water] = "";
-            m_mainText[MagicTypes.Air] = "";
-            m_mainText[MagicTypes.Earth] = "";
-            m_mainText[MagicTypes.Light] = "";
-            m_mainText[MagicTypes.Darkness] = "Jonathan,\n\n     You were right, those hidden manuscripts we found were truthful. While I have not found the tomb yet, this swamp is full of power. The dead walk, wondering (patrolling?) near this bog, the very air is filled with a dread power stronger than anything at the academy.\n\nOnce I find the tomb, the spellbooks of the Lich Algmon shall be ours. With them, the power to shape the world. Those fools who speak of restraint or treaties lack the will to act. That is one thing we do not lack.\n\nAs soon as you can slip away, locate me using the charm attached. We can continue the search.\n\n\n\n\nAngelina\nCT 381";
-            m_mainText[MagicTypes.Arcane] = "Magic in its purest form is a sentient being pressing their will against nature. More accurately, their will distorts the weave of creation. By understanding this weave, a student of the arcane can wield force alone as their weapon, as opposed to crude elemental magics. \n\nWith study, the amount of distortion one can force into the weave before it \"snaps\" back and ruins a spell increases. Also, feats such as teleportation become possible.\n\nThis textbook will provide an introduction to Arcane magic. The study of the arcane provides both an excellent foundation for future studies in other areas and a path to high magic in itself.\n\n\nModern Exploration of the Weave: An Introduction to Modern Arcane theory\nPage 3\nDavid C. Fellow";
+            m_mainText[MagicTypes.Water] = "And this exhibit is the famous painting of the battle of Hillsbrad Harbor. During the 2nd revolution in CT 291, this town was stormed by a small navy backed up by a large elemental force, as you can see here.\n\nWater wisps, ice demons, and even elder water elementals were summoned by the Archmage Danel II. Look at the exquisite detail of the background storm. The full force a hurricane force winds were leveled against the defenders, and is captured here.\n\nIt was painted at the height of the artist's career. Now on the left is...\n\n\n\n\n\nExcerpt from a tour\nRoyal Museum of Art, Dalundor\nCT 382";
+            m_mainText[MagicTypes.Air] = "While traveling via the sea, many remember to visit the Brotherhood of Water for charms and scrolls to speed their journey. You would be wise not to forget the power of the wind. Even with a calm sea, the wind is what truly carries you.\nSome the the product we offer the public inclued:\n\n\nScroll of Strengthen Wind......50G\n\nScroll of Witch Wind..........100G\n\nWand of Calm Storm............275G\n\nWand of Lightning Bolt........500G\n\nServices of Air Mage......500G/day\n\n\nCome see us today!\n\nAirbone Services\nLocated in Arcane district next to the west gate.";
+            m_mainText[MagicTypes.Earth] = "Tips when traveling to planes of Earth\n\n* 37 planes of earth have been mapped sufficiently well enough that bringing a map will do more help than harm.\n\n* Seven of these planes are partially molten, so bring a fire mage or resist elements scrolls.\n\n* While many will travel in search of precious metals and gems, removal of large quantites of materal can rouse angry elementals.\n\n* Bring scrolls of fresh air and potions of burrowing in case of cave-ins.\n\n* Remember a light source that doesn't require air, such as glowstones or coldfire torches.\n\n\nGuild of Earth Mages";
+            m_mainText[MagicTypes.Light] = "In the beginning the Creator created many worlds. Some demi-planes of raw elements, others fully formed and seeded with life. While mages from all schools have explored a few of these planes, many questions remain.\n\nWhy are some more formed than others? Why did the Creator leave His fingerprints on creation so obviously, and then never act again?\n\nThe tenants of the school of light magic are based upon what we can glean about the Creator and planes of positive energy.\n\nHowever, unless the Creator returns to impart knowledge about itself, there is precious little we can know for certain.\n\n\n\nThoughts on Creation\nAugus\nCT 169";
+            m_mainText[MagicTypes.Darkness] = "Jonathan,\n\n     You were right, those hidden manuscripts we found were truthful. While I have not found the tomb yet, this swamp is full of power. The dead walk, wondering (patrolling?) near this bog, the very air is filled with a dread power stronger than anything at the academy.\n\nOnce I find the tomb, the spellbooks of the Lich Algmon shall be ours. With them, the power to shape the world. Those fools who speak of restraint or treaties lack the will to act. That is one thing we do not lack.\n\nAs soon as you can slip away, locate me using the charm attached. We can continue the search.\n\n\n\nMarie\nCT 381";
+            m_mainText[MagicTypes.Arcane] = "Magic in its purest form is a sentient being pressing their will against nature. More accurately, their will distorts the weave of creation. By understanding this weave, a student of the arcane can wield force alone as their weapon, as opposed to crude elemental magics.\n\nWith study, the amount of distortion one can force into the weave before it \"snaps\" back and ruins a spell increases.\n\nThis textbook will provide an introduction to Arcane magic. The study of the arcane provides both an excellent foundation for future studies in other areas and a path to high magic in itself.\n\n\nModern Exploration of the Weave: An Introduction to Modern Arcane theory\nPage 3\nDavid C. Fellow";
 
             m_spellLists = new Dictionary<MagicTypes, List<string>>();
             m_spellLists[MagicTypes.Fire] = new List<string>() { "Firebolt", "Warmth", "Fireblast", "Fireball", "Wall Of Fire", "Firestorm" };
