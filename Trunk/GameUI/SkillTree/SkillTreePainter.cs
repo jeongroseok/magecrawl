@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI.SkillTree
         private const int UpperLeft = 5;
         private const int ScreenWidth = 70;
         private const int ScreenHeight = 50;
-        private static Point ScreenCenter = new Point(((ScreenWidth - 1) / 2), ((ScreenHeight - 1) / 2));
+        private static Point SkillTreeScreenCenter = new Point(((ScreenWidth - 1) / 2), ((ScreenHeight - 1) / 2));
 
         internal SkillTreePainter()
         {
@@ -54,7 +54,7 @@ namespace Magecrawl.GameUI.SkillTree
             switch(c)
             {
                 case '1':
-                    return TCODSpecialCharacter.NW;
+                    return (char)TCODSpecialCharacter.NW;
                 case '2':
                 case '3':
                 case '4':
@@ -75,7 +75,7 @@ namespace Magecrawl.GameUI.SkillTree
                 int lowY = CursorPosition.Y - (ScreenHeight / 2);
                 screen.printFrame(UpperLeft, UpperLeft, ScreenWidth, ScreenHeight, true, TCODBackgroundFlag.Set, "Skill Tree");
                 TCODConsole.blit(m_offscreenConsole, lowX, lowY, ScreenWidth - 2, ScreenHeight - 2, screen, UpperLeft + 1, UpperLeft + 1);
-                screen.setCharBackground(ScreenCenter.X + UpperLeft + 2, ScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
+                screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
                 screen.print(50, 50, m_cursorPosition.ToString());
             }
