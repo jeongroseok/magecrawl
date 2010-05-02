@@ -1,10 +1,10 @@
-﻿using libtcod;
+using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
-    internal abstract class PainterBase : IHandlePainterRequest
+    internal abstract class PainterBase : IHandlePainterRequest, System.IDisposable
     {
         public abstract void DrawNewFrame(TCODConsole screen);
 

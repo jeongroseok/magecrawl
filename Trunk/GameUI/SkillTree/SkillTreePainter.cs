@@ -7,8 +7,6 @@ namespace Magecrawl.GameUI.SkillTree
 {
     internal class SkillTreePainter : MapPainterBase
     {
-        internal bool Enabled { get; set; }
-
         private int m_width;
         private int m_height;
         private char[,] m_array;
@@ -22,7 +20,13 @@ namespace Magecrawl.GameUI.SkillTree
         internal SkillTreePainter()
         {
             Enabled = false;
-            CursorPosition = new Point(0,0);
+            CursorPosition = Point.Invalid;
+
+            ReadSkillTreeFile();
+        }
+
+        private void ReadSkillTreeFile()
+        {
             string fileName = Path.Combine(Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Resources"), "SkillTree.dat");
             using(StreamReader s = new StreamReader(fileName))
             {
@@ -39,9 +43,26 @@ namespace Magecrawl.GameUI.SkillTree
                     string line = s.ReadLine();
                     for(int i = 0 ; i < m_width ; ++i)
                     {
-                        m_array[i, j] = line[i];
+                       m_array[i, j] = line[i];
                     }
                 }
+            }
+        }
+
+        private char ConvertFileCharToPrintChar(char c)
+        {
+            switch(c)
+            {
+                case '1':
+                    return TCODSpecialCharacter.NW;
+                case '2':
+                case '3':
+                case '4':
+                case '.':
+                case '"':
+                case '\'':
+                default:
+                    return c;
             }
         }
         
@@ -54,7 +75,7 @@ namespace Magecrawl.GameUI.SkillTree
                 int lowY = CursorPosition.Y - (ScreenHeight / 2);
                 screen.printFrame(UpperLeft, UpperLeft, ScreenWidth, ScreenHeight, true, TCODBackgroundFlag.Set, "Skill Tree");
                 TCODConsole.blit(m_offscreenConsole, lowX, lowY, ScreenWidth - 2, ScreenHeight - 2, screen, UpperLeft + 1, UpperLeft + 1);
-                screen.setCharBackground(ScreenCenter.X + UpperLeft + 1, ScreenCenter.Y + UpperLeft + 1, TCODColor.darkGrey);
+                screen.setCharBackground(ScreenCenter.X + UpperLeft + 2, ScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
                 screen.print(50, 50, m_cursorPosition.ToString());
             }
@@ -66,7 +87,7 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 for (int j = 0 ; j < m_height ; ++j)
                 {
-                    m_offscreenConsole.putChar(i, j, m_array[i,j], TCODBackgroundFlag.None);
+                    m_offscreenConsole.putChar(i, j, ConvertFileCharToPrintChar(m_array[i,j]), TCODBackgroundFlag.None);
                 }
             }
         }
@@ -74,6 +95,22 @@ namespace Magecrawl.GameUI.SkillTree
         public override void UpdateFromNewData (IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
         }
+
+        private bool m_enabled;
+        internal bool Enabled
+        {
+            get
+            {
+                return m_enabled;
+            }
+            set
+            {
+                m_enabled = value;
+                CursorPosition = new Point(0, 0);
+            }
+        }
+
+
 
         private Point m_cursorPosition;
         internal Point CursorPosition
