@@ -5,6 +5,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.Skills;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -357,6 +358,11 @@ namespace Magecrawl.GameEngine
             if (descriptionList.Count == 0)
                 descriptionList.Add(m_engine.Map.GetTerrainAt(p).ToString());
             return descriptionList;
+        }
+
+        public ISkill GetSkill(string name)
+        {
+            return SkillFactory.CreateSkill(name);
         }
 
         // This is a catch all debug request interface, used for debug menus.
