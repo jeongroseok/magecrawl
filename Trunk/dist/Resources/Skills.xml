@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Skills>
   <Skill Name="Heal" Cost="10" AddSpell="Heal" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell mends the flesh of the target, healing minor or moderate wounds."/>
-  <Skill Name="Force Bolt I" Cost="5" AddSpell="Force Bolt" School="Arcane" Description="A simple application of arcane lessons of the weave, this spell projects a bolt of raw force toward the target."/>
+  <Skill Name="Force Bolt I" Cost="5" AddSpell="Force Bolt" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target."/>
   <Skill Name="Fireball I" Cost="20" AddSpell="Fireball" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target."/>
 </Skills>

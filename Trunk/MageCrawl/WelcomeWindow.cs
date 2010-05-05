@@ -27,7 +27,7 @@ namespace Magecrawl
         }
 
         private const int ScrollAmount = 3;
-        private const int LengthOfEachElement = 1300;
+        private const int LengthOfEachElement = 1000;
         
         private const int SpellListOffset = 42;
         private const int EntryOffset = 8;

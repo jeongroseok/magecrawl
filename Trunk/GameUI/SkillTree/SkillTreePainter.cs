@@ -171,7 +171,7 @@ namespace Magecrawl.GameUI.SkillTree
 
                 screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
-                screen.print(50, 50, m_cursorPosition.ToString());
+                //screen.print(50, 50, m_cursorPosition.ToString());
             }
         }
 
