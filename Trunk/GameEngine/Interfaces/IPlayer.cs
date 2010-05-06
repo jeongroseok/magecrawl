@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Magecrawl.Utilities;
 
@@ -22,6 +22,11 @@ namespace Magecrawl.GameEngine.Interfaces
         }
 
         IEnumerable<ISpell> Spells
+        {
+            get;
+        }
+
+        IEnumerable<ISkill> Skills
         {
             get;
         }

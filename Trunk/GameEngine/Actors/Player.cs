@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -8,6 +8,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.GameEngine.Skills;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -24,10 +25,12 @@ namespace Magecrawl.GameEngine.Actors
         public IArmor Boots { get; internal set; }
 
         private List<Item> m_itemList;
+        private List<Skill> m_skills;
 
         public Player() : base()
         {
             m_itemList = null;
+            m_skills = null;
             CurrentMP = 0;
             MaxMP = 0;
         }
@@ -35,6 +38,7 @@ namespace Magecrawl.GameEngine.Actors
         public Player(string name, Point p) : base(name, p, 12, 6)
         {
             m_itemList = new List<Item>();
+            m_skills = new List<Skill>();
             CurrentMP = 10;
             MaxMP = 10;
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
@@ -79,7 +83,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_itemList.ConvertAll<IItem>(new System.Converter<Item, IItem>(delegate(Item i) { return i as IItem; }));
+                return m_itemList.ConvertAll<IItem>(i => i).ToList();
             }
         }
 
@@ -89,6 +93,19 @@ namespace Magecrawl.GameEngine.Actors
             {
                 return m_affects.Select(a => a.Name).ToList();
             }
+        }
+
+        public IEnumerable<ISkill> Skills
+        {
+            get
+            {
+                return m_skills.ConvertAll<ISkill>(x => x).ToList();
+            }
+        }
+
+        public void AddSkill(ISkill skill)
+        {
+             m_skills.Add((Skill)skill);
         }
 
         internal override IItem Equip(IItem item)
@@ -193,14 +210,22 @@ namespace Magecrawl.GameEngine.Actors
             Boots = (IArmor)Item.ReadXmlEntireNode(reader, this);
 
             m_itemList = new List<Item>();
-            ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
+            ReadListFromXMLCore readItemDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
                 Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem(typeString); 
                 newItem.ReadXml(reader);
                 m_itemList.Add(newItem);
             });
-            ListSerialization.ReadListFromXML(reader, readDelegate);
+            ListSerialization.ReadListFromXML(reader, readItemDelegate);
+
+            m_skills = new List<Skill>();
+            ReadListFromXMLCore readSkillDelegate = new ReadListFromXMLCore(delegate
+            {
+                string skillName = reader.ReadElementContentAsString();
+                m_skills.Add(SkillFactory.CreateSkill(skillName));
+            });
+            ListSerialization.ReadListFromXML(reader, readSkillDelegate);
             reader.ReadEndElement();
         }
 
@@ -218,6 +243,8 @@ namespace Magecrawl.GameEngine.Actors
             Item.WriteXmlEntireNode((Item)Boots, "Boots", writer);
 
             ListSerialization.WriteListToXML(writer, m_itemList, "Items");
+            ListSerialization.WriteListToXML(writer, m_skills, "Skills");
+
             writer.WriteEndElement();
         }
 

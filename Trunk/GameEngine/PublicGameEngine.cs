@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
@@ -360,9 +360,15 @@ namespace Magecrawl.GameEngine
             return descriptionList;
         }
 
-        public ISkill GetSkill(string name)
+        public ISkill GetSkillFromName(string name)
         {
             return SkillFactory.CreateSkill(name);
+        }
+
+        public void AddSkillToPlayer(ISkill skill)
+        {
+            // TODO - this should remove skill points and check for dependencies...
+            m_engine.Player.AddSkill(skill);
         }
 
         // This is a catch all debug request interface, used for debug menus.

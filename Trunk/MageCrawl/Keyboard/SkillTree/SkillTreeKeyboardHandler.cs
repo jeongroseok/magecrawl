@@ -17,7 +17,7 @@ namespace Magecrawl.Keyboard.SkillTree
 
         public override void NowPrimaried (object request)
         {
-            m_gameInstance.SendPaintersRequest(new ShowSkillTree(true));
+            m_gameInstance.SendPaintersRequest(new ShowSkillTree());
         }
 
         private void Select()
@@ -27,7 +27,14 @@ namespace Magecrawl.Keyboard.SkillTree
 
         private void Escape()
         {
-            m_gameInstance.SendPaintersRequest(new ShowSkillTree(false));
+            m_gameInstance.SendPaintersRequest(new QuitSkillTree(QuitDelegate));
+        }
+
+        private void QuitDelegate(List<ISkill> newlySelectedSkill)
+        {
+            foreach(ISkill s in newlySelectedSkill)
+                m_engine.AddSkillToPlayer(s);
+            
             m_gameInstance.UpdatePainters();
             m_gameInstance.ResetHandlerName();
         }

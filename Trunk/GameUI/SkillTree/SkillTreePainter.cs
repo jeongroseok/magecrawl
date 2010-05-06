@@ -33,7 +33,7 @@ namespace Magecrawl.GameUI.SkillTree
             public ISkill GetSkill(IGameEngine engine)
             {
                 if (Skill == null)
-                    Skill = engine.GetSkill(SkillName);
+                    Skill = engine.GetSkillFromName(SkillName);
                 return Skill;
             }
 
@@ -51,8 +51,9 @@ namespace Magecrawl.GameUI.SkillTree
         private Point m_defaultCurorPosition;
         private char[,] m_array;
         private TCODConsole m_offscreenConsole;
-        private List<SkillSquare> m_skillSquares = new List<SkillSquare>();
-        private List<ISkill> m_newlySelectedSkills = new List<ISkill>();
+        private List<SkillSquare> m_skillSquares;
+
+        internal List<ISkill> newlySelectedSkills { get; private set; }
 
         private IGameEngine m_engine;
 
@@ -71,9 +72,10 @@ namespace Magecrawl.GameUI.SkillTree
 
         internal SkillTreePainter()
         {
-            Enabled = false;
+            m_enabled = false;
             CursorPosition = Point.Invalid;
-            m_newlySelectedSkills = new List<ISkill>();
+            newlySelectedSkills = new List<ISkill>();
+            m_skillSquares = new List<SkillSquare>();
 
             ReadSkillTreeFile();
         }
@@ -178,7 +180,7 @@ namespace Magecrawl.GameUI.SkillTree
             }
         }
 
-        internal ISkill Selected
+        internal ISkill SkillCursorIsOver
         {
             get
             {
@@ -193,15 +195,21 @@ namespace Magecrawl.GameUI.SkillTree
             }
         }
 
+        // TODO - This needs to only select squares that weren't part of the character list, and only allow
+        // unselection of those
         internal void SelectSquare()
         {
-            ISkill selected = Selected;
+            ISkill selected = SkillCursorIsOver;
             if (selected != null)
             {
-                if (m_newlySelectedSkills.Contains(selected))
-                    m_newlySelectedSkills.Remove(selected);
+                // Don't allow skills to be deselected once chosen.
+                if (m_engine.Player.Skills.Contains(selected))
+                    return;
+
+                if (newlySelectedSkills.Contains(selected))
+                    newlySelectedSkills.Remove(selected);
                 else
-                    m_newlySelectedSkills.Add(selected);
+                    newlySelectedSkills.Add(selected);
             }
         }
 
@@ -222,7 +230,9 @@ namespace Magecrawl.GameUI.SkillTree
                     if (skillSquareBeingPained != null)
                     {
                         bool cursorInMySquare = skillSquareBeingPained.IsInSquare(m_cursorPosition);
-                        bool selectedMySquare = m_newlySelectedSkills.Exists(x => x.Name == skillSquareBeingPained.SkillName);
+
+                        bool selectedMySquare = newlySelectedSkills.Exists(x => x.Name == skillSquareBeingPained.SkillName)
+                            || m_engine.Player.Skills.ToList().Exists(x => x.Name == skillSquareBeingPained.SkillName);
 
                         TCODColor background;
 
@@ -283,11 +293,9 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 m_enabled = value;
                 CursorPosition = m_defaultCurorPosition;
-                m_newlySelectedSkills.Clear();
+                newlySelectedSkills.Clear();
             }
         }
-
-
 
         private Point m_cursorPosition;
         internal Point CursorPosition

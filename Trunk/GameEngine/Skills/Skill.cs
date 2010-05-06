@@ -1,8 +1,9 @@
-﻿using Magecrawl.GameEngine.Interfaces;
+using System.Xml.Serialization;
+using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Skills
 {
-    internal class Skill : ISkill
+    internal class Skill : ISkill, IXmlSerializable
     {
         public string Name { get; private set; }
         public int Cost { get; private set; }
@@ -25,6 +26,20 @@ namespace Magecrawl.GameEngine.Skills
             {
                 return AddSpell != null;
             }
+        }
+
+        public void ReadXml (System.Xml.XmlReader reader)
+        {
+        }
+
+        public void WriteXml (System.Xml.XmlWriter writer)
+        {
+            writer.WriteElementString("SkillName", Name);
+        }
+
+        public System.Xml.Schema.XmlSchema GetSchema ()
+        {
+            return null;
         }
     }
 }
