@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -109,7 +109,9 @@ namespace Magecrawl.GameEngine.Interfaces
 
         List<string> GetDescriptionForTile(Point p);
 
-        ISkill GetSkill(string name);
+        void AddSkillToPlayer(ISkill skill);
+
+        ISkill GetSkillFromName(string name);
         
         // Debugging calls
         bool[,] PlayerMoveableToEveryPoint();
