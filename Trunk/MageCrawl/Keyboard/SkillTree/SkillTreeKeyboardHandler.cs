@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Magecrawl.Keyboard;
 using Magecrawl.GameUI.SkillTree.Requests;
 using Magecrawl.GameEngine.Interfaces;
@@ -17,6 +18,11 @@ namespace Magecrawl.Keyboard.SkillTree
         public override void NowPrimaried (object request)
         {
             m_gameInstance.SendPaintersRequest(new ShowSkillTree(true));
+        }
+
+        private void Select()
+        {
+            m_gameInstance.SendPaintersRequest(new SelectSkillFromSkillTree());
         }
 
         private void Escape()

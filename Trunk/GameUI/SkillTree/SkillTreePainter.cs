@@ -29,7 +29,7 @@ namespace Magecrawl.GameUI.SkillTree
             public string SkillName;
 
             // We do this to cache the skill, since on init time we don't have the IGameEngine to resolve
-            private ISkill Skill;        
+            private ISkill Skill;
             public ISkill GetSkill(IGameEngine engine)
             {
                 if (Skill == null)
@@ -51,8 +51,9 @@ namespace Magecrawl.GameUI.SkillTree
         private Point m_defaultCurorPosition;
         private char[,] m_array;
         private TCODConsole m_offscreenConsole;
-        private List<Point> m_cornersUnmatched = new List<Point>();
         private List<SkillSquare> m_skillSquares = new List<SkillSquare>();
+        private List<ISkill> m_newlySelectedSkills = new List<ISkill>();
+
         private IGameEngine m_engine;
 
         private const int UpperLeft = 5;
@@ -72,6 +73,7 @@ namespace Magecrawl.GameUI.SkillTree
         {
             Enabled = false;
             CursorPosition = Point.Invalid;
+            m_newlySelectedSkills = new List<ISkill>();
 
             ReadSkillTreeFile();
         }
@@ -87,6 +89,7 @@ namespace Magecrawl.GameUI.SkillTree
                 m_defaultCurorPosition = new Point(int.Parse(sizeLine[2]), int.Parse(sizeLine[3]));
                 m_array = new char[m_width, m_height];
                 m_offscreenConsole = new TCODConsole(m_width + ExplainPopupWidth + 1, m_height + ExplainPopupHeight + 1);
+                List<Point> m_cornersUnmatched = new List<Point>();
                 for(int j = 0 ; j < m_height ; ++j)
                 {
                     string line = s.ReadLine();
@@ -115,7 +118,7 @@ namespace Magecrawl.GameUI.SkillTree
                         }
                     }
                 }
-                
+
                 if(m_cornersUnmatched.Count > 0)
                     throw new System.InvalidOperationException("Unmatched corners in SkillTree data");
 
@@ -171,45 +174,96 @@ namespace Magecrawl.GameUI.SkillTree
 
                 screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
-                //screen.print(50, 50, m_cursorPosition.ToString());
+                // screen.print(50, 50, m_cursorPosition.ToString());
+            }
+        }
+
+        internal ISkill Selected
+        {
+            get
+            {
+                foreach (SkillSquare skillSquare in m_skillSquares)
+                {
+                    if (skillSquare.IsInSquare(m_cursorPosition))
+                    {
+                        return skillSquare.GetSkill(m_engine);
+                    }
+                }
+                return null;
+            }
+        }
+
+        internal void SelectSquare()
+        {
+            ISkill selected = Selected;
+            if (selected != null)
+            {
+                if (m_newlySelectedSkills.Contains(selected))
+                    m_newlySelectedSkills.Remove(selected);
+                else
+                    m_newlySelectedSkills.Add(selected);
             }
         }
 
         private void DrawOffSceenConsole()
         {
             m_offscreenConsole.clear();
+
+            SkillSquare cursorSkillSquare = m_skillSquares.Find(x => x.IsInSquare(m_cursorPosition));
+            ISkill cursorOverSkill = (cursorSkillSquare != null) ? cursorSkillSquare.GetSkill(m_engine) : null;
+
             for (int i = 0 ; i < m_width ; ++i)
             {
                 for (int j = 0 ; j < m_height ; ++j)
                 {
                     m_offscreenConsole.putChar(i, j, ConvertFileCharToPrintChar(m_array[i,j]), TCODBackgroundFlag.Set);
 
-                    if(m_skillSquares.Exists(x => x.IsInSquare(m_cursorPosition) && x.IsInSquare(new Point(i,j))))
+                    SkillSquare skillSquareBeingPained = m_skillSquares.Find(x => x.IsInSquare(new Point(i, j)));
+                    if (skillSquareBeingPained != null)
                     {
-                        m_offscreenConsole.setCharBackground(i, j, TCODColor.lightBlue);
-                    }
+                        bool cursorInMySquare = skillSquareBeingPained.IsInSquare(m_cursorPosition);
+                        bool selectedMySquare = m_newlySelectedSkills.Exists(x => x.Name == skillSquareBeingPained.SkillName);
 
-                    if (m_skillSquares.Exists(x => x.IsInSquare(m_cursorPosition)))
-                    {
-                        SkillSquare s = m_skillSquares.Find(x => x.IsInSquare(m_cursorPosition));
-                        Point explainationBoxLowerLeft = s.UpperRight + new Point(1, 0);
-                        ISkill skill = s.GetSkill(m_engine);
-                        m_offscreenConsole.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - ExplainPopupHeight, ExplainPopupWidth, ExplainPopupHeight, true, TCODBackgroundFlag.Set, s.SkillName);
+                        TCODColor background;
 
-                        int textX = explainationBoxLowerLeft.X + 2;
-                        int textY = explainationBoxLowerLeft.Y - ExplainPopupHeight + 2;
-                        if(skill.NewSpell)
+                        if (cursorInMySquare)
                         {
-                            m_offscreenConsole.print(textX, textY, "New Spell");
-                            textY++;
+                            if (selectedMySquare)
+                                background = TCODColor.darkBlue;
+                            else
+                                background = TCODColor.lightBlue;
                         }
-                        m_offscreenConsole.print(textX, textY, string.Format("School: {0}", skill.School));
-                        textY++;
-                        m_offscreenConsole.print(textX, textY, string.Format("Skill Point Cost: {0}", skill.Cost));
-                        textY += 2;
-                        m_offscreenConsole.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 7, TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, skill.Description);                        
+                        else
+                        {
+                            if (selectedMySquare)
+                                background = TCODColor.blue;
+                            else
+                                background = TCODColor.black;
+                        }
+
+                        if(background != TCODColor.black)
+                            m_offscreenConsole.setCharBackground(i, j, background);
                     }
                 }
+            }
+
+            if (cursorSkillSquare != null)
+            {
+                Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0);
+                m_offscreenConsole.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - ExplainPopupHeight, ExplainPopupWidth, ExplainPopupHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
+
+                int textX = explainationBoxLowerLeft.X + 2;
+                int textY = explainationBoxLowerLeft.Y - ExplainPopupHeight + 2;
+                if(cursorOverSkill.NewSpell)
+                {
+                    m_offscreenConsole.print(textX, textY, "New Spell");
+                    textY++;
+                }
+                m_offscreenConsole.print(textX, textY, string.Format("School: {0}", cursorOverSkill.School));
+                textY++;
+                m_offscreenConsole.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
+                textY += 2;
+                m_offscreenConsole.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 7, TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, cursorOverSkill.Description);
             }
         }
 
@@ -229,6 +283,7 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 m_enabled = value;
                 CursorPosition = m_defaultCurorPosition;
+                m_newlySelectedSkills.Clear();
             }
         }
 
