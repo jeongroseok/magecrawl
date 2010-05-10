@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
@@ -11,8 +11,6 @@ namespace Magecrawl.GameUI.Map
         private bool m_enabled;
         private Point m_mapUpCorner;
         private Point m_cursorPosition;
-        private int m_mapWidth;
-        private int m_mapHeight;
         private List<EffectivePoint> m_targetablePoints;
         private PlayerTargettingHaloDelegate m_haloDelegate;
 
@@ -21,16 +19,12 @@ namespace Magecrawl.GameUI.Map
             m_enabled = false;
             m_mapUpCorner = new Point();
             m_targetablePoints = null;
-            m_mapHeight = 0;
-            m_mapWidth = 0;
             m_cursorPosition = Point.Invalid;
         }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
             m_mapUpCorner = mapUpCorner;
-            m_mapHeight = engine.Map.Height;
-            m_mapWidth = engine.Map.Width;
             m_cursorPosition = cursorPosition;
         }
 

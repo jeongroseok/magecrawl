@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.Exceptions;
 using Magecrawl.GameEngine.Interfaces;
@@ -135,7 +135,7 @@ namespace Magecrawl
                     // Don't save if player closes window with dialog up.
                     m_gameInstance.ShouldSaveOnClose = false;
                     string winString = "Congratulations, you have completed the magecrawl tech demo! " + m_engine.Player.Name + " continues on without you in search of further treasure and fame. Consider telling your story to others, including the creator.";
-                    m_gameInstance.SetHandlerName("OneButtonDialog", new OneButtonDialogKeyboardRequest(winString, new OnOneButtonComplete(OnWinDialogComplete)));
+                    m_gameInstance.SetHandlerName("OneButtonDialog", new Pair<OnOneButtonComplete, string>(OnWinDialogComplete, winString));
                     break;
                 case StairMovmentType.None:
                     s();

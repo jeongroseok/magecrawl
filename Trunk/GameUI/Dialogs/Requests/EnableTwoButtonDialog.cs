@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Magecrawl.GameUI.Dialogs.Requests
 {
-    public class EnableOneButtonDialog : RequestBase
+    public class EnableTwoButtonDialog : RequestBase
     {
         private bool m_enable;
         private string m_text;
 
-        public EnableOneButtonDialog(bool enable, string textToDisplay)
+        public EnableTwoButtonDialog(bool enable, string textToDisplay)
         {
             m_enable = enable;
             m_text = textToDisplay;
@@ -16,7 +16,7 @@ namespace Magecrawl.GameUI.Dialogs.Requests
 
         internal override void DoRequest(IHandlePainterRequest painter)
         {
-            OneButtonDialog h = painter as OneButtonDialog;
+            TwoButtonDialog h = painter as TwoButtonDialog;
             if (h != null)
             {
                 h.Text = m_text;

@@ -277,6 +277,10 @@ namespace Magecrawl
             oneButtonHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("OneButtonDialog", oneButtonHandler);
 
+            TwoButtonDialogKeyboardHandler twoButtonHandler = new TwoButtonDialogKeyboardHandler(m_engine, this);
+            twoButtonHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("TwoButtonDialog", twoButtonHandler);
+
             ItemOnGroundSelectionKeyboardHandler itemOnGroundHandler = new ItemOnGroundSelectionKeyboardHandler(m_engine, this);
             itemOnGroundHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("ItemOnGroundSelection", itemOnGroundHandler);
