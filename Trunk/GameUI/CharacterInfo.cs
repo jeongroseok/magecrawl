@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,6 @@ namespace Magecrawl.GameUI
         {
             m_player = null;
             m_currentLevel = -1;
-            m_inDanger = false;
         }
 
         private const int StartingX = UIHelper.MapWidth;
@@ -25,7 +24,6 @@ namespace Magecrawl.GameUI
 
         private IPlayer m_player;
         private int m_currentLevel;
-        private bool m_inDanger;
         private List<ICharacter> m_monstersNearby;
         private int m_turnCount;
 
@@ -33,7 +31,6 @@ namespace Magecrawl.GameUI
         {
             m_player = engine.Player;
             m_currentLevel = engine.CurrentLevel;
-            m_inDanger = engine.DangerInLOS();
             m_monstersNearby = engine.MonstersInPlayerLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
             m_turnCount = engine.TurnCount;
         }

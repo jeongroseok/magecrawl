@@ -4,10 +4,6 @@ namespace Magecrawl.GameUI.SkillTree.Requests
 {
     public class ShowSkillTree : RequestBase
     {
-        public ShowSkillTree()
-        {
-	    }
-		
 		internal override void DoRequest (IHandlePainterRequest painter)
 		{
 			if(painter is SkillTreePainter)

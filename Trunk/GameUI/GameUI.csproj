@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -111,6 +111,13 @@
     <Compile Include="SpellGraphicsInfo.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="UIHelper.cs" />
+    <Compile Include="SkillTree\Requests\QuitSkillTree.cs" />
+    <Compile Include="SkillTree\Requests\SelectSkillFromSkillTree.cs" />
+    <Compile Include="Dialogs\TwoButtonDialog.cs" />
+    <Compile Include="Dialogs\Requests\EnableTwoButtonDialog.cs" />
+    <Compile Include="Dialogs\Requests\MoveTwoButtonDialogSelection.cs" />
+    <Compile Include="Dialogs\Requests\ChangeTwoButtonText.cs" />
+    <Compile Include="Dialogs\Requests\DisableTwoButtonDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">

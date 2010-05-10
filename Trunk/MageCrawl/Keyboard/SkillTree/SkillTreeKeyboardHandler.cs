@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using Magecrawl.Keyboard;
-using Magecrawl.GameUI.SkillTree.Requests;
+using System.Linq;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameUI.Dialogs;
+using Magecrawl.GameUI.SkillTree.Requests;
+using Magecrawl.Keyboard;
 using Magecrawl.Utilities;
+using System.Collections.Generic;
 
 namespace Magecrawl.Keyboard.SkillTree
 {
@@ -30,13 +31,50 @@ namespace Magecrawl.Keyboard.SkillTree
             m_gameInstance.SendPaintersRequest(new QuitSkillTree(QuitDelegate));
         }
 
+        private class DialogConfirmAction
+        {
+            private GameInstance m_gameInstance;
+            private IGameEngine m_engine;
+            private List<ISkill> m_newlySelectedSkills;
+
+            internal DialogConfirmAction(IGameEngine engine,GameInstance gameInstance, List<ISkill> newlySelectedSkill)
+            {
+                m_engine = engine;
+                m_gameInstance = gameInstance;
+                m_newlySelectedSkills = new List<ISkill>(newlySelectedSkill);   // Copy list since skill tree will clear
+            }
+
+            internal void OnConfirm(bool ok)
+            {
+                if(ok)
+                {
+                    foreach(ISkill s in m_newlySelectedSkills)
+                        m_engine.AddSkillToPlayer(s);
+                }
+
+                m_gameInstance.UpdatePainters();
+                m_gameInstance.ResetHandlerName();
+            }
+        }
+
         private void QuitDelegate(List<ISkill> newlySelectedSkill)
         {
-            foreach(ISkill s in newlySelectedSkill)
-                m_engine.AddSkillToPlayer(s);
-            
-            m_gameInstance.UpdatePainters();
-            m_gameInstance.ResetHandlerName();
+            if (newlySelectedSkill.Count > 0)
+            {
+                DialogConfirmAction action = new DialogConfirmAction(m_engine, m_gameInstance, newlySelectedSkill);
+                // TODO - Handle skill point cost here
+                string dialogString = string.Format("You have selected {0} new skill{1}.\n\nTotal cost: {2} skill point{1}.",
+                                                    newlySelectedSkill.Count, newlySelectedSkill.Count > 1 ? "s" : "",
+                                                    newlySelectedSkill.Select(x => x.Cost).Sum());
+                List<string> dialogStringList = new List<string>() {dialogString, "Select Skills", "Cancel"};
+                var dialogInfo = new Pair<OnTwoButtonComplete, List<string>>(action.OnConfirm, dialogStringList);
+                m_gameInstance.SetHandlerName("TwoButtonDialog", dialogInfo);
+            }
+            else
+            {
+                m_gameInstance.UpdatePainters();
+                m_gameInstance.ResetHandlerName();
+            }
         }
 
         private void North()

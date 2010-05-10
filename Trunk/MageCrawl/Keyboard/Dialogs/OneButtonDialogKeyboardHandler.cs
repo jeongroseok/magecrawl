@@ -2,6 +2,7 @@ using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Requests;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
@@ -19,9 +20,9 @@ namespace Magecrawl.GameUI.Dialogs
 
         public override void NowPrimaried(object request)
         {
-            OneButtonDialogKeyboardRequest dialogRequest = (OneButtonDialogKeyboardRequest)request;
-            m_completeDelegate = dialogRequest.CompletionDelegate;
-            m_gameInstance.SendPaintersRequest(new EnableOneButtonDialog(true, dialogRequest.Text));
+            var requestData = (Pair<OnOneButtonComplete, string>)request;
+            m_completeDelegate = requestData.First;
+            m_gameInstance.SendPaintersRequest(new EnableOneButtonDialog(true, requestData.Second));
             m_gameInstance.UpdatePainters();
         }
 

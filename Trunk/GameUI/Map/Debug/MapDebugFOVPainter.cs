@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -8,8 +8,6 @@ namespace Magecrawl.GameUI.Map.Debug
     internal sealed class MapDebugFOVPainter : MapPainterBase
     {
         private bool m_enabled;
-        private int m_width;
-        private int m_height;
         private Point m_mapUpCorner;
         private List<Point> m_playerFOV;
         private Dictionary<ICharacter, List<Point>> m_monsterFOV;
@@ -20,8 +18,6 @@ namespace Magecrawl.GameUI.Map.Debug
             m_enabled = false;
             m_playerFOV = null;
             m_monsterFOV = null;
-            m_width = 0;
-            m_height = 0;
             m_mapUpCorner = new Point();
             m_monsterFOVColor = new Dictionary<int, TCODColor>();
         }
@@ -45,8 +41,6 @@ namespace Magecrawl.GameUI.Map.Debug
         {
             CalculateFOV(engine);
 
-            m_width = engine.Map.Width;
-            m_height = engine.Map.Height;
             m_mapUpCorner = mapUpCorner;
         }
 

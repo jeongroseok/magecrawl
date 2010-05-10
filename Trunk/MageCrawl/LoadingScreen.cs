@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using libtcod;
 using Magecrawl.GameUI;
 
@@ -7,7 +7,6 @@ namespace Magecrawl
     internal class LoadingScreen : System.IDisposable
     {
         private Timer m_timer;
-        private TCODConsole m_console;
 
         internal LoadingScreen(TCODConsole console, string text)
         {
@@ -15,7 +14,6 @@ namespace Magecrawl
             console.printRectEx(UIHelper.ScreenWidth / 2, UIHelper.ScreenHeight / 2, UIHelper.ScreenWidth, UIHelper.ScreenHeight, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, text);
             TCODConsole.flush();
 
-            m_console = console;
             m_timer = new Timer(OnTick, null, 0, 50);
         }
 

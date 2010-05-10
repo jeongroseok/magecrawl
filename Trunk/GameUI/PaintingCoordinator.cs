@@ -54,6 +54,7 @@ namespace Magecrawl.GameUI
             m_painters.Add(new QuitGamePainter());
             m_painters.Add(new HelpPainter());
             m_painters.Add(new OneButtonDialog());
+            m_painters.Add(new TwoButtonDialog());
 			m_painters.Add(new SkillTreePainter());
         }
 

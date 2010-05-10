@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -8,8 +8,6 @@ namespace Magecrawl.GameUI.Map
     internal class MapFOVPainter : MapPainterBase
     {
         private bool m_enabled;
-        private int m_width;
-        private int m_height;
         private TileVisibility[,] m_tileVisibility;
         private IGameEngine m_engine;
         private Point m_mapCorner;
@@ -18,8 +16,6 @@ namespace Magecrawl.GameUI.Map
         public MapFOVPainter()
         {
             m_enabled = true;
-            m_width = 0;
-            m_height = 0;
             m_mapCorner = Point.Invalid;
             m_cursorPosition = Point.Invalid;
         }
@@ -29,8 +25,6 @@ namespace Magecrawl.GameUI.Map
             if (m_enabled)
             {
                 m_engine = engine;
-                m_width = engine.Map.Width;
-                m_height = engine.Map.Height;
                 m_mapCorner = mapUpCorner;
                 m_cursorPosition = cursorPosition;
             }
