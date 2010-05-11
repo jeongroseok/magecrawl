@@ -2,6 +2,7 @@
 <Spells>
 <Spell Name="Heal" School="Light" EffectType="HealCaster" Cost="1" Strength="1"/>
 <Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="1" Strength="1" TargettingType="RangedSingle" Range="5"/>
+<Spell Name="Fire Bolt" School="Fire" EffectType="RangedSingleTarget" Cost="1" Strength="1" TargettingType="RangedSingle" Range="3"/>
 <Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" Strength="1" TargettingType="RangedSingle" Range="5"/>
 <Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" Strength="2" TargettingType="RangedBlast" Range="5" DrawingAttributes="DrawLastFrame:Tail=3"/>
 <Spell Name="Earthen Armor" School="Earth" EffectType="Earthen Armor" Cost="1" Strength="1"/>  

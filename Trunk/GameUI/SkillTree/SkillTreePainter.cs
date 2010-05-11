@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -11,22 +12,23 @@ namespace Magecrawl.GameUI.SkillTree
     {
         private class SkillSquare
         {
+            public Point UpperLeft;
+            public Point LowerRight;
+            public string SkillName;
+
             public SkillSquare(Point upperLeft, Point lowerRight)
             {
                 UpperLeft = upperLeft;
                 LowerRight = lowerRight;
                 SkillName = null;
                 Skill = null;
+                m_dependentSkills = new List<string>();
             }
 
             public bool IsInSquare(Point p)
             {
                 return p.X > UpperLeft.X && p.X < LowerRight.X && p.Y > UpperLeft.Y && p.Y < LowerRight.Y;
             }
-
-            public Point UpperLeft;
-            public Point LowerRight;
-            public string SkillName;
 
             // We do this to cache the skill, since on init time we don't have the IGameEngine to resolve
             private ISkill Skill;
@@ -35,6 +37,20 @@ namespace Magecrawl.GameUI.SkillTree
                 if (Skill == null)
                     Skill = engine.GetSkillFromName(SkillName);
                 return Skill;
+            }
+
+            private List<string> m_dependentSkills;
+            public IList<string> DependentSkills
+            {
+                get
+                {
+                    return m_dependentSkills;
+                }
+            }
+
+            public void AddDependency(string dependentSkillName)
+            {
+                m_dependentSkills.Add(dependentSkillName);
             }
 
             public Point UpperRight
@@ -52,8 +68,9 @@ namespace Magecrawl.GameUI.SkillTree
         private char[,] m_array;
         private TCODConsole m_offscreenConsole;
         private List<SkillSquare> m_skillSquares;
+        private DialogColorHelper m_dialogHelper;
 
-        internal List<ISkill> newlySelectedSkills { get; private set; }
+        internal List<ISkill> NewlySelectedSkills { get; private set; }
 
         private IGameEngine m_engine;
 
@@ -74,12 +91,14 @@ namespace Magecrawl.GameUI.SkillTree
         {
             m_enabled = false;
             CursorPosition = Point.Invalid;
-            newlySelectedSkills = new List<ISkill>();
+            NewlySelectedSkills = new List<ISkill>();
             m_skillSquares = new List<SkillSquare>();
+            m_dialogHelper = new DialogColorHelper();
 
             ReadSkillTreeFile();
         }
 
+        // TODO - Rewrite this and data file to be XML.
         private void ReadSkillTreeFile()
         {
             string fileName = Path.Combine(Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Resources"), "SkillTree.dat");
@@ -127,18 +146,42 @@ namespace Magecrawl.GameUI.SkillTree
                 while (!s.EndOfStream)
                 {
                     string line = s.ReadLine();
-                    string[] parts = line.Split(new char[] {' '}, 3);
-                    if (parts.Length == 3)
+                    string[] positionNameParts = line.Split(new char[] {' '}, 3);
+                    if (positionNameParts.Length == 3)
                     {
-                        Point upperLeft = new Point(int.Parse(parts[0]), int.Parse(parts[1]));
+                        string name = StripDependencyFromNameString(positionNameParts[2]);
+                        Point upperLeft = new Point(int.Parse(positionNameParts[0]), int.Parse(positionNameParts[1]));
 
                         if (m_skillSquares.Exists(x => x.UpperLeft == upperLeft))
-                            m_skillSquares.Find(x => x.UpperLeft == upperLeft).SkillName = parts[2];
+                        {
+                            SkillSquare currentSkillSquare = m_skillSquares.Find(x => x.UpperLeft == upperLeft);
+                            currentSkillSquare.SkillName = name;
+
+                            int dependencyStart = line.IndexOf('{');
+                            if(dependencyStart != -1)
+                            {
+                                string dependencyString = line.Remove(0, dependencyStart + 1); // +1 to get {
+                                var v = dependencyString.Split(',');
+                                foreach(string dependentSkillName in dependencyString.Split(','))
+                                {
+                                    if(m_skillSquares.Exists(x => x.SkillName == dependentSkillName))
+                                        currentSkillSquare.AddDependency(dependentSkillName);
+                                    else
+                                        throw new InvalidOperationException(string.Format("Unable to find dependency listed. \"{0}\" - \"{1}\"", currentSkillSquare.SkillName, dependentSkillName));
+                                }
+                            }
+                        }
                         else
                             throw new System.InvalidOperationException("Unable to find square mentioned in listing below");
                     }
                 }
             }
+        }
+
+        private string StripDependencyFromNameString(string s)
+        {
+            int dependencyStart = s.IndexOf('{'); // Remove dependency info from name
+            return dependencyStart == -1 ? s : s.Remove(dependencyStart);
         }
 
         private char ConvertFileCharToPrintChar(char c)
@@ -180,7 +223,7 @@ namespace Magecrawl.GameUI.SkillTree
             }
         }
 
-        internal ISkill SkillCursorIsOver
+        private ISkill SkillCursorIsOver
         {
             get
             {
@@ -189,6 +232,21 @@ namespace Magecrawl.GameUI.SkillTree
                     if (skillSquare.IsInSquare(m_cursorPosition))
                     {
                         return skillSquare.GetSkill(m_engine);
+                    }
+                }
+                return null;
+            }
+        }
+
+        private SkillSquare SkillSquareCursorIsOver
+        {
+            get
+            {
+                foreach (SkillSquare skillSquare in m_skillSquares)
+                {
+                    if (skillSquare.IsInSquare(m_cursorPosition))
+                    {
+                        return skillSquare;
                     }
                 }
                 return null;
@@ -206,11 +264,53 @@ namespace Magecrawl.GameUI.SkillTree
                 if (m_engine.Player.Skills.Contains(selected))
                     return;
 
-                if (newlySelectedSkills.Contains(selected))
-                    newlySelectedSkills.Remove(selected);
-                else
-                    newlySelectedSkills.Add(selected);
+                if (NewlySelectedSkills.Contains(selected)) // Deselecting
+                {
+                    bool somebodyHasDependencyOnLeavingSkill = false;
+                    foreach(ISkill s in GetAllSelectedSkill())
+                    {
+                        if (HasDependencyOn(s.Name, selected.Name))
+                            somebodyHasDependencyOnLeavingSkill = true;
+                    }
+                    if (!somebodyHasDependencyOnLeavingSkill)
+                        NewlySelectedSkills.Remove(selected);
+                }
+                else // Selecting
+                {
+                     if (!HasUnmetDependencies(SkillSquareCursorIsOver))
+                        NewlySelectedSkills.Add(selected);
+                }
             }
+        }
+
+        private bool HasDependencyOn(string parentSkill, string possibleDependency)
+        {
+            return m_skillSquares.Find(x => x.SkillName == parentSkill).DependentSkills.Contains(possibleDependency);
+        }
+
+        private bool HasUnmetDependencies(SkillSquare skill)
+        {
+            foreach(string dependencyName in skill.DependentSkills)
+            {
+                if (!IsSkillSelected(dependencyName))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsSkillSelected(string skillName)
+        {
+            return GetAllSelectedSkill().ToList().Exists(x => x.Name == skillName);
+        }
+
+        private IEnumerable<ISkill> GetAllSelectedSkill()
+        {
+            List<ISkill> list = new List<ISkill>();
+            list.AddRange(NewlySelectedSkills);
+            list.AddRange(m_engine.Player.Skills);
+            return list;
         }
 
         private void DrawOffSceenConsole()
@@ -231,17 +331,22 @@ namespace Magecrawl.GameUI.SkillTree
                     {
                         bool cursorInMySquare = skillSquareBeingPained.IsInSquare(m_cursorPosition);
 
-                        bool selectedMySquare = newlySelectedSkills.Exists(x => x.Name == skillSquareBeingPained.SkillName)
-                            || m_engine.Player.Skills.ToList().Exists(x => x.Name == skillSquareBeingPained.SkillName);
+                        bool selectedMySquare = IsSkillSelected(skillSquareBeingPained.SkillName);
 
                         TCODColor background;
-
                         if (cursorInMySquare)
                         {
                             if (selectedMySquare)
+                            {
                                 background = TCODColor.darkBlue;
+                            }
                             else
-                                background = TCODColor.lightBlue;
+                            {
+                                if(!HasUnmetDependencies(skillSquareBeingPained))
+                                    background = TCODColor.lightBlue;
+                                else
+                                    background = TCODColor.lightestBlue;
+                            }
                         }
                         else
                         {
@@ -259,22 +364,56 @@ namespace Magecrawl.GameUI.SkillTree
 
             if (cursorSkillSquare != null)
             {
-                Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0);
-                m_offscreenConsole.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - ExplainPopupHeight, ExplainPopupWidth, ExplainPopupHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
+                DrawSkillPopup(cursorSkillSquare, cursorOverSkill);
+            }
+        }
 
-                int textX = explainationBoxLowerLeft.X + 2;
-                int textY = explainationBoxLowerLeft.Y - ExplainPopupHeight + 2;
-                if(cursorOverSkill.NewSpell)
+        private void DrawSkillPopup(SkillSquare cursorSkillSquare, ISkill cursorOverSkill)
+        {
+            Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0);
+            int numberOfDependencies = cursorSkillSquare.DependentSkills.Count();
+            int dialogHeight = ExplainPopupHeight;
+            if(numberOfDependencies > 0)
+            {
+                dialogHeight += 1 + numberOfDependencies;
+                explainationBoxLowerLeft += new Point(0, numberOfDependencies + 1);
+            }
+
+            m_offscreenConsole.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - dialogHeight,
+                                          ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
+
+            int textX = explainationBoxLowerLeft.X + 2;
+            int textY = explainationBoxLowerLeft.Y - dialogHeight + 2;
+            if(cursorOverSkill.NewSpell)
+            {
+                m_offscreenConsole.print(textX, textY, "New Spell");
+                textY++;
+            }
+            m_offscreenConsole.print(textX, textY, string.Format("School: {0}", cursorOverSkill.School));
+            textY++;
+            m_offscreenConsole.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
+            textY += 2;
+
+            if (numberOfDependencies > 0)
+            {
+                m_offscreenConsole.print(textX, textY, "Dependencies:");
+                textY++;
+                m_dialogHelper.SaveColors(m_offscreenConsole);
+                foreach(string dependentSkillName in cursorSkillSquare.DependentSkills)
                 {
-                    m_offscreenConsole.print(textX, textY, "New Spell");
+                    if (IsSkillSelected(dependentSkillName))
+                        m_dialogHelper.SetColors(m_offscreenConsole, false, true);
+                    else
+                        m_dialogHelper.SetColors(m_offscreenConsole, false, false);
+                    m_offscreenConsole.print(textX, textY, "   " + dependentSkillName);
                     textY++;
                 }
-                m_offscreenConsole.print(textX, textY, string.Format("School: {0}", cursorOverSkill.School));
-                textY++;
-                m_offscreenConsole.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
-                textY += 2;
-                m_offscreenConsole.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 7, TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, cursorOverSkill.Description);
+                m_dialogHelper.ResetColors(m_offscreenConsole);
             }
+            textY++;
+
+            m_offscreenConsole.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 7,
+                                           TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, cursorOverSkill.Description);
         }
 
         public override void UpdateFromNewData (IGameEngine engine, Point mapUpCorner, Point centerPosition)
@@ -293,7 +432,7 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 m_enabled = value;
                 CursorPosition = m_defaultCurorPosition;
-                newlySelectedSkills.Clear();
+                NewlySelectedSkills.Clear();
             }
         }
 
