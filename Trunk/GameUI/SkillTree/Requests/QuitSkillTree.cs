@@ -22,7 +22,7 @@ namespace Magecrawl.GameUI.SkillTree.Requests
             SkillTreePainter skillTreePainter = painter as SkillTreePainter;
             if(skillTreePainter != null)
             {
-                m_delegate(skillTreePainter.newlySelectedSkills);
+                m_delegate(skillTreePainter.NewlySelectedSkills);
                 skillTreePainter.Enabled = false;
             }
         }
