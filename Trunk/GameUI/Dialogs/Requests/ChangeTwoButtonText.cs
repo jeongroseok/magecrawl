@@ -18,7 +18,7 @@ namespace Magecrawl.GameUI.Dialogs.Requests
         internal override void DoRequest (IHandlePainterRequest painter)
         {
             TwoButtonDialog twoButtonDialog = painter as TwoButtonDialog;
-            if(twoButtonDialog != null)
+            if (twoButtonDialog != null)
             {
                 twoButtonDialog.ChangeButtonText(m_left, m_right);
             }

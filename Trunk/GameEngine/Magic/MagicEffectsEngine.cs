@@ -296,7 +296,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
 
-            string prefix = target.GetType() == typeof(IPlayer) ? string.Empty : "The";
+            string prefix = target.GetType() == typeof(IPlayer) ? "" : "The";
             CoreGameEngine.Instance.SendTextOutput(string.Format("{0} {1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
         }
     }

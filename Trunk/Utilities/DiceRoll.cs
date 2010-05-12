@@ -78,11 +78,11 @@ namespace Magecrawl.Utilities
             bool hasMult = Multiplier != 1;
             bool hasConstant = ToAdd != 0;
 
-            string multiplierFrontString = hasMult ? Multiplier.ToString() + "*" : String.Empty;
-            string frontParen = hasMult || hasConstant ? "(" : String.Empty;
-            string endParen = hasMult || hasConstant ? ")" : String.Empty;
-            string constantSign = ToAdd >= 0 ? "+" : String.Empty;    // Minus will come with number
-            string constantEnd = hasConstant ? constantSign + ToAdd.ToString() : String.Empty;
+            string multiplierFrontString = hasMult ? Multiplier.ToString() + "*" : "";
+            string frontParen = hasMult || hasConstant ? "(" : "";
+            string endParen = hasMult || hasConstant ? ")" : "";
+            string constantSign = ToAdd >= 0 ? "+" : "";    // Minus will come with number
+            string constantEnd = hasConstant ? constantSign + ToAdd.ToString() : "";
 
             // 1d1 doesn't look nice
             if (!hasMult && !hasConstant && Rolls == 1 && DiceFaces == 1)

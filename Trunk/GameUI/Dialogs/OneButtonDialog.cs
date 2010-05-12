@@ -6,8 +6,8 @@ namespace Magecrawl.GameUI.Dialogs
 {
     internal class OneButtonDialog : MapPainterBase
     {
-        internal bool Enabled { get; set;}
-        internal string Text { get; set;}
+        internal bool Enabled { get; set; }
+        internal string Text { get; set; }
 
         private DialogColorHelper m_dialogColorHelper;
 

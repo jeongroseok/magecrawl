@@ -83,7 +83,7 @@ namespace Magecrawl.GameEngine.Actors
         
         protected List<AffectBase> m_affects;
 
-        internal Character() : this(String.Empty, Point.Invalid, 0, 0, 0, 0, 0, 0)
+        internal Character() : this("", Point.Invalid, 0, 0, 0, 0, 0, 0)
         {
         }
 

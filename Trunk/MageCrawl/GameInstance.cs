@@ -293,11 +293,11 @@ namespace Magecrawl
             debugHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("DebugMode", debugHandler);
 
-            if (BaseKeystrokeHandler.ErrorsParsingKeymapFiles != string.Empty)
+            if (BaseKeystrokeHandler.ErrorsParsingKeymapFiles != "")
             {
-                TextBox.AddText(string.Empty);
+                TextBox.AddText("");
                 TextBox.AddText(BaseKeystrokeHandler.ErrorsParsingKeymapFiles);
-                TextBox.AddText(string.Empty);
+                TextBox.AddText("");
             }
         }
 

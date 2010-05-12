@@ -68,7 +68,7 @@ namespace Magecrawl.Utilities
             m_preferences["BumpToOpenDoors"] = false;
             m_preferences["BumpToAttack"] = false;
             m_preferences["Keymapping"] = "Arrows";
-            m_preferences["CustomKeymappingFilename"] = String.Empty;
+            m_preferences["CustomKeymappingFilename"] = "";
             m_preferences["ShowAttackRolls"] = false;
             m_preferences["DebugRangedAttack"] = false;
             m_preferences["UseSavegameCompression"] = true;
