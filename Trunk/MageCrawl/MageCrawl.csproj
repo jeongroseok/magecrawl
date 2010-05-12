@@ -176,6 +176,9 @@
     <Content Include="..\dist\Resources\Monsters.xml">
       <Link>Resources\Monsters.xml</Link>
     </Content>
+    <Content Include="..\dist\Resources\Skills.xml">
+      <Link>Resources\Skills.xml</Link>
+    </Content>
     <Content Include="..\dist\Resources\Spells.xml">
       <Link>Resources\Spells.xml</Link>
       <SubType>Designer</SubType>
@@ -191,8 +194,6 @@
     <None Include="..\dist\Map\DungeonChunks.dat">
       <Link>Resources\DungeonChunks.dat</Link>
     </None>
-    <None Include="..\dist\Resources\SkillTree.dat">
-      <Link>Resources\SkillTree.dat</Link>
-    </None>
+    <None Include="Resources\ArcaneSkillTree.dat" />
   </ItemGroup>
 </Project>
