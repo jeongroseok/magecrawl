@@ -47,7 +47,7 @@ namespace Magecrawl
         private MagicTypes m_currentElementPointedTo;
         private Result m_windowResult;
         private List<string> m_fileNameList;
-        private string m_fileInput = string.Empty;
+        private string m_fileInput = "";
         private bool m_loopFinished;
 
         private int m_lowerRange;                       // If we're scrolling, the loweset number item to show
@@ -231,7 +231,7 @@ namespace Magecrawl
                     if ((m_cursorPosition + 1) < m_fileNameList.Count)
                         m_cursorPosition++;
                 }
-                m_fileInput = string.Empty;
+                m_fileInput = "";
             }
         }
 
@@ -250,7 +250,6 @@ namespace Magecrawl
 
             numberOfLines = m_console.printRect(GraphicX + 2, GraphicY + 2, GraphicTextWidth - 4, 32, m_mainText[m_currentElementPointedTo]);
             m_console.printFrame(GraphicX, GraphicY, GraphicTextWidth, 32, false);
-
         }
 
         private void DrawSpellList()

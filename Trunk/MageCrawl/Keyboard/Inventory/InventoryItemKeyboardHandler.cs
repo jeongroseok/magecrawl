@@ -16,7 +16,7 @@ namespace Magecrawl.Keyboard.Inventory
         {
             m_engine = engine;
             m_gameInstance = instance;
-            m_handlerWhoCalledMe = String.Empty;
+            m_handlerWhoCalledMe = "";
         }
 
         public override void NowPrimaried(object request)

@@ -41,6 +41,7 @@ namespace Magecrawl.GameUI.Dialogs
         private void Select()
         {
             bool leftButtonSelected = false;
+            
             // Sucks out the left button status and places it in leftButtonSelected
             m_gameInstance.SendPaintersRequest(new DisableTwoButtonDialog((left) => leftButtonSelected = left));
             m_gameInstance.UpdatePainters();

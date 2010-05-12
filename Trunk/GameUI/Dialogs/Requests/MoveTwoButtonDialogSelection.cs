@@ -16,7 +16,7 @@ namespace Magecrawl.GameUI.Dialogs.Requests
         internal override void DoRequest (IHandlePainterRequest painter)
         {
             TwoButtonDialog painterAsTwoButtonDialog = painter as TwoButtonDialog;
-            if(painterAsTwoButtonDialog != null)
+            if (painterAsTwoButtonDialog != null)
             {
                 painterAsTwoButtonDialog.MoveSelection(m_left);
             }

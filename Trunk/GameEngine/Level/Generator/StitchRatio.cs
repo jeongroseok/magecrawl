@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                 for (int i = 0; i < nodeTypeLength; ++i)
                 {
                     string[] splitString = inputFile.ReadLine().Split('\t');
-                    IEnumerable<string> elements = splitString.Skip(1).Where(s => s != "\t" && s != " " && s != String.Empty);
+                    IEnumerable<string> elements = splitString.Skip(1).Where(s => s != "\t" && s != " " && s != "");
                     int numberOfValues = 0;
                     foreach (string propString in elements)
                     {

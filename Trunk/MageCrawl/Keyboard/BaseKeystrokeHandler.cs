@@ -18,7 +18,7 @@ namespace Magecrawl.Keyboard
         private static StreamReader m_keyMappingsStream;
         private static StreamReader m_arrowMappingsStream;
 
-        public static string ErrorsParsingKeymapFiles = String.Empty;
+        public static string ErrorsParsingKeymapFiles = "";
         protected Dictionary<NamedKey, MethodInfo> m_keyMappings;
         protected Dictionary<string, NamedKey> m_actionKeyMapping;
 
@@ -60,7 +60,7 @@ namespace Magecrawl.Keyboard
             }
             else if (mappingName == "Custom")
             {
-                if ((string)Preferences.Instance["CustomKeymappingFilename"] != String.Empty)
+                if ((string)Preferences.Instance["CustomKeymappingFilename"] != "")
                 {
                     string customFileName = (string)Preferences.Instance["CustomKeymappingFilename"];
                     if (File.Exists(customFileName))

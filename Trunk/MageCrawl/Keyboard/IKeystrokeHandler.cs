@@ -97,9 +97,9 @@ namespace Magecrawl.Keyboard
             {
                 if (Code == TCODKeyCode.Up || Code == TCODKeyCode.Down || Code == TCODKeyCode.Left || Code == TCODKeyCode.Right)
                 {
-                    return "Arrow " + Code.ToString().Replace("TCODK_", String.Empty).ToLower().UpperCaseFirstLetter();
+                    return "Arrow " + Code.ToString().Replace("TCODK_", "").ToLower().UpperCaseFirstLetter();
                 }
-                return Code.ToString().Replace("TCODK_", String.Empty).ToLower().UpperCaseFirstLetter();
+                return Code.ToString().Replace("TCODK_", "").ToLower().UpperCaseFirstLetter();
             }
             return Character.ToString();
         }

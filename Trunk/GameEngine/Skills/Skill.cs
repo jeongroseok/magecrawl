@@ -28,16 +28,16 @@ namespace Magecrawl.GameEngine.Skills
             }
         }
 
-        public void ReadXml (System.Xml.XmlReader reader)
+        public void ReadXml(System.Xml.XmlReader reader)
         {
         }
 
-        public void WriteXml (System.Xml.XmlWriter writer)
+        public void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString("SkillName", Name);
         }
 
-        public System.Xml.Schema.XmlSchema GetSchema ()
+        public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
         }

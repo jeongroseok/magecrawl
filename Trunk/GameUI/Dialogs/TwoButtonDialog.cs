@@ -35,6 +35,8 @@ namespace Magecrawl.GameUI.Dialogs
             {
                 m_enabled = value;
                 m_timeToEnableYes = TCODSystem.getElapsedSeconds() + 2;
+                m_leftEnabled = false;
+                m_leftSelected = false;
                 SetupDefaultText();
             }
         }
@@ -76,12 +78,10 @@ namespace Magecrawl.GameUI.Dialogs
                 if (Preferences.Instance.DebuggingMode)
                     m_leftEnabled = true;
 
-
                 m_dialogColorHelper.SaveColors(screen);
                 screen.printFrame(DialogOffset, DialogOffset + 5, UIHelper.ScreenWidth - (2 * DialogOffset), 9, true);
 
-                screen.printRectEx(UIHelper.ScreenWidth / 2, 7 + DialogOffset, UIHelper.ScreenWidth - 4 - (2 * DialogOffset),
-                           UIHelper.ScreenHeight - (2 * DialogOffset) - 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, Text);
+                screen.printRectEx(UIHelper.ScreenWidth / 2, 7 + DialogOffset, UIHelper.ScreenWidth - 4 - (2 * DialogOffset), UIHelper.ScreenHeight - (2 * DialogOffset) - 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, Text);
 
                 m_dialogColorHelper.SetColors(screen, m_leftSelected, m_leftEnabled);
                 screen.print((UIHelper.ScreenWidth / 2) - 13, 11 + DialogOffset, m_leftButton);
