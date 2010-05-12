@@ -59,15 +59,13 @@ namespace Magecrawl.GameEngine.Actors
         {
             get 
             {
-                return new List<ISpell>() 
+                List<ISpell> returnList = new List<ISpell>();
+                foreach (Skill skill in Skills)
                 {
-                    SpellFactory.CreateSpell("Heal"), SpellFactory.CreateSpell("Force Bolt"), SpellFactory.CreateSpell("Lightning Bolt"),
-                    SpellFactory.CreateSpell("Haste"), SpellFactory.CreateSpell("Earthen Armor"), SpellFactory.CreateSpell("Light"),
-                    SpellFactory.CreateSpell("Cone Of Cold"), SpellFactory.CreateSpell("Fireball")
-                    /* SpellFactory.CreateSpell("False Life"),
-                    SpellFactory.CreateSpell("Poison Bolt"), SpellFactory.CreateSpell("Poison Touch"),
-                    SpellFactory.CreateSpell("Blink"), SpellFactory.CreateSpell("Teleport"), SpellFactory.CreateSpell("Slow")*/
-                };
+                    if (skill.NewSpell)
+                        returnList.Add(SpellFactory.CreateSpell(skill.AddSpell));
+                }
+                return returnList;
             }
         }
 
