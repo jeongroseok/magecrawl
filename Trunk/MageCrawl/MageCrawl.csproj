@@ -194,6 +194,29 @@
     <None Include="..\dist\Map\DungeonChunks.dat">
       <Link>Resources\DungeonChunks.dat</Link>
     </None>
-    <None Include="Resources\ArcaneSkillTree.dat" />
+    <None Include="..\dist\Resources\Skill Tree\AirSkillTree.dat">
+      <Link>Resources\Skill Tree\AirSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\ArcaneSkillTree.dat">
+      <Link>Resources\Skill Tree\ArcaneSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\DarknessSkillTree.dat">
+      <Link>Resources\Skill Tree\DarknessSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\EarthSkillTree.dat">
+      <Link>Resources\Skill Tree\EarthSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\FireSkillTree.dat">
+      <Link>Resources\Skill Tree\FireSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\LightSkillTree.dat">
+      <Link>Resources\Skill Tree\LightSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\MartialSkillTree.dat">
+      <Link>Resources\Skill Tree\MartialSkillTree.dat</Link>
+    </None>
+    <None Include="..\dist\Resources\Skill Tree\WaterSkillTree.dat">
+      <Link>Resources\Skill Tree\WaterSkillTree.dat</Link>
+    </None>
   </ItemGroup>
 </Project>

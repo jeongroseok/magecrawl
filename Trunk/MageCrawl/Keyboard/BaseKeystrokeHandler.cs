@@ -121,6 +121,11 @@ namespace Magecrawl.Keyboard
                         FindAndAddKeyHandler(requireAllActions, keyString + "Control", "Run" + actionName);
                         m_actionKeyMapping["Run" + actionName] = new NamedKey(keyString + "Control");
                     }
+                    if (actionName == "ChangeTabs")
+                    {
+                        FindAndAddKeyHandler(requireAllActions, keyString + "Shift", "Shift" + actionName);
+                        m_actionKeyMapping["Shift" + actionName] = new NamedKey(keyString + "Shift");
+                    }
 
                     m_actionKeyMapping[actionName] = new NamedKey(keyString);
                     FindAndAddKeyHandler(requireAllActions, keyString, actionName);
@@ -184,6 +189,14 @@ namespace Magecrawl.Keyboard
         }
 
         public virtual void NowPrimaried(object request)
+        {
+        }
+
+        protected void ChangeTabs()
+        {
+        }
+
+        protected void ShiftChangeTabs()
         {
         }
 

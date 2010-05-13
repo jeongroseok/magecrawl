@@ -17,6 +17,7 @@ namespace Magecrawl.Keyboard
         public TCODKeyCode Code;
         public char Character;
         public bool ControlPressed;
+        public bool ShiftPressed;
 
         public static NamedKey Invalid = new NamedKey();
 
@@ -25,6 +26,7 @@ namespace Magecrawl.Keyboard
             Code = (TCODKeyCode)(-1);
             Character = (char)0;
             ControlPressed = false;
+            ShiftPressed = false;
         }
 
         public NamedKey(string name)
@@ -33,6 +35,11 @@ namespace Magecrawl.Keyboard
             {
                 ControlPressed = true;
                 name = name.Remove(name.Length - 7);
+            }
+            if (name.EndsWith("Shift"))
+            {
+                ShiftPressed = true;
+                name = name.Remove(name.Length - 5);
             }
 
             if (name.Length > 1)
@@ -73,7 +80,7 @@ namespace Magecrawl.Keyboard
 
             NamedKey other = (NamedKey)obj;
 
-            return Code == other.Code && Character == other.Character && ControlPressed == other.ControlPressed;
+            return Code == other.Code && Character == other.Character && ControlPressed == other.ControlPressed && ShiftPressed == other.ShiftPressed;
         }
 
         public override int GetHashCode()
