@@ -180,7 +180,7 @@ namespace Magecrawl.GameUI.SkillTree
         // TODO - Rewrite this and data file to be XML.
         private void ReadSkillTreeFile(string resourceToRead)
         {
-            string fileName = Path.Combine(Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Resources"), resourceToRead);
+            string fileName = Path.Combine(Path.Combine(Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Resources"), "Skill Tree"), resourceToRead);
             using (StreamReader s = new StreamReader(fileName))
             {
                 string[] sizeLine = s.ReadLine().Split(' ');

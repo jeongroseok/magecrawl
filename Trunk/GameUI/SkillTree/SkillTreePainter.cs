@@ -11,7 +11,8 @@ namespace Magecrawl.GameUI.SkillTree
     {
         private Dictionary<string, SkillTreeTab> m_skillTreeTabs;
         private TCODConsole m_offscreenConsole;
-        private string m_defaultTab = "Arcane";
+        private List<string> m_tabOrderingList = new List<string>() { "Air", "Arcane", "Darkness", "Earth", "Fire", "Light", "Martial", "Water" };
+        private string m_defaultTab = "Air";
         private string m_currentTabName;
         private IGameEngine m_engine;
 
@@ -31,7 +32,14 @@ namespace Magecrawl.GameUI.SkillTree
             m_currentTabName = m_defaultTab;
 
             m_skillTreeTabs = new Dictionary<string, SkillTreeTab>();
+            m_skillTreeTabs.Add("Air", new SkillTreeTab("AirSkillTree.dat"));
             m_skillTreeTabs.Add("Arcane", new SkillTreeTab("ArcaneSkillTree.dat"));
+            m_skillTreeTabs.Add("Darkness", new SkillTreeTab("DarknessSkillTree.dat"));
+            m_skillTreeTabs.Add("Earth", new SkillTreeTab("EarthSkillTree.dat"));
+            m_skillTreeTabs.Add("Fire", new SkillTreeTab("FireSkillTree.dat"));
+            m_skillTreeTabs.Add("Light", new SkillTreeTab("LightSkillTree.dat"));
+            m_skillTreeTabs.Add("Martial", new SkillTreeTab("MartialSkillTree.dat"));
+            m_skillTreeTabs.Add("Water", new SkillTreeTab("WaterSkillTree.dat"));
 
             // Calculate the max width/height of all tabs so we can get the offsecreen surface the right size
             int maxWidth = -1;
@@ -60,6 +68,24 @@ namespace Magecrawl.GameUI.SkillTree
             }
         }
 
+        public void IncrementCurrentTab()
+        {
+            int positionInList = m_tabOrderingList.FindIndex(x => x == m_currentTabName);
+            positionInList++;
+            if (positionInList >= m_tabOrderingList.Count)
+                positionInList = 0;
+            m_currentTabName = m_tabOrderingList[positionInList];
+        }
+
+        public void DecrementCurrentTab()
+        {
+            int positionInList = m_tabOrderingList.FindIndex(x => x == m_currentTabName);
+            positionInList--;
+            if (positionInList < 0)
+                positionInList = m_tabOrderingList.Count - 1;
+            m_currentTabName = m_tabOrderingList[positionInList];
+        }
+
         public override void DrawNewFrame (TCODConsole screen)
         {
             if (Enabled)
@@ -72,11 +98,49 @@ namespace Magecrawl.GameUI.SkillTree
 
                 TCODConsole.blit(m_offscreenConsole, lowX, lowY, ScreenWidth - 2, ScreenHeight - 2, screen, UpperLeft + 1, UpperLeft + 1);
 
+                DrawTabBar(screen);
+
                 // Draw cursor
                 screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
                 // For debugging
                 // screen.print(50, 50, m_cursorPosition.ToString());
+            }
+        }
+
+        private void DrawTabBar(TCODConsole screen)
+        {
+            const int HorizontalTabOffset = 2;
+            screen.rect(UpperLeft + 1, UpperLeft + 1, ScreenWidth - 2, HorizontalTabOffset - 1, true);
+
+            screen.putChar(UpperLeft, UpperLeft + HorizontalTabOffset, (int)TCODSpecialCharacter.TeeEast);
+            screen.putChar(UpperLeft + ScreenWidth - 1, UpperLeft + HorizontalTabOffset, (int)TCODSpecialCharacter.TeeWest);
+            screen.hline(UpperLeft + 1, UpperLeft + HorizontalTabOffset, ScreenWidth - 2);
+
+            int x = UpperLeft + 2;
+            int y = UpperLeft + HorizontalTabOffset - 1;
+            foreach (string name in m_skillTreeTabs.Keys)
+            {
+                int xOffset = name == "Water" ? 1 : 0;
+                screen.print(x + xOffset, y, name);
+                x += name.Length + 1;
+
+                if (name != "Water")
+                {
+                    screen.putChar(x, y, (int)TCODSpecialCharacter.VertLine);
+                    screen.putChar(x, y - 1, (int)TCODSpecialCharacter.TeeSouth);
+                    screen.putChar(x, y + 1, (int)TCODSpecialCharacter.TeeNorth);
+                }
+                x += 2;
+
+                if (m_currentTabName == name)
+                {
+                    int lengthReductionToDueTee = name == "Water" ? 0 : 2;
+                    for (int i = x - 4 - name.Length; i < x - lengthReductionToDueTee; i++)
+                    {
+                        screen.setCharBackground(i, y, TCODColor.grey);
+                    }
+                }
             }
         }
 

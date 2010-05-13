@@ -4,6 +4,7 @@
   <KeyMapping Key="Pagedown" Action="TextBoxPageDown" />
   <KeyMapping Key="Backspace" Action="TextBoxClear" />
   <KeyMapping Key="Escape" Action="Escape" />
+  <KeyMapping Key="Tab" Action="ChangeTabs" />
   <KeyMapping Key="~" Action="DebugMode" />
   <KeyMapping Key="Enter" Action="Select" />
 
