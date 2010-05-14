@@ -44,9 +44,11 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 for (int j = 0; j < Height; ++j)
                 {
-                    console.putChar(i, j, ConvertFileCharToPrintChar(m_charArray[i, j]), TCODBackgroundFlag.Set);
+                    Point mapPosition = new Point(i, j);
+                    Point drawPosition = mapPosition + new Point(0, ExplainPopupHeight);
+                    console.putChar(drawPosition.X, drawPosition.Y, ConvertFileCharToPrintChar(m_charArray[i, j]), TCODBackgroundFlag.Set);
 
-                    SkillSquare skillSquareBeingPained = SkillSquares.Find(x => x.IsInSquare(new Point(i, j)));
+                    SkillSquare skillSquareBeingPained = SkillSquares.Find(x => x.IsInSquare(mapPosition));
                     if (skillSquareBeingPained != null)
                     {
                         bool cursorInMySquare = skillSquareBeingPained.IsInSquare(cursorPosition);
@@ -77,7 +79,7 @@ namespace Magecrawl.GameUI.SkillTree
                         }
 
                         if (background != TCODColor.black)
-                            console.setCharBackground(i, j, background);
+                            console.setCharBackground(drawPosition.X, drawPosition.Y , background);
                     }
                 }
             }
@@ -88,13 +90,13 @@ namespace Magecrawl.GameUI.SkillTree
 
         private void DrawSkillPopup(TCODConsole console, List<ISkill> selectedSkillList, SkillSquare cursorSkillSquare, ISkill cursorOverSkill)
         {
-            Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0);
+            Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0) + new Point(0, ExplainPopupHeight);
             int numberOfDependencies = cursorSkillSquare.DependentSkills.Count();
             int dialogHeight = ExplainPopupHeight;
             if (numberOfDependencies > 0)
             {
-                dialogHeight += 1 + numberOfDependencies;
-                explainationBoxLowerLeft += new Point(0, numberOfDependencies + 1);
+                dialogHeight += 2 + numberOfDependencies;
+                explainationBoxLowerLeft += new Point(0, numberOfDependencies + 2);
             }
 
             console.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - dialogHeight,
