@@ -178,6 +178,7 @@
     </Content>
     <Content Include="..\dist\Resources\Skills.xml">
       <Link>Resources\Skills.xml</Link>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\dist\Resources\Spells.xml">
       <Link>Resources\Spells.xml</Link>

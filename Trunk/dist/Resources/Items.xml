@@ -19,7 +19,7 @@
         Description="A sturdy oak shaft connected to a doubled bladed sharpened head."
         FlavorText="Famously used by the barbarian nations to the north to great effect. Cumbersome to wield for most."/>
   
-<Potion Name="Minor Health Potion" SpellName="Heal" Strength="1" ItemDescription="Drinking will restore your health slightly." 
+<Potion Name="Minor Health Potion" SpellName="Mend" Strength="1" ItemDescription="Drinking will restore your health slightly." 
         FlavorText="Distilled by a junior alchemist, this potion is dark brown in color and smells of cinnamon."/>
 <Potion Name="Haste Potion" SpellName="Haste" Strength="1" ItemDescription="Drinking will speed you up for a short time."
         FlavorText="This extract from a rare jungle plant will increase your movements and reflexes for a short time. Some have become addicted to the rush, and its sale is restricted in many areas."/>

@@ -11,12 +11,16 @@ namespace Magecrawl.GameUI.SkillTree
     {
         private Dictionary<string, SkillTreeTab> m_skillTreeTabs;
         private TCODConsole m_offscreenConsole;
-        private List<string> m_tabOrderingList = new List<string>() { "Air", "Arcane", "Darkness", "Earth", "Fire", "Light", "Martial", "Water" };
-        private string m_defaultTab = "Air";
+        private List<string> m_tabOrderingList = new List<string>() { "Arcane", "Fire", "Light" };
+        //private List<string> m_tabOrderingList = new List<string>() { "Air", "Arcane", "Darkness", "Earth", "Fire", "Light", "Martial", "Water" };
+        private string m_defaultTab = "Arcane";
+        //private string m_defaultTab = "Air";
         private string m_currentTabName;
         private IGameEngine m_engine;
 
-        internal Point CursorPosition { get; set; }        
+        // Set when we need to redraw offscreen buffer
+        private bool m_dirtyFrame;
+     
         internal List<ISkill> NewlySelectedSkills { get; private set; }
 
         private const int UpperLeft = 5;
@@ -30,16 +34,17 @@ namespace Magecrawl.GameUI.SkillTree
             CursorPosition = Point.Invalid;
             NewlySelectedSkills = new List<ISkill>();
             m_currentTabName = m_defaultTab;
+            m_dirtyFrame = true;
 
             m_skillTreeTabs = new Dictionary<string, SkillTreeTab>();
-            m_skillTreeTabs.Add("Air", new SkillTreeTab("AirSkillTree.dat"));
+            //m_skillTreeTabs.Add("Air", new SkillTreeTab("AirSkillTree.dat"));
             m_skillTreeTabs.Add("Arcane", new SkillTreeTab("ArcaneSkillTree.dat"));
-            m_skillTreeTabs.Add("Darkness", new SkillTreeTab("DarknessSkillTree.dat"));
-            m_skillTreeTabs.Add("Earth", new SkillTreeTab("EarthSkillTree.dat"));
+            //m_skillTreeTabs.Add("Darkness", new SkillTreeTab("DarknessSkillTree.dat"));
+            //m_skillTreeTabs.Add("Earth", new SkillTreeTab("EarthSkillTree.dat"));
             m_skillTreeTabs.Add("Fire", new SkillTreeTab("FireSkillTree.dat"));
             m_skillTreeTabs.Add("Light", new SkillTreeTab("LightSkillTree.dat"));
-            m_skillTreeTabs.Add("Martial", new SkillTreeTab("MartialSkillTree.dat"));
-            m_skillTreeTabs.Add("Water", new SkillTreeTab("WaterSkillTree.dat"));
+            //m_skillTreeTabs.Add("Martial", new SkillTreeTab("MartialSkillTree.dat"));
+            //m_skillTreeTabs.Add("Water", new SkillTreeTab("WaterSkillTree.dat"));
 
             // Calculate the max width/height of all tabs so we can get the offsecreen surface the right size
             int maxWidth = -1;
@@ -49,7 +54,10 @@ namespace Magecrawl.GameUI.SkillTree
                 maxWidth = Math.Max(maxWidth, tab.Width);
                 maxHeight = Math.Max(maxHeight, tab.Height);
             }
-            m_offscreenConsole = new TCODConsole(maxWidth + SkillTreeTab.ExplainPopupWidth + 1, maxHeight + SkillTreeTab.ExplainPopupHeight + 1);
+            
+            // The offconsole width/height here are completely wrong, but "good enough" being too big
+            //m_offscreenConsole = new TCODConsole(maxWidth * 2 + SkillTreeTab.ExplainPopupWidth, maxHeight * 2 + SkillTreeTab.ExplainPopupHeight);
+            m_offscreenConsole = new TCODConsole(maxWidth * SkillTreeTab.ExplainPopupWidth + 1, maxHeight *  SkillTreeTab.ExplainPopupHeight + 1);
         }
 
         private List<ISkill> GetAllSelectedSkill()
@@ -75,6 +83,8 @@ namespace Magecrawl.GameUI.SkillTree
             if (positionInList >= m_tabOrderingList.Count)
                 positionInList = 0;
             m_currentTabName = m_tabOrderingList[positionInList];
+            CursorPosition = CurrentTab.DefaultCurorPosition;
+            m_dirtyFrame = true;
         }
 
         public void DecrementCurrentTab()
@@ -84,16 +94,22 @@ namespace Magecrawl.GameUI.SkillTree
             if (positionInList < 0)
                 positionInList = m_tabOrderingList.Count - 1;
             m_currentTabName = m_tabOrderingList[positionInList];
+            CursorPosition = CurrentTab.DefaultCurorPosition;
+            m_dirtyFrame = true;
         }
 
-        public override void DrawNewFrame (TCODConsole screen)
+        public override void DrawNewFrame(TCODConsole screen)
         {
             if (Enabled)
             {
-                CurrentTab.Draw(m_offscreenConsole, m_engine, GetAllSelectedSkill(), CursorPosition);
+                if (m_dirtyFrame)
+                {
+                    CurrentTab.Draw(m_offscreenConsole, m_engine, GetAllSelectedSkill(), CursorPosition);
+                    m_dirtyFrame = false;
+                }
 
                 int lowX = CursorPosition.X - (ScreenWidth / 2);
-                int lowY = CursorPosition.Y - (ScreenHeight / 2);
+                int lowY = CursorPosition.Y - (ScreenHeight / 2) + SkillTreeTab.ExplainPopupHeight;
                 screen.printFrame(UpperLeft, UpperLeft, ScreenWidth, ScreenHeight, true, TCODBackgroundFlag.Set, "Skill Tree");
 
                 TCODConsole.blit(m_offscreenConsole, lowX, lowY, ScreenWidth - 2, ScreenHeight - 2, screen, UpperLeft + 1, UpperLeft + 1);
@@ -104,7 +120,7 @@ namespace Magecrawl.GameUI.SkillTree
                 screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
                 // For debugging
-                // screen.print(50, 50, m_cursorPosition.ToString());
+                //screen.print(50, 50, CursorPosition.ToString());
             }
         }
 
@@ -162,12 +178,18 @@ namespace Magecrawl.GameUI.SkillTree
                             somebodyHasDependencyOnLeavingSkill = true;
                     }
                     if (!somebodyHasDependencyOnLeavingSkill)
+                    {
                         NewlySelectedSkills.Remove(selected);
+                        m_dirtyFrame = true;
+                    }
                 }
                 else // Selecting
                 {
                     if (!SkillTreeModelHelpers.HasUnmetDependencies(GetAllSelectedSkill(), CurrentTab.SkillSquareCursorIsOver(CursorPosition)))
+                    {
                         NewlySelectedSkills.Add(selected);
+                        m_dirtyFrame = true;
+                    }
                 }
             }
         }
@@ -175,6 +197,20 @@ namespace Magecrawl.GameUI.SkillTree
         public override void UpdateFromNewData (IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
             m_engine = engine;
+        }
+
+        private Point m_cursorPosition;
+        internal Point CursorPosition 
+        {
+            get
+            {
+                return m_cursorPosition;                
+            }
+            set
+            {
+                m_cursorPosition = value;
+                m_dirtyFrame = true;
+            }
         }
 
         private bool m_enabled;
@@ -190,6 +226,7 @@ namespace Magecrawl.GameUI.SkillTree
                 m_currentTabName = m_defaultTab;
                 CursorPosition = CurrentTab.DefaultCurorPosition;
                 NewlySelectedSkills.Clear();
+                m_dirtyFrame = true;
             }
         }
     }
