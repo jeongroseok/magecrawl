@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -118,8 +118,9 @@ namespace Magecrawl.Keyboard
 
                     if (isDirectionAction(actionName))
                     {
-                        FindAndAddKeyHandler(requireAllActions, keyString + "Control", "Run" + actionName);
-                        m_actionKeyMapping["Run" + actionName] = new NamedKey(keyString + "Control");
+                        string runSuffix = (bool)Preferences.Instance["UseAltInsteadOfCtrlForRunning"] ? "Alt" : "Control";
+                        FindAndAddKeyHandler(requireAllActions, keyString + runSuffix, "Run" + actionName);
+                        m_actionKeyMapping["Run" + actionName] = new NamedKey(keyString + runSuffix);
                     }
                     if (actionName == "ChangeTabs")
                     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -99,8 +99,6 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             foreach (MapDoor door in map.MapObjects.OfType<MapDoor>())
             {
-                int numberWallsSurroundingDoor = CountNumberOfSurroundingWallTilesOneStepAway(map, door.Position.X, door.Position.Y);
-                int numberOfFloorSurroundingDoor = 8 - numberWallsSurroundingDoor;
                 if (!map.IsPointOnMap(door.Position) || map.GetTerrainAt(door.Position) == TerrainType.Wall ||
                     !WallsOnOneSetOfSides(map, door))
                 {
