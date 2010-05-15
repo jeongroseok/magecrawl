@@ -59,9 +59,17 @@ namespace Magecrawl.Keyboard
             // Some keys, like backspace, space, and tab have both a character and a code. We only stick one in the dictionary
             // Strip the other one out.
             if (key.KeyCode == TCODKeyCode.Char)
-                namedKey = new NamedKey() { Character = (char)key.Character, Code = TCODKeyCode.Char, ControlPressed = (key.LeftControl | key.RightControl), ShiftPressed = key.Shift };
+                namedKey = new NamedKey() { Character = (char)key.Character,
+                                            Code = TCODKeyCode.Char,
+                                            ControlPressed = (key.LeftControl | key.RightControl),
+                                            ShiftPressed = key.Shift,
+                                            AltPressed = (key.LeftAlt | key.RightAlt) };
             else
-                namedKey = new NamedKey() { Character = (char)0, Code = key.KeyCode, ControlPressed = (key.LeftControl | key.RightControl), ShiftPressed =  key.Shift };
+                namedKey = new NamedKey() { Character = (char)0,
+                                            Code = key.KeyCode,
+                                            ControlPressed = (key.LeftControl | key.RightControl),
+                                            ShiftPressed =  key.Shift,
+                                            AltPressed = (key.LeftAlt | key.RightAlt) };
 
             m_currentHandler.HandleKeystroke(namedKey);
         }
