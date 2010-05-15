@@ -246,7 +246,7 @@ namespace Magecrawl.GameEngine
         {
             Spell asSpell = targettingObject as Spell;
             if (asSpell != null)
-                return m_magicEffects.TargettedDrawablePoints(asSpell.Targeting, asSpell.Strength, target);
+                return m_magicEffects.TargettedDrawablePoints(asSpell.Targeting, m_player.SpellStrength(asSpell.School), target);
 
             ItemWithEffects asItem = targettingObject as ItemWithEffects;
             if (asItem != null)

@@ -192,11 +192,11 @@ namespace Magecrawl.Keyboard
         {
         }
 
-        protected void ChangeTabs()
+        protected virtual void ChangeTabs()
         {
         }
 
-        protected void ShiftChangeTabs()
+        protected virtual void ShiftChangeTabs()
         {
         }
 

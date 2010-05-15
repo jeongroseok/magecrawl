@@ -30,12 +30,12 @@ namespace Magecrawl.Keyboard.SkillTree
             m_gameInstance.SendPaintersRequest(new QuitSkillTree(QuitDelegate));
         }
 
-        private void ChangeTabs()
+        protected override void ChangeTabs()
         {
             m_gameInstance.SendPaintersRequest(new ChangeSkillTab(false));
         }
 
-        private void ShiftChangeTabs()
+        protected override void ShiftChangeTabs()
         {
             m_gameInstance.SendPaintersRequest(new ChangeSkillTab(true));
         }

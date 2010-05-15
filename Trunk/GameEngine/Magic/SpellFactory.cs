@@ -55,9 +55,6 @@ namespace Magecrawl.GameEngine.Magic
                     string costString = reader.GetAttribute("Cost");
                     int cost = int.Parse(costString);
 
-                    string strengthString = reader.GetAttribute("Strength");
-                    int strength = int.Parse(strengthString);
-
                     int range = -1;
                     string rangeString = reader.GetAttribute("Range");
                     if (rangeString != null)
@@ -68,7 +65,7 @@ namespace Magecrawl.GameEngine.Magic
                     if (targettingString != null)
                         targettingType = (TargetingInfo.TargettingType)Enum.Parse(typeof(TargetingInfo.TargettingType), targettingString);
 
-                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, strength, targettingType, range));
+                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, targettingType, range));
                 }
             }
             reader.Close();

@@ -69,6 +69,22 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public int SpellStrength(string spellType)
+        {
+            return CalculateSpellStrengthFromPassiveSkills(spellType);
+        }
+
+        private int CalculateSpellStrengthFromPassiveSkills(string typeName)
+        {
+            int strength = 1;
+            foreach (Skill s in Skills)
+            {
+                if (s.Proficiency == typeName)
+                    strength++;
+            }
+            return strength;
+        }
+
         // Returns amount actually healed by
         public int HealMP(int toHeal)
         {

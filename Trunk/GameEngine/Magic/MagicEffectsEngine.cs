@@ -26,7 +26,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CurrentMP >= spell.Cost)
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell, spell.EffectType, spell.Strength, target, effectString))
+                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), target, effectString))
                 {
                     caster.CurrentMP -= spell.Cost;
                     return true;
