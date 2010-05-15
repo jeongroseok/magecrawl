@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<KeyMappings>
+  <KeyMapping Key="Pageup" Action="TextBoxPageUp" />
+  <KeyMapping Key="Pagedown" Action="TextBoxPageDown" />
+  <KeyMapping Key="Backspace" Action="TextBoxClear" />
+  <KeyMapping Key="Escape" Action="Escape" />
+  <KeyMapping Key="Tab" Action="ChangeTabs" />
+  <KeyMapping Key="~" Action="DebugMode" />
+  <KeyMapping Key="Enter" Action="Select" />
+
+  <KeyMapping Key="s" Action="ShowSkillTree" />
+  <KeyMapping Key="`" Action="SwapWeapon" />
+  <KeyMapping Key="?" Action="Help" />
+  <KeyMapping Key="q" Action="Quit" />
+  <KeyMapping Key="e" Action="Equipment" />
+  <KeyMapping Key="o" Action="Operate" />
+  <KeyMapping Key="S" Action="Save" />
+  <KeyMapping Key="." Action="Wait" />
+  <KeyMapping Key="," Action="GetItem" />
+  <KeyMapping Key="a" Action="Attack" />
+  <KeyMapping Key="v" Action="ViewMode" />
+  <KeyMapping Key="i" Action="Inventory" />
+  <KeyMapping Key="z" Action="CastSpell" />
+  <KeyMapping Key="m" Action="MoveToLocation" />
+  <KeyMapping Key="&gt;" Action="DownStairs" />
+  <KeyMapping Key="&lt;" Action="UpStairs" />
+</KeyMappings>

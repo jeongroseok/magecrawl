@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<Skills>
+  <Skill Name="Light" Cost="5" AddSpell="Light" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby."/>
+  <Skill Name="Mend" Cost="15" AddSpell="Mend" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing minor or moderate wounds."/>
+  
+  <Skill Name="Fire Bolt" Cost="5" AddSpell="Fire Bolt" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy."/>
+  <Skill Name="Fire Mastery I" Cost="5" AddProficiency="Fire" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells."/>
+  <Skill Name="Fire Mastery II" Cost="5" AddProficiency="Fire" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage."/>
+  <Skill Name="Cone Of Sparks" Cost="10" AddSpell="Cone Of Sparks" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly."/>
+  <Skill Name="Fireball" Cost="10" AddSpell="Fireball" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target."/>
+  
+  <Skill Name="Force Bolt" Cost="5" AddSpell="Force Bolt" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target."/>
+  <Skill Name="Slow" Cost="5" AddSpell="Slow" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area."/>
+  <Skill Name="Haste" Cost="10" AddSpell="Haste" School="Arcane" Description="The polor opposite of 'Slow', this spell pumps energy into the weave nearby the target, hastening the passing of time. Care is needed, as passing too much energy into the weave can cause explosions."/>
+  <Skill Name="Blink" Cost="15" AddSpell="Blink" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location."/>
+  <Skill Name="Teleport" Cost="20" AddSpell="Teleport" School="Arcane" Description="The concept behind Teleport is simple, take Blink and drill a larger hole in the weave. The shunting done when the tear heals throwing the caster a much father distance, albeit more dangerously."/>
+</Skills>
