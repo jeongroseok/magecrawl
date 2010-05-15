@@ -18,6 +18,7 @@ namespace Magecrawl.Keyboard
         public char Character;
         public bool ControlPressed;
         public bool ShiftPressed;
+        public bool AltPressed;
 
         public static NamedKey Invalid = new NamedKey();
 
@@ -27,6 +28,7 @@ namespace Magecrawl.Keyboard
             Character = (char)0;
             ControlPressed = false;
             ShiftPressed = false;
+            AltPressed = false;
         }
 
         public NamedKey(string name)
@@ -40,6 +42,11 @@ namespace Magecrawl.Keyboard
             {
                 ShiftPressed = true;
                 name = name.Remove(name.Length - 5);
+            }
+            if (name.EndsWith("Alt"))
+            {
+                AltPressed = true;
+                name = name.Remove(name.Length - 3);
             }
 
             if (name.Length > 1)
@@ -80,7 +87,8 @@ namespace Magecrawl.Keyboard
 
             NamedKey other = (NamedKey)obj;
 
-            return Code == other.Code && Character == other.Character && ControlPressed == other.ControlPressed && ShiftPressed == other.ShiftPressed;
+            return Code == other.Code && Character == other.Character && ControlPressed == other.ControlPressed
+                && ShiftPressed == other.ShiftPressed && AltPressed == other.AltPressed;
         }
 
         public override int GetHashCode()

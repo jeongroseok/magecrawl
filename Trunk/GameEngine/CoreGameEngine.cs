@@ -78,7 +78,6 @@ namespace Magecrawl.GameEngine
         {
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
-            Point playerPosition = Point.Invalid;
 
             int failedMapCreationAttempts = 0;
             Stairs incommingStairs = null;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -117,8 +117,6 @@ namespace Magecrawl.GameEngine.Items
 
                     string spellName = reader.GetAttribute("SpellName");
                     Spell spell = SpellFactory.CreateSpell(spellName);
-
-                    string targettingType = reader.GetAttribute("TargettingType");
 
                     int strength = int.Parse(reader.GetAttribute("Strength"));
 
