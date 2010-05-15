@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?>
+<?xml version="1.0" ?>
 <Preferences> 
   <!-- Valid Values For Keymapping: Arrows, Keypad, VIM, Custom -->
   <!-- If you define custom, you must define CustomKeymappingFilename-->
@@ -9,6 +9,8 @@
   
   <!-- If you define Custom for Keymapping, you need to define what filename we should try to load.-->
   <!-- <CustomKeymappingFilename>Custom.xml</CustomKeymappingFilename> -->
+
+  <!-- <UseAltInsteadOfCtrlForRunning>True</UseAltInsteadOfCtrlForRunning> --> <!-- Use alt instead of ctrl for running. Defaults to true on Mac. -->
 
   <!-- <DisableAutoTargetting>True</DisableAutoTargetting> --> <!-- Don't move targetting cursor to available target initially. -->
   <!-- <Fullscreen>True</Fullscreen> -->
