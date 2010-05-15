@@ -64,6 +64,10 @@ namespace Magecrawl.Utilities
 #else
             m_preferences["DebuggingMode"] = false;
 #endif
+            if (PlatformFinder.IsRunningOnMac())
+                m_preferences["UseAltInsteadOfCtrlForRunning"] = true;
+            else
+                m_preferences["UseAltInsteadOfCtrlForRunning"] = false;
             m_preferences["DisableAutoTargetting"] = false;
             m_preferences["BumpToOpenDoors"] = false;
             m_preferences["BumpToAttack"] = false;
@@ -121,6 +125,7 @@ namespace Magecrawl.Utilities
                     case "BumpToAttack":
                     case "BumpToOpenDoors":
                     case "DisableAutoTargetting":
+                    case "UseAltInsteadOfCtrlForRunning":
                         ReadBooleanData(reader, reader.LocalName);
                         break;
                     case "FloorColorVisible":

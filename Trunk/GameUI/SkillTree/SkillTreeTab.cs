@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -241,7 +241,6 @@ namespace Magecrawl.GameUI.SkillTree
                             if (dependencyStart != -1)
                             {
                                 string dependencyString = line.Remove(0, dependencyStart + 1); // +1 to get {
-                                var v = dependencyString.Split(',');
                                 foreach (string dependentSkillName in dependencyString.Split(','))
                                 {
                                     if (SkillSquares.Exists(x => x.SkillName == dependentSkillName))
