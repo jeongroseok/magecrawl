@@ -20,5 +20,4 @@
 <Spell Name="Teleport" School="Arcane" EffectType="Teleport" Cost="5"/>
 
 <Spell Name="HealMP" School="Arcane" EffectType="HealMPCaster" Cost="0"/>
-<Spell Name="Camp" School="Arcane" EffectType="Camp" Cost="0"/>
 </Spells>

@@ -16,7 +16,6 @@ namespace Magecrawl.GameEngine.Actors
     internal sealed class Player : Character, IPlayer, IXmlSerializable
     {
         public int CurrentMP { get; internal set; }
-
         public int MaxMP { get; internal set; }
 
         public IArmor ChestArmor { get; internal set; }
@@ -27,12 +26,15 @@ namespace Magecrawl.GameEngine.Actors
         private List<Item> m_itemList;
         private List<Skill> m_skills;
 
+        public int LastTurnSeenAMonster { get; set; }
+
         public Player() : base()
         {
             m_itemList = null;
             m_skills = null;
             CurrentMP = 0;
             MaxMP = 0;
+            LastTurnSeenAMonster = 0;
         }
 
         public Player(string name, Point p) : base(name, p, 12, 6)
@@ -41,11 +43,11 @@ namespace Magecrawl.GameEngine.Actors
             m_skills = new List<Skill>();
             CurrentMP = 10;
             MaxMP = 10;
+            LastTurnSeenAMonster = 0;
+
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Camp Supplies"));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));            
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Sparks"));            
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
@@ -217,6 +219,7 @@ namespace Magecrawl.GameEngine.Actors
 
             CurrentMP = reader.ReadElementContentAsInt();
             MaxMP = reader.ReadElementContentAsInt();
+            LastTurnSeenAMonster = reader.ReadElementContentAsInt();
 
             ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader, this);
             Headpiece = (IArmor)Item.ReadXmlEntireNode(reader, this);
@@ -250,6 +253,7 @@ namespace Magecrawl.GameEngine.Actors
 
             writer.WriteElementString("CurrentMagic", CurrentMP.ToString());
             writer.WriteElementString("MaxMagic", MaxMP.ToString());
+            writer.WriteElementString("LastTurnSeenAMonster", LastTurnSeenAMonster.ToString());
 
             Item.WriteXmlEntireNode((Item)ChestArmor, "ChestArmor", writer);
             Item.WriteXmlEntireNode((Item)Headpiece, "Headpiece", writer);

@@ -31,8 +31,6 @@
         FlavorText=">A thick parchment engraved in ink which fades and returns into view."/>
 <Potion Name="Potion of Blinking" SpellName="Blink" Strength="1" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."
         FlavorText=">Sparkely concoction filled with points of light that dance into and out of existance."/>
-<Supplies Name="Camp Supplies" SpellName="Camp" Strength="1" ItemDescription="These magical supplies will setup a camp in which an entire night of sleep can be obtained in a few moments. Effect ends early if danger is spoted."
-        FlavorText="Contains: Self deploying tent, firewood with blaze scroll, rations, and specially treated quintessence powder to power the entire enchantment."/>
 <Wand   Name="Wand of Haste" SpellName="Haste" Strength="2" StartCharges="2,2,1,1" MaxCharges="5"
         ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>

@@ -369,6 +369,11 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.DangerPlayerInLOS();
         }
 
+        public bool CurrentOrRecentDanger()
+        {
+            return m_physicsEngine.CurrentOrRecentDanger();
+        }
+
         public List<ICharacter> MonstersInPlayerLOS()
         {
             List<ICharacter> returnList = new List<ICharacter>();
