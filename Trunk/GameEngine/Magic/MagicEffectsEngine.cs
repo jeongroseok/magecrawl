@@ -75,37 +75,7 @@ namespace Magecrawl.GameEngine.Magic
         private bool DoEffect(Character invoker, object invokingMethod, string effect, int strength, Point target, string printOnEffect)
         {
             switch (effect)
-            {
-                case "Camp":
-                {
-                    if (m_physicsEngine.DangerPlayerInLOS())
-                        return false;
-
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("As the campsite forms, time seems to drift away as {0} begins to relax deeply.", invoker.Name));
-                    const int RoundsToRest = 5;
-                    for (int i = 0; i < RoundsToRest; ++i)
-                    {
-                        if (m_physicsEngine.DangerPlayerInLOS())
-                        {
-                            CoreGameEngine.Instance.SendTextOutput(string.Format("The resting enchantment detects danger and jerks {0} awake as it fades from existence.", invoker.Name));
-                            return true;
-                        }
-                        invoker.Heal(invoker.MaxHP / RoundsToRest);
-                        ((Player)invoker).HealMP(((Player)invoker).MaxMP / RoundsToRest);
-                        
-                        m_physicsEngine.Wait(invoker);
-                        m_physicsEngine.AfterPlayerAction(CoreGameEngine.Instance);
-                    }
-                    
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("The resting enchantment fades and {0} awake refreshed.", invoker.Name));
-
-                    // Sometimes, due to integer division, we'll be one or two off a full tank
-                    invoker.Heal(invoker.MaxHP - invoker.CurrentHP);
-                    ((Player)invoker).HealMP(((Player)invoker).MaxMP / ((Player)invoker).CurrentMP);
-                    
-                    return true;
-                }
+            {                
                 case "HealCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);

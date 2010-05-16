@@ -348,11 +348,6 @@ namespace Magecrawl.GameEngine
         {
             FOVManager.CalculateForMultipleCalls(m_map, m_player.Position, m_player.Vision);
 
-            const int NumberOfTurnsFromRangedAttackUntilSafe = 3;
-            if (m_combatEngine.LastTurnPlayerWasRangedAttacked != int.MinValue &&
-                CoreGameEngine.Instance.TurnCount - m_combatEngine.LastTurnPlayerWasRangedAttacked < NumberOfTurnsFromRangedAttackUntilSafe)
-                return true;
-
             foreach (Monster m in m_map.Monsters)
             {
                 if (FOVManager.Visible(m.Position))
@@ -360,6 +355,19 @@ namespace Magecrawl.GameEngine
             }
             
             return false;
+        }
+
+        public bool CurrentOrRecentDanger()
+        {
+            const int TurnsMonsterOutOfLOSToBeSafe = 8;
+            bool dangerInLOS = DangerPlayerInLOS();
+            if (dangerInLOS)
+            {
+                m_player.LastTurnSeenAMonster = CoreGameEngine.Instance.TurnCount;
+                return true;
+            }
+            // This is wrong
+            return m_player.LastTurnSeenAMonster + TurnsMonsterOutOfLOSToBeSafe > CoreGameEngine.Instance.TurnCount;
         }
 
         public bool UseItemWithEffect(ItemWithEffects item, Point targetedPoint)
@@ -486,6 +494,22 @@ namespace Magecrawl.GameEngine
         internal void AfterPlayerAction(CoreGameEngine engine)
         {
             UpdatePlayerVisitedStatus();
+
+            // Regenerate health mana if out of combat for a bit.
+            const int NumberOfRoundsUntilHealthFull = 20;
+            if (!CurrentOrRecentDanger())
+            {
+                // Always heal at least 1 point if we're not topped off. Thanks integer math!
+                int hpToHeal = m_player.MaxHP / NumberOfRoundsUntilHealthFull;               
+                if (m_player.CurrentHP < m_player.MaxHP && hpToHeal <= 0)
+                    hpToHeal = 1;
+                int mpToHeal = m_player.MaxMP / NumberOfRoundsUntilHealthFull;
+                if (m_player.CurrentMP < m_player.MaxMP && mpToHeal <= 0)
+                    mpToHeal = 1;
+
+                m_player.Heal(hpToHeal);
+                m_player.HealMP(mpToHeal);
+            }
             
             // Until the player gets a turn
             while (true)

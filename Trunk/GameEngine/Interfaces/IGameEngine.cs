@@ -89,6 +89,7 @@ namespace Magecrawl.GameEngine.Interfaces
         List<Point> PlayerPathToPoint(Point dest);
         List<Point> CellsInPlayersFOV();
         bool DangerInLOS();
+        bool CurrentOrRecentDanger();
         List<ICharacter> MonstersInPlayerLOS();
 
         bool PlayerSwapPrimarySecondaryWeapons();
