@@ -87,8 +87,14 @@ namespace Magecrawl.Keyboard
 
             NamedKey other = (NamedKey)obj;
 
-            return Code == other.Code && Character == other.Character && ControlPressed == other.ControlPressed
-                && ShiftPressed == other.ShiftPressed && AltPressed == other.AltPressed;
+            if (Character != (char)0)
+            {
+                return Character == other.Character && ControlPressed == other.ControlPressed  && AltPressed == other.AltPressed;
+            }
+            else
+            {
+                return Code == other.Code && ControlPressed == other.ControlPressed  && ShiftPressed == other.ShiftPressed && AltPressed == other.AltPressed;
+            }
         }
 
         public override int GetHashCode()

@@ -83,7 +83,7 @@ namespace Magecrawl.GameUI.Dialogs
 
                 const int DirectionStartY = ActionStartY + 17;
                 const int DirectionVerticalOffset = -8;
-                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY, "Direction Keys (+Ctrl to Run)");
+                screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY, string.Format("Direction Keys (+{0} to Run)", (bool)Preferences.Instance["UseAltInsteadOfCtrlForRunning"] ? "Alt" : "Ctrl"));
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 1, "------------------------");
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 2, "North      - " + m_keyMappings["North"]);
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 3, "West       - " + m_keyMappings["West"]);
