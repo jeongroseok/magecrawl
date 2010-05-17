@@ -51,8 +51,7 @@ namespace Magecrawl.GameEngine.Armor
             }
             else
             {
-                if (IsUnequipable(armor))
-                    optionList.Add(new ItemOptions("Equip", true));
+                optionList.Add(new ItemOptions("Equip", true));
                 optionList.Add(new ItemOptions("Drop", true));
             }
 
