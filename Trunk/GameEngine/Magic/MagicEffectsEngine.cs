@@ -110,7 +110,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
                     }
                     return true;
                 }
@@ -128,7 +128,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
                     }
                     return true;
                 }
@@ -143,7 +143,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, DamageDoneDelegate);
                     }
 
                     return true;
@@ -162,7 +162,7 @@ namespace Magecrawl.GameEngine.Magic
                     }
                     else
                     {
-                        invoker.AddAffect(Affects.AffectFactory.CreateAffect(effect, strength));
+                        invoker.AddAffect(Affects.AffectFactory.CreateAffect(invoker, effect, strength));
                     }
                     return true;
                 }
@@ -170,7 +170,7 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
-                    AddAffactToTarget("Poison", strength, target);
+                    AddAffactToTarget("Poison", invoker, strength, target);
                     return true;
                 }
                 case "Blink":
@@ -186,7 +186,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Slow":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    AddAffactToTarget("Slow", strength, target);
+                    AddAffactToTarget("Slow", invoker, strength, target);
                     return true;
                 }
                 default:
@@ -217,11 +217,11 @@ namespace Magecrawl.GameEngine.Magic
             CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, coneBlastList, false);
         }
 
-        private void AddAffactToTarget(string name, int strength, Point target)
+        private void AddAffactToTarget(string name, Character caster, int strength, Point target)
         {
             Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
             if (targetCharacter != null)
-                targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect(name, strength));
+                targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect(caster, name, strength));
         }
 
         private static int CalculateDamgeFromSpell(int strength)

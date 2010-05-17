@@ -20,6 +20,8 @@ namespace Magecrawl.GameEngine.Actors
         public IArmor Gloves { get; internal set; }
         public IArmor Boots { get; internal set; }
 
+        public int SkillPoints { get; internal set; }
+
         private List<Item> m_itemList;
         private List<Skill> m_skills;
 
@@ -32,6 +34,7 @@ namespace Magecrawl.GameEngine.Actors
             CurrentMP = 0;
             MaxMP = 0;
             LastTurnSeenAMonster = 0;
+            SkillPoints = 0;
         }
 
         public Player(string name, Point p) : base(name, p, 12, 6)
@@ -40,6 +43,7 @@ namespace Magecrawl.GameEngine.Actors
             m_skills = new List<Skill>();
             CurrentMP = 10;
             MaxMP = 10;
+            SkillPoints = 0;
             LastTurnSeenAMonster = 0;
 
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
@@ -54,6 +58,7 @@ namespace Magecrawl.GameEngine.Actors
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
         }
 
+        #region HP/MP
         private int m_baseCurrentHP;
         public override int CurrentHP 
         {
@@ -123,6 +128,7 @@ namespace Magecrawl.GameEngine.Actors
                 m_baseMaxMP = value;
             }
         }
+        #endregion
 
         public IEnumerable<ISpell> Spells
         {
@@ -290,6 +296,8 @@ namespace Magecrawl.GameEngine.Actors
             m_baseCurrentMP = reader.ReadElementContentAsInt();
             m_baseMaxMP = reader.ReadElementContentAsInt();
 
+            SkillPoints = reader.ReadElementContentAsInt();
+
             LastTurnSeenAMonster = reader.ReadElementContentAsInt();
 
             ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader, this);
@@ -327,6 +335,8 @@ namespace Magecrawl.GameEngine.Actors
 
             writer.WriteElementString("BaseCurrentMagic", m_baseCurrentMP.ToString());
             writer.WriteElementString("BaseMaxMagic", m_baseMaxMP.ToString());
+
+            writer.WriteElementString("SkillPoints", SkillPoints.ToString());
 
             writer.WriteElementString("LastTurnSeenAMonster", LastTurnSeenAMonster.ToString());
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine.Affects
 {
@@ -9,10 +6,10 @@ namespace Magecrawl.GameEngine.Affects
     {
         internal static AffectBase CreateAffectBaseObject(string affectName)
         {
-            return CreateAffect(affectName, 0);
+            return CreateAffect(null, affectName, 0);
         }
 
-        internal static AffectBase CreateAffect(string affectName, int level)
+        internal static AffectBase CreateAffect(Character caster, string affectName, int level)
         {
             // MEF?
             switch (affectName)
@@ -26,7 +23,10 @@ namespace Magecrawl.GameEngine.Affects
                 case "Light":
                     return new Light(level);
                 case "Poison":
-                    return new Poison(level);
+                {
+                    bool castByPlayer = caster is Player;
+                    return new Poison(level, castByPlayer);
+                }
                 case "Earthen Armor":
                     return new EarthenArmor(level);
                 default:
