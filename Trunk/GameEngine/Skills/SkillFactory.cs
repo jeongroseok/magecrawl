@@ -62,6 +62,9 @@ namespace Magecrawl.GameEngine.Skills
                     string proficiency = reader.GetAttribute("AddProficiency");
                     newSkill.Proficiency = proficiency;
 
+                    string armorSkill = reader.GetAttribute("ArmorSkill");
+                    newSkill.ArmorSkill = armorSkill;
+
                     string hpString = reader.GetAttribute("HPBonus");
                     if (hpString != null)
                         newSkill.HPBonus = int.Parse(hpString);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
+using Magecrawl.GameEngine.Skills;
 
 namespace Magecrawl.GameEngine.Armor
 {
@@ -51,11 +52,25 @@ namespace Magecrawl.GameEngine.Armor
             }
             else
             {
-                optionList.Add(new ItemOptions("Equip", true));
+                optionList.Add(new ItemOptions("Equip", HasSkillToEquip()));
                 optionList.Add(new ItemOptions("Drop", true));
             }
 
             return optionList;
+        }
+
+        private bool HasSkillToEquip()
+        {
+            // Anybody can equip none or light.
+            if (Weight == ArmorWeight.None || Weight == ArmorWeight.Light)
+                return true;
+
+            foreach (Skill s in CoreGameEngine.Instance.Player.Skills)
+            {
+                if (s.ArmorSkill == Weight.ToString())
+                    return true;
+            }
+            return false;
         }
 
         public ArmorWeight Weight
