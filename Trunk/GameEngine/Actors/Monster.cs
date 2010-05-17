@@ -18,6 +18,9 @@ namespace Magecrawl.GameEngine.Actors
         private DiceRoll m_damage;
         protected Point m_playerLastKnownPosition;
 
+        public override int CurrentHP { get; internal set; }
+        public override int MaxHP { get; internal set; }
+
         public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double defense, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
@@ -233,6 +236,10 @@ namespace Magecrawl.GameEngine.Actors
             base.ReadXml(reader);
             CTAttackCost = reader.ReadElementContentAsDouble();
             m_damage.ReadXml(reader);
+
+            CurrentHP = reader.ReadElementContentAsInt();
+            MaxHP = reader.ReadElementContentAsInt();
+
             m_playerLastKnownPosition.ReadXml(reader);
         }
 
@@ -242,6 +249,10 @@ namespace Magecrawl.GameEngine.Actors
             base.WriteXml(writer);
             writer.WriteElementString("MeleeSpeed", CTAttackCost.ToString());
             m_damage.WriteXml(writer);
+
+            writer.WriteElementString("CurrentHP", CurrentHP.ToString());
+            writer.WriteElementString("MaxHP", MaxHP.ToString());
+
             m_playerLastKnownPosition.WriteToXml(writer, "PlayerLastKnownPosition");
         }
 

@@ -15,9 +15,6 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, IPlayer, IXmlSerializable
     {
-        public int CurrentMP { get; internal set; }
-        public int MaxMP { get; internal set; }
-
         public IArmor ChestArmor { get; internal set; }
         public IArmor Headpiece { get; internal set; }
         public IArmor Gloves { get; internal set; }
@@ -55,6 +52,76 @@ namespace Magecrawl.GameEngine.Actors
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Sandles"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
+        }
+
+        private int m_baseCurrentHP;
+        public override int CurrentHP 
+        {
+            get
+            {
+                return m_baseCurrentHP;
+            }
+            internal set
+            {
+                m_baseCurrentHP = value;
+            }
+        }
+
+        private int m_baseMaxHP;
+        public override int MaxHP
+        {
+            get
+            {
+                int baseMax = m_baseMaxHP;
+
+                int percentageBonus = 0;
+                foreach (Skill s in Skills)
+                {
+                    percentageBonus += s.HPBonus;
+                }
+                baseMax = (int)(baseMax * (1.0 + ((float)percentageBonus / 100.0f)));
+
+                return baseMax;
+            }
+            internal set
+            {
+                m_baseMaxHP = value;
+            }
+        }
+
+        private int m_baseCurrentMP;
+        public int CurrentMP 
+        {
+            get
+            {
+                return m_baseCurrentMP;
+            }
+            internal set
+            {
+                m_baseCurrentMP = value;
+            }
+        }
+
+        private int m_baseMaxMP;
+        public int MaxMP 
+        {
+            get
+            {
+                int baseMax = m_baseMaxMP;
+
+                int percentageBonus = 0;
+                foreach (Skill s in Skills)
+                {
+                    percentageBonus += s.MPBonus;
+                }
+                baseMax = (int)(baseMax * (1.0 + ((float)percentageBonus / 100.0f)));
+
+                return baseMax;
+            }
+            internal set
+            {
+                m_baseMaxMP = value;
+            }
         }
 
         public IEnumerable<ISpell> Spells
@@ -217,8 +284,12 @@ namespace Magecrawl.GameEngine.Actors
             reader.ReadStartElement();
             base.ReadXml(reader);
 
-            CurrentMP = reader.ReadElementContentAsInt();
-            MaxMP = reader.ReadElementContentAsInt();
+            m_baseCurrentHP = reader.ReadElementContentAsInt();
+            m_baseMaxHP = reader.ReadElementContentAsInt();
+
+            m_baseCurrentMP = reader.ReadElementContentAsInt();
+            m_baseMaxMP = reader.ReadElementContentAsInt();
+
             LastTurnSeenAMonster = reader.ReadElementContentAsInt();
 
             ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader, this);
@@ -251,8 +322,12 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
 
-            writer.WriteElementString("CurrentMagic", CurrentMP.ToString());
-            writer.WriteElementString("MaxMagic", MaxMP.ToString());
+            writer.WriteElementString("BaseCurrentHP", m_baseCurrentHP.ToString());
+            writer.WriteElementString("BaseMaxHP", m_baseMaxHP.ToString());
+
+            writer.WriteElementString("BaseCurrentMagic", m_baseCurrentMP.ToString());
+            writer.WriteElementString("BaseMaxMagic", m_baseMaxMP.ToString());
+
             writer.WriteElementString("LastTurnSeenAMonster", LastTurnSeenAMonster.ToString());
 
             Item.WriteXmlEntireNode((Item)ChestArmor, "ChestArmor", writer);

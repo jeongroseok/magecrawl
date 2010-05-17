@@ -54,12 +54,23 @@ namespace Magecrawl.GameEngine.Skills
                     string costString = reader.GetAttribute("Cost");
                     int cost = int.Parse(costString);
 
-                    string addSpell = reader.GetAttribute("AddSpell");
-                    string proficiency = reader.GetAttribute("AddProficiency");
-
                     Skill newSkill = new Skill(name, cost, school, description);
+
+                    string addSpell = reader.GetAttribute("AddSpell");
                     newSkill.AddSpell = addSpell;
+
+                    string proficiency = reader.GetAttribute("AddProficiency");
                     newSkill.Proficiency = proficiency;
+
+                    string hpString = reader.GetAttribute("HPBonus");
+                    if (hpString != null)
+                        newSkill.HPBonus = int.Parse(hpString);
+
+                    string mpString = reader.GetAttribute("MPBonus");
+                    if (mpString != null)
+                        newSkill.MPBonus = int.Parse(mpString);
+
+
                     m_skillMapping.Add(name, newSkill);
                 }
             }

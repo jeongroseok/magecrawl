@@ -12,15 +12,15 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal class Character : ICharacter, IXmlSerializable
+    internal abstract class Character : ICharacter, IXmlSerializable
     {
         public Point Position { get; internal set; }
 
         public int CT { get; internal set; }
 
-        public int CurrentHP { get; internal set; }
+        public abstract int CurrentHP { get; internal set; }
 
-        public int MaxHP { get; internal set; }
+        public abstract int MaxHP { get; internal set; }
 
         public string Name { get; internal set; }
 
@@ -270,8 +270,6 @@ namespace Magecrawl.GameEngine.Actors
         public virtual void ReadXml(XmlReader reader)
         {
             Position = Position.ReadXml(reader);
-            CurrentHP = reader.ReadElementContentAsInt();
-            MaxHP = reader.ReadElementContentAsInt();
             Name = reader.ReadElementContentAsString();
             CT = reader.ReadElementContentAsInt();
             Vision = reader.ReadElementContentAsInt();
@@ -300,8 +298,6 @@ namespace Magecrawl.GameEngine.Actors
             m_affects.ForEach(a => a.Remove(this));
 
             Position.WriteToXml(writer, "Position");
-            writer.WriteElementString("CurrentHP", CurrentHP.ToString());
-            writer.WriteElementString("MaxHP", MaxHP.ToString());
             writer.WriteElementString("Name", Name);
             writer.WriteElementString("CT", CT.ToString());
             writer.WriteElementString("VisionRange", Vision.ToString());
