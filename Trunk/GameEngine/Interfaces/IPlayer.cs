@@ -16,6 +16,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        int SkillPoints
+        {
+            get;
+        }
+
         IEnumerable<IItem> Items
         {
             get;

@@ -63,7 +63,7 @@ namespace Magecrawl.GameEngine
                 {
                     int damageDone = CalculateWeaponStrike(attacker, attackedCharacter);
                     CoreGameEngine.Instance.SendTextOutput(CreateDamageString(damageDone, attacker, attackedCharacter));
-                    DamageTarget(damageDone, attackedCharacter);
+                    DamageTarget(attacker, damageDone, attackedCharacter);
                 }
             }
 
@@ -132,7 +132,7 @@ namespace Magecrawl.GameEngine
             CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, ShowRangedAttackType.RangedBoltOrBlast, attackPath, targetCharacter != null);
 
             if (targetCharacter != null)
-                DamageTarget(damageDone, targetCharacter, del);
+                DamageTarget(attacker, damageDone, targetCharacter, del);
 
             if (targetCharacter is Monster)
                 ((Monster)targetCharacter).NoticeRangedAttack(attacker.Position);
@@ -150,12 +150,12 @@ namespace Magecrawl.GameEngine
             return null;
         }
 
-        public void DamageTarget(int damage, Character target)
+        public void DamageTarget(Character attacker, int damage, Character target)
         {
-            DamageTarget(damage, target, null);
+            DamageTarget(attacker, damage, target, null);
         }
 
-        public void DamageTarget(int damage, Character target, DamageDoneDelegate del)
+        public void DamageTarget(Character attacker, int damage, Character target, DamageDoneDelegate del)
         {
             // Sometimes bouncy spells and other things can hit a creature two or more times.
             // If the creature is dead and the map agrees, return early, since the poor sob is already dead and gone.
@@ -176,6 +176,8 @@ namespace Magecrawl.GameEngine
             {
                 if (target is Monster)
                 {
+                    if (attacker is Player)
+                        ((Player)attacker).SkillPoints += 1;
                     m_map.RemoveMonster(target as Monster);
                 }
                 else if (target is Player)

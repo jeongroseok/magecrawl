@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine.Affects
         public override void Remove(Character removedFrom)
         {
             removedFrom.MaxHP -= m_lifeIncrease;
-            CoreGameEngine.Instance.CombatEngine.DamageTarget(m_lifeIncrease, removedFrom, null);
+            CoreGameEngine.Instance.CombatEngine.DamageTarget(null, m_lifeIncrease, removedFrom, null);
         }
 
         public override string Name
