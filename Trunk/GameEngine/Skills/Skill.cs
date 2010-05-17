@@ -14,6 +14,7 @@ namespace Magecrawl.GameEngine.Skills
         internal int MPBonus { get; set; }
         internal string Proficiency { get; set; }
         internal string AddSpell { get; set; }
+        internal string ArmorSkill { get; set; }
 
         internal Skill(string name, int cost, string school, string description)
         {
