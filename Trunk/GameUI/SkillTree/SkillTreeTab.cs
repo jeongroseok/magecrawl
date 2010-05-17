@@ -104,18 +104,12 @@ namespace Magecrawl.GameUI.SkillTree
 
             int textX = explainationBoxLowerLeft.X + 2;
             int textY = explainationBoxLowerLeft.Y - dialogHeight + 2;
-            if (cursorOverSkill.NewSpell)
-            {
-                console.print(textX, textY, "New Spell");
-                textY++;
-            }
-            console.print(textX, textY, string.Format("School: {0}", cursorOverSkill.School));
-            textY++;
             console.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
-            textY += 2;
+            textY++;
 
             if (numberOfDependencies > 0)
             {
+                textY++;
                 console.print(textX, textY, "Dependencies:");
                 textY++;
                 m_dialogHelper.SaveColors(console);
@@ -132,7 +126,7 @@ namespace Magecrawl.GameUI.SkillTree
             }
             textY++;
 
-            console.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 7,
+            console.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 6,
                                            TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, cursorOverSkill.Description);
         }
 
