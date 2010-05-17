@@ -11,7 +11,7 @@ namespace Magecrawl.GameUI.SkillTree
     {
         private Dictionary<string, SkillTreeTab> m_skillTreeTabs;
         private TCODConsole m_offscreenConsole;
-        private List<string> m_tabOrderingList = new List<string>() { "Arcane", "Fire", "Light" };
+        private List<string> m_tabOrderingList = new List<string>() { "Arcane", "Fire", "Light", "Martial" };
         //private List<string> m_tabOrderingList = new List<string>() { "Air", "Arcane", "Darkness", "Earth", "Fire", "Light", "Martial", "Water" };
         private string m_defaultTab = "Arcane";
         //private string m_defaultTab = "Air";
@@ -43,7 +43,7 @@ namespace Magecrawl.GameUI.SkillTree
             //m_skillTreeTabs.Add("Earth", new SkillTreeTab("EarthSkillTree.dat"));
             m_skillTreeTabs.Add("Fire", new SkillTreeTab("FireSkillTree.dat"));
             m_skillTreeTabs.Add("Light", new SkillTreeTab("LightSkillTree.dat"));
-            //m_skillTreeTabs.Add("Martial", new SkillTreeTab("MartialSkillTree.dat"));
+            m_skillTreeTabs.Add("Martial", new SkillTreeTab("MartialSkillTree.dat"));
             //m_skillTreeTabs.Add("Water", new SkillTreeTab("WaterSkillTree.dat"));
 
             // Calculate the max width/height of all tabs so we can get the offsecreen surface the right size

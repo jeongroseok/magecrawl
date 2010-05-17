@@ -169,6 +169,7 @@
     </Content>
     <Content Include="..\dist\Resources\Items.xml">
       <Link>Resources\Items.xml</Link>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\dist\Resources\KeypadKeysMapping.xml">
       <Link>Resources\KeypadKeysMapping.xml</Link>
