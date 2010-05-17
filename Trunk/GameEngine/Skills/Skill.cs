@@ -10,6 +10,8 @@ namespace Magecrawl.GameEngine.Skills
         public string School { get; private set; }
         public string Description { get; private set; }
 
+        internal int HPBonus { get; set; }
+        internal int MPBonus { get; set; }
         internal string Proficiency { get; set; }
         internal string AddSpell { get; set; }
 
@@ -21,6 +23,8 @@ namespace Magecrawl.GameEngine.Skills
             Description = description;
             AddSpell = null;
             Proficiency = null;
+            HPBonus = 0;
+            MPBonus = 0;
         }
 
         public bool NewSpell

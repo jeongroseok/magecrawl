@@ -26,7 +26,11 @@ namespace Magecrawl
                     inst.Go(result.CharacterName, result.LoadCharacter);
                 }
             }
-            catch (System.Exception e)
+            catch (System.Exception 
+#if !DEBUG  // Work around stupid unused variable warning
+                e
+#endif
+                )
             {
                 // In debug builds, we want the exception to be rethrown to make debugging easier. In release builds, we want it to get written to a file.
 #if DEBUG
