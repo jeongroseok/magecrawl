@@ -17,7 +17,7 @@ namespace Magecrawl.GameUI.SkillTree.Requests
             m_delegate = quitDelegate;
         }
 
-        internal override void DoRequest (IHandlePainterRequest painter)
+        internal override void DoRequest(IHandlePainterRequest painter)
         {
             SkillTreePainter skillTreePainter = painter as SkillTreePainter;
             if(skillTreePainter != null)

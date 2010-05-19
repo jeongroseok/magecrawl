@@ -104,7 +104,7 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 if (m_dirtyFrame)
                 {
-                    CurrentTab.Draw(m_offscreenConsole, m_engine, GetAllSelectedSkill(), CursorPosition);
+                    CurrentTab.Draw(m_offscreenConsole, m_engine, GetAllSelectedSkill(), NewlySelectedSkills, CursorPosition);
                     m_dirtyFrame = false;
                 }
 
@@ -116,12 +116,26 @@ namespace Magecrawl.GameUI.SkillTree
 
                 DrawTabBar(screen);
 
+                DrawSkillPointTotalFrame(screen);
+
                 // Draw cursor
                 screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
                 // For debugging
                 //screen.print(50, 50, CursorPosition.ToString());
             }
+        }
+
+        private void DrawSkillPointTotalFrame(TCODConsole screen)
+        {
+            screen.printFrame(5, 48, 16, 7, true);
+            screen.putChar(5, 48, (int)TCODSpecialCharacter.TeeEast);
+            screen.putChar(20, 54, (int)TCODSpecialCharacter.TeeNorth);
+            screen.print(6, 49, "Skill Points:");
+            screen.print(6, 51, "SP Earned:" + m_engine.Player.SkillPoints.ToString());
+            int selectedSkillCost = NewlySelectedSkills.Sum(x => x.Cost);
+            screen.print(6, 52, "SP Spent: " + selectedSkillCost);
+            screen.print(6, 53, "SP Left:  " + (m_engine.Player.SkillPoints - selectedSkillCost).ToString());
         }
 
         private void DrawTabBar(TCODConsole screen)
@@ -144,7 +158,12 @@ namespace Magecrawl.GameUI.SkillTree
                 if (name != "Water")
                 {
                     screen.putChar(x, y, (int)TCODSpecialCharacter.VertLine);
-                    screen.putChar(x, y - 1, (int)TCODSpecialCharacter.TeeSouth);
+
+                    // This is a bit of a hack. We don't want to overwrite the color'ed background title of the frame, so we check first
+                    // This can break if libtcod changes that background title color
+                    if (!screen.getCharBackground(x, y - 1).Equal(new TCODColor(211, 211, 211)))
+                        screen.putChar(x, y - 1, (int)TCODSpecialCharacter.TeeSouth);
+
                     screen.putChar(x, y + 1, (int)TCODSpecialCharacter.TeeNorth);
                 }
                 x += 2;
@@ -185,7 +204,9 @@ namespace Magecrawl.GameUI.SkillTree
                 }
                 else // Selecting
                 {
-                    if (!SkillTreeModelHelpers.HasUnmetDependencies(GetAllSelectedSkill(), CurrentTab.SkillSquareCursorIsOver(CursorPosition)))
+                    bool hasEnoughSkillPointsToSelectThisAsWell = NewlySelectedSkills.Sum(x => x.Cost) + selected.Cost <= m_engine.Player.SkillPoints;
+                    bool hasDependenciesMet = !SkillTreeModelHelpers.HasUnmetDependencies(GetAllSelectedSkill(), CurrentTab.SkillSquareCursorIsOver(CursorPosition));
+                    if (hasEnoughSkillPointsToSelectThisAsWell && hasDependenciesMet)
                     {
                         NewlySelectedSkills.Add(selected);
                         m_dirtyFrame = true;
@@ -194,7 +215,7 @@ namespace Magecrawl.GameUI.SkillTree
             }
         }
 
-        public override void UpdateFromNewData (IGameEngine engine, Point mapUpCorner, Point centerPosition)
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
             m_engine = engine;
         }

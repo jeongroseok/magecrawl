@@ -372,7 +372,9 @@ namespace Magecrawl.GameEngine
 
         public void AddSkillToPlayer(ISkill skill)
         {
-            // TODO - this should remove skill points and check for dependencies...
+            if (m_engine.Player.SkillPoints < skill.Cost)
+                throw new System.InvalidOperationException("AddSkillToPlayer without enough SP");
+            m_engine.Player.SkillPoints -= skill.Cost;
             m_engine.Player.AddSkill(skill);
         }
 
@@ -413,6 +415,9 @@ namespace Magecrawl.GameEngine
                     }
                     return null;
                 }
+                case "AddSkillPoints":
+                    m_engine.Player.SkillPoints += (int)argument;
+                    return null;
                 default:
                     return null;
             }
