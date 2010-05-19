@@ -52,25 +52,32 @@ namespace Magecrawl.GameEngine.Armor
             }
             else
             {
-                optionList.Add(new ItemOptions("Equip", HasSkillToEquip()));
+                optionList.Add(new ItemOptions("Equip", EquipableByPlayer));
                 optionList.Add(new ItemOptions("Drop", true));
             }
 
             return optionList;
         }
 
-        private bool HasSkillToEquip()
+        public bool EquipableByPlayer
         {
-            // Anybody can equip none or light.
-            if (Weight == ArmorWeight.None || Weight == ArmorWeight.Light)
-                return true;
-
-            foreach (Skill s in CoreGameEngine.Instance.Player.Skills)
+            get
             {
-                if (s.ArmorSkill == Weight.ToString())
+                // Anybody can equip none or light.
+                if (Weight == ArmorWeight.None || Weight == ArmorWeight.Light)
                     return true;
+
+                // Anybody can equip summoned armor
+                if (IsSummoned(this))
+                    return true;
+
+                foreach (Skill s in CoreGameEngine.Instance.Player.Skills)
+                {
+                    if (s.ArmorSkill == Weight.ToString())
+                        return true;
+                }
+                return false;
             }
-            return false;
         }
 
         public ArmorWeight Weight
