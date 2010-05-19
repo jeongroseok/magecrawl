@@ -71,11 +71,12 @@ namespace Magecrawl.Keyboard.SkillTree
             if (newlySelectedSkill.Count > 0)
             {
                 DialogConfirmAction action = new DialogConfirmAction(m_engine, m_gameInstance, newlySelectedSkill);
-                
-                // TODO - Handle skill point cost here
-                string dialogString = string.Format("You have selected {0} new skill{1}.\n\nTotal cost: {2} skill point{1}.",
+
+                int totalSkillCost = newlySelectedSkill.Select(x => x.Cost).Sum();
+                string dialogString = string.Format("You have selected {0} new skill{1}.\n\nTotal cost: {2} skill point{3}.",
                                                     newlySelectedSkill.Count, newlySelectedSkill.Count > 1 ? "s" : "",
-                                                    newlySelectedSkill.Select(x => x.Cost).Sum());
+                                                    totalSkillCost,
+                                                    totalSkillCost > 1 ? "s" : "");
                 List<string> dialogStringList = new List<string>() { dialogString, "Select Skills", "Cancel" };
                 var dialogInfo = new Pair<OnTwoButtonComplete, List<string>>(action.OnConfirm, dialogStringList);
                 m_gameInstance.SetHandlerName("TwoButtonDialog", dialogInfo);

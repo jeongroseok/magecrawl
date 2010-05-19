@@ -33,13 +33,13 @@ namespace Magecrawl.GameUI.SkillTree
             ReadSkillTreeFile(resourceToRead);
         }
 
-        public void Draw(TCODConsole console, IGameEngine engine, List<ISkill> selectedSkillList, Point cursorPosition)
+        public void Draw(TCODConsole console, IGameEngine engine, List<ISkill> selectedSkillList, List<ISkill> newlySelectedSkillList, Point cursorPosition)
         {
             console.clear();
 
             SkillSquare cursorSkillSquare = SkillSquares.Find(x => x.IsInSquare(cursorPosition));
             ISkill cursorOverSkill = (cursorSkillSquare != null) ? cursorSkillSquare.GetSkill(engine) : null;
-
+            int selectedSkillCost = newlySelectedSkillList.Sum(x => x.Cost);
             for (int i = 0; i < Width; ++i)
             {
                 for (int j = 0; j < Height; ++j)
@@ -64,7 +64,9 @@ namespace Magecrawl.GameUI.SkillTree
                             }
                             else
                             {
-                                if (!SkillTreeModelHelpers.HasUnmetDependencies(selectedSkillList, skillSquareBeingPained))
+                                bool hasEnoughSkillPointsToSelectThisAsWell = selectedSkillCost + cursorOverSkill.Cost <= engine.Player.SkillPoints;
+                                bool hasDependenciesMet = !SkillTreeModelHelpers.HasUnmetDependencies(selectedSkillList, skillSquareBeingPained);
+                                if (hasDependenciesMet && hasEnoughSkillPointsToSelectThisAsWell)
                                     background = TCODColor.lightBlue;
                                 else
                                     background = TCODColor.lightestBlue;
@@ -85,10 +87,10 @@ namespace Magecrawl.GameUI.SkillTree
             }
 
             if (cursorSkillSquare != null)
-                DrawSkillPopup(console, selectedSkillList, cursorSkillSquare, cursorOverSkill);
+                DrawSkillPopup(console, selectedSkillList, engine.Player.SkillPoints - selectedSkillCost, cursorSkillSquare, cursorOverSkill);
         }
 
-        private void DrawSkillPopup(TCODConsole console, List<ISkill> selectedSkillList, SkillSquare cursorSkillSquare, ISkill cursorOverSkill)
+        private void DrawSkillPopup(TCODConsole console, List<ISkill> selectedSkillList, int skillPointsLeft, SkillSquare cursorSkillSquare, ISkill cursorOverSkill)
         {
             Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0) + new Point(0, ExplainPopupHeight);
             int numberOfDependencies = cursorSkillSquare.DependentSkills.Count();
@@ -104,7 +106,19 @@ namespace Magecrawl.GameUI.SkillTree
 
             int textX = explainationBoxLowerLeft.X + 2;
             int textY = explainationBoxLowerLeft.Y - dialogHeight + 2;
-            console.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
+            
+            // If we can't afford it and it isn't already selected, show the cost in red
+            if (!selectedSkillList.Contains(cursorOverSkill) && cursorOverSkill.Cost > skillPointsLeft)
+            {
+                m_dialogHelper.SaveColors(console);
+                console.setForegroundColor(TCODColor.red);
+                console.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
+                m_dialogHelper.ResetColors(console);
+            }
+            else
+            {
+                console.print(textX, textY, string.Format("Skill Point Cost: {0}", cursorOverSkill.Cost));
+            }
             textY++;
 
             if (numberOfDependencies > 0)

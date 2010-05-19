@@ -30,7 +30,7 @@ namespace Magecrawl.Keyboard.Debug
 
         private enum OptionMode 
         {
-            Options,
+            DebugMainMenu,
             CreateItem,
             CreateMonster,
             MapDebugging 
@@ -42,7 +42,7 @@ namespace Magecrawl.Keyboard.Debug
         {
             m_engine = engine;
             m_gameInstance = instance;
-            m_option = OptionMode.Options;
+            m_option = OptionMode.DebugMainMenu;
         }
 
         public override void NowPrimaried(object request)
@@ -53,8 +53,9 @@ namespace Magecrawl.Keyboard.Debug
 
         private void SetDebugMenu()
         {
-            m_option = OptionMode.Options;
-            List<INamedItem> itemList = new List<INamedItem>() { new TextElement("Create Item"), new TextElement("Create Monster"), new TextElement("Map Debug Settings"), new TextElement("Exit") };
+            m_option = OptionMode.DebugMainMenu;
+            List<INamedItem> itemList = new List<INamedItem>() {new TextElement("Create Item"), new TextElement("Create Monster"), 
+                new TextElement("Map Debug Settings"),  new TextElement("Add Skill Points"), new TextElement("Exit") };
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemList, false, "Debug Options"));
         }
 
@@ -103,6 +104,12 @@ namespace Magecrawl.Keyboard.Debug
                     m_gameInstance.UpdatePainters();
                     return;
                 }
+                case "Add Skill Points":
+                {
+                    m_engine.DebugRequest("AddSkillPoints", 5);
+                    Escape();
+                    return;
+                }
                 case "Exit":
                 default:
                 {
@@ -117,7 +124,7 @@ namespace Magecrawl.Keyboard.Debug
             if (item == null)
                 return;
             m_engine.DebugRequest("SpawnItem", item.DisplayName);
-            m_option = OptionMode.Options;
+            m_option = OptionMode.DebugMainMenu;
             Escape();
         }
 
@@ -126,7 +133,7 @@ namespace Magecrawl.Keyboard.Debug
             if (item == null)
                 return;
             m_engine.DebugRequest("SpawnMonster", item.DisplayName);
-            m_option = OptionMode.Options;
+            m_option = OptionMode.DebugMainMenu;
             Escape();
         }
 
@@ -150,13 +157,13 @@ namespace Magecrawl.Keyboard.Debug
                     m_gameInstance.UpdatePainters();
                     break;
             }
-            m_option = OptionMode.Options;
+            m_option = OptionMode.DebugMainMenu;
             Escape();
         }   
 
         private void Escape()
         {
-            if (m_option == OptionMode.Options)
+            if (m_option == OptionMode.DebugMainMenu)
             {
                 m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
                 m_gameInstance.UpdatePainters();
@@ -188,7 +195,7 @@ namespace Magecrawl.Keyboard.Debug
         {
             switch (m_option)
             {
-                case OptionMode.Options:
+                case OptionMode.DebugMainMenu:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(OptionSelectedDelegate));
                     return;
                 case OptionMode.CreateItem:
