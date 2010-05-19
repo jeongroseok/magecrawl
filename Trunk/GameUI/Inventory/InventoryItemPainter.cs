@@ -60,29 +60,50 @@ namespace Magecrawl.GameUI.Inventory
 
         private void DrawItemInRightPane(TCODConsole screen)
         {
+            int x = SelectedItemOffsetX + ((SelectedItemWidth * 2) / 6) + 2;
+            int y = SelectedItemOffsetY + 4;
+            int w = ((SelectedItemWidth * 2) / 3) - 4;
+            int h = SelectedItemHeight - 6;
+
             string itemDescription = m_selectedItem.ItemDescription + "\n\n" + m_selectedItem.FlavorDescription;
+            y += screen.printRect(x, y, w, h, itemDescription);
+            y += 2;
 
             IWand asWand = m_selectedItem as IWand;
             if (asWand != null)
-                itemDescription += "\n\n\n" + string.Format("Charges: {0} of {1}", asWand.Charges, asWand.MaxCharges);
+            {
+                screen.print(x, y, string.Format("Charges: {0} of {1}", asWand.Charges, asWand.MaxCharges));
+                y++;
+            }
 
             IArmor asArmor = m_selectedItem as IArmor;
             if (asArmor != null)
             {
-                itemDescription += "\n";
-                itemDescription += "\n\n" + string.Format("Defense: {0}", asArmor.Defense);
-                itemDescription += "\n\n" + string.Format("Evade: {0}", asArmor.Evade);
-                itemDescription += "\n\n" + string.Format("Weight: {0}", asArmor.Weight);
+                screen.print(x, y, "Defense: " + asArmor.Defense);
+                y += 2;
+                screen.print(x, y, "Evade: " + asArmor.Evade);
+                y += 2;
+                
+                if (!asArmor.EquipableByPlayer)
+                {
+                    m_dialogColorHelper.SaveColors(screen);
+                    screen.setForegroundColor(TCODColor.red);
+                    screen.print(x, y, "Weight: " + asArmor.Weight);
+                    y += 2;
+                    m_dialogColorHelper.ResetColors(screen);
+                }
+                else
+                {
+                    screen.print(x, y, "Weight: " + asArmor.Weight);
+                    y += 2;
+                }
             }
 
             IWeapon asWeapon = m_selectedItem as IWeapon;
             if (asWeapon != null)
             {
-                itemDescription += "\n";
-                itemDescription += "\n\n" + string.Format("Damage: {0}", asWeapon.Damage);
+                screen.print(x, y, "Damage: " + asWeapon.Damage);                
             }
-
-            screen.printRect(SelectedItemOffsetX + ((SelectedItemWidth * 2) / 6) + 2, SelectedItemOffsetY + 4, ((SelectedItemWidth * 2) / 3) - 4, SelectedItemHeight - 6, itemDescription);
         }
 
         internal void Show(IItem selectedItem, List<ItemOptions> optionList)

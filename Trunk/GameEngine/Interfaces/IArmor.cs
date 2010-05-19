@@ -28,5 +28,10 @@ namespace Magecrawl.GameEngine.Interfaces
         {
             get;
         }
+
+        bool EquipableByPlayer
+        {
+            get;
+        }
     }
 }
