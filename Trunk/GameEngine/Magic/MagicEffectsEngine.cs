@@ -57,12 +57,14 @@ namespace Magecrawl.GameEngine.Magic
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(CoreGameEngine.Instance.Player.Position, target);
                     List<Point> returnList = PointListUtils.PointListFromCone(CoreGameEngine.Instance.Player.Position, direction, 3);
                     m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, returnList);
                     return returnList;
                 }
                 case TargetingInfo.TargettingType.RangedExplodingPoint:
                 {
                     List<Point> returnList = PointListUtils.PointListFromBurstPosition(target, 2);
                     m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, returnList);
                     return returnList;
                 }
                 case TargetingInfo.TargettingType.RangedSingle:
@@ -118,6 +120,7 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, target);
                     List<Point> pointsInConeAttack = PointListUtils.PointListFromCone(invoker.Position, direction, 3);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, pointsInConeAttack);
                     if (pointsInConeAttack == null || pointsInConeAttack.Count == 0)
                         return false;   // Nothing to roast, not sure how we could get here however...
 
@@ -139,7 +142,9 @@ namespace Magecrawl.GameEngine.Magic
                     
                     ShowExplodingRangedPointAttack(invoker, invokingMethod, target, BurstWidth);
 
-                    foreach (Point p in PointListUtils.PointListFromBurstPosition(target, BurstWidth))
+                    List<Point> pointsToAffect = PointListUtils.PointListFromBurstPosition(target, BurstWidth);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, pointsToAffect);
+                    foreach (Point p in pointsToAffect)
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
@@ -202,6 +207,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 List<Point> explosionRing = PointListUtils.PointListFromBurstPosition(target, i);
                 CoreGameEngine.Instance.FilterNotTargetablePointsFromList(explosionRing, invoker.Position, invoker.Vision, true);
+                CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, explosionRing);
                 pointsInExplosion.Add(explosionRing);
             }
 
