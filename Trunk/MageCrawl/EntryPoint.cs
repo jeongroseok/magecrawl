@@ -8,7 +8,9 @@ namespace Magecrawl
     {
         public static void Main()
         {
+#if !DEBUG
             try
+#endif
             {
                 UIHelper.SetupUI();
                 WelcomeWindow.Result result;
@@ -26,16 +28,10 @@ namespace Magecrawl
                     inst.Go(result.CharacterName, result.LoadCharacter);
                 }
             }
-            catch (System.Exception 
-#if !DEBUG  // Work around stupid unused variable warning
-                e
-#endif
-                )
+            // In debug builds, we want the exception to be rethrown to make debugging easier. In release builds, we want it to get written to a file.
+#if !DEBUG
+            catch (System.Exception e)
             {
-                // In debug builds, we want the exception to be rethrown to make debugging easier. In release builds, we want it to get written to a file.
-#if DEBUG
-                throw;
-#else
                 using (TextWriter tw = new StreamWriter("DebuggingLog.txt"))
                 {
                     tw.WriteLine("Message - " + e.Message);
@@ -43,8 +39,8 @@ namespace Magecrawl
                     tw.WriteLine("StackTrace - " + e.StackTrace);
                     tw.WriteLine("TargetSite - " + e.TargetSite);
                 }
-#endif
             }
+#endif
         }
     }
 }
