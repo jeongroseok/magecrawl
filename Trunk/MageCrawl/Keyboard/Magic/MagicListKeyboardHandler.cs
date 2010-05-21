@@ -38,7 +38,7 @@ namespace Magecrawl.Keyboard.Magic
             }
             else if (keystroke.Code == TCODKeyCode.Char)
             {
-                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, new ListItemSelected(SpellSelectedDelegate)));
+                m_gameInstance.SendPaintersRequest(new ListSelectionItemSelectedByChar(keystroke.Character, SpellSelectedDelegate));
             }
         }
 
