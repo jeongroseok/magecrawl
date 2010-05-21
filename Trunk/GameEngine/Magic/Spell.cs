@@ -38,7 +38,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             get
             {
-                return Name + '\t' + m_school + '\t' + "Mp: " + m_cost.ToString();
+                return Name + '\t' + m_school + '\t' + "Mp: " + Cost.ToString();
             }
         }
 
@@ -58,11 +58,33 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
+        private double GetArmorCostPenaltiy(IArmor armor)
+        {
+            const double StandardWeightPenality = .125;
+            const double HeavyWeightPenality = .25;
+
+            if (armor.Weight == ArmorWeight.Standard)
+                return StandardWeightPenality;
+            if (armor.Weight == ArmorWeight.Heavy)
+                return HeavyWeightPenality;
+            return 0;
+        }
+
+        private int CalculateSpellCost(Player caster)
+        {
+            double penalityForHeavyArmor = 0;
+            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Boots);
+            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.ChestArmor);
+            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Gloves);
+            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Headpiece);
+            return (int)Math.Round(m_cost * (1.0 + penalityForHeavyArmor));
+        }
+
         internal int Cost
         {
             get
             {
-                return m_cost;
+                return CalculateSpellCost(CoreGameEngine.Instance.Player);
             }
         }
 
