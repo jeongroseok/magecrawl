@@ -60,15 +60,6 @@ namespace Magecrawl.GameEngine
             Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
-        public static double CalculateDefense(ICharacter character)
-        {
-            IPlayer player = character as IPlayer;
-            if (player == null)
-                throw new NotImplementedException("Monsters don't use armor for defense yet");
-
-            return GetArmorList(player).Sum(x => x.Defense);
-        }
-
         public static double CalculateEvade(ICharacter character)
         {
             IPlayer player = character as IPlayer;
@@ -78,6 +69,11 @@ namespace Magecrawl.GameEngine
             double evadeBeforeArmorRestrictions = m_combatConstants["CharacterEvadeBase"] + GetArmorList(player).Sum(x => x.Evade);
 
             return Math.Min(evadeBeforeArmorRestrictions, GetEvadeCap(GetTotalArmorWeight(player)));
+        }
+
+        public static int CalculateStaminaBonus(IPlayer player)
+        {
+            return GetArmorList(player).Sum(x => x.StaminaBonus);
         }
 
         private static IEnumerable<IArmor> GetArmorList(IPlayer player)

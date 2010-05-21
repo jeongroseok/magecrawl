@@ -79,7 +79,7 @@ namespace Magecrawl.GameUI.Inventory
             IArmor asArmor = m_selectedItem as IArmor;
             if (asArmor != null)
             {
-                screen.print(x, y, "Defense: " + asArmor.Defense);
+                screen.print(x, y, "Stamina Bonus: " + asArmor.StaminaBonus);
                 y += 2;
                 screen.print(x, y, "Evade: " + asArmor.Evade);
                 y += 2;

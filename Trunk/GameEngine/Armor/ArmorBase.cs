@@ -7,11 +7,11 @@ namespace Magecrawl.GameEngine.Armor
 {
     internal abstract class ArmorBase : ItemWithOwner, IArmor
     {
-        internal ArmorBase(string name, ArmorWeight weight, double defense, double evade, string itemDescription, string flavorText)
+        internal ArmorBase(string name, ArmorWeight weight, int staminaBonus, double evade, string itemDescription, string flavorText)
             : base(null, name, itemDescription, flavorText)
         {
             Weight = weight;
-            Defense = defense;
+            StaminaBonus = staminaBonus;
             Evade = evade;
             Summoned = false;
         }
@@ -86,7 +86,7 @@ namespace Magecrawl.GameEngine.Armor
             private set;
         }
 
-        public double Defense
+        public int StaminaBonus
         {
             get;
             private set;

@@ -9,8 +9,8 @@ namespace Magecrawl.GameEngine.Actors
     {
         private int m_firstAidCooldown;
 
-        public HealerMonster(string name, Point p, int maxHP, int vision, DiceRoll damage, double defense, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
-            : base(name, p, maxHP, vision, damage, defense, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
+        public HealerMonster(string name, Point p, int maxHP, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+            : base(name, p, maxHP, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
             m_firstAidCooldown = 0;
         }

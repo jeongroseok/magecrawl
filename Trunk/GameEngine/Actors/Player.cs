@@ -64,6 +64,9 @@ namespace Magecrawl.GameEngine.Actors
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Sandles"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
+
+            // Since we're equiping equipment here, reset m_currentStamina to new total
+            m_currentStamina = MaxStamina;
         }
 
         #region HP/MP
@@ -99,12 +102,11 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                int percentageBonus = 0;
+                int percentageOfBaseBonus = 0;
                 foreach (Skill s in Skills)
-                {
-                    percentageBonus += s.HPBonus;
-                }
-                return (int)(m_baseMaxStamina * (1.0 + ((float)percentageBonus / 100.0f)));
+                    percentageOfBaseBonus += s.HPBonus;
+                int baseMaxStamWithSkills = (int)(m_baseMaxStamina * (1.0 + ((float)percentageOfBaseBonus / 100.0f)));
+                return baseMaxStamWithSkills + CombatDefenseCalculator.CalculateStaminaBonus(this);
             }
         }
 
@@ -302,30 +304,40 @@ namespace Magecrawl.GameEngine.Actors
             return base.Equip(item);
         }
 
+        private void ResetMaxStaminaIfNowOver()
+        {
+            if (CurrentStamina > MaxStamina)
+                m_currentStamina = MaxStamina;
+        }
+
         internal override IItem Unequip(IItem item)
         {
             if (item is ChestArmor)
             {
                 IItem previousArmor = ChestArmor;
                 ChestArmor = null;
+                ResetMaxStaminaIfNowOver();
                 return previousArmor;
             }
             if (item is Headpiece)
             {
                 IItem previousArmor = Headpiece;
                 Headpiece = null;
+                ResetMaxStaminaIfNowOver();
                 return previousArmor;
             }
             if (item is Gloves)
             {
                 IItem previousArmor = Gloves;
                 Gloves = null;
+                ResetMaxStaminaIfNowOver();
                 return previousArmor;
             }
             if (item is Boots)
             {
                 IItem previousArmor = Boots;
                 Boots = null;
+                ResetMaxStaminaIfNowOver();
                 return previousArmor;
             }
 
