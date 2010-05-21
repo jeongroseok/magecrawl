@@ -365,6 +365,9 @@ namespace Magecrawl.GameEngine.Actors
             reader.ReadStartElement();
             base.ReadXml(reader);
 
+            m_currentHealth = reader.ReadElementContentAsInt();
+            m_baseMaxHealth = reader.ReadElementContentAsInt();
+
             m_currentStamina = reader.ReadElementContentAsInt();
             m_baseMaxStamina = reader.ReadElementContentAsInt();
 
@@ -405,8 +408,11 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
 
+            writer.WriteElementString("BaseCurrentHealth", m_currentHealth.ToString());
+            writer.WriteElementString("BaseMaxHealth", m_baseMaxHealth.ToString());
+
             writer.WriteElementString("BaseCurrentStamina", m_currentStamina.ToString());
-            writer.WriteElementString("BaseMaxHP", m_baseMaxStamina.ToString());
+            writer.WriteElementString("BaseMaxStamina", m_baseMaxStamina.ToString());
 
             writer.WriteElementString("BaseCurrentMagic", m_baseCurrentMP.ToString());
             writer.WriteElementString("BaseMaxMagic", m_baseMaxMP.ToString());
