@@ -18,8 +18,6 @@ namespace Magecrawl.GameEngine.Affects
                     return new Haste(level);
                 case "Slow":
                     return new Slow(level);
-                case "False Life":
-                    return new FalseLife(level);
                 case "Light":
                     return new Light(level);
                 case "Poison":

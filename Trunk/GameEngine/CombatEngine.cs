@@ -166,7 +166,7 @@ namespace Magecrawl.GameEngine
             if (damage == -1)
                 return;
 
-            target.CurrentHP -= damage;
+            target.Damage(damage);
             bool targetKilled = target.CurrentHP <= 0;
             
             if (del != null)

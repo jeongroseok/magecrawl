@@ -18,9 +18,9 @@ namespace Magecrawl.GameEngine.Actors
 
         public int CT { get; internal set; }
 
-        public abstract int CurrentHP { get; internal set; }
+        public abstract int CurrentHP { get; }
 
-        public abstract int MaxHP { get; internal set; }
+        public abstract int MaxHP { get; }
 
         public string Name { get; internal set; }
 
@@ -95,8 +95,6 @@ namespace Magecrawl.GameEngine.Actors
         {
             Position = p;
             CT = 0;
-            CurrentHP = hp;
-            MaxHP = maxHP;
             Vision = visionRange;
             Name = name;
             m_equipedWeapon = null;
@@ -204,12 +202,9 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         // Returns amount actually healed by
-        public int Heal(int toHeal)
-        {
-            int previousHealth = CurrentHP;
-            CurrentHP = Math.Min(CurrentHP + toHeal, MaxHP);
-            return CurrentHP - previousHealth;
-        }
+        public abstract int Heal(int toHeal, bool magical);
+
+        public abstract void Damage(int dmg);
 
         // Everyone should override these. 
         // I want character to have a constructor to reduce copying, but there are some things that should be overridded

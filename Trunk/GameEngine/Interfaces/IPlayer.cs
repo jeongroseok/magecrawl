@@ -6,6 +6,26 @@ namespace Magecrawl.GameEngine.Interfaces
 {
     public interface IPlayer : ICharacter
     {
+        int CurrentStamina 
+        {
+            get;
+        }
+
+        int CurrentHealth
+        {
+            get;
+        }
+
+        int MaxStamina
+        {
+            get;
+        }
+
+        int MaxHealth
+        {
+            get;
+        }
+
         int CurrentMP
         {
             get;

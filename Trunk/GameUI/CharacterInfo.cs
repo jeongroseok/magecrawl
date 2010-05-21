@@ -20,7 +20,9 @@ namespace Magecrawl.GameUI
         private const int InfoWidth = UIHelper.CharInfoWidth;
         private const int InfoHeight = UIHelper.CharInfoHeight;
 
-        private const int ScreenCenter = StartingX + (InfoWidth / 2);
+        private const int SectionCenter = StartingX + (InfoWidth / 2);
+
+        private const int BarLength = 23;
 
         private IPlayer m_player;
         private int m_currentLevel;
@@ -37,11 +39,21 @@ namespace Magecrawl.GameUI
             m_inDanger = engine.CurrentOrRecentDanger();
         }
 
+        private static int CalculateBarLength(double part, double whole, double length)
+        {
+            return (int)Math.Round((part / whole) * length);
+        }
+
+        private static int StandardBarLength(double part, double whole)
+        {
+            return CalculateBarLength(part, whole, BarLength);
+        }
+
         private int HealthBarLength(ICharacter character, bool fuzzy)
         {
             if (fuzzy)
             {
-                int value = (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * 20.0);
+                int value = (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * BarLength);
                 if (value >= 19)
                     return 20;
                 else if (value >= 14)
@@ -52,12 +64,12 @@ namespace Magecrawl.GameUI
                     return 5;
             }
             else
-                return (int)Math.Floor(((double)character.CurrentHP / (double)character.MaxHP) * 20.0);
+                return StandardBarLength(character.CurrentHP, character.MaxHP);
         }
 
         private int ManaBarLength(IPlayer character)
         {
-            return (int)Math.Floor(((double)character.CurrentMP / (double)character.MaxMP) * 20.0);
+            return StandardBarLength(character.CurrentMP, character.MaxMP);
         }
 
         private TCODColor EnemyHealthBarColor(ICharacter character)
@@ -73,17 +85,39 @@ namespace Magecrawl.GameUI
                 return TCODColor.darkRed.Divide(2);
         }
 
-        private TCODColor PlayerHealthBarColor(ICharacter character)
+        private TCODColor PlayerHealthBarColorAtPosition(IPlayer player, int position)
         {
-            double percentage = ((double)character.CurrentHP / (double)character.MaxHP) * 100;
-            if (percentage > 95)
-                return TCODColor.red.Divide(2);
-            else if (percentage > 70)
-                return TCODColor.red.Divide(2.5);
-            else if (percentage > 35)
-                return TCODColor.red.Divide(3);
+            int HealthPortionOfPlayerHPBarLength = StandardBarLength(player.MaxHealth, player.MaxHP);
+            int StaminaPortionOfPlayerHPBarLength = BarLength - HealthPortionOfPlayerHPBarLength;
+
+            if (position < HealthPortionOfPlayerHPBarLength)
+            {
+                double percentage = ((double)player.CurrentHealth / (double)player.MaxHealth) * 100;
+                if (position >= CalculateBarLength(player.CurrentHealth, player.MaxHealth, HealthPortionOfPlayerHPBarLength))
+                    return TCODColor.black;
+                if (percentage > 95)
+                    return TCODColor.orange.Divide(2);
+                else if (percentage > 70)
+                    return TCODColor.orange.Divide(2.5);
+                else if (percentage > 35)
+                    return TCODColor.orange.Divide(3);
+                else
+                    return TCODColor.darkOrange.Divide(2);
+            }
             else
-                return TCODColor.darkRed.Divide(2);
+            {
+                double percentage = ((double)player.CurrentStamina / (double)player.MaxStamina) * 100;
+                if (position - HealthPortionOfPlayerHPBarLength >= CalculateBarLength(player.CurrentStamina, player.MaxStamina, StaminaPortionOfPlayerHPBarLength))
+                    return TCODColor.black;
+                if (percentage > 95)
+                    return TCODColor.red.Divide(2);
+                else if (percentage > 70)
+                    return TCODColor.red.Divide(2.5);
+                else if (percentage > 35)
+                    return TCODColor.red.Divide(3);
+                else
+                    return TCODColor.darkRed.Divide(2);
+            }
         }
 
         private TCODColor ManaBarColor(IPlayer character)
@@ -102,12 +136,15 @@ namespace Magecrawl.GameUI
         public override void DrawNewFrame(TCODConsole screen)
         {
             screen.printFrame(StartingX, 0, InfoWidth, InfoHeight, true);
-            screen.printEx(ScreenCenter, 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_player.Name);
+            screen.printEx(SectionCenter, 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_player.Name);
 
-            string hpString = string.Format("HP: {0}/{1}", m_player.CurrentHP, m_player.MaxHP);
-            screen.printEx(StartingX + 12, 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, hpString);
-            for (int j = 0; j < HealthBarLength(m_player, false); ++j)
-                screen.setCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColor(m_player));
+            // The 7 and 18 here are psydo-magical, since they place the text overlap just so it fits and doesn't go over for sane values
+            string healthString = string.Format("Hlth {0}/{1}", m_player.CurrentHealth, m_player.MaxHealth);
+            string staminaString = string.Format("Sta {0}/{1}", m_player.CurrentStamina, m_player.MaxStamina);
+            screen.printEx(StartingX + 7, 2, TCODBackgroundFlag.None, TCODAlignment.CenterAlignment, healthString);
+            screen.printEx(StartingX + 18, 2, TCODBackgroundFlag.None, TCODAlignment.CenterAlignment, staminaString);
+            for (int j = 0; j < BarLength; ++j)
+                screen.setCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColorAtPosition(m_player, j));
 
             string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
             screen.printEx(StartingX + 12, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, magicString);

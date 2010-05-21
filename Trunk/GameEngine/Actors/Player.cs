@@ -31,8 +31,12 @@ namespace Magecrawl.GameEngine.Actors
         {
             m_itemList = null;
             m_skills = null;
-            CurrentMP = 0;
-            MaxMP = 0;
+            m_currentStamina = 0;
+            m_baseMaxStamina = 0;
+            m_currentHealth = 0;
+            m_baseMaxHealth = 0;
+            m_baseCurrentMP = 0;
+            m_baseMaxStamina = 0;
             LastTurnSeenAMonster = 0;
             SkillPoints = 0;
         }
@@ -41,8 +45,12 @@ namespace Magecrawl.GameEngine.Actors
         {
             m_itemList = new List<Item>();
             m_skills = new List<Skill>();
-            CurrentMP = 10;
-            MaxMP = 10;
+            m_currentStamina = 7;
+            m_baseMaxStamina = 7;
+            m_currentHealth = 5;
+            m_baseMaxHealth = 5;
+            m_baseCurrentMP = 10;
+            m_baseMaxMP = 10;
             SkillPoints = 0;
             LastTurnSeenAMonster = 0;
 
@@ -59,38 +67,61 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         #region HP/MP
-        private int m_baseCurrentHP;
+        
+        private int m_currentStamina;
+        public int CurrentStamina
+        {
+            get
+            {
+                return m_currentStamina;
+            }
+        }
+        
+        private int m_currentHealth;
+        public int CurrentHealth
+        {
+            get
+            {
+                return m_currentHealth;
+            }
+        }
+
         public override int CurrentHP 
         {
             get
             {
-                return m_baseCurrentHP;
-            }
-            internal set
-            {
-                m_baseCurrentHP = value;
+                return CurrentHealth + CurrentStamina;
             }
         }
-
-        private int m_baseMaxHP;
-        public override int MaxHP
+        
+        private int m_baseMaxStamina;
+        public int MaxStamina
         {
             get
             {
-                int baseMax = m_baseMaxHP;
-
                 int percentageBonus = 0;
                 foreach (Skill s in Skills)
                 {
                     percentageBonus += s.HPBonus;
                 }
-                baseMax = (int)(baseMax * (1.0 + ((float)percentageBonus / 100.0f)));
-
-                return baseMax;
+                return (int)(m_baseMaxStamina * (1.0 + ((float)percentageBonus / 100.0f)));
             }
-            internal set
+        }
+
+        private int m_baseMaxHealth;
+        public int MaxHealth
+        {
+            get
             {
-                m_baseMaxHP = value;
+                return m_baseMaxHealth;
+            }
+        }
+
+        public override int MaxHP
+        {
+            get
+            {
+                return MaxHealth + MaxStamina;
             }
         }
 
@@ -100,10 +131,6 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return m_baseCurrentMP;
-            }
-            internal set
-            {
-                m_baseCurrentMP = value;
             }
         }
 
@@ -123,11 +150,67 @@ namespace Magecrawl.GameEngine.Actors
 
                 return baseMax;
             }
-            internal set
+        }
+
+        // Returns amount actually healed by
+        public override int Heal(int toHeal, bool magical)
+        {
+            if (toHeal < 0)
+                throw new InvalidOperationException("Heal with < 0.");
+
+            int amountOfDamageToHeal = toHeal;
+            int amountInTotalHealed = 0;
+            if (magical)
             {
-                m_baseMaxMP = value;
+                int amountOfHealthMissing = MaxHealth - CurrentHealth;
+                if (amountOfHealthMissing > 0)
+                {
+                    int amountOfHealthToHeal = Math.Min(amountOfDamageToHeal, amountOfHealthMissing);
+                    m_currentHealth += amountOfHealthToHeal;
+                    amountOfDamageToHeal -= amountOfHealthToHeal;
+                    amountInTotalHealed = amountOfHealthToHeal;
+                }
+            }
+            if (amountOfDamageToHeal > 0)
+            {
+                int amountOfStaminaMissing = MaxStamina - CurrentStamina;
+                if (amountOfStaminaMissing > 0)
+                {
+                    int amountOfStaminaToHeal = Math.Min(amountOfDamageToHeal, amountOfStaminaMissing);
+                    m_currentStamina += amountOfStaminaToHeal;
+                    amountInTotalHealed += amountOfStaminaToHeal;
+                }
+            }
+            return amountInTotalHealed;
+
+        }
+
+        public override void Damage(int dmg)
+        {
+            int amountOfDamageLeftToDo = dmg;
+            int amountOfDamageToStamina = Math.Min(m_currentStamina, amountOfDamageLeftToDo);
+            m_currentStamina -= amountOfDamageToStamina;
+            amountOfDamageLeftToDo -= amountOfDamageToStamina;
+
+            if (amountOfDamageLeftToDo > 0)
+            {
+                int amountOfDamageToHealth = Math.Min(m_currentHealth, amountOfDamageLeftToDo);
+                m_currentHealth -= amountOfDamageToHealth;
             }
         }
+
+        public void GainMP(int amount)
+        {
+            m_baseCurrentMP += amount;
+            if (m_baseCurrentMP > MaxMP)
+                m_baseCurrentMP = MaxMP;
+        }
+
+        public void SpendMP(int amount)
+        {
+            m_baseCurrentMP -= amount;
+        }
+
         #endregion
 
         public IEnumerable<ISpell> Spells
@@ -158,14 +241,6 @@ namespace Magecrawl.GameEngine.Actors
                     strength++;
             }
             return strength;
-        }
-
-        // Returns amount actually healed by
-        public int HealMP(int toHeal)
-        {
-            int previousMP = CurrentMP;
-            CurrentMP = Math.Min(CurrentMP + toHeal, MaxMP);
-            return CurrentMP - previousMP;
         }
 
         public IEnumerable<IItem> Items
@@ -290,8 +365,8 @@ namespace Magecrawl.GameEngine.Actors
             reader.ReadStartElement();
             base.ReadXml(reader);
 
-            m_baseCurrentHP = reader.ReadElementContentAsInt();
-            m_baseMaxHP = reader.ReadElementContentAsInt();
+            m_currentStamina = reader.ReadElementContentAsInt();
+            m_baseMaxStamina = reader.ReadElementContentAsInt();
 
             m_baseCurrentMP = reader.ReadElementContentAsInt();
             m_baseMaxMP = reader.ReadElementContentAsInt();
@@ -330,8 +405,8 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
 
-            writer.WriteElementString("BaseCurrentHP", m_baseCurrentHP.ToString());
-            writer.WriteElementString("BaseMaxHP", m_baseMaxHP.ToString());
+            writer.WriteElementString("BaseCurrentStamina", m_currentStamina.ToString());
+            writer.WriteElementString("BaseMaxHP", m_baseMaxStamina.ToString());
 
             writer.WriteElementString("BaseCurrentMagic", m_baseCurrentMP.ToString());
             writer.WriteElementString("BaseMaxMagic", m_baseMaxMP.ToString());

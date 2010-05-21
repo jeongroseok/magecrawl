@@ -28,7 +28,7 @@ namespace Magecrawl.GameEngine.Magic
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
                 if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), target, effectString))
                 {
-                    caster.CurrentMP -= spell.Cost;
+                    caster.SpendMP(spell.Cost);
                     return true;
                 }
             }
@@ -79,7 +79,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    int healAmount = invoker.Heal((new DiceRoll(strength, 6, 2)).Roll());
+                    int healAmount = invoker.Heal((new DiceRoll(strength, 6, 2)).Roll(), true);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
                 }
@@ -88,7 +88,7 @@ namespace Magecrawl.GameEngine.Magic
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     Player player = invoker as Player;
                     if (player != null)
-                        player.HealMP((new DiceRoll(strength, 4, 3)).Roll());
+                        player.GainMP((new DiceRoll(strength, 4, 3)).Roll());
                     return true;
                 }
                 case "RangedSingleTarget":
@@ -149,7 +149,6 @@ namespace Magecrawl.GameEngine.Magic
                     return true;
                 }
                 case "Haste":
-                case "False Life":
                 case "Light":
                 case "Earthen Armor":
                 {

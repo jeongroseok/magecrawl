@@ -18,13 +18,12 @@ namespace Magecrawl.GameEngine.Actors
         private DiceRoll m_damage;
         protected Point m_playerLastKnownPosition;
 
-        public override int CurrentHP { get; internal set; }
-        public override int MaxHP { get; internal set; }
-
         public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double defense, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
+            m_currentHP = maxHP;
+            m_maxHP = maxHP;
             m_damage = damage;
             m_playerLastKnownPosition = Point.Invalid;
             m_defense = defense;
@@ -47,6 +46,38 @@ namespace Magecrawl.GameEngine.Actors
             newMonster.m_affects = new List<AffectBase>();
 
             return newMonster;
+        }
+        
+        private int m_currentHP;
+        public override int CurrentHP 
+        {
+            get
+            {
+                return m_currentHP;
+            }
+        }
+
+        private int m_maxHP;
+        public override int MaxHP 
+        {
+            get
+            {
+                return m_maxHP;
+            }
+        }
+
+
+        // Returns amount actually healed by
+        public override int Heal(int toHeal, bool magical)
+        {
+            int previousHealth = CurrentHP;
+            m_currentHP = Math.Min(CurrentHP + toHeal, MaxHP);
+            return CurrentHP - previousHealth;
+        }
+
+        public override void Damage(int dmg)
+        {
+            m_currentHP -= dmg;
         }
 
         public abstract void Action(CoreGameEngine engine);
@@ -237,8 +268,8 @@ namespace Magecrawl.GameEngine.Actors
             CTAttackCost = reader.ReadElementContentAsDouble();
             m_damage.ReadXml(reader);
 
-            CurrentHP = reader.ReadElementContentAsInt();
-            MaxHP = reader.ReadElementContentAsInt();
+            m_currentHP = reader.ReadElementContentAsInt();
+            m_maxHP = reader.ReadElementContentAsInt();
 
             m_playerLastKnownPosition.ReadXml(reader);
         }

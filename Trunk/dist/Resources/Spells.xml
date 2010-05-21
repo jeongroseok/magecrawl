@@ -13,7 +13,6 @@
 <Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="3" TargettingType="RangedExplodingPoint" Range="5"/>
   
 <Spell Name="Slow" School="Arcane" EffectType="Slow" Cost="4"/>
-<Spell Name="False Life" School="Darkness" EffectType="False Life" Cost="1"/>
 <Spell Name="Poison Bolt" School="Darkness" EffectType="Poison Bolt" Cost="2" TargettingType="RangedSingle" Range="5"/>
 <Spell Name="Poison Touch" School="Darkness" EffectType="Poison Bolt" Cost="1" TargettingType="RangedSingle" Range="1"/>
 <Spell Name="Blink" School="Arcane" EffectType="Blink" Cost="2"/>
