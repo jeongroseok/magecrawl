@@ -106,7 +106,7 @@ namespace Magecrawl.Keyboard.Debug
                 }
                 case "Add Skill Points":
                 {
-                    m_engine.DebugRequest("AddSkillPoints", 5);
+                    m_engine.DebugRequest("AddSkillPoints", 50);
                     Escape();
                     return;
                 }
