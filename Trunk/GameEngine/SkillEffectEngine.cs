@@ -48,7 +48,7 @@ namespace Magecrawl.GameEngine
             string targetString = targetCharacter == invoker ? "themself" : "the " + targetCharacter.Name;
             CoreGameEngine.Instance.SendTextOutput(String.Format("The {0} applies some fast combat medicine on {1}.", invoker.Name, targetString));
             int amountToHeal = (new DiceRoll(1, 4, 1, 1)).Roll();
-            targetCharacter.Heal(amountToHeal);
+            targetCharacter.Heal(amountToHeal, false);
             CoreGameEngine.Instance.Wait(invoker);
             return true;
         }

@@ -61,7 +61,6 @@
     <Compile Include="Affects\EarthenArmor.cs" />
     <Compile Include="Affects\Slow.cs" />
     <Compile Include="Affects\Light.cs" />
-    <Compile Include="Affects\FalseLife.cs" />
     <Compile Include="Affects\Haste.cs" />
     <Compile Include="Affects\Poison.cs" />
     <Compile Include="Armor\ArmorBase.cs" />

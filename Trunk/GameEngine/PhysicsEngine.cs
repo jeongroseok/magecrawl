@@ -507,8 +507,8 @@ namespace Magecrawl.GameEngine
                 if (m_player.CurrentMP < m_player.MaxMP && mpToHeal <= 0)
                     mpToHeal = 1;
 
-                m_player.Heal(hpToHeal);
-                m_player.HealMP(mpToHeal);
+                m_player.Heal(hpToHeal, false);
+                m_player.GainMP(mpToHeal);
             }
             
             // Until the player gets a turn
