@@ -81,7 +81,6 @@ namespace Magecrawl.GameEngine.Actors
                     int maxHP = Int32.Parse(reader.GetAttribute("HP"));
                     int vision = Int32.Parse(reader.GetAttribute("Vision"));
 
-                    double defense = double.Parse(reader.GetAttribute("Defense"));
                     double evade = double.Parse(reader.GetAttribute("Evade"));
                     
                     double ctIncrease = Double.Parse(reader.GetAttribute("ctIncrease"));
@@ -98,7 +97,7 @@ namespace Magecrawl.GameEngine.Actors
                     if (actCostString != null)
                         ctActCost = Double.Parse(actCostString);
 
-                    Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, damage, defense, evade, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);
+                    Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, vision, damage, evade, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);
                     if (primaryWeaponString != null)
                         newMonster.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem(primaryWeaponString));
                     if (rangedWeaponString != null)
@@ -111,13 +110,13 @@ namespace Magecrawl.GameEngine.Actors
             Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
-        private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, int vision, DiceRoll damage, double defense, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
         {
             Assembly weaponsAssembly = this.GetType().Assembly;
             Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Actors." + typeName);
             if (type != null)
             {
-                return Activator.CreateInstance(type, name, p, maxHP, vision, damage, defense, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost) as Monster;
+                return Activator.CreateInstance(type, name, p, maxHP, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost) as Monster;
             }
             else
             {

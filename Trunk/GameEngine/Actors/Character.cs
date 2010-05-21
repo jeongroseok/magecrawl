@@ -193,14 +193,6 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public virtual double Defense
-        {
-            get
-            {
-                return CombatDefenseCalculator.CalculateDefense(this);
-            }
-        }
-
         // Returns amount actually healed by
         public abstract int Heal(int toHeal, bool magical);
 

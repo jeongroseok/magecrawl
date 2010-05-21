@@ -19,7 +19,7 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        double Defense
+        int StaminaBonus
         {
             get;
         }

@@ -8,8 +8,8 @@ namespace Magecrawl.GameEngine.Armor
 {
     internal class Headpiece : ArmorBase
     {
-        public Headpiece(string name, ArmorWeight weight, double defense, double evade, string description, string flavorText)
-            : base(name, weight, defense, evade, description, flavorText)
+        public Headpiece(string name, ArmorWeight weight, int staminaBonus, double evade, string description, string flavorText)
+            : base(name, weight, staminaBonus, evade, description, flavorText)
         {
         }
 
