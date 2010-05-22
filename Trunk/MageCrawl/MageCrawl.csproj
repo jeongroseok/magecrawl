@@ -164,9 +164,6 @@
     <Content Include="..\dist\Resources\ArrowKeysMapping.xml">
       <Link>Resources\ArrowKeysMapping.xml</Link>
     </Content>
-    <Content Include="..\dist\Resources\CombatConstants.xml">
-      <Link>Resources\CombatConstants.xml</Link>
-    </Content>
     <Content Include="..\dist\Resources\Items.xml">
       <Link>Resources\Items.xml</Link>
       <SubType>Designer</SubType>

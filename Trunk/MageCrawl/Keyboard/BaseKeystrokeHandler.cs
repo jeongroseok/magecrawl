@@ -147,7 +147,7 @@ namespace Magecrawl.Keyboard
                 NamedKey namedKey = new NamedKey(keyString);
                 if (m_keyMappings.ContainsKey(namedKey))
                 {
-                    AddErrorIfNotReported("Error in keymapping - Trying to assign multiple keys to " + namedKey.ToString() + ".\n");
+                    AddErrorIfNotReported("Error in keymapping - Trying to assign multiple keys to '" + namedKey.ToString() + "'.\n");
                     m_keyMappings.Remove(namedKey);
                 }
                 m_keyMappings.Add(namedKey, action);

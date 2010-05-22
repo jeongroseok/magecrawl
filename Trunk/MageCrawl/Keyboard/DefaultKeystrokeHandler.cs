@@ -152,6 +152,11 @@ namespace Magecrawl.Keyboard
             m_playerActions.Wait();
         }
 
+        private void RestTillHealed()
+        {
+            m_playerActions.RestUntilHealed();
+        }
+
         private void Attack()
         {
             NamedKey attackKey = GetNamedKeyForMethodInfo((MethodInfo)MethodInfo.GetCurrentMethod());

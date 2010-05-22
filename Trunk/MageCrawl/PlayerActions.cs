@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using libtcod;
 using Magecrawl.Exceptions;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameUI.Dialogs;
@@ -67,6 +68,23 @@ namespace Magecrawl
         {
             m_engine.PlayerWait();
             m_gameInstance.UpdatePainters();
+        }
+
+        public void RestUntilHealed()
+        {
+            while (m_engine.Player.CurrentHP < m_engine.Player.MaxHP || m_engine.Player.CurrentMP < m_engine.Player.MaxMP)
+            {
+                if (m_engine.DangerInLOS())
+                    break;
+                
+                // If user hits a key while resting, stop
+                if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)
+                    break;
+
+                m_engine.PlayerWait();
+                m_gameInstance.UpdatePainters();
+                m_gameInstance.DrawFrame();
+            }
         }
 
         public void Operate(NamedKey operateKey)
