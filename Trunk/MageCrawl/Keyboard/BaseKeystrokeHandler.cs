@@ -27,6 +27,7 @@ namespace Magecrawl.Keyboard
             m_keyMappings = new Dictionary<NamedKey, MethodInfo>();
             m_actionKeyMapping = new Dictionary<string, NamedKey>();
 
+            // So we don't hit disk n times, where n is the number of Keyboard handlers, cache the file to read over and over.
             if (m_keyMappingsStream == null)
             {
                 m_keyMappingsStream = new StreamReader("KeyMappings.xml");

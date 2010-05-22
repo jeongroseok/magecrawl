@@ -124,9 +124,6 @@ namespace Magecrawl.GameEngine
             TurnCount = 0;
 
             CommonStartupAfterMapPlayer();
-
-            SendTextOutput("Welcome To Magecrawl.");
-            SendTextOutput("If this is your first time, press '?' for help.");
         }
 
         public void LoadSaveFile(string saveGameName)
@@ -135,7 +132,6 @@ namespace Magecrawl.GameEngine
             m_saveLoad.LoadGame(Path.Combine(saveGameDirectory, saveGameName));
 
             CommonStartupAfterMapPlayer();
-            SendTextOutput("Welcome Back To Magecrawl");
         }
 
         private void CommonStartupAfterMapPlayer()
