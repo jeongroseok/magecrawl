@@ -41,29 +41,29 @@ namespace Magecrawl.GameEngine.Actors
             SkillPoints = 0;
         }
 
-        public Player(string name, Point p) : base(name, p, 12, 6)
+        public Player(string name, Point p) : base(name, p, 6)
         {
             m_itemList = new List<Item>();
             m_skills = new List<Skill>();
-            m_currentStamina = 7;
-            m_baseMaxStamina = 7;
-            m_currentHealth = 5;
-            m_baseMaxHealth = 5;
-            m_baseCurrentMP = 10;
+
+            m_baseMaxStamina = 8;
+            m_currentStamina = m_baseMaxStamina;
+
+            m_baseMaxHealth = 12;
+            m_currentHealth = m_baseMaxHealth;
+
             m_baseMaxMP = 10;
-            SkillPoints = 0;
+            m_baseCurrentMP = m_baseMaxMP;
+            
+            SkillPoints = 5;
+
             LastTurnSeenAMonster = 0;
 
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));            
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Magic Missile"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Wand Of Sparks"));            
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));                        
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Cap"));
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Sandles"));
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wool Gloves"));
 
             // Since we're equiping equipment here, reset m_currentStamina to new total
             m_currentStamina = MaxStamina;
@@ -102,10 +102,10 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                int percentageOfBaseBonus = 0;
+                int staminaSkillBonus = 0;
                 foreach (Skill s in Skills)
-                    percentageOfBaseBonus += s.HPBonus;
-                int baseMaxStamWithSkills = (int)(m_baseMaxStamina * (1.0 + ((float)percentageOfBaseBonus / 100.0f)));
+                    staminaSkillBonus += s.HPBonus;
+                int baseMaxStamWithSkills = m_baseMaxStamina + staminaSkillBonus;
                 return baseMaxStamWithSkills + CombatDefenseCalculator.CalculateStaminaBonus(this);
             }
         }
@@ -367,6 +367,14 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 return 1.0;
+            }
+        }
+
+        public override double Evade
+        {
+            get
+            {
+                return CombatDefenseCalculator.CalculateEvade(this);
             }
         }
 

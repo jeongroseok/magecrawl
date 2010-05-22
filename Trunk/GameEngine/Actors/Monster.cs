@@ -19,7 +19,7 @@ namespace Magecrawl.GameEngine.Actors
         protected Point m_playerLastKnownPosition;
 
         public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
-            : base(name, p, maxHP, maxHP, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
+            : base(name, p, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
             m_currentHP = maxHP;
@@ -112,6 +112,13 @@ namespace Magecrawl.GameEngine.Actors
         public void NoticeRangedAttack(Point attackerPosition)
         {
             m_playerLastKnownPosition = attackerPosition;
+        }
+
+        // Hack - Bug 226
+        public override void AddAffect(AffectBase affectToAdd)
+        {
+            m_playerLastKnownPosition = CoreGameEngine.Instance.Player.Position;
+            base.AddAffect(affectToAdd);
         }
 
         #region ActionParts

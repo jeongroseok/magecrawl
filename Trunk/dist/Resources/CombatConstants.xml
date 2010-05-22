@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<CombatConstants>
-  <NoArmorEvadeCap>100</NoArmorEvadeCap>
-  <LightArmorEvadeCap>100</LightArmorEvadeCap>
-  <StandardArmorEvadeCap>35</StandardArmorEvadeCap>
-  <HeavyArmorEvadeCap>10</HeavyArmorEvadeCap>
-  <CharacterEvadeBase>15</CharacterEvadeBase>
-</CombatConstants>
