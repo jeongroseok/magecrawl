@@ -232,8 +232,9 @@ namespace Magecrawl.GameEngine.Magic
         private static int CalculateDamgeFromSpell(int strength)
         {
             int damage = 0;
-            for (int i = 0; i < strength; ++i)
-                damage += (new DiceRoll(2, 3, 0, 1)).Roll();
+            damage += (new DiceRoll(3, 3, 0, 1)).Roll();
+            for (int i = 1; i < strength; ++i)
+                damage += (new DiceRoll(1, 3, 0, 1)).Roll();
             return damage;
         }
 

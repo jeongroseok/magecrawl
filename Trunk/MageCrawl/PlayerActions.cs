@@ -72,7 +72,7 @@ namespace Magecrawl
 
         public void RestUntilHealed()
         {
-            while (m_engine.Player.CurrentHP < m_engine.Player.MaxHP || m_engine.Player.CurrentMP < m_engine.Player.MaxMP)
+            while (m_engine.Player.CurrentStamina < m_engine.Player.MaxStamina|| m_engine.Player.CurrentMP < m_engine.Player.MaxMP)
             {
                 if (m_engine.DangerInLOS())
                     break;
