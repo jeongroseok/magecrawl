@@ -23,6 +23,12 @@ namespace Magecrawl.Keyboard
             return m_keyMappings.Keys.Where(k => m_keyMappings[k] == info).Single();
         }
 
+        // This is used by GameInstance to put up a tutorial-like message up with whatever key you mapped.
+        internal char GetCommandKey(string command)
+        {
+            return GetNamedKeyForMethodInfo(typeof(DefaultKeystrokeHandler).GetMethod(command, BindingFlags.Instance | BindingFlags.NonPublic)).Character;
+        }
+
         #region Mappable key commands
 
         /*
@@ -222,7 +228,6 @@ namespace Magecrawl.Keyboard
             m_playerActions.MoveToLocation(movementKey);
         }
 
-        // TODO - Update HelpPainter.cs
         private void ShowSkillTree()
         {
             m_gameInstance.SetHandlerName("SkillTree");

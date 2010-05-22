@@ -60,6 +60,18 @@ namespace Magecrawl
                 m_painters.Dispose();
             m_painters = null;
         }
+
+        private void ShowWelcomeMessage(bool firstTime)
+        {
+            if (firstTime)
+                TextBox.AddText(string.Format("If this is your first time, press '{0}' for help.", m_keystroke.DefaultHandler.GetCommandKey("Help")));
+            if (m_engine.Player.SkillPoints > 0)
+                TextBox.AddText(string.Format("You have skill points to spent. Press '{0}' to open the skill tree.", m_keystroke.DefaultHandler.GetCommandKey("ShowSkillTree")));
+            if (firstTime)
+                TextBox.AddText("Welcome To Magecrawl.");
+            else
+                TextBox.AddText("Welcome Back To Magecrawl.");
+        }
         
         internal void Go(string playerName, bool loadFromFile)
         {
@@ -76,6 +88,8 @@ namespace Magecrawl
 
                 SetupKeyboardHandlers();  // Requires game engine.
                 SetHandlerName("Default");
+
+                ShowWelcomeMessage(false);
             }
             else
             {
@@ -89,6 +103,8 @@ namespace Magecrawl
                     SetHandlerName("Welcome");
                 else
                     SetHandlerName("Default");
+
+                ShowWelcomeMessage(true);
             }
 
             // First update before event loop so we have a map to display

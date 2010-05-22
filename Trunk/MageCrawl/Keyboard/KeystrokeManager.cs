@@ -1,13 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Xml;
+using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
-using Magecrawl.Keyboard;
-using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
@@ -26,6 +20,14 @@ namespace Magecrawl.Keyboard
             get
             {
                 return m_handlers;
+            }
+        }
+
+        internal DefaultKeystrokeHandler DefaultHandler
+        {
+            get
+            {
+                return m_handlers.Values.OfType<DefaultKeystrokeHandler>().First();
             }
         }
 
