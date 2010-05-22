@@ -28,7 +28,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             pointsWithClearTerrain = pointsWithClearTerrain.Randomize();
 
             // Right now since we only have a single monster type, add 1 monster for every 3 levels of priority
-            int numberOfMonstersToAdd = priority / 3;
+            int numberOfMonstersToAdd = priority / 2;
             for (int i = 0; i < numberOfMonstersToAdd; ++i)
             {
                 if (pointsWithClearTerrain.Count > 0)
