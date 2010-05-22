@@ -89,7 +89,7 @@ namespace Magecrawl.Keyboard
 
             if (Character != (char)0)
             {
-                return Character == other.Character && ControlPressed == other.ControlPressed  && AltPressed == other.AltPressed;
+                return Character == other.Character && ControlPressed == other.ControlPressed && AltPressed == other.AltPressed;                
             }
             else
             {
