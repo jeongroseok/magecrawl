@@ -83,15 +83,15 @@ namespace Magecrawl.GameEngine.Actors
         
         protected List<AffectBase> m_affects;
 
-        internal Character() : this("", Point.Invalid, 0, 0, 0, 0, 0, 0)
+        internal Character() : this("", Point.Invalid, 0, 0, 0, 0)
         {
         }
 
-        internal Character(string name, Point p, int maxHP, int visionRange) : this(name, p, maxHP, maxHP, visionRange, 1.0, 1.0, 1.0)
+        internal Character(string name, Point p, int visionRange) : this(name, p, visionRange, 1.0, 1.0, 1.0)
         {
         }
 
-        internal Character(string name, Point p, int hp, int maxHP, int visionRange, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
+        internal Character(string name, Point p, int visionRange, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
         {
             Position = p;
             CT = 0;
@@ -185,13 +185,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public virtual double Evade
-        {
-            get
-            {
-                return CombatDefenseCalculator.CalculateEvade(this);
-            }
-        }
+        public abstract double Evade { get; }
 
         // Returns amount actually healed by
         public abstract int Heal(int toHeal, bool magical);
@@ -233,7 +227,7 @@ namespace Magecrawl.GameEngine.Actors
             m_affects.RemoveAll(a => a.CTLeft <= 0);
         }
 
-        public void AddAffect(AffectBase affectToAdd)
+        public virtual void AddAffect(AffectBase affectToAdd)
         {
             m_affects.Add(affectToAdd);
             affectToAdd.Apply(this);

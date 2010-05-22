@@ -63,6 +63,9 @@ namespace Magecrawl.GameEngine.Magic
             const double StandardWeightPenality = .125;
             const double HeavyWeightPenality = .25;
 
+            if (armor == null)
+                return 0;
+
             if (armor.Weight == ArmorWeight.Standard)
                 return StandardWeightPenality;
             if (armor.Weight == ArmorWeight.Heavy)

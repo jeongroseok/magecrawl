@@ -16,9 +16,9 @@ namespace Magecrawl.GameEngine.Affects
         }
 
         public Slow(int strength)
-            : base(new DiceRoll(1, 4, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+            : base(new DiceRoll(4, 2, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
-            m_modifier = 1 + (.2 * strength);
+            m_modifier = 1.4;
         }
 
         public override void Apply(Character appliedTo)

@@ -81,7 +81,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    int healAmount = invoker.Heal((new DiceRoll(strength, 6, 2)).Roll(), true);
+                    int healAmount = invoker.Heal((new DiceRoll(2 * strength, 6, 1)).Roll(), true);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
                 }
@@ -233,7 +233,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             int damage = 0;
             for (int i = 0; i < strength; ++i)
-                damage += (new DiceRoll(1, 4, 0, 1)).Roll();
+                damage += (new DiceRoll(2, 3, 0, 1)).Roll();
             return damage;
         }
 

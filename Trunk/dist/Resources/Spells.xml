@@ -1,22 +1,26 @@
 <?xml version="1.0" ?>
 <Spells>
-<Spell Name="Mend" School="Light" EffectType="HealCaster" Cost="1"/>
-<Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="5"/>
-<Spell Name="Fire Bolt" School="Fire" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="3"/>
-<Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="5"/>
-<Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" TargettingType="RangedBlast" Range="5" DrawingAttributes="DrawLastFrame:Tail=3"/>
-<Spell Name="Earthen Armor" School="Earth" EffectType="Earthen Armor" Cost="1"/>  
-<Spell Name="Haste" School="Arcane" EffectType="Haste" Cost="3"/>
-<Spell Name="Light" School="Light" EffectType="Light" Cost="1"/>
-<Spell Name="Cone Of Sparks" School="Fire" EffectType="ConeAttack" Cost="3" TargettingType="Cone" Range="3"/>
-<Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" TargettingType="Cone" Range="3"/>
-<Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="3" TargettingType="RangedExplodingPoint" Range="5"/>
-  
-<Spell Name="Slow" School="Arcane" EffectType="Slow" Cost="4"/>
+<Spell Name="Light" School="Light" EffectType="Light" Cost="2"/>
+<Spell Name="Mend" School="Light" EffectType="HealCaster" Cost="5"/>
+
+<Spell Name="Fire Bolt" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="3"/>
+<Spell Name="Cone Of Sparks" School="Fire" EffectType="ConeAttack" Cost="5" TargettingType="Cone" Range="3"/>
+<Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="7" TargettingType="RangedExplodingPoint" Range="5"/>
+
+<Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="5"/>
+<Spell Name="Slow" School="Arcane" EffectType="Slow" Cost="2" TargettingType="RangedSingle" Range="4"/>
+<Spell Name="Haste" School="Arcane" EffectType="Haste" Cost="4"/>
+<Spell Name="Blink" School="Arcane" EffectType="Blink" Cost="5"/>
+<Spell Name="Teleport" School="Arcane" EffectType="Teleport" Cost="6"/>
+
+<!-- Unused for now -->
 <Spell Name="Poison Bolt" School="Darkness" EffectType="Poison Bolt" Cost="2" TargettingType="RangedSingle" Range="5"/>
 <Spell Name="Poison Touch" School="Darkness" EffectType="Poison Bolt" Cost="1" TargettingType="RangedSingle" Range="1"/>
-<Spell Name="Blink" School="Arcane" EffectType="Blink" Cost="2"/>
-<Spell Name="Teleport" School="Arcane" EffectType="Teleport" Cost="5"/>
+<Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="5"/>
+<Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" TargettingType="RangedBlast" Range="5" DrawingAttributes="DrawLastFrame:Tail=3"/>
+<Spell Name="Earthen Armor" School="Earth" EffectType="Earthen Armor" Cost="1"/>
+<Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" TargettingType="Cone" Range="3"/>
 
+<!-- Item effects -->
 <Spell Name="HealMP" School="Arcane" EffectType="HealMPCaster" Cost="0"/>
 </Spells>
