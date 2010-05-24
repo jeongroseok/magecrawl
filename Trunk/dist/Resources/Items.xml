@@ -6,7 +6,7 @@
 <Weapon Name="Short Bow" Damage="3,3,-1,1" CTCost="1.25" BaseType="SimpleBow"
         Description="A simple, albeit primitive short bow. Made of a flexable wooden shaft and a sinew bowstring."
         FlavorText="Bows like this were taking down small game centuries ago. Simple to make, maintain, and carry."/>
-<Weapon Name="Sling" Damage="2,3,0,1" CTCost="1.25" BaseType="SimpleSling"
+<Weapon Name="Sling" Damage="2,3,-1,1" CTCost="1.25" BaseType="SimpleSling"
         Description="A simple, albeit primitive sling. Made of braided flax."
         FlavorText="Slings have been mentioned even in the most ancient texts as weapons of sheperds and soldiers."/>
 <Weapon Name="Wooden Sword" Damage="3,3,1,1" CTCost="1" BaseType="Sword"
@@ -35,13 +35,16 @@
         ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."
         FlavorText="This wand is molded from a deep red hardwood, with intricate crossweaving patterns carved into it."/>
 
+<Wand   Name="Wand Of Fireball" SpellName="Fireball" Strength="3" StartCharges="1,2,1,1" MaxCharges="6"
+        ItemDescription="Zapping this wand will create a tiny bead of fire that will explode into a fireball when it impacts a surface.."
+        FlavorText="The wand spells faintly of bat guano."/>
 <Wand   Name="Wand Of Ice Bolt" SpellName="Ice Bolt" Strength="3" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping it creates a 2 foot long icicle and hurle it at the target."
         FlavorText="A frozen icicle shaped wand, never melting no matter the temperature."/>
-<Wand   Name="Wand Of Magic Missile" SpellName="Force Bolt" Strength="1" StartCharges="1,4,1,1" MaxCharges="6"
+<Wand   Name="Wand Of Magic Missile" SpellName="Force Bolt" Strength="2" StartCharges="1,4,1,1" MaxCharges="6"
         ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."
         FlavorText="A simple polished wooden dowel commonly found in schools of magic."/>
-<Wand   Name="Wand Of Sparks" SpellName="Cone Of Sparks" Strength="1" StartCharges="1,3,1,1" MaxCharges="4"
+<Wand   Name="Wand Of Sparks" SpellName="Cone Of Sparks" Strength="2" StartCharges="1,3,1,1" MaxCharges="4"
         ItemDescription="Zapping produces a shower of sparks striking a nearby targets."
         FlavorText="One of the first wands apprentice pyromancers learn to craft."/>
 
@@ -84,7 +87,11 @@
         ItemDescription="Intermeshed metal rings provide protection for the legs and feet."
         FlavorText="Mail production is labor intensive to produce and requires regular maintenance to prevent rusting."/>
 
+<!-- Internal Use Only-->
 <Armor  Name="Earthen Armor" BaseType="ChestArmor" ArmorWeight="Heavy" DoNotDrop="True" StaminaBonus="15" Evade="0"
         ItemDescription="Elemental rock and stone provide a heavy but strong protection from harm."
         FlavorText="Those who wear this armor take upon themselves attributes of earth elements: slow, incredable resistance to harm, and a chalky smell."/>
+<Weapon Name="Goblin Sling" Damage="1,3,1,1" CTCost="1.25" DoNotDrop="True" BaseType="SimpleSling"
+        Description="A simple, albeit primitive sling. Made of braided flax."
+        FlavorText="Crude sling used by various goblin tribes."/>
 </Items>
