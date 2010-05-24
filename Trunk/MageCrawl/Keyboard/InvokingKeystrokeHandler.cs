@@ -28,7 +28,7 @@ namespace Magecrawl.Keyboard
                     {
                         List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, targetInfo.Range);
                         m_engine.FilterNotTargetablePointsFromList(targetablePoints, true);
-                        m_engine.FilterNotVisibleBothWaysFromList(targetablePoints);
+                        m_engine.FilterNotVisibleBothWaysFromList(targetablePoints, true);
 
                         OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
                         {

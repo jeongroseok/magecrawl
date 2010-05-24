@@ -98,7 +98,7 @@ namespace Magecrawl.GameEngine.Interfaces
         List<Point> TargettedDrawablePoints(object targettingObject, Point target);
 
         bool IsRangedPathBetweenPoints(Point x, Point y);
-        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList);
+        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList);
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
