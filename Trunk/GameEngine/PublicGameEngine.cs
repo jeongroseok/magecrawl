@@ -279,9 +279,12 @@ namespace Magecrawl.GameEngine
             m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision, needsToBeVisible);
         }
 
-        public void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList)
+        public void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList)
         {
-            m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList);
+            if (savePlayerPositionFromList)
+                m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList, CoreGameEngine.Instance.Player.Position);
+            else
+                m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList, Point.Invalid);
         }
 
         public List<Point> TargettedDrawablePoints(object targettingObject, Point target)

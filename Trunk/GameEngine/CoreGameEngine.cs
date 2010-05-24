@@ -420,22 +420,33 @@ namespace Magecrawl.GameEngine
             return didSomething;
         }
 
-        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<EffectivePoint> pointList)
+        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<EffectivePoint> pointList, Point pointToSaveFromList)
         {
             if (pointList == null)
                 return;
+
+            bool pointToSaveInList = pointList.Exists(x => x.Position == pointToSaveFromList);
+            float effectiveStrengthAtPlayerPosition = pointToSaveInList ? pointList.First(x => x.Position == CoreGameEngine.Instance.Player.Position).EffectiveStrength : 0;
 
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(centerPoint, x.Position));
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(x.Position, centerPoint));
+
+            if (pointToSaveInList)
+                pointList.Add(new EffectivePoint(pointToSaveFromList, effectiveStrengthAtPlayerPosition));
         }
 
-        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<Point> pointList)
+        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<Point> pointList, Point pointToSaveFromList)
         {
             if (pointList == null)
                 return;
 
+            bool pointToSaveInList = pointList.Exists(x => x == pointToSaveFromList);
+
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(centerPoint, x));
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(x, centerPoint));
+
+            if (pointToSaveInList)
+                pointList.Add(pointToSaveFromList);
         }
     }
 }

@@ -54,17 +54,18 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case TargetingInfo.TargettingType.Cone:
                 {
-                    Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(CoreGameEngine.Instance.Player.Position, target);
-                    List<Point> returnList = PointListUtils.PointListFromCone(CoreGameEngine.Instance.Player.Position, direction, 3);
-                    m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, returnList);
+                    Point playerPosition = CoreGameEngine.Instance.Player.Position;
+                    Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(playerPosition, target);
+                    List<Point> returnList = PointListUtils.PointListFromCone(playerPosition, direction, 3);
+                    m_physicsEngine.FilterNotTargetablePointsFromList(returnList, playerPosition, CoreGameEngine.Instance.Player.Vision, true);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(playerPosition, returnList, playerPosition);
                     return returnList;
                 }
                 case TargetingInfo.TargettingType.RangedExplodingPoint:
                 {
                     List<Point> returnList = PointListUtils.PointListFromBurstPosition(target, 2);
                     m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, returnList);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(CoreGameEngine.Instance.Player.Position, returnList, CoreGameEngine.Instance.Player.Position);
                     return returnList;
                 }
                 case TargetingInfo.TargettingType.RangedSingle:
@@ -120,7 +121,7 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, target);
                     List<Point> pointsInConeAttack = PointListUtils.PointListFromCone(invoker.Position, direction, 3);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, pointsInConeAttack);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, pointsInConeAttack, invoker.Position);
                     if (pointsInConeAttack == null || pointsInConeAttack.Count == 0)
                         return false;   // Nothing to roast, not sure how we could get here however...
 
@@ -143,7 +144,7 @@ namespace Magecrawl.GameEngine.Magic
                     ShowExplodingRangedPointAttack(invoker, invokingMethod, target, BurstWidth);
 
                     List<Point> pointsToAffect = PointListUtils.PointListFromBurstPosition(target, BurstWidth);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, pointsToAffect);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, pointsToAffect, invoker.Position);
                     foreach (Point p in pointsToAffect)
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
@@ -207,7 +208,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 List<Point> explosionRing = PointListUtils.PointListFromBurstPosition(target, i);
                 CoreGameEngine.Instance.FilterNotTargetablePointsFromList(explosionRing, invoker.Position, invoker.Vision, true);
-                CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, explosionRing);
+                CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, explosionRing, invoker.Position);
                 pointsInExplosion.Add(explosionRing);
             }
 
