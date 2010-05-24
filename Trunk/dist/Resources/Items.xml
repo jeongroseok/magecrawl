@@ -1,18 +1,18 @@
 <?xml version="1.0" ?>
 <Items>
-<Weapon Name="Bronze Spear" Damage="3,3,0,1" CTCost="1.25" BaseType="Spear"
+<Weapon Name="Bronze Spear" Damage="3,3,1,1" CTCost="1.25" BaseType="Spear"
         Description="A simple spear, topped with a bronze tip." 
         FlavorText="The spear has been used as a thrusting weapon for ages, providing reach to strike at the enemy first."/>
 <Weapon Name="Short Bow" Damage="3,3,-1,1" CTCost="1.25" BaseType="SimpleBow"
         Description="A simple, albeit primitive short bow. Made of a flexable wooden shaft and a sinew bowstring."
         FlavorText="Bows like this were taking down small game centuries ago. Simple to make, maintain, and carry."/>
-<Weapon Name="Sling" Damage="2,3,-1,1" CTCost="1.25" BaseType="SimpleSling"
+<Weapon Name="Sling" Damage="2,3,0,1" CTCost="1.25" BaseType="SimpleSling"
         Description="A simple, albeit primitive sling. Made of braided flax."
         FlavorText="Slings have been mentioned even in the most ancient texts as weapons of sheperds and soldiers."/>
-<Weapon Name="Wooden Sword" Damage="3,3,1,1" CTCost="1" BaseType="Sword"
+<Weapon Name="Wooden Sword" Damage="4,3,0,1" CTCost="1" BaseType="Sword"
         Description="A simple wooden sword. Full of spliters."
         FlavorText="Swords like these are used by youth to build strong muscles."/>
-<Weapon Name="Wooden Cudgel" Damage="3,3,-1,1" CTCost="1" BaseType="Club"
+<Weapon Name="Wooden Cudgel" Damage="3,3,0,1" CTCost="1" BaseType="Club"
         Description="A simple wooden club. Design unchanged for centuries."
         FlavorText="When all else fails, beating ones enemies senseless with a wooden stick is a crude but effective tactic."/>
 <Weapon Name="Great Axe" Damage="4,3,2,1" CTCost="1.5" BaseType="Axe"
@@ -48,20 +48,20 @@
         ItemDescription="Zapping produces a shower of sparks striking a nearby targets."
         FlavorText="One of the first wands apprentice pyromancers learn to craft."/>
 
-<Armor  Name="Robe" BaseType="ChestArmor" ArmorWeight="Light" DoNotDrop="True" StaminaBonus="3" Evade="0"
+<Armor  Name="Robe" BaseType="ChestArmor" ArmorWeight="Light" DoNotDrop="True" StaminaBonus="5" Evade="0"
         ItemDescription="A simple robe favored by acolytes and mage apprentices."
         FlavorText="Water resistant and warm, but provides little combat protection."/>
-<Armor  Name="Wool Cap" BaseType="Headpiece" ArmorWeight="Light" StaminaBonus="1" Evade="0"
+<Armor  Name="Wool Cap" BaseType="Headpiece" ArmorWeight="Light" StaminaBonus="2" Evade="0"
         ItemDescription="Simple woolen cap, tan and somewhat stiff from wear."
         FlavorText="Provides little protection from anything beyond sunlight and rain."/>
-<Armor  Name="Wool Gloves" BaseType="Gloves" ArmorWeight="Light" StaminaBonus="2" Evade="0"
+<Armor  Name="Wool Gloves" BaseType="Gloves" ArmorWeight="Light" StaminaBonus="3" Evade="0"
         ItemDescription="Woolen work gloves."
         FlavorText="Used commonly in field work."/>
-<Armor  Name="Sandles" BaseType="Boots" ArmorWeight="Light" DoNotDrop="True" StaminaBonus="1" Evade="0"
+<Armor  Name="Sandles" BaseType="Boots" ArmorWeight="Light" DoNotDrop="True" StaminaBonus="2" Evade="0"
         ItemDescription="Formed from sturdy cloth or leather with leather strapes."
         FlavorText="Protects against rocks and thorns underfoot."/>
   
-<Armor  Name="Leather Armor" BaseType="ChestArmor" ArmorWeight="Light" StaminaBonus="5" Evade="0"
+<Armor  Name="Leather Armor" BaseType="ChestArmor" ArmorWeight="Light" StaminaBonus="7" Evade="0"
         ItemDescription="Tanned animal hides fashioned into a simple breastplate."
         FlavorText="Able to mildly turn knifes and arrow strikes to the body."/>
 <Armor  Name="Leather Helmet" BaseType="Headpiece" ArmorWeight="Light" StaminaBonus="3" Evade="0"
@@ -70,20 +70,20 @@
 <Armor  Name="Leather Gloves" BaseType="Gloves" ArmorWeight="Light" StaminaBonus="4" Evade="0"
         ItemDescription="Boiled leather worked into simple armor for the hands."
         FlavorText="Hardened through a time consuming process of boiling with wax and worked with tools repeadily."/>
-<Armor  Name="Leather Boots" BaseType="Boots" ArmorWeight="Light"  StaminaBonus="2" Evade="0"
+<Armor  Name="Leather Boots" BaseType="Boots" ArmorWeight="Light"  StaminaBonus="3" Evade="0"
         ItemDescription="Well fashioned leather boots."
         FlavorText="Sturdy thick leather sole laced up to the calf."/>
   
-<Armor  Name="Chainmail Armor" BaseType="ChestArmor" ArmorWeight="Standard" StaminaBonus="7" Evade="0"
+<Armor  Name="Chainmail Armor" BaseType="ChestArmor" ArmorWeight="Standard" StaminaBonus="9" Evade="0"
         ItemDescription="Thousands of tiny metal rings are linked togeather to form an armored mesh."
         FlavorText="Hauberks like this provide a good mix of protection without completely eliminating any dexterity the wearer my possess."/>
 <Armor  Name="Steel Helmet" BaseType="Headpiece" ArmorWeight="Standard" StaminaBonus="5" Evade="0"
         ItemDescription="Pounded steal provides a helmet which is strong, but who's surface is slightly bumpy."
         FlavorText="Barbutes such as this provide good production without compromising visibility or breathing."/>
-<Armor  Name="Mail Gauntlets" BaseType="Gloves" ArmorWeight="Standard" StaminaBonus="5" Evade="0"
+<Armor  Name="Mail Gauntlets" BaseType="Gloves" ArmorWeight="Standard" StaminaBonus="6" Evade="0"
         ItemDescription="Heavy leather gloves covered in a weave of chainmail."
         FlavorText="The small metal ring segments allow enough flexability to wield weapons without much loss of movement."/>
-<Armor  Name="Mail Greaves" BaseType="Boots" ArmorWeight="Standard" StaminaBonus="3" Evade="0"
+<Armor  Name="Mail Greaves" BaseType="Boots" ArmorWeight="Standard" StaminaBonus="5" Evade="0"
         ItemDescription="Intermeshed metal rings provide protection for the legs and feet."
         FlavorText="Mail production is labor intensive to produce and requires regular maintenance to prevent rusting."/>
 
