@@ -37,8 +37,6 @@ namespace Magecrawl.GameUI.Map
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point cursorPosition)
         {
-            TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
-
             m_offscreenConsole.clear();
 
             m_offscreenConsole.printFrame(0, 0, MapDrawnWidth + 1, MapDrawnHeight + 1, true, TCODBackgroundFlag.Set, "Map");
@@ -66,7 +64,7 @@ namespace Magecrawl.GameUI.Map
 
             foreach (Pair<IItem, Point> obj in engine.Map.Items)
             {
-                TileVisibility visibility = tileVisibility[obj.Second.X, obj.Second.Y];
+                TileVisibility visibility = m_tileVisibility[obj.Second.X, obj.Second.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
                 {
                     // If you change this, update HelpPainter.cs
@@ -76,7 +74,7 @@ namespace Magecrawl.GameUI.Map
 
             foreach (ICharacter m in engine.Map.Monsters)
             {
-                TileVisibility visibility = tileVisibility[m.Position.X, m.Position.Y];
+                TileVisibility visibility = m_tileVisibility[m.Position.X, m.Position.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
                     DrawThing(mapUpCorner, m.Position, m_offscreenConsole, m_monsterSymbols[m.Name]);
             }

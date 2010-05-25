@@ -209,8 +209,13 @@ namespace Magecrawl.GameEngine.Actors
             return OtherNearbyEnemies(engine).Count() > 1;
         }
 
+        //HACK 232
         protected bool IsPlayerVisible(CoreGameEngine engine)
         {
+            // If we're significantly father than our vision, we can't see the player so give up early
+            if (PointDirectionUtils.NormalDistance(Position, engine.Player.Position) > Vision + 5)  // 5 is arbritray large just to prevent edge effects
+                return false;
+
             return engine.FOVManager.VisibleSingleShot(engine.Map, Position, Vision, engine.Player.Position);
         }
 
