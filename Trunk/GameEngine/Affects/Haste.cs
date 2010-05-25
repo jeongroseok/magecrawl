@@ -16,7 +16,7 @@ namespace Magecrawl.GameEngine.Affects
         }
 
         public Haste(int strength)
-            : base(new DiceRoll(4, 2, 0, strength - 1).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+            : base(new DiceRoll(4, 2, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_modifier = 1.25;
         }

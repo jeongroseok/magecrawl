@@ -16,7 +16,7 @@ namespace Magecrawl.GameEngine.Affects
         }
 
         public EarthenArmor(int strength)
-            : base(new DiceRoll(strength, 8, 8, 2).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+            : base(new DiceRoll(strength, 8, 8).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
         }
 
