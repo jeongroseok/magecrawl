@@ -1,15 +1,15 @@
-﻿using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Actors;
 
-namespace Magecrawl.GameEngine.Affects
+namespace Magecrawl.GameEngine.Effects
 {
-    public class AffectFactory
+    public class EffectFactory
     {
-        internal static AffectBase CreateAffectBaseObject(string affectName)
+        internal static EffectBase CreateEffectBaseObject(string affectName)
         {
-            return CreateAffect(null, affectName, 0);
+            return CreateEffect(null, affectName, 0);
         }
 
-        internal static AffectBase CreateAffect(Character caster, string affectName, int level)
+        internal static EffectBase CreateEffect(Character caster, string affectName, int level)
         {
             // MEF?
             switch (affectName)

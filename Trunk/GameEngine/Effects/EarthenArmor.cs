@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Affects
+namespace Magecrawl.GameEngine.Effects
 {
-    internal class EarthenArmor : AffectBase
+    internal class EarthenArmor : EffectBase
     {
         private ChestArmor m_previousArmor;
 

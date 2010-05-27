@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Affects;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
@@ -143,9 +143,9 @@ namespace Magecrawl.GameEngine.Magic
                     
                     ShowExplodingRangedPointAttack(invoker, invokingMethod, target, BurstWidth);
 
-                    List<Point> pointsToAffect = PointListUtils.PointListFromBurstPosition(target, BurstWidth);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, pointsToAffect, invoker.Position);
-                    foreach (Point p in pointsToAffect)
+                    List<Point> pointsToEffect = PointListUtils.PointListFromBurstPosition(target, BurstWidth);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, pointsToEffect, invoker.Position);
+                    foreach (Point p in pointsToEffect)
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
@@ -159,15 +159,15 @@ namespace Magecrawl.GameEngine.Magic
                 case "Earthen Armor":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    AffectBase previousAffect = invoker.Affects.Where(x => x.Name == effect).FirstOrDefault();
-                    if (previousAffect != null)
+                    EffectBase previousEffect = invoker.Effects.Where(x => x.Name == effect).FirstOrDefault();
+                    if (previousEffect != null)
                     {
-                        previousAffect.Extend(1.5);
+                        previousEffect.Extend(1.5);
                         CoreGameEngine.Instance.SendTextOutput("The previous affect is strengthen in length.");
                     }
                     else
                     {
-                        invoker.AddAffect(Affects.AffectFactory.CreateAffect(invoker, effect, strength));
+                        invoker.AddEffect(Effects.EffectFactory.CreateEffect(invoker, effect, strength));
                     }
                     return true;
                 }
@@ -227,7 +227,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
             if (targetCharacter != null)
-                targetCharacter.AddAffect(Affects.AffectFactory.CreateAffect(caster, name, strength));
+                targetCharacter.AddEffect(Effects.EffectFactory.CreateEffect(caster, name, strength));
         }
 
         private static int CalculateDamgeFromSpell(int strength)
@@ -249,7 +249,7 @@ namespace Magecrawl.GameEngine.Magic
                 pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);
         }
 
-        private delegate void OnRangedAffect(Character c, int strength);
+        private delegate void OnRangedEffect(Character c, int strength);
 
         private bool HandleRandomTeleport(Character caster, int range)
         {

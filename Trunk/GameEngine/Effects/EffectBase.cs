@@ -1,26 +1,26 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
 
-namespace Magecrawl.GameEngine.Affects
+namespace Magecrawl.GameEngine.Effects
 {
-    internal abstract class AffectBase : IXmlSerializable
+    internal abstract class EffectBase : IXmlSerializable
     {
         public abstract void Apply(Character appliedTo);
         public abstract void Remove(Character removedFrom);
         
-        // Should match entry in AffectFactory
+        // Should match entry in EffectFactory
         public abstract string Name
         {
             get;
         }
 
-        public AffectBase()
+        public EffectBase()
         {
             CTLeft = 0;
         }
 
-        public AffectBase(int totalCT)
+        public EffectBase(int totalCT)
         {
             CTLeft = totalCT;
         }

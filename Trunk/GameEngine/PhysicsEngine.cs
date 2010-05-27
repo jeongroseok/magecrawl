@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Affects;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
@@ -578,7 +578,7 @@ namespace Magecrawl.GameEngine
                     ArmorBase armor = (ArmorBase)item;
                     if (armor.Summoned)
                     {
-                        foreach (AffectBase affect in m_player.Affects)
+                        foreach (EffectBase affect in m_player.Effects)
                         {
                             if (affect.ProvidesEquipment(armor))
                             {

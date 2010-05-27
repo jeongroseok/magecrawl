@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Affects
+namespace Magecrawl.GameEngine.Effects
 {
-    internal class Light : AffectBase
+    internal class Light : EffectBase
     {
         private int m_visionBoost;
 
