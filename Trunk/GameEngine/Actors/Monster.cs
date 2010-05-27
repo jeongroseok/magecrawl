@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.Affects;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
@@ -39,10 +39,10 @@ namespace Magecrawl.GameEngine.Actors
             if (SecondaryWeapon.GetType() != typeof(MeleeWeapon))
                 newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(SecondaryWeapon.DisplayName));
 
-            if (m_affects.Count > 0)
-                throw new NotImplementedException("Have not implemented Clone() on monster when Affects are on it");
+            if (m_effects.Count > 0)
+                throw new NotImplementedException("Have not implemented Clone() on monster when Effects are on it");
 
-            newMonster.m_affects = new List<AffectBase>();
+            newMonster.m_effects = new List<EffectBase>();
 
             return newMonster;
         }
@@ -115,10 +115,10 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         // Hack - Bug 226
-        public override void AddAffect(AffectBase affectToAdd)
+        public override void AddEffect(EffectBase affectToAdd)
         {
             m_playerLastKnownPosition = CoreGameEngine.Instance.Player.Position;
-            base.AddAffect(affectToAdd);
+            base.AddEffect(affectToAdd);
         }
 
         #region ActionParts

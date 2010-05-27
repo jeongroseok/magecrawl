@@ -257,7 +257,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_affects.Select(a => a.Name).ToList();
+                return m_effects.Select(a => a.Name).ToList();
             }
         }
 

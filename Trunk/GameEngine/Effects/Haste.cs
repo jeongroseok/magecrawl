@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Affects
+namespace Magecrawl.GameEngine.Effects
 {
-    internal class Haste : AffectBase
+    internal class Haste : EffectBase
     {
         private double m_modifier;
 

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Affects;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.SaveLoad;
@@ -81,7 +81,7 @@ namespace Magecrawl.GameEngine.Actors
 
         private static int s_idCounter = 0;
         
-        protected List<AffectBase> m_affects;
+        protected List<EffectBase> m_effects;
 
         internal Character() : this("", Point.Invalid, 0, 0, 0, 0)
         {
@@ -104,7 +104,7 @@ namespace Magecrawl.GameEngine.Actors
             CTCostModifierToMove = ctMoveCost;
             CTCostModifierToAct = ctActCost;
 
-            m_affects = new List<AffectBase>();
+            m_effects = new List<EffectBase>();
             
             m_uniqueID = s_idCounter;
             s_idCounter++;
@@ -219,25 +219,25 @@ namespace Magecrawl.GameEngine.Actors
         {
             CT -= decrease;
 
-            m_affects.ForEach(a => a.DecreaseCT(decrease));
+            m_effects.ForEach(a => a.DecreaseCT(decrease));
             
-            foreach (AffectBase affect in m_affects.Where(a => a.CTLeft <= 0))
+            foreach (EffectBase affect in m_effects.Where(a => a.CTLeft <= 0))
                 affect.Remove(this);
 
-            m_affects.RemoveAll(a => a.CTLeft <= 0);
+            m_effects.RemoveAll(a => a.CTLeft <= 0);
         }
 
-        public virtual void AddAffect(AffectBase affectToAdd)
+        public virtual void AddEffect(EffectBase affectToAdd)
         {
-            m_affects.Add(affectToAdd);
+            m_effects.Add(affectToAdd);
             affectToAdd.Apply(this);
         }
 
-        public IEnumerable<AffectBase> Affects
+        public IEnumerable<EffectBase> Effects
         {
             get
             {
-                return m_affects;
+                return m_effects;
             }
         }
 
@@ -268,15 +268,15 @@ namespace Magecrawl.GameEngine.Actors
                 innerReader =>
                 {
                     string typeName = reader.ReadElementContentAsString();
-                    AffectBase affect = AffectFactory.CreateAffectBaseObject(typeName);
+                    EffectBase affect = EffectFactory.CreateEffectBaseObject(typeName);
                     affect.ReadXml(reader);
-                    AddAffect(affect);
+                    AddEffect(affect);
                 });
         }
 
         public virtual void WriteXml(XmlWriter writer)
         {
-            m_affects.ForEach(a => a.Remove(this));
+            m_effects.ForEach(a => a.Remove(this));
 
             Position.WriteToXml(writer, "Position");
             writer.WriteElementString("Name", Name);
@@ -291,9 +291,9 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("CTCostModifierToMove", CTCostModifierToMove.ToString());
             writer.WriteElementString("CTCostModifierToAct", CTCostModifierToAct.ToString());
 
-            ListSerialization.WriteListToXML(writer, m_affects.ToList(), "Affect");
+            ListSerialization.WriteListToXML(writer, m_effects.ToList(), "Effect");
 
-            m_affects.ForEach(a => a.Apply(this));
+            m_effects.ForEach(a => a.Apply(this));
         }
 
         private WeaponBase ReadWeaponFromSave(XmlReader reader)
