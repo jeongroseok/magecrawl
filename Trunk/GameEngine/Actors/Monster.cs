@@ -17,8 +17,10 @@ namespace Magecrawl.GameEngine.Actors
         protected double CTAttackCost { get; set; }
         private DiceRoll m_damage;
         protected Point m_playerLastKnownPosition;
+        private bool m_intelligent;
 
-        public Monster(string name, Point p, int maxHP, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        public Monster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade,
+                       double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
@@ -27,6 +29,7 @@ namespace Magecrawl.GameEngine.Actors
             m_damage = damage;
             m_playerLastKnownPosition = Point.Invalid;
             m_evade = evade;
+            m_intelligent = intelligent;
         }
 
         public object Clone()
@@ -133,7 +136,7 @@ namespace Magecrawl.GameEngine.Actors
             if (m_playerLastKnownPosition == Point.Invalid)
                 return false;
 
-            List<Point> pathTowards = engine.PathToPoint(this, m_playerLastKnownPosition, false, false, true);
+            List<Point> pathTowards = engine.PathToPoint(this, m_playerLastKnownPosition, m_intelligent, false, true);
             if (pathTowards == null || pathTowards.Count == 0)
             {
                 m_playerLastKnownPosition = Point.Invalid;
@@ -147,12 +150,12 @@ namespace Magecrawl.GameEngine.Actors
 
         protected List<Point> GetPathToCharacter(CoreGameEngine engine, ICharacter c)
         {
-            return engine.PathToPoint(this, c.Position, false, false, true);
+            return engine.PathToPoint(this, c.Position, m_intelligent, false, true);
         }
 
         protected List<Point> GetPathToPlayer(CoreGameEngine engine)
         {
-            return engine.PathToPoint(this, engine.Player.Position, false, false, true);
+            return engine.PathToPoint(this, engine.Player.Position, m_intelligent, false, true);
         }
 
         protected bool IsNextToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
@@ -177,23 +180,31 @@ namespace Magecrawl.GameEngine.Actors
             return MoveOnPath(engine, GetPathToPlayer(engine));
         }
 
+        private bool MoveCore(CoreGameEngine engine, Direction direction)
+        {
+            if (engine.Move(this, direction))
+                return true;
+            Point position = PointDirectionUtils.ConvertDirectionToDestinationPoint(Position, direction);
+            if (m_intelligent && engine.Operate(this, position))
+                return true;
+            return false;
+        }
+
         protected bool MoveOnPath(CoreGameEngine engine, List<Point> path)
         {
             Direction nextPosition = PointDirectionUtils.ConvertTwoPointsToDirection(Position, path[0]);
-            if (engine.Move(this, nextPosition))
-                return true;
-            return false;
+            return MoveCore(engine, nextPosition);
         }
 
         protected bool MoveAwayFromPlayer(CoreGameEngine engine)
         {
             Direction directionTowardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(Position, engine.Player.Position);
-            if (engine.Move(this, PointDirectionUtils.GetDirectionOpposite(directionTowardsPlayer)))
+            if (MoveCore(engine, PointDirectionUtils.GetDirectionOpposite(directionTowardsPlayer)))
                 return true;
-            
+
             foreach (Direction attemptDirection in PointDirectionUtils.GetDirectionsOpposite(directionTowardsPlayer))
             {
-                if (engine.Move(this, attemptDirection))
+                if (MoveCore(engine, attemptDirection))
                     return true;
             }
             return false;

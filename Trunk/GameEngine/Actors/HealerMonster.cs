@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
@@ -9,8 +9,8 @@ namespace Magecrawl.GameEngine.Actors
     {
         private int m_firstAidCooldown;
 
-        public HealerMonster(string name, Point p, int maxHP, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
-            : base(name, p, maxHP, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
+        public HealerMonster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+            : base(name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
             m_firstAidCooldown = 0;
         }
