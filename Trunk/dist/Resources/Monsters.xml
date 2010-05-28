@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <Monsters>
-<Monster Name="Wolf" Type="Sprinter"         Symbol="w" HP="16" Vision="6" Defense="0" Evade="5" MeleeDamage="2,2,-1,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="0.5"/>
-<Monster Name="Orc Barbarian" Type="Bruiser" Symbol="O" HP="24" Vision="6" Defense="1" Evade="5" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost="1.0" ctAttackCost="1.0"/>
-<Monster Name="Orc Warrior" Type="Standard"  Symbol="O" HP="20" Vision="6" Defense="1" Evade="5" MeleeDamage="2,2,1,1" ctIncrease="1.0" ctMoveCost="1.0" ctAttackCost="1.0"/>
-<Monster Name="Goblin Healer" Type="Healer"  Symbol="g" HP="16" Vision="5" Defense="0" Evade="5" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
-<Monster Name="Goblin Slinger" Type="Ranged" Symbol="g" HP="16" Vision="5" Defense="0" Evade="5" RangedWeapon="Goblin Sling" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".5" ctAttackCost="1.0"/>
+<Monster Name="Wolf" Type="Sprinter"         Symbol="w" HP="16" Intelligent="False" Vision="6" Defense="0" Evade="5" MeleeDamage="2,2,-1,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="0.5"/>
+<Monster Name="Orc Barbarian" Type="Bruiser" Symbol="O" HP="24" Intelligent="True" Vision="6" Defense="1" Evade="5" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost="1.0" ctAttackCost="1.0"/>
+<Monster Name="Orc Warrior" Type="Standard"  Symbol="O" HP="20" Intelligent="True" Vision="6" Defense="1" Evade="5" MeleeDamage="2,2,1,1" ctIncrease="1.0" ctMoveCost="1.0" ctAttackCost="1.0"/>
+<Monster Name="Goblin Healer" Type="Healer"  Symbol="g" HP="16" Intelligent="True" Vision="5" Defense="0" Evade="5" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".8" ctAttackCost="1.0"/>
+<Monster Name="Goblin Slinger" Type="Ranged" Symbol="g" HP="16" Intelligent="True" Vision="5" Defense="0" Evade="5" RangedWeapon="Goblin Sling" MeleeDamage="2,2,0,1" ctIncrease="1.0" ctMoveCost=".5" ctAttackCost="1.0"/>
 
 <!-- Unused-->  
-<Monster Name="Kobold" Type="Swarmer"        Symbol="k" HP="20" Vision="5" Defense="0" Evade="5" MeleeDamage="2,3,0,1" ctIncrease="1.0" ctMoveCost=".9" ctAttackCost="1.0"/>
-<Monster Name="Baby Dragon" Type="Elite"     Symbol="D" HP="32" Vision="8" Defense="2" Evade="0" MeleeDamage="4,3,1,1" ctIncrease="1.0" ctMoveCost=".9" ctAttackCost="1.0"/>
+<Monster Name="Kobold" Type="Swarmer"        Symbol="k" HP="20" Intelligent="True" Vision="5" Defense="0" Evade="5" MeleeDamage="2,3,0,1" ctIncrease="1.0" ctMoveCost=".9" ctAttackCost="1.0"/>
+<Monster Name="Baby Dragon" Type="Elite"     Symbol="D" HP="32" Intelligent="True" Vision="8" Defense="2" Evade="0" MeleeDamage="4,3,1,1" ctIncrease="1.0" ctMoveCost=".9" ctAttackCost="1.0"/>
 </Monsters>
