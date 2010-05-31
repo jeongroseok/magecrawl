@@ -4,16 +4,15 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Light : EffectBase
+    internal class Light : PositiveEffect
     {
         private int m_visionBoost;
 
-        public Light() : base(0)
+        public Light() : base(2)
         {
         }
 
-        public Light(int strength)
-            : base(new DiceRoll(2, 4, 12).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        public Light(int strength) : base(2)
         {
             m_visionBoost = strength / 2;
             if (m_visionBoost < 2)

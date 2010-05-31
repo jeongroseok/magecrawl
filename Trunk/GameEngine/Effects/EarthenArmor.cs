@@ -7,16 +7,15 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class EarthenArmor : EffectBase
+    internal class EarthenArmor : PositiveEffect
     {
         private ChestArmor m_previousArmor;
 
-        public EarthenArmor() : base(0)
+        public EarthenArmor() : base(5)
         {
         }
 
-        public EarthenArmor(int strength)
-            : base(new DiceRoll(strength, 8, 8).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+        public EarthenArmor(int strength) : base(5)
         {
         }
 

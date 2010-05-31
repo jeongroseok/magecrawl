@@ -36,6 +36,11 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
+        int MaxPossibleMP
+        {
+            get;
+        }
+
         int SkillPoints
         {
             get;

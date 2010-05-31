@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Haste : EffectBase
+    internal class Haste : PositiveEffect
     {
         private double m_modifier;
 
@@ -16,7 +16,7 @@ namespace Magecrawl.GameEngine.Effects
         }
 
         public Haste(int strength)
-            : base(new DiceRoll(4, 2, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
+            : base(5)
         {
             m_modifier = 1.25;
         }
