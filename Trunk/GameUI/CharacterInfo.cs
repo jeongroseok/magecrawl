@@ -120,17 +120,28 @@ namespace Magecrawl.GameUI
             }
         }
 
-        private TCODColor ManaBarColor(IPlayer character)
+        private TCODColor PlayerManaBarColor(IPlayer player, int position)
         {
-            double percentage = ((double)character.CurrentMP / (double)character.MaxMP) * 100;
-            if (percentage > 95)
-                return TCODColor.blue.Divide(1.5);
-            else if (percentage > 70)
-                return TCODColor.blue.Divide(2);
-            else if (percentage > 35)
-                return TCODColor.blue.Divide(3);
+            int EnabledPortionOfMPBarLength = StandardBarLength(player.MaxMP, player.MaxPossibleMP);
+
+            if (position < EnabledPortionOfMPBarLength)
+            {
+                double percentage = ((double)player.CurrentMP / (double)player.MaxMP) * 100;
+                if (position >= CalculateBarLength(player.CurrentMP, player.MaxMP, EnabledPortionOfMPBarLength))
+                    return TCODColor.black;
+                if (percentage > 95)
+                    return TCODColor.blue.Divide(1.5);
+                else if (percentage > 70)
+                    return TCODColor.blue.Divide(2);
+                else if (percentage > 35)
+                    return TCODColor.blue.Divide(3);
+                else
+                    return TCODColor.blue.Divide(4);
+            }
             else
-                return TCODColor.blue.Divide(4);
+            {
+                return TCODColor.grey;
+            }
         }
 
         public override void DrawNewFrame(TCODConsole screen)
@@ -148,8 +159,8 @@ namespace Magecrawl.GameUI
 
             string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
             screen.printEx(StartingX + 12, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, magicString);
-            for (int j = 0; j < ManaBarLength(m_player); ++j)
-                screen.setCharBackground(StartingX + 2 + j, 3, ManaBarColor(m_player));
+            for (int j = 0; j < BarLength; ++j)
+                screen.setCharBackground(StartingX + 2 + j, 3, PlayerManaBarColor(m_player, j ));
 
             int nextAvailablePosition = 6;
 
