@@ -158,12 +158,14 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
+                    // Add ability to remove effects w\o hack
+                    // Different color for perminate affects.(Positive/Negative).
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    EffectBase previousEffect = invoker.Effects.Where(x => x.Name == effect).FirstOrDefault();
+                    PositiveEffect previousEffect = (PositiveEffect)invoker.Effects.Where(x => x.Name == effect).FirstOrDefault();
                     if (previousEffect != null)
                     {
-                        previousEffect.Extend(1.5);
-                        CoreGameEngine.Instance.SendTextOutput("The previous affect is strengthen in length.");
+                        // Hack
+                        previousEffect.Dismiss();
                     }
                     else
                     {

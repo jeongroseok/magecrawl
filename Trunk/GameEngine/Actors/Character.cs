@@ -219,18 +219,23 @@ namespace Magecrawl.GameEngine.Actors
         {
             CT -= decrease;
 
-            m_effects.ForEach(a => a.DecreaseCT(decrease));
-            
-            foreach (EffectBase affect in m_effects.Where(a => a.CTLeft <= 0))
-                affect.Remove(this);
+            // Remove negative effects if ct <= 0
+            List<NegativeEffect> negativeEffects = m_effects.OfType<NegativeEffect>().ToList();
 
-            m_effects.RemoveAll(a => a.CTLeft <= 0);
+            negativeEffects.ForEach(a => a.DecreaseCT(decrease));
+            
+            foreach (EffectBase effect in negativeEffects.Where(a => a.CTLeft <= 0))
+                effect.Remove(this);
+
+            m_effects.RemoveAll(a => a is NegativeEffect && ((NegativeEffect)a).CTLeft <= 0);
+
+            m_effects.RemoveAll(a => a is PositiveEffect && ((PositiveEffect)a).MPCost < 0);
         }
 
-        public virtual void AddEffect(EffectBase affectToAdd)
+        public virtual void AddEffect(EffectBase effectToAdd)
         {
-            m_effects.Add(affectToAdd);
-            affectToAdd.Apply(this);
+            m_effects.Add(effectToAdd);
+            effectToAdd.Apply(this);
         }
 
         public IEnumerable<EffectBase> Effects

@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Poison : EffectBase
+    internal class Poison : NegativeEffect
     {
         public Poison() : base(0)
         {
@@ -57,6 +57,8 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
+        #region SaveLoad
+
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
@@ -70,5 +72,7 @@ namespace Magecrawl.GameEngine.Effects
             writer.WriteElementString("DamagePerInterval", m_damagePerInterval.ToString());
             writer.WriteElementString("CastByPlayer", m_castByPlayer.ToString());
         }
+
+        #endregion
     }
 }

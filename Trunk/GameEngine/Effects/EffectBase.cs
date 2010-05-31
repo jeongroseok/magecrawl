@@ -1,3 +1,4 @@
+using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
@@ -15,37 +16,12 @@ namespace Magecrawl.GameEngine.Effects
             get;
         }
 
-        public EffectBase()
-        {
-            CTLeft = 0;
-        }
-
-        public EffectBase(int totalCT)
-        {
-            CTLeft = totalCT;
-        }
-
-        public int CTLeft { get; protected set; }
-
-        public virtual void DecreaseCT(int decrease)
-        {
-            CTLeft -= decrease;
-        }
-
-        public void Extend(double ratio)
-        {
-            CTLeft = (int)(CTLeft * ratio);
-        }
-
-        public void Dismiss()
-        {
-            CTLeft = 0;
-        }
-
         virtual public bool ProvidesEquipment(IArmor armor)
         {
             return false;
         }
+
+        abstract public void Dismiss();
 
         #region IXmlSerializable Members
 
@@ -54,15 +30,13 @@ namespace Magecrawl.GameEngine.Effects
             return null;
         }
 
-        public virtual void ReadXml(System.Xml.XmlReader reader)
+        public virtual void ReadXml(XmlReader reader)
         {
-            CTLeft = reader.ReadElementContentAsInt();
         }
 
-        public virtual void WriteXml(System.Xml.XmlWriter writer)
+        public virtual void WriteXml(XmlWriter writer)
         {
             writer.WriteElementString("Type", Name);
-            writer.WriteElementString("CTLeft", CTLeft.ToString());
         }
 
         #endregion

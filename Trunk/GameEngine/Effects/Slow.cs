@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Slow : EffectBase
+    internal class Slow : NegativeEffect
     {
         private double m_modifier;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Armor;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
@@ -136,8 +137,16 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public int MaxMP
+        {
+            get
+            {
+                return MaxPossibleMP - m_effects.OfType<PositiveEffect>().Sum(x => x.MPCost);
+            }
+        }
+
         private int m_baseMaxMP;
-        public int MaxMP 
+        public int MaxPossibleMP
         {
             get
             {
