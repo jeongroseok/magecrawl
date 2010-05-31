@@ -191,24 +191,8 @@ namespace Magecrawl.GameEngine.Actors
         public abstract int Heal(int toHeal, bool magical);
 
         public abstract void Damage(int dmg);
-
-        // Everyone should override these. 
-        // I want character to have a constructor to reduce copying, but there are some things that should be overridded
-        public virtual DiceRoll MeleeDamage
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        public virtual double MeleeSpeed
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
+        public abstract DiceRoll MeleeDamage { get; }
+        public abstract double MeleeSpeed { get;}
 
         public virtual void IncreaseCT(int increase)
         {
