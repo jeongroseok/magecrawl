@@ -190,7 +190,7 @@ namespace Magecrawl.GameUI
                     screen.print(currentX, nextAvailablePosition, s.Name);
                     currentX += s.Name.Length + 1;
                 }
-                nextAvailablePosition++;
+                nextAvailablePosition += 2;
             }
             m_colorHelper.ResetColors(screen);
 

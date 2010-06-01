@@ -40,6 +40,9 @@ namespace Magecrawl.GameEngine.Actors
             m_baseMaxStamina = 0;
             LastTurnSeenAMonster = 0;
             SkillPoints = 0;
+
+            m_itemList = new List<Item>();
+            m_skills = new List<Skill>();
         }
 
         public Player(string name, Point p) : base(name, p, 6)
@@ -152,6 +155,18 @@ namespace Magecrawl.GameEngine.Actors
             {
                 return m_baseMaxMP + m_skills.Sum(s => s.MPBonus);
             }
+        }
+
+        private void ResetMaxStaminaIfNowOver()
+        {
+            if (CurrentStamina > MaxStamina)
+                m_currentStamina = MaxStamina;
+        }
+
+        private void ResetMaxMPIfNowOver()
+        {
+            if (CurrentMP > MaxMP)
+                m_baseCurrentMP = MaxMP;
         }
 
         // Returns amount actually healed by
@@ -269,6 +284,20 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public override void AddEffect(EffectBase effectToAdd)
+        {
+            base.AddEffect(effectToAdd);
+            ResetMaxStaminaIfNowOver();
+            ResetMaxMPIfNowOver();
+        }
+
+        public override void RemoveEffect(EffectBase effectToRemove)
+        {
+            base.RemoveEffect(effectToRemove);
+            ResetMaxStaminaIfNowOver();
+            ResetMaxMPIfNowOver();
+        }
+
         public void AddSkill(ISkill skill)
         {
              m_skills.Add((Skill)skill);
@@ -302,12 +331,6 @@ namespace Magecrawl.GameEngine.Actors
             }
 
             return base.Equip(item);
-        }
-
-        private void ResetMaxStaminaIfNowOver()
-        {
-            if (CurrentStamina > MaxStamina)
-                m_currentStamina = MaxStamina;
         }
 
         internal override IItem Unequip(IItem item)
