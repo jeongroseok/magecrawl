@@ -286,6 +286,13 @@ namespace Magecrawl.GameEngine.Actors
 
         public override void AddEffect(EffectBase effectToAdd)
         {
+            // If positive effect would bring our mp below 0, don't allow cast.
+            if (effectToAdd is PositiveEffect && ((PositiveEffect)effectToAdd).MPCost > CurrentMP)
+            {
+                CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} effect frizzles as {1} does not have the energy to sustain it.", effectToAdd.Name, Name));
+                return;
+            }
+
             base.AddEffect(effectToAdd);
             ResetMaxStaminaIfNowOver();
             ResetMaxMPIfNowOver();
