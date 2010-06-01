@@ -15,6 +15,14 @@ namespace Magecrawl.GameEngine.Effects
             CTLeft = totalCT;
         }
 
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public int CTLeft { get; protected set; }
 
         public void Extend(double ratio)

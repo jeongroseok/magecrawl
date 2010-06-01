@@ -142,6 +142,7 @@
     <Compile Include="Effects\Poison.cs" />
     <Compile Include="Effects\PositiveEffect.cs" />
     <Compile Include="Effects\NegativeEffect.cs" />
+    <Compile Include="Interfaces\IStatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">

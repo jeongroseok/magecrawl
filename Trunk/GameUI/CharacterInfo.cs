@@ -14,6 +14,7 @@ namespace Magecrawl.GameUI
         {
             m_player = null;
             m_currentLevel = -1;
+            m_colorHelper = new DialogColorHelper();
         }
 
         private const int StartingX = UIHelper.MapWidth;
@@ -29,6 +30,7 @@ namespace Magecrawl.GameUI
         private List<ICharacter> m_monstersNearby;
         private int m_turnCount;
         private bool m_inDanger;
+        private DialogColorHelper m_colorHelper;
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
@@ -172,20 +174,25 @@ namespace Magecrawl.GameUI
             screen.print(StartingX + 2, nextAvailablePosition, string.Format("Weapon: {0}{1}", m_player.CurrentWeapon.DisplayName, needsLoadedString));
             nextAvailablePosition += 2;          
 
+            m_colorHelper.SaveColors(screen);
             if (m_player.StatusEffects.Count() > 0)
             {
                 screen.print(StartingX + 2, nextAvailablePosition, "Status Effects:");
-                StringBuilder statusEffects = new StringBuilder();
-                foreach (string s in m_player.StatusEffects)
+                int currentX = StartingX + 2 + 1 + 15;
+                foreach (IStatusEffect s in m_player.StatusEffects)
                 {
-                    statusEffects.Append(s + " ");
+                    if (currentX + s.Name.Length >= UIHelper.ScreenWidth)
+                    {
+                        currentX = StartingX + 2;
+                        nextAvailablePosition++;
+                    }
+                    screen.setForegroundColor(s.IsPositiveEffect ? TCODColor.darkGreen : TCODColor.darkRed);
+                    screen.print(currentX, nextAvailablePosition, s.Name);
+                    currentX += s.Name.Length + 1;
                 }
-
-                // TODO - What happens if this is more then 2 lines worth?
-                int statusEfectLength = screen.printRect(StartingX + 2, nextAvailablePosition + 1, InfoWidth - 4, 2, statusEffects.ToString());
-
-                nextAvailablePosition += 2 + statusEfectLength;
+                nextAvailablePosition++;
             }
+            m_colorHelper.ResetColors(screen);
 
             if (m_monstersNearby.Count > 0)
             {
