@@ -85,10 +85,12 @@ namespace Magecrawl.GameEngine.Actors
 
         internal Character() : this("", Point.Invalid, 0, 0, 0, 0)
         {
+            m_effects = new List<EffectBase>();
         }
 
         internal Character(string name, Point p, int visionRange) : this(name, p, visionRange, 1.0, 1.0, 1.0)
         {
+            m_effects = new List<EffectBase>();
         }
 
         internal Character(string name, Point p, int visionRange, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
@@ -209,10 +211,9 @@ namespace Magecrawl.GameEngine.Actors
             negativeEffects.ForEach(a => a.DecreaseCT(decrease));
             
             foreach (EffectBase effect in negativeEffects.Where(a => a.CTLeft <= 0))
-                effect.Remove(this);
+                RemoveEffect(effect);
 
-            m_effects.RemoveAll(a => a is NegativeEffect && ((NegativeEffect)a).CTLeft <= 0);
-
+            // Remove any positive effects that have been "dismissed"
             m_effects.RemoveAll(a => a is PositiveEffect && ((PositiveEffect)a).MPCost < 0);
         }
 
@@ -220,6 +221,12 @@ namespace Magecrawl.GameEngine.Actors
         {
             m_effects.Add(effectToAdd);
             effectToAdd.Apply(this);
+        }
+
+        public virtual void RemoveEffect(EffectBase effectToRemove)
+        {
+            m_effects.Remove(effectToRemove);
+            effectToRemove.Remove(this);
         }
 
         public IEnumerable<EffectBase> Effects
