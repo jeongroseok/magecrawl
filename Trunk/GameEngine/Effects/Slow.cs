@@ -35,7 +35,7 @@ namespace Magecrawl.GameEngine.Effects
         {
             get
             {
-                return "Haste";
+                return "Slow";
             }
         }
 
@@ -44,7 +44,7 @@ namespace Magecrawl.GameEngine.Effects
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             base.ReadXml(reader);
-            m_modifier = reader.ReadContentAsDouble();
+            m_modifier = reader.ReadElementContentAsDouble();
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
