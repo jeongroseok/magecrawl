@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
@@ -43,9 +43,9 @@ namespace Magecrawl.GameEngine.SaveLoad
         {
             reader.ReadStartElement();
 
-            int mapFeatureListLength = reader.ReadElementContentAsInt();
+            int listLength = reader.ReadElementContentAsInt();
 
-            for (int i = 0; i < mapFeatureListLength; ++i)
+            for (int i = 0; i < listLength; ++i)
             {
                 reader.ReadStartElement();
 
