@@ -5,16 +5,15 @@ using Magecrawl.GameEngine.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal abstract class EffectBase : IXmlSerializable
+    internal abstract class EffectBase : IStatusEffect, IXmlSerializable
     {
         public abstract void Apply(Character appliedTo);
         public abstract void Remove(Character removedFrom);
         
         // Should match entry in EffectFactory
-        public abstract string Name
-        {
-            get;
-        }
+        public abstract string Name { get; }
+
+        public abstract bool IsPositiveEffect { get; }
 
         virtual public bool ProvidesEquipment(IArmor armor)
         {

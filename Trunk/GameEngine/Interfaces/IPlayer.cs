@@ -61,7 +61,7 @@ namespace Magecrawl.GameEngine.Interfaces
             get;
         }
 
-        IEnumerable<string> StatusEffects
+        IEnumerable<IStatusEffect> StatusEffects
         {
             get;
         }

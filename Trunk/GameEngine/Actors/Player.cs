@@ -150,16 +150,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                int baseMax = m_baseMaxMP;
-
-                int percentageBonus = 0;
-                foreach (Skill s in Skills)
-                {
-                    percentageBonus += s.MPBonus;
-                }
-                baseMax = (int)(baseMax * (1.0 + ((float)percentageBonus / 100.0f)));
-
-                return baseMax;
+                return m_baseMaxMP + m_skills.Sum(s => s.MPBonus);
             }
         }
 
@@ -262,11 +253,11 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public IEnumerable<string> StatusEffects
+        public IEnumerable<IStatusEffect> StatusEffects
         {
             get
             {
-                return m_effects.Select(a => a.Name).ToList();
+                return m_effects.ConvertAll<IStatusEffect>(i => i).ToList();
             }
         }
 

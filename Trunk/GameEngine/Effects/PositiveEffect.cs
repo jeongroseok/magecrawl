@@ -14,6 +14,14 @@ namespace Magecrawl.GameEngine.Effects
             MPCost = mpCost;
         }
 
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public override void Dismiss()
         {
             MPCost = -1;
