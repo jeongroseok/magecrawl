@@ -123,7 +123,11 @@ namespace Magecrawl.GameEngine
 
             TurnCount = 0;
 
-            CommonStartupAfterMapPlayer();
+            m_physicsEngine = new PhysicsEngine(Player, Map);
+            m_pathFinding = new PathfindingMap(Player, Map);
+
+            // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
+            m_physicsEngine.AfterPlayerAction(this);
         }
 
         public void LoadSaveFile(string saveGameName)
@@ -131,16 +135,8 @@ namespace Magecrawl.GameEngine
             string saveGameDirectory = GetSaveDirectoryCreateIfNotExist();
             m_saveLoad.LoadGame(Path.Combine(saveGameDirectory, saveGameName));
 
-            CommonStartupAfterMapPlayer();
-        }
-
-        private void CommonStartupAfterMapPlayer()
-        {
             m_physicsEngine = new PhysicsEngine(Player, Map);
             m_pathFinding = new PathfindingMap(Player, Map);
-
-            // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
-            m_physicsEngine.AfterPlayerAction(this);
         }
 
         public void Dispose()

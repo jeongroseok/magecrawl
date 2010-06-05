@@ -214,7 +214,7 @@ namespace Magecrawl.GameEngine.Actors
                 RemoveEffect(effect);
 
             // Remove any positive effects that have been "dismissed"
-            m_effects.RemoveAll(a => a is PositiveEffect && ((PositiveEffect)a).MPCost < 0);
+            m_effects.RemoveAll(a => a is PositiveEffect && ((PositiveEffect)a).Dismissed);
         }
 
         public virtual void AddEffect(EffectBase effectToAdd)
