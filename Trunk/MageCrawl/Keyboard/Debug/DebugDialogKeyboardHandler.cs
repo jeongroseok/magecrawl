@@ -55,7 +55,7 @@ namespace Magecrawl.Keyboard.Debug
         {
             m_option = OptionMode.DebugMainMenu;
             List<INamedItem> itemList = new List<INamedItem>() {new TextElement("Create Item"), new TextElement("Create Monster"), 
-                new TextElement("Map Debug Settings"),  new TextElement("Add Skill Points"), new TextElement("Exit") };
+                new TextElement("Map Debug Settings"),  new TextElement("Kill Monsters on Floor"), new TextElement("Add Skill Points"), new TextElement("Exit") };
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemList, false, "Debug Options"));
         }
 
@@ -68,7 +68,7 @@ namespace Magecrawl.Keyboard.Debug
         private void SetMonsterMenu()
         {
             m_option = OptionMode.CreateMonster;
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.DebugRequest("GetAllMonsterList", null), false, "Item To Spawn"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.DebugRequest("GetAllMonsterList", null), false, "Monster To Spawn"));
         }
 
         private void CreateMapDebugSettings()
@@ -107,6 +107,12 @@ namespace Magecrawl.Keyboard.Debug
                 case "Add Skill Points":
                 {
                     m_engine.DebugRequest("AddSkillPoints", 50);
+                    Escape();
+                    return;
+                }
+                case "Kill Monsters on Floor":
+                {
+                    m_engine.DebugRequest("KillMonstersOnFloor", null);
                     Escape();
                     return;
                 }

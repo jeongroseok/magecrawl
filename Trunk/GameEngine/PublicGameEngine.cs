@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
@@ -381,6 +382,24 @@ namespace Magecrawl.GameEngine
             m_engine.Player.AddSkill(skill);
         }
 
+        public IStatusEffect GetStatusEffectFromName(string effectName)
+        {
+            return EffectFactory.CreateEffectBaseObject(effectName);
+        }
+
+        public void DismissEffect(string effectName)
+        {
+            EffectBase effectInQuestion = m_engine.Player.Effects.FirstOrDefault(e => e.DisplayName == effectName);
+            if (effectInQuestion == null)
+                throw new System.InvalidOperationException("Trying to DismissEffect " + effectName + " and can not find.");
+            if (!effectInQuestion.IsPositiveEffect)
+                throw new System.InvalidOperationException("Trying to DismissEffect a non-positive effect");
+            m_engine.BeforePlayerAction();
+            effectInQuestion.Dismiss();
+            m_engine.Wait(m_engine.Player); // Waiting passes time, which we want dismissing effects to take
+            m_engine.AfterPlayerAction();
+        }
+
         // This is a catch all debug request interface, used for debug menus.
         // While I could provide a nice interface typesafe and all for all requests,
         // this is easier to do. What was that about the cobbler's children again?
@@ -420,6 +439,9 @@ namespace Magecrawl.GameEngine
                 }
                 case "AddSkillPoints":
                     m_engine.Player.SkillPoints += (int)argument;
+                    return null;
+                case "KillMonstersOnFloor":
+                    m_engine.Map.ClearMonstersFromMap();
                     return null;
                 default:
                     return null;

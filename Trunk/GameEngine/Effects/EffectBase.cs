@@ -13,6 +13,15 @@ namespace Magecrawl.GameEngine.Effects
         // Should match entry in EffectFactory
         public abstract string Name { get; }
 
+        public string DisplayName
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
+
         public abstract bool IsPositiveEffect { get; }
 
         virtual public bool ProvidesEquipment(IArmor armor)

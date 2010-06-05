@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -105,6 +105,11 @@ namespace Magecrawl.GameEngine.Level
         internal bool RemoveMonster(Monster m)
         {
             return m_monsterList.Remove(m);
+        }
+
+        internal void ClearMonstersFromMap()
+        {
+            m_monsterList.Clear();
         }
 
         internal void AddMapItem(MapObject item)

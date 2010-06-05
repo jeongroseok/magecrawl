@@ -55,7 +55,7 @@ namespace Magecrawl.Keyboard.Magic
 
         private void Select()
         {
-            m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(new ListItemSelected(SpellSelectedDelegate)));          
+            m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(SpellSelectedDelegate));
         }
 
         private void Escape()

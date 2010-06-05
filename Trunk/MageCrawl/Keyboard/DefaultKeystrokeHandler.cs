@@ -238,6 +238,11 @@ namespace Magecrawl.Keyboard
             m_gameInstance.SetHandlerName("SkillTree");
         }
 
+        private void ShowEffects()
+        {
+            m_gameInstance.SetHandlerName("ShowEffects");
+        }
+
         // If you add new non-debug commands, remember to update HelpPainter.cs
         #endregion
     }
