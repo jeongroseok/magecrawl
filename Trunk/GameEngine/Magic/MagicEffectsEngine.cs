@@ -26,7 +26,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CurrentMP >= spell.Cost)
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), target, effectString))
+                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), target, effectString, caster.CurrentMP - spell.Cost))
                 {
                     caster.SpendMP(spell.Cost);
                     return true;
@@ -38,7 +38,7 @@ namespace Magecrawl.GameEngine.Magic
         internal void UseItemWithEffect(Character invoker, ItemWithEffects item, Point targetedPoint)
         {
             string effectString = string.Format(item.OnUseString, invoker.Name, item.Name);
-            DoEffect(invoker, item, item.Spell.EffectType, item.Strength, targetedPoint, effectString);
+            DoEffect(invoker, item, item.Spell.EffectType, item.Strength, targetedPoint, effectString, -1);
             return;
         }
 
@@ -75,9 +75,11 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        private bool DoEffect(Character invoker, object invokingMethod, string effect, int strength, Point target, string printOnEffect)
+        // mpTotalAfterSpellCastIfApplicable is a hack, used to not cast spells that have sustaining costs you can't sustain.
+        // DoEffect needs to be refactored, and callers should be able to ask if there will be a sustaining cost pre-cast
+        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int strength, Point target, string printOnEffect, int mpTotalAfterSpellCastIfApplicable)
         {
-            switch (effect)
+            switch (effectName)
             {                
                 case "HealCaster":
                 {
@@ -160,16 +162,28 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     // Add ability to remove effects w\o hack
                     // Different color for perminate affects.(Positive/Negative).
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    PositiveEffect previousEffect = (PositiveEffect)invoker.Effects.Where(x => x.Name == effect).FirstOrDefault();
+                    PositiveEffect previousEffect = (PositiveEffect)invoker.Effects.Where(x => x.Name == effectName).FirstOrDefault();
                     if (previousEffect != null)
                     {
                         // Hack
                         previousEffect.Dismiss();
+                        return false;
                     }
                     else
                     {
-                        invoker.AddEffect(Effects.EffectFactory.CreateEffect(invoker, effect, strength));
+                        PositiveEffect effect = (PositiveEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, strength);
+                        Player invokerAsPlayer = invoker as Player;
+                        if (invokerAsPlayer != null)
+                        {
+                            if(effect.MPCost > mpTotalAfterSpellCastIfApplicable && mpTotalAfterSpellCastIfApplicable != -1)
+                            {
+                                CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} does not have the energy to sustain it.", effectName, invoker.Name));
+                                return false;
+                            }
+                        }
+                        // Check here if mp will bring us under 0 since mp cost of spell hasn't hit yet...
+                        CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                        invoker.AddEffect(effect);
                     }
                     return true;
                 }
@@ -197,7 +211,7 @@ namespace Magecrawl.GameEngine.Magic
                     return true;
                 }
                 default:
-                    throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + effect);
+                    throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + effectName);
             }
         }
 

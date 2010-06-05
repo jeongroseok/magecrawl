@@ -4,14 +4,18 @@ namespace Magecrawl.GameEngine.Effects
 {
     internal abstract class PositiveEffect : EffectBase
     {
+        public bool Dismissed { get; private set; }
+
         public PositiveEffect()
         {
             MPCost = 0;
+            Dismissed = false;
         }
 
         public PositiveEffect(int mpCost)
         {
             MPCost = mpCost;
+            Dismissed = false;
         }
 
         public override bool IsPositiveEffect
@@ -24,7 +28,7 @@ namespace Magecrawl.GameEngine.Effects
 
         public override void Dismiss()
         {
-            MPCost = -1;
+            Dismissed = true;
         }
 
         public int MPCost { get; internal set; }
