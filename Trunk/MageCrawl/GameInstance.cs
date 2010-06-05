@@ -12,6 +12,7 @@ using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Debug;
 using Magecrawl.Keyboard.Dialogs;
+using Magecrawl.Keyboard.Effects;
 using Magecrawl.Keyboard.Inventory;
 using Magecrawl.Keyboard.Magic;
 using Magecrawl.Keyboard.SkillTree;
@@ -281,9 +282,9 @@ namespace Magecrawl
             quitGameHandler.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("QuitGame", quitGameHandler);
 
-            MapEffectsKeystrokeHandler effectHandler = new MapEffectsKeystrokeHandler(m_engine, this);
-            effectHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Effects", effectHandler);
+            MapEffectsKeystrokeHandler mapEffectHandler = new MapEffectsKeystrokeHandler(m_engine, this);
+            mapEffectHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("MapEffects", mapEffectHandler);
 
             HelpKeyboardHandler helpHandler = new HelpKeyboardHandler(m_engine, this);
             helpHandler.LoadKeyMappings(false);
@@ -304,6 +305,10 @@ namespace Magecrawl
             SkillTreeKeyboardHandler skillTreeHander = new SkillTreeKeyboardHandler(m_engine, this);
             skillTreeHander.LoadKeyMappings(false);
             m_keystroke.Handlers.Add("SkillTree", skillTreeHander);
+
+            ShowEffectsHandler showEffectHandler = new ShowEffectsHandler(m_engine, this);
+            showEffectHandler.LoadKeyMappings(false);
+            m_keystroke.Handlers.Add("ShowEffects", showEffectHandler);
 
             DebugDialogKeyboardHandler debugHandler = new DebugDialogKeyboardHandler(m_engine, this);
             debugHandler.LoadKeyMappings(false);

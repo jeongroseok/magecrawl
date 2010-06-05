@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using libtcod;
 using Magecrawl.GameEngine;
 using Magecrawl.GameEngine.Interfaces;
@@ -96,6 +96,11 @@ namespace Magecrawl.GameUI.ListSelection
                 }
                 m_dialogColorHelper.ResetColors(screen);
             }
+        }
+
+        public bool IsEnabled(INamedItem item)
+        {
+            return m_shouldBeSelectedDelegate != null ? m_shouldBeSelectedDelegate(item) : true; 
         }
 
         internal INamedItem CurrentSelection

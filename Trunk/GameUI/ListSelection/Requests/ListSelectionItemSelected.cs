@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Magecrawl.GameUI.ListSelection.Requests
 {
@@ -14,7 +14,7 @@ namespace Magecrawl.GameUI.ListSelection.Requests
         internal override void DoRequest(IHandlePainterRequest painter)
         {
             ListSelectionPainter l = painter as ListSelectionPainter;
-            if (l != null)
+            if (l != null && l.IsEnabled(l.CurrentSelection))
                 m_onSelected(l.CurrentSelection);
         }
     }

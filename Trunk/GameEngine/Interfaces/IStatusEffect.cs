@@ -2,7 +2,7 @@ using System;
 
 namespace Magecrawl.GameEngine.Interfaces
 {
-    public interface IStatusEffect
+    public interface IStatusEffect : INamedItem
     {
         string Name { get; }
         bool IsPositiveEffect { get; }
