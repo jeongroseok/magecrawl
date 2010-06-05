@@ -160,16 +160,8 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
-                    // Add ability to remove effects w\o hack
-                    // Different color for perminate affects.(Positive/Negative).
-                    PositiveEffect previousEffect = (PositiveEffect)invoker.Effects.Where(x => x.Name == effectName).FirstOrDefault();
-                    if (previousEffect != null)
-                    {
-                        // Hack
-                        previousEffect.Dismiss();
-                        return false;
-                    }
-                    else
+                    PositiveEffect previousEffect = (PositiveEffect)invoker.Effects.FirstOrDefault(x => x.Name == effectName);
+                    if (previousEffect == null)
                     {
                         PositiveEffect effect = (PositiveEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, strength);
                         Player invokerAsPlayer = invoker as Player;
@@ -184,8 +176,13 @@ namespace Magecrawl.GameEngine.Magic
                         // Check here if mp will bring us under 0 since mp cost of spell hasn't hit yet...
                         CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                         invoker.AddEffect(effect);
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+                        CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} already has the effect.", effectName, invoker.Name));
+                        return false;
+                    }
                 }
                 case "Poison Bolt":
                 {
