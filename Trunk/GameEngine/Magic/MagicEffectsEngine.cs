@@ -26,7 +26,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CurrentMP >= spell.Cost)
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), target, effectString, caster.CurrentMP - spell.Cost))
+                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), true, target, effectString, caster.CurrentMP - spell.Cost))
                 {
                     caster.SpendMP(spell.Cost);
                     return true;
@@ -38,7 +38,7 @@ namespace Magecrawl.GameEngine.Magic
         internal void UseItemWithEffect(Character invoker, ItemWithEffects item, Point targetedPoint)
         {
             string effectString = string.Format(item.OnUseString, invoker.Name, item.Name);
-            DoEffect(invoker, item, item.Spell.EffectType, item.Strength, targetedPoint, effectString, -1);
+            DoEffect(invoker, item, item.Spell.EffectType, item.Strength, false, targetedPoint, effectString, -1);
             return;
         }
 
@@ -77,7 +77,7 @@ namespace Magecrawl.GameEngine.Magic
 
         // mpTotalAfterSpellCastIfApplicable is a hack, used to not cast spells that have sustaining costs you can't sustain.
         // DoEffect needs to be refactored, and callers should be able to ask if there will be a sustaining cost pre-cast
-        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int strength, Point target, string printOnEffect, int mpTotalAfterSpellCastIfApplicable)
+        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int strength, bool couldBeLongTerm, Point target, string printOnEffect, int mpTotalAfterSpellCastIfApplicable)
         {
             switch (effectName)
             {                
@@ -160,36 +160,22 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
-                    StatusEffect previousEffect = invoker.Effects.FirstOrDefault(x => x.Name == effectName);
-                    if (previousEffect == null)
-                    {
-                        LongTermEffect effect = (LongTermEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, true, strength);
-                        Player invokerAsPlayer = invoker as Player;
-                        if (invokerAsPlayer != null)
-                        {
-                            if(effect.MPCost > mpTotalAfterSpellCastIfApplicable && mpTotalAfterSpellCastIfApplicable != -1)
-                            {
-                                CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} does not have the energy to sustain it.", effectName, invoker.Name));
-                                return false;
-                            }
-                        }
-                        // Check here if mp will bring us under 0 since mp cost of spell hasn't hit yet...
+                    bool successAddingEffect = AddEffectToTarget(effectName, invoker, strength, couldBeLongTerm, target, mpTotalAfterSpellCastIfApplicable);
+                    if (successAddingEffect)
                         CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                        invoker.AddEffect(effect);
-                        return true;
-                    }
-                    else
-                    {
-                        CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} already has the effect.", effectName, invoker.Name));
-                        return false;
-                    }
+                    return successAddingEffect;
                 }
                 case "Poison Bolt":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
-                    AddAffactToTarget("Poison", invoker, strength, false, target);
+                    AddEffectToTarget("Poison", invoker, strength, false, target, mpTotalAfterSpellCastIfApplicable);
                     return true;
+                }
+                case "Slow":
+                {
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    return AddEffectToTarget("Slow", invoker, strength, false, target, mpTotalAfterSpellCastIfApplicable);
                 }
                 case "Blink":
                 {
@@ -200,12 +186,6 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     return HandleRandomTeleport(invoker, 25);
-                }
-                case "Slow":
-                {
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    AddAffactToTarget("Slow", invoker, strength, false, target);
-                    return true;
                 }
                 default:
                     throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + effectName);
@@ -236,11 +216,43 @@ namespace Magecrawl.GameEngine.Magic
             CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, coneBlastList, false);
         }
 
-        private void AddAffactToTarget(string name, Character caster, int strength, bool longTerm, Point target)
+        private bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target, int mpTotalAfterSpellCastIfApplicable)
         {
             Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
             if (targetCharacter != null)
-                targetCharacter.AddEffect(Effects.EffectFactory.CreateEffect(caster, name, longTerm, strength));
+            {
+                if (longTerm)
+                {
+                    StatusEffect previousEffect = invoker.Effects.FirstOrDefault(x => x.Name == effectName);
+                    if (previousEffect == null)
+                    {
+                        LongTermEffect effect = (LongTermEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, true, strength);
+                        Player invokerAsPlayer = invoker as Player;
+                        if (invokerAsPlayer != null)
+                        {
+                            if (effect.MPCost > mpTotalAfterSpellCastIfApplicable && mpTotalAfterSpellCastIfApplicable != -1)
+                            {
+                                CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} does not have the energy to sustain it.", effectName, invoker.Name));
+                                return false;
+                            }
+                        }
+                        // Check here if mp will bring us under 0 since mp cost of spell hasn't hit yet...
+                        invoker.AddEffect(effect);
+                        return true;
+                    }
+                    else
+                    {
+                        CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} already has the effect.", effectName, invoker.Name));
+                        return false;
+                    }
+                }
+                else
+                {
+                    targetCharacter.AddEffect(Effects.EffectFactory.CreateEffect(invoker, effectName, longTerm, strength));
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static int CalculateDamgeFromSpell(int strength)
