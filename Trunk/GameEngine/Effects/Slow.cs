@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Slow : NegativeEffect
+    internal class Slow : ShortTermEffect
     {
         private double m_modifier;
 
@@ -36,6 +36,14 @@ namespace Magecrawl.GameEngine.Effects
             get
             {
                 return "Slow";
+            }
+        }
+
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return false;
             }
         }
 

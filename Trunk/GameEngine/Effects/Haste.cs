@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Haste : PositiveEffect
+    internal class Haste : LongTermEffect
     {
         private double m_modifier;
 
@@ -36,6 +36,14 @@ namespace Magecrawl.GameEngine.Effects
             get
             {
                 return "Haste";
+            }
+        }
+
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return true;
             }
         }
 

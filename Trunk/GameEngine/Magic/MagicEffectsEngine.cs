@@ -160,10 +160,10 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
-                    PositiveEffect previousEffect = (PositiveEffect)invoker.Effects.FirstOrDefault(x => x.Name == effectName);
+                    EffectBase previousEffect = invoker.Effects.FirstOrDefault(x => x.Name == effectName);
                     if (previousEffect == null)
                     {
-                        PositiveEffect effect = (PositiveEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, strength);
+                        LongTermEffect effect = (LongTermEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, strength);
                         Player invokerAsPlayer = invoker as Player;
                         if (invokerAsPlayer != null)
                         {

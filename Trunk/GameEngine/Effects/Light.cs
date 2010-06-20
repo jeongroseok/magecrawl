@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Light : PositiveEffect
+    internal class Light : LongTermEffect
     {
         private int m_visionBoost;
 
@@ -34,6 +34,14 @@ namespace Magecrawl.GameEngine.Effects
             get
             {
                 return "Light";
+            }
+        }
+
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return true;
             }
         }
 

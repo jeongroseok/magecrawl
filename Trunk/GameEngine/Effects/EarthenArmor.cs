@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class EarthenArmor : PositiveEffect
+    internal class EarthenArmor : LongTermEffect
     {
         private ChestArmor m_previousArmor;
 
@@ -24,6 +24,14 @@ namespace Magecrawl.GameEngine.Effects
             get
             {
                 return "Earthen Armor";
+            }
+        }
+
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return true;
             }
         }
 

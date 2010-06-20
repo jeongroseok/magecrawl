@@ -7,7 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal class Poison : NegativeEffect
+    internal class Poison : ShortTermEffect
     {
         public Poison() : base(0)
         {
@@ -54,6 +54,14 @@ namespace Magecrawl.GameEngine.Effects
             get 
             {
                 return "Poison";
+            }
+        }
+
+        public override bool IsPositiveEffect
+        {
+            get
+            {
+                return false;
             }
         }
 

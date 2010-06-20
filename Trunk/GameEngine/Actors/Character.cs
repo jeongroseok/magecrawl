@@ -205,16 +205,16 @@ namespace Magecrawl.GameEngine.Actors
         {
             CT -= decrease;
 
-            // Remove negative effects if ct <= 0
-            List<NegativeEffect> negativeEffects = m_effects.OfType<NegativeEffect>().ToList();
+            // Remove short term effects if ct <= 0
+            List<ShortTermEffect> shortTermEffects = m_effects.OfType<ShortTermEffect>().ToList();
 
-            negativeEffects.ForEach(a => a.DecreaseCT(decrease));
+            shortTermEffects.ForEach(a => a.DecreaseCT(decrease));
             
-            foreach (EffectBase effect in negativeEffects.Where(a => a.CTLeft <= 0))
+            foreach (EffectBase effect in shortTermEffects.Where(a => a.CTLeft <= 0))
                 RemoveEffect(effect);
 
-            // Remove any positive effects that have been "dismissed"
-            m_effects.RemoveAll(a => a is PositiveEffect && ((PositiveEffect)a).Dismissed);
+            // Remove any long term effects that have been "dismissed"
+            m_effects.RemoveAll(a => a is LongTermEffect && ((LongTermEffect)a).Dismissed);
         }
 
         public virtual void AddEffect(EffectBase effectToAdd)
