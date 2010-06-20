@@ -45,7 +45,7 @@ namespace Magecrawl.GameEngine.Actors
             if (m_effects.Count > 0)
                 throw new NotImplementedException("Have not implemented Clone() on monster when Effects are on it");
 
-            newMonster.m_effects = new List<EffectBase>();
+            newMonster.m_effects = new List<StatusEffect>();
 
             return newMonster;
         }
@@ -118,7 +118,7 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         // Hack - Bug 226
-        public override void AddEffect(EffectBase affectToAdd)
+        public override void AddEffect(StatusEffect affectToAdd)
         {
             m_playerLastKnownPosition = CoreGameEngine.Instance.Player.Position;
             base.AddEffect(affectToAdd);

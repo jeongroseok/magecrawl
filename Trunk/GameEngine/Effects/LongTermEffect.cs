@@ -1,28 +1,32 @@
-using System;
+using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.GameEngine.Effects.EffectResults;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal abstract class LongTermEffect : EffectBase
+    internal class LongTermEffect : StatusEffect
     {
-        public bool Dismissed { get; private set; }
+        public bool Dismissed { get; private set; }             
 
         public LongTermEffect()
         {
             MPCost = 0;
             Dismissed = false;
+            m_effectResult = null;
         }
 
-        public LongTermEffect(int mpCost)
+        public LongTermEffect(EffectResult effect)
         {
-            MPCost = mpCost;
+            MPCost = 0;
             Dismissed = false;
+            m_effectResult = effect;
         }
 
-        public override void Dismiss()
+        internal override void Dismiss()
         {
             Dismissed = true;
         }
 
-        public int MPCost { get; internal set; }
+        public int MPCost { get; set; }        
     }
 }

@@ -3,23 +3,22 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.GameEngine.Items;
-using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.GameEngine.Effects.EffectResults
 {
-    internal class EarthenArmor : LongTermEffect
+    internal class EarthenArmor : EffectResult
     {
         private ChestArmor m_previousArmor;
 
-        public EarthenArmor() : base(5)
+        public EarthenArmor()
         {
         }
 
-        public EarthenArmor(int strength) : base(5)
+        public EarthenArmor(int strength)
         {
         }
 
-        public override string Name
+        internal override string Name
         {
             get
             {
@@ -27,7 +26,7 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
-        public override bool IsPositiveEffect
+        internal override bool IsPositiveEffect
         {
             get
             {
@@ -35,32 +34,16 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
-        override public bool ProvidesEquipment(IArmor armor)
+        internal override bool ProvidesEquipment(IArmor armor)
         {
             return armor.DisplayName == "Earthen Armor";
         }
 
-        #region SaveLoad
-
-        public override void ReadXml(System.Xml.XmlReader reader)
-        {
-            base.ReadXml(reader);
-            m_previousArmor = (ChestArmor)Item.ReadXmlEntireNode(reader, null);
-        }
-
-        public override void WriteXml(System.Xml.XmlWriter writer)
-        {
-            base.WriteXml(writer);
-            Item.WriteXmlEntireNode((Item)m_previousArmor, "ChestArmor", writer);            
-        }
-
-        #endregion
-
-        public override void Apply(Character appliedTo)
+        internal override void Apply(Character appliedTo)
         {
             Player player = appliedTo as Player;
             if (player == null)
-                throw new NotImplementedException("Can't apply earth armor to non-players until they have armor");
+                throw new NotImplementedException("Can't apply earth armor to non-players.");
             ChestArmor itemPreviousEquiped = (ChestArmor)appliedTo.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Earthen Armor"));
             ((ArmorBase)player.ChestArmor).Summoned = true;
 
@@ -70,7 +53,7 @@ namespace Magecrawl.GameEngine.Effects
                 m_previousArmor = itemPreviousEquiped;
         }
 
-        public override void Remove(Character removedFrom)
+        internal override void Remove(Character removedFrom)
         {
             Player player = removedFrom as Player;
             if (player == null)
@@ -81,5 +64,19 @@ namespace Magecrawl.GameEngine.Effects
             if (shouldBeEarthenArmor.DisplayName != "Earthen Armor")
                 throw new InvalidOperationException("Earthen Armor got removed before Remove()?");
         }
+
+        #region SaveLoad
+
+        internal override void ReadXml(System.Xml.XmlReader reader)
+        {
+            m_previousArmor = (ChestArmor)Item.ReadXmlEntireNode(reader, null);
+        }
+
+        internal override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            Item.WriteXmlEntireNode((Item)m_previousArmor, "ChestArmor", writer);
+        }
+
+        #endregion
     }
 }

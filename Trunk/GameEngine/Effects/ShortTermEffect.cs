@@ -1,21 +1,24 @@
 using System;
 using System.Xml;
+using Magecrawl.GameEngine.Effects.EffectResults;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal abstract class ShortTermEffect : EffectBase
+    internal class ShortTermEffect : StatusEffect
     {
         public ShortTermEffect()
         {
             CTLeft = 0;
+            m_effectResult = null;
         }
 
-        public ShortTermEffect(int totalCT)
+        public ShortTermEffect(EffectResult effect)
         {
-            CTLeft = totalCT;
+            CTLeft = 0;
+            m_effectResult = effect;
         }
 
-        public int CTLeft { get; protected set; }
+        public int CTLeft { get; set; }
 
         public void Extend(double ratio)
         {
@@ -27,7 +30,7 @@ namespace Magecrawl.GameEngine.Effects
             CTLeft -= decrease;
         }
 
-        public override void Dismiss()
+        internal override void Dismiss()
         {
             CTLeft = 0;
         }

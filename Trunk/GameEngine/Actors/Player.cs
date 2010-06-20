@@ -284,14 +284,14 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public override void AddEffect(EffectBase effectToAdd)
+        public override void AddEffect(StatusEffect effectToAdd)
         {
             base.AddEffect(effectToAdd);
             ResetMaxStaminaIfNowOver();
             ResetMaxMPIfNowOver();
         }
 
-        public override void RemoveEffect(EffectBase effectToRemove)
+        public override void RemoveEffect(StatusEffect effectToRemove)
         {
             base.RemoveEffect(effectToRemove);
             ResetMaxStaminaIfNowOver();

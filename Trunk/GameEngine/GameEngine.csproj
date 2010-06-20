@@ -62,6 +62,22 @@
     <Compile Include="Armor\Gloves.cs" />
     <Compile Include="Armor\Headpiece.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
+    <Compile Include="Effects\EffectResults\EarthenArmor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Effects\EffectResults\Haste.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Effects\EffectResults\EffectResult.cs" />
+    <Compile Include="Effects\EffectResults\Light.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Effects\EffectResults\Poison.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Effects\EffectResults\Slow.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\IArmor.cs" />
     <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />
@@ -133,13 +149,8 @@
     <Compile Include="Weapons\WeaponBase.cs" />
     <Compile Include="Items\ItemFactory.cs" />
     <Compile Include="Weapons\Sword.cs" />
-    <Compile Include="Effects\EffectBase.cs" />
+    <Compile Include="Effects\StatusEffect.cs" />
     <Compile Include="Effects\EffectFactory.cs" />
-    <Compile Include="Effects\EarthenArmor.cs" />
-    <Compile Include="Effects\Slow.cs" />
-    <Compile Include="Effects\Light.cs" />
-    <Compile Include="Effects\Haste.cs" />
-    <Compile Include="Effects\Poison.cs" />
     <Compile Include="Effects\LongTermEffect.cs" />
     <Compile Include="Effects\ShortTermEffect.cs" />
     <Compile Include="Interfaces\IStatusEffect.cs" />

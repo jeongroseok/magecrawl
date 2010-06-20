@@ -160,10 +160,10 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
-                    EffectBase previousEffect = invoker.Effects.FirstOrDefault(x => x.Name == effectName);
+                    StatusEffect previousEffect = invoker.Effects.FirstOrDefault(x => x.Name == effectName);
                     if (previousEffect == null)
                     {
-                        LongTermEffect effect = (LongTermEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, strength);
+                        LongTermEffect effect = (LongTermEffect)Effects.EffectFactory.CreateEffect(invoker, effectName, true, strength);
                         Player invokerAsPlayer = invoker as Player;
                         if (invokerAsPlayer != null)
                         {
@@ -188,7 +188,7 @@ namespace Magecrawl.GameEngine.Magic
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
-                    AddAffactToTarget("Poison", invoker, strength, target);
+                    AddAffactToTarget("Poison", invoker, strength, false, target);
                     return true;
                 }
                 case "Blink":
@@ -204,7 +204,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Slow":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    AddAffactToTarget("Slow", invoker, strength, target);
+                    AddAffactToTarget("Slow", invoker, strength, false, target);
                     return true;
                 }
                 default:
@@ -236,11 +236,11 @@ namespace Magecrawl.GameEngine.Magic
             CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, coneBlastList, false);
         }
 
-        private void AddAffactToTarget(string name, Character caster, int strength, Point target)
+        private void AddAffactToTarget(string name, Character caster, int strength, bool longTerm, Point target)
         {
             Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
             if (targetCharacter != null)
-                targetCharacter.AddEffect(Effects.EffectFactory.CreateEffect(caster, name, strength));
+                targetCharacter.AddEffect(Effects.EffectFactory.CreateEffect(caster, name, longTerm, strength));
         }
 
         private static int CalculateDamgeFromSpell(int strength)

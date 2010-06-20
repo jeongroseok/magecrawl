@@ -578,7 +578,7 @@ namespace Magecrawl.GameEngine
                     ArmorBase armor = (ArmorBase)item;
                     if (armor.Summoned)
                     {
-                        foreach (EffectBase affect in m_player.Effects)
+                        foreach (StatusEffect affect in m_player.Effects)
                         {
                             if (affect.ProvidesEquipment(armor))
                             {

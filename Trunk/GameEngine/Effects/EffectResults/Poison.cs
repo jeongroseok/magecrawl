@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.GameEngine.Effects.EffectResults
 {
-    internal class Poison : ShortTermEffect
+    internal class Poison : EffectResult
     {
-        public Poison() : base(0)
+        private Character m_affected;
+        private int m_damagePerInterval;
+        private bool m_castByPlayer;
+
+        public Poison()
         {
         }
 
         public Poison(int strength, bool castByPlayer)
-            : base(new DiceRoll(1, 4, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_damagePerInterval = strength / 3;
             if (m_damagePerInterval == 0)
@@ -22,18 +26,13 @@ namespace Magecrawl.GameEngine.Effects
             m_castByPlayer = castByPlayer;
         }
 
-        private Character m_affected;
-        private int m_damagePerInterval;
-        private bool m_castByPlayer;
-
-        public override void Apply(Character appliedTo)
+        internal override void Apply(Character appliedTo)
         {
             m_affected = appliedTo;
         }
 
-        public override void DecreaseCT(int decrease)
+        internal override void DecreaseCT(int decrease, int CTLeft)
         {
-            base.DecreaseCT(decrease);
             int original = CTLeft + decrease;
             for (int i = original - 1; i >= CTLeft; i--)
             {
@@ -45,11 +44,7 @@ namespace Magecrawl.GameEngine.Effects
             }            
         }
 
-        public override void Remove(Character removedFrom)
-        {            
-        }
-
-        public override string Name
+        internal override string Name
         {
             get 
             {
@@ -57,7 +52,7 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
-        public override bool IsPositiveEffect
+        internal override bool IsPositiveEffect
         {
             get
             {
@@ -67,16 +62,14 @@ namespace Magecrawl.GameEngine.Effects
 
         #region SaveLoad
 
-        public override void ReadXml(System.Xml.XmlReader reader)
+        internal override void ReadXml(System.Xml.XmlReader reader)
         {
-            base.ReadXml(reader);
             m_damagePerInterval = reader.ReadElementContentAsInt();
             m_castByPlayer = reader.ReadElementContentAsBoolean();
         }
 
-        public override void WriteXml(System.Xml.XmlWriter writer)
+        internal override void WriteXml(System.Xml.XmlWriter writer)
         {
-            base.WriteXml(writer);
             writer.WriteElementString("DamagePerInterval", m_damagePerInterval.ToString());
             writer.WriteElementString("CastByPlayer", m_castByPlayer.ToString());
         }

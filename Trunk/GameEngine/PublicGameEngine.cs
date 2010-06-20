@@ -382,14 +382,9 @@ namespace Magecrawl.GameEngine
             m_engine.Player.AddSkill(skill);
         }
 
-        public IStatusEffect GetStatusEffectFromName(string effectName)
-        {
-            return EffectFactory.CreateEffectBaseObject(effectName);
-        }
-
         public void DismissEffect(string effectName)
         {
-            EffectBase effectInQuestion = m_engine.Player.Effects.FirstOrDefault(e => e.DisplayName == effectName);
+            StatusEffect effectInQuestion = m_engine.Player.Effects.FirstOrDefault(e => e.DisplayName == effectName);
             if (effectInQuestion == null)
                 throw new System.InvalidOperationException("Trying to DismissEffect " + effectName + " and can not find.");
             if (!effectInQuestion.IsPositiveEffect)
