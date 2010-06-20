@@ -46,6 +46,22 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
+        internal override int DefaultMPSustainingCost
+        {
+            get
+            {
+                return 2;
+            }
+        }
+
+        internal override int DefaultEffectLength
+        {
+            get
+            {
+                return (new DiceRoll(1, 20, 30)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //30-50 turns
+            }
+        }
+
         #region SaveLoad
 
         internal override void ReadXml(System.Xml.XmlReader reader)

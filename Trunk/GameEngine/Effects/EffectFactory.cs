@@ -37,10 +37,14 @@ namespace Magecrawl.GameEngine.Effects
                 default:
                     throw new System.InvalidOperationException("CreateEffect can't find - " + effectName);
             }
+            
+            StatusEffect effect;
             if (longTerm)
-                return new LongTermEffect(effectResult);
+                effect = new LongTermEffect(effectResult);
             else
-                return new ShortTermEffect(effectResult);
+                effect = new ShortTermEffect(effectResult);
+            effect.SetDefaults();
+            return effect;
         }
     }
 }

@@ -6,7 +6,8 @@ namespace Magecrawl.GameEngine.Effects
 {
     internal class LongTermEffect : StatusEffect
     {
-        public bool Dismissed { get; private set; }             
+        public int MPCost { get; set; }
+        public bool Dismissed { get; private set; }
 
         public LongTermEffect()
         {
@@ -27,6 +28,11 @@ namespace Magecrawl.GameEngine.Effects
             Dismissed = true;
         }
 
-        public int MPCost { get; set; }        
+        internal override void SetDefaults()
+        {
+            if (m_effectResult.DefaultMPSustainingCost == -1)
+                throw new System.InvalidOperationException("Trying to sustain an effect with an invalid cost");
+            MPCost = m_effectResult.DefaultMPSustainingCost;
+        }
     }
 }
