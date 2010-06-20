@@ -33,6 +33,19 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             return false;
         }
 
+        internal virtual int DefaultMPSustainingCost
+        {
+            get
+            {
+                return -1;
+            }
+        }
+
+        internal abstract int DefaultEffectLength
+        {
+            get;
+        }
+
         internal virtual void ReadXml(XmlReader reader)
         {
         }

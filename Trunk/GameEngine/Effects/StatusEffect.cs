@@ -50,6 +50,8 @@ namespace Magecrawl.GameEngine.Effects
             return m_effectResult.ProvidesEquipment(armor);
         }
 
+        internal abstract void SetDefaults();
+
         internal abstract void Dismiss();
 
         #region IXmlSerializable Members

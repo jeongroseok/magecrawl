@@ -1,5 +1,6 @@
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
@@ -39,6 +40,22 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             get
             {
                 return true;
+            }
+        }
+
+        internal override int DefaultMPSustainingCost
+        {
+            get
+            {
+                return 5;
+            }
+        }
+
+        internal override int DefaultEffectLength
+        {
+            get
+            {
+                return (new DiceRoll(1, 5, 10)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //10-15 turns
             }
         }
 

@@ -35,6 +35,11 @@ namespace Magecrawl.GameEngine.Effects
             CTLeft = 0;
         }
 
+        internal override void SetDefaults()
+        {
+            CTLeft = m_effectResult.DefaultEffectLength;
+        }
+
         #region IXmlSerializable Members
 
         public override void ReadXml(XmlReader reader)
