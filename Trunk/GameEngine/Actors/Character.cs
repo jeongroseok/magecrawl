@@ -81,16 +81,16 @@ namespace Magecrawl.GameEngine.Actors
 
         private static int s_idCounter = 0;
         
-        protected List<EffectBase> m_effects;
+        protected List<StatusEffect> m_effects;
 
         internal Character() : this("", Point.Invalid, 0, 0, 0, 0)
         {
-            m_effects = new List<EffectBase>();
+            m_effects = new List<StatusEffect>();
         }
 
         internal Character(string name, Point p, int visionRange) : this(name, p, visionRange, 1.0, 1.0, 1.0)
         {
-            m_effects = new List<EffectBase>();
+            m_effects = new List<StatusEffect>();
         }
 
         internal Character(string name, Point p, int visionRange, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
@@ -106,7 +106,7 @@ namespace Magecrawl.GameEngine.Actors
             CTCostModifierToMove = ctMoveCost;
             CTCostModifierToAct = ctActCost;
 
-            m_effects = new List<EffectBase>();
+            m_effects = new List<StatusEffect>();
             
             m_uniqueID = s_idCounter;
             s_idCounter++;
@@ -210,26 +210,26 @@ namespace Magecrawl.GameEngine.Actors
 
             shortTermEffects.ForEach(a => a.DecreaseCT(decrease));
             
-            foreach (EffectBase effect in shortTermEffects.Where(a => a.CTLeft <= 0))
+            foreach (StatusEffect effect in shortTermEffects.Where(a => a.CTLeft <= 0))
                 RemoveEffect(effect);
 
             // Remove any long term effects that have been "dismissed"
             m_effects.RemoveAll(a => a is LongTermEffect && ((LongTermEffect)a).Dismissed);
         }
 
-        public virtual void AddEffect(EffectBase effectToAdd)
+        public virtual void AddEffect(StatusEffect effectToAdd)
         {
             m_effects.Add(effectToAdd);
             effectToAdd.Apply(this);
         }
 
-        public virtual void RemoveEffect(EffectBase effectToRemove)
+        public virtual void RemoveEffect(StatusEffect effectToRemove)
         {
             m_effects.Remove(effectToRemove);
             effectToRemove.Remove(this);
         }
 
-        public IEnumerable<EffectBase> Effects
+        public IEnumerable<StatusEffect> Effects
         {
             get
             {
@@ -264,7 +264,8 @@ namespace Magecrawl.GameEngine.Actors
                 innerReader =>
                 {
                     string typeName = reader.ReadElementContentAsString();
-                    EffectBase affect = EffectFactory.CreateEffectBaseObject(typeName);
+                    bool longTerm = Boolean.Parse(reader.ReadElementContentAsString());
+                    StatusEffect affect = EffectFactory.CreateEffectBaseObject(typeName, longTerm);
                     affect.ReadXml(reader);
                     AddEffect(affect);
                 });

@@ -4,34 +4,34 @@ using System.Linq;
 using System.Text;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.GameEngine.Effects.EffectResults
 {
-    internal class Slow : ShortTermEffect
+    internal class Slow : EffectResult
     {
         private double m_modifier;
 
-        public Slow() : base(0)
+        public Slow()
         {
         }
 
         public Slow(int strength)
-            : base(new DiceRoll(4, 2, strength).Roll() * CoreTimingEngine.CTNeededForNewTurn)
         {
             m_modifier = 1.4;
         }
 
-        public override void Apply(Character appliedTo)
+        internal override void Apply(Character appliedTo)
         {
             appliedTo.CTIncreaseModifier /= m_modifier;
         }
 
-        public override void Remove(Character removedFrom)
+        internal override void Remove(Character removedFrom)
         {
             removedFrom.CTIncreaseModifier *= m_modifier;
         }
 
-        public override string Name
+        internal override string Name
         {
             get
             {
@@ -39,7 +39,7 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
-        public override bool IsPositiveEffect
+        internal override bool IsPositiveEffect
         {
             get
             {
@@ -49,15 +49,13 @@ namespace Magecrawl.GameEngine.Effects
 
         #region SaveLoad
 
-        public override void ReadXml(System.Xml.XmlReader reader)
+        internal override void ReadXml(System.Xml.XmlReader reader)
         {
-            base.ReadXml(reader);
             m_modifier = reader.ReadElementContentAsDouble();
         }
 
-        public override void WriteXml(System.Xml.XmlWriter writer)
+        internal override void WriteXml(System.Xml.XmlWriter writer)
         {
-            base.WriteXml(writer);
             writer.WriteElementString("Modifier", m_modifier.ToString());
         }
 

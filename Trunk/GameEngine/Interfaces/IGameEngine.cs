@@ -113,8 +113,7 @@ namespace Magecrawl.GameEngine.Interfaces
         void AddSkillToPlayer(ISkill skill);
 
         ISkill GetSkillFromName(string name);
-
-        IStatusEffect GetStatusEffectFromName(string effectName);
+        
         void DismissEffect(string name);
         
         // Debugging calls

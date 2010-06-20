@@ -1,35 +1,36 @@
 using System;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interfaces;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.GameEngine.Effects.EffectResults
 {
-    internal class Light : LongTermEffect
+    internal class Light : EffectResult
     {
         private int m_visionBoost;
 
-        public Light() : base(2)
+        public Light()
         {
         }
 
-        public Light(int strength) : base(2)
+        public Light(int strength)
         {
             m_visionBoost = strength / 2;
             if (m_visionBoost < 2)
                 m_visionBoost = 2;
         }
 
-        public override void Apply(Character appliedTo)
+        internal override void Apply(Character appliedTo)
         {
             appliedTo.Vision += m_visionBoost;
         }
 
-        public override void Remove(Character removedFrom)
+        internal override void Remove(Character removedFrom)
         {
             removedFrom.Vision -= m_visionBoost;
         }
 
-        public override string Name
+        internal override string Name
         {
             get
             {
@@ -37,7 +38,7 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
-        public override bool IsPositiveEffect
+        internal override bool IsPositiveEffect
         {
             get
             {
@@ -47,15 +48,13 @@ namespace Magecrawl.GameEngine.Effects
 
         #region SaveLoad
 
-        public override void ReadXml(System.Xml.XmlReader reader)
+        internal override void ReadXml(System.Xml.XmlReader reader)
         {
-            base.ReadXml(reader);
             m_visionBoost = reader.ReadElementContentAsInt();
         }
 
-        public override void WriteXml(System.Xml.XmlWriter writer)
+        internal override void WriteXml(System.Xml.XmlWriter writer)
         {
-            base.WriteXml(writer);
             writer.WriteElementString("VisionBoost", m_visionBoost.ToString());
         }
 

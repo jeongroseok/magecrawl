@@ -1,35 +1,46 @@
 using Magecrawl.GameEngine.Actors;
+using Magecrawl.GameEngine.Effects.EffectResults;
 
 namespace Magecrawl.GameEngine.Effects
 {
     public class EffectFactory
     {
-        internal static EffectBase CreateEffectBaseObject(string affectName)
+        internal static StatusEffect CreateEffectBaseObject(string affectName, bool longTerm)
         {
-            return CreateEffect(null, affectName, 0);
+            return CreateEffect(null, affectName, longTerm, 0);
         }
 
-        internal static EffectBase CreateEffect(Character caster, string affectName, int level)
+        internal static StatusEffect CreateEffect(Character caster, string effectName, bool longTerm, int level)
         {
-            // MEF?
-            switch (affectName)
+            // MEF
+            EffectResult effectResult;
+            switch (effectName)
             {
                 case "Haste":
-                    return new Haste(level);
+                    effectResult = new Haste(level);
+                    break;
                 case "Slow":
-                    return new Slow(level);
+                    effectResult = new Slow(level);
+                    break;
                 case "Light":
-                    return new Light(level);
+                    effectResult = new Light(level);
+                    break;
                 case "Poison":
                 {
                     bool castByPlayer = caster is Player;
-                    return new Poison(level, castByPlayer);
+                    effectResult = new Poison(level, castByPlayer);
+                    break;
                 }
                 case "Earthen Armor":
-                    return new EarthenArmor(level);
+                    effectResult = new EarthenArmor(level);
+                    break;
                 default:
-                    return null;
+                    throw new System.InvalidOperationException("CreateEffect can't find - " + effectName);
             }
+            if (longTerm)
+                return new LongTermEffect(effectResult);
+            else
+                return new ShortTermEffect(effectResult);
         }
     }
 }
