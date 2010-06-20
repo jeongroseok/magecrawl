@@ -3,24 +3,16 @@ using System.Xml;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal abstract class NegativeEffect : EffectBase
+    internal abstract class ShortTermEffect : EffectBase
     {
-        public NegativeEffect()
+        public ShortTermEffect()
         {
             CTLeft = 0;
         }
 
-        public NegativeEffect(int totalCT)
+        public ShortTermEffect(int totalCT)
         {
             CTLeft = totalCT;
-        }
-
-        public override bool IsPositiveEffect
-        {
-            get
-            {
-                return false;
-            }
         }
 
         public int CTLeft { get; protected set; }

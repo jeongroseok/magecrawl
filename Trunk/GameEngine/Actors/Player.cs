@@ -144,7 +144,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return MaxPossibleMP - m_effects.OfType<PositiveEffect>().Sum(x => x.MPCost);
+                return MaxPossibleMP - m_effects.OfType<LongTermEffect>().Sum(x => x.MPCost);
             }
         }
 

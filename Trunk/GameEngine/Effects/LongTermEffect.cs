@@ -2,28 +2,20 @@ using System;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    internal abstract class PositiveEffect : EffectBase
+    internal abstract class LongTermEffect : EffectBase
     {
         public bool Dismissed { get; private set; }
 
-        public PositiveEffect()
+        public LongTermEffect()
         {
             MPCost = 0;
             Dismissed = false;
         }
 
-        public PositiveEffect(int mpCost)
+        public LongTermEffect(int mpCost)
         {
             MPCost = mpCost;
             Dismissed = false;
-        }
-
-        public override bool IsPositiveEffect
-        {
-            get
-            {
-                return true;
-            }
         }
 
         public override void Dismiss()
