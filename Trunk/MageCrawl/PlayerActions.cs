@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using libtcod;
 using Magecrawl.Exceptions;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.Keyboard;
 using Magecrawl.Keyboard.Requests;

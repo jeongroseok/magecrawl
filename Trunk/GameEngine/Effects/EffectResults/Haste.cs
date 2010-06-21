@@ -1,5 +1,5 @@
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine.Items
@@ -25,7 +25,7 @@ namespace Magecrawl.GameEngine.Items
             }
         }
 
-        public override List<Magecrawl.GameEngine.Interfaces.ItemOptions> PlayerOptions
+        public override List<ItemOptions> PlayerOptions
         {
             get
             {

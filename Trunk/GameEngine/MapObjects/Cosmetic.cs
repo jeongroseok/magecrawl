@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 

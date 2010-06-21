@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
 

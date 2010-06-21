@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Interfaces
+namespace Magecrawl.Interfaces
 {
     public delegate void PlayerDied();
 

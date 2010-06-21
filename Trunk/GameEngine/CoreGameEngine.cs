@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;

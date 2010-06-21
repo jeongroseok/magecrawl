@@ -1,7 +1,7 @@
 using System;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Armor;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
 

@@ -1,5 +1,5 @@
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Skills
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;

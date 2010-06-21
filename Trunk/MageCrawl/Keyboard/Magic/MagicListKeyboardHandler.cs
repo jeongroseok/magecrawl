@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Reflection;
 using libtcod;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;

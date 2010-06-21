@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Magecrawl.GameEngine.Interfaces
+namespace Magecrawl.Interfaces
 {
     public class TargetingInfo
     {
@@ -19,12 +19,12 @@ namespace Magecrawl.GameEngine.Interfaces
         public TargettingType Type { get; set; }
         public int Range { get; set; }
 
-        internal TargetingInfo(TargettingType targetingType)
+        public TargetingInfo(TargettingType targetingType)
             : this(targetingType, -1)
         {
         }
 
-        internal TargetingInfo(TargettingType targetingType, int range)
+        public TargetingInfo(TargettingType targetingType, int range)
         {
             Type = targetingType;
             Range = range;

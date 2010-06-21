@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;

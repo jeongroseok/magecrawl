@@ -1,7 +1,7 @@
 using System;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {

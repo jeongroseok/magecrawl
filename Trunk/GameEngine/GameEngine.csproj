@@ -78,20 +78,10 @@
     <Compile Include="Effects\EffectResults\Slow.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\IArmor.cs" />
-    <Compile Include="Interfaces\IItem.cs" />
     <Compile Include="Actors\Monster.cs" />
     <Compile Include="CombatEngine.cs" />
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
-    <Compile Include="Interfaces\ICharacter.cs" />
-    <Compile Include="Interfaces\IGameEngine.cs" />
-    <Compile Include="Interfaces\INamedItem.cs" />
-    <Compile Include="Interfaces\ISkill.cs" />
-    <Compile Include="Interfaces\ISpell.cs" />
-    <Compile Include="Interfaces\ITargetablePoints.cs" />
-    <Compile Include="Interfaces\IWand.cs" />
-    <Compile Include="Interfaces\TargettingInfo.cs" />
     <Compile Include="Items\ItemWithEffects.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemWithOwner.cs" />
@@ -110,11 +100,7 @@
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
     <Compile Include="FOVManager.cs" />
-    <Compile Include="Interfaces\IMap.cs" />
-    <Compile Include="Interfaces\IMapObject.cs" />
-    <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Magic\SpellFactory.cs" />
-    <Compile Include="Interfaces\IWeapon.cs" />
     <Compile Include="MapObjects\Cosmetic.cs" />
     <Compile Include="MapObjects\MapObjectFactory.cs" />
     <Compile Include="MapObjects\Stairs.cs" />
@@ -153,7 +139,6 @@
     <Compile Include="Effects\EffectFactory.cs" />
     <Compile Include="Effects\LongTermEffect.cs" />
     <Compile Include="Effects\ShortTermEffect.cs" />
-    <Compile Include="Interfaces\IStatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -172,6 +157,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{93A62B6A-4CF7-4142-9549-3FAFBE32A58D}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
       <Name>Utilities</Name>

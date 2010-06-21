@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameUI.Equipment.Requests
 {

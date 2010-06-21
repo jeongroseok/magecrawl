@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;

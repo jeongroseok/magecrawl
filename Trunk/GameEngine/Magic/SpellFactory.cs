@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Magic
 {

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
