@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -26,7 +28,10 @@ namespace Magecrawl
         internal TextBox TextBox { get; set; }
         private TCODConsole m_console;
 
+        [Import]
         private IGameEngine m_engine;
+
+        private CompositionContainer m_container;
 
         private KeystrokeManager m_keystroke;
         private PaintingCoordinator m_painters;
@@ -40,10 +45,8 @@ namespace Magecrawl
         internal GameInstance()
         {
             m_console = TCODConsole.root;
-            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
-            {
-                m_engine = new PublicGameEngine();
-            }
+
+            Compose();
 
             TextBox = new TextBox();
             m_painters = new PaintingCoordinator();
@@ -52,10 +55,20 @@ namespace Magecrawl
             ShouldSaveOnClose = !Preferences.Instance.DebuggingMode;
         }
 
+        public void Compose()
+        {
+            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
+            {
+                m_container = new CompositionContainer(
+                    new AggregateCatalog(new AssemblyCatalog(System.Reflection.Assembly.GetExecutingAssembly()),
+                    new DirectoryCatalog(".")));
+                m_container.ComposeParts(this);
+            }
+        }
+
         public void Dispose()
         {
-            if (m_engine != null)
-                m_engine.Dispose();
+            m_container.Dispose();
             m_engine = null;
             if (m_painters != null)
                 m_painters.Dispose();
