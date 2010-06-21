@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.Keyboard;

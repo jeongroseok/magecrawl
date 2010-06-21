@@ -1,5 +1,5 @@
 ﻿using System;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.MapObjects
 {

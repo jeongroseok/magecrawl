@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine.Items

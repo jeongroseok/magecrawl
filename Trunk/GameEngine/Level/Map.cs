@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;

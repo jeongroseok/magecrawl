@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.Keyboard.Requests;

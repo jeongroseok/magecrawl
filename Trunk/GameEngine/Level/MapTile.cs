@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Level
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Equipment;
 using Magecrawl.GameUI.Equipment.Requests;
 using Magecrawl.GameUI.Inventory.Requests;

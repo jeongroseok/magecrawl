@@ -2,7 +2,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects.EffectResults;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects
 {

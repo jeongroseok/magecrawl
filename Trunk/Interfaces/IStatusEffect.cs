@@ -1,6 +1,6 @@
 using System;
 
-namespace Magecrawl.GameEngine.Interfaces
+namespace Magecrawl.Interfaces
 {
     public interface IStatusEffect : INamedItem
     {

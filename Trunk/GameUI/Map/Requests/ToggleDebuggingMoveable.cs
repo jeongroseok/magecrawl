@@ -1,4 +1,4 @@
-﻿using Magecrawl.GameEngine.Interfaces;
+﻿using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Map.Debug;
 
 namespace Magecrawl.GameUI.Map.Requests

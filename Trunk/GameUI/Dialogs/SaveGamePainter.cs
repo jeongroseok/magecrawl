@@ -1,5 +1,5 @@
 using libtcod;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Reflection;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
 using Magecrawl.Utilities;

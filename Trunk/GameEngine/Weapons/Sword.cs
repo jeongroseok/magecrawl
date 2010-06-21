@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.Utilities;
 

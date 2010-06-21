@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using libtcod;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;

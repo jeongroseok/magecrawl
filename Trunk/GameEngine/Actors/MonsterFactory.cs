@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading;
 using System.Xml;
 using libtcod;
-using Magecrawl.GameEngine.Interfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
