@@ -25,19 +25,19 @@ namespace Magecrawl
 
         public void Move(Direction d)
         {
-            bool didAct = m_engine.MovePlayer(d);
+            bool didAct = m_engine.Actions.Move(d);
 
             Point targetPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(m_engine.Player.Position, d); 
             if (!didAct && (bool)Preferences.Instance["BumpToAttack"])
             {
                 if (m_engine.Map.Monsters.Where(m => m.Position == targetPosition).Count() > 0)
-                    didAct = m_engine.PlayerAttack(targetPosition);
+                    didAct = m_engine.Actions.Attack(targetPosition);
             }
 
             if (!didAct && (bool)Preferences.Instance["BumpToOpenDoors"])
             {
                 if (m_engine.Map.MapObjects.Where(i => i.Name == "Closed Door" && i.Position == targetPosition).Count() > 0)
-                    didAct = m_engine.Operate(targetPosition);
+                    didAct = m_engine.Actions.Operate(targetPosition);
             }
 
             m_gameInstance.UpdatePainters();
@@ -59,14 +59,14 @@ namespace Magecrawl
             }
             else
             {
-                m_engine.PlayerGetItem();
+                m_engine.Actions.GetItem();
                 m_gameInstance.UpdatePainters();
             }
         }
 
         public void Wait()
         {
-            m_engine.PlayerWait();
+            m_engine.Actions.Wait();
             m_gameInstance.UpdatePainters();
         }
 
@@ -81,7 +81,7 @@ namespace Magecrawl
                 if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)
                     break;
 
-                m_engine.PlayerWait();
+                m_engine.Actions.Wait();
                 m_gameInstance.UpdatePainters();
                 m_gameInstance.DrawFrame();
             }
@@ -92,7 +92,7 @@ namespace Magecrawl
             List<EffectivePoint> targetPoints = CalculateOperatePoints();
             if ((bool)Preferences.Instance["SinglePressOperate"] && targetPoints.Count == 1)
             {
-                m_engine.Operate(targetPoints[0].Position);
+                m_engine.Actions.Operate(targetPoints[0].Position);
                 m_gameInstance.UpdatePainters();
             }
             else
@@ -106,7 +106,7 @@ namespace Magecrawl
         {
             if (!m_engine.Player.CurrentWeapon.IsLoaded)
             {
-                m_engine.ReloadWeapon();
+                m_engine.Actions.ReloadWeapon();
                 m_gameInstance.TextBox.AddText(string.Format("{0} reloads the {1}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
             }
             else
@@ -119,18 +119,18 @@ namespace Magecrawl
 
         public void SwapWeapon()
         {
-            m_engine.PlayerSwapPrimarySecondaryWeapons();
+            m_engine.Actions.SwapPrimarySecondaryWeapons();
             m_gameInstance.UpdatePainters();
         }
 
         public void DownStairs()
         {
-            HandleStairs(m_engine.PlayerMoveDownStairs);
+            HandleStairs(m_engine.Actions.MoveDownStairs);
         }
 
         public void UpStairs()
         {
-            HandleStairs(m_engine.PlayerMoveUpStairs);
+            HandleStairs(m_engine.Actions.MoveUpStairs);
         }
 
         public void MoveToLocation(NamedKey movementKey)
@@ -143,7 +143,7 @@ namespace Magecrawl
         private delegate bool StairMovement();
         private void HandleStairs(StairMovement s)
         {
-            StairMovmentType stairMovement = m_engine.IsStairMovementSpecial(s == m_engine.PlayerMoveUpStairs);
+            StairMovmentType stairMovement = m_engine.IsStairMovementSpecial(s == m_engine.Actions.MoveUpStairs);
             switch (stairMovement)
             {
                 case StairMovmentType.QuitGame:
@@ -170,7 +170,7 @@ namespace Magecrawl
         private bool OnRangedAttack(Point selection)
         {
             if (selection != m_engine.Player.Position)
-                m_engine.PlayerAttack(selection);
+                m_engine.Actions.Attack(selection);
             return false;
         }
 
@@ -194,7 +194,7 @@ namespace Magecrawl
         private bool OnOperate(Point selection)
         {
             if (selection != m_engine.Player.Position)
-                m_engine.Operate(selection);
+                m_engine.Actions.Operate(selection);
             return false;
         }
 

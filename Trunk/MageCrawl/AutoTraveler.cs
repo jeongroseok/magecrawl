@@ -65,7 +65,7 @@ namespace Magecrawl
 
                 Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
 
-                ableToMoveNextSquare = m_engine.MovePlayer(d);
+                ableToMoveNextSquare = m_engine.Actions.Move(d);
                 m_gameInstance.UpdatePainters();
 
                 m_gameInstance.DrawFrame();
@@ -87,7 +87,7 @@ namespace Magecrawl
                 if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)
                     break;
 
-                ableToMoveNextSquare = m_engine.MovePlayer(direction);
+                ableToMoveNextSquare = m_engine.Actions.Move(direction);
                 m_gameInstance.UpdatePainters();
 
                 m_gameInstance.DrawFrame();

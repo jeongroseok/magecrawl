@@ -42,7 +42,7 @@ namespace Magecrawl.Keyboard.Inventory
             
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
 
-            HandleInvoke(item, targetInfo, x => m_engine.PlayerSelectedItemOption(item, optionName, x), NamedKey.Invalid);
+            HandleInvoke(item, targetInfo, x => m_engine.Actions.SelectedItemOption(item, optionName, x), NamedKey.Invalid);
         }
 
         private void Escape()

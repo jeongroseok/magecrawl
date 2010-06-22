@@ -47,7 +47,7 @@ namespace Magecrawl.Keyboard.Effects
 
         private void OnSelect(INamedItem item)
         {
-            m_engine.DismissEffect(item.DisplayName);
+            m_engine.Actions.DismissEffect(item.DisplayName);
             Escape();
         }
     }
