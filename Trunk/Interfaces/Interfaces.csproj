@@ -8,7 +8,7 @@
     <ProjectGuid>{93A62B6A-4CF7-4142-9549-3FAFBE32A58D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Interfaces</RootNamespace>
+    <RootNamespace>Magecrawl.Interfaces</RootNamespace>
     <AssemblyName>Interfaces</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="IArmor.cs" />
     <Compile Include="ICharacter.cs" />
+    <Compile Include="IDebugger.cs" />
     <Compile Include="IGameEngine.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="IMap.cs" />
@@ -59,6 +60,9 @@
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

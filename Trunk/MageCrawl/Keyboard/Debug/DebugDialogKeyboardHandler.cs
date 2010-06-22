@@ -62,13 +62,13 @@ namespace Magecrawl.Keyboard.Debug
         private void SetCreateItemMenu()
         {
             m_option = OptionMode.CreateItem;
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.DebugRequest("GetAllItemList", null), false, "Item To Spawn"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.Debugger.DebugRequest("GetAllItemList", null), false, "Item To Spawn"));
         }
 
         private void SetMonsterMenu()
         {
             m_option = OptionMode.CreateMonster;
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.DebugRequest("GetAllMonsterList", null), false, "Monster To Spawn"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.Debugger.DebugRequest("GetAllMonsterList", null), false, "Monster To Spawn"));
         }
 
         private void CreateMapDebugSettings()
@@ -106,13 +106,13 @@ namespace Magecrawl.Keyboard.Debug
                 }
                 case "Add Skill Points":
                 {
-                    m_engine.DebugRequest("AddSkillPoints", 50);
+                    m_engine.Debugger.DebugRequest("AddSkillPoints", 50);
                     Escape();
                     return;
                 }
                 case "Kill Monsters on Floor":
                 {
-                    m_engine.DebugRequest("KillMonstersOnFloor", null);
+                    m_engine.Debugger.DebugRequest("KillMonstersOnFloor", null);
                     Escape();
                     return;
                 }
@@ -129,7 +129,7 @@ namespace Magecrawl.Keyboard.Debug
         {
             if (item == null)
                 return;
-            m_engine.DebugRequest("SpawnItem", item.DisplayName);
+            m_engine.Debugger.DebugRequest("SpawnItem", item.DisplayName);
             m_option = OptionMode.DebugMainMenu;
             Escape();
         }
@@ -138,7 +138,7 @@ namespace Magecrawl.Keyboard.Debug
         {
             if (item == null)
                 return;
-            m_engine.DebugRequest("SpawnMonster", item.DisplayName);
+            m_engine.Debugger.DebugRequest("SpawnMonster", item.DisplayName);
             m_option = OptionMode.DebugMainMenu;
             Escape();
         }

@@ -41,7 +41,7 @@ namespace Magecrawl.GameUI.Map.Debug
         {
             // This is expensive, so only do if we've going to use it
             if (m_enabled)
-                m_moveableGrid = engine.PlayerMoveableToEveryPoint();
+                m_moveableGrid = engine.Debugger.PlayerMoveableToEveryPoint();
         }
 
         public override void DrawNewFrame(TCODConsole screen)
