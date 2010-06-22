@@ -49,8 +49,8 @@ namespace Magecrawl.GameUI.Map.Debug
             // This is expensive, so only do if we've going to use it
             if (m_enabled)
             {
-                m_playerFOV = engine.CellsInPlayersFOV();
-                m_monsterFOV = engine.CellsInAllMonstersFOV();
+                m_playerFOV = engine.Debugger.CellsInPlayersFOV();
+                m_monsterFOV = engine.Debugger.CellsInAllMonstersFOV();
             }
         }
 

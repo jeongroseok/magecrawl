@@ -86,7 +86,6 @@ namespace Magecrawl.Interfaces
         bool PlayerMoveUpStairs();
 
         List<Point> PlayerPathToPoint(Point dest);
-        List<Point> CellsInPlayersFOV();
         bool DangerInLOS();
         bool CurrentOrRecentDanger();
         List<ICharacter> MonstersInPlayerLOS();
@@ -114,10 +113,10 @@ namespace Magecrawl.Interfaces
         ISkill GetSkillFromName(string name);
         
         void DismissEffect(string name);
-        
-        // Debugging calls
-        bool[,] PlayerMoveableToEveryPoint();
-        Dictionary<ICharacter, List<Point>> CellsInAllMonstersFOV();
-        object DebugRequest(string request, object argument);
+
+        IDebugger Debugger
+        {
+            get;
+        }
     }
 }
