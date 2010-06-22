@@ -45,7 +45,7 @@ namespace Magecrawl.Keyboard.Inventory
             if (item == null)
                 return;
 
-            m_engine.PlayerGetItem((IItem)item);
+            m_engine.Actions.GetItem((IItem)item);
             Escape();
         }
 

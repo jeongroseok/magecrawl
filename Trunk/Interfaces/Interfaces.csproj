@@ -41,6 +41,7 @@
     <Compile Include="IArmor.cs" />
     <Compile Include="ICharacter.cs" />
     <Compile Include="IDebugger.cs" />
+    <Compile Include="IEngineActions.cs" />
     <Compile Include="IGameEngine.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="IMap.cs" />

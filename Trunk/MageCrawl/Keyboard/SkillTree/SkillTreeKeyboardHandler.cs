@@ -58,7 +58,7 @@ namespace Magecrawl.Keyboard.SkillTree
                 if (ok)
                 {
                     foreach (ISkill s in m_newlySelectedSkills)
-                        m_engine.AddSkillToPlayer(s);
+                        m_engine.Actions.AddSkillToPlayer(s);
                 }
 
                 m_gameInstance.UpdatePainters();

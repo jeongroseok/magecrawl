@@ -67,30 +67,18 @@ namespace Magecrawl.Interfaces
         {
             get;
         }
-
-        bool MovePlayer(Direction direction);
-        bool Operate(Point pointToOperateAt);
-        bool PlayerWait();
+        
         void Save();
-        bool PlayerGetItem();
-        bool PlayerGetItem(IItem item);
-        bool PlayerAttack(Point target);
-        bool PlayerCouldCastSpell(ISpell spell);
-        bool PlayerCastSpell(ISpell spell, Point target);
-        bool ReloadWeapon();
+
+        bool CouldCastSpell(ISpell spell);
         
         // If you go up on level 0 or down at end, dialog should come up to let them know what's going on
         StairMovmentType IsStairMovementSpecial(bool headingUp);
-
-        bool PlayerMoveDownStairs();
-        bool PlayerMoveUpStairs();
 
         List<Point> PlayerPathToPoint(Point dest);
         bool DangerInLOS();
         bool CurrentOrRecentDanger();
         List<ICharacter> MonstersInPlayerLOS();
-
-        bool PlayerSwapPrimarySecondaryWeapons();
 
         // Takes either an IItem or ISpell
         List<Point> TargettedDrawablePoints(object targettingObject, Point target);
@@ -101,18 +89,18 @@ namespace Magecrawl.Interfaces
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
         TargetingInfo GetTargettingTypeForInventoryItem(IItem item, string action);
-        bool PlayerSelectedItemOption(IItem item, string option, object argument);
 
         TileVisibility[,] CalculateTileVisibility();
         void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
 
         List<string> GetDescriptionForTile(Point p);
-
-        void AddSkillToPlayer(ISkill skill);
-
-        ISkill GetSkillFromName(string name);
         
-        void DismissEffect(string name);
+        ISkill GetSkillFromName(string name);
+
+        IEngineActions Actions
+        {
+            get;
+        }
 
         IDebugger Debugger
         {

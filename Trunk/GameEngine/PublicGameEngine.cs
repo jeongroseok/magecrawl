@@ -20,6 +20,7 @@ namespace Magecrawl.GameEngine
     {
         private CoreGameEngine m_engine;
         private DebugEngine m_debugEngine;
+        private PlayerActionEngine m_actionEngine;
 
         public event TextOutputFromGame TextOutputEvent;
         public event PlayerDied PlayerDiedEvent;
@@ -33,6 +34,7 @@ namespace Magecrawl.GameEngine
             m_engine.PlayerDiedEvent += new PlayerDied(() => PlayerDiedEvent());
             m_engine.RangedAttackEvent += new RangedAttack((a, type, d, targetAtEnd) => RangedAttackEvent(a, type, d, targetAtEnd));
             m_debugEngine = new DebugEngine(m_engine);
+            m_actionEngine = new PlayerActionEngine(m_engine);
         }
 
         public void CreateNewWorld(string playerName)
@@ -95,82 +97,10 @@ namespace Magecrawl.GameEngine
                 return m_engine.TurnCount;
             }
         }
-
-        public bool MovePlayer(Direction direction)
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.Move(m_engine.Player, direction);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool Operate(Point pointToOperateAt)
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.Operate(m_engine.Player, pointToOperateAt);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerWait()
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.Wait(m_engine.Player);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerAttack(Point target)
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.Attack(m_engine.Player, target);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;            
-        }
-
-        public bool ReloadWeapon()
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.ReloadWeapon(m_engine.Player);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerCouldCastSpell(ISpell spell)
+      
+        public bool CouldCastSpell(ISpell spell)
         {
             return m_engine.Player.CurrentMP >= ((Spell)spell).Cost;
-        }
-
-        public bool PlayerCastSpell(ISpell spell, Point target)
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.CastSpell(m_engine.Player, (Spell)spell, target);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerGetItem()
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerGetItem();
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;            
-        }
-
-        public bool PlayerGetItem(IItem item)
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerGetItem(item);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;      
         }
 
         public void Save()
@@ -187,19 +117,7 @@ namespace Magecrawl.GameEngine
         {
             return m_engine.CalculateTileVisibility();
         }
-
-        public bool PlayerSwapPrimarySecondaryWeapons()
-        {            
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.SwapPrimarySecondaryWeapons(m_engine.Player);
-            if (didAnything)
-            {
-                m_engine.SendTextOutput("Weapons Swapped");
-                m_engine.AfterPlayerAction();
-            }
-            return didAnything;
-        }
-
+        
         public List<ItemOptions> GetOptionsForInventoryItem(IItem item)
         {
             return m_engine.GetOptionsForInventoryItem(item as Item);
@@ -220,15 +138,6 @@ namespace Magecrawl.GameEngine
                 return itemWithEffects.Spell.Targeting;
 
             return null;
-        }
-
-        public bool PlayerSelectedItemOption(IItem item, string option, object argument)
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerSelectedItemOption(item, option, argument);
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
         }
 
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible)
@@ -252,24 +161,6 @@ namespace Magecrawl.GameEngine
         public bool IsRangedPathBetweenPoints(Point x, Point y)
         {
             return m_engine.IsRangedPathBetweenPoints(x, y);
-        }
-
-        public bool PlayerMoveDownStairs()
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerMoveDownStairs();
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
-        }
-
-        public bool PlayerMoveUpStairs()
-        {
-            m_engine.BeforePlayerAction();
-            bool didAnything = m_engine.PlayerMoveUpStairs();
-            if (didAnything)
-                m_engine.AfterPlayerAction();
-            return didAnything;
         }
 
         public StairMovmentType IsStairMovementSpecial(bool headingUp)
@@ -329,28 +220,7 @@ namespace Magecrawl.GameEngine
         {
             return SkillFactory.CreateSkill(name);
         }
-
-        public void AddSkillToPlayer(ISkill skill)
-        {
-            if (m_engine.Player.SkillPoints < skill.Cost)
-                throw new System.InvalidOperationException("AddSkillToPlayer without enough SP");
-            m_engine.Player.SkillPoints -= skill.Cost;
-            m_engine.Player.AddSkill(skill);
-        }
-
-        public void DismissEffect(string effectName)
-        {
-            StatusEffect effectInQuestion = m_engine.Player.Effects.FirstOrDefault(e => e.DisplayName == effectName);
-            if (effectInQuestion == null)
-                throw new System.InvalidOperationException("Trying to DismissEffect " + effectName + " and can not find.");
-            if (!effectInQuestion.IsPositiveEffect)
-                throw new System.InvalidOperationException("Trying to DismissEffect a non-positive effect");
-            m_engine.BeforePlayerAction();
-            effectInQuestion.Dismiss();
-            m_engine.Wait(m_engine.Player); // Waiting passes time, which we want dismissing effects to take
-            m_engine.AfterPlayerAction();
-        }
-
+    
         public IDebugger Debugger
         {
             get
@@ -359,5 +229,12 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        public IEngineActions Actions
+        {
+            get
+            {
+                return m_actionEngine;
+            }
+        }
     }
 }
