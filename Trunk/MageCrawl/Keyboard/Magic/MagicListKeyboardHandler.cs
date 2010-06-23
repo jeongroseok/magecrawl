@@ -23,7 +23,7 @@ namespace Magecrawl.Keyboard.Magic
         {
             m_keystroke = (NamedKey)request;
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());
-            ListItemShouldBeEnabled magicSpellEnabledDelegate = s => m_engine.CouldCastSpell((ISpell)s);
+            ListItemShouldBeEnabled magicSpellEnabledDelegate = s => m_engine.Player.CouldCastSpell((ISpell)s);
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, m_engine.Player.Spells.OfType<INamedItem>().ToList(), true, "Spellbook", magicSpellEnabledDelegate));
             m_gameInstance.UpdatePainters();
         }
@@ -45,7 +45,7 @@ namespace Magecrawl.Keyboard.Magic
         private void SpellSelectedDelegate(INamedItem spellName)
         {
             ISpell spell = (ISpell)spellName;
-            if (!m_engine.CouldCastSpell(spell))
+            if (!m_engine.Player.CouldCastSpell(spell))
                 return;
 
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));

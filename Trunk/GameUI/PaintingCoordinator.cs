@@ -74,7 +74,7 @@ namespace Magecrawl.GameUI
 
         public void UpdateFromNewData(IGameEngine engine)
         {
-            TileVisibility[,] tileVisibility = engine.CalculateTileVisibility();
+            TileVisibility[,] tileVisibility = engine.GameState.CalculateTileVisibility();
             Point mapCorner = CalculateMapCorner(engine);
             foreach (PainterBase p in m_painters)
             {

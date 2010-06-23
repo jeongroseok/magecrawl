@@ -43,6 +43,7 @@
     <Compile Include="IDebugger.cs" />
     <Compile Include="IEngineActions.cs" />
     <Compile Include="IGameEngine.cs" />
+    <Compile Include="IGameState.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="IMap.cs" />
     <Compile Include="IMapObject.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="ISpell.cs" />
     <Compile Include="IStatusEffect.cs" />
     <Compile Include="ITargetablePoints.cs" />
+    <Compile Include="ITargettingUtils.cs" />
     <Compile Include="IWand.cs" />
     <Compile Include="IWeapon.cs" />
     <Compile Include="TargettingInfo.cs" />

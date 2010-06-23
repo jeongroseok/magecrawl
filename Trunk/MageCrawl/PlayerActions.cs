@@ -74,7 +74,7 @@ namespace Magecrawl
         {
             while (m_engine.Player.CurrentStamina < m_engine.Player.MaxStamina|| m_engine.Player.CurrentMP < m_engine.Player.MaxMP)
             {
-                if (m_engine.DangerInLOS())
+                if (m_engine.GameState.DangerInLOS())
                     break;
                 
                 // If user hits a key while resting, stop
@@ -143,7 +143,7 @@ namespace Magecrawl
         private delegate bool StairMovement();
         private void HandleStairs(StairMovement s)
         {
-            StairMovmentType stairMovement = m_engine.IsStairMovementSpecial(s == m_engine.Actions.MoveUpStairs);
+            StairMovmentType stairMovement = m_engine.GameState.IsStairMovementSpecial(s == m_engine.Actions.MoveUpStairs);
             switch (stairMovement)
             {
                 case StairMovmentType.QuitGame:

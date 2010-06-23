@@ -53,13 +53,13 @@ namespace Magecrawl
 
             bool ableToMoveNextSquare = true;
 
-            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
+            while (!m_engine.GameState.DangerInLOS() && ableToMoveNextSquare)
             {
                 // If user hits a key while traveling, stop
                 if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)
                     break;
 
-                List<Point> pathToPoint = m_engine.PlayerPathToPoint(selected);
+                List<Point> pathToPoint = m_engine.Targetting.PlayerPathToPoint(selected);
                 if (pathToPoint == null || pathToPoint.Count == 0)
                     return false;
 
@@ -81,7 +81,7 @@ namespace Magecrawl
 
             bool ableToMoveNextSquare = true;
 
-            while (!m_engine.DangerInLOS() && ableToMoveNextSquare)
+            while (!m_engine.GameState.DangerInLOS() && ableToMoveNextSquare)
             {
                 // If user hits a key while traveling, stop
                 if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Pressed)

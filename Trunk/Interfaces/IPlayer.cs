@@ -85,5 +85,7 @@ namespace Magecrawl.Interfaces
         {
             get;
         }
+
+        bool CouldCastSpell(ISpell spell);
     }
 }

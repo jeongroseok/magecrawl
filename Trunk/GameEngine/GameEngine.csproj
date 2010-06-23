@@ -83,6 +83,7 @@
     <Compile Include="CombatEngine.cs" />
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
+    <Compile Include="GameStateInterface.cs" />
     <Compile Include="Items\ItemWithEffects.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemWithOwner.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="SkillEffectEngine.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\SkillFactory.cs" />
+    <Compile Include="TargettingUtils.cs" />
     <Compile Include="Weapons\Club.cs" />
     <Compile Include="Weapons\Axe.cs" />
     <Compile Include="Weapons\RangedWeaponBase.cs" />
