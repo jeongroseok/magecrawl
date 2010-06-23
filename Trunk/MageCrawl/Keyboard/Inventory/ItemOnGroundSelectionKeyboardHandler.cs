@@ -1,23 +1,19 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.Composition;
 using System.Reflection;
 using libtcod;
-using Magecrawl.Interfaces;
-using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Inventory
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "ItemOnGroundSelection")]
     internal class ItemOnGroundSelectionKeyboardHandler : BaseKeystrokeHandler
     {
-        public ItemOnGroundSelectionKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             List<INamedItem> itemsAtLocation = (List<INamedItem>)request;

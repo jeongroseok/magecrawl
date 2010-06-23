@@ -1,20 +1,18 @@
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.SkillTree.Requests;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.SkillTree
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "SkillTree")]
     internal class SkillTreeKeyboardHandler : BaseKeystrokeHandler
     {
-        public SkillTreeKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             m_gameInstance.SendPaintersRequest(new ShowSkillTree());

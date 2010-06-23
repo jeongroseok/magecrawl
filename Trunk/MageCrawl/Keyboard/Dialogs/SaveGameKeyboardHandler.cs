@@ -1,17 +1,14 @@
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Dialogs.Requests;
 
 namespace Magecrawl.Keyboard.Dialogs
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "SaveGame")]
     internal class SaveGameKeyboardHandler : BaseKeystrokeHandler
     {
-        public SaveGameKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             m_gameInstance.SendPaintersRequest(new EnableSaveDialog(true));

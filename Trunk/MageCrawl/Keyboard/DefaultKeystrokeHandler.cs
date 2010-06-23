@@ -1,21 +1,27 @@
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs;
-using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "true")]
+    [ExportMetadata("HandlerName", "Default")]
     internal class DefaultKeystrokeHandler : BaseKeystrokeHandler
     {
         private PlayerActions m_playerActions;
 
-        public DefaultKeystrokeHandler(IGameEngine engine, GameInstance instance)
+        public DefaultKeystrokeHandler()
         {
-            m_engine = engine;
-            m_gameInstance = instance;
-            m_playerActions = new PlayerActions(engine, instance);
+            m_playerActions = null;
+        }
+
+        public override void NowPrimaried(object request)
+        {
+            if (m_playerActions == null)
+                m_playerActions = new PlayerActions(m_engine, m_gameInstance);
         }
         
         private NamedKey GetNamedKeyForMethodInfo(MethodInfo info)

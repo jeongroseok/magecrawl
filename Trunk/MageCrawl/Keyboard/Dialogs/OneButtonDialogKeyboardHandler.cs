@@ -1,22 +1,18 @@
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
-using Magecrawl.Keyboard.Requests;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
     public delegate void OnOneButtonComplete();
 
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "OneButtonDialog")]
     internal class OneButtonDialogKeyboardHandler : BaseKeystrokeHandler
     {
         private OnOneButtonComplete m_completeDelegate;
-
-        public OneButtonDialogKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
 
         public override void NowPrimaried(object request)
         {

@@ -30,6 +30,9 @@ namespace Magecrawl
         [Import]
         private IGameEngine m_engine;
 
+        [ImportMany]
+        private Lazy<IKeystrokeHandler, IDictionary<string, object>>[] m_keystrokeImports;
+
         private CompositionContainer m_container;
 
         private KeystrokeManager m_keystroke;
@@ -243,88 +246,16 @@ namespace Magecrawl
 
         private void SetupKeyboardHandlers()
         {
-            /* 
-             * BCL: Creating the KeystrokeManager and all IKeystrokeHandlers. In the absence of something like MEF, we can
-             * create them all at the top level and initialize them with whatever.
-             * 
-             * Switching between handlers is as simple as setting the CurrentHandlerName property on the KeystrokeManager, but
-             * the difficulty is that KeystrokeManager is internal to MageCrawl. If we want other handlers to live in lower-
-             * level assemblies, we need some way to set this property, either through a singleton public KeystrokeManager, or
-             * through the GameEngine or GameInstance or whatever.
-             */
             m_keystroke = new KeystrokeManager(m_engine);
-            
-            DefaultKeystrokeHandler defaultHandler = new DefaultKeystrokeHandler(m_engine, this);
-            defaultHandler.LoadKeyMappings(true);
-            m_keystroke.Handlers.Add("Default", defaultHandler);
 
-            TargettingKeystrokeHandler attackHandler = new TargettingKeystrokeHandler(m_engine, this);
-            attackHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Target", attackHandler);
-
-            ViewmodeKeystrokeHandler viewmodeHandler = new ViewmodeKeystrokeHandler(m_engine, this);
-            viewmodeHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Viewmode", viewmodeHandler);
-
-            MagicListKeyboardHandler magicList = new MagicListKeyboardHandler(m_engine, this);
-            magicList.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("SpellList", magicList);
-
-            InventoryScreenKeyboardHandler inventoryHandler = new InventoryScreenKeyboardHandler(m_engine, this);
-            inventoryHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Inventory", inventoryHandler);
-
-            EquipmentScreenKeyboardHandler equipmentHandler = new EquipmentScreenKeyboardHandler(m_engine, this);
-            equipmentHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Equipment", equipmentHandler);
-
-            InventoryItemKeyboardHandler inventoryItemHandler = new InventoryItemKeyboardHandler(m_engine, this);
-            inventoryItemHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("InventoryItem", inventoryItemHandler);
-
-            WelcomeKeyboardHandler welcomeHandler = new WelcomeKeyboardHandler(m_engine, this);
-            welcomeHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Welcome", welcomeHandler);
-
-            SaveGameKeyboardHandler saveGameHandler = new SaveGameKeyboardHandler(m_engine, this);
-            saveGameHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("SaveGame", saveGameHandler);
-
-            QuitGameKeyboardHandler quitGameHandler = new QuitGameKeyboardHandler(m_engine, this);
-            quitGameHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("QuitGame", quitGameHandler);
-
-            MapEffectsKeystrokeHandler mapEffectHandler = new MapEffectsKeystrokeHandler(m_engine, this);
-            mapEffectHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("MapEffects", mapEffectHandler);
-
-            HelpKeyboardHandler helpHandler = new HelpKeyboardHandler(m_engine, this);
-            helpHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("Help", helpHandler);
-
-            OneButtonDialogKeyboardHandler oneButtonHandler = new OneButtonDialogKeyboardHandler(m_engine, this);
-            oneButtonHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("OneButtonDialog", oneButtonHandler);
-
-            TwoButtonDialogKeyboardHandler twoButtonHandler = new TwoButtonDialogKeyboardHandler(m_engine, this);
-            twoButtonHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("TwoButtonDialog", twoButtonHandler);
-
-            ItemOnGroundSelectionKeyboardHandler itemOnGroundHandler = new ItemOnGroundSelectionKeyboardHandler(m_engine, this);
-            itemOnGroundHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("ItemOnGroundSelection", itemOnGroundHandler);
-
-            SkillTreeKeyboardHandler skillTreeHander = new SkillTreeKeyboardHandler(m_engine, this);
-            skillTreeHander.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("SkillTree", skillTreeHander);
-
-            ShowEffectsHandler showEffectHandler = new ShowEffectsHandler(m_engine, this);
-            showEffectHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("ShowEffects", showEffectHandler);
-
-            DebugDialogKeyboardHandler debugHandler = new DebugDialogKeyboardHandler(m_engine, this);
-            debugHandler.LoadKeyMappings(false);
-            m_keystroke.Handlers.Add("DebugMode", debugHandler);
+            foreach (var keystrokeHandlerImport in m_keystrokeImports)
+            {
+                bool requiresAllActionsMapped = Boolean.Parse((string)keystrokeHandlerImport.Metadata["RequireAllActionsMapped"]);
+                string handlerName = (string)keystrokeHandlerImport.Metadata["HandlerName"];
+                BaseKeystrokeHandler handler = (BaseKeystrokeHandler)keystrokeHandlerImport.Value;
+                handler.Init(m_engine, this, requiresAllActionsMapped);
+                m_keystroke.Handlers.Add(handlerName, handler);
+            }            
 
             if (BaseKeystrokeHandler.ErrorsParsingKeymapFiles != "")
             {

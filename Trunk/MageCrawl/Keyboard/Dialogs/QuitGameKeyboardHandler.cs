@@ -1,18 +1,14 @@
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
-using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "QuitGame")]
     internal class QuitGameKeyboardHandler : BaseKeystrokeHandler
     {
-        public QuitGameKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             QuitReason reason = (QuitReason)request;

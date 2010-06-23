@@ -1,22 +1,20 @@
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using libtcod;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Inventory
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "Inventory")]
     internal class InventoryScreenKeyboardHandler : BaseKeystrokeHandler
     {
-        public InventoryScreenKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             if (request != null && ((bool)request) == true)

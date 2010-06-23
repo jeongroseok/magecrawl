@@ -1,20 +1,18 @@
 using System.Collections.Generic;
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Equipment;
 using Magecrawl.GameUI.Equipment.Requests;
 using Magecrawl.GameUI.Inventory.Requests;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Inventory
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "Equipment")]
     internal class EquipmentScreenKeyboardHandler : BaseKeystrokeHandler
     {
-        public EquipmentScreenKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             if (request != null && ((bool)request) == true)

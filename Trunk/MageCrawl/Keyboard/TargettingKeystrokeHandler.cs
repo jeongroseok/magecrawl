@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 using Magecrawl.Keyboard.Requests;
 using Magecrawl.Utilities;
 
@@ -12,6 +13,9 @@ namespace Magecrawl.Keyboard
     // If true, don't reset the handler because we already set it to something new
     internal delegate bool OnTargetSelection(Point selection);
 
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "Target")]
     internal class TargettingKeystrokeHandler : BaseKeystrokeHandler
     {
         internal enum TargettingType 
@@ -28,10 +32,8 @@ namespace Magecrawl.Keyboard
 
         private Point SelectionPoint { get; set; }
 
-        public TargettingKeystrokeHandler(IGameEngine engine, GameInstance instance)
+        public TargettingKeystrokeHandler()
         {
-            m_engine = engine;
-            m_gameInstance = instance;
             m_targettingType = TargettingType.None;
             m_lastTargetted = null;
         }

@@ -1,13 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Debug
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "DebugMode")]
     internal class DebugDialogKeyboardHandler : BaseKeystrokeHandler
     {
         private class TextElement : INamedItem
@@ -38,10 +39,8 @@ namespace Magecrawl.Keyboard.Debug
 
         private OptionMode m_option;
 
-        public DebugDialogKeyboardHandler(IGameEngine engine, GameInstance instance)
+        public DebugDialogKeyboardHandler()
         {
-            m_engine = engine;
-            m_gameInstance = instance;
             m_option = OptionMode.DebugMainMenu;
         }
 

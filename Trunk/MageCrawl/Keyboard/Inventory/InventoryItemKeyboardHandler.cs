@@ -1,21 +1,18 @@
-using System;
-using System.Collections.Generic;
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Inventory.Requests;
-using Magecrawl.GameUI.ListSelection.Requests;
-using Magecrawl.Keyboard.Requests;
-using Magecrawl.Utilities;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Inventory
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "InventoryItem")]
     internal sealed class InventoryItemKeyboardHandler : InvokingKeystrokeHandler
     {
         private string m_handlerWhoCalledMe;
 
-        public InventoryItemKeyboardHandler(IGameEngine engine, GameInstance instance)
+        public InventoryItemKeyboardHandler()
         {
-            m_engine = engine;
-            m_gameInstance = instance;
             m_handlerWhoCalledMe = "";
         }
 
