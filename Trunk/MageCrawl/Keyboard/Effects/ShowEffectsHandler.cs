@@ -1,20 +1,16 @@
-using System;
+using System.ComponentModel.Composition;
 using System.Linq;
-using Magecrawl.Interfaces;
-using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.ListSelection.Requests;
-using Magecrawl.Keyboard;
+using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Effects
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "ShowEffects")]
     internal class ShowEffectsHandler : BaseKeystrokeHandler
     {
-        public ShowEffectsHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             m_gameInstance.SendPaintersRequest(new DisableAllOverlays());

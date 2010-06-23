@@ -22,8 +22,11 @@ namespace Magecrawl.Keyboard
         protected Dictionary<NamedKey, MethodInfo> m_keyMappings;
         protected Dictionary<string, NamedKey> m_actionKeyMapping;
 
-        public void LoadKeyMappings(bool requireAllActions)
+        public void Init(IGameEngine engine, GameInstance gameInstance, bool requireAllActions)
         {
+            m_engine = engine;
+            m_gameInstance = gameInstance;
+
             m_keyMappings = new Dictionary<NamedKey, MethodInfo>();
             m_actionKeyMapping = new Dictionary<string, NamedKey>();
 

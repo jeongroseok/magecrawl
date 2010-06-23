@@ -1,18 +1,15 @@
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "Viewmode")]
     internal class ViewmodeKeystrokeHandler : BaseKeystrokeHandler
     {
         private Point SelectionPoint { get; set; }
-
-        public ViewmodeKeystrokeHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
 
         public override void NowPrimaried(object request)
         {

@@ -1,17 +1,14 @@
+using System.ComponentModel.Composition;
 using libtcod;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
 
 namespace Magecrawl.Keyboard.Dialogs
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "Welcome")]
     internal class WelcomeKeyboardHandler : BaseKeystrokeHandler
     {
-        public WelcomeKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             m_gameInstance.SendPaintersRequest(new EnableWelcome(true));

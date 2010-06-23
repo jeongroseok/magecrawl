@@ -1,23 +1,19 @@
 using System.Collections.Generic;
-using Magecrawl.Interfaces;
+using System.ComponentModel.Composition;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
-using Magecrawl.Keyboard.Requests;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
     public delegate void OnTwoButtonComplete(bool ok);
 
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "TwoButtonDialog")]
     internal class TwoButtonDialogKeyboardHandler : BaseKeystrokeHandler
     {
         private OnTwoButtonComplete m_completeDelegate;
-
-        public TwoButtonDialogKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
 
         public override void NowPrimaried(object request)
         {

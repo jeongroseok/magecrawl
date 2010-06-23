@@ -1,23 +1,21 @@
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using libtcod;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.ListSelection;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.Keyboard.Magic
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "SpellList")]
     internal class MagicListKeyboardHandler : InvokingKeystrokeHandler
     {
         // When we're brought up, get the keystroke used to call us, so we can use it to select target(s)
         private NamedKey m_keystroke;
-
-        public MagicListKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
 
         public override void NowPrimaried(object request)
         {

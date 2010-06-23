@@ -1,20 +1,16 @@
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Reflection;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs.Requests;
 using Magecrawl.Keyboard;
-using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.Dialogs
 {
+    [Export(typeof(IKeystrokeHandler))]
+    [ExportMetadata("RequireAllActionsMapped", "false")]
+    [ExportMetadata("HandlerName", "Help")]
     internal class HelpKeyboardHandler : BaseKeystrokeHandler
     {
-        public HelpKeyboardHandler(IGameEngine engine, GameInstance instance)
-        {
-            m_engine = engine;
-            m_gameInstance = instance;
-        }
-
         public override void NowPrimaried(object request)
         {
             Dictionary<NamedKey, MethodInfo> parentsKeymappings = (Dictionary<NamedKey, MethodInfo>)request;
