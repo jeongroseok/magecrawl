@@ -25,7 +25,7 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_isSelectionCursor)
             {
-                m_currentToolTips = engine.GetDescriptionForTile(cursorPosition);
+                m_currentToolTips = engine.GameState.GetDescriptionForTile(cursorPosition);
             }
         }
 

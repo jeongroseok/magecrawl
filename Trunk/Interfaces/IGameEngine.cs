@@ -43,6 +43,7 @@ namespace Magecrawl.Interfaces
     {
         void CreateNewWorld(string playerName);        
         void LoadSaveFile(string saveGameName);
+        void Save();
 
         event TextOutputFromGame TextOutputEvent;
         event PlayerDied PlayerDiedEvent;
@@ -68,34 +69,10 @@ namespace Magecrawl.Interfaces
             get;
         }
         
-        void Save();
-
-        bool CouldCastSpell(ISpell spell);
-        
-        // If you go up on level 0 or down at end, dialog should come up to let them know what's going on
-        StairMovmentType IsStairMovementSpecial(bool headingUp);
-
-        List<Point> PlayerPathToPoint(Point dest);
-        bool DangerInLOS();
-        bool CurrentOrRecentDanger();
-        List<ICharacter> MonstersInPlayerLOS();
-
-        // Takes either an IItem or ISpell
-        List<Point> TargettedDrawablePoints(object targettingObject, Point target);
-
-        bool IsRangedPathBetweenPoints(Point x, Point y);
-        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList);
-
-        List<ItemOptions> GetOptionsForInventoryItem(IItem item);
-        List<ItemOptions> GetOptionsForEquipmentItem(IItem item);
-        TargetingInfo GetTargettingTypeForInventoryItem(IItem item, string action);
-
-        TileVisibility[,] CalculateTileVisibility();
-        void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
-
-        List<string> GetDescriptionForTile(Point p);
-        
-        ISkill GetSkillFromName(string name);
+        IGameState GameState
+        {
+            get;
+        }
 
         IEngineActions Actions
         {
@@ -103,6 +80,11 @@ namespace Magecrawl.Interfaces
         }
 
         IDebugger Debugger
+        {
+            get;
+        }
+
+        ITargettingUtils Targetting
         {
             get;
         }

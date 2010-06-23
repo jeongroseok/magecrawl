@@ -36,9 +36,9 @@ namespace Magecrawl.GameUI
         {
             m_player = engine.Player;
             m_currentLevel = engine.CurrentLevel;
-            m_monstersNearby = engine.MonstersInPlayerLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
+            m_monstersNearby = engine.GameState.MonstersInPlayerLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_player.Position)).ToList();
             m_turnCount = engine.TurnCount;
-            m_inDanger = engine.CurrentOrRecentDanger();
+            m_inDanger = engine.GameState.CurrentOrRecentDanger();
         }
 
         private static int CalculateBarLength(double part, double whole, double length)

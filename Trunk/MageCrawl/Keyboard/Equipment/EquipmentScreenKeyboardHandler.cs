@@ -32,7 +32,7 @@ namespace Magecrawl.Keyboard.Inventory
                 m_gameInstance.SendPaintersRequest(new ShowEquipmentWindow(false));
                 m_gameInstance.SetHandlerName("InventoryItem", "Equipment");
 
-                List<ItemOptions> optionList = m_engine.GetOptionsForEquipmentItem((IItem)item);
+                List<ItemOptions> optionList = m_engine.GameState.GetOptionsForEquipmentItem((IItem)item);
                 m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(true, (IItem)item, optionList));
             }
             m_gameInstance.UpdatePainters();

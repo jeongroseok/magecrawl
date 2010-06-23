@@ -21,6 +21,8 @@ namespace Magecrawl.GameEngine
         private CoreGameEngine m_engine;
         private DebugEngine m_debugEngine;
         private PlayerActionEngine m_actionEngine;
+        private GameStateInterface m_gameState;
+        private TargettingUtils m_targetting;
 
         public event TextOutputFromGame TextOutputEvent;
         public event PlayerDied PlayerDiedEvent;
@@ -35,6 +37,8 @@ namespace Magecrawl.GameEngine
             m_engine.RangedAttackEvent += new RangedAttack((a, type, d, targetAtEnd) => RangedAttackEvent(a, type, d, targetAtEnd));
             m_debugEngine = new DebugEngine(m_engine);
             m_actionEngine = new PlayerActionEngine(m_engine);
+            m_gameState = new GameStateInterface(m_engine);
+            m_targetting = new TargettingUtils(m_engine);
         }
 
         public void CreateNewWorld(string playerName)
@@ -98,127 +102,17 @@ namespace Magecrawl.GameEngine
             }
         }
       
-        public bool CouldCastSpell(ISpell spell)
-        {
-            return m_engine.Player.CurrentMP >= ((Spell)spell).Cost;
-        }
-
         public void Save()
         {
             m_engine.Save();
         }
 
-        public List<Point> PlayerPathToPoint(Point dest)
+        public IGameState GameState
         {
-            return m_engine.PathToPoint(m_engine.Player, dest, true, true, false);
-        }
-
-        public TileVisibility[,] CalculateTileVisibility()
-        {
-            return m_engine.CalculateTileVisibility();
-        }
-        
-        public List<ItemOptions> GetOptionsForInventoryItem(IItem item)
-        {
-            return m_engine.GetOptionsForInventoryItem(item as Item);
-        }
-
-        public List<ItemOptions> GetOptionsForEquipmentItem(IItem item)
-        {
-            return m_engine.GetOptionsForEquipmentItem(item as Item);
-        }
-
-        public TargetingInfo GetTargettingTypeForInventoryItem(IItem item, string action)
-        {
-            if (action == "Drop")
-                return null;
-
-            ItemWithEffects itemWithEffects = item as ItemWithEffects;
-            if (itemWithEffects != null)
-                return itemWithEffects.Spell.Targeting;
-
-            return null;
-        }
-
-        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible)
-        {
-            m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision, needsToBeVisible);
-        }
-
-        public void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList)
-        {
-            if (savePlayerPositionFromList)
-                m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList, CoreGameEngine.Instance.Player.Position);
-            else
-                m_engine.FilterNotVisibleBothWaysFromList(Player.Position, pointList, Point.Invalid);
-        }
-
-        public List<Point> TargettedDrawablePoints(object targettingObject, Point target)
-        {
-            return m_engine.TargettedDrawablePoints(targettingObject, target);
-        }
-
-        public bool IsRangedPathBetweenPoints(Point x, Point y)
-        {
-            return m_engine.IsRangedPathBetweenPoints(x, y);
-        }
-
-        public StairMovmentType IsStairMovementSpecial(bool headingUp)
-        {
-            Stairs s = m_engine.Map.MapObjects.OfType<Stairs>().Where(x => x.Position == m_engine.Player.Position).SingleOrDefault();
-            if (s != null)
+            get
             {
-                if (s.Type == MapObjectType.StairsUp && m_engine.CurrentLevel == 0 && headingUp)
-                    return StairMovmentType.QuitGame;
-                else if (s.Type == MapObjectType.StairsDown && m_engine.CurrentLevel == (m_engine.NumberOfLevels - 1) && !headingUp)
-                    return StairMovmentType.WinGame;
+                return m_gameState;
             }
-            return StairMovmentType.None;
-        }
-
-        public bool DangerInLOS()
-        {
-            return m_engine.DangerPlayerInLOS();
-        }
-
-        public bool CurrentOrRecentDanger()
-        {
-            return m_engine.CurrentOrRecentDanger();
-        }
-
-        public List<ICharacter> MonstersInPlayerLOS()
-        {
-            return m_engine.MonstersInPlayerLOS();
-        }
-
-        public List<string> GetDescriptionForTile(Point p)
-        {
-            if (!m_engine.FOVManager.VisibleSingleShot(m_engine.Map, m_engine.Player.Position, m_engine.Player.Vision, p))
-                return new List<string>();
-
-            List<string> descriptionList = new List<string>();
-            if (m_engine.Player.Position == p)
-                descriptionList.Add(m_engine.Player.Name);
-
-            ICharacter monsterAtLocation = m_engine.Map.Monsters.Where(monster => monster.Position == p).FirstOrDefault();
-            if (monsterAtLocation != null)
-                descriptionList.Add(monsterAtLocation.Name);
-
-            IMapObject mapObjectAtLocation = m_engine.Map.MapObjects.Where(mapObject => mapObject.Position == p).FirstOrDefault();
-            if (mapObjectAtLocation != null)
-                descriptionList.Add(mapObjectAtLocation.Name);
-
-            foreach (Pair<IItem, Point> i in m_engine.Map.Items.Where(i => i.Second == p))
-                descriptionList.Add(i.First.DisplayName);
-
-            if (descriptionList.Count == 0)
-                descriptionList.Add(m_engine.Map.GetTerrainAt(p).ToString());
-            return descriptionList;
-        }
-
-        public ISkill GetSkillFromName(string name)
-        {
-            return SkillFactory.CreateSkill(name);
         }
     
         public IDebugger Debugger
@@ -234,6 +128,14 @@ namespace Magecrawl.GameEngine
             get
             {
                 return m_actionEngine;
+            }
+        }
+
+        public ITargettingUtils Targetting
+        {
+            get
+            {
+                return m_targetting;
             }
         }
     }

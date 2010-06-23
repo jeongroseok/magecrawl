@@ -29,7 +29,7 @@ namespace Magecrawl.GameUI.SkillTree
         public ISkill GetSkill(IGameEngine engine)
         {
             if (Skill == null)
-                Skill = engine.GetSkillFromName(SkillName);
+                Skill = engine.GameState.GetSkillFromName(SkillName);
             return Skill;
         }
 

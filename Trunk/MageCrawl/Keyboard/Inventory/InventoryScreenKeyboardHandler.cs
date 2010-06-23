@@ -47,8 +47,8 @@ namespace Magecrawl.Keyboard.Inventory
 
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(false));
             m_gameInstance.SetHandlerName("InventoryItem", "Inventory");
-            
-            List<ItemOptions> optionList = m_engine.GetOptionsForInventoryItem((IItem)item);
+
+            List<ItemOptions> optionList = m_engine.GameState.GetOptionsForInventoryItem((IItem)item);
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(true, (IItem)item, optionList));
             m_gameInstance.UpdatePainters();
         }

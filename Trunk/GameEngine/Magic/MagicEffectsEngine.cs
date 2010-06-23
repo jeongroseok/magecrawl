@@ -23,7 +23,7 @@ namespace Magecrawl.GameEngine.Magic
 
         internal bool CastSpell(Player caster, Spell spell, Point target)
         {
-            if (caster.CurrentMP >= spell.Cost)
+            if (caster.CouldCastSpell(spell))
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
                 if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), true, target, effectString, caster.CurrentMP - spell.Cost))

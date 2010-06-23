@@ -38,7 +38,7 @@ namespace Magecrawl.Keyboard.Inventory
                 return;
             }
 
-            TargetingInfo targetInfo = m_engine.GetTargettingTypeForInventoryItem(item, optionName);
+            TargetingInfo targetInfo = m_engine.Targetting.GetTargettingTypeForInventoryItem(item, optionName);
             
             m_gameInstance.SendPaintersRequest(new ShowInventoryItemWindow(false));
 
