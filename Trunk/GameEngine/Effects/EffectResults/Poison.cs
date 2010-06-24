@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.Composition;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
-using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
+    [Export(typeof(EffectResult))]
+    [ExportMetadata("Name", "Poison")]
+    [ExportMetadata("Constructor", "CastByPlayer")]
     internal class Poison : EffectResult
     {
         private Character m_affected;

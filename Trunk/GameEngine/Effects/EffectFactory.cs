@@ -1,42 +1,41 @@
-using Magecrawl.GameEngine.Actors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Magecrawl.GameEngine.Effects.EffectResults;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects
 {
-    public class EffectFactory
+    [Export(typeof(EffectFactory))]
+    internal class EffectFactory
     {
-        internal static StatusEffect CreateEffectBaseObject(string affectName, bool longTerm)
+        // Apparently, msvc is ignorant of MEF and throws a warning on MEFed things that are private/protected. Disable warning.
+        #pragma warning disable 649
+        [ImportMany]
+        private Lazy<EffectResult, IDictionary<string, object>>[] m_effectResults;
+        #pragma warning restore 649
+
+        public StatusEffect CreateEffectBaseObject(string affectName, bool longTerm)
         {
             return CreateEffect(null, affectName, longTerm, 0);
         }
 
-        internal static StatusEffect CreateEffect(Character caster, string effectName, bool longTerm, int level)
+        public StatusEffect CreateEffect(ICharacter caster, string effectName, bool longTerm, int level)
         {
-            // MEF
-            EffectResult effectResult;
-            switch (effectName)
+            EffectResult effectResult = null;
+            foreach (var v in m_effectResults)
             {
-                case "Haste":
-                    effectResult = new Haste(level);
-                    break;
-                case "Slow":
-                    effectResult = new Slow(level);
-                    break;
-                case "Light":
-                    effectResult = new Light(level);
-                    break;
-                case "Poison":
+                if ((string)v.Metadata["Name"] == effectName)
                 {
-                    bool castByPlayer = caster is Player;
-                    effectResult = new Poison(level, castByPlayer);
+                    if (v.Metadata.ContainsKey("Constructor") && (string)v.Metadata["Constructor"] == "CastByPlayer")
+                        effectResult = (EffectResult)Activator.CreateInstance(v.Value.GetType(), level, caster is IPlayer);
+                    else
+                        effectResult = (EffectResult)Activator.CreateInstance(v.Value.GetType(), level);
                     break;
                 }
-                case "Earthen Armor":
-                    effectResult = new EarthenArmor(level);
-                    break;
-                default:
-                    throw new System.InvalidOperationException("CreateEffect can't find - " + effectName);
             }
+            if (effectResult == null)
+                throw new System.InvalidOperationException("Create Effect: Don't know how to create: " + effectName);
             
             StatusEffect effect;
             if (longTerm)

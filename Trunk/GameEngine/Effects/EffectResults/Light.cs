@@ -1,10 +1,11 @@
-using System;
+using System.ComponentModel.Composition;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
-using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
+    [Export(typeof(EffectResult))]
+    [ExportMetadata("Name", "Light")]
     internal class Light : EffectResult
     {
         private int m_visionBoost;

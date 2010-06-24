@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.Interfaces;
+using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;
@@ -12,6 +14,7 @@ using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Weapons;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -19,6 +22,14 @@ namespace Magecrawl.GameEngine
     // This class mostly coordinates between a bunch of helper classes to provide what PublicGameEngine needs.
     internal sealed class CoreGameEngine : IDisposable
     {
+        private CompositionContainer m_container;
+
+        // Apparently, msvc is ignorant of MEF and throws a warning on MEFed things that are private/protected. Disable warning.
+        #pragma warning disable 649
+        [Import]
+        internal EffectFactory EffectFactory;
+        #pragma warning restore 649
+
         private Player m_player;
 
         private Dictionary<int, Map> m_dungeon;
@@ -59,6 +70,8 @@ namespace Magecrawl.GameEngine
         public CoreGameEngine()
         {
             m_instance = this;
+
+            Compose();
 
             // Needs to happen before anything that could create a weapon
             ItemFactory = new ItemFactory();
@@ -137,6 +150,12 @@ namespace Magecrawl.GameEngine
 
             m_physicsEngine = new PhysicsEngine(Player, Map);
             m_pathFinding = new PathfindingMap(Player, Map);
+        }
+
+        public void Compose()
+        {
+            m_container = new CompositionContainer(new DirectoryCatalog("."));
+            m_container.ComposeParts(this);
         }
 
         public void Dispose()

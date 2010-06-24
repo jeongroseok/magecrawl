@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.Composition;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
-using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
+    [Export(typeof(EffectResult))]
+    [ExportMetadata("Name", "Slow")]
     internal class Slow : EffectResult
     {
         private double m_modifier;
