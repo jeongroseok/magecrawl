@@ -13,6 +13,7 @@ namespace Magecrawl.GameEngine.MapObjects
 
         internal MapObject CreateMapObject(string name, Point position)
         {
+            // MEF
             switch (name)
             {
                 case "Cosmetic":

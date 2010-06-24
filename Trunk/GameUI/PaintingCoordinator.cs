@@ -26,6 +26,10 @@ namespace Magecrawl.GameUI
             m_isSelectionCursor = false;
             m_cursorSpot = new Point(0, 0);
 
+            // So one would think this'd be a great place to use MEF. However, the order
+            // of the painters is very important. I could metadata to force this order 
+            // but that wouldn't buy us much and make the order less obvious.
+            // If we really wanted to use MEF here, we'd have to rewrite our entire painting system.
             m_painters = new List<PainterBase>();
 
             // The map painter is special since it should go first to draw the base map.
