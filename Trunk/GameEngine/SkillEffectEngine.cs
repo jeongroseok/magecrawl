@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
@@ -25,18 +26,11 @@ namespace Magecrawl.GameEngine
 
         internal bool UseSkill(Character invoker, SkillType skill, Point target)
         {
-            // MEF?
-            switch (skill)
-            {
-                case SkillType.Rush:
-                    return HandleRush(invoker, skill, target);
-                case SkillType.DoubleSwing:
-                    return HandleDoubleSwing(invoker, skill, target);
-                case SkillType.FirstAid:
-                    return HandleFirstAid(invoker, skill, target);
-                default:
-                    return false;
-            }
+            // Find the method implementing the skill
+            MethodInfo skillMethod = GetType().GetMethod("Handle" + skill.ToString(), BindingFlags.NonPublic | BindingFlags.Instance);
+
+            // And invoke it
+            return (bool)skillMethod.Invoke(this, new object[] { invoker, skill, target });
         }
 
         private bool HandleFirstAid(Character invoker, SkillType skill, Point target)
