@@ -28,6 +28,7 @@ namespace Magecrawl.GameEngine.Effects
         public virtual void DecreaseCT(int decrease)
         {
             CTLeft -= decrease;
+            m_effectResult.DecreaseCT(decrease, CTLeft);
         }
 
         internal override void Dismiss()
