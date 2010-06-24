@@ -1,9 +1,11 @@
+using System.ComponentModel.Composition;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
+    [Export(typeof(EffectResult))]
+    [ExportMetadata("Name", "Haste")]
     internal class Haste : EffectResult
     {
         private double m_modifier;

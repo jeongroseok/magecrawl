@@ -265,7 +265,7 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     string typeName = reader.ReadElementContentAsString();
                     bool longTerm = Boolean.Parse(reader.ReadElementContentAsString());
-                    StatusEffect affect = EffectFactory.CreateEffectBaseObject(typeName, longTerm);
+                    StatusEffect affect = CoreGameEngine.Instance.EffectFactory.CreateEffectBaseObject(typeName, longTerm);
                     affect.ReadXml(reader);
                     AddEffect(affect);
                 });

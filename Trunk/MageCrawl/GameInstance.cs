@@ -30,8 +30,11 @@ namespace Magecrawl
         [Import]
         private IGameEngine m_engine;
 
+        // Apparently, msvc is ignorant of MEF and throws a warning on MEFed things that are private/protected. Disable warning.
+        #pragma warning disable 649
         [ImportMany]
         private Lazy<IKeystrokeHandler, IDictionary<string, object>>[] m_keystrokeImports;
+        #pragma warning restore 649
 
         private CompositionContainer m_container;
 
@@ -61,6 +64,7 @@ namespace Magecrawl
         {
             using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading Game..."))
             {
+                // We need to add the ExecutingAssembly since it is an exe, it doesn't get added by the DirectoryCatalog
                 m_container = new CompositionContainer(
                     new AggregateCatalog(new AssemblyCatalog(System.Reflection.Assembly.GetExecutingAssembly()),
                     new DirectoryCatalog(".")));

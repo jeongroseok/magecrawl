@@ -1,12 +1,15 @@
 using System;
+using System.ComponentModel.Composition;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Armor;
-using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Items;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
+    [Export(typeof(EffectResult))]
+    [ExportMetadata("Name", "Earthen Armor")]
     internal class EarthenArmor : EffectResult
     {
         private ChestArmor m_previousArmor;
