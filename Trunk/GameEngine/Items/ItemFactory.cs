@@ -168,22 +168,14 @@ namespace Magecrawl.GameEngine.Items
 
         private IWeapon CreateWeaponCore(string typeName, string name, DiceRoll damage, double ctCost, string description, string flavorText)
         {
-            return (IWeapon)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Weapons", typeName), name, damage, ctCost, description, flavorText);
+            return (IWeapon)Activator.CreateInstance(TypeLocator.GetTypeToMake(typeof(ItemFactory), "Magecrawl.GameEngine.Weapons", typeName), name, damage, ctCost, description, flavorText);
         }
 
         private IArmor CreateArmorCore(string typeName, string name, ArmorWeight weight, int staminaBonus, double evade, string description, string flavorText)
         {
-            return (IArmor)Activator.CreateInstance(GetTypeToMake("Magecrawl.GameEngine.Armor", typeName), name, weight, staminaBonus, evade, description, flavorText);
+            return (IArmor)Activator.CreateInstance(TypeLocator.GetTypeToMake(typeof(ItemFactory), "Magecrawl.GameEngine.Armor", typeName), name, weight, staminaBonus, evade, description, flavorText);
         }
 
-        private Type GetTypeToMake(string space, string typeName)
-        {
-            Assembly thisAssembly = this.GetType().Assembly;
-            Type type = thisAssembly.GetType(space + "." + typeName);
-            if (type != null)
-                return type;
-            else
-                throw new ArgumentException("CreateItemFromNamespace - don't know how to make: " + typeName);
-        }
+
     }
 }
