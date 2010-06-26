@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
@@ -6,13 +6,27 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.MapObjects
 {
+    internal class StairsUp : Stairs
+    {
+        public StairsUp(Point position) : base(position, true)
+        {
+        }
+    }
+
+    internal class StairsDown : Stairs
+    {
+        public StairsDown(Point position) : base(position, false)
+        {
+        }
+    }
+
     internal class Stairs : MapObject
     {
         private Point m_position;
         private MapObjectType m_type;
         private Guid m_guid;
 
-        internal Stairs(Point position, bool stairsUp)
+        public Stairs(Point position, bool stairsUp)
         {
             m_type = stairsUp ? MapObjectType.StairsUp : MapObjectType.StairsDown;
             m_position = position;
@@ -87,7 +101,7 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("Type", m_type == MapObjectType.StairsUp ? "Stairs Up" : "Stairs Down");
+            writer.WriteElementString("Type", m_type == MapObjectType.StairsUp ? "StairsUp" : "StairsDown");
             m_position.WriteToXml(writer, "Position");
             writer.WriteElementString("Guid", m_guid.ToString());
         }

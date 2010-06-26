@@ -155,7 +155,7 @@ namespace Magecrawl.GameEngine.Level.Generator
 
                     entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner, m_random);
                     PossiblyUpdateLargestSmallestPoint(entraceUpperLeftCorner, entranceChunk);
-                    map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", entranceChunk.PlayerPosition + entraceUpperLeftCorner));
+                    map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("StairsUp", entranceChunk.PlayerPosition + entraceUpperLeftCorner));
 
                     if (current.Neighbors.Count != entranceChunk.Seams.Count)
                         throw new InvalidOperationException("Number of neighbors should equal number of seams.");
