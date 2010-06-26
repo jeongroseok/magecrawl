@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
@@ -147,7 +147,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     Point position = PopOffClearSegementList(clearSegments);
                     if (position != Point.Invalid)
                     {
-                        MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Treasure Chest", position);
+                        MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("TreasureChest", position);
                         map.AddMapItem(treasure);
                         treasuresGenerated++;
                     }

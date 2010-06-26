@@ -1,4 +1,4 @@
-﻿using System.Xml;
+using System.Xml;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
@@ -27,7 +27,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             get
             {
-                return "Treasure Chest";
+                return "TreasureChest";
             }
         }
 
@@ -110,7 +110,7 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "Treasure Chest");
+            writer.WriteElementString("Type", "TreasureChest");
             m_position.WriteToXml(writer, "Position");
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
@@ -287,12 +287,12 @@ namespace Magecrawl.GameEngine.Level.Generator
             Stairs upStairs = map.MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().FirstOrDefault();
             if (upStairs == null)
             {
-                upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Up", GetClearPoint(map));
+                upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("StairsUp", GetClearPoint(map));
                 map.AddMapItem(upStairs);
             }
 
             Point stairsDownPosition = GetClearPoint(map, upStairs.Position, DistanceToKeepDownStairsFromUpStairs, 5);
-            Stairs downStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("Stairs Down", stairsDownPosition);
+            Stairs downStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("StairsDown", stairsDownPosition);
             map.AddMapItem(downStairs);
 
             if (incommingStairs != null)
