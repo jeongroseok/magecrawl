@@ -66,6 +66,7 @@
     <Compile Include="Effects\EffectResults\EarthenArmor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Effects\EffectResults\EffectResultAttribute.cs" />
     <Compile Include="Effects\EffectResults\Haste.cs">
       <SubType>Code</SubType>
     </Compile>

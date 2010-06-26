@@ -226,7 +226,7 @@ namespace Magecrawl.GameEngine.Magic
                     StatusEffect previousEffect = invoker.Effects.FirstOrDefault(x => x.Name == effectName);
                     if (previousEffect == null)
                     {
-                        LongTermEffect effect = (LongTermEffect)CoreGameEngine.Instance.EffectFactory.CreateEffect(invoker, effectName, true, strength);
+                        LongTermEffect effect = (LongTermEffect)EffectFactory.CreateEffect(invoker, effectName, true, strength);
                         Player invokerAsPlayer = invoker as Player;
                         if (invokerAsPlayer != null)
                         {
@@ -248,7 +248,7 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 else
                 {
-                    targetCharacter.AddEffect(CoreGameEngine.Instance.EffectFactory.CreateEffect(invoker, effectName, longTerm, strength));
+                    targetCharacter.AddEffect(EffectFactory.CreateEffect(invoker, effectName, longTerm, strength));
                     return true;
                 }
             }
