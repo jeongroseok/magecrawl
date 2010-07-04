@@ -88,6 +88,10 @@ namespace Magecrawl.GameEngine
         // for the cases where we're checking multiplePositions
         public bool VisibleSingleShot(Map map, Point viewPoint, int viewableDistance, Point pointWantToView)
         {
+            // If we're significantly father than our viewableDistance, give up early
+            if (PointDirectionUtils.NormalDistance(viewPoint, pointWantToView) > viewableDistance + 3)  // 3 is arbritray large just to prevent edge effects
+                return false;
+
             CalculateCore(map, viewPoint, viewableDistance);
             return m_fov.isInFov(pointWantToView.X, pointWantToView.Y);
         }
