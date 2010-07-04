@@ -578,11 +578,11 @@ namespace Magecrawl.GameEngine
                     ArmorBase armor = (ArmorBase)item;
                     if (armor.Summoned)
                     {
-                        foreach (StatusEffect affect in m_player.Effects)
+                        foreach (StatusEffect effect in m_player.Effects)
                         {
-                            if (affect.ProvidesEquipment(armor))
+                            if (effect.ProvidesEquipment(armor))
                             {
-                                affect.Dismiss();
+                                effect.Dismiss();
                                 return true;
                             }
                         }

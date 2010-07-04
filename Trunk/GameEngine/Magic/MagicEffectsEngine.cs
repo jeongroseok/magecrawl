@@ -248,7 +248,10 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 else
                 {
-                    targetCharacter.AddEffect(EffectFactory.CreateEffect(invoker, effectName, longTerm, strength));
+                    StatusEffect effect = EffectFactory.CreateEffect(invoker, effectName, longTerm, strength);
+                    targetCharacter.AddEffect(effect);
+                    if (targetCharacter is Monster && invoker is Player && !effect.IsPositiveEffect)
+                        ((Monster)targetCharacter).NoticeRangedAttack(invoker.Position);
                     return true;
                 }
             }

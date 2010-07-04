@@ -117,13 +117,6 @@ namespace Magecrawl.GameEngine.Actors
             m_playerLastKnownPosition = attackerPosition;
         }
 
-        // Hack - Bug 226
-        public override void AddEffect(StatusEffect affectToAdd)
-        {
-            m_playerLastKnownPosition = CoreGameEngine.Instance.Player.Position;
-            base.AddEffect(affectToAdd);
-        }
-
         #region ActionParts
 
         protected void UpdateKnownPlayerLocation(CoreGameEngine engine)
