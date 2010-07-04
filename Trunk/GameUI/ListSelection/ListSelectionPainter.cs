@@ -61,6 +61,9 @@ namespace Magecrawl.GameUI.ListSelection
 
                 int positionalOffsetFromTop = 0;
                 m_dialogColorHelper.SaveColors(screen);
+
+                int farRightPaddingAmount = DetermineFarRightPaddingForMagicList();
+
                 for (int i = m_lowerRange; i < m_higherRange; ++i)
                 {
                     string displayString = m_itemList[i].DisplayName;
@@ -76,7 +79,7 @@ namespace Magecrawl.GameUI.ListSelection
                             screen.print(InventoryWindowOffset + (InventoryItemWidth / 2), InventoryWindowOffset + 1 + positionalOffsetFromTop, sectionArray[1]);
                             if (sectionArray.Length > 2)
                             {
-                                screen.printEx(InventoryWindowOffset - 2 + InventoryItemWidth, InventoryWindowOffset + 1 + positionalOffsetFromTop, TCODBackgroundFlag.Set, TCODAlignment.RightAlignment, sectionArray[2]);
+                                screen.printEx(InventoryWindowOffset - 2 + InventoryItemWidth, InventoryWindowOffset + 1 + positionalOffsetFromTop, TCODBackgroundFlag.Set, TCODAlignment.RightAlignment, sectionArray[2].PadRight(farRightPaddingAmount));
                             }
                         }
                     }
@@ -95,6 +98,25 @@ namespace Magecrawl.GameUI.ListSelection
                 }
                 m_dialogColorHelper.ResetColors(screen);
             }
+        }
+
+        // A "magic" list is one that embeds '\t' in it for columns. If we have 3 columns, figure out how much we should pad the right
+        // most one so it stays lined up nice
+        private int DetermineFarRightPaddingForMagicList()
+        {
+            int farRightPaddingAmount = 0;
+            for (int i = 0; i < m_itemList.Count ; ++i)
+            {
+                string displayString = m_itemList[i].DisplayName;
+                if (displayString.Contains('\t'.ToString()))
+                {
+                    // This is the case for Tab Seperated Spaces, used for magic lists and such
+                    string[] sectionArray = displayString.Split(new char[] { '\t' }, 3);
+                    if (sectionArray.Length > 2)
+                        farRightPaddingAmount = System.Math.Max(farRightPaddingAmount, sectionArray[2].Length);
+                }
+            }
+            return farRightPaddingAmount;
         }
 
         public bool IsEnabled(INamedItem item)
