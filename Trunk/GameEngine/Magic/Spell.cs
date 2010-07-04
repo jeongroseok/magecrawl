@@ -39,10 +39,12 @@ namespace Magecrawl.GameEngine.Magic
         {
             get
             {
+                // We pad the strings over so the (+) and non sustaining MPs line up nicely. If we ever have costs over 99 we'll need to bump this.
+                const int MaxPaddingNeeded = 10;
                 if (SustainingCost > 0)
-                    return string.Format("{0}\t{1}\t{2}", Name, m_school, string.Format("MP:{0}(+{1})", Cost, SustainingCost).PadRight(8));
+                    return string.Format("{0}\t{1}\t{2}", Name, m_school, string.Format("MP:{0}(+{1})", Cost, SustainingCost).PadRight(MaxPaddingNeeded));
                 else
-                    return string.Format("{0}\t{1}\t{2}", Name, m_school, string.Format("MP:{0}", Cost).PadRight(8));
+                    return string.Format("{0}\t{1}\t{2}", Name, m_school, string.Format("MP:{0}", Cost).PadRight(MaxPaddingNeeded));
             }
         }
 
