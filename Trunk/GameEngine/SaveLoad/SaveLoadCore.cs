@@ -22,13 +22,18 @@ namespace Magecrawl.GameEngine.SaveLoad
             // Save off previous culture and switch to invariant for serialization.
             CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
-            if ((bool)Preferences.Instance["UseSavegameCompression"])
-                SaveGameCompressed(filename);
-            else
-                SaveGameXML(filename);
-
-            Thread.CurrentThread.CurrentCulture = previousCulture; 
+            try
+            {
+                if ((bool)Preferences.Instance["UseSavegameCompression"])
+                    SaveGameCompressed(filename);
+                else
+                    SaveGameXML(filename);
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = previousCulture; 
+            }
+            
             return true;
         }
 
@@ -37,16 +42,20 @@ namespace Magecrawl.GameEngine.SaveLoad
             // Save off previous culture and switch to invariant for serialization.
             CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            try
+            {
+                if ((bool)Preferences.Instance["UseSavegameCompression"])
+                    LoadGameCompressed(filename);
+                else
+                    LoadGameXML(filename);
 
-            if ((bool)Preferences.Instance["UseSavegameCompression"])
-                LoadGameCompressed(filename);
-            else
-                LoadGameXML(filename);
-
-            if ((bool)Preferences.Instance["PermaDeath"])
-                File.Delete(filename);
-            
-            Thread.CurrentThread.CurrentCulture = previousCulture; 
+                if ((bool)Preferences.Instance["PermaDeath"])
+                    File.Delete(filename);
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = previousCulture;
+            }
 
             return true;
         }

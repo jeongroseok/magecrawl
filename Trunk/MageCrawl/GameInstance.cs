@@ -99,32 +99,18 @@ namespace Magecrawl
 
             if (loadFromFile)
             {
-                string saveFilePath = playerName + ".sav";
- 
-                using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
+                try
                 {
-                    m_engine.LoadSaveFile(saveFilePath);
+                    LoadFromFile(playerName);
                 }
-
-                SetupKeyboardHandlers();  // Requires game engine.
-                SetHandlerName("Default");
-
-                ShowWelcomeMessage(false);
+                catch (FileNotFoundException)
+                {
+                    GenerateWorld(playerName);
+                }
             }
             else
             {
-                using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
-                {
-                    m_engine.CreateNewWorld(playerName);
-                }
-
-                SetupKeyboardHandlers();  // Requires game engine.
-                if (!Preferences.Instance.DebuggingMode)
-                    SetHandlerName("Welcome");
-                else
-                    SetHandlerName("Default");
-
-                ShowWelcomeMessage(true);
+                GenerateWorld(playerName);
             }
 
             // First update before event loop so we have a map to display
@@ -168,6 +154,37 @@ namespace Magecrawl
             {
                 m_engine.Save();
             }
+        }
+
+        private void GenerateWorld(string playerName)
+        {
+            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
+            {
+                m_engine.CreateNewWorld(playerName);
+            }
+
+            SetupKeyboardHandlers();  // Requires game engine.
+            if (!Preferences.Instance.DebuggingMode)
+                SetHandlerName("Welcome");
+            else
+                SetHandlerName("Default");
+
+            ShowWelcomeMessage(true);
+        }
+
+        private void LoadFromFile(string playerName)
+        {
+            string saveFilePath = playerName + ".sav";
+
+            using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Loading..."))
+            {
+                m_engine.LoadSaveFile(saveFilePath);
+            }
+
+            SetupKeyboardHandlers();  // Requires game engine.
+            SetHandlerName("Default");
+
+            ShowWelcomeMessage(false);
         }
 
         private void SetupEngineOutputDelegate()
