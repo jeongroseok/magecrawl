@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
+using Magecrawl.GameEngine.Effects;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -38,7 +39,10 @@ namespace Magecrawl.GameEngine.Magic
         {
             get
             {
-                return Name + '\t' + m_school + '\t' + "Mp: " + Cost.ToString();
+                if (SustainingCost > 0)
+                    return string.Format("{0}\t{1}\t{2}", Name, m_school, string.Format("MP:{0}(+{1})", Cost, SustainingCost).PadRight(8));
+                else
+                    return string.Format("{0}\t{1}\t{2}", Name, m_school, string.Format("MP:{0}", Cost).PadRight(8));
             }
         }
 
@@ -88,6 +92,18 @@ namespace Magecrawl.GameEngine.Magic
             get
             {
                 return CalculateSpellCost(CoreGameEngine.Instance.Player);
+            }
+        }
+
+        internal int SustainingCost
+        {
+            get
+            {
+                int sustainingCost = 0;
+                LongTermEffect possibleEffect = CoreGameEngine.Instance.GetLongTermEffectSpellWouldProduce(EffectType);
+                if (possibleEffect != null)
+                    sustainingCost = possibleEffect.MPCost;
+                return sustainingCost;
             }
         }
 

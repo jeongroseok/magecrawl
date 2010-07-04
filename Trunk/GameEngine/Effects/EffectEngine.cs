@@ -16,21 +16,21 @@ namespace Magecrawl.GameEngine.Effects
             m_physicsEngine = physicsEngine;
         }
 
-        internal bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target, int mpTotalAfterSpellCastIfApplicable)
+        internal bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target)
         {
-            return AddEffectToTarget(effectName, invoker, strength, longTerm, target, mpTotalAfterSpellCastIfApplicable, null);
+            return AddEffectToTarget(effectName, invoker, strength, longTerm, target, null);
         }
 
-        internal bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target, int mpTotalAfterSpellCastIfApplicable, string toPrintOnEffectAdd)
+        internal bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target, string toPrintOnEffectAdd)
         {
             Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
             if (targetCharacter != null)
             {
                 bool successOnAddEffect;
                 if (longTerm)
-                    successOnAddEffect = HandleLongTermEffect(effectName, invoker, strength, mpTotalAfterSpellCastIfApplicable);
+                    successOnAddEffect = HandleLongTermEffect(effectName, invoker, strength);
                 else
-                    successOnAddEffect = HandleShortTermEffect(effectName, invoker, strength, longTerm, targetCharacter);
+                    successOnAddEffect = HandleShortTermEffect(effectName, invoker, strength, targetCharacter);
                 if (successOnAddEffect && toPrintOnEffectAdd != null)
                     CoreGameEngine.Instance.SendTextOutput(toPrintOnEffectAdd);
                 return true;
@@ -38,33 +38,23 @@ namespace Magecrawl.GameEngine.Effects
             return false;
         }
 
-        private static bool HandleShortTermEffect(string effectName, Character invoker, int strength, bool longTerm, Character targetCharacter)
+        private static bool HandleShortTermEffect(string effectName, Character invoker, int strength, Character targetCharacter)
         {
             DismissExistingEffect(effectName, invoker, targetCharacter);
 
-            StatusEffect effect = EffectFactory.CreateEffect(invoker, effectName, longTerm, strength);
+            StatusEffect effect = EffectFactory.CreateEffect(invoker, effectName, false, strength);
             targetCharacter.AddEffect(effect);
             if (targetCharacter is Monster && invoker is Player && !effect.IsPositiveEffect)
                 ((Monster)targetCharacter).NoticeRangedAttack(invoker.Position);
             return true;
         }
 
-        private static bool HandleLongTermEffect(string effectName, Character invoker, int strength, int mpTotalAfterSpellCastIfApplicable)
+        private static bool HandleLongTermEffect(string effectName, Character invoker, int strength)
         {
             DismissExistingEffect(effectName, invoker, invoker);
 
-            LongTermEffect effect = (LongTermEffect)EffectFactory.CreateEffect(invoker, effectName, true, strength);
-            Player invokerAsPlayer = invoker as Player;
-            if (invokerAsPlayer != null)
-            {
-                if (effect.MPCost > mpTotalAfterSpellCastIfApplicable && mpTotalAfterSpellCastIfApplicable != -1)
-                {
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("Cannot cast {0} as {1} does not have the energy to sustain it.", effectName, invoker.Name));
-                    return false;
-                }
-            }
             // Check here if mp will bring us under 0 since mp cost of spell hasn't hit yet...
-            invoker.AddEffect(effect);
+            invoker.AddEffect(EffectFactory.CreateEffect(invoker, effectName, true, strength));
             return true;           
         }
 

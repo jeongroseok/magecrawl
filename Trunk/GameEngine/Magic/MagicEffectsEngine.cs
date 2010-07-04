@@ -10,7 +10,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Magic
 {
-    internal sealed class MagicEffectsEngine
+    internal class MagicEffectsEngine
     {
         private CombatEngine m_combatEngine;
         private PhysicsEngine m_physicsEngine;
@@ -28,7 +28,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CouldCastSpell(spell))
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), true, target, effectString, caster.CurrentMP - spell.Cost))
+                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), true, target, effectString))
                 {
                     caster.SpendMP(spell.Cost);
                     return true;
@@ -40,7 +40,7 @@ namespace Magecrawl.GameEngine.Magic
         internal bool UseItemWithEffect(Character invoker, ItemWithEffects item, Point targetedPoint)
         {
             string effectString = string.Format(item.OnUseString, invoker.Name, item.Name);
-            return DoEffect(invoker, item, item.Spell.EffectType, item.Strength, false, targetedPoint, effectString, -1);
+            return DoEffect(invoker, item, item.Spell.EffectType, item.Strength, false, targetedPoint, effectString);
         }
 
         internal List<Point> TargettedDrawablePoints(TargetingInfo targeting, int strength, Point target)
@@ -76,9 +76,7 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        // mpTotalAfterSpellCastIfApplicable is a hack, used to not cast spells that have sustaining costs you can't sustain.
-        // DoEffect needs to be refactored, and callers should be able to ask if there will be a sustaining cost pre-cast
-        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int strength, bool couldBeLongTerm, Point target, string printOnEffect, int mpTotalAfterSpellCastIfApplicable)
+        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int strength, bool couldBeLongTerm, Point target, string printOnEffect)
         {
             switch (effectName)
             {                
@@ -171,7 +169,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Earthen Armor":
                 {
-                    return m_effectEngine.AddEffectToTarget(effectName, invoker, strength, couldBeLongTerm, target, mpTotalAfterSpellCastIfApplicable, printOnEffect);                    
+                    return m_effectEngine.AddEffectToTarget(effectName, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
                 }
                 case "Poison Bolt":
                 {
@@ -180,12 +178,12 @@ namespace Magecrawl.GameEngine.Magic
                     
                     bool successInRangedBolt = m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, output.DamageDoneDelegate);
                     if (successInRangedBolt)
-                        m_effectEngine.AddEffectToTarget("Poison", invoker, strength, false, target, mpTotalAfterSpellCastIfApplicable);
+                        m_effectEngine.AddEffectToTarget("Poison", invoker, strength, false, target);
                     return successInRangedBolt;
                 }
                 case "Slow":
                 {
-                    return m_effectEngine.AddEffectToTarget("Slow", invoker, strength, false, target, mpTotalAfterSpellCastIfApplicable, printOnEffect);
+                    return m_effectEngine.AddEffectToTarget("Slow", invoker, strength, false, target, printOnEffect);
                 }
                 case "Blink":
                 {
@@ -202,6 +200,19 @@ namespace Magecrawl.GameEngine.Magic
                 default:
                     throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + effectName);
             }
+        }
+
+        public LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
+        {
+            switch (effectName)
+            {
+                case "Haste":
+                case "Light":
+                case "Earthen Armor":
+                    return (LongTermEffect)EffectFactory.CreateEffectBaseObject(effectName, true);
+                default:
+                    return null;
+            }            
         }
 
         private void ShowExplodingRangedPointAttack(Character invoker, object invokingMethod, Point target, int burstWidth)
