@@ -214,7 +214,9 @@ namespace Magecrawl.GameEngine.Actors
                 RemoveEffect(effect);
 
             // Remove any long term effects that have been "dismissed"
-            m_effects.RemoveAll(a => a is LongTermEffect && ((LongTermEffect)a).Dismissed);
+            List<LongTermEffect> longTermEffectsToRemove = m_effects.OfType<LongTermEffect>().Where(a => a.Dismissed).ToList();
+            foreach (LongTermEffect effect in longTermEffectsToRemove)
+                RemoveEffect(effect);
         }
 
         public virtual void AddEffect(StatusEffect effectToAdd)
