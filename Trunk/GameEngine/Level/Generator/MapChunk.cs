@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -145,10 +145,10 @@ namespace Magecrawl.GameEngine.Level.Generator
 
             MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
 
-            TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("Treasure Chest", upperLeftCorner + treasurePosition)));
+            TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("TreasureChest", upperLeftCorner + treasurePosition)));
 
             int chanceToPlaceDoor = this.Type == MapNodeType.TreasureRoom ? TreasureRoomChanceToPlaceDoorAtSpot : NormalChanceToPlaceDoorAtSpot;
-            Doors.Where(x => m_random.Chance(chanceToPlaceDoor)).ToList().ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Map Door", upperLeftCorner + doorPosition)));
+            Doors.Where(x => m_random.Chance(chanceToPlaceDoor)).ToList().ForEach(doorPosition => map.AddMapItem(mapItemFactory.CreateMapObject("MapDoor", upperLeftCorner + doorPosition)));
 
             Cosmetics.ForEach(cosmeticPosition => map.AddMapItem(mapItemFactory.CreateMapObject("Cosmetic", upperLeftCorner + cosmeticPosition)));
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Magecrawl.Utilities;
 
@@ -13,22 +13,11 @@ namespace Magecrawl.GameEngine.MapObjects
 
         internal MapObject CreateMapObject(string name, Point position)
         {
-            // MEF
-            switch (name)
-            {
-                case "Cosmetic":
-                    return new Cosmetic(position);
-                case "Map Door":
-                    return new MapDoor(position);
-                case "Treasure Chest":
-                    return new TreasureChest(position);
-                case "Stairs Up":
-                    return new Stairs(position, true);
-                case "Stairs Down":
-                    return new Stairs(position, false);
-                default:
-                    throw new System.ArgumentException("Invalid type in MapObjectFactory:CreateMapObject");
-            }
+            Type objectType = TypeLocator.GetTypeToMake(typeof(MapObjectFactory), "Magecrawl.GameEngine.MapObjects", name);
+            if (objectType == null)
+                throw new System.InvalidOperationException("Create Map Object: Don't know how to create type of : " + name);
+
+            return (MapObject)Activator.CreateInstance(objectType, position);
         }
     }
 }
