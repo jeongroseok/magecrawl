@@ -1,6 +1,7 @@
 relre:.vshost.exe
 relre:.Cache
 relre:.suo
+relre:.mdb
 relre:.pidb
 relre:.csproj.user
 relre:obj/
