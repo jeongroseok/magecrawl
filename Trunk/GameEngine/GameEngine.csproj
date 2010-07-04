@@ -63,6 +63,7 @@
     <Compile Include="Armor\Headpiece.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="DebugEngine.cs" />
+    <Compile Include="Effects\EffectEngine.cs" />
     <Compile Include="Effects\EffectResults\EarthenArmor.cs">
       <SubType>Code</SubType>
     </Compile>

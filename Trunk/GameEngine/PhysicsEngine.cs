@@ -374,9 +374,10 @@ namespace Magecrawl.GameEngine
         {
             if (m_player.Items.Contains((Item)item))
             {
-                m_player.RemoveItem((Item)item);
-                m_magicEffects.UseItemWithEffect(m_player, item, targetedPoint);
-                return true;
+                bool itemUsedSucessfully = m_magicEffects.UseItemWithEffect(m_player, item, targetedPoint);
+                if (itemUsedSucessfully)
+                    m_player.RemoveItem((Item)item);
+                return itemUsedSucessfully;
             }
             return false;
         }
@@ -385,14 +386,17 @@ namespace Magecrawl.GameEngine
         {
             if (m_player.Items.Contains(wand))
             {
-                m_magicEffects.UseItemWithEffect(m_player, wand, targetedPoint);
-                wand.Charges -= 1;
-                if (wand.Charges <= 0)
+                bool itemUsedSucessfully = m_magicEffects.UseItemWithEffect(m_player, wand, targetedPoint);
+                if (itemUsedSucessfully)
                 {
-                    m_player.RemoveItem(wand);
-                    CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} disintegrates as its last bit of magic is wrested from it.", wand.Name));
+                    wand.Charges -= 1;
+                    if (wand.Charges <= 0)
+                    {
+                        m_player.RemoveItem(wand);
+                        CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} disintegrates as its last bit of magic is wrested from it.", wand.Name));
+                    }
                 }
-                return true;
+                return itemUsedSucessfully;
             }
             return false;
         }
