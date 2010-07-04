@@ -447,5 +447,10 @@ namespace Magecrawl.GameEngine
             if (pointToSaveInList)
                 pointList.Add(pointToSaveFromList);
         }
+
+        internal LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
+        {
+            return m_physicsEngine.GetLongTermEffectSpellWouldProduce(effectName);
+        }
     }
 }

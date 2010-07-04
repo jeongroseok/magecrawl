@@ -527,6 +527,11 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        internal LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
+        {
+            return m_magicEffects.GetLongTermEffectSpellWouldProduce(effectName);
+        }
+
         internal bool HandleInventoryAction(IItem item, string option, object argument)
         {
             switch (option)

@@ -251,7 +251,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public bool CouldCastSpell(ISpell spell)
         {
-            return CurrentMP >= ((Spell)spell).Cost;
+            return (CurrentMP - ((Spell)spell).SustainingCost) >= ((Spell)spell).Cost;
         }
 
         private int CalculateSpellStrengthFromPassiveSkills(string typeName)
