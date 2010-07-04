@@ -159,8 +159,8 @@ namespace Magecrawl.GameUI
             for (int j = 0; j < BarLength; ++j)
                 screen.setCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColorAtPosition(m_player, j));
 
-            string magicString = string.Format("Magic {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
-            screen.printEx(StartingX + 12, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, magicString);
+            string manaString = string.Format("Mana {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
+            screen.printEx(StartingX + 13, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, manaString);
             for (int j = 0; j < BarLength; ++j)
                 screen.setCharBackground(StartingX + 2 + j, 3, PlayerManaBarColor(m_player, j ));
 
