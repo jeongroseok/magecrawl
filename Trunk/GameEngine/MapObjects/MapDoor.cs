@@ -96,7 +96,7 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "Map Door");
+            writer.WriteElementString("Type", "MapDoor");
             writer.WriteElementString("DoorOpen", m_opened.ToString());
             m_position.WriteToXml(writer, "Position");
         }
