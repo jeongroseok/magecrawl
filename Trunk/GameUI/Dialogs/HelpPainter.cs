@@ -68,21 +68,22 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 5, "Inventory          - " + m_keyMappings["Inventory"]);
                 screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 6, "Equipment          - " + m_keyMappings["Equipment"]);
                 screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 7, "Skill Tree         - " + m_keyMappings["ShowSkillTree"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 8, "Operate            - " + m_keyMappings["Operate"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 9, "Wait               - " + m_keyMappings["Wait"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 10, "Rest Until Healed  - " + m_keyMappings["RestTillHealed"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 11, "Move To Location   - " + m_keyMappings["MoveToLocation"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 12, "View Mode          - " + m_keyMappings["ViewMode"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 13, "Down Stairs        - " + m_keyMappings["DownStairs"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 14, "Up Stairs          - " + m_keyMappings["UpStairs"]);
-                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 15, "Swap Weapons       - " + m_keyMappings["SwapWeapon"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 8, "Show Status Effects- " + m_keyMappings["ShowEffects"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 9, "Operate            - " + m_keyMappings["Operate"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 10, "Wait               - " + m_keyMappings["Wait"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 11, "Rest Until Healed  - " + m_keyMappings["RestTillHealed"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 12, "Move To Location   - " + m_keyMappings["MoveToLocation"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 13, "View Mode          - " + m_keyMappings["ViewMode"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 14, "Down Stairs        - " + m_keyMappings["DownStairs"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 15, "Up Stairs          - " + m_keyMappings["UpStairs"]);
+                screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 16, "Swap Weapons       - " + m_keyMappings["SwapWeapon"]);
 
                 const int RebindingStartY = SymbolStartY;
                 string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";
                 screen.printFrame(RightThird - 12, RebindingStartY, 31, 9, true);
                 screen.printRect(RightThird - 11, RebindingStartY + 1, 29, 8, rebindingText);
 
-                const int DirectionStartY = ActionStartY + 18;
+                const int DirectionStartY = ActionStartY + 19;
                 const int DirectionVerticalOffset = -8;
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY, string.Format("Direction Keys (+{0} to Run)", (bool)Preferences.Instance["UseAltInsteadOfCtrlForRunning"] ? "Alt" : "Ctrl"));
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 1, "------------------------");
