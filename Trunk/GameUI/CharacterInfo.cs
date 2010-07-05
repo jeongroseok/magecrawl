@@ -15,6 +15,8 @@ namespace Magecrawl.GameUI
             m_player = null;
             m_currentLevel = -1;
             m_colorHelper = new DialogColorHelper();
+            MapCursorEnabled = false;
+            CursorSpot = Point.Invalid;
         }
 
         private const int StartingX = UIHelper.MapWidth;
@@ -31,6 +33,9 @@ namespace Magecrawl.GameUI
         private int m_turnCount;
         private bool m_inDanger;
         private DialogColorHelper m_colorHelper;
+
+        internal bool MapCursorEnabled { get; set; }
+        internal Point CursorSpot { get; set; }
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
@@ -194,19 +199,31 @@ namespace Magecrawl.GameUI
             }
             m_colorHelper.ResetColors(screen);
 
+            m_colorHelper.SaveColors(screen);
             if (m_monstersNearby.Count > 0)
             {
                 string countAmount = m_monstersNearby.Count < 8 ? m_monstersNearby.Count.ToString() : "8+";
                 screen.print(StartingX + 2, nextAvailablePosition, string.Format("Nearby Enemies ({0}):", countAmount));
-                for (int i = 0; i < m_monstersNearby.Count; ++i)
+                // Show at most 8 monsters
+                int numberOfMonstersToShow = m_monstersNearby.Count > 8 ? 8 : m_monstersNearby.Count;
+                for (int i = 0; i < numberOfMonstersToShow; ++i)
                 {
                     ICharacter currentMonster = m_monstersNearby[i];
+                    if (MapCursorEnabled)
+                    {
+                        if (currentMonster.Position == CursorSpot)
+                            screen.setForegroundColor(TCODColor.darkYellow);
+                        else
+                            screen.setForegroundColor(UIHelper.ForegroundColor);
+                    }
+
                     screen.printEx(StartingX + 12, nextAvailablePosition + 1 + i, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, currentMonster.Name);
                     for (int j = 0; j < HealthBarLength(currentMonster, true); ++j)
                         screen.setCharBackground(StartingX + 2 + j, nextAvailablePosition + 1 + i, EnemyHealthBarColor(currentMonster));
                 }
                 nextAvailablePosition += 2;
             }
+            m_colorHelper.ResetColors(screen);
 
             if (Preferences.Instance.DebuggingMode)
             {

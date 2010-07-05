@@ -24,16 +24,24 @@ namespace Magecrawl.GameUI.Map.Requests
 
         internal override void DoRequest(IHandlePainterRequest painter)
         {
-            MapCursorPainter m = painter as MapCursorPainter;
-            PaintingCoordinator c = painter as PaintingCoordinator;
-            if (m != null)
+            MapCursorPainter mapCursor = painter as MapCursorPainter;
+            if (mapCursor != null)
             {
-                m.MapCursorEnabled = m_enable;
+                mapCursor.MapCursorEnabled = m_enable;
             }
-            else if (c != null)
+
+            PaintingCoordinator painterCord = painter as PaintingCoordinator;                        
+            if (painterCord != null)
             {
-                c.MapCursorEnabled = m_enable;
-                c.CursorSpot = m_cursorPosition;
+                painterCord.MapCursorEnabled = m_enable;
+                painterCord.CursorSpot = m_cursorPosition;
+            }
+
+            CharacterInfo charInfo = painter as CharacterInfo;
+            if (charInfo != null)
+            {
+                charInfo.MapCursorEnabled = m_enable;
+                charInfo.CursorSpot = m_cursorPosition;
             }
         }
     }

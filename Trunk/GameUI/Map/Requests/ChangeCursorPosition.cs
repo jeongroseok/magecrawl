@@ -20,6 +20,10 @@ namespace Magecrawl.GameUI.Map.Requests
             MapCursorPainter cursorPainter = painter as MapCursorPainter;
             if (cursorPainter != null)
                 cursorPainter.NewCursorPosition();
+
+            CharacterInfo charInfo = painter as CharacterInfo;
+            if (charInfo != null)
+                charInfo.CursorSpot = m_newPosition;
         }
     }
 }
