@@ -18,13 +18,15 @@ namespace Magecrawl.GameUI
     public sealed class PaintingCoordinator : System.IDisposable, IHandlePainterRequest
     {
         private List<PainterBase> m_painters;
-        private bool m_isSelectionCursor;
-        private Point m_cursorSpot;
+
+        internal bool MapCursorEnabled { get; set; }
+
+        internal Point CursorSpot { get; set; }
 
         public PaintingCoordinator()
         {
-            m_isSelectionCursor = false;
-            m_cursorSpot = new Point(0, 0);
+            MapCursorEnabled = false;
+            CursorSpot = new Point(0, 0);
 
             // So one would think this'd be a great place to use MEF. However, the order
             // of the painters is very important. I could metadata to force this order 
@@ -95,18 +97,6 @@ namespace Magecrawl.GameUI
             }
         }
 
-        internal bool MapCursorEnabled
-        {
-            get { return m_isSelectionCursor; }
-            set { m_isSelectionCursor = value; }
-        }
-
-        internal Point CursorSpot
-        {
-            get { return m_cursorSpot; }
-            set { m_cursorSpot = value; }
-        }
-
         public void HandleRequest(RequestBase request)
         {
             foreach (PainterBase p in m_painters)
@@ -127,7 +117,7 @@ namespace Magecrawl.GameUI
 
         private Point CalculateMapCorner(IGameEngine engine)
         {
-            Point centerFocus = m_isSelectionCursor ? m_cursorSpot : engine.Player.Position;
+            Point centerFocus = MapCursorEnabled ? CursorSpot : engine.Player.Position;
             return new Point(MapPainterBase.ScreenCenter.X - centerFocus.X, MapPainterBase.ScreenCenter.Y - centerFocus.Y);
         }
     }
