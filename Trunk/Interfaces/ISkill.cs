@@ -6,6 +6,5 @@
         int Cost { get; }
         string School { get; }
         string Description { get; }
-        bool NewSpell { get; }
     }
 }
