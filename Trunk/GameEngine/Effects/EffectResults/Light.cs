@@ -48,7 +48,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return 2;
+                return 15;
             }
         }
 

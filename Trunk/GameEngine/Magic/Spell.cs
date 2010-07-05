@@ -95,15 +95,16 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
+        // Similar logic is found in Player::MaxMP
         internal int SustainingCost
         {
             get
             {
-                int sustainingCost = 0;
+                double sustainingCostPercentage = 0;
                 LongTermEffect possibleEffect = CoreGameEngine.Instance.GetLongTermEffectSpellWouldProduce(EffectType);
                 if (possibleEffect != null)
-                    sustainingCost = possibleEffect.MPCost;
-                return sustainingCost;
+                    sustainingCostPercentage = possibleEffect.MPCost;
+                return (int)Math.Round((sustainingCostPercentage / 100.0) * CoreGameEngine.Instance.Player.MaxPossibleMP);
             }
         }
 

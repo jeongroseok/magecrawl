@@ -140,11 +140,12 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        // Similar logic is found in Spell::SustainingCost
         public int MaxMP
         {
             get
             {
-                return MaxPossibleMP - m_effects.OfType<LongTermEffect>().Sum(x => x.MPCost);
+                return (int)Math.Round(MaxPossibleMP * (1 - ((double)m_effects.OfType<LongTermEffect>().Sum(x => x.MPCost) / 100.0)));
             }
         }
 
