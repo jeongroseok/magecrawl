@@ -38,7 +38,7 @@ namespace Magecrawl.GameUI.Equipment
 
                 screen.printFrame(EquipmentWindowOffset + 1, EquipmentWindowTopY + EquipmentItemHeight - 6, EquipmentItemWidth - 2, 5, true);
 
-                string weaponString = string.Format("Damage: {0}     Evade: {1}", m_player.CurrentWeapon.Damage, m_player.Evade);
+                string weaponString = string.Format("Damage: {0}     Evade: {1}      Stamina Bouns: {2}", m_player.CurrentWeapon.Damage, m_player.Evade, GetStaminaTotalBonus());
                 screen.print(EquipmentWindowOffset + 3, EquipmentWindowTopY + EquipmentItemHeight - 4, weaponString);
 
                 List<INamedItem> equipmentList = CreateEquipmentListFromPlayer();
@@ -55,6 +55,16 @@ namespace Magecrawl.GameUI.Equipment
                 }
                 m_dialogColorHelper.ResetColors(screen);
             }   
+        }
+
+        private int GetStaminaTotalBonus()
+        {
+            int bonus = 0;
+            bonus += m_player.Headpiece != null ? m_player.Headpiece.StaminaBonus : 0;
+            bonus += m_player.ChestArmor != null ? m_player.ChestArmor.StaminaBonus : 0;
+            bonus += m_player.Gloves != null ? m_player.Gloves.StaminaBonus : 0;
+            bonus += m_player.Boots != null ? m_player.Boots.StaminaBonus : 0;
+            return bonus;
         }
 
         private List<INamedItem> CreateEquipmentListFromPlayer()
