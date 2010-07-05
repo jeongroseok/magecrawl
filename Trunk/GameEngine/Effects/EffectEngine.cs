@@ -40,7 +40,7 @@ namespace Magecrawl.GameEngine.Effects
 
         private static bool HandleShortTermEffect(string effectName, Character invoker, int strength, Character targetCharacter)
         {
-            DismissExistingEffect(effectName, invoker, targetCharacter);
+            DismissExistingEffect(effectName, targetCharacter);
 
             StatusEffect effect = EffectFactory.CreateEffect(invoker, effectName, false, strength);
             targetCharacter.AddEffect(effect);
@@ -51,16 +51,16 @@ namespace Magecrawl.GameEngine.Effects
 
         private static bool HandleLongTermEffect(string effectName, Character invoker, int strength)
         {
-            DismissExistingEffect(effectName, invoker, invoker);
+            DismissExistingEffect(effectName, invoker);
 
             // Check here if mp will bring us under 0 since mp cost of spell hasn't hit yet...
             invoker.AddEffect(EffectFactory.CreateEffect(invoker, effectName, true, strength));
             return true;           
         }
 
-        private static void DismissExistingEffect(string effectName, Character invoker, Character target)
+        private static void DismissExistingEffect(string effectName, Character target)
         {
-            List<StatusEffect> statusList = invoker.Effects.Where(s => s.Name == effectName).ToList();
+            List<StatusEffect> statusList = target.Effects.Where(s => s.Name == effectName).ToList();
             if (statusList.Count > 1)
                 throw new System.InvalidOperationException("DismissExistingEffect with more than one effect of the same name on them?");
             foreach (StatusEffect s in statusList)
