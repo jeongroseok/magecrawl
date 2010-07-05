@@ -106,9 +106,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                int staminaSkillBonus = 0;
-                foreach (Skill s in Skills)
-                    staminaSkillBonus += s.HPBonus;
+                int staminaSkillBonus = GetTotalAttributeValue("HPBonus");
                 int baseMaxStamWithSkills = m_baseMaxStamina + staminaSkillBonus;
                 return baseMaxStamWithSkills + CombatDefenseCalculator.CalculateStaminaBonus(this);
             }
@@ -154,7 +152,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_baseMaxMP + m_skills.Sum(s => s.MPBonus);
+                return m_baseMaxMP + GetTotalAttributeValue("MPBonus");
             }
         }
 
@@ -236,18 +234,15 @@ namespace Magecrawl.GameEngine.Actors
             get 
             {
                 List<ISpell> returnList = new List<ISpell>();
-                foreach (Skill skill in Skills)
-                {
-                    if (skill.NewSpell)
-                        returnList.Add(SpellFactory.CreateSpell(skill.AddSpell));
-                }
+                foreach (Skill skill in m_skills.Where(s => s.Attributes.ContainsKey("AddSpell")))
+                    returnList.Add(SpellFactory.CreateSpell(skill.Attributes["AddSpell"]));
                 return returnList;
             }
         }
 
         public int SpellStrength(string spellType)
         {
-            return CalculateSpellStrengthFromPassiveSkills(spellType);
+            return 1 + GetTotalAttributeValue(spellType);
         }
 
         public bool CouldCastSpell(ISpell spell)
@@ -255,15 +250,14 @@ namespace Magecrawl.GameEngine.Actors
             return (CurrentMP - ((Spell)spell).SustainingCost) >= ((Spell)spell).Cost;
         }
 
-        private int CalculateSpellStrengthFromPassiveSkills(string typeName)
+        internal int GetTotalAttributeValue(string attribute)
         {
-            int strength = 1;
-            foreach (Skill s in Skills)
-            {
-                if (s.Proficiency == typeName)
-                    strength++;
-            }
-            return strength;
+            return m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
+        }
+
+        internal bool HasAttribute(string attribute)
+        {
+            return m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
         }
 
         public IEnumerable<IItem> Items

@@ -1,31 +1,81 @@
 <?xml version="1.0" ?>
 <Skills>
-  <Skill Name="Light" Cost="5" AddSpell="Light" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby."/>
-  <Skill Name="Mend" Cost="10" AddSpell="Mend" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing minor or moderate wounds."/>
+  <Skill Name="Light" Cost="5" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby.">
+    <AddSpell>Light</AddSpell>
+  </Skill>
+  <Skill Name="Mend" Cost="10" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing minor or moderate wounds.">
+    <AddSpell>Mend</AddSpell>
+  </Skill>
   
-  <Skill Name="Fire Bolt" Cost="5" AddSpell="Fire Bolt" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy."/>
-  <Skill Name="Fire Mastery I" Cost="10" AddProficiency="Fire" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells."/>
-  <Skill Name="Fire Mastery II" Cost="10" AddProficiency="Fire" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage."/>
-  <Skill Name="Cone Of Sparks" Cost="10" AddSpell="Cone Of Sparks" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly."/>
-  <Skill Name="Fireball" Cost="20" AddSpell="Fireball" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target."/>
+  <Skill Name="Fire Bolt" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
+    <AddSpell>Fire Bolt</AddSpell>
+  </Skill>
+  <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
+    <AddProficiency>Fire</AddProficiency>
+  </Skill>
+  <Skill Name="Fire Mastery II" Cost="10" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
+    <AddProficiency>Fire</AddProficiency>
+  </Skill>
+  <Skill Name="Cone Of Sparks" Cost="10" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly.">
+    <AddSpell>Cone Of Sparks</AddSpell>
+  </Skill>
+  <Skill Name="Fireball" Cost="20" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target.">
+    <AddSpell>Fireball</AddSpell>
+  </Skill>
   
-  <Skill Name="Force Bolt" Cost="5" AddSpell="Force Bolt" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target."/>
-  <Skill Name="Slow" Cost="5" AddSpell="Slow" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area."/>
-  <Skill Name="Haste" Cost="10" AddSpell="Haste" School="Arcane" Description="The polor opposite of 'Slow', this spell pumps energy into the weave nearby the target, hastening the passing of time. Care is needed, as passing too much energy into the weave can cause explosions."/>
-  <Skill Name="Blink" Cost="15" AddSpell="Blink" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location."/>
-  <Skill Name="Teleport" Cost="20" AddSpell="Teleport" School="Arcane" Description="The concept behind Teleport is simple, take Blink and drill a much larger hole in the weave. The shunting done when the tear heals throws the caster a much father distance, albeit more dangerously."/>
+  <Skill Name="Force Bolt" Cost="5" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target.">
+    <AddSpell>Force Bolt</AddSpell>
+  </Skill>
+  <Skill Name="Slow" Cost="5" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area.">
+    <AddSpell>Slow</AddSpell>
+  </Skill>
+  <Skill Name="Haste" Cost="10" School="Arcane" Description="The polor opposite of 'Slow', this spell pumps energy into the weave nearby the target, hastening the passing of time. Care is needed, as passing too much energy into the weave can cause explosions.">
+    <AddSpell>Haste</AddSpell>
+  </Skill>
+  <Skill Name="Blink" Cost="15" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location.">
+    <AddSpell>Blink</AddSpell>
+  </Skill>
+  <Skill Name="Teleport" Cost="20" School="Arcane" Description="The concept behind Teleport is simple, take Blink and drill a much larger hole in the weave. The shunting done when the tear heals throws the caster a much father distance, albeit more dangerously.">
+    <AddSpell>Teleport</AddSpell>
+  </Skill>
 
-  <Skill Name="Toughness I" Cost="5" School="Martial" HPBonus="2" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 2."/>
-  <Skill Name="Toughness II" Cost="5" School="Martial" HPBonus="3" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 3."/>
-  <Skill Name="Toughness III" Cost="15" School="Martial" HPBonus="4" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 4."/>
-  <Skill Name="Toughness IV" Cost="15" School="Martial" HPBonus="5" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 5."/>
-  <Skill Name="Toughness V" Cost="25" School="Martial" HPBonus="20" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 10."/>
-  <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" MPBonus="2" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2."/>
-  <Skill Name="Blessing Of Mana II" Cost="5" School="Martial" MPBonus="2" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2."/>
-  <Skill Name="Blessing Of Mana III" Cost="5" School="Martial" MPBonus="3" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3."/>
-  <Skill Name="Blessing Of Mana IV" Cost="5" School="Martial" MPBonus="3" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3."/>
-  <Skill Name="Blessing Of Mana V" Cost="5" School="Martial" MPBonus="4" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4."/>
-  <Skill Name="Armor Proficiency" Cost="15" School="Martial" ArmorSkill="Standard" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells."/>
-  <Skill Name="Shield Proficiency" Cost="10" School="Martial" ArmorSkill="Shield" Description="While casting spells in heavier armor is difficult due to the increased weight, at least it is spread throughout the body.                      Casting effectivly while using a shield in hand requires an entirely new set of skills."/>
-  <Skill Name="Adv. Armor Proficiency" Cost="20" School="Martial" ArmorSkill="Heavy" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'heavy' armor, albeit with increased effort in casting spells."/>
+  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 2.">
+    <HPBonus>2</HPBonus>
+  </Skill>
+  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 3.">
+    <HPBonus>3</HPBonus>
+  </Skill>
+  <Skill Name="Toughness III" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 4.">
+    <HPBonus>4</HPBonus>
+  </Skill>
+  <Skill Name="Toughness IV" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 5.">
+    <HPBonus>4</HPBonus>
+  </Skill>
+  <Skill Name="Toughness V" Cost="25" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 10.">
+    <HPBonus>10</HPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
+    <MPBonus>2</MPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana II" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
+    <MPBonus>2</MPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana III" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
+    <MPBonus>3</MPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana IV" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
+    <MPBonus>3</MPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana V" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
+    <MPBonus>4</MPBonus>
+  </Skill>
+  <Skill Name="Armor Proficiency" Cost="15" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells.">
+    <StandardArmorProficiency/>
+  </Skill>
+  <Skill Name="Shield Proficiency" Cost="10" School="Martial" Description="While casting spells in heavier armor is difficult due to the increased weight, at least it is spread throughout the body.                      Casting effectivly while using a shield in hand requires an entirely new set of skills.">
+    <ShieldArmorProficiency/>
+  </Skill>
+  <Skill Name="Adv. Armor Proficiency" Cost="20" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'heavy' armor, albeit with increased effort in casting spells.">
+    <HeavyArmorProficiency/>
+  </Skill>
 </Skills>

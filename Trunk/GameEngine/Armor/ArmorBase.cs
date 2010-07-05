@@ -71,11 +71,10 @@ namespace Magecrawl.GameEngine.Armor
                 if (IsSummoned(this))
                     return true;
 
-                foreach (Skill s in CoreGameEngine.Instance.Player.Skills)
-                {
-                    if (s.ArmorSkill == Weight.ToString())
-                        return true;
-                }
+                // Beyond those, we need the skill
+                if (CoreGameEngine.Instance.Player.HasAttribute(Weight.ToString() + "ArmorProficiency"))
+                    return true;
+                
                 return false;
             }
         }

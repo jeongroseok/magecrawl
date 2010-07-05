@@ -38,6 +38,11 @@ namespace Magecrawl.GameEngine.Skills
             {
                 throw new System.InvalidOperationException("Bad skill defination file");
             }
+
+            bool insideSkillNode = false;
+            Skill lastSkill = null;
+            string attributeName = null;
+            string attributeValue = null;
             while (true)
             {
                 reader.Read();
@@ -47,34 +52,40 @@ namespace Magecrawl.GameEngine.Skills
                 }
                 if (reader.LocalName == "Skill")
                 {
-                    string name = reader.GetAttribute("Name");
-                    string school = reader.GetAttribute("School");
-                    string description = reader.GetAttribute("Description");
-                    
-                    string costString = reader.GetAttribute("Cost");
-                    int cost = int.Parse(costString);
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        insideSkillNode = true;
 
-                    Skill newSkill = new Skill(name, cost, school, description);
+                        string name = reader.GetAttribute("Name");
+                        string school = reader.GetAttribute("School");
+                        string description = reader.GetAttribute("Description");
 
-                    string addSpell = reader.GetAttribute("AddSpell");
-                    newSkill.AddSpell = addSpell;
+                        string costString = reader.GetAttribute("Cost");
+                        int cost = int.Parse(costString);
 
-                    string proficiency = reader.GetAttribute("AddProficiency");
-                    newSkill.Proficiency = proficiency;
+                        Skill newSkill = new Skill(name, cost, school, description);
+                        lastSkill = newSkill;
 
-                    string armorSkill = reader.GetAttribute("ArmorSkill");
-                    newSkill.ArmorSkill = armorSkill;
-
-                    string hpString = reader.GetAttribute("HPBonus");
-                    if (hpString != null)
-                        newSkill.HPBonus = int.Parse(hpString);
-
-                    string mpString = reader.GetAttribute("MPBonus");
-                    if (mpString != null)
-                        newSkill.MPBonus = int.Parse(mpString);
-
-
-                    m_skillMapping.Add(name, newSkill);
+                        m_skillMapping.Add(name, newSkill);
+                    }
+                    else if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        if (attributeName != null)
+                        {
+                            lastSkill.Attributes.Add(attributeName, attributeValue);
+                            attributeName = null;
+                            attributeValue = null;
+                        }
+                        insideSkillNode = false;
+                        lastSkill = null;
+                    }
+                }
+                else if (insideSkillNode)
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                        attributeName = reader.LocalName;
+                    else if (reader.NodeType == XmlNodeType.Text)
+                        attributeValue = reader.Value;
                 }
             }
             reader.Close();

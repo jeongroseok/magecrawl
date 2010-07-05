@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using Magecrawl.Interfaces;
 
@@ -10,11 +11,7 @@ namespace Magecrawl.GameEngine.Skills
         public string School { get; private set; }
         public string Description { get; private set; }
 
-        internal int HPBonus { get; set; }
-        internal int MPBonus { get; set; }
-        internal string Proficiency { get; set; }
-        internal string AddSpell { get; set; }
-        internal string ArmorSkill { get; set; }
+        public Dictionary<string, string> Attributes;
 
         internal Skill(string name, int cost, string school, string description)
         {
@@ -22,18 +19,7 @@ namespace Magecrawl.GameEngine.Skills
             Cost = cost;
             School = school;
             Description = description;
-            AddSpell = null;
-            Proficiency = null;
-            HPBonus = 0;
-            MPBonus = 0;
-        }
-
-        public bool NewSpell
-        {
-            get
-            {
-                return AddSpell != null;
-            }
+            Attributes = new Dictionary<string, string>();
         }
 
         public void ReadXml(System.Xml.XmlReader reader)
