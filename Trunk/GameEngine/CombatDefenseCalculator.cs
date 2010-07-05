@@ -17,12 +17,12 @@ namespace Magecrawl.GameEngine
         {
         }
 
-        public static double CalculateEvade(IPlayer player)
+        public static double CalculateArmorEvade(IPlayer player)
         {
             return BaseEvade + GetArmorList(player).Sum(x => x.Evade);
         }
 
-        public static int CalculateStaminaBonus(IPlayer player)
+        public static int CalculateArmorStaminaBonus(IPlayer player)
         {
             return GetArmorList(player).Sum(x => x.StaminaBonus);
         }

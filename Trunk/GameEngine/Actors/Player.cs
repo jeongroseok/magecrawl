@@ -106,9 +106,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                int staminaSkillBonus = GetTotalAttributeValue("HPBonus");
-                int baseMaxStamWithSkills = m_baseMaxStamina + staminaSkillBonus;
-                return baseMaxStamWithSkills + CombatDefenseCalculator.CalculateStaminaBonus(this);
+                return m_baseMaxStamina + GetTotalAttributeValue("HPBonus") + CombatDefenseCalculator.CalculateArmorStaminaBonus(this);
             }
         }
 
@@ -397,7 +395,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return CombatDefenseCalculator.CalculateEvade(this);
+                return CombatDefenseCalculator.CalculateArmorEvade(this);
             }
         }
 
