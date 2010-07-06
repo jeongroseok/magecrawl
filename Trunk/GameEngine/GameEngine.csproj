@@ -56,17 +56,9 @@
     <Compile Include="Actors\SprinterMonster.cs" />
     <Compile Include="Actors\MonsterFactory.cs" />
     <Compile Include="Actors\StandardMonster.cs" />
-    <Compile Include="Armor\ArmorBase.cs" />
-    <Compile Include="Armor\ChestArmor.cs" />
-    <Compile Include="Armor\Boots.cs" />
-    <Compile Include="Armor\Gloves.cs" />
-    <Compile Include="Armor\Headpiece.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="DebugEngine.cs" />
     <Compile Include="Effects\EffectEngine.cs" />
-    <Compile Include="Effects\EffectResults\EarthenArmor.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Effects\EffectResults\EffectResultAttribute.cs" />
     <Compile Include="Effects\EffectResults\Haste.cs">
       <SubType>Code</SubType>
@@ -86,13 +78,6 @@
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
     <Compile Include="GameStateInterface.cs" />
-    <Compile Include="Items\ItemWithEffects.cs" />
-    <Compile Include="Items\Item.cs" />
-    <Compile Include="Items\ItemWithOwner.cs" />
-    <Compile Include="Items\Potion.cs" />
-    <Compile Include="Items\Scroll.cs" />
-    <Compile Include="Items\Supplies.cs" />
-    <Compile Include="Items\Wand.cs" />
     <Compile Include="Level\Generator\MapChunk.cs" />
     <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
     <Compile Include="Level\Generator\MapNode.cs" />
@@ -127,20 +112,10 @@
     <Compile Include="SaveLoad\ListSerialization.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
-    <Compile Include="SkillEffectEngine.cs" />
+    <Compile Include="MonsterSkillEffectEngine.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\SkillFactory.cs" />
     <Compile Include="TargettingUtils.cs" />
-    <Compile Include="Weapons\Club.cs" />
-    <Compile Include="Weapons\Axe.cs" />
-    <Compile Include="Weapons\RangedWeaponBase.cs" />
-    <Compile Include="Weapons\SimpleSling.cs" />
-    <Compile Include="Weapons\Spear.cs" />
-    <Compile Include="Weapons\SimpleBow.cs" />
-    <Compile Include="Weapons\MeleeWeapon.cs" />
-    <Compile Include="Weapons\WeaponBase.cs" />
-    <Compile Include="Items\ItemFactory.cs" />
-    <Compile Include="Weapons\Sword.cs" />
     <Compile Include="Effects\StatusEffect.cs" />
     <Compile Include="Effects\EffectFactory.cs" />
     <Compile Include="Effects\LongTermEffect.cs" />
@@ -166,6 +141,10 @@
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{93A62B6A-4CF7-4142-9549-3FAFBE32A58D}</Project>
       <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Items\Items.csproj">
+      <Project>{26102AD2-FDFF-48DC-9089-4AA1DDEB8ED0}</Project>
+      <Name>Items</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>

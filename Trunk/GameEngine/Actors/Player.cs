@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Armor;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Skills;
@@ -63,11 +62,11 @@ namespace Magecrawl.GameEngine.Actors
 
             LastTurnSeenAMonster = 0;
 
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Health Potion"));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItem("Minor Mana Potion"));                        
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Wooden Cudgel"));
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Robe"));
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItem("Sandles"));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 1));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 1));
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Boots", 1));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
+            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
 
             // Since we're equiping equipment here, reset m_currentStamina to new total
             m_currentStamina = MaxStamina;
@@ -301,68 +300,168 @@ namespace Magecrawl.GameEngine.Actors
              m_skills.Add((Skill)skill);
         }
 
-        internal override IItem Equip(IItem item)
+        private Weapon m_equipedWeapon;
+        public override IWeapon CurrentWeapon
         {
-            if (item is ChestArmor)
+            get
             {
-                IItem previousArmor = ChestArmor;
-                ChestArmor = (IArmor)item;
-                return previousArmor;
+                if (m_equipedWeapon == null)
+                    return CoreGameEngine.Instance.ItemFactory.CreateMeleeWeapon(this);
+                return m_equipedWeapon;
             }
-            if (item is Headpiece)
-            {
-                IItem previousArmor = Headpiece;
-                Headpiece = (IArmor)item;
-                return previousArmor;
-            }
-            if (item is Gloves)
-            {
-                IItem previousArmor = Gloves;
-                Gloves = (IArmor)item;
-                return previousArmor;
-            }
-            if (item is Boots)
-            {
-                IItem previousArmor = Boots;
-                Boots = (IArmor)item;
-                return previousArmor;
-            }
-
-            return base.Equip(item);
         }
 
-        internal override IItem Unequip(IItem item)
+        private Weapon m_secondaryWeapon;
+        public IWeapon SecondaryWeapon
         {
-            if (item is ChestArmor)
+            get
             {
-                IItem previousArmor = ChestArmor;
-                ChestArmor = null;
-                ResetMaxStaminaIfNowOver();
-                return previousArmor;
+                if (m_secondaryWeapon == null)
+                    return CoreGameEngine.Instance.ItemFactory.CreateMeleeWeapon(this);
+                return m_secondaryWeapon;
             }
-            if (item is Headpiece)
+        }
+
+        internal IItem Equip(IItem item)
+        {
+            if (item is IWeapon)
+                return EquipWeapon((IWeapon)item);
+
+            if (item is IArmor)
             {
-                IItem previousArmor = Headpiece;
-                Headpiece = null;
-                ResetMaxStaminaIfNowOver();
-                return previousArmor;
-            }
-            if (item is Gloves)
-            {
-                IItem previousArmor = Gloves;
-                Gloves = null;
-                ResetMaxStaminaIfNowOver();
-                return previousArmor;
-            }
-            if (item is Boots)
-            {
-                IItem previousArmor = Boots;
-                Boots = null;
-                ResetMaxStaminaIfNowOver();
-                return previousArmor;
+                IArmor itemAsArmor = (IArmor)item;
+                if (itemAsArmor.Type == "ChestArmor")
+                {
+                    IItem previousArmor = ChestArmor;
+                    ChestArmor = (IArmor)item;
+                    return previousArmor;
+                }
+                if (itemAsArmor.Type == "Helm")
+                {
+                    IItem previousArmor = Headpiece;
+                    Headpiece = (IArmor)item;
+                    return previousArmor;
+                }
+                if (itemAsArmor.Type == "Gloves")
+                {
+                    IItem previousArmor = Gloves;
+                    Gloves = (IArmor)item;
+                    return previousArmor;
+                }
+                if (itemAsArmor.Type == "Boots")
+                {
+                    IItem previousArmor = Boots;
+                    Boots = (IArmor)item;
+                    return previousArmor;
+                }
             }
 
-            return base.Unequip(item);
+            throw new System.InvalidOperationException("Don't know how to equip - " + item.GetType());
+        }
+
+        internal IItem Unequip(IItem item)
+        {
+            if (item is IWeapon)
+                return UnequipWeapon();
+
+            if (item is IArmor)
+            {
+                IArmor itemAsArmor = (IArmor)item;
+                if (itemAsArmor.Type == "ChestArmor")
+                {
+                    IItem previousArmor = ChestArmor;
+                    ChestArmor = null;
+                    ResetMaxStaminaIfNowOver();
+                    return previousArmor;
+                }
+                if (itemAsArmor.Type == "Helm")
+                {
+                    IItem previousArmor = Headpiece;
+                    Headpiece = null;
+                    ResetMaxStaminaIfNowOver();
+                    return previousArmor;
+                }
+                if (itemAsArmor.Type == "Gloves")
+                {
+                    IItem previousArmor = Gloves;
+                    Gloves = null;
+                    ResetMaxStaminaIfNowOver();
+                    return previousArmor;
+                }
+                if (itemAsArmor.Type == "Boots")
+                {
+                    IItem previousArmor = Boots;
+                    Boots = null;
+                    ResetMaxStaminaIfNowOver();
+                    return previousArmor;
+                }
+            }
+            throw new System.InvalidOperationException("Don't know how to unequip - " + item.GetType());
+        }
+
+        private IWeapon EquipWeapon(IWeapon weapon)
+        {
+            if (weapon == null)
+                throw new System.ArgumentException("EquipWeapon - Null weapon");
+
+            Weapon oldWeapon = UnequipWeapon();
+
+            m_equipedWeapon = (Weapon)weapon;
+            if (m_equipedWeapon.IsRanged)
+                m_equipedWeapon.LoadWeapon();
+
+            return oldWeapon;
+        }
+
+        private Weapon UnequipWeapon()
+        {
+            if (m_equipedWeapon == null)
+                return null;
+
+            Weapon oldWeapon = (Weapon)m_equipedWeapon;
+            m_equipedWeapon = null;
+            return oldWeapon;
+        }
+
+        internal IWeapon EquipSecondaryWeapon(IWeapon weapon)
+        {
+            if (weapon == null)
+                throw new System.ArgumentException("EquipSecondaryWeapon - Null weapon");
+
+            IWeapon oldWeapon = UnequipSecondaryWeapon();
+
+            m_secondaryWeapon = (Weapon)weapon;
+            if (m_secondaryWeapon.IsRanged)
+                m_secondaryWeapon.LoadWeapon();
+
+            return oldWeapon;
+        }
+
+        public IWeapon UnequipSecondaryWeapon()
+        {
+            if (m_secondaryWeapon == null)
+                return null;
+            Weapon oldWeapon = (Weapon)m_secondaryWeapon;
+            m_secondaryWeapon = null;
+            return oldWeapon;
+        }
+
+        internal bool SwapPrimarySecondaryWeapons()
+        {
+            // If we're swapping to Melee and we're Melee
+            if (CurrentWeapon.GetType() == typeof(MeleeWeapon) && SecondaryWeapon.GetType() == typeof(MeleeWeapon))
+                return false;
+
+            IWeapon mainWeapon = UnequipWeapon();
+            IWeapon secondaryWeapon = UnequipSecondaryWeapon();
+            
+            if (secondaryWeapon != null)
+                Equip(secondaryWeapon);
+            
+            if (mainWeapon != null)
+                EquipSecondaryWeapon(mainWeapon);
+
+            return true;
         }
 
         internal void TakeItem(Item i)
@@ -383,7 +482,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
         
-        public override double MeleeSpeed
+        public override double MeleeCTCost
         {
             get
             {
@@ -399,12 +498,31 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public bool CouldEquip(IArmor armor)
+        {
+            switch (armor.Weight)
+            {
+                case ArmorWeight.Light:
+                case ArmorWeight.None:
+                    return true;
+                case ArmorWeight.Standard:
+                    return HasAttribute("StandardArmorProficiency");
+                case ArmorWeight.Heavy:
+                    return HasAttribute("HeavyArmorProficiency");
+                default:
+                    throw new System.InvalidOperationException("CouldEquip doesn't know how to handle type - " + armor.Weight.ToString());
+            }
+        }
+
         #region SaveLoad
 
         public override void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
             base.ReadXml(reader);
+
+            m_equipedWeapon = ReadWeaponFromSave(reader);
+            m_secondaryWeapon = ReadWeaponFromSave(reader);
 
             m_currentHealth = reader.ReadElementContentAsInt();
             m_baseMaxHealth = reader.ReadElementContentAsInt();
@@ -419,16 +537,16 @@ namespace Magecrawl.GameEngine.Actors
 
             LastTurnSeenAMonster = reader.ReadElementContentAsInt();
 
-            ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader, this);
-            Headpiece = (IArmor)Item.ReadXmlEntireNode(reader, this);
-            Gloves = (IArmor)Item.ReadXmlEntireNode(reader, this);
-            Boots = (IArmor)Item.ReadXmlEntireNode(reader, this);
+            ChestArmor = (IArmor)Item.ReadXmlEntireNode(reader);
+            Headpiece = (IArmor)Item.ReadXmlEntireNode(reader);
+            Gloves = (IArmor)Item.ReadXmlEntireNode(reader);
+            Boots = (IArmor)Item.ReadXmlEntireNode(reader);
 
             m_itemList = new List<Item>();
             ReadListFromXMLCore readItemDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem(typeString); 
+                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateBaseItem(typeString); 
                 newItem.ReadXml(reader);
                 m_itemList.Add(newItem);
             });
@@ -448,6 +566,9 @@ namespace Magecrawl.GameEngine.Actors
         {
             writer.WriteStartElement("Player");
             base.WriteXml(writer);
+
+            WriteWeaponToSave(writer, m_equipedWeapon);
+            WriteWeaponToSave(writer, m_secondaryWeapon);
 
             writer.WriteElementString("BaseCurrentHealth", m_currentHealth.ToString());
             writer.WriteElementString("BaseMaxHealth", m_baseMaxHealth.ToString());
@@ -471,6 +592,19 @@ namespace Magecrawl.GameEngine.Actors
             ListSerialization.WriteListToXML(writer, m_skills, "Skills");
 
             writer.WriteEndElement();
+        }
+
+        private Weapon ReadWeaponFromSave(XmlReader reader)
+        {
+            Weapon readWeapon = (Weapon)Item.ReadXmlEntireNode(reader);
+            if (readWeapon is MeleeWeapon)
+                ((MeleeWeapon)readWeapon).SetWielder(this);
+            return readWeapon;
+        }
+
+        private void WriteWeaponToSave(XmlWriter writer, Weapon weapon)
+        {
+            Item.WriteXmlEntireNode(weapon, "EquipedWeapon", writer);
         }
 
         #endregion

@@ -175,7 +175,7 @@ namespace Magecrawl.GameUI
             screen.print(StartingX + 2, nextAvailablePosition, skillPointString);
             nextAvailablePosition += 2;
 
-            string needsLoadedString = m_player.CurrentWeapon.IsLoaded ? "" : "(empty)";
+            string needsLoadedString =  !m_player.CurrentWeapon.IsRanged || m_player.CurrentWeapon.IsLoaded ? "" : "(empty)";
             screen.print(StartingX + 2, nextAvailablePosition, string.Format("Weapon: {0}{1}", m_player.CurrentWeapon.DisplayName, needsLoadedString));
             nextAvailablePosition += 2;          
 

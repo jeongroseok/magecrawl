@@ -16,11 +16,6 @@ namespace Magecrawl.Interfaces
             get;
         }
 
-        List<ItemOptions> PlayerOptions
-        {
-            get;
-        }
-
         string ItemEffectSchool
         {
             get;

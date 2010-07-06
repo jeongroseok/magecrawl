@@ -7,13 +7,12 @@ using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
@@ -64,7 +63,7 @@ namespace Magecrawl.GameEngine
             m_instance = this;
 
             // Needs to happen before anything that could create a weapon
-            ItemFactory = new ItemFactory();
+            ItemFactory = ItemFactory.Instance;
             MonsterFactory = new MonsterFactory();
             MapObjectFactory = new MapObjectFactory();
 
@@ -256,9 +255,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.TargettedDrawablePoints(targettingObject, target);
         }
 
-        internal bool UseSkill(Character attacker, SkillType skill, Point target)
+        internal bool UseMonsterSkill(Character attacker, SkillType skill, Point target)
         {
-            return m_physicsEngine.UseSkill(attacker, skill, target);
+            return m_physicsEngine.UseMonsterSkill(attacker, skill, target);
         }
 
         public bool Operate(Character characterOperating, Point pointToOperateAt)
@@ -274,9 +273,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.Wait(c);
         }
 
-        internal bool ReloadWeapon(Character character)
+        internal bool ReloadWeapon(Player player)
         {
-            return m_physicsEngine.ReloadWeapon(character);
+            return m_physicsEngine.ReloadWeapon(player);
         }
 
         internal bool PlayerGetItem()
@@ -384,31 +383,48 @@ namespace Magecrawl.GameEngine
 
         internal List<ItemOptions> GetOptionsForInventoryItem(Item item)
         {
-            return item.PlayerOptions;
+            List<ItemOptions> optionList = new List<ItemOptions>();
+
+            if (item is IWeapon)
+            {
+                optionList.Add(new ItemOptions("Equip", true));
+                optionList.Add(new ItemOptions("Equip as Secondary", true));
+            }
+            if (item is IArmor)
+            {
+                optionList.Add(new ItemOptions("Equip", true));
+            }
+
+            if (item.Attributes.ContainsKey("Invokable"))
+                optionList.Add(new ItemOptions(item.Attributes["InvokeActionName"], true));
+
+            optionList.Add(new ItemOptions("Drop", true));
+            return optionList;
         }
 
         internal List<ItemOptions> GetOptionsForEquipmentItem(Item item)
         {
-            return item.PlayerOptions;
+            List<ItemOptions> optionList = new List<ItemOptions>();
+
+            // If the item isn't a secondary, we can unequip it.
+            if (Player.SecondaryWeapon == item)
+                optionList.Add(new ItemOptions("Unequip as Secondary", true));
+            else            
+                optionList.Add(new ItemOptions("Unequip", true));
+
+            // TODO - Unsure how this'd work but it should be possible
+            if (item.Attributes.ContainsKey("Invokable"))
+                optionList.Add(new ItemOptions(item.Attributes["InvokeActionName"], true));
+
+            return optionList;
         }
 
-        internal bool SwapPrimarySecondaryWeapons(Character character)
+        internal bool SwapPrimarySecondaryWeapons(Player player)
         {
-            // If we're swapping to Melee and we're Melee
-            if (character.CurrentWeapon.GetType() == typeof(MeleeWeapon) && character.SecondaryWeapon.GetType() == typeof(MeleeWeapon))
-                return false;
-
-            IWeapon mainWeapon = (IWeapon)character.Unequip(character.CurrentWeapon);
-            IWeapon secondaryWeapon = character.UnequipSecondaryWeapon();
-            
-            if (secondaryWeapon != null)
-                character.Equip(secondaryWeapon);
-            
-            if (mainWeapon != null)
-                character.EquipSecondaryWeapon(mainWeapon);
-
-            m_timingEngine.ActorDidMinorAction(character);
-            return true;
+            bool didSomething = player.SwapPrimarySecondaryWeapons();
+            if (didSomething)
+                m_timingEngine.ActorDidMinorAction(m_player);
+            return didSomething;
         }
 
         internal bool PlayerSelectedItemOption(IItem item, string option, object argument)

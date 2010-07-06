@@ -19,6 +19,7 @@ namespace Magecrawl.Interfaces
         List<string> GetDescriptionForTile(Point p);
         
         TileVisibility[,] CalculateTileVisibility();
+        List<EffectivePoint> CalculateTargetablePointsForEquippedWeapon();
 
         ISkill GetSkillFromName(string name);
     }

@@ -5,9 +5,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -32,33 +31,13 @@ namespace Magecrawl.GameEngine.Actors
 
         public double CTCostModifierToAct { get; internal set; }
 
+        public abstract IWeapon CurrentWeapon { get; }
+
         public bool IsAlive
         {
             get
             {
                 return CurrentHP > 0;
-            }
-        }
-
-        private WeaponBase m_equipedWeapon;
-        public IWeapon CurrentWeapon
-        {
-            get
-            {
-                if (m_equipedWeapon == null)
-                    return new MeleeWeapon(this);
-                return m_equipedWeapon;
-            }
-        }
-
-        private WeaponBase m_secondaryWeapon;
-        public IWeapon SecondaryWeapon
-        {
-            get
-            {
-                if (m_secondaryWeapon == null)
-                    return new MeleeWeapon(this);
-                return m_secondaryWeapon;
             }
         }
 
@@ -99,9 +78,7 @@ namespace Magecrawl.GameEngine.Actors
             CT = 0;
             Vision = visionRange;
             Name = name;
-            m_equipedWeapon = null;
-            m_secondaryWeapon = null;
-
+ 
             CTIncreaseModifier = ctIncreaseModifer;
             CTCostModifierToMove = ctMoveCost;
             CTCostModifierToAct = ctActCost;
@@ -110,73 +87,6 @@ namespace Magecrawl.GameEngine.Actors
             
             m_uniqueID = s_idCounter;
             s_idCounter++;
-        }
-
-        virtual internal IItem Equip(IItem item)
-        {
-            if (item is IWeapon)
-                return EquipWeapon((IWeapon)item);
-
-            throw new System.InvalidOperationException("Don't know how to equip - " + item.GetType());
-        }
-
-        virtual internal IItem Unequip(IItem item)
-        {
-            if (item is IWeapon)
-                return UnequipWeapon();
-            throw new System.InvalidOperationException("Don't know how to unequip - " + item.GetType());
-        }
-
-        private IWeapon EquipWeapon(IWeapon weapon)
-        {
-            if (weapon == null)
-                throw new System.ArgumentException("EquipWeapon - Null weapon");
-            WeaponBase currentWeapon = weapon as WeaponBase;
-
-            IWeapon oldWeapon = UnequipWeapon();
-
-            currentWeapon.Owner = this;
-            m_equipedWeapon = currentWeapon;
-            if (m_equipedWeapon.IsRanged)
-                m_equipedWeapon.IsLoaded = true;
-
-            return oldWeapon;
-        }
-
-        private IWeapon UnequipWeapon()
-        {
-            if (m_equipedWeapon == null)
-                return null;
-            WeaponBase oldWeapon = m_equipedWeapon as WeaponBase;
-            oldWeapon.Owner = null;
-            m_equipedWeapon = null;
-            return oldWeapon;
-        }
-
-        internal IWeapon EquipSecondaryWeapon(IWeapon weapon)
-        {
-            if (weapon == null)
-                throw new System.ArgumentException("EquipSecondaryWeapon - Null weapon");
-            WeaponBase currentWeapon = weapon as WeaponBase;
-
-            IWeapon oldWeapon = UnequipSecondaryWeapon();
-
-            currentWeapon.Owner = this;
-            m_secondaryWeapon = currentWeapon;
-            if (m_secondaryWeapon.IsRanged)
-                m_secondaryWeapon.IsLoaded = true;
-
-            return oldWeapon;
-        }
-
-        public IWeapon UnequipSecondaryWeapon()
-        {
-            if (m_secondaryWeapon == null)
-                return null;
-            WeaponBase oldWeapon = m_secondaryWeapon as WeaponBase;
-            oldWeapon.Owner = null;
-            m_secondaryWeapon = null;
-            return oldWeapon;
         }
 
         internal virtual double CTCostModifierToAttack
@@ -194,7 +104,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public abstract void Damage(int dmg);
         public abstract DiceRoll MeleeDamage { get; }
-        public abstract double MeleeSpeed { get;}
+        public abstract double MeleeCTCost { get; }
 
         public virtual void IncreaseCT(int increase)
         {
@@ -254,9 +164,6 @@ namespace Magecrawl.GameEngine.Actors
             Vision = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
 
-            m_equipedWeapon = ReadWeaponFromSave(reader);
-            m_secondaryWeapon = ReadWeaponFromSave(reader);
-
             CTIncreaseModifier = reader.ReadElementContentAsDouble();
             CTCostModifierToMove = reader.ReadElementContentAsDouble();
             CTCostModifierToAct = reader.ReadElementContentAsDouble();
@@ -283,9 +190,6 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("VisionRange", Vision.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
 
-            WriteWeaponToSave(writer, m_equipedWeapon);
-            WriteWeaponToSave(writer, m_secondaryWeapon);
-
             writer.WriteElementString("CTIncraseModifier", CTIncreaseModifier.ToString());
             writer.WriteElementString("CTCostModifierToMove", CTCostModifierToMove.ToString());
             writer.WriteElementString("CTCostModifierToAct", CTCostModifierToAct.ToString());
@@ -293,16 +197,6 @@ namespace Magecrawl.GameEngine.Actors
             ListSerialization.WriteListToXML(writer, m_effects.ToList(), "Effect");
 
             m_effects.ForEach(a => a.Apply(this));
-        }
-
-        private WeaponBase ReadWeaponFromSave(XmlReader reader)
-        {
-            return (WeaponBase)Item.ReadXmlEntireNode(reader, this);
-        }
-
-        private void WriteWeaponToSave(XmlWriter writer, WeaponBase weapon)
-        {
-            Item.WriteXmlEntireNode(weapon, "EquipedWeapon", writer);
         }
 
         #endregion

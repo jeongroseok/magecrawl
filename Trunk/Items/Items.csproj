@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{26102AD2-FDFF-48DC-9089-4AA1DDEB8ED0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Magecrawl.Items</RootNamespace>
+    <AssemblyName>ItemFactory</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dist\libtcod-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Armor.cs" />
+    <Compile Include="Consumable.cs" />
+    <Compile Include="Materials\ComsumableEffectFactory.cs" />
+    <Compile Include="Materials\ConsumableEffect.cs" />
+    <Compile Include="Materials\CraftsmanshipFactory.cs" />
+    <Compile Include="Materials\Material.cs" />
+    <Compile Include="Materials\MaterialFactory.cs" />
+    <Compile Include="Materials\Quality.cs" />
+    <Compile Include="MeleeWeapon.cs" />
+    <Compile Include="Interfaces\IWeaponRange.cs" />
+    <Compile Include="Interfaces\IWeaponVerb.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatsBasedRangedWeapon.cs" />
+    <Compile Include="StatsBasedWeapon.cs" />
+    <Compile Include="Weapon.cs" />
+    <Compile Include="WeaponRanges\Axe.cs" />
+    <Compile Include="WeaponRanges\Club.cs" />
+    <Compile Include="WeaponRanges\Dagger.cs" />
+    <Compile Include="WeaponRanges\MeleeWeapon.cs" />
+    <Compile Include="WeaponRanges\RangedWeaponCalculator.cs" />
+    <Compile Include="WeaponRanges\Bow.cs" />
+    <Compile Include="WeaponRanges\Sling.cs" />
+    <Compile Include="WeaponRanges\Spear.cs" />
+    <Compile Include="WeaponRanges\Sword.cs" />
+    <Compile Include="WeaponRanges\WeaponRangeFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{93A62B6A-4CF7-4142-9549-3FAFBE32A58D}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

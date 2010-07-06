@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.GameEngine.Armor;
 using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -20,7 +18,7 @@ namespace Magecrawl.GameEngine
         private FOVManager m_fovManager;
         private CombatEngine m_combatEngine;
         private MagicEffectsEngine m_magicEffects;
-        private SkillEffectEngine m_skillEngine;
+        private MonsterSkillEffectEngine m_monsterSkillEngine;
 
         // Fov FilterNotMovablePointsFromList
         private Dictionary<Point, bool> m_movableHash;
@@ -38,7 +36,7 @@ namespace Magecrawl.GameEngine
             m_combatEngine = new CombatEngine(this, player, map);
             m_movableHash = new Dictionary<Point, bool>();
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
-            m_skillEngine = new SkillEffectEngine(this, m_combatEngine);
+            m_monsterSkillEngine = new MonsterSkillEffectEngine(this, m_combatEngine);
             UpdatePlayerVisitedStatus();
         }
 
@@ -248,11 +246,11 @@ namespace Magecrawl.GameEngine
             if (asSpell != null)
                 return m_magicEffects.TargettedDrawablePoints(asSpell.Targeting, m_player.SpellStrength(asSpell.School), target);
 
-            ItemWithEffects asItem = targettingObject as ItemWithEffects;
+            Item asItem = targettingObject as Item;
             if (asItem != null)
-                return m_magicEffects.TargettedDrawablePoints(asItem.Spell.Targeting, asItem.Strength, target);
+                return m_magicEffects.TargettedDrawablePoints(asItem.Attributes["InvokeEffect"], int.Parse(asItem.Attributes["CasterLevel"]), target);
 
-            return null;
+            return null;  
         }
 
         public bool IsRangedPathBetweenPoints(Point x, Point y)
@@ -370,31 +368,25 @@ namespace Magecrawl.GameEngine
             return m_player.LastTurnSeenAMonster + TurnsMonsterOutOfLOSToBeSafe > CoreGameEngine.Instance.TurnCount;
         }
 
-        public bool UseItemWithEffect(ItemWithEffects item, Point targetedPoint)
+        public bool UseItemWithEffect(Item item, Point targetedPoint)
         {
-            if (m_player.Items.Contains((Item)item))
+            if (m_player.Items.Contains(item))
             {
                 bool itemUsedSucessfully = m_magicEffects.UseItemWithEffect(m_player, item, targetedPoint);
                 if (itemUsedSucessfully)
-                    m_player.RemoveItem((Item)item);
-                return itemUsedSucessfully;
-            }
-            return false;
-        }
-
-        internal bool PlayerZapWand(Wand wand, Point targetedPoint)
-        {
-            if (m_player.Items.Contains(wand))
-            {
-                bool itemUsedSucessfully = m_magicEffects.UseItemWithEffect(m_player, wand, targetedPoint);
-                if (itemUsedSucessfully)
                 {
-                    wand.Charges -= 1;
-                    if (wand.Charges <= 0)
+                    int currentCharges = int.Parse(item.Attributes["Charges"]) - 1;
+                    if (currentCharges <= 0)
                     {
-                        m_player.RemoveItem(wand);
-                        CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} disintegrates as its last bit of magic is wrested from it.", wand.Name));
+                        m_player.RemoveItem((Item)item);
+                        if (item.Attributes["Type"] == "Wand")
+                            CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} disintegrates as its last bit of magic is wrested from it.", item.DisplayName));
                     }
+                    else
+                    {
+                        item.Attributes["Charges"] = currentCharges.ToString();
+                    }
+
                 }
                 return itemUsedSucessfully;
             }
@@ -439,9 +431,9 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal bool UseSkill(Character attacker, SkillType skill, Point target)
+        internal bool UseMonsterSkill(Character attacker, SkillType skill, Point target)
         {
-            bool didAnything = m_skillEngine.UseSkill(attacker, skill, target);
+            bool didAnything = m_monsterSkillEngine.UseSkill(attacker, skill, target);
             if (didAnything)
                 m_timingEngine.ActorDidAction(attacker);
             return didAnything;
@@ -449,7 +441,9 @@ namespace Magecrawl.GameEngine
 
         internal bool ReloadWeapon(Character character)
         {
-            ((WeaponBase)character.CurrentWeapon).IsLoaded = true;
+            if (!character.CurrentWeapon.IsRanged)
+                throw new InvalidOperationException("ReloadWeapon on non-ranged weapon?");
+            ((Weapon)character.CurrentWeapon).LoadWeapon();
             m_timingEngine.ActorDidMinorAction(character);
             return true;
         }
@@ -574,29 +568,9 @@ namespace Magecrawl.GameEngine
                 }
                 case "Drink":
                 case "Read":
-                case "Use":
-                {
-                    return UseItemWithEffect((ItemWithEffects)item, (Point)argument);
-                }
                 case "Zap":
                 {
-                    return PlayerZapWand((Wand)item, (Point)argument);
-                }
-                case "Dismiss Spell":
-                {
-                    ArmorBase armor = (ArmorBase)item;
-                    if (armor.Summoned)
-                    {
-                        foreach (StatusEffect effect in m_player.Effects)
-                        {
-                            if (effect.ProvidesEquipment(armor))
-                            {
-                                effect.Dismiss();
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
+                    return UseItemWithEffect((Item)item, (Point)argument);
                 }
                 default:
                 {

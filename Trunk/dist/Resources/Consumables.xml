@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<Consumables>
+  <ConsumableEffect Name="Minor Healing" SpellName="Mend" ItemLevel="1">
+    <ConsumableInstance Type="Potion" Name="Minor Health Potion" ItemDescription="Drinking will restore your health slightly."/>    
+  </ConsumableEffect>
+  <ConsumableEffect Name="Minor Mana" SpellName="HealMP" ItemLevel="1">
+    <ConsumableInstance Type="Potion" Name="Minor Mana Potion" ItemDescription="Drinking will increase your mana somewhat."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Haste" SpellName="Haste" ItemLevel="2">
+    <ConsumableInstance Type="Potion" Name="Haste Potion" ItemDescription="Drinking will speed you up for a short time."/>
+    <ConsumableInstance Type="Scroll" Name="Scroll of Haste" ItemDescription="Reading this scroll will warp time around you for a short period of time, speeding your actions."/>
+    <ConsumableInstance Type="Wand" Name="Wand of Haste" ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Teleport" SpellName="Teleport" ItemLevel="4">
+    <ConsumableInstance Type="Potion" Name="Scroll of Teleportation" ItemDescription="Reading this scroll will warp space around you, moving you to a new location instantly."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Blink" SpellName="Blink" ItemLevel="3">
+    <ConsumableInstance Type="Potion" Name="Potion of Blinking" ItemDescription="Drinking this potion will shunt your body to the ether plane for a few moments, moving you slightly from your current location."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Fireball" SpellName="Fireball" ItemLevel="3" CasterLevel="3">
+    <ConsumableInstance Type="Wand" Name="Wand Of Fireball" ItemDescription="Zapping this wand will create a tiny bead of fire that will explode into a fireball when it impacts a surface."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Ice Bolt" SpellName="Ice Bolt" ItemLevel="2" CasterLevel="2">
+    <ConsumableInstance Type="Wand" Name="Wand Of Ice Bolt" ItemDescription="Zapping it creates a 2 foot long icicle and hurle it at the target."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Force Bolt" SpellName="Force Bolt" ItemLevel="1" CasterLevel="1">
+    <ConsumableInstance Type="Wand" Name="Wand Of Magic Missile" ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."/>
+  </ConsumableEffect>
+  <ConsumableEffect Name="Sparks" SpellName="Cone Of Sparks" ItemLevel="2" CasterLevel="2">
+    <ConsumableInstance Type="Wand" Name="Wand Of Sparks" ItemDescription="Zapping produces a shower of sparks striking a nearby targets."/>
+  </ConsumableEffect>
+</Consumables>

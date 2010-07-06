@@ -13,12 +13,14 @@ namespace Magecrawl.GameUI.Map
         private Point m_cursorPosition;
         private List<EffectivePoint> m_targetablePoints;
         private PlayerTargettingHaloDelegate m_haloDelegate;
+        private IMap m_map;
 
         public PlayerTargetingPainter()
         {
             m_enabled = false;
             m_mapUpCorner = new Point();
             m_targetablePoints = null;
+            m_map = null;
             m_cursorPosition = Point.Invalid;
         }
 
@@ -26,6 +28,7 @@ namespace Magecrawl.GameUI.Map
         {
             m_mapUpCorner = mapUpCorner;
             m_cursorPosition = cursorPosition;
+            m_map = engine.Map;
         }
 
         public override void DrawNewFrame(TCODConsole screen)
@@ -34,7 +37,8 @@ namespace Magecrawl.GameUI.Map
             {
                 foreach (EffectivePoint point in m_targetablePoints)
                 {
-                    ColorSquare(screen, point.Position, point.EffectiveStrength, ColorPresetsFromTCOD.BrightGreen.Divide(2)); 
+                    if (m_map.IsPointOnMap(point.Position))
+                        ColorSquare(screen, point.Position, point.EffectiveStrength, ColorPresetsFromTCOD.BrightGreen.Divide(2)); 
                 }
 
                 if (m_haloDelegate != null)
@@ -44,7 +48,8 @@ namespace Magecrawl.GameUI.Map
                     {
                         foreach (Point p in pointsToPaint)
                         {
-                            ColorSquare(screen, p, .75, ColorPresets.Yellow);
+                            if (m_map.IsPointOnMap(p))
+                                ColorSquare(screen, p, .75, ColorPresets.Yellow);
                         }
                     }
                 }

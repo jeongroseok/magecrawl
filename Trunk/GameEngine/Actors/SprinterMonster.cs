@@ -19,7 +19,7 @@ namespace Magecrawl.GameEngine.Actors
                 List<Point> pathToPlayer = GetPathToPlayer(engine);
                 if (pathToPlayer != null && pathToPlayer.Count == 2)
                 {
-                    if (engine.UseSkill(this, SkillType.Rush, engine.Player.Position))
+                    if (engine.UseMonsterSkill(this, SkillType.Rush, engine.Player.Position))
                         return;
                 }
             }

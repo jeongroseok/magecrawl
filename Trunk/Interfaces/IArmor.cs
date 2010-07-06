@@ -19,17 +19,17 @@ namespace Magecrawl.Interfaces
             get;
         }
 
+        string Type
+        {
+            get;
+        }
+
         int StaminaBonus
         {
             get;
         }
 
         double Evade
-        {
-            get;
-        }
-
-        bool EquipableByPlayer
         {
             get;
         }

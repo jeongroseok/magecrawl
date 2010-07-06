@@ -5,7 +5,6 @@ using libtcod;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.GameEngine.Weapons;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -36,18 +35,20 @@ namespace Magecrawl.GameEngine.Actors
         {
             Monster newMonster = (Monster)this.MemberwiseClone();
 
-            if (CurrentWeapon.GetType() != typeof(MeleeWeapon))
-                newMonster.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem(CurrentWeapon.DisplayName));
-
-            if (SecondaryWeapon.GetType() != typeof(MeleeWeapon))
-                newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(SecondaryWeapon.DisplayName));
-
             if (m_effects.Count > 0)
                 throw new NotImplementedException("Have not implemented Clone() on monster when Effects are on it");
 
             newMonster.m_effects = new List<StatusEffect>();
 
             return newMonster;
+        }
+
+        public override IWeapon CurrentWeapon
+        {
+            get
+            {
+                return CoreGameEngine.Instance.ItemFactory.CreateMeleeWeapon(this);
+            }
         }
         
         private int m_currentHP;
@@ -252,7 +253,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public override double MeleeSpeed
+        public override double MeleeCTCost
         {
             get
             {

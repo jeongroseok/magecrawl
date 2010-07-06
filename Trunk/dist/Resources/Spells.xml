@@ -18,7 +18,6 @@
 <Spell Name="Poison Touch" School="Darkness" EffectType="Poison Bolt" Cost="1" TargettingType="RangedSingle" Range="1"/>
 <Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="5"/>
 <Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" TargettingType="RangedBlast" Range="5" DrawingAttributes="DrawLastFrame:Tail=3"/>
-<Spell Name="Earthen Armor" School="Earth" EffectType="Earthen Armor" Cost="1"/>
 <Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" TargettingType="Cone" Range="3"/>
 
 <!-- Item effects -->

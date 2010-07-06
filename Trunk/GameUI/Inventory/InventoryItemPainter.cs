@@ -17,6 +17,7 @@ namespace Magecrawl.GameUI.Inventory
         private bool m_enabled;
         private int m_cursorPosition;
         private List<ItemOptions> m_optionList;
+        private IPlayer m_player;
 
         private DialogColorHelper m_dialogColorHelper;
 
@@ -24,6 +25,11 @@ namespace Magecrawl.GameUI.Inventory
         {
             m_enabled = false;
             m_dialogColorHelper = new DialogColorHelper();
+        }
+
+        public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
+        {
+            m_player = engine.Player;
         }
 
         public override void DrawNewFrame(TCODConsole screen)
@@ -69,10 +75,10 @@ namespace Magecrawl.GameUI.Inventory
             y += screen.printRect(x, y, w, h, itemDescription);
             y += 2;
 
-            IWand asWand = m_selectedItem as IWand;
-            if (asWand != null)
+            IConsumable asConsumable = m_selectedItem as IConsumable;
+            if (asConsumable != null && asConsumable.MaxCharges > 1)
             {
-                screen.print(x, y, string.Format("Charges: {0} of {1}", asWand.Charges, asWand.MaxCharges));
+                screen.print(x, y, string.Format("Charges: {0} of {1}", asConsumable.Charges, asConsumable.MaxCharges));
                 y++;
             }
 
@@ -84,7 +90,7 @@ namespace Magecrawl.GameUI.Inventory
                 screen.print(x, y, "Evade: " + asArmor.Evade);
                 y += 2;
                 
-                if (!asArmor.EquipableByPlayer)
+                if (!m_player.CouldEquip(asArmor))
                 {
                     m_dialogColorHelper.SaveColors(screen);
                     screen.setForegroundColor(TCODColor.red);

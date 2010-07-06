@@ -8,9 +8,9 @@ namespace Magecrawl.Interfaces
         List<Point> PlayerPathToPoint(Point dest);
 
         bool IsRangedPathBetweenPoints(Point x, Point y);
-        void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList);
+        void FilterNotVisibleToPlayerBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList);
 
-        void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
+        void FilterNotTargetableToPlayerPointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible);
 
         // Takes either an IItem or ISpell
         List<Point> TargettedDrawablePoints(object targettingObject, Point target);

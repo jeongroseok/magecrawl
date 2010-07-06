@@ -45,7 +45,7 @@ namespace Magecrawl.GameEngine.Actors
                     {
                         if (pathToAlly.Count <= 1)
                         {
-                            bool sucessful = engine.UseSkill(this, SkillType.FirstAid, allyNeedingHealing.Position);
+                            bool sucessful = engine.UseMonsterSkill(this, SkillType.FirstAid, allyNeedingHealing.Position);
                             if (sucessful)
                             {
                                 UsedFirstAid();

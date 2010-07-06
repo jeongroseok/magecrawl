@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<Materials>
+  <Material Name="Wood" Level="0">
+    <ValidItem Type="Bow" FullItemName="Simple Bow" Description="Carved from simple hard wood.">
+      <Attributes>
+        <Damage>1,3</Damage>
+        <CTCostToAttack>1.5</CTCostToAttack>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Club" FullItemName="Wooden Club" Description="Roughly hewed from a piece of hard wood.">
+      <Attributes>
+        <Damage>1,4</Damage>
+        <CTCostToAttack>1</CTCostToAttack>
+      </Attributes>
+    </ValidItem>
+  </Material>
+
+  <Material Name="Cloth" Level="0">
+    <ValidItem Type="ChestArmor" FullItemName="Robe" Description="A simple robe favored by acolytes and mage apprentices.">
+      <Attributes>
+        <StaminaBonus>5</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Wool Cap" Description="Simple woolen cap, tan and somewhat stiff from wear.">
+      <Attributes>
+        <StaminaBonus>2</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Gloves" FullItemName="Wool Gloves" Description="Woolen work gloves.">
+      <Attributes>
+        <StaminaBonus>3</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Boots" FullItemName="Sandles" Description="Formed from sturdy cloth or leather with leather strapes.">
+      <Attributes>
+        <StaminaBonus>2</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+  </Material>
+
+  <Material Name="Leather" Level="2">
+    <ValidItem Type="ChestArmor" FullItemName="Leather Armor" Description="Tanned animal hides fashioned into a simple breastplate.">
+      <Attributes>
+        <StaminaBonus>7</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Leather Helmet" Description="Beaten animal hides cured into a sturdy helmet.">
+      <Attributes>
+        <StaminaBonus>3</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Gloves" FullItemName="Leather Gloves" Description="Boiled leather worked into simple armor for the hands.">
+      <Attributes>
+        <StaminaBonus>4</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Boots" FullItemName="Leather Boots" Description="Well fashioned leather boots.">
+      <Attributes>
+        <StaminaBonus>3</StaminaBonus>
+      </Attributes>
+    </ValidItem>
+  </Material>
+
+  <Material Name="Chainmail" Level="4">
+    <ValidItem Type="ChestArmor" FullItemName="Chainmail Armor" Description="Thousands of tiny metal rings are linked togeather to form an armored mesh.">
+      <Attributes>
+        <StaminaBonus>9</StaminaBonus>
+        <StandardArmor/>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Cervelliere" Description="A round steel skull cap able to be worn overtop of chainmail.">
+      <Attributes>
+        <StaminaBonus>5</StaminaBonus>
+        <StandardArmor/>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Gloves" FullItemName="Mail Gauntlets" Description="Heavy leather gloves covered in a weave of chainmail.">
+      <Attributes>
+        <StaminaBonus>6</StaminaBonus>
+        <StandardArmor/>
+      </Attributes>
+    </ValidItem>
+    <ValidItem Type="Boots" FullItemName="Mail Greaves" Description="Intermeshed metal rings provide protection for the legs and feet.">
+      <Attributes>
+        <StaminaBonus>5</StaminaBonus>
+        <StandardArmor/>
+      </Attributes>
+    </ValidItem>
+  </Material>
+  
+  <Material Name="Wrought Iron" Level="1">
+  </Material>
+  <ValidItem Type="Club" FullItemName="Wrought Iron War Hammer" Description="A single bar of wrought iron was pounded into blackened head and attacked to a wooden handle.">
+    <Attributes>
+      <Damage>1,3,1</Damage>
+      <CTCostToAttack>1.25</CTCostToAttack>
+    </Attributes>
+  </ValidItem>
+  <ValidItem Type="Sword" FullItemName="Iron Sword" Description="Formed from a single piece of worked iron.">
+    <Attributes>
+      <Damage>2,3</Damage>
+      <CTCostToAttack>1.5</CTCostToAttack>
+    </Attributes>
+  </ValidItem>
+</Materials>
