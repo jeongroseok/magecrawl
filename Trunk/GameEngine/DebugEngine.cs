@@ -2,7 +2,7 @@
 using System.Linq;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 
 namespace Magecrawl.GameEngine
 {
@@ -67,10 +67,18 @@ namespace Magecrawl.GameEngine
             switch (request)
             {
                 case "GetAllItemList":
-                    return m_engine.ItemFactory.GetAllDropableItemsListForDebug().OfType<INamedItem>().ToList();
+                    List<INamedItem> allItemList = new List<INamedItem>();
+                    foreach (string s in m_engine.ItemFactory.ItemTypeList)
+                        allItemList.Add(new TextElement(s));
+                    return allItemList;                    
                 case "SpawnItem":
-                    m_engine.Map.AddItem(new Pair<Item, Point>(m_engine.ItemFactory.CreateItem((string)argument), m_engine.Player.Position));
+                {
+                    string itemName = ((Pair<string, int>)argument).First;
+                    int level = ((Pair<string, int>)argument).Second;
+                    Item itemCreated = m_engine.ItemFactory.CreateItemOfType(itemName, level);
+                    m_engine.Map.AddItem(new Pair<Item, Point>(itemCreated, m_engine.Player.Position));
                     return null;
+                }
                 case "GetAllMonsterList":
                     return m_engine.MonsterFactory.GetAllMonsterListForDebug().OfType<INamedItem>().ToList();
                 case "SpawnMonster":

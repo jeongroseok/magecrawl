@@ -2,7 +2,7 @@ using System.Xml;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
@@ -85,7 +85,7 @@ namespace Magecrawl.GameEngine.MapObjects
             // This should be level dependent
             for (int i = 0; i < m_random.getInt(1, 3); ++i)
             {
-                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateRandomItem();
+                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateRandomItem(CoreGameEngine.Instance.CurrentLevel);
                 CoreGameEngine.Instance.SendTextOutput(string.Format("{0} finds at {1}", actor.Name, newItem.DisplayName));
                 if (actor is Player)
                 {

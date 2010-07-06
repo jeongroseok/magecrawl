@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Level;
-using Magecrawl.GameEngine.Weapons;
+using Magecrawl.Interfaces;
+using Magecrawl.Items;
+using Magecrawl.Items.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -44,7 +45,7 @@ namespace Magecrawl.GameEngine
 
         internal bool Attack(Character attacker, Point attackTarget)
         {
-            if (!attacker.CurrentWeapon.PositionInTargetablePoints(attackTarget))
+            if (!IsPositionInTargetablePoints((Weapon)attacker.CurrentWeapon, attacker.Position, attacker.Vision, attackTarget))
                 throw new ArgumentException("CombatEngine attacking something current weapon can't attack with?");
 
             if (attacker.CurrentWeapon.IsRanged)
@@ -54,7 +55,7 @@ namespace Magecrawl.GameEngine
 
                 AttackRanged(attacker, attackTarget, attacker.CurrentWeapon,
                     (dmg, target, killed) => CoreGameEngine.Instance.SendTextOutput(CreateDamageString(dmg, attacker, target)));
-                ((WeaponBase)attacker.CurrentWeapon).IsLoaded = false;
+                ((Weapon)attacker.CurrentWeapon).UnloadWeapon();
             }
             else
             {
@@ -95,7 +96,7 @@ namespace Magecrawl.GameEngine
                 return -1;
 
             // Calculate damage
-            float effectiveStrength = attacker.CurrentWeapon.EffectiveStrengthAtPoint(attackedCharacter.Position);
+            float effectiveStrength = EffectiveStrengthAtPoint((Weapon)attacker.CurrentWeapon, attacker.Position, attacker.Vision, attackedCharacter.Position);
             double damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
 
             return (int)Math.Round(damageDone);
@@ -167,6 +168,39 @@ namespace Magecrawl.GameEngine
             }
         }
 
+        public static List<EffectivePoint> CalculateTargetablePointsForEquippedWeapon(Weapon weapon, Point wielderPosition, int wielderVision)
+        {
+            return CalculateAndFilterTargetablePoints(weapon, wielderPosition, wielderVision);
+        }
+
+        private static bool IsPositionInTargetablePoints(Weapon weapon, Point wielderPosition, int wielderVision, Point pointOfInterest)
+        {
+            foreach (EffectivePoint e in CalculateAndFilterTargetablePoints(weapon, wielderPosition, wielderVision))
+            {
+                if (e.Position == pointOfInterest)
+                    return true;
+            }
+            return false;
+        }
+
+        private static float EffectiveStrengthAtPoint(Weapon weapon, Point wielderPosition, int wielderVision, Point pointOfInterest)
+        {
+            foreach (EffectivePoint e in CalculateAndFilterTargetablePoints(weapon, wielderPosition, wielderVision))
+            {
+                if (e.Position == pointOfInterest)
+                    return e.EffectiveStrength;
+            }
+            return 0;
+        }
+
+        private static List<EffectivePoint> CalculateAndFilterTargetablePoints(Weapon weapon, Point wielderPosition, int wielderVision)
+        {
+            List<EffectivePoint> pointList = weapon.CalculateTargetablePoints(wielderPosition);
+            CoreGameEngine.Instance.FilterNotTargetablePointsFromList(pointList, wielderPosition, wielderVision, true);
+            CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(wielderPosition, pointList, Point.Invalid);
+            return pointList;
+        }
+
         private string CreateDamageString(int damage, Character attacker, Character defender)
         {
             // "Cheat" to see if attacker or defense is the player to make text output 
@@ -176,8 +210,7 @@ namespace Magecrawl.GameEngine
             bool defenderIsPlayer = defender is Player;
             bool attackKillsTarget = defender.CurrentHP <= damage;
 
-            string verb = ((WeaponBase)attacker.CurrentWeapon).AttackVerb;
-
+            string verb = ((IWeaponVerb)attacker.CurrentWeapon).AttackVerb;
             if (damage == -1)
             {
                 if (attackerIsPlayer)

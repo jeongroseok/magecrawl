@@ -54,6 +54,7 @@
     <Compile Include="ColorPresets.cs" />
     <Compile Include="DiceRoll.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="DiscreteRandomNumberOnNormalCurve.cs" />
     <Compile Include="EffectivePoint.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="Pair.cs" />

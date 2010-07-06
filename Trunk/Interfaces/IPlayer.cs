@@ -66,6 +66,11 @@ namespace Magecrawl.Interfaces
             get;
         }
 
+        IWeapon SecondaryWeapon
+        {
+            get;
+        }
+
         IArmor ChestArmor
         {
             get;
@@ -87,5 +92,7 @@ namespace Magecrawl.Interfaces
         }
 
         bool CouldCastSpell(ISpell spell);
+
+        bool CouldEquip(IArmor armor);
     }
 }

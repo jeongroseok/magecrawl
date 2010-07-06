@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Interfaces
 {
-    public interface IWeapon : IItem, ITargetablePoints
+    public interface IWeapon : IItem
     {
         DiceRoll Damage
         {
@@ -25,8 +25,5 @@ namespace Magecrawl.Interfaces
         {
             get;
         }
-
-        bool PositionInTargetablePoints(Point pointOfInterest);
-        float EffectiveStrengthAtPoint(Point pointOfInterest);
     }
 }

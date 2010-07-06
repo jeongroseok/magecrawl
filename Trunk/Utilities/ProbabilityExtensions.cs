@@ -12,6 +12,11 @@ namespace Magecrawl.Utilities
             return r.getInt(0, 99) < probability;
         }
 
+        public static bool Chance(this TCODRandom r, double probability)
+        {
+            return r.getFloat(0, (float).9999) < probability;
+        }
+
         public static List<T> Randomize<T>(this List<T> list)
         {
             return list.OrderBy(a => Guid.NewGuid()).ToList();

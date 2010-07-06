@@ -169,12 +169,17 @@
     <Content Include="..\dist\Resources\ArrowKeysMapping.xml">
       <Link>Resources\ArrowKeysMapping.xml</Link>
     </Content>
-    <Content Include="..\dist\Resources\Items.xml">
-      <Link>Resources\Items.xml</Link>
-      <SubType>Designer</SubType>
+    <Content Include="..\dist\Resources\Consumables.xml">
+      <Link>Resources\Consumables.xml</Link>
+    </Content>
+    <Content Include="..\dist\Resources\Craftsmanship.xml">
+      <Link>Resources\Craftsmanship.xml</Link>
     </Content>
     <Content Include="..\dist\Resources\KeypadKeysMapping.xml">
       <Link>Resources\KeypadKeysMapping.xml</Link>
+    </Content>
+    <Content Include="..\dist\Resources\Materials.xml">
+      <Link>Resources\Materials.xml</Link>
     </Content>
     <Content Include="..\dist\Resources\Monsters.xml">
       <Link>Resources\Monsters.xml</Link>

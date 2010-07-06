@@ -21,3 +21,4 @@ glob:Trunk/dist/*.eqconfig
 relre:.swp
 glob:Trunk/dist/Interfaces.dll
 glob:Trunk/dist/Interfaces.pdb
+glob:*.pdb

@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Debug
 {
@@ -11,33 +12,17 @@ namespace Magecrawl.Keyboard.Debug
     [ExportMetadata("HandlerName", "DebugMode")]
     internal class DebugDialogKeyboardHandler : BaseKeystrokeHandler
     {
-        private class TextElement : INamedItem
-        {
-            private string m_name;
-
-            public TextElement(string name)
-            {
-                m_name = name;
-            }
-
-            public string DisplayName
-            {
-                get
-                {
-                    return m_name;
-                }
-            }
-        }
-
         private enum OptionMode 
         {
             DebugMainMenu,
             CreateItem,
+            SelectLevel,
             CreateMonster,
             MapDebugging 
         }
 
         private OptionMode m_option;
+        private string m_itemToSpawnName;
 
         public DebugDialogKeyboardHandler()
         {
@@ -62,6 +47,15 @@ namespace Magecrawl.Keyboard.Debug
         {
             m_option = OptionMode.CreateItem;
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.Debugger.DebugRequest("GetAllItemList", null), false, "Item To Spawn"));
+        }
+
+        private void SetCreateItemLevelMenu()
+        {
+            m_option = OptionMode.SelectLevel;
+            List<INamedItem> mapSettings = new List<INamedItem>();
+            for(int i = 0 ; i <= 10 ; ++i)
+                mapSettings.Add(new TextElement(i.ToString()));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, mapSettings, false, "Item Level To Spawn"));
         }
 
         private void SetMonsterMenu()
@@ -126,9 +120,16 @@ namespace Magecrawl.Keyboard.Debug
 
         private void CreateItemSelectedDelegate(INamedItem item)
         {
+            m_itemToSpawnName = item.DisplayName;
+            SetCreateItemLevelMenu();
+            m_gameInstance.UpdatePainters();
+        }
+
+        private void CreateItemLevelSelectedDelegate(INamedItem item)
+        {
             if (item == null)
                 return;
-            m_engine.Debugger.DebugRequest("SpawnItem", item.DisplayName);
+            m_engine.Debugger.DebugRequest("SpawnItem", new Pair<string, int>(m_itemToSpawnName, int.Parse(item.DisplayName)));
             m_option = OptionMode.DebugMainMenu;
             Escape();
         }
@@ -205,6 +206,9 @@ namespace Magecrawl.Keyboard.Debug
                     return;
                 case OptionMode.CreateItem:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateItemSelectedDelegate));
+                    return;
+                case OptionMode.SelectLevel:
+                    m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateItemLevelSelectedDelegate));
                     return;
                 case OptionMode.MapDebugging:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(MapDebuggingSelectedDelegate));

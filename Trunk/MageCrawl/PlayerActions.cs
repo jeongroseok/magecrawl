@@ -104,14 +104,14 @@ namespace Magecrawl
 
         public void Attack(NamedKey attackKey)
         {
-            if (!m_engine.Player.CurrentWeapon.IsLoaded)
+            if (m_engine.Player.CurrentWeapon.IsRanged && !m_engine.Player.CurrentWeapon.IsLoaded)
             {
                 m_engine.Actions.ReloadWeapon();
                 m_gameInstance.TextBox.AddText(string.Format("{0} reloads the {1}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
             }
             else
             {
-                List<EffectivePoint> targetPoints = m_engine.Player.CurrentWeapon.CalculateTargetablePoints();
+                List<EffectivePoint> targetPoints = m_engine.GameState.CalculateTargetablePointsForEquippedWeapon();
                 OnTargetSelection attackDelegate = new OnTargetSelection(OnRangedAttack);
                 m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster));
             }

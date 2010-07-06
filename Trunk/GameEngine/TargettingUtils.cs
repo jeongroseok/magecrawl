@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
+using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine
 {
@@ -20,12 +22,12 @@ namespace Magecrawl.GameEngine
             return m_engine.PathToPoint(m_engine.Player, dest, true, true, false);
         }
 
-        public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible)
+        public void FilterNotTargetableToPlayerPointsFromList(List<EffectivePoint> pointList, bool needsToBeVisible)
         {
             m_engine.FilterNotTargetablePointsFromList(pointList, m_engine.Player.Position, m_engine.Player.Vision, needsToBeVisible);
         }
 
-        public void FilterNotVisibleBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList)
+        public void FilterNotVisibleToPlayerBothWaysFromList(List<EffectivePoint> pointList, bool savePlayerPositionFromList)
         {
             if (savePlayerPositionFromList)
                 m_engine.FilterNotVisibleBothWaysFromList(m_engine.Player.Position, pointList, CoreGameEngine.Instance.Player.Position);
@@ -48,11 +50,12 @@ namespace Magecrawl.GameEngine
             if (action == "Drop")
                 return null;
 
-            ItemWithEffects itemWithEffects = item as ItemWithEffects;
-            if (itemWithEffects != null)
-                return itemWithEffects.Spell.Targeting;
+            Item coreItem = (Item)item;
+            if (coreItem.Attributes.ContainsKey("Invokable"))
+                return SpellFactory.CreateSpell(coreItem.Attributes["InvokeEffect"]).Targeting;
 
             return null;
+
         }
     }
 }

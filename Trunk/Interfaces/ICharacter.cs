@@ -40,17 +40,12 @@ namespace Magecrawl.Interfaces
             get;
         }
 
-        IWeapon SecondaryWeapon
-        {
-            get;
-        }
-
         DiceRoll MeleeDamage
         {
             get;
         }
 
-        double MeleeSpeed
+        double MeleeCTCost
         {
             get;
         }

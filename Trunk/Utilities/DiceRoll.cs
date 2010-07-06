@@ -44,10 +44,18 @@ namespace Magecrawl.Utilities
         {
             string[] damageParts = s.Split(',');
 
-            Rolls = short.Parse(damageParts[0]);
+            Rolls = short.Parse(damageParts[0]);            
             DiceFaces = short.Parse(damageParts[1]);
-            ToAdd = short.Parse(damageParts[2]);
-            Multiplier = double.Parse(damageParts[3]);
+            
+            if (damageParts.Length > 2)
+                ToAdd = short.Parse(damageParts[2]);
+            else
+                ToAdd = 0;
+
+            if (damageParts.Length > 3)
+                Multiplier = double.Parse(damageParts[3]);
+            else
+                Multiplier = 1;
         }
 
         public DiceRoll(short rolls, short diceFaces, short toAdd, double multiplier)

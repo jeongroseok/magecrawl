@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
@@ -340,7 +340,7 @@ namespace Magecrawl.GameEngine.Level
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateItem(typeString);
+                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateBaseItem(typeString);
                 newItem.ReadXml(reader);
                 Point position = new Point();
                 position = position.ReadXml(reader);

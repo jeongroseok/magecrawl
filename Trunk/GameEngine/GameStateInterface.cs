@@ -4,7 +4,7 @@ using Magecrawl.GameEngine.Skills;
 using System.Collections.Generic;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.MapObjects;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine
@@ -90,6 +90,11 @@ namespace Magecrawl.GameEngine
         public List<ItemOptions> GetOptionsForEquipmentItem(IItem item)
         {
             return m_engine.GetOptionsForEquipmentItem(item as Item);
-        }        
+        }
+
+        public List<EffectivePoint> CalculateTargetablePointsForEquippedWeapon()
+        {
+            return CombatEngine.CalculateTargetablePointsForEquippedWeapon((Weapon)m_engine.Player.CurrentWeapon, m_engine.Player.Position, m_engine.Player.Vision);
+        }
     }
 }

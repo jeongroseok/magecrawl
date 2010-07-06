@@ -89,9 +89,6 @@ namespace Magecrawl.GameEngine.Actors
 
                     DiceRoll damage = new DiceRoll(reader.GetAttribute("MeleeDamage"));
 
-                    string primaryWeaponString = reader.GetAttribute("MeleeWeapon");
-                    string rangedWeaponString = reader.GetAttribute("RangedWeapon");
-
                     bool intelligent = bool.Parse(reader.GetAttribute("Intelligent"));
 
                     double ctActCost = 1.0;
@@ -99,11 +96,7 @@ namespace Magecrawl.GameEngine.Actors
                     if (actCostString != null)
                         ctActCost = Double.Parse(actCostString);
 
-                    Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, intelligent, vision, damage, evade, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);
-                    if (primaryWeaponString != null)
-                        newMonster.Equip(CoreGameEngine.Instance.ItemFactory.CreateItem(primaryWeaponString));
-                    if (rangedWeaponString != null)
-                        newMonster.EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItem(rangedWeaponString));
+                    Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, intelligent, vision, damage, evade, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);                    
                     m_monsterMapping.Add(name, newMonster);
                 }
             }

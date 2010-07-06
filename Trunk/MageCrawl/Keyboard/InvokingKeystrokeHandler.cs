@@ -27,8 +27,8 @@ namespace Magecrawl.Keyboard
                     case TargetingInfo.TargettingType.RangedExplodingPoint:
                     {
                         List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, targetInfo.Range);
-                        m_engine.Targetting.FilterNotTargetablePointsFromList(targetablePoints, true);
-                        m_engine.Targetting.FilterNotVisibleBothWaysFromList(targetablePoints, true);
+                        m_engine.Targetting.FilterNotTargetableToPlayerPointsFromList(targetablePoints, true);
+                        m_engine.Targetting.FilterNotVisibleToPlayerBothWaysFromList(targetablePoints, true);
 
                         OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
                         {
@@ -69,7 +69,7 @@ namespace Magecrawl.Keyboard
             targetablePoints.Add(new EffectivePoint(playerPosition + new Point(0, -1), 1.0f));
             targetablePoints.Add(new EffectivePoint(playerPosition + new Point(1, 0), 1.0f));
             targetablePoints.Add(new EffectivePoint(playerPosition + new Point(-1, 0), 1.0f));
-            m_engine.Targetting.FilterNotTargetablePointsFromList(targetablePoints, true);
+            m_engine.Targetting.FilterNotTargetableToPlayerPointsFromList(targetablePoints, true);
             return targetablePoints;
         }
     }

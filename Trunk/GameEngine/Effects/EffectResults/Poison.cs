@@ -69,7 +69,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         internal override void ReadXml(System.Xml.XmlReader reader)
         {
             m_damagePerInterval = reader.ReadElementContentAsInt();
-            m_castByPlayer = reader.ReadElementContentAsBoolean();
+            m_castByPlayer = bool.Parse(reader.ReadElementContentAsString());
         }
 
         internal override void WriteXml(System.Xml.XmlWriter writer)

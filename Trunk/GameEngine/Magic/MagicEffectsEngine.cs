@@ -5,7 +5,7 @@ using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Items;
+using Magecrawl.Items;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Magic
@@ -37,10 +37,18 @@ namespace Magecrawl.GameEngine.Magic
             return false;
         }
 
-        internal bool UseItemWithEffect(Character invoker, ItemWithEffects item, Point targetedPoint)
+        internal bool UseItemWithEffect(Character invoker, Item item, Point targetedPoint)
         {
-            string effectString = string.Format(item.OnUseString, invoker.Name, item.Name);
-            return DoEffect(invoker, item, item.Spell.EffectType, item.Strength, false, targetedPoint, effectString);
+            if (!item.Attributes.ContainsKey("Invokable"))
+                throw new System.InvalidOperationException("UseItemWithEffect without invokable object? - " + item.DisplayName);
+
+            string effectString = string.Format(item.Attributes["OnInvokeString"], invoker.Name, item.DisplayName);
+            return DoEffect(invoker, item, item.Attributes["InvokeEffect"], int.Parse(item.Attributes["CasterLevel"]), false, targetedPoint, effectString);
+        }
+
+        internal List<Point> TargettedDrawablePoints(string spellName, int strength, Point target)
+        {
+            return TargettedDrawablePoints(SpellFactory.CreateSpell(spellName).Targeting, strength, target);
         }
 
         internal List<Point> TargettedDrawablePoints(TargetingInfo targeting, int strength, Point target)
@@ -167,7 +175,6 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Haste":
                 case "Light":
-                case "Earthen Armor":
                 {
                     return m_effectEngine.AddEffectToTarget(effectName, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
                 }
@@ -208,7 +215,6 @@ namespace Magecrawl.GameEngine.Magic
             {
                 case "Haste":
                 case "Light":
-                case "Earthen Armor":
                     return (LongTermEffect)EffectFactory.CreateEffectBaseObject(effectName, true);
                 default:
                     return null;
