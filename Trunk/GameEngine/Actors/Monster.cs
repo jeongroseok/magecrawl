@@ -14,12 +14,13 @@ namespace Magecrawl.GameEngine.Actors
         // Share one RNG between monsters
         protected static TCODRandom m_random = new TCODRandom();
 
-        protected SerializableDictionary<string, string> Attributes { get; set; }
+        public SerializableDictionary<string, string> Attributes { get; set; }
 
         protected double CTAttackCost { get; set; }
         private DiceRoll m_damage;
-        protected Point m_playerLastKnownPosition;
-        private bool m_intelligent;
+        public bool Intelligent { get; private set; }
+
+        public Point PlayerLastKnownPosition { get; set; }
 
         public Monster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade,
                        double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
@@ -29,9 +30,9 @@ namespace Magecrawl.GameEngine.Actors
             m_currentHP = maxHP;
             m_maxHP = maxHP;
             m_damage = damage;
-            m_playerLastKnownPosition = Point.Invalid;
+            PlayerLastKnownPosition = Point.Invalid;
             m_evade = evade;
-            m_intelligent = intelligent;
+            Intelligent = intelligent;
             Attributes = new SerializableDictionary<string, string>();
         }
 
@@ -120,25 +121,25 @@ namespace Magecrawl.GameEngine.Actors
 
         public void NoticeRangedAttack(Point attackerPosition)
         {
-            m_playerLastKnownPosition = attackerPosition;
+            PlayerLastKnownPosition = attackerPosition;
         }
 
         #region ActionParts
 
         protected void UpdateKnownPlayerLocation(CoreGameEngine engine)
         {
-            m_playerLastKnownPosition = engine.Player.Position;
+            PlayerLastKnownPosition = engine.Player.Position;
         }
 
         protected bool WalkTowardsLastKnownPosition(CoreGameEngine engine)
         {
-            if (m_playerLastKnownPosition == Point.Invalid)
+            if (PlayerLastKnownPosition == Point.Invalid)
                 return false;
 
-            List<Point> pathTowards = engine.PathToPoint(this, m_playerLastKnownPosition, m_intelligent, false, true);
+            List<Point> pathTowards = engine.PathToPoint(this, PlayerLastKnownPosition, Intelligent, false, true);
             if (pathTowards == null || pathTowards.Count == 0)
             {
-                m_playerLastKnownPosition = Point.Invalid;
+                PlayerLastKnownPosition = Point.Invalid;
                 return false;
             }
             else
@@ -149,12 +150,12 @@ namespace Magecrawl.GameEngine.Actors
 
         protected List<Point> GetPathToCharacter(CoreGameEngine engine, ICharacter c)
         {
-            return engine.PathToPoint(this, c.Position, m_intelligent, false, true);
+            return engine.PathToPoint(this, c.Position, Intelligent, false, true);
         }
 
         protected List<Point> GetPathToPlayer(CoreGameEngine engine)
         {
-            return engine.PathToPoint(this, engine.Player.Position, m_intelligent, false, true);
+            return engine.PathToPoint(this, engine.Player.Position, Intelligent, false, true);
         }
 
         protected bool IsNextToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
@@ -184,7 +185,7 @@ namespace Magecrawl.GameEngine.Actors
             if (engine.Move(this, direction))
                 return true;
             Point position = PointDirectionUtils.ConvertDirectionToDestinationPoint(Position, direction);
-            if (m_intelligent && engine.Operate(this, position))
+            if (Intelligent && engine.Operate(this, position))
                 return true;
             return false;
         }
@@ -226,7 +227,7 @@ namespace Magecrawl.GameEngine.Actors
 
         protected bool WanderRandomly(CoreGameEngine engine)
         {
-            foreach (Direction d in DirectionUtils.GenerateDirectionList())
+            foreach (Direction d in DirectionUtils.GenerateRandomDirectionList())
             {
                 if (engine.Move(this, d))
                 {
@@ -277,7 +278,7 @@ namespace Magecrawl.GameEngine.Actors
             m_currentHP = reader.ReadElementContentAsInt();
             m_maxHP = reader.ReadElementContentAsInt();
 
-            m_playerLastKnownPosition.ReadXml(reader);
+            PlayerLastKnownPosition.ReadXml(reader);
 
             // HACK HACK - When collapsed monster classes into IMonsterTactics, we shouldn't need this
             Attributes.Clear();
@@ -294,7 +295,7 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("CurrentHP", CurrentHP.ToString());
             writer.WriteElementString("MaxHP", MaxHP.ToString());
 
-            m_playerLastKnownPosition.WriteToXml(writer, "PlayerLastKnownPosition");
+            PlayerLastKnownPosition.WriteToXml(writer, "PlayerLastKnownPosition");
 
             Attributes.WriteXml(writer);
         }
