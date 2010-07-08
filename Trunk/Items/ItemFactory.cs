@@ -87,14 +87,14 @@ namespace Magecrawl.Items
         public Item CreateItemOfType(string type, int level)
         {
             // So sometimes there can be "gaps" where we don't have a base material of
-            // the preferred 3/4 required. This loop will try again a good number of times, every second time 
+            // the preferred 3/4 required. This loop will try again a good number of times, every fifth time 
             // decreasing the required quality until we can generate something.
             Item returnItem = null;
-            for (int i = 0; i < level; ++i)
+            for (int i = 0; i < (level * 5); ++i)
             {
                 // Lower is 3/4 of requested. High is level + 1. 
-                // If we fail to produce on first try, reduce low leve by 1 per iteration.
-                int lowLevelReduction = (i / 2);
+                // If we fail to produce on first try, reduce low level by 1 every fifth iteration
+                int lowLevelReduction = (i / 5);
                 int lowLevel = Math.Max((int)Math.Round((level * 3.0) / 4.0) - lowLevelReduction, 0);
                 int highLevel = level + 1;
                 returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel);

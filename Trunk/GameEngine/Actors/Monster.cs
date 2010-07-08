@@ -13,6 +13,9 @@ namespace Magecrawl.GameEngine.Actors
     {
         // Share one RNG between monsters
         protected static TCODRandom m_random = new TCODRandom();
+
+        protected SerializableDictionary<string, string> Attributes { get; set; }
+
         protected double CTAttackCost { get; set; }
         private DiceRoll m_damage;
         protected Point m_playerLastKnownPosition;
@@ -29,6 +32,7 @@ namespace Magecrawl.GameEngine.Actors
             m_playerLastKnownPosition = Point.Invalid;
             m_evade = evade;
             m_intelligent = intelligent;
+            Attributes = new SerializableDictionary<string, string>();
         }
 
         public object Clone()
@@ -39,6 +43,7 @@ namespace Magecrawl.GameEngine.Actors
                 throw new NotImplementedException("Have not implemented Clone() on monster when Effects are on it");
 
             newMonster.m_effects = new List<StatusEffect>();
+            newMonster.Attributes = new SerializableDictionary<string, string>(Attributes);
 
             return newMonster;
         }
@@ -273,6 +278,10 @@ namespace Magecrawl.GameEngine.Actors
             m_maxHP = reader.ReadElementContentAsInt();
 
             m_playerLastKnownPosition.ReadXml(reader);
+
+            // HACK HACK - When collapsed monster classes into IMonsterTactics, we shouldn't need this
+            Attributes.Clear();
+            Attributes.ReadXml(reader);
         }
 
         public override void WriteXml(System.Xml.XmlWriter writer)
@@ -286,6 +295,8 @@ namespace Magecrawl.GameEngine.Actors
             writer.WriteElementString("MaxHP", MaxHP.ToString());
 
             m_playerLastKnownPosition.WriteToXml(writer, "PlayerLastKnownPosition");
+
+            Attributes.WriteXml(writer);
         }
 
         #endregion

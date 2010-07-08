@@ -9,32 +9,28 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal class RangedMonster : Monster
     {
-        private bool m_seenPlayerBefore;
-        private int m_slingCooldown;
-
         public RangedMonster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
-            m_seenPlayerBefore = false;
-            m_slingCooldown = 0;
+            Attributes["SlingCooldown"] = "0";
         }
 
         private bool CanUseSling()
         {
-            return m_slingCooldown == 0;
+            return Attributes["SlingCooldown"] == "0";
         }
 
         private void UsedSling()
         {
             const int SlingCooldown = 3;
-            m_slingCooldown = SlingCooldown;
+            Attributes["SlingCooldown"] = SlingCooldown.ToString();
         }
-
 
         private void NewTurn()
         {
-            if (m_slingCooldown > 0)
-                m_slingCooldown--;
+            int currentValue = int.Parse(Attributes["SlingCooldown"]);
+            if (currentValue > 0)
+                Attributes["SlingCooldown"] = (currentValue - 1).ToString();
         }
 
         private bool IfNearbyEnemeiesTryToMoveAway(CoreGameEngine engine)
@@ -88,20 +84,6 @@ namespace Magecrawl.GameEngine.Actors
                 return;
             }
             throw new InvalidOperationException("RangedMonster Action should never reach end of statement");
-        }
-
-        public override void ReadXml(System.Xml.XmlReader reader)
-        {
-            base.ReadXml(reader);
-            m_seenPlayerBefore = Boolean.Parse(reader.ReadElementContentAsString());
-            m_slingCooldown = reader.ReadElementContentAsInt();
-        }
-
-        public override void WriteXml(System.Xml.XmlWriter writer)
-        {
-            base.WriteXml(writer);
-            writer.WriteElementString("SeenPlayerBefore", m_seenPlayerBefore.ToString());
-            writer.WriteElementString("SlingsCooldown", m_slingCooldown.ToString());
         }
     }
 }
