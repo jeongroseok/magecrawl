@@ -203,7 +203,7 @@ namespace Magecrawl.Keyboard
                     }
                     case TargettingType.OpenFloor:
                     {
-                        foreach (Direction d in DirectionUtils.GenerateDirectionList())
+                        foreach (Direction d in DirectionUtils.GenerateRandomDirectionList())
                         {
                             Point targetLocation = PointDirectionUtils.ConvertDirectionToDestinationPoint(engine.Player.Position, d);
                             if (engine.Map.GetTerrainAt(targetLocation) == TerrainType.Wall)

@@ -90,8 +90,9 @@ namespace Magecrawl.Items
             // the preferred 3/4 required. This loop will try again a good number of times, every fifth time 
             // decreasing the required quality until we can generate something.
             Item returnItem = null;
-            for (int i = 0; i < (level * 5); ++i)
-            {
+            int i = 0;
+            while(true)
+            {   
                 // Lower is 3/4 of requested. High is level + 1. 
                 // If we fail to produce on first try, reduce low level by 1 every fifth iteration
                 int lowLevelReduction = (i / 5);
@@ -100,8 +101,8 @@ namespace Magecrawl.Items
                 returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel);
                 if (returnItem != null)
                     return returnItem;
+                i++;
             }
-            throw new System.InvalidOperationException("CreateItemOfType couldn't create " + type + " of level " + level.ToString());
         }
 
         public Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel)

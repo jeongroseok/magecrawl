@@ -368,6 +368,19 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CurrentOrRecentDanger();
         }
 
+        public List<ICharacter> MonstersInCharactersLOS(ICharacter chacter)
+        {
+            List<ICharacter> returnList = new List<ICharacter>();
+            FOVManager.CalculateForMultipleCalls(Map, chacter.Position, chacter.Vision);
+
+            foreach (Monster m in Map.Monsters)
+            {
+                if (FOVManager.Visible(m.Position))
+                    returnList.Add(m);
+            }
+            return returnList;
+        }
+
         public List<ICharacter> MonstersInPlayerLOS()
         {
             List<ICharacter> returnList = new List<ICharacter>();

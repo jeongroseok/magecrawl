@@ -12,10 +12,14 @@ namespace Magecrawl.GameEngine
     internal sealed class FOVManager : IDisposable
     {
         private TCODMap m_fov;
+        private Point m_lastCalculatedViewPoint;
+        private int m_lastCalculatedVision;
 
         internal FOVManager(PhysicsEngine physicsEngine, Map map)
         {
             m_fov = new TCODMap(map.Width, map.Height);
+            m_lastCalculatedViewPoint = Point.Invalid;
+            m_lastCalculatedVision = -1;
         }
 
         public void Dispose()
@@ -75,12 +79,18 @@ namespace Magecrawl.GameEngine
         // Calculate FOV for multipe Visible calls
         public void CalculateForMultipleCalls(Map map, Point viewPoint, int viewableDistance)
         {
+            m_lastCalculatedViewPoint = viewPoint;
+            m_lastCalculatedVision = viewableDistance;
             CalculateCore(map, viewPoint, viewableDistance);
         }
 
         // CalculateForMultipleCalls needs to be called if you want good data.
         public bool Visible(Point pointWantToView)
         {
+            // If we're significantly father than our viewableDistance, give up early
+            if (PointDirectionUtils.NormalDistance(m_lastCalculatedViewPoint, pointWantToView) > m_lastCalculatedVision + 3)  // 3 is arbritray large just to prevent edge effects
+                return false;
+
             return m_fov.isInFov(pointWantToView.X, pointWantToView.Y);
         }
 

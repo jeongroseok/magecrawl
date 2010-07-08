@@ -98,7 +98,7 @@
   </ValidItem>
   <ValidItem Type="Sword" FullItemName="Iron Sword" Description="Formed from a single piece of worked iron.">
     <Attributes>
-      <Damage>2,3</Damage>
+      <Damage>4,3</Damage>
       <CTCostToAttack>1.5</CTCostToAttack>
     </Attributes>
   </ValidItem>

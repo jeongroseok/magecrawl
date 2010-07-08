@@ -108,7 +108,32 @@ namespace Magecrawl.Utilities
                 case Direction.Southwest:
                     return Direction.Northeast;
                 default:
-                    throw new ArgumentException("ConvertDirectionToDestinationPoint - Invalid Direction");
+                    throw new ArgumentException("GetDirectionOpposite - Invalid Direction");
+            }
+        }
+
+        public static List<Direction> GetDirectionsNearby(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.North:
+                    return new List<Direction>() { Direction.Northwest, Direction.Northeast}.Randomize();
+                case Direction.South:
+                    return new List<Direction>() { Direction.Southwest, Direction.Southeast }.Randomize();
+                case Direction.West:
+                    return new List<Direction>() { Direction.Northwest, Direction.Southwest}.Randomize();
+                case Direction.East:
+                    return new List<Direction>() { Direction.Northeast, Direction.Southeast }.Randomize();
+                case Direction.Northeast:
+                    return new List<Direction>() { Direction.North, Direction.East }.Randomize();
+                case Direction.Northwest:
+                    return new List<Direction>() { Direction.North, Direction.West }.Randomize();
+                case Direction.Southeast:
+                    return new List<Direction>() { Direction.South, Direction.East }.Randomize();
+                case Direction.Southwest:
+                    return new List<Direction>() { Direction.South, Direction.West }.Randomize();
+                default:
+                    throw new ArgumentException("GetDirectionsNearby - Invalid Direction");
             }
         }
 
@@ -133,7 +158,7 @@ namespace Magecrawl.Utilities
                 case Direction.Southwest:
                     return new List<Direction>() { Direction.Northeast, Direction.North, Direction.East }.Randomize();
                 default:
-                    throw new ArgumentException("ConvertDirectionToDestinationPoint - Invalid Direction");
+                    throw new ArgumentException("GetDirectionsOpposite - Invalid Direction");
             }
         }
 

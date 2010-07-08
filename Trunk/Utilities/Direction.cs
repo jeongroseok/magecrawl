@@ -11,7 +11,7 @@ namespace Magecrawl
 
     public static class DirectionUtils
     {
-        public static List<Direction> GenerateDirectionList()
+        public static List<Direction> GenerateRandomDirectionList()
         {
             List<Direction> directionList = new List<Direction>();
             foreach (Direction d in Enum.GetValues(typeof(Direction)))
