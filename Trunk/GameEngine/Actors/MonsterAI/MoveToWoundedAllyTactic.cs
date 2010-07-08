@@ -6,7 +6,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    internal class MoveToWoundedAlly : TacticWithCooldown
+    internal class MoveToWoundedAllyTactic : TacticWithCooldown
     {
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {
