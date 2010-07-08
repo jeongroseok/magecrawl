@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Actors
         public HealerMonster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
-            m_tactics = new List<IMonsterTactic>() { new UseFirstAidTactic(), new MoveToWoundedAlly() };
+            m_tactics = new List<IMonsterTactic>() { new UseFirstAidTactic(), new MoveToWoundedAllyTactic() };
             m_tactics.ForEach(t => t.SetupAttributesNeeded(this));
         }
 
