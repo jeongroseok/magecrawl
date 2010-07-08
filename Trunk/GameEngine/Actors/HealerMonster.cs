@@ -7,29 +7,28 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal class HealerMonster : Monster
     {
-        private int m_firstAidCooldown;
-
         public HealerMonster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
             : base(name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost)
         {
-            m_firstAidCooldown = 0;
+            Attributes["FirstAidCooldown"] = "0";
         }
 
         private bool CanUseFirstAid()
         {
-            return m_firstAidCooldown == 0;
+            return Attributes["FirstAidCooldown"] == "0";
         }
 
         private void UsedFirstAid()
         {
             const int FirstAidCooldown = 4;
-            m_firstAidCooldown = FirstAidCooldown;
+            Attributes["FirstAidCooldown"] = FirstAidCooldown.ToString();
         }
 
         private void NewTurn()
         {
-            if (m_firstAidCooldown > 0)
-                m_firstAidCooldown--;
+            int currentValue = int.Parse(Attributes["FirstAidCooldown"]);
+            if (currentValue > 0)
+                Attributes["FirstAidCooldown"] = (currentValue - 1).ToString();
         }
 
         public override void Action(CoreGameEngine engine)
@@ -63,18 +62,6 @@ namespace Magecrawl.GameEngine.Actors
             }
 
             DefaultAction(engine);
-        }
-
-        public override void ReadXml(System.Xml.XmlReader reader)
-        {
-            base.ReadXml(reader);
-            m_firstAidCooldown = reader.ReadElementContentAsInt();
-        }
-
-        public override void WriteXml(System.Xml.XmlWriter writer)
-        {
-            base.WriteXml(writer);
-            writer.WriteElementString("FirstAidCooldown", m_firstAidCooldown.ToString());
         }
     }
 }

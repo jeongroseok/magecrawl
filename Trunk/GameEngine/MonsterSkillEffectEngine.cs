@@ -48,6 +48,7 @@ namespace Magecrawl.GameEngine
             if (targetList.Count < 1)
                 return false;
 
+            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} slings a stone at {1}.", invoker.Name, targetCharacter.Name));           
             CoreGameEngine.Instance.CombatEngine.RangedBoltToLocation(invoker, target, (new DiceRoll(1, 4, 1)).Roll(), null, null);
             
             // Rest to pass a turn
@@ -70,48 +71,48 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        private bool HandleDoubleSwing(Character attacker, SkillType skill, Point target)
+        private bool HandleDoubleSwing(Character invoker, SkillType skill, Point target)
         {
-            Character targetCharacter = ValidTarget(attacker, target, 1);
+            Character targetCharacter = ValidTarget(invoker, target, 1);
             if (targetCharacter == null)
                 return false;
 
             // If we get here, it's a valid double swing. Attack two times in a row.
-            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} wildly swings at {1} twice.", attacker.Name, targetCharacter.Name));           
-            m_physicsEngine.Attack(attacker, target);
-            m_physicsEngine.Attack(attacker, target);
+            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} wildly swings at {1} twice.", invoker.Name, targetCharacter.Name));           
+            m_physicsEngine.Attack(invoker, target);
+            m_physicsEngine.Attack(invoker, target);
 
             return true;
         }
 
-        private bool HandleRush(Character attacker, SkillType skill, Point target)
+        private bool HandleRush(Character invoker, SkillType skill, Point target)
         {
-            Character targetCharacter = ValidTarget(attacker, target, 2);
+            Character targetCharacter = ValidTarget(invoker, target, 2);
             if (targetCharacter == null)
                 return false;
 
             // If we get here, it's a valid rush. Move towards target and attack at reduced time cost.
-            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} rushes towards {1} and attacks.", attacker.Name, targetCharacter.Name));
-            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(attacker, target, false, false, true);
-            m_physicsEngine.Move(attacker, PointDirectionUtils.ConvertTwoPointsToDirection(attacker.Position, pathToPoint[0]));
-            m_physicsEngine.Attack(attacker, target);
+            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} rushes towards {1} and attacks.", invoker.Name, targetCharacter.Name));
+            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(invoker, target, false, false, true);
+            m_physicsEngine.Move(invoker, PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, pathToPoint[0]));
+            m_physicsEngine.Attack(invoker, target);
 
             return true;
         }
 
-        private Character ValidTarget(Character attacker, Point targetSquare, int requiredDistance)
+        private Character ValidTarget(Character invoker, Point targetSquare, int requiredDistance)
         {
             // First the distance between us and target must be requiredDistance.
-            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(attacker, targetSquare, false, false, true);
+            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(invoker, targetSquare, false, false, true);
             if (pathToPoint.Count != requiredDistance)
                 return null;
 
             return m_combatEngine.FindTargetAtPosition(targetSquare);            
         }
 
-        private Character ValidTargetLessThanOrEqualTo(Character attacker, Point targetSquare, int requiredDistance)
+        private Character ValidTargetLessThanOrEqualTo(Character invoker, Point targetSquare, int requiredDistance)
         {
-            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(attacker, targetSquare, false, false, true);
+            List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(invoker, targetSquare, false, false, true);
             if (pathToPoint.Count > requiredDistance)
                 return null;
 

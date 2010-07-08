@@ -50,6 +50,7 @@
     <Compile Include="Actors\Character.cs" />
     <Compile Include="Actors\BruiserMonster.cs" />
     <Compile Include="Actors\EliteMonster.cs" />
+    <Compile Include="Actors\MonsterAI\IMonsterTactic.cs" />
     <Compile Include="Actors\RangedMonster.cs" />
     <Compile Include="Actors\HealerMonster.cs" />
     <Compile Include="Actors\SwarmerMonster.cs" />

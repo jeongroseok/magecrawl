@@ -48,7 +48,7 @@ namespace Magecrawl.Items
 
         private void SetupEffectAndStrengthAttributes()
         {
-            Attributes.Add("InvokeEffect", m_consumable.SpellName);
+            Attributes.Add("InvokeSpellEffect", m_consumable.SpellName);
             Attributes.Add("CasterLevel", m_consumable.CasterLevel.ToString());
         }
 

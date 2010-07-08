@@ -248,7 +248,7 @@ namespace Magecrawl.GameEngine
 
             Item asItem = targettingObject as Item;
             if (asItem != null)
-                return m_magicEffects.TargettedDrawablePoints(asItem.Attributes["InvokeEffect"], int.Parse(asItem.Attributes["CasterLevel"]), target);
+                return m_magicEffects.TargettedDrawablePoints(asItem.Attributes["InvokeSpellEffect"], int.Parse(asItem.Attributes["CasterLevel"]), target);
 
             return null;  
         }

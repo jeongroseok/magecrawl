@@ -92,6 +92,7 @@ namespace Magecrawl.Items.Materials
 
                     currentEffect.Descriptions.Add(type, description);
                     currentEffect.DisplayNames.Add(type, itemName);
+                    currentEffect.Types.Add(type, type);
 
                     if (m_validEffectsForType.ContainsKey(type))
                         m_validEffectsForType[type].Add(currentEffect);
