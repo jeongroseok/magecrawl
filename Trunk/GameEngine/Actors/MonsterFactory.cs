@@ -9,6 +9,7 @@ using System.Xml;
 using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Actors.MonsterAI;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -76,7 +77,7 @@ namespace Magecrawl.GameEngine.Actors
                 if (reader.LocalName == "Monster")
                 {
                     string name = reader.GetAttribute("Name");
-                    string type = reader.GetAttribute("Type") + "Monster";
+                    string type = reader.GetAttribute("Type");
 
                     int maxHP = Int32.Parse(reader.GetAttribute("HP"));
                     int vision = Int32.Parse(reader.GetAttribute("Vision"));
@@ -107,16 +108,37 @@ namespace Magecrawl.GameEngine.Actors
 
         private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
         {
-            Assembly weaponsAssembly = this.GetType().Assembly;
-            Type type = weaponsAssembly.GetType("Magecrawl.GameEngine.Actors." + typeName);
-            if (type != null)
+            List<IMonsterTactic> tactics = new List<IMonsterTactic>();
+
+            switch(typeName)
             {
-                return Activator.CreateInstance(type, name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost) as Monster;
+                case "Bruiser":
+                    tactics.Add(new DoubleSwingTactic());
+                    tactics.Add(new DefaultTactic());
+                    break;
+                case "Healer":
+                    tactics.Add(new UseFirstAidTactic());
+                    tactics.Add(new MoveToWoundedAllyTactic());
+                    tactics.Add(new DefaultTactic());
+                    break;
+                case "Ranged":
+                    tactics.Add(new KeepAwayFromMeleeRangeIfAbleTactic());
+                    tactics.Add(new UseSlingStoneTactic());
+                    tactics.Add(new KeepAwayFromPlayerIfAbleTactic());
+                    tactics.Add(new PossiblyRunFromPlayerTactic());
+                    tactics.Add(new WaitTactic());
+                    break;
+                case "Sprinter":
+                    tactics.Add(new RushTactic());
+                    tactics.Add(new DefaultTactic());
+                    break;
+                default:
+                    tactics.Add(new DefaultTactic());
+                    break;
             }
-            else
-            {
-                throw new ArgumentException("CreateWeapon - don't know how to make: " + typeName);
-            }
+
+            Monster monster = new Monster(name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost, tactics);
+            return monster;
         }
     }
 }

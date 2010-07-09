@@ -10,10 +10,12 @@ using Magecrawl.GameEngine.Actors.MonsterAI;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal abstract class Monster : Character, ICloneable
+    internal class Monster : Character, ICloneable
     {
         // Share one RNG between monsters
         protected static TCODRandom m_random = new TCODRandom();
+
+        private List<IMonsterTactic> m_tactics;
 
         public SerializableDictionary<string, string> Attributes { get; set; }
 
@@ -24,7 +26,7 @@ namespace Magecrawl.GameEngine.Actors
         public Point PlayerLastKnownPosition { get; set; }
 
         public Monster(string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade,
-                       double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+                       double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost, List<IMonsterTactic> tactics)
             : base(name, p, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             CTAttackCost = ctAttackCost;
@@ -35,6 +37,8 @@ namespace Magecrawl.GameEngine.Actors
             m_evade = evade;
             Intelligent = intelligent;
             Attributes = new SerializableDictionary<string, string>();
+            m_tactics = tactics;
+            m_tactics.ForEach(t => t.SetupAttributesNeeded(this));
         }
 
         public object Clone()
@@ -90,17 +94,15 @@ namespace Magecrawl.GameEngine.Actors
             m_currentHP -= dmg;
         }
 
-        public abstract void Action(CoreGameEngine engine);
-
-        protected void DoActionList(CoreGameEngine engine, List<IMonsterTactic> tactics)
+        public void Action(CoreGameEngine engine)
         {
             bool playerIsVisible = IsPlayerVisible(engine);
             if (playerIsVisible)
                 UpdateKnownPlayerLocation(engine);
 
-            tactics.ForEach(t => t.NewTurn(this));
+            m_tactics.ForEach(t => t.NewTurn(this));
 
-            foreach (IMonsterTactic tactic in tactics)
+            foreach (IMonsterTactic tactic in m_tactics)
             {
                 if (playerIsVisible || !tactic.NeedsPlayerLOS)
                 {
@@ -111,8 +113,7 @@ namespace Magecrawl.GameEngine.Actors
                     }
                 }
             }
-
-            DefaultAction(engine);
+            throw new InvalidOperationException("Made it to the end of Action of Monster");
         }
 
         protected void DefaultAction(CoreGameEngine engine)

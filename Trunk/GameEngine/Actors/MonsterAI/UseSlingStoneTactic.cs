@@ -24,7 +24,10 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
-            return engine.UseMonsterSkill(monster, SkillType.SlingStone, engine.Player.Position);
+            bool usedSkill = engine.UseMonsterSkill(monster, SkillType.SlingStone, engine.Player.Position);
+            if (usedSkill)
+                UsedCooldown(monster, CooldownName, CooldownAmount);
+            return usedSkill;
         }
 
         public override void SetupAttributesNeeded(Monster monster)
