@@ -48,9 +48,8 @@
   -->
   <ItemGroup>
     <Compile Include="Actors\Character.cs" />
-    <Compile Include="Actors\BruiserMonster.cs" />
-    <Compile Include="Actors\EliteMonster.cs" />
     <Compile Include="Actors\MonsterAI\BaseTactic.cs" />
+    <Compile Include="Actors\MonsterAI\DefaultTactic.cs" />
     <Compile Include="Actors\MonsterAI\PossiblyRunFromPlayerTactic.cs" />
     <Compile Include="Actors\MonsterAI\WaitTactic.cs" />
     <Compile Include="Actors\MonsterAI\PossiblyApproachPlayerTactic.cs" />
@@ -63,12 +62,7 @@
     <Compile Include="Actors\MonsterAI\UseFirstAidTactic.cs" />
     <Compile Include="Actors\MonsterAI\IMonsterTactic.cs" />
     <Compile Include="Actors\MonsterAI\TacticWithCooldown.cs" />
-    <Compile Include="Actors\RangedMonster.cs" />
-    <Compile Include="Actors\HealerMonster.cs" />
-    <Compile Include="Actors\SwarmerMonster.cs" />
-    <Compile Include="Actors\SprinterMonster.cs" />
     <Compile Include="Actors\MonsterFactory.cs" />
-    <Compile Include="Actors\StandardMonster.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="DebugEngine.cs" />
     <Compile Include="Effects\EffectEngine.cs" />
