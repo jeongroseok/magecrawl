@@ -133,18 +133,26 @@ namespace Magecrawl
                 }
                 catch (System.Reflection.TargetInvocationException e)
                 {
-                    if (e.InnerException is PlayerDiedException)
+                    // Depending on how many levels we are burried in TargetInvocationException
+                    // We might have win/died burried. This loop will dig for them.
+                    bool handledException = false;
+                    Exception inner = e.InnerException;
+                    while (inner != null)
                     {
-                        HandleException(true);
+                        if (inner is PlayerDiedException)
+                        {
+                            HandleException(true);
+                            handledException = true;
+                        }
+                        else if (inner is PlayerWonException)
+                        {
+                            HandleException(false);
+                            handledException = true;
+                        }
+                        inner = inner.InnerException;
                     }
-                    else if (e.InnerException is PlayerWonException)
-                    {
-                        HandleException(false);
-                    }
-                    else
-                    {
+                    if (!handledException)
                         throw;
-                    }
                 }
             }
             while (!TCODConsole.isWindowClosed() && !IsQuitting);

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    class DoubleSwingTactic : BaseTactic
-    {
+    internal class KeepAwayFromMeleeRangeIfAbleTactic : TacticWithCooldown
+    {        
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {
             return IsNextToPlayer(engine, monster);
@@ -13,7 +15,9 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
-            return engine.UseMonsterSkill(monster, SkillType.DoubleSwing, engine.Player.Position);
+            if (AreOtherNearbyEnemies(engine, monster))
+                return MoveAwayFromPlayer(engine, monster);
+            return false;
         }
 
         public override bool NeedsPlayerLOS

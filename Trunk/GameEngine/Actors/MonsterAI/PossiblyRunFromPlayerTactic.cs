@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using libtcod;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    class DoubleSwingTactic : BaseTactic
+    internal class PossiblyRunFromPlayerTactic : TacticWithCooldown
     {
+        private static TCODRandom s_random = new TCODRandom();
+        const int ChanceToApproach = 50;
+
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {
-            return IsNextToPlayer(engine, monster);
+            return true;
         }
 
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
-            return engine.UseMonsterSkill(monster, SkillType.DoubleSwing, engine.Player.Position);
+            if (s_random.Chance(50))
+                return MoveAwayFromPlayer(engine, monster);
+            return false;
         }
 
         public override bool NeedsPlayerLOS

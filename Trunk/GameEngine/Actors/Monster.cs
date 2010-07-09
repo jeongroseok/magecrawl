@@ -6,6 +6,7 @@ using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Actors.MonsterAI;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -90,6 +91,29 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         public abstract void Action(CoreGameEngine engine);
+
+        protected void DoActionList(CoreGameEngine engine, List<IMonsterTactic> tactics)
+        {
+            bool playerIsVisible = IsPlayerVisible(engine);
+            if (playerIsVisible)
+                UpdateKnownPlayerLocation(engine);
+
+            tactics.ForEach(t => t.NewTurn(this));
+
+            foreach (IMonsterTactic tactic in tactics)
+            {
+                if (playerIsVisible || !tactic.NeedsPlayerLOS)
+                {
+                    if (tactic.CouldUseTactic(engine, this))
+                    {
+                        if (tactic.UseTactic(engine, this))
+                            return;
+                    }
+                }
+            }
+
+            DefaultAction(engine);
+        }
 
         protected void DefaultAction(CoreGameEngine engine)
         {

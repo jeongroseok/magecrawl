@@ -54,5 +54,13 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
         {
             NewTurn(monster, CooldownName);
         }
+
+        public override bool NeedsPlayerLOS
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }

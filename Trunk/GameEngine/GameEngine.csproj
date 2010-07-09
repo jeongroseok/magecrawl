@@ -51,7 +51,14 @@
     <Compile Include="Actors\BruiserMonster.cs" />
     <Compile Include="Actors\EliteMonster.cs" />
     <Compile Include="Actors\MonsterAI\BaseTactic.cs" />
-    <Compile Include="Actors\MonsterAI\MoveToWoundedAlly.cs" />
+    <Compile Include="Actors\MonsterAI\PossiblyRunFromPlayerTactic.cs" />
+    <Compile Include="Actors\MonsterAI\WaitTactic.cs" />
+    <Compile Include="Actors\MonsterAI\PossiblyApproachPlayerTactic.cs" />
+    <Compile Include="Actors\MonsterAI\KeepAwayFromPlayerIfAbleTactic.cs" />
+    <Compile Include="Actors\MonsterAI\KeepAwayFromMeleeRangeIfAbleTactic.cs" />
+    <Compile Include="Actors\MonsterAI\UseSlingStoneTactic.cs" />
+    <Compile Include="Actors\MonsterAI\RushTactic.cs" />
+    <Compile Include="Actors\MonsterAI\MoveToWoundedAllyTactic.cs" />
     <Compile Include="Actors\MonsterAI\DoubleSwingTactic.cs" />
     <Compile Include="Actors\MonsterAI\UseFirstAidTactic.cs" />
     <Compile Include="Actors\MonsterAI\IMonsterTactic.cs" />

@@ -18,18 +18,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public override void Action(CoreGameEngine engine)
         {
-            m_tactics.ForEach(x => x.NewTurn(this));
-
-            foreach (IMonsterTactic tactic in m_tactics)
-            {
-                if (tactic.CouldUseTactic(engine, this))
-                {
-                    if (tactic.UseTactic(engine, this))
-                        return;
-                }
-            }
-
-            DefaultAction(engine);
+            DoActionList(engine, m_tactics);
         }
     }
 }

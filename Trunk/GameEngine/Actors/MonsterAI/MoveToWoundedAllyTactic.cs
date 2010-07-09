@@ -38,5 +38,13 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
             }
             return success;
         }
+
+        public override bool NeedsPlayerLOS
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }
