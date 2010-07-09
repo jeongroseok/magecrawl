@@ -15,6 +15,8 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
         public virtual void SetupAttributesNeeded(Monster monster) { }
         public virtual void NewTurn(Monster monster) { }
 
+        public abstract bool NeedsPlayerLOS { get; }
+
         protected bool WalkTowardsLastKnownPosition(CoreGameEngine engine, Monster monster)
         {
             if (monster.PlayerLastKnownPosition == Point.Invalid)
@@ -44,13 +46,20 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 
         protected bool IsNextToPlayer(CoreGameEngine engine, Monster monster)
         {
-            List<Point> pathToPlayer = GetPathToPlayer(engine, monster);
-            return pathToPlayer != null && pathToPlayer.Count == 1;
+            return GetPathToPlayerLength(engine, monster) == 1;
         }
 
         protected bool IsNextToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
         {
             return pathToPlayer != null && pathToPlayer.Count == 1;
+        }
+
+        protected int GetPathToPlayerLength(CoreGameEngine engine, Monster monster)
+        {
+            List<Point> pathToPlayer = GetPathToPlayer(engine, monster);
+            if (pathToPlayer == null)
+                return -1;
+            return pathToPlayer.Count;
         }
 
         protected bool HasPathToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)

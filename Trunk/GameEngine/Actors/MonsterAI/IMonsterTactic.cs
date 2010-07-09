@@ -9,5 +9,10 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 
         void NewTurn(Monster monster);
         void SetupAttributesNeeded(Monster monster);
+
+        bool NeedsPlayerLOS
+        {
+            get;
+        }
     }
 }

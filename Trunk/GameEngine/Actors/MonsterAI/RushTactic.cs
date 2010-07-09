@@ -4,16 +4,16 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    class DoubleSwingTactic : BaseTactic
+    class RushTactic : BaseTactic
     {
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {
-            return IsNextToPlayer(engine, monster);
+           return GetPathToPlayerLength(engine, monster) == 2;
         }
 
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
-            return engine.UseMonsterSkill(monster, SkillType.DoubleSwing, engine.Player.Position);
+            return engine.UseMonsterSkill(monster, SkillType.Rush, engine.Player.Position);
         }
 
         public override bool NeedsPlayerLOS

@@ -4,23 +4,23 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    class DoubleSwingTactic : BaseTactic
+    class WaitTactic : BaseTactic
     {
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {
-            return IsNextToPlayer(engine, monster);
+            return true;
         }
 
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
-            return engine.UseMonsterSkill(monster, SkillType.DoubleSwing, engine.Player.Position);
+            return engine.Wait(monster);
         }
 
         public override bool NeedsPlayerLOS
         {
             get
             {
-                return true;
+                return false;
             }
         }
     }
