@@ -13,7 +13,7 @@ namespace Magecrawl.Items
         private static TCODRandom s_random = new TCODRandom();
 
         internal MaterialFactory MaterialFactory;
-        internal CraftsmanshipFactory CraftsmanFactory;
+        internal QualityFactory CraftsmanFactory;
         internal ComsumableEffectFactory ConsumableEffectFactory;
 
         private static ItemFactory m_instance = null;
@@ -30,7 +30,7 @@ namespace Magecrawl.Items
         private ItemFactory()
         {
             MaterialFactory = new MaterialFactory();
-            CraftsmanFactory = new CraftsmanshipFactory();
+            CraftsmanFactory = new QualityFactory();
             ConsumableEffectFactory = new ComsumableEffectFactory();
         }
 

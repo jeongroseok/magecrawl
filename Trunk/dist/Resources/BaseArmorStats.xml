@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Armors>
+  <Armor Name="ChestArmor" BaseStaminaBonus="5"/>
+  <Armor Name="Helm" BaseStaminaBonus="2"/>
+  <Armor Name="Gloves" BaseStaminaBonus="3"/>
+  <Armor Name="Boots" BaseStaminaBonus="2"/>
+</Armors>

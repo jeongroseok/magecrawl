@@ -12,6 +12,7 @@ namespace Magecrawl.Items.Materials
             FullItemNamed = new Dictionary<string, string>();
             Descriptions = new Dictionary<string, string>();
             Attributes = new Dictionary<string, Dictionary<string, string>>();
+            MaterialAttributes = new Dictionary<string, string>();
         }
 
         public string MaterialName { get; private set; }
@@ -24,8 +25,11 @@ namespace Magecrawl.Items.Materials
         // Name of item when made of material - e.g. "Wooden Club"
         public Dictionary<string, string> FullItemNamed { get; private set; }
 
-        // Attributes of item when mate of material - e.g. Attributes["Club"]["Damage"]
+        // Attributes of item when type of material - e.g. Attributes["Club"]["Foo"]
         public Dictionary<string, Dictionary<string, string>> Attributes;
+
+        // Attributes of base material - e.g. MaterialAttributes["DamageBonus"]
+        public Dictionary<string, string> MaterialAttributes;
 
         public override string ToString()
         {

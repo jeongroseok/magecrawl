@@ -40,6 +40,14 @@ namespace Magecrawl.Utilities
         {
         }
 
+        public void Add(DiceRoll other)
+        {
+            Rolls += other.Rolls;
+            DiceFaces += other.DiceFaces;
+            ToAdd += other.ToAdd;
+            Multiplier += 1 - other.Multiplier;
+        }
+
         public DiceRoll(string s)
         {
             string[] damageParts = s.Split(',');

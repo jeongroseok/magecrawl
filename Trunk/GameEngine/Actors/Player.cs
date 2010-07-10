@@ -63,13 +63,28 @@ namespace Magecrawl.GameEngine.Actors
             LastTurnSeenAMonster = 0;
 
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 1));
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 1));
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Boots", 1));
+            CreateDefaultArmorPlayerCanWear("ChestArmor");
+            CreateDefaultArmorPlayerCanWear("Boots");
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
 
             // Since we're equiping equipment here, reset m_currentStamina to new total
             m_currentStamina = MaxStamina;
+        }
+
+        // We could get unlucky and create an armor of the type the player couldn't wear due to lack of skills.
+        // This will keep trying until it gets one that the player can wear.
+        void CreateDefaultArmorPlayerCanWear(string type)
+        {
+            while (true)
+            {
+                IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType(type, 1);
+                if (CouldEquipArmor(armor))
+                {
+                    Equip(armor);
+                    return;
+                }
+            }
         }
 
         #region HP/MP
@@ -498,7 +513,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public bool CouldEquip(IArmor armor)
+        public bool CouldEquipArmor(IArmor armor)
         {
             switch (armor.Weight)
             {

@@ -45,10 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Armor.cs" />
+    <Compile Include="BaseWeaponStats.cs" />
     <Compile Include="Consumable.cs" />
+    <Compile Include="BaseArmorStats.cs" />
     <Compile Include="Materials\ComsumableEffectFactory.cs" />
     <Compile Include="Materials\ConsumableEffect.cs" />
-    <Compile Include="Materials\CraftsmanshipFactory.cs" />
+    <Compile Include="Materials\QualityFactory.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\MaterialFactory.cs" />
     <Compile Include="Materials\Quality.cs" />
@@ -65,8 +67,8 @@
     <Compile Include="WeaponRanges\Club.cs" />
     <Compile Include="WeaponRanges\Dagger.cs" />
     <Compile Include="WeaponRanges\MeleeWeapon.cs" />
-    <Compile Include="WeaponRanges\RangedWeaponCalculator.cs" />
     <Compile Include="WeaponRanges\Bow.cs" />
+    <Compile Include="WeaponRanges\RangedWeaponRangeBase.cs" />
     <Compile Include="WeaponRanges\Sling.cs" />
     <Compile Include="WeaponRanges\Spear.cs" />
     <Compile Include="WeaponRanges\Sword.cs" />

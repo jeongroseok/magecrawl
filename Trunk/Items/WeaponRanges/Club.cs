@@ -11,7 +11,7 @@ namespace Magecrawl.Items.WeaponRanges
 {
     internal class Club : IWeaponRange, IWeaponVerb
     {
-        public List<EffectivePoint> CalculateTargetablePoints(Point wielderPosition)
+        public List<EffectivePoint> CalculateTargetablePoints(IWeapon weapon, Point wielderPosition)
         {
             List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 

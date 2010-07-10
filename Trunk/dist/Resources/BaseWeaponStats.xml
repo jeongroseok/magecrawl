@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" ?>
+<Weapons>
+  <Weapon Name="Axe" BaseDamage="4,3" BaseSpeed="1.5"/>
+  <Weapon Name="Club" BaseDamage="2,3" BaseSpeed="1"/>
+  <Weapon Name="Dagger" BaseDamage="2,3,-1" BaseSpeed=".75"/>
+  <Weapon Name="Spear" BaseDamage="3,3" BaseSpeed="1.25"/>
+  <Weapon Name="Sword" BaseDamage="3,3" BaseSpeed="1.2"/>
+
+  <Weapon Name="Bow" BaseDamage="3,3" BaseSpeed="1.5" BaseRange="8" BaseMinRange="3" BaseFalloffStart="5" FalloffAmount=".25"/>
+  <Weapon Name="Sling" BaseDamage="2,3" BaseSpeed="1" BaseRange="6" BaseMinRange="2" BaseFalloffStart="4" FalloffAmount=".25"/>
+</Weapons>

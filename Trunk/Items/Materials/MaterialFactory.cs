@@ -91,12 +91,7 @@ namespace Magecrawl.Items.Materials
                     else if (reader.NodeType == XmlNodeType.EndElement)
                     {
                         if (attributeName != null)
-                        {
-                            if (currentMaterial.Attributes.ContainsKey(lastItemType))
-                                currentMaterial.Attributes[lastItemType].Add(attributeName, attributeValue);
-                            else
-                                currentMaterial.Attributes[lastItemType] = new Dictionary<string, string>() { { attributeName, attributeValue } };
-                        }
+                            currentMaterial.Attributes[lastItemType].Add(attributeName, attributeValue);                            
                         attributeName = null;
                         attributeValue = null;
                     }
@@ -106,7 +101,21 @@ namespace Magecrawl.Items.Materials
                     if (reader.NodeType == XmlNodeType.Element)
                     {
                         int level = Int32.Parse(reader.GetAttribute("Level"));
-                        currentMaterial = new Material(reader.GetAttribute("Name"), level);
+                        string name = reader.GetAttribute("Name");
+                        currentMaterial = new Material(name, level);
+
+                        string damageBonus = reader.GetAttribute("DamageBonus");
+                        if (damageBonus != null)
+                            currentMaterial.MaterialAttributes["DamageBonus"] = damageBonus;
+
+                        string extraCTCost = reader.GetAttribute("ExtraCTCost");
+                        if (extraCTCost != null)
+                            currentMaterial.MaterialAttributes["ExtraCTCost"] = extraCTCost;
+
+                        string staminaBonus = reader.GetAttribute("StaminaBonus");
+                        if (staminaBonus != null)
+                            currentMaterial.MaterialAttributes["StaminaBonus"] = staminaBonus;
+
                         m_materialMapping.Add(currentMaterial.MaterialName, currentMaterial);
                     }
                 }
@@ -120,6 +129,8 @@ namespace Magecrawl.Items.Materials
                     
                     currentMaterial.Descriptions.Add(type, description);
                     currentMaterial.FullItemNamed.Add(type, fullItemName);
+
+                    currentMaterial.Attributes[type] = new Dictionary<string, string>();
 
                     if (m_validMaterialsForType.ContainsKey(type))
                         m_validMaterialsForType[type].Add(currentMaterial);

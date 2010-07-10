@@ -90,7 +90,7 @@ namespace Magecrawl.GameUI.Inventory
                 screen.print(x, y, "Evade: " + asArmor.Evade);
                 y += 2;
                 
-                if (!m_player.CouldEquip(asArmor))
+                if (!m_player.CouldEquipArmor(asArmor))
                 {
                     m_dialogColorHelper.SaveColors(screen);
                     screen.setForegroundColor(TCODColor.red);

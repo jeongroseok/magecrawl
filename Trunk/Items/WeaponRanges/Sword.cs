@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Magecrawl.Interfaces;
 using Magecrawl.Items.Interfaces;
 using Magecrawl.Utilities;
 
@@ -6,7 +7,7 @@ namespace Magecrawl.Items.WeaponRanges
 {
     internal class Sword : IWeaponRange, IWeaponVerb
     {
-        public List<EffectivePoint> CalculateTargetablePoints(Point wielderPosition)
+        public List<EffectivePoint> CalculateTargetablePoints(IWeapon weapon, Point wielderPosition)
         {
             List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
 
