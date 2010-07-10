@@ -56,7 +56,7 @@ namespace Magecrawl.Items
         // Needs to be single point of access in GameEngine so we can filter
         public List<EffectivePoint> CalculateTargetablePoints(Point wielderPosition)
         {
-            return m_weaponRange.CalculateTargetablePoints(wielderPosition);
+            return m_weaponRange.CalculateTargetablePoints(this, wielderPosition);
         }
 
         public override void ReadXml(System.Xml.XmlReader reader)

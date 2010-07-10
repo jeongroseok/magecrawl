@@ -1,23 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using Magecrawl.Interfaces;
 using Magecrawl.Items.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Items.WeaponRanges
 {
-    internal class Bow : IWeaponRange, IWeaponVerb
+    internal class Bow : RangedWeaponRangeBase, IWeaponVerb
     {
-        public List<EffectivePoint> CalculateTargetablePoints(Point wielderPosition)
-        {
-            const int SimpleBowRange = 10;
-            const int SimpleBowMinRange = 3;
-            const int SimpleBowFalloffStart = 4;
-            const float SimpleBowFalloffAmount = .25f;
-
-            List<EffectivePoint> targetablePoints = RangedWeaponCalculator.GenerateRangedTargetablePoints(wielderPosition, SimpleBowRange, SimpleBowMinRange, SimpleBowFalloffStart, SimpleBowFalloffAmount);
-
-            return targetablePoints;
-        }
-
         public string AttackVerb
         {
             get
@@ -26,20 +16,12 @@ namespace Magecrawl.Items.WeaponRanges
             }
         }
 
-        public bool IsRanged
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public string Name
+        public override string Name
         {
             get
             {
                 return "Bow";
             }
         }
-
     }
 }

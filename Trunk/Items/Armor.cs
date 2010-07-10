@@ -2,6 +2,7 @@
 using System.Xml;
 using Magecrawl.Interfaces;
 using Magecrawl.Items.Materials;
+using System.Globalization;
 
 namespace Magecrawl.Items
 {
@@ -130,24 +131,22 @@ namespace Magecrawl.Items
 
         private void Calculate()
         {
-            int baseArmorStm = 0;
-            if (m_material.Attributes[Type].ContainsKey("StaminaBonus"))
-                baseArmorStm = int.Parse(m_material.Attributes[Type]["StaminaBonus"]);
+            BaseArmorStats.Instance.LoadMappingIntoAttributes(this);
 
-            double materialBonusFactor = 1.0;
-            if (m_quality.Attributes.ContainsKey("ArmorStaminaModifier"))
-                materialBonusFactor += double.Parse(m_quality.Attributes["ArmorStaminaModifier"]);
+            int baseArmorStm = int.Parse(Attributes["BaseStaminaBonus"], CultureInfo.InvariantCulture);
 
-            int stmWithBonusFactor = (int)Math.Round(baseArmorStm * materialBonusFactor);
+            double staminaModifier = 1;
 
-            // Higher quality should always give at least 1 point of stamina.
-            if (materialBonusFactor > 1.0 && stmWithBonusFactor == baseArmorStm)
-                m_staminaBonus = stmWithBonusFactor + 1;
-            else
-                m_staminaBonus = stmWithBonusFactor;
+            double materialBonus = (int.Parse(m_material.MaterialAttributes["StaminaBonus"], CultureInfo.InvariantCulture) / 100.0);
+            staminaModifier += materialBonus;
 
-            if (m_material.Attributes[Type].ContainsKey("EvadeBonus"))
-                m_evade = int.Parse(m_material.Attributes[Type]["EvadeBonus"]);
+            double qualityBonus = (int.Parse(m_quality.Attributes["ArmorStaminaModifier"], CultureInfo.InvariantCulture) / 100.0);
+            staminaModifier += qualityBonus;
+
+            m_staminaBonus = (int)Math.Round(baseArmorStm * staminaModifier);
+
+            if (m_material.MaterialAttributes.ContainsKey("EvadeBonus"))
+                m_evade = int.Parse(m_material.Attributes[Type]["EvadeBonus"], CultureInfo.InvariantCulture);
             else
                 m_evade = 0;
         }

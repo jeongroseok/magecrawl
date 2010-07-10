@@ -3,6 +3,7 @@ using System.Xml;
 using Magecrawl.Items.Interfaces;
 using Magecrawl.Items.Materials;
 using Magecrawl.Utilities;
+using System.Globalization;
 
 namespace Magecrawl.Items
 {
@@ -28,13 +29,17 @@ namespace Magecrawl.Items
 
         private void Calculate()
         {
-            m_damage = new DiceRoll(m_material.Attributes[Type]["Damage"]);
+            BaseWeaponStats.Instance.LoadMappingIntoAttributes(this);
+
+            m_damage = new DiceRoll(Attributes["BaseDamage"]);
+            m_damage.Add(new DiceRoll(m_material.MaterialAttributes["DamageBonus"]));
             if (m_quality.Attributes.ContainsKey("DamageModifier"))
-                m_damage.Multiplier += double.Parse(m_quality.Attributes["DamageModifier"]);
-            
-            m_CTCost = double.Parse(m_material.Attributes[Type]["CTCostToAttack"]);
+                m_damage.Multiplier += 1.0 + (int.Parse(m_quality.Attributes["DamageModifier"], CultureInfo.InvariantCulture) / 100.0);
+
+            m_CTCost = double.Parse(Attributes["BaseSpeed"], CultureInfo.InvariantCulture);
+            m_CTCost += double.Parse(m_material.MaterialAttributes["ExtraCTCost"], CultureInfo.InvariantCulture);
             if (m_quality.Attributes.ContainsKey("SpeedModifier"))
-                m_CTCost += double.Parse(m_quality.Attributes["SpeedModifier"]);
+                m_CTCost += 1.0 + (int.Parse(m_quality.Attributes["SpeedModifier"], CultureInfo.InvariantCulture) / 100.0);
         }
 
         public override DiceRoll Damage
@@ -105,7 +110,7 @@ namespace Magecrawl.Items
         {
             base.ReadXml(reader);
             m_material = ItemFactory.Instance.MaterialFactory.GetMaterial(Type, reader.ReadElementContentAsString());
-            m_quality = ItemFactory.Instance.CraftsmanFactory.GetQuality(reader.ReadElementContentAsString());
+            m_quality = ItemFactory.Instance.CraftsmanFactory.GetQuality(reader.ReadElementContentAsString());            
             Calculate();
         }
 
