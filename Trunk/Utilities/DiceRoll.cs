@@ -42,8 +42,10 @@ namespace Magecrawl.Utilities
 
         public void Add(DiceRoll other)
         {
+            if (DiceFaces != other.DiceFaces)
+                throw new InvalidOperationException(string.Format("Can't add dice rolls: {0} + {1}", this, other));
+
             Rolls += other.Rolls;
-            DiceFaces += other.DiceFaces;
             ToAdd += other.ToAdd;
             Multiplier += 1 - other.Multiplier;
         }
