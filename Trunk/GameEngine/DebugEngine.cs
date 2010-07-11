@@ -3,6 +3,7 @@ using System.Linq;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 using Magecrawl.Items;
+using Magecrawl.GameEngine.Actors;
 
 namespace Magecrawl.GameEngine
 {
@@ -80,30 +81,39 @@ namespace Magecrawl.GameEngine
                     return null;
                 }
                 case "GetAllMonsterList":
-                    return m_engine.MonsterFactory.GetAllMonsterListForDebug().OfType<INamedItem>().ToList();
+                    return m_engine.MonsterFactory.GetAllMonsterListForDebug();
                 case "SpawnMonster":
+                {
+                    string monsterName = ((Pair<string, int>)argument).First;
+                    int level = ((Pair<string, int>)argument).Second;
+                    Point playerPos = m_engine.Player.Position;
+                    for (int i = -1; i <= 1; ++i)
                     {
-                        Point playerPos = m_engine.Player.Position;
-                        for (int i = -1; i <= 1; ++i)
+                        for (int j = -1; j <= 1; ++j)
                         {
-                            for (int j = -1; j <= 1; ++j)
+                            if (i == 0 && j == 0)
+                                continue;
+                            Point newPosition = playerPos + new Point(i, j);
+                            if (m_engine.Map.IsPointOnMap(newPosition))
                             {
-                                if (i == 0 && j == 0)
-                                    continue;
-                                Point newPosition = playerPos + new Point(i, j);
-                                if (m_engine.Map.IsPointOnMap(newPosition))
+                                if (m_engine.PathToPoint(m_engine.Player, newPosition, false, true, false) != null &&
+                                    m_engine.Map.Monsters.Where(m => m.Position == newPosition).Count() == 0)
                                 {
-                                    if (m_engine.PathToPoint(m_engine.Player, newPosition, false, true, false) != null &&
-                                        m_engine.Map.Monsters.Where(m => m.Position == newPosition).Count() == 0)
+                                    try
                                     {
-                                        m_engine.Map.AddMonster(m_engine.MonsterFactory.CreateMonster((string)argument, newPosition));
-                                        return null;
+                                        m_engine.Map.AddMonster(m_engine.MonsterFactory.CreateMonster(monsterName, level, newPosition));
                                     }
+                                    catch(System.InvalidOperationException)
+                                    {
+                                        CoreGameEngine.Instance.SendTextOutput("Debug - Unable to place monster, can not create.");
+                                    }
+                                    return null;
                                 }
                             }
                         }
-                        return null;
                     }
+                    return null;
+                }
                 case "AddSkillPoints":
                     m_engine.Player.SkillPoints += (int)argument;
                     return null;

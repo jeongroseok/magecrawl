@@ -140,15 +140,16 @@ namespace Magecrawl.Items
             double materialBonus = (int.Parse(m_material.MaterialAttributes["StaminaBonus"], CultureInfo.InvariantCulture) / 100.0);
             staminaModifier += materialBonus;
 
-            double qualityBonus = (int.Parse(m_quality.Attributes["ArmorStaminaModifier"], CultureInfo.InvariantCulture) / 100.0);
+            double qualityBonus = 0;
+            string qualityString = m_quality.Attributes.ContainsKey("ArmorStaminaModifier") ? m_quality.Attributes["ArmorStaminaModifier"] : null;
+            if (qualityString != null)
+                qualityBonus = (int.Parse(qualityString, CultureInfo.InvariantCulture) / 100.0);
             staminaModifier += qualityBonus;
 
             m_staminaBonus = (int)Math.Round(baseArmorStm * staminaModifier);
 
-            if (m_material.MaterialAttributes.ContainsKey("EvadeBonus"))
-                m_evade = int.Parse(m_material.Attributes[Type]["EvadeBonus"], CultureInfo.InvariantCulture);
-            else
-                m_evade = 0;
+            m_evade = m_material.MaterialAttributes.ContainsKey("EvadeBonus") ? 
+                int.Parse(m_material.Attributes[Type]["EvadeBonus"], CultureInfo.InvariantCulture) : 0;
         }
 
         public override void ReadXml(XmlReader reader)

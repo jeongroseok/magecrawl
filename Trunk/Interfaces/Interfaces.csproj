@@ -48,6 +48,7 @@
     <Compile Include="IItem.cs" />
     <Compile Include="IMap.cs" />
     <Compile Include="IMapObject.cs" />
+    <Compile Include="IMonster.cs" />
     <Compile Include="INamedItem.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="ISkill.cs" />

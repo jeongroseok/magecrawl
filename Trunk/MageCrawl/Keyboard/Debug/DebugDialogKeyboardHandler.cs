@@ -7,6 +7,8 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Keyboard.Debug
 {
+    // This code is a bit hacky. It should really be rewritten and such. However, it's only
+    // debug code, so as long as it works...
     [Export(typeof(IKeystrokeHandler))]
     [ExportMetadata("RequireAllActionsMapped", "false")]
     [ExportMetadata("HandlerName", "DebugMode")]
@@ -22,7 +24,9 @@ namespace Magecrawl.Keyboard.Debug
         }
 
         private OptionMode m_option;
-        private string m_itemToSpawnName;
+
+        private bool m_spawnItem;
+        private string m_toSpawnName;
 
         public DebugDialogKeyboardHandler()
         {
@@ -49,13 +53,13 @@ namespace Magecrawl.Keyboard.Debug
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, (List<INamedItem>)m_engine.Debugger.DebugRequest("GetAllItemList", null), false, "Item To Spawn"));
         }
 
-        private void SetCreateItemLevelMenu()
+        private void SetCreateLevelMenu(int totalLevels)
         {
             m_option = OptionMode.SelectLevel;
             List<INamedItem> mapSettings = new List<INamedItem>();
-            for(int i = 0 ; i <= 10 ; ++i)
+            for (int i = 0; i <= totalLevels; ++i)
                 mapSettings.Add(new TextElement(i.ToString()));
-            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, mapSettings, false, "Item Level To Spawn"));
+            m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, mapSettings, false, "Level To Spawn"));
         }
 
         private void SetMonsterMenu()
@@ -120,25 +124,28 @@ namespace Magecrawl.Keyboard.Debug
 
         private void CreateItemSelectedDelegate(INamedItem item)
         {
-            m_itemToSpawnName = item.DisplayName;
-            SetCreateItemLevelMenu();
+            m_spawnItem = true;
+            m_toSpawnName = item.DisplayName;
+            SetCreateLevelMenu(10);
             m_gameInstance.UpdatePainters();
         }
 
-        private void CreateItemLevelSelectedDelegate(INamedItem item)
+        private void CreateMonsterSelectedDelegate(INamedItem monster)
         {
-            if (item == null)
-                return;
-            m_engine.Debugger.DebugRequest("SpawnItem", new Pair<string, int>(m_itemToSpawnName, int.Parse(item.DisplayName)));
-            m_option = OptionMode.DebugMainMenu;
-            Escape();
+            m_spawnItem = false;
+            m_toSpawnName = monster.DisplayName;
+            SetCreateLevelMenu(5);
+            m_gameInstance.UpdatePainters();
         }
 
-        private void CreateMonsterSelectedDelegate(INamedItem item)
+        private void CreateLevelSelectedDelegate(INamedItem item)
         {
             if (item == null)
                 return;
-            m_engine.Debugger.DebugRequest("SpawnMonster", item.DisplayName);
+            if (m_spawnItem)
+                m_engine.Debugger.DebugRequest("SpawnItem", new Pair<string, int>(m_toSpawnName, int.Parse(item.DisplayName)));
+            else
+                m_engine.Debugger.DebugRequest("SpawnMonster", new Pair<string, int>(m_toSpawnName, int.Parse(item.DisplayName)));
             m_option = OptionMode.DebugMainMenu;
             Escape();
         }
@@ -207,14 +214,14 @@ namespace Magecrawl.Keyboard.Debug
                 case OptionMode.CreateItem:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateItemSelectedDelegate));
                     return;
+                case OptionMode.CreateMonster:
+                    m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateMonsterSelectedDelegate));
+                    return;
                 case OptionMode.SelectLevel:
-                    m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateItemLevelSelectedDelegate));
+                    m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateLevelSelectedDelegate));
                     return;
                 case OptionMode.MapDebugging:
                     m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(MapDebuggingSelectedDelegate));
-                    return;
-                case OptionMode.CreateMonster:
-                    m_gameInstance.SendPaintersRequest(new ListSelectionItemSelected(CreateMonsterSelectedDelegate));
                     return;
             }            
         }

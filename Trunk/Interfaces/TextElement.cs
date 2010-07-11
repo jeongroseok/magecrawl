@@ -16,5 +16,10 @@
                 return m_name;
             }
         }
+
+        public override string ToString()
+        {
+            return m_name;
+        }
     }
 }

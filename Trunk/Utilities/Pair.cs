@@ -17,5 +17,10 @@ namespace Magecrawl.Utilities
 
         public T First { get; set; }
         public U Second { get; set; }
+
+        public override string ToString()
+        {
+            return First.ToString() + "," + Second.ToString();
+        }
     }
 }
