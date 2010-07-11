@@ -15,39 +15,60 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class MonsterFactory
     {
-        private Dictionary<string, Monster> m_monsterMapping;
+        private Dictionary<string, Dictionary<string, string>> m_monsterStats;
+        private Dictionary<string, List<Pair<string, int>>> m_monsterInstances;
 
         private TCODRandom m_random;
 
         internal MonsterFactory()
         {
             m_random = new TCODRandom();
-            m_monsterMapping = new Dictionary<string, Monster>();
             LoadMappings();
         }
 
-        public Monster CreateMonster(string name)
+        public Monster CreateMonster(string type, int level)
         {
-            return CreateMonster(name, Point.Invalid);
+            return CreateMonster(type, level, Point.Invalid);
         }
 
-        public Monster CreateMonster(string name, Point p)
+        public Monster CreateRandomMonster(int level, Point p)
         {
-            Monster m = (Monster)m_monsterMapping[name].Clone();
-            m.Position = p;
-            return m;
+            string baseType = m_monsterStats.Keys.ToList().Randomize()[0];
+            return CreateMonster(baseType, level, p);
         }
 
-        public Monster CreateRandomMonster(Point p)
+        public Monster CreateMonster(string baseType, int level, Point p)
         {
-            int targetLocation = m_random.getInt(0, m_monsterMapping.Count - 1);
-            string monsterName = m_monsterMapping.Keys.ToList()[targetLocation];
-            return CreateMonster(monsterName, p); 
+            var monsterInstance = m_monsterInstances[baseType].Find(x => x.Second == level);
+            if (monsterInstance == null)
+                throw new InvalidOperationException("Unable to create " + baseType + " of level " + level.ToString() + ".");
+            string monsterName = monsterInstance.First;
+
+            string AIType = m_monsterStats[baseType]["AIType"];
+            int baseHP = int.Parse(m_monsterStats[baseType]["BaseHP"], CultureInfo.InvariantCulture);
+            int hpPerLevel = int.Parse(m_monsterStats[baseType]["HPPerLevel"], CultureInfo.InvariantCulture);
+            int maxHP = baseHP + level * hpPerLevel;
+            bool intelligent = bool.Parse(m_monsterStats[baseType]["Intelligent"]);
+            int vision = int.Parse(m_monsterStats[baseType]["BaseVision"], CultureInfo.InvariantCulture);
+            string baseDamageString = m_monsterStats[baseType]["BaseDamage"];
+            DiceRoll damagePerLevel = new DiceRoll(m_monsterStats[baseType]["DamagePerLevel"]);
+            DiceRoll damage = new DiceRoll(baseDamageString);
+            for (int i = 0; i < level; ++i)
+                damage.Add(damagePerLevel);
+            int evade = int.Parse(m_monsterStats[baseType]["BaseEvade"], CultureInfo.InvariantCulture);
+            double ctIncreaseModifer = double.Parse(m_monsterStats[baseType]["BaseCTIncrease"], CultureInfo.InvariantCulture);
+            double ctMoveCost = double.Parse(m_monsterStats[baseType]["BaseCTMoveCost"], CultureInfo.InvariantCulture);
+            double ctActCost = double.Parse(m_monsterStats[baseType]["BaseCTActCost"], CultureInfo.InvariantCulture);
+            double ctAttackCost = double.Parse(m_monsterStats[baseType]["BaseCTAttackCost"], CultureInfo.InvariantCulture);
+            return CreateMonsterCore(baseType, AIType, monsterName, level, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost);
         }
 
-        internal List<Monster> GetAllMonsterListForDebug()
+        internal List<INamedItem> GetAllMonsterListForDebug()
         {
-            return m_monsterMapping.Values.ToList();
+            List<INamedItem> returnList = new List<INamedItem>();
+            foreach (string s in m_monsterStats.Keys)
+                returnList.Add(new TextElement(s));
+            return returnList;
         }
 
         private void LoadMappings()
@@ -56,7 +77,8 @@ namespace Magecrawl.GameEngine.Actors
             CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-            m_monsterMapping = new Dictionary<string, Monster>();
+            m_monsterStats = new Dictionary<string, Dictionary<string, string>>();
+            m_monsterInstances = new Dictionary<string,List<Pair<string,int>>>();
 
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
@@ -68,49 +90,55 @@ namespace Magecrawl.GameEngine.Actors
             {
                 throw new System.InvalidOperationException("Bad monsters file");
             }
+
+            string lastBaseName = "";
             while (true)
             {
                 reader.Read();
                 if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Monsters")
                     break;
                 
-                if (reader.LocalName == "Monster")
+                if (reader.LocalName == "Monster" && reader.NodeType == XmlNodeType.Element)
                 {
-                    string name = reader.GetAttribute("Name");
-                    string type = reader.GetAttribute("Type");
-
-                    int maxHP = Int32.Parse(reader.GetAttribute("HP"));
-                    int vision = Int32.Parse(reader.GetAttribute("Vision"));
-
-                    double evade = double.Parse(reader.GetAttribute("Evade"));
-                    
-                    double ctIncrease = Double.Parse(reader.GetAttribute("ctIncrease"));
-                    double ctMoveCost = Double.Parse(reader.GetAttribute("ctMoveCost"));
-                    double ctAttackCost = Double.Parse(reader.GetAttribute("ctAttackCost"));
-
-                    DiceRoll damage = new DiceRoll(reader.GetAttribute("MeleeDamage"));
-
-                    bool intelligent = bool.Parse(reader.GetAttribute("Intelligent"));
-
-                    double ctActCost = 1.0;
-                    string actCostString = reader.GetAttribute("ctActCost");
-                    if (actCostString != null)
-                        ctActCost = Double.Parse(actCostString);
-
-                    Monster newMonster = CreateMonsterCore(type, name, Point.Invalid, maxHP, intelligent, vision, damage, evade, ctIncrease, ctMoveCost, ctActCost, ctAttackCost);                    
-                    m_monsterMapping.Add(name, newMonster);
+                    lastBaseName = reader.GetAttribute("BaseName");
+                    m_monsterStats[lastBaseName] = new Dictionary<string, string>();
+                    m_monsterInstances[lastBaseName] = new List<Pair<string,int>>();
+                    m_monsterStats[lastBaseName]["AIType"] = reader.GetAttribute("AIType");
+                    m_monsterStats[lastBaseName]["Intelligent"] = reader.GetAttribute("Intelligent");
                 }
+                else if (reader.LocalName == "BaseStats" && reader.NodeType == XmlNodeType.Element)
+                {
+                    m_monsterStats[lastBaseName]["BaseLevel"] = reader.GetAttribute("BaseLevel");
+                    m_monsterStats[lastBaseName]["BaseVision"] = reader.GetAttribute("BaseVision");
+                    m_monsterStats[lastBaseName]["BaseHP"] = reader.GetAttribute("BaseHP");
+                    m_monsterStats[lastBaseName]["BaseDefence"] = reader.GetAttribute("BaseDefence");
+                    m_monsterStats[lastBaseName]["BaseEvade"] = reader.GetAttribute("BaseEvade");
+                    m_monsterStats[lastBaseName]["BaseDamage"] = reader.GetAttribute("BaseDamage");
+                    m_monsterStats[lastBaseName]["BaseCTIncrease"] = reader.GetAttribute("BaseCTIncrease");
+                    m_monsterStats[lastBaseName]["BaseCTMoveCost"] = reader.GetAttribute("BaseCTMoveCost");
+                    m_monsterStats[lastBaseName]["BaseCTActCost"] = reader.GetAttribute("BaseCTActCost");
+                    m_monsterStats[lastBaseName]["BaseCTAttackCost"] = reader.GetAttribute("BaseCTAttackCost");
+                }
+                else if (reader.LocalName == "StatsPerLevel" && reader.NodeType == XmlNodeType.Element)
+                {
+                    m_monsterStats[lastBaseName]["DamagePerLevel"] = reader.GetAttribute("DamagePerLevel");
+                    m_monsterStats[lastBaseName]["HPPerLevel"] = reader.GetAttribute("HPPerLevel");
+                }
+                else if (reader.LocalName == "MonsterInstance" && reader.NodeType == XmlNodeType.Element)
+                {
+                    m_monsterInstances[lastBaseName].Add(new Pair<string, int>(reader.GetAttribute("Name"), int.Parse(reader.GetAttribute("Level"))));
+                }                
             }
             reader.Close();
 
             Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
-        private Monster CreateMonsterCore(string typeName, string name, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
+        private Monster CreateMonsterCore(string baseType, string AIType, string name, int level, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)
         {
             List<IMonsterTactic> tactics = new List<IMonsterTactic>();
 
-            switch(typeName)
+            switch(AIType)
             {
                 case "Bruiser":
                     tactics.Add(new DoubleSwingTactic());
@@ -137,7 +165,7 @@ namespace Magecrawl.GameEngine.Actors
                     break;
             }
 
-            Monster monster = new Monster(name, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost, tactics);
+            Monster monster = new Monster(baseType, name, level, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost, tactics);
             return monster;
         }
     }

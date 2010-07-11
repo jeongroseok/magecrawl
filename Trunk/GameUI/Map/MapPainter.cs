@@ -72,11 +72,11 @@ namespace Magecrawl.GameUI.Map
                 }
             }
 
-            foreach (ICharacter m in engine.Map.Monsters)
+            foreach (IMonster m in engine.Map.Monsters)
             {
                 TileVisibility visibility = m_tileVisibility[m.Position.X, m.Position.Y];
                 if (!m_honorFOV || visibility == TileVisibility.Visible)
-                    DrawThing(mapUpCorner, m.Position, m_offscreenConsole, m_monsterSymbols[m.Name]);
+                    DrawThing(mapUpCorner, m.Position, m_offscreenConsole, m_monsterSymbols[m.BaseType]);
             }
 
             DrawThing(mapUpCorner, engine.Player.Position, m_offscreenConsole, '@');
@@ -211,12 +211,12 @@ namespace Magecrawl.GameUI.Map
                 if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Monsters")
                     break;
 
-                if (reader.LocalName == "Monster")
+                if (reader.LocalName == "Monster" && reader.NodeType == XmlNodeType.Element)
                 {
-                    string name = reader.GetAttribute("Name");
+                    string baseName = reader.GetAttribute("BaseName");
                     char symbol = reader.GetAttribute("Symbol")[0];
 
-                    m_monsterSymbols.Add(name, symbol);
+                    m_monsterSymbols.Add(baseName, symbol);
                 }
             }
             reader.Close();

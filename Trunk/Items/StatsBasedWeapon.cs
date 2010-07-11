@@ -34,12 +34,12 @@ namespace Magecrawl.Items
             m_damage = new DiceRoll(Attributes["BaseDamage"]);
             m_damage.Add(new DiceRoll(m_material.MaterialAttributes["DamageBonus"]));
             if (m_quality.Attributes.ContainsKey("DamageModifier"))
-                m_damage.Multiplier += 1.0 + (int.Parse(m_quality.Attributes["DamageModifier"], CultureInfo.InvariantCulture) / 100.0);
+                m_damage.Multiplier += (int.Parse(m_quality.Attributes["DamageModifier"], CultureInfo.InvariantCulture) / 100.0);
 
             m_CTCost = double.Parse(Attributes["BaseSpeed"], CultureInfo.InvariantCulture);
             m_CTCost += double.Parse(m_material.MaterialAttributes["ExtraCTCost"], CultureInfo.InvariantCulture);
             if (m_quality.Attributes.ContainsKey("SpeedModifier"))
-                m_CTCost += 1.0 + (int.Parse(m_quality.Attributes["SpeedModifier"], CultureInfo.InvariantCulture) / 100.0);
+                m_CTCost += (int.Parse(m_quality.Attributes["SpeedModifier"], CultureInfo.InvariantCulture) / 100.0);
         }
 
         public override DiceRoll Damage

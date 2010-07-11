@@ -328,7 +328,8 @@ namespace Magecrawl.GameEngine.Level
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Monster newObj = CoreGameEngine.Instance.MonsterFactory.CreateMonster(typeString);
+                int baseLevel = reader.ReadElementContentAsInt();
+                Monster newObj = CoreGameEngine.Instance.MonsterFactory.CreateMonster(typeString, baseLevel);
                 newObj.ReadXml(reader);
                 m_monsterList.Add(newObj);
             });
