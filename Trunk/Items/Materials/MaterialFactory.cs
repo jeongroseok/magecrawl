@@ -26,7 +26,7 @@ namespace Magecrawl.Items.Materials
 
         internal Material GetRandomMaterial(string type)
         {
-            if(!m_validMaterialsForType.ContainsKey(type))
+            if (!m_validMaterialsForType.ContainsKey(type))
                 return null;
 
             return m_validMaterialsForType[type].Randomize()[0];
@@ -50,7 +50,7 @@ namespace Magecrawl.Items.Materials
             XMLResourceReaderBase.ParseFile("Materials.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Materials")
                 throw new System.InvalidOperationException("Bad material file");

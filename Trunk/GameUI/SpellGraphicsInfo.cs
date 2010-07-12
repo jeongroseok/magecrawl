@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI
 
         private Dictionary<string, string> m_spellAttributes;
 
-        SpellGraphicsInfo()
+        private SpellGraphicsInfo()
         {
             LoadSpellAttributes();
         }
@@ -68,7 +68,7 @@ namespace Magecrawl.GameUI
             XMLResourceReaderBase.ParseFile("Spells.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Spells")
                 throw new System.InvalidOperationException("Bad spells file");

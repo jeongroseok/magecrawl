@@ -8,12 +8,12 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
     internal class UseSlingStoneTactic : TacticWithCooldown
     {
-        private static string CooldownName = "SlingCooldown";
-        private static int CooldownAmount = 3;
+        private const string CooldownName = "SlingCooldown";
+        private const int CooldownAmount = 3;
 
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {
-            if(CanUseCooldown(monster, CooldownName))
+            if (CanUseCooldown(monster, CooldownName))
             {
                 int range = GetPathToPlayer(engine, monster).Count;
                 if (range > 2)

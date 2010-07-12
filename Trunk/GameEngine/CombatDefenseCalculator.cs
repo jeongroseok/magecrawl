@@ -13,10 +13,6 @@ namespace Magecrawl.GameEngine
     {
         private const double BaseEvade = 5;
 
-        static CombatDefenseCalculator()
-        {
-        }
-
         public static double CalculateArmorEvade(IPlayer player)
         {
             return BaseEvade + GetArmorList(player).Sum(x => x.Evade);

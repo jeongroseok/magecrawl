@@ -30,7 +30,7 @@ namespace Magecrawl.GameEngine.Skills
             XMLResourceReaderBase.ParseFile("Skills.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Skills")
                 throw new System.InvalidOperationException("Bad skill defination file");

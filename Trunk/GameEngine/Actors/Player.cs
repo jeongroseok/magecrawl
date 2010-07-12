@@ -4,11 +4,11 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.Interfaces;
-using Magecrawl.Items;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Skills;
+using Magecrawl.Interfaces;
+using Magecrawl.Items;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -74,7 +74,7 @@ namespace Magecrawl.GameEngine.Actors
 
         // We could get unlucky and create an armor of the type the player couldn't wear due to lack of skills.
         // This will keep trying until it gets one that the player can wear.
-        void CreateDefaultArmorPlayerCanWear(string type)
+        private void CreateDefaultArmorPlayerCanWear(string type)
         {
             while (true)
             {
@@ -210,7 +210,6 @@ namespace Magecrawl.GameEngine.Actors
                 }
             }
             return amountInTotalHealed;
-
         }
 
         public override void Damage(int dmg)

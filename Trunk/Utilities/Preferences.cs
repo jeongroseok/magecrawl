@@ -90,7 +90,7 @@ namespace Magecrawl.Utilities
             XMLResourceReaderBase.ParseFile("Preferences.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             // We didn't find our preference file...
             if (reader.LocalName != "Preferences")

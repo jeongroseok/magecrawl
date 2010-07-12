@@ -9,7 +9,7 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IX
     {
     }
 
-    public SerializableDictionary(SerializableDictionary <TKey, TValue> x) : base(x)
+    public SerializableDictionary(SerializableDictionary<TKey, TValue> x) : base(x)
     {
     }
 
@@ -79,5 +79,4 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IX
         writer.WriteEndElement();
     }
     #endregion
-
 }

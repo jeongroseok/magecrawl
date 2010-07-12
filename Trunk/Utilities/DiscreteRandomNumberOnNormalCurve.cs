@@ -10,7 +10,7 @@ namespace Magecrawl.Utilities
         public static int GetNumber(double mean, double var, int low, int high)
         {
             NormalDistribution n = new NormalDistribution(mean, var);
-            while(true)
+            while (true)
             {
                 int attempt = s_random.getInt(low, high);
                 double chanceAtPosition = n.PDF(attempt);

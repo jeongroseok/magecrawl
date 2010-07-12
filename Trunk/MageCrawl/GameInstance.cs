@@ -1,22 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using libtcod;
 using Magecrawl.Exceptions;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI;
-using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.Interfaces;
 using Magecrawl.Keyboard;
-using Magecrawl.Keyboard.Debug;
-using Magecrawl.Keyboard.Dialogs;
-using Magecrawl.Keyboard.Effects;
-using Magecrawl.Keyboard.Inventory;
-using Magecrawl.Keyboard.Magic;
-using Magecrawl.Keyboard.SkillTree;
 using Magecrawl.Utilities;
 
 namespace Magecrawl

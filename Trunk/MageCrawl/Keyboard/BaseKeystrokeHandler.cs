@@ -97,7 +97,7 @@ namespace Magecrawl.Keyboard
             XMLResourceReaderBase.ParseFile(stream, ReadFileCallback, requireAllActions);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             bool requireAllActions = (bool)data;
             if (reader.LocalName != "KeyMappings")

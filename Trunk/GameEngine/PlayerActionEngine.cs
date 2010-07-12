@@ -1,12 +1,12 @@
 ﻿using System.Linq;
+using Magecrawl.GameEngine.Effects;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Magic;
-using Magecrawl.GameEngine.Effects;
 
 namespace Magecrawl.GameEngine
 {
-    class PlayerActionEngine : IEngineActions
+    internal class PlayerActionEngine : IEngineActions
     {
         private CoreGameEngine m_engine;
 
@@ -59,7 +59,6 @@ namespace Magecrawl.GameEngine
                 m_engine.AfterPlayerAction();
             return didAnything;
         }
-
 
         public bool CastSpell(ISpell spell, Point target)
         {

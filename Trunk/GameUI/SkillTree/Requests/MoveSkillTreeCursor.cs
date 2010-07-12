@@ -13,9 +13,9 @@ namespace Magecrawl.GameUI.SkillTree.Requests
             m_direction = direction;
         }
 
-        internal override void DoRequest (IHandlePainterRequest painter)
+        internal override void DoRequest(IHandlePainterRequest painter)
         {
-            if(painter is SkillTreePainter)
+            if (painter is SkillTreePainter)
             {
                 Point cursorPosition = ((SkillTreePainter)painter).CursorPosition;
                 ((SkillTreePainter)painter).CursorPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(cursorPosition, m_direction);

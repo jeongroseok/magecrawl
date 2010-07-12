@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    class DoubleSwingTactic : BaseTactic
+    internal class DoubleSwingTactic : BaseTactic
     {
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {

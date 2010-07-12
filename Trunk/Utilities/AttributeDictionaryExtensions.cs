@@ -4,7 +4,7 @@ namespace Magecrawl.Utilities
 {
     public static class AttributeDictionaryExtensions
     {
-        public static int GetNumbericIfAny(this Dictionary<string,string> d, string attribute)
+        public static int GetNumbericIfAny(this Dictionary<string, string> d, string attribute)
         {
             if (!d.ContainsKey(attribute))
                 return 0;

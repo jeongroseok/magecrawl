@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.Skills;
-using System.Collections.Generic;
-using Magecrawl.Utilities;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.Skills;
+using Magecrawl.Interfaces;
 using Magecrawl.Items;
-using Magecrawl.GameEngine.Magic;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
@@ -67,7 +66,6 @@ namespace Magecrawl.GameEngine
         {
             return SkillFactory.Instance.CreateSkill(name);
         }
-
 
         public StairMovmentType IsStairMovementSpecial(bool headingUp)
         {

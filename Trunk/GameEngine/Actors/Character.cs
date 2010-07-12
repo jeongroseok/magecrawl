@@ -4,9 +4,8 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.Interfaces;
-using Magecrawl.Items;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors

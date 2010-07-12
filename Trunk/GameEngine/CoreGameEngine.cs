@@ -1,19 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
+using Magecrawl.Items;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine

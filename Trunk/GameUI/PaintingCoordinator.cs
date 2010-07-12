@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
-using Magecrawl.Interfaces;
 using Magecrawl.GameUI.Dialogs;
 using Magecrawl.GameUI.Equipment;
 using Magecrawl.GameUI.Inventory;
@@ -11,6 +10,7 @@ using Magecrawl.GameUI.Map.Debug;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.GameUI.MapEffects;
 using Magecrawl.GameUI.SkillTree;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
@@ -61,7 +61,7 @@ namespace Magecrawl.GameUI
             m_painters.Add(new HelpPainter());
             m_painters.Add(new OneButtonDialog());
             m_painters.Add(new TwoButtonDialog());
-			m_painters.Add(new SkillTreePainter());
+            m_painters.Add(new SkillTreePainter());
         }
 
         public void Dispose()

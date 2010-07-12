@@ -12,11 +12,12 @@ namespace Magecrawl.Utilities
             IntPtr buf = IntPtr.Zero;
             try
             {
-                buf = System.Runtime.InteropServices.Marshal.AllocHGlobal (8192);
-                // This is a hacktastic way of getting sysname from uname ()
-                if (uname (buf) == 0)
+                buf = System.Runtime.InteropServices.Marshal.AllocHGlobal(8192);
+                
+                // This is a hacktastic way of getting sysname from uname()
+                if (uname(buf) == 0)
                 {
-                    string os = System.Runtime.InteropServices.Marshal.PtrToStringAnsi (buf);
+                    string os = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(buf);
                     if (os == "Darwin")
                         return true;
                 }
@@ -27,12 +28,12 @@ namespace Magecrawl.Utilities
             finally
             {
                 if (buf != IntPtr.Zero)
-                    System.Runtime.InteropServices.Marshal.FreeHGlobal (buf);
+                    System.Runtime.InteropServices.Marshal.FreeHGlobal(buf);
             }
             return false;
         }
 
-        [System.Runtime.InteropServices.DllImport ("libc")]
-        static extern int uname (IntPtr buf);
+        [System.Runtime.InteropServices.DllImport("libc")]
+        private static extern int uname(IntPtr buf);
     }
 }

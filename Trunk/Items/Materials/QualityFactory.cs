@@ -60,7 +60,7 @@ namespace Magecrawl.Items.Materials
             XMLResourceReaderBase.ParseFile("Quality.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Qualities")
                 throw new System.InvalidOperationException("Bad quality file");

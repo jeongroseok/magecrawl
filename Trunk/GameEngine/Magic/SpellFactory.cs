@@ -32,7 +32,7 @@ namespace Magecrawl.GameEngine.Magic
             XMLResourceReaderBase.ParseFile("Spells.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Spells")
                 throw new System.InvalidOperationException("Bad spell defination file");

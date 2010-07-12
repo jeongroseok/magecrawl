@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using System.Xml;
-using System.IO;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Items
@@ -31,7 +28,7 @@ namespace Magecrawl.Items
             XMLResourceReaderBase.ParseFile("BaseWeaponStats.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Weapons")
                 throw new System.InvalidOperationException("Bad weapon stat file");

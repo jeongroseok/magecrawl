@@ -26,7 +26,7 @@ namespace Magecrawl.GameUI.SkillTree
         private const int UpperLeft = 5;
         private const int ScreenWidth = 70;
         private const int ScreenHeight = 50;
-        private static Point SkillTreeScreenCenter = new Point(((ScreenWidth - 1) / 2), ((ScreenHeight - 1) / 2));
+        private static Point s_skillTreeScreenCenter = new Point(((ScreenWidth - 1) / 2), ((ScreenHeight - 1) / 2));
 
         internal SkillTreePainter()
         {
@@ -57,7 +57,7 @@ namespace Magecrawl.GameUI.SkillTree
             
             // The offconsole width/height here are completely wrong, but "good enough" being too big
             //m_offscreenConsole = new TCODConsole(maxWidth * 2 + SkillTreeTab.ExplainPopupWidth, maxHeight * 2 + SkillTreeTab.ExplainPopupHeight);
-            m_offscreenConsole = new TCODConsole(maxWidth * SkillTreeTab.ExplainPopupWidth + 1, maxHeight *  SkillTreeTab.ExplainPopupHeight + 1);
+            m_offscreenConsole = new TCODConsole(maxWidth * SkillTreeTab.ExplainPopupWidth + 1, maxHeight * (SkillTreeTab.ExplainPopupHeight + 1));
         }
 
         private List<ISkill> GetAllSelectedSkill()
@@ -119,7 +119,7 @@ namespace Magecrawl.GameUI.SkillTree
                 DrawSkillPointTotalFrame(screen);
 
                 // Draw cursor
-                screen.setCharBackground(SkillTreeScreenCenter.X + UpperLeft + 2, SkillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
+                screen.setCharBackground(s_skillTreeScreenCenter.X + UpperLeft + 2, s_skillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
 
                 // For debugging
                 //screen.print(50, 50, CursorPosition.ToString());
@@ -191,7 +191,7 @@ namespace Magecrawl.GameUI.SkillTree
                 if (NewlySelectedSkills.Contains(selected)) // Deselecting
                 {
                     bool somebodyHasDependencyOnLeavingSkill = false;
-                    foreach(ISkill skill in GetAllSelectedSkill())
+                    foreach (ISkill skill in GetAllSelectedSkill())
                     {
                         if (SkillTreeModelHelpers.HasDependencyOn(m_skillTreeTabs.Values, skill.Name, selected.Name))
                             somebodyHasDependencyOnLeavingSkill = true;

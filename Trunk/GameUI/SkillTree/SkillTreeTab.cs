@@ -81,7 +81,7 @@ namespace Magecrawl.GameUI.SkillTree
                         }
 
                         if (background != TCODColor.black)
-                            console.setCharBackground(drawPosition.X, drawPosition.Y , background);
+                            console.setCharBackground(drawPosition.X, drawPosition.Y, background);
                     }
                 }
             }
@@ -101,8 +101,7 @@ namespace Magecrawl.GameUI.SkillTree
                 explainationBoxLowerLeft += new Point(0, numberOfDependencies + 2);
             }
 
-            console.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - dialogHeight,
-                                          ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
+            console.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - dialogHeight, ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
 
             int textX = explainationBoxLowerLeft.X + 2;
             int textY = explainationBoxLowerLeft.Y - dialogHeight + 2;
@@ -140,8 +139,7 @@ namespace Magecrawl.GameUI.SkillTree
             }
             textY++;
 
-            console.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 6,
-                                           TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, cursorOverSkill.Description);
+            console.printRectEx(textX, textY, ExplainPopupWidth - 4, ExplainPopupHeight - 6, TCODBackgroundFlag.Set, TCODAlignment.LeftAlignment, cursorOverSkill.Description);
         }
 
         public ISkill SkillCursorIsOver(IGameEngine engine, Point cursorPosition)

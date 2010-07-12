@@ -105,7 +105,7 @@ namespace Magecrawl.GameUI.ListSelection
         private int DetermineFarRightPaddingForMagicList()
         {
             int farRightPaddingAmount = 0;
-            for (int i = 0; i < m_itemList.Count ; ++i)
+            for (int i = 0; i < m_itemList.Count; ++i)
             {
                 string displayString = m_itemList[i].DisplayName;
                 if (displayString.Contains('\t'.ToString()))

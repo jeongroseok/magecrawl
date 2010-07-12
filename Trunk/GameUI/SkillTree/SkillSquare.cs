@@ -15,7 +15,7 @@ namespace Magecrawl.GameUI.SkillTree
             UpperLeft = upperLeft;
             LowerRight = lowerRight;
             SkillName = null;
-            Skill = null;
+            m_skill = null;
             m_dependentSkills = new List<string>();
         }
 
@@ -25,12 +25,12 @@ namespace Magecrawl.GameUI.SkillTree
         }
 
         // We do this to cache the skill, since on init time we don't have the IGameEngine to resolve
-        private ISkill Skill;
+        private ISkill m_skill;
         public ISkill GetSkill(IGameEngine engine)
         {
-            if (Skill == null)
-                Skill = engine.GameState.GetSkillFromName(SkillName);
-            return Skill;
+            if (m_skill == null)
+                m_skill = engine.GameState.GetSkillFromName(SkillName);
+            return m_skill;
         }
 
         private List<string> m_dependentSkills;

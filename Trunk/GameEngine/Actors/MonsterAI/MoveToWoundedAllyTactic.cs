@@ -24,6 +24,7 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
             bool success = false;
+            
             // If see an ally who's wounded (I have something to do)
             List<ICharacter> nearbyAllies = OtherNearbyEnemies(engine, monster);
             foreach (ICharacter allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))

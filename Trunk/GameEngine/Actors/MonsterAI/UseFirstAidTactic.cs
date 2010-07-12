@@ -8,8 +8,8 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
     internal class UseFirstAidTactic : TacticWithCooldown
     {
-        private static string CooldownName = "FirstAidCooldown";
-        private static int CooldownAmount = 4;
+        private const string CooldownName = "FirstAidCooldown";
+        private const int CooldownAmount = 4;
 
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {

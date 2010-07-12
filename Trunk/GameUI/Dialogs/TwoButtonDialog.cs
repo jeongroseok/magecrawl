@@ -6,7 +6,7 @@ namespace Magecrawl.GameUI.Dialogs
 {
     internal class TwoButtonDialog : MapPainterBase
     {
-        internal string Text { get ; set; }
+        internal string Text { get; set; }
 
         private DialogColorHelper m_dialogColorHelper;
         private float m_timeToEnableYes;
@@ -51,7 +51,7 @@ namespace Magecrawl.GameUI.Dialogs
 
         public void MoveSelection(bool left)
         {
-            if(left && m_leftEnabled)
+            if (left && m_leftEnabled)
                 m_leftSelected = true;
             else if (!left)
                 m_leftSelected = false;
