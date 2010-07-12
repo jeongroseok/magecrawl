@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Magecrawl.GameUI.Map.Requests;
-
-namespace Magecrawl.GameUI
+﻿namespace Magecrawl.GameUI
 {
     public abstract class RequestBase
     {

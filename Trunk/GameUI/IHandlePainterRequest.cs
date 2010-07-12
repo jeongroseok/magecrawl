@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Magecrawl.GameUI
+﻿namespace Magecrawl.GameUI
 {
     internal interface IHandlePainterRequest
     {
