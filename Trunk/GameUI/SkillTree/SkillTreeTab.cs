@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
@@ -188,6 +190,9 @@ namespace Magecrawl.GameUI.SkillTree
         // TODO - Rewrite this and data file to be XML.
         private void ReadSkillTreeFile(string resourceToRead)
         {
+            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             string fileName = Path.Combine(Path.Combine(Path.Combine(AssemblyDirectory.CurrentAssemblyDirectory, "Resources"), "Skill Tree"), resourceToRead);
             using (StreamReader s = new StreamReader(fileName))
             {
@@ -261,6 +266,7 @@ namespace Magecrawl.GameUI.SkillTree
                     }
                 }
             }
+            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
         private string StripDependencyFromNameString(string s)

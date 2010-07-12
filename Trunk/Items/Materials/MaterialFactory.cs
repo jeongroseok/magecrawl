@@ -88,7 +88,7 @@ namespace Magecrawl.Items.Materials
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        int level = Int32.Parse(reader.GetAttribute("Level"));
+                        int level = int.Parse(reader.GetAttribute("Level"));
                         string name = reader.GetAttribute("Name");
                         currentMaterial = new Material(name, level);
 

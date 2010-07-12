@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using libtcod;
@@ -33,7 +34,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     int numberOfValues = 0;
                     foreach (string propString in elements)
                     {
-                        m_ratioTable[i, numberOfValues] = int.Parse(propString);
+                        m_ratioTable[i, numberOfValues] = int.Parse(propString, CultureInfo.InvariantCulture);
                         numberOfValues++;
                     }
                     if (numberOfValues != nodeTypeLength)

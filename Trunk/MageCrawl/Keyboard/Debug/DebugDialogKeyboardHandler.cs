@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using Magecrawl.GameUI.ListSelection.Requests;
 using Magecrawl.GameUI.Map.Requests;
 using Magecrawl.Interfaces;
@@ -143,9 +144,9 @@ namespace Magecrawl.Keyboard.Debug
             if (item == null)
                 return;
             if (m_spawnItem)
-                m_engine.Debugger.DebugRequest("SpawnItem", new Pair<string, int>(m_toSpawnName, int.Parse(item.DisplayName)));
+                m_engine.Debugger.DebugRequest("SpawnItem", new Pair<string, int>(m_toSpawnName, int.Parse(item.DisplayName, CultureInfo.InvariantCulture)));
             else
-                m_engine.Debugger.DebugRequest("SpawnMonster", new Pair<string, int>(m_toSpawnName, int.Parse(item.DisplayName)));
+                m_engine.Debugger.DebugRequest("SpawnMonster", new Pair<string, int>(m_toSpawnName, int.Parse(item.DisplayName, CultureInfo.InvariantCulture)));
             m_option = OptionMode.DebugMainMenu;
             Escape();
         }

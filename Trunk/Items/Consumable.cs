@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Magecrawl.Interfaces;
 using Magecrawl.Items.Materials;
 
@@ -56,7 +57,7 @@ namespace Magecrawl.Items
         {
             get
             {
-                return int.Parse(Attributes["Charges"]);
+                return int.Parse(Attributes["Charges"], CultureInfo.InvariantCulture);
             }
         }
 
@@ -64,7 +65,7 @@ namespace Magecrawl.Items
         {
             get
             {
-                return int.Parse(Attributes["MaxCharges"]);
+                return int.Parse(Attributes["MaxCharges"], CultureInfo.InvariantCulture);
             }
         }
 

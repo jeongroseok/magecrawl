@@ -16,8 +16,8 @@ namespace Magecrawl.GameEngine.SaveLoad
         public static Point ReadXml(this Point p, XmlReader r)
         {
             string positionString = r.ReadElementContentAsString();
-            p.X = Int32.Parse(positionString.Split(',')[0]);
-            p.Y = Int32.Parse(positionString.Split(',')[1]);
+            p.X = int.Parse(positionString.Split(',')[0]);
+            p.Y = int.Parse(positionString.Split(',')[1]);
             return p;
         }
     }

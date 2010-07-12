@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
@@ -44,7 +45,7 @@ namespace Magecrawl.GameEngine.Magic
 
             string effectString = string.Format(item.Attributes["OnInvokeString"], invoker.Name, item.DisplayName);
             Spell spellEffect = SpellFactory.Instance.CreateSpell(item.Attributes["InvokeSpellEffect"]);
-            return DoEffect(invoker, item, spellEffect.EffectType, int.Parse(item.Attributes["CasterLevel"]), false, targetedPoint, effectString);
+            return DoEffect(invoker, item, spellEffect.EffectType, int.Parse(item.Attributes["CasterLevel"], CultureInfo.InvariantCulture), false, targetedPoint, effectString);
         }
 
         internal List<Point> TargettedDrawablePoints(string spellName, int strength, Point target)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml;
 
 namespace Magecrawl.Utilities
@@ -52,16 +53,16 @@ namespace Magecrawl.Utilities
         {
             string[] damageParts = s.Split(',');
 
-            Rolls = short.Parse(damageParts[0]);            
-            DiceFaces = short.Parse(damageParts[1]);
+            Rolls = short.Parse(damageParts[0], CultureInfo.InvariantCulture);
+            DiceFaces = short.Parse(damageParts[1], CultureInfo.InvariantCulture);
             
             if (damageParts.Length > 2)
-                ToAdd = short.Parse(damageParts[2]);
+                ToAdd = short.Parse(damageParts[2], CultureInfo.InvariantCulture);
             else
                 ToAdd = 0;
 
             if (damageParts.Length > 3)
-                Multiplier = double.Parse(damageParts[3]);
+                Multiplier = double.Parse(damageParts[3], CultureInfo.InvariantCulture);
             else
                 Multiplier = 1;
         }

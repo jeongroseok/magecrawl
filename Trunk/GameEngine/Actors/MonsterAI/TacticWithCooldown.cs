@@ -1,4 +1,6 @@
-﻿namespace Magecrawl.GameEngine.Actors.MonsterAI
+﻿using System.Globalization;
+
+namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
     internal abstract class TacticWithCooldown : BaseTactic
     {
@@ -19,7 +21,7 @@
 
         protected void NewTurn(Monster monster, string cooldownAttributes)
         {
-            int currentValue = int.Parse(monster.Attributes[cooldownAttributes]);
+            int currentValue = int.Parse(monster.Attributes[cooldownAttributes], CultureInfo.InvariantCulture);
             if (currentValue > 0)
                 monster.Attributes[cooldownAttributes] = (currentValue - 1).ToString();
         }

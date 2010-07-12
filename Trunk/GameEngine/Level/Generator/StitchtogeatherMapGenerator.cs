@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using libtcod;
@@ -299,8 +300,8 @@ namespace Magecrawl.GameEngine.Level.Generator
                     {
                         string definationLine = inputFile.ReadLine();
                         string[] definationParts = definationLine.Split(' ');
-                        int width = int.Parse(definationParts[0]);
-                        int height = int.Parse(definationParts[1]);
+                        int width = int.Parse(definationParts[0], CultureInfo.InvariantCulture);
+                        int height = int.Parse(definationParts[1], CultureInfo.InvariantCulture);
 
                         string chunkType = definationParts[2];
                         MapChunk newChunk = new MapChunk(width, height, chunkType);
