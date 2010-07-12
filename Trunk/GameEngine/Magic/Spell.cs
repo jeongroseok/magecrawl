@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Effects;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameEngine.Magic
 {

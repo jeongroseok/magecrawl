@@ -1,8 +1,6 @@
 ﻿// Taken from: http://weblogs.asp.net/pwelter34/archive/2006/05/03/444961.aspx
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
 
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
