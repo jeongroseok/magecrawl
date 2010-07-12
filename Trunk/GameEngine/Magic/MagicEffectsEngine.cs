@@ -43,13 +43,13 @@ namespace Magecrawl.GameEngine.Magic
                 throw new System.InvalidOperationException("UseItemWithEffect without invokable object? - " + item.DisplayName);
 
             string effectString = string.Format(item.Attributes["OnInvokeString"], invoker.Name, item.DisplayName);
-            Spell spellEffect = SpellFactory.CreateSpell(item.Attributes["InvokeSpellEffect"]);
+            Spell spellEffect = SpellFactory.Instance.CreateSpell(item.Attributes["InvokeSpellEffect"]);
             return DoEffect(invoker, item, spellEffect.EffectType, int.Parse(item.Attributes["CasterLevel"]), false, targetedPoint, effectString);
         }
 
         internal List<Point> TargettedDrawablePoints(string spellName, int strength, Point target)
         {
-            return TargettedDrawablePoints(SpellFactory.CreateSpell(spellName).Targeting, strength, target);
+            return TargettedDrawablePoints(SpellFactory.Instance.CreateSpell(spellName).Targeting, strength, target);
         }
 
         internal List<Point> TargettedDrawablePoints(TargetingInfo targeting, int strength, Point target)

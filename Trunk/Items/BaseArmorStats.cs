@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using System.Xml;
 using System.IO;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Items
 {
@@ -26,22 +27,14 @@ namespace Magecrawl.Items
 
         private void LoadMappings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_baseArmorStats = new Dictionary<string, Dictionary<string, string>>();
+            XMLResourceReaderBase.ParseFile("BaseArmorStats.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "BaseArmorStats.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Armors")
-            {
                 throw new System.InvalidOperationException("Bad armor stat file");
-            }
 
             while (true)
             {
@@ -56,9 +49,6 @@ namespace Magecrawl.Items
                     m_baseArmorStats[name]["BaseStaminaBonus"] = reader.GetAttribute("BaseStaminaBonus");
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

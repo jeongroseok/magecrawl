@@ -94,20 +94,15 @@ namespace Magecrawl.Keyboard
 
         private void ParseKeymappingFile(bool requireAllActions, StreamReader stream)
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            XMLResourceReaderBase.ParseFile(stream, ReadFileCallback, requireAllActions);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(stream, settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // KeyMappings element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
+            bool requireAllActions = (bool)data;
             if (reader.LocalName != "KeyMappings")
-            {
                 throw new System.InvalidOperationException("Bad key mappings file");
-            }
+
             while (true)
             {
                 reader.Read();
@@ -136,9 +131,6 @@ namespace Magecrawl.Keyboard
                     FindAndAddKeyHandler(requireAllActions, keyString, actionName);
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
         private void FindAndAddKeyHandler(bool requireAllActions, string keyString, string actionName)

@@ -49,23 +49,15 @@ namespace Magecrawl.Items.Materials
 
         private void LoadMappings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_materialMapping = new Dictionary<string, Material>();
             m_validMaterialsForType = new Dictionary<string, List<Material>>();
+            XMLResourceReaderBase.ParseFile("Materials.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Materials.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Materials")
-            {
                 throw new System.InvalidOperationException("Bad material file");
-            }
 
             bool inAttributes = false;
             Material currentMaterial = null;
@@ -91,7 +83,7 @@ namespace Magecrawl.Items.Materials
                     else if (reader.NodeType == XmlNodeType.EndElement)
                     {
                         if (attributeName != null)
-                            currentMaterial.Attributes[lastItemType].Add(attributeName, attributeValue);                            
+                            currentMaterial.Attributes[lastItemType].Add(attributeName, attributeValue);
                         attributeName = null;
                         attributeValue = null;
                     }
@@ -126,7 +118,7 @@ namespace Magecrawl.Items.Materials
 
                     string description = reader.GetAttribute("Description");
                     string fullItemName = reader.GetAttribute("FullItemName");
-                    
+
                     currentMaterial.Descriptions.Add(type, description);
                     currentMaterial.FullItemNamed.Add(type, fullItemName);
 
@@ -145,9 +137,6 @@ namespace Magecrawl.Items.Materials
                         inAttributes = false;
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

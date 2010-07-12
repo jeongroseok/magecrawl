@@ -65,7 +65,7 @@ namespace Magecrawl.GameEngine
 
         public ISkill GetSkillFromName(string name)
         {
-            return SkillFactory.CreateSkill(name);
+            return SkillFactory.Instance.CreateSkill(name);
         }
 
 

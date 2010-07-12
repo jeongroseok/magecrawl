@@ -218,9 +218,9 @@ namespace Magecrawl
             
             TCODColor colorOfBolt = ColorPresets.White;
             if (attackingMethod is ISpell)
-                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(((ISpell)attackingMethod).School);
+                colorOfBolt = SpellGraphicsInfo.Instance.GetColorOfSpellFromSchool(((ISpell)attackingMethod).School);
             else if (attackingMethod is IItem)
-                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(((IItem)attackingMethod).ItemEffectSchool);
+                colorOfBolt = SpellGraphicsInfo.Instance.GetColorOfSpellFromSchool(((IItem)attackingMethod).ItemEffectSchool);
 
             if (type == ShowRangedAttackType.RangedBoltOrBlast)
             {
@@ -230,8 +230,8 @@ namespace Magecrawl
                 if (attackingMethod is ISpell)
                 {
                     ISpell attackingSpell = (ISpell)attackingMethod;
-                    drawLastFrame |= SpellGraphicsInfo.DrawLastFrame(attackingSpell);  // Draw the last frame if we wouldn't otherwise and the spell asks us to.
-                    tailLength = SpellGraphicsInfo.GetTailLength(attackingSpell);
+                    drawLastFrame |= SpellGraphicsInfo.Instance.DrawLastFrame(attackingSpell);  // Draw the last frame if we wouldn't otherwise and the spell asks us to.
+                    tailLength = SpellGraphicsInfo.Instance.GetTailLength(attackingSpell);
                 }
                 m_painters.HandleRequest(new ShowRangedBolt(null, (List<Point>)data, colorOfBolt, drawLastFrame, tailLength));
                 m_painters.DrawAnimationSynchronous(m_console);

@@ -9,21 +9,23 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI
 {
-    public static class SpellGraphicsInfo
+    public class SpellGraphicsInfo
     {
-        private static Dictionary<string, string> m_spellAttributes;
+        public static SpellGraphicsInfo Instance = new SpellGraphicsInfo();
 
-        static SpellGraphicsInfo()
+        private Dictionary<string, string> m_spellAttributes;
+
+        SpellGraphicsInfo()
         {
             LoadSpellAttributes();
         }
 
-        public static bool DrawLastFrame(ISpell spell)
+        public bool DrawLastFrame(ISpell spell)
         {
             return m_spellAttributes.ContainsKey(spell.Name) && m_spellAttributes[spell.Name].Contains("DrawLastFrame");
         }
 
-        public static int GetTailLength(ISpell spell)
+        public int GetTailLength(ISpell spell)
         {
             if (m_spellAttributes.ContainsKey(spell.Name))
             {
@@ -37,7 +39,7 @@ namespace Magecrawl.GameUI
             return 1;
         }
 
-        public static TCODColor GetColorOfSpellFromSchool(string schoolName)
+        public TCODColor GetColorOfSpellFromSchool(string schoolName)
         {
             switch (schoolName)
             {
@@ -60,31 +62,24 @@ namespace Magecrawl.GameUI
             }
         }
 
-        private static void LoadSpellAttributes()
+        private void LoadSpellAttributes()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_spellAttributes = new Dictionary<string, string>();
+            XMLResourceReaderBase.ParseFile("Spells.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Spells.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Spells")
-            {
                 throw new System.InvalidOperationException("Bad spells file");
-            }
+
             while (true)
             {
                 reader.Read();
                 if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Spells")
                     break;
 
-                if (reader.LocalName == "Spell")
+                if (reader.LocalName == "Spell" && reader.NodeType == XmlNodeType.Element)
                 {
                     string name = reader.GetAttribute("Name");
                     string attributes = reader.GetAttribute("DrawingAttributes");
@@ -93,9 +88,6 @@ namespace Magecrawl.GameUI
                         m_spellAttributes.Add(name, attributes);
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

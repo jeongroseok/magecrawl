@@ -48,23 +48,15 @@ namespace Magecrawl.Items.Materials
 
         private void LoadMappings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_effectMapping = new Dictionary<string, ConsumableEffect>();
-            m_validEffectsForType = new Dictionary<string, List<ConsumableEffect>>();            
+            m_validEffectsForType = new Dictionary<string, List<ConsumableEffect>>();    
+            XMLResourceReaderBase.ParseFile("Consumables.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Consumables.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Consumables")
-            {
                 throw new System.InvalidOperationException("Bad consumables file");
-            }
 
             ConsumableEffect currentEffect = null;
             while (true)
@@ -77,7 +69,7 @@ namespace Magecrawl.Items.Materials
                 {
                     int itemLevel = Int32.Parse(reader.GetAttribute("ItemLevel"));
                     int casterLevel = 1;
-                    if(reader.GetAttribute("CasterLevel") != null)
+                    if (reader.GetAttribute("CasterLevel") != null)
                         casterLevel = Int32.Parse(reader.GetAttribute("CasterLevel"));
                     currentEffect = new ConsumableEffect(reader.GetAttribute("Name"), reader.GetAttribute("SpellName"), itemLevel, casterLevel);
 
@@ -100,9 +92,6 @@ namespace Magecrawl.Items.Materials
                         m_validEffectsForType[type] = new List<ConsumableEffect>() { currentEffect };
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

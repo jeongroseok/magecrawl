@@ -60,22 +60,14 @@ namespace Magecrawl.Items.Materials
 
         private void LoadMappings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_qualityMapping = new List<Quality>();
+            XMLResourceReaderBase.ParseFile("Quality.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Quality.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Qualities")
-            {
                 throw new System.InvalidOperationException("Bad quality file");
-            }
 
             bool inAttributes = false;
             Quality currentQuality = null;
@@ -122,9 +114,6 @@ namespace Magecrawl.Items.Materials
                         inAttributes = false;
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

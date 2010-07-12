@@ -69,6 +69,7 @@
     <Compile Include="BresenhamLine.cs" />
     <Compile Include="PlatformFinder.cs" />
     <Compile Include="TypeLocator.cs" />
+    <Compile Include="XMLResourceReaderBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcod-net">

@@ -4,40 +4,36 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Skills
 {
-    internal static class SkillFactory
+    internal class SkillFactory
     {
+        public static SkillFactory Instance = new SkillFactory();
+
         private static Dictionary<string, Skill> m_skillMapping;
 
-        static SkillFactory()
+        private SkillFactory()
         {
             LoadMappings();
         }
 
-        public static Skill CreateSkill(string skillName)
+        public Skill CreateSkill(string skillName)
         {
             return m_skillMapping[skillName];
         }
 
-        private static void LoadMappings()
+        private void LoadMappings()
         {
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_skillMapping = new Dictionary<string, Skill>();
+            XMLResourceReaderBase.ParseFile("Skills.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Skills.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // KeyMappings element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Skills")
-            {
                 throw new System.InvalidOperationException("Bad skill defination file");
-            }
 
             bool insideSkillNode = false;
             Skill lastSkill = null;
@@ -88,9 +84,6 @@ namespace Magecrawl.GameEngine.Skills
                         attributeValue = reader.Value;
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
     }
 }
