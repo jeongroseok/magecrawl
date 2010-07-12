@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using System.Xml;
 using System.IO;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Items
 {
@@ -26,22 +27,14 @@ namespace Magecrawl.Items
 
         private void LoadMappings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_baseWeaponStats = new Dictionary<string, Dictionary<string, string>>();
+            XMLResourceReaderBase.ParseFile("BaseWeaponStats.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "BaseWeaponStats.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Weapons")
-            {
                 throw new System.InvalidOperationException("Bad weapon stat file");
-            }
 
             while (true)
             {
@@ -74,9 +67,6 @@ namespace Magecrawl.Items
                         m_baseWeaponStats[name]["FalloffAmount"] = falloffAmount;
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Magecrawl.GameEngine
 
             Item coreItem = (Item)item;
             if (coreItem.Attributes.ContainsKey("Invokable"))
-                return SpellFactory.CreateSpell(coreItem.Attributes["InvokeSpellEffect"]).Targeting;
+                return SpellFactory.Instance.CreateSpell(coreItem.Attributes["InvokeSpellEffect"]).Targeting;
 
             return null;
         }

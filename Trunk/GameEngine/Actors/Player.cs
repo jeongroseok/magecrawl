@@ -247,7 +247,7 @@ namespace Magecrawl.GameEngine.Actors
             {
                 List<ISpell> returnList = new List<ISpell>();
                 foreach (Skill skill in m_skills.Where(s => s.Attributes.ContainsKey("AddSpell")))
-                    returnList.Add(SpellFactory.CreateSpell(skill.Attributes["AddSpell"]));
+                    returnList.Add(SpellFactory.Instance.CreateSpell(skill.Attributes["AddSpell"]));
                 return returnList;
             }
         }
@@ -571,7 +571,7 @@ namespace Magecrawl.GameEngine.Actors
             ReadListFromXMLCore readSkillDelegate = new ReadListFromXMLCore(delegate
             {
                 string skillName = reader.ReadElementContentAsString();
-                m_skills.Add(SkillFactory.CreateSkill(skillName));
+                m_skills.Add(SkillFactory.Instance.CreateSkill(skillName));
             });
             ListSerialization.ReadListFromXML(reader, readSkillDelegate);
             reader.ReadEndElement();

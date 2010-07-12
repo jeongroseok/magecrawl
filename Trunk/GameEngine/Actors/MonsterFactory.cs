@@ -73,23 +73,16 @@ namespace Magecrawl.GameEngine.Actors
 
         private void LoadMappings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_monsterStats = new Dictionary<string, Dictionary<string, string>>();
-            m_monsterInstances = new Dictionary<string,List<Pair<string,int>>>();
+            m_monsterInstances = new Dictionary<string, List<Pair<string, int>>>();
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Monsters.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+            XMLResourceReaderBase.ParseFile("Monsters.xml", ReadFileCallback);
+        }
+
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Monsters")
-            {
                 throw new System.InvalidOperationException("Bad monsters file");
-            }
 
             string lastBaseName = "";
             while (true)
@@ -97,12 +90,12 @@ namespace Magecrawl.GameEngine.Actors
                 reader.Read();
                 if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Monsters")
                     break;
-                
+
                 if (reader.LocalName == "Monster" && reader.NodeType == XmlNodeType.Element)
                 {
                     lastBaseName = reader.GetAttribute("BaseName");
                     m_monsterStats[lastBaseName] = new Dictionary<string, string>();
-                    m_monsterInstances[lastBaseName] = new List<Pair<string,int>>();
+                    m_monsterInstances[lastBaseName] = new List<Pair<string, int>>();
                     m_monsterStats[lastBaseName]["AIType"] = reader.GetAttribute("AIType");
                     m_monsterStats[lastBaseName]["Intelligent"] = reader.GetAttribute("Intelligent");
                 }
@@ -127,11 +120,8 @@ namespace Magecrawl.GameEngine.Actors
                 else if (reader.LocalName == "MonsterInstance" && reader.NodeType == XmlNodeType.Element)
                 {
                     m_monsterInstances[lastBaseName].Add(new Pair<string, int>(reader.GetAttribute("Name"), int.Parse(reader.GetAttribute("Level"))));
-                }                
+                }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture; 
         }
 
         private Monster CreateMonsterCore(string baseType, string AIType, string name, int level, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade, double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost)

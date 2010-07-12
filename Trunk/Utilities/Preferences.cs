@@ -87,21 +87,15 @@ namespace Magecrawl.Utilities
 
         private void LoadSettings()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            XMLResourceReaderBase.ParseFile("Preferences.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader("Preferences.xml"), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // KeyMappings element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
+            // We didn't find our preference file...
             if (reader.LocalName != "Preferences")
-            {
-                // We didn't find our preference file...
                 throw new System.IO.FileNotFoundException();
-            }
+            
             while (true)
             {
                 reader.Read();
@@ -140,9 +134,6 @@ namespace Magecrawl.Utilities
                         break;
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
 
         private void ReadStringData(XmlReader reader, string preferenceName)

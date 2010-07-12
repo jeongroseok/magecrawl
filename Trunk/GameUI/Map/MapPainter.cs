@@ -189,22 +189,15 @@ namespace Magecrawl.GameUI.Map
 
         private void LoadMonsterSymbols()
         {
-            // Save off previous culture and switch to invariant for serialization.
-            CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
             m_monsterSymbols = new Dictionary<string, char>();
+            XMLResourceReaderBase.ParseFile("Monsters.xml", ReadFileCallback);
+        }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(new StreamReader(Path.Combine("Resources", "Monsters.xml")), settings);
-            reader.Read();  // XML declaration
-            reader.Read();  // Items element
+        void ReadFileCallback(XmlReader reader, object data)
+        {
             if (reader.LocalName != "Monsters")
-            {
                 throw new System.InvalidOperationException("Bad monsters file");
-            }
+
             while (true)
             {
                 reader.Read();
@@ -219,9 +212,6 @@ namespace Magecrawl.GameUI.Map
                     m_monsterSymbols.Add(baseName, symbol);
                 }
             }
-            reader.Close();
-
-            Thread.CurrentThread.CurrentCulture = previousCulture;
         }
     }
 }
