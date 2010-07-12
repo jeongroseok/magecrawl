@@ -97,7 +97,7 @@ namespace Magecrawl.Items.Materials
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        int levelAdjustment = Int32.Parse(reader.GetAttribute("LevelAdjustment"));
+                        int levelAdjustment = int.Parse(reader.GetAttribute("LevelAdjustment"));
                         currentQuality = new Quality(reader.GetAttribute("Name"), reader.GetAttribute("Description"), levelAdjustment);
                         m_qualityMapping.Add(currentQuality);
                     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Magecrawl.Utilities
 {
@@ -8,7 +9,7 @@ namespace Magecrawl.Utilities
         {
             if (!d.ContainsKey(attribute))
                 return 0;
-            return int.Parse(d[attribute]);
+            return int.Parse(d[attribute], CultureInfo.InvariantCulture);
         }
     }
 }

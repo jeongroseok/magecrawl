@@ -67,10 +67,10 @@ namespace Magecrawl.Items.Materials
 
                 if (reader.LocalName == "ConsumableEffect" && reader.NodeType == XmlNodeType.Element)
                 {
-                    int itemLevel = Int32.Parse(reader.GetAttribute("ItemLevel"));
+                    int itemLevel = int.Parse(reader.GetAttribute("ItemLevel"));
                     int casterLevel = 1;
                     if (reader.GetAttribute("CasterLevel") != null)
-                        casterLevel = Int32.Parse(reader.GetAttribute("CasterLevel"));
+                        casterLevel = int.Parse(reader.GetAttribute("CasterLevel"));
                     currentEffect = new ConsumableEffect(reader.GetAttribute("Name"), reader.GetAttribute("SpellName"), itemLevel, casterLevel);
 
                     m_effectMapping.Add(currentEffect.EffectName, currentEffect);
