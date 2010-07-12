@@ -93,13 +93,13 @@ namespace Magecrawl.GameUI
 
         private TCODColor PlayerHealthBarColorAtPosition(IPlayer player, int position)
         {
-            int HealthPortionOfPlayerHPBarLength = StandardBarLength(player.MaxHealth, player.MaxHP);
-            int StaminaPortionOfPlayerHPBarLength = BarLength - HealthPortionOfPlayerHPBarLength;
+            int healthPortionOfPlayerHPBarLength = StandardBarLength(player.MaxHealth, player.MaxHP);
+            int staminaPortionOfPlayerHPBarLength = BarLength - healthPortionOfPlayerHPBarLength;
 
-            if (position < HealthPortionOfPlayerHPBarLength)
+            if (position < healthPortionOfPlayerHPBarLength)
             {
                 double percentage = ((double)player.CurrentHealth / (double)player.MaxHealth) * 100;
-                if (position >= CalculateBarLength(player.CurrentHealth, player.MaxHealth, HealthPortionOfPlayerHPBarLength))
+                if (position >= CalculateBarLength(player.CurrentHealth, player.MaxHealth, healthPortionOfPlayerHPBarLength))
                     return TCODColor.black;
                 if (percentage > 95)
                     return TCODColor.orange.Divide(2);
@@ -113,7 +113,7 @@ namespace Magecrawl.GameUI
             else
             {
                 double percentage = ((double)player.CurrentStamina / (double)player.MaxStamina) * 100;
-                if (position - HealthPortionOfPlayerHPBarLength >= CalculateBarLength(player.CurrentStamina, player.MaxStamina, StaminaPortionOfPlayerHPBarLength))
+                if (position - healthPortionOfPlayerHPBarLength >= CalculateBarLength(player.CurrentStamina, player.MaxStamina, staminaPortionOfPlayerHPBarLength))
                     return TCODColor.black;
                 if (percentage > 95)
                     return TCODColor.red.Divide(2);
@@ -128,12 +128,12 @@ namespace Magecrawl.GameUI
 
         private TCODColor PlayerManaBarColor(IPlayer player, int position)
         {
-            int EnabledPortionOfMPBarLength = StandardBarLength(player.MaxMP, player.MaxPossibleMP);
+            int enabledPortionOfMPBarLength = StandardBarLength(player.MaxMP, player.MaxPossibleMP);
 
-            if (position < EnabledPortionOfMPBarLength)
+            if (position < enabledPortionOfMPBarLength)
             {
                 double percentage = ((double)player.CurrentMP / (double)player.MaxMP) * 100;
-                if (position >= CalculateBarLength(player.CurrentMP, player.MaxMP, EnabledPortionOfMPBarLength))
+                if (position >= CalculateBarLength(player.CurrentMP, player.MaxMP, enabledPortionOfMPBarLength))
                     return TCODColor.black;
                 if (percentage > 95)
                     return TCODColor.blue.Divide(1.5);
@@ -166,7 +166,7 @@ namespace Magecrawl.GameUI
             string manaString = string.Format("Mana {0}/{1}", m_player.CurrentMP, m_player.MaxMP);
             screen.printEx(StartingX + 13, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, manaString);
             for (int j = 0; j < BarLength; ++j)
-                screen.setCharBackground(StartingX + 2 + j, 3, PlayerManaBarColor(m_player, j ));
+                screen.setCharBackground(StartingX + 2 + j, 3, PlayerManaBarColor(m_player, j));
 
             int nextAvailablePosition = 6;
 
@@ -203,6 +203,7 @@ namespace Magecrawl.GameUI
             {
                 string countAmount = m_monstersNearby.Count < 8 ? m_monstersNearby.Count.ToString() : "8+";
                 screen.print(StartingX + 2, nextAvailablePosition, string.Format("Nearby Enemies ({0}):", countAmount));
+                
                 // Show at most 8 monsters
                 int numberOfMonstersToShow = m_monstersNearby.Count > 8 ? 8 : m_monstersNearby.Count;
                 for (int i = 0; i < numberOfMonstersToShow; ++i)

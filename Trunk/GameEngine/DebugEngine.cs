@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.Interfaces;
-using Magecrawl.Utilities;
 using Magecrawl.Items;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
@@ -103,7 +102,7 @@ namespace Magecrawl.GameEngine
                                     {
                                         m_engine.Map.AddMonster(m_engine.MonsterFactory.CreateMonster(monsterName, level, newPosition));
                                     }
-                                    catch(System.InvalidOperationException)
+                                    catch (System.InvalidOperationException)
                                     {
                                         CoreGameEngine.Instance.SendTextOutput("Debug - Unable to place monster, can not create.");
                                     }

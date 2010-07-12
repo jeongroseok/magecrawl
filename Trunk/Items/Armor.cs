@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml;
 using Magecrawl.Interfaces;
 using Magecrawl.Items.Materials;
-using System.Globalization;
 
 namespace Magecrawl.Items
 {
@@ -137,13 +137,13 @@ namespace Magecrawl.Items
 
             double staminaModifier = 1;
 
-            double materialBonus = (int.Parse(m_material.MaterialAttributes["StaminaBonus"], CultureInfo.InvariantCulture) / 100.0);
+            double materialBonus = int.Parse(m_material.MaterialAttributes["StaminaBonus"], CultureInfo.InvariantCulture) / 100.0;
             staminaModifier += materialBonus;
 
             double qualityBonus = 0;
             string qualityString = m_quality.Attributes.ContainsKey("ArmorStaminaModifier") ? m_quality.Attributes["ArmorStaminaModifier"] : null;
             if (qualityString != null)
-                qualityBonus = (int.Parse(qualityString, CultureInfo.InvariantCulture) / 100.0);
+                qualityBonus = int.Parse(qualityString, CultureInfo.InvariantCulture) / 100.0;
             staminaModifier += qualityBonus;
 
             m_staminaBonus = (int)Math.Round(baseArmorStm * staminaModifier);

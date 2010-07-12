@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Schema;
+﻿using System.Collections.Generic;
 using Magecrawl.Interfaces;
-using Magecrawl.Items;
-using Magecrawl.Utilities;
 using Magecrawl.Items.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Items.WeaponRanges
 {

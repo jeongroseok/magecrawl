@@ -53,7 +53,7 @@ namespace Magecrawl.Items.Materials
             XMLResourceReaderBase.ParseFile("Consumables.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Consumables")
                 throw new System.InvalidOperationException("Bad consumables file");

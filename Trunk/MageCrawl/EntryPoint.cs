@@ -28,6 +28,7 @@ namespace Magecrawl
                     inst.Go(result.CharacterName, result.LoadCharacter);
                 }
             }
+            
             // In debug builds, we want the exception to be rethrown to make debugging easier. In release builds, we want it to get written to a file.
 #if !DEBUG
             catch (System.Exception e)

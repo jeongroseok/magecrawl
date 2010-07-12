@@ -20,7 +20,7 @@ namespace Magecrawl.GameUI.SkillTree.Requests
         internal override void DoRequest(IHandlePainterRequest painter)
         {
             SkillTreePainter skillTreePainter = painter as SkillTreePainter;
-            if(skillTreePainter != null)
+            if (skillTreePainter != null)
             {
                 m_delegate(skillTreePainter.NewlySelectedSkills);
                 skillTreePainter.Enabled = false;

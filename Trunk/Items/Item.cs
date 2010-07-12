@@ -13,7 +13,7 @@ namespace Magecrawl.Items
             Attributes = new Dictionary<string, string>();
         }
 
-        public abstract string DisplayName  { get; }
+        public abstract string DisplayName { get; }
         public abstract string ItemDescription { get; }
         public abstract string FlavorDescription { get; }
 

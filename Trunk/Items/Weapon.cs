@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Serialization;
 using Magecrawl.Interfaces;
 using Magecrawl.Items.Interfaces;
-using Magecrawl.Utilities;
 using Magecrawl.Items.WeaponRanges;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Items
 {

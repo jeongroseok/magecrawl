@@ -272,6 +272,11 @@
             <BooleanProperty Name="Enabled">False</BooleanProperty>
           </RuleSettings>
         </Rule>
+        <Rule Name="CurlyBracketsForMultiLineStatementsMustNotShareLine">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
       </Rules>
       <AnalyzerSettings />
     </Analyzer>
@@ -291,9 +296,12 @@
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
           <Value>ct</Value>
+          <Value>CT</Value>
           <Value>hp</Value>
           <Value>mp</Value>
           <Value>up</Value>
+          <Value>x</Value>
+          <Value>y</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Items.Materials;
 using Magecrawl.Items.WeaponRanges;
 using Magecrawl.Utilities;
-using libtcod;
 
 namespace Magecrawl.Items
 {
@@ -69,13 +69,13 @@ namespace Magecrawl.Items
             }
         }
 
-        static List<string> s_ItemList = new List<string>() { "Axe", "Bow", "Club", "Dagger", "Sling", "Spear", 
+        private static List<string> s_itemList = new List<string>() { "Axe", "Bow", "Club", "Dagger", "Sling", "Spear", 
             "Sword", "ChestArmor", "Helm", "Gloves", "Boots", "Potion", "Scroll", "Wand" };
         public List<string> ItemTypeList
         {
             get
             {
-                return s_ItemList;
+                return s_itemList;
             }
         }
 
@@ -91,11 +91,11 @@ namespace Magecrawl.Items
             // decreasing the required quality until we can generate something.
             Item returnItem = null;
             int i = 0;
-            while(true)
+            while (true)
             {   
                 // Lower is 3/4 of requested. High is level + 1. 
                 // If we fail to produce on first try, reduce low level by 1 every fifth iteration
-                int lowLevelReduction = (i / 5);
+                int lowLevelReduction = i / 5;
                 int lowLevel = Math.Max((int)Math.Round((level * 3.0) / 4.0) - lowLevelReduction, 0);
                 int highLevel = level + 1;
                 returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel);
@@ -157,7 +157,7 @@ namespace Magecrawl.Items
                     int levelCapLeft = (int)Math.Max(highLevel - effect.ItemLevel, 0);
                         
                     // For every two level we go below the cap, increase caster level by 1
-                    effect.CasterLevel += (levelCapLeft / 2);
+                    effect.CasterLevel += levelCapLeft / 2;
 
                     return new Consumable(type, effect, 1, 1);
                 }
@@ -178,7 +178,7 @@ namespace Magecrawl.Items
                     // But max them at 10
                     maxCharges = Math.Min(maxCharges, 10);
 
-                    int startingCharges = s_random.getInt((maxCharges *2) / 3, maxCharges);
+                    int startingCharges = s_random.getInt((maxCharges * 2) / 3, maxCharges);
 
                     return new Consumable(type, effect, startingCharges, maxCharges);
                 }

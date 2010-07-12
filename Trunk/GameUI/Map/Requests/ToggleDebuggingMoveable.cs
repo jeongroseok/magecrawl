@@ -1,5 +1,5 @@
-﻿using Magecrawl.Interfaces;
-using Magecrawl.GameUI.Map.Debug;
+﻿using Magecrawl.GameUI.Map.Debug;
+using Magecrawl.Interfaces;
 
 namespace Magecrawl.GameUI.Map.Requests
 {

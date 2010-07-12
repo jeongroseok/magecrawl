@@ -9,8 +9,13 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
     {
         public abstract bool CouldUseTactic(CoreGameEngine engine, Monster monster);
         public abstract bool UseTactic(CoreGameEngine engine, Monster monster);
-        public virtual void SetupAttributesNeeded(Monster monster) { }
-        public virtual void NewTurn(Monster monster) { }
+        public virtual void SetupAttributesNeeded(Monster monster) 
+        { 
+        }
+
+        public virtual void NewTurn(Monster monster)
+        {
+        }
 
         public abstract bool NeedsPlayerLOS { get; }
 

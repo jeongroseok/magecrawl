@@ -193,7 +193,7 @@ namespace Magecrawl.GameUI.Map
             XMLResourceReaderBase.ParseFile("Monsters.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Monsters")
                 throw new System.InvalidOperationException("Bad monsters file");

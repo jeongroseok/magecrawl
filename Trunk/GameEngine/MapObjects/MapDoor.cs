@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
-using System.Xml.Serialization;
-using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.MapObjects

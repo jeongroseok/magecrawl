@@ -42,7 +42,7 @@ namespace Magecrawl.Keyboard.Debug
         private void SetDebugMenu()
         {
             m_option = OptionMode.DebugMainMenu;
-            List<INamedItem> itemList = new List<INamedItem>() {new TextElement("Create Item"), new TextElement("Create Monster"), 
+            List<INamedItem> itemList = new List<INamedItem>() { new TextElement("Create Item"), new TextElement("Create Monster"), 
                 new TextElement("Map Debug Settings"),  new TextElement("Kill Monsters on Floor"), new TextElement("Add Skill Points"), new TextElement("Exit") };
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemList, false, "Debug Options"));
         }

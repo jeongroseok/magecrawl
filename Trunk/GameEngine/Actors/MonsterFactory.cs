@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using System.Xml;
 using libtcod;
+using Magecrawl.GameEngine.Actors.MonsterAI;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Actors.MonsterAI;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -47,7 +44,7 @@ namespace Magecrawl.GameEngine.Actors
             string AIType = m_monsterStats[baseType]["AIType"];
             int baseHP = int.Parse(m_monsterStats[baseType]["BaseHP"], CultureInfo.InvariantCulture);
             int hpPerLevel = int.Parse(m_monsterStats[baseType]["HPPerLevel"], CultureInfo.InvariantCulture);
-            int maxHP = baseHP + level * hpPerLevel;
+            int maxHP = baseHP + (level * hpPerLevel);
             bool intelligent = bool.Parse(m_monsterStats[baseType]["Intelligent"]);
             int vision = int.Parse(m_monsterStats[baseType]["BaseVision"], CultureInfo.InvariantCulture);
             string baseDamageString = m_monsterStats[baseType]["BaseDamage"];
@@ -79,7 +76,7 @@ namespace Magecrawl.GameEngine.Actors
             XMLResourceReaderBase.ParseFile("Monsters.xml", ReadFileCallback);
         }
 
-        void ReadFileCallback(XmlReader reader, object data)
+        private void ReadFileCallback(XmlReader reader, object data)
         {
             if (reader.LocalName != "Monsters")
                 throw new System.InvalidOperationException("Bad monsters file");
@@ -128,7 +125,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             List<IMonsterTactic> tactics = new List<IMonsterTactic>();
 
-            switch(AIType)
+            switch (AIType)
             {
                 case "Bruiser":
                     tactics.Add(new DoubleSwingTactic());

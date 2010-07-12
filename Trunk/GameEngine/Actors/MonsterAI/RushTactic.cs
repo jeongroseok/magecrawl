@@ -4,7 +4,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    class RushTactic : BaseTactic
+    internal class RushTactic : BaseTactic
     {
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {

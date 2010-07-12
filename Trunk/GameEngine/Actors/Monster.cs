@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.Effects;
-using Magecrawl.Interfaces;
-using Magecrawl.GameEngine.SaveLoad;
-using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Actors.MonsterAI;
+using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
@@ -78,7 +76,6 @@ namespace Magecrawl.GameEngine.Actors
                 return m_maxHP;
             }
         }
-
 
         // Returns amount actually healed by
         public override int Heal(int toHeal, bool magical)

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
-using Magecrawl.Interfaces;
-using Magecrawl.Items;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Interfaces;
+using Magecrawl.Items;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -364,7 +364,8 @@ namespace Magecrawl.GameEngine
                 m_player.LastTurnSeenAMonster = CoreGameEngine.Instance.TurnCount;
                 return true;
             }
-            // This is wrong
+            
+            // This is wrong - BUG 225
             return m_player.LastTurnSeenAMonster + TurnsMonsterOutOfLOSToBeSafe > CoreGameEngine.Instance.TurnCount;
         }
 
@@ -386,7 +387,6 @@ namespace Magecrawl.GameEngine
                     {
                         item.Attributes["Charges"] = currentCharges.ToString();
                     }
-
                 }
                 return itemUsedSucessfully;
             }

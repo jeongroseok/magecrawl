@@ -70,7 +70,7 @@ namespace Magecrawl.Keyboard
                 namedKey = new NamedKey() { Character = (char)0,
                                             Code = key.KeyCode,
                                             ControlPressed = (key.LeftControl | key.RightControl),
-                                            ShiftPressed =  key.Shift,
+                                            ShiftPressed = key.Shift,
                                             AltPressed = (key.LeftAlt | key.RightAlt) };
 
             m_currentHandler.HandleKeystroke(namedKey);
