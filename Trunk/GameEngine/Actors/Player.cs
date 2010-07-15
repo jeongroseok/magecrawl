@@ -64,7 +64,6 @@ namespace Magecrawl.GameEngine.Actors
 
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 1));
             CreateDefaultArmorPlayerCanWear("ChestArmor");
-            CreateDefaultArmorPlayerCanWear("Boots");
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
 
@@ -79,7 +78,7 @@ namespace Magecrawl.GameEngine.Actors
             while (true)
             {
                 IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType(type, 1);
-                if (CouldEquipArmor(armor))
+                if (CanEquipArmor(armor))
                 {
                     Equip(armor);
                     return;
@@ -512,20 +511,38 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public bool CouldEquipArmor(IArmor armor)
+        public EquipArmorReasons CouldEquipArmor(IArmor armor)
         {
+            if (armor.Type == "Boots" && ChestArmor != null)
+            {
+                // If I'm equiping boots and have chest armor, check to that the armor doesn't prevent that type
+                if (((Item)ChestArmor).ContainsAttribute("RobesPreventBoots"))
+                    return EquipArmorReasons.RobesPreventBoots;
+            }
+            else if (armor.Type == "ChestArmor" && Boots != null)
+            {
+                // If I"m equipping chest armor that prevents wearing boots, make sure that I'm not already wearing some.
+                if (((Item)armor).ContainsAttribute("RobesPreventBoots"))
+                    return EquipArmorReasons.BootsPreventRobes;
+            }
+
             switch (armor.Weight)
             {
-                case ArmorWeight.Light:
                 case ArmorWeight.None:
-                    return true;
+                case ArmorWeight.Light:
+                    return EquipArmorReasons.None;
                 case ArmorWeight.Standard:
-                    return HasAttribute("StandardArmorProficiency");
+                    return HasAttribute("StandardArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight;
                 case ArmorWeight.Heavy:
-                    return HasAttribute("HeavyArmorProficiency");
+                    return HasAttribute("HeavyArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight;
                 default:
                     throw new System.InvalidOperationException("CouldEquip doesn't know how to handle type - " + armor.Weight.ToString());
             }
+        }
+
+        public bool CanEquipArmor(IArmor armor)
+        {
+            return CouldEquipArmor(armor) == EquipArmorReasons.None;
         }
 
         #region SaveLoad

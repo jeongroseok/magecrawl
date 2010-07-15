@@ -8,6 +8,7 @@ namespace Magecrawl.Utilities
     {
         private static Random random = new Random();
         public static DiceRoll Invalid = new DiceRoll(-1, -1, -1, -1.0);
+        public static DiceRoll Zero = new DiceRoll(0, 0, 0, 1);
 
         public short Rolls;
         public short DiceFaces;
@@ -39,18 +40,17 @@ namespace Magecrawl.Utilities
         {
         }
 
-        public void Add(DiceRoll other)
-        {
-            if (DiceFaces != other.DiceFaces)
-                throw new InvalidOperationException(string.Format("Can't add dice rolls: {0} + {1}", this, other));
-
-            Rolls += other.Rolls;
-            ToAdd += other.ToAdd;
-            Multiplier += 1 - other.Multiplier;
-        }
-
         public DiceRoll(string s)
         {
+            if (s == "0")
+            {
+                Rolls = 0;
+                DiceFaces = 0;
+                Multiplier = 1;
+                ToAdd = 0;
+                return;
+            }
+
             string[] damageParts = s.Split(',');
 
             Rolls = short.Parse(damageParts[0], CultureInfo.InvariantCulture);
@@ -73,6 +73,36 @@ namespace Magecrawl.Utilities
             DiceFaces = diceFaces;
             ToAdd = toAdd;
             Multiplier = multiplier;
+        }
+        
+        public void Add(DiceRoll other)
+        {
+            // If the other is zero, nothing to do.
+            if (other.Equals(Zero))
+                return;
+
+            // If we're zero, take their values
+            if (this.Equals(Zero))
+            {
+                Rolls = other.Rolls;
+                DiceFaces = other.DiceFaces;
+                Multiplier = other.Multiplier;
+                ToAdd = other.ToAdd;
+                return;
+            }
+
+            // If neither are zero, the d'ness better match
+            if (DiceFaces != other.DiceFaces)
+                throw new InvalidOperationException(string.Format("Can't add dice rolls: {0} + {1}", this, other));
+
+            Rolls += other.Rolls;
+            ToAdd += other.ToAdd;
+            Multiplier += 1 - other.Multiplier;
+        }
+
+        public bool Equals(DiceRoll other)
+        {
+            return Rolls == other.Rolls && DiceFaces == other.DiceFaces && ToAdd == other.ToAdd && Multiplier == other.Multiplier;
         }
 
         public short Roll()

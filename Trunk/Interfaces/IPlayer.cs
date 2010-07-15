@@ -4,6 +4,8 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Interfaces
 {
+    public enum EquipArmorReasons { None, Weight, RobesPreventBoots, BootsPreventRobes }
+
     public interface IPlayer : ICharacter
     {
         int CurrentStamina 
@@ -93,6 +95,6 @@ namespace Magecrawl.Interfaces
 
         bool CouldCastSpell(ISpell spell);
 
-        bool CouldEquipArmor(IArmor armor);
+        EquipArmorReasons CouldEquipArmor(IArmor armor);
     }
 }

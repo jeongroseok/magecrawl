@@ -40,12 +40,12 @@ namespace Magecrawl.GameEngine.Magic
 
         internal bool UseItemWithEffect(Character invoker, Item item, Point targetedPoint)
         {
-            if (!item.Attributes.ContainsKey("Invokable"))
+            if (!item.ContainsAttribute("Invokable"))
                 throw new System.InvalidOperationException("UseItemWithEffect without invokable object? - " + item.DisplayName);
 
-            string effectString = string.Format(item.Attributes["OnInvokeString"], invoker.Name, item.DisplayName);
-            Spell spellEffect = SpellFactory.Instance.CreateSpell(item.Attributes["InvokeSpellEffect"]);
-            return DoEffect(invoker, item, spellEffect.EffectType, int.Parse(item.Attributes["CasterLevel"], CultureInfo.InvariantCulture), false, targetedPoint, effectString);
+            string effectString = string.Format(item.GetAttribute("OnInvokeString"), invoker.Name, item.DisplayName);
+            Spell spellEffect = SpellFactory.Instance.CreateSpell(item.GetAttribute("InvokeSpellEffect"));
+            return DoEffect(invoker, item, spellEffect.EffectType, int.Parse(item.GetAttribute("CasterLevel"), CultureInfo.InvariantCulture), false, targetedPoint, effectString);
         }
 
         internal List<Point> TargettedDrawablePoints(string spellName, int strength, Point target)

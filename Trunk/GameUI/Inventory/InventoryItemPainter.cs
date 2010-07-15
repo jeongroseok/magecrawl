@@ -89,10 +89,11 @@ namespace Magecrawl.GameUI.Inventory
                 y += 2;
                 screen.print(x, y, "Evade: " + asArmor.Evade);
                 y += 2;
-                
-                if (!m_player.CouldEquipArmor(asArmor))
+
+                EquipArmorReasons equipArmorResult = m_player.CouldEquipArmor(asArmor);
+                m_dialogColorHelper.SaveColors(screen);
+                if (equipArmorResult == EquipArmorReasons.Weight)
                 {
-                    m_dialogColorHelper.SaveColors(screen);
                     screen.setForegroundColor(TCODColor.red);
                     screen.print(x, y, "Weight: " + asArmor.Weight);
                     y += 2;
@@ -102,6 +103,15 @@ namespace Magecrawl.GameUI.Inventory
                 {
                     screen.print(x, y, "Weight: " + asArmor.Weight);
                     y += 2;
+                }
+
+                if (equipArmorResult == EquipArmorReasons.RobesPreventBoots || equipArmorResult == EquipArmorReasons.BootsPreventRobes)
+                {
+                    screen.setForegroundColor(TCODColor.red);
+                    string outputString = equipArmorResult == EquipArmorReasons.RobesPreventBoots ? "Robes prevent boots from being worn." : "Boots prevent robes from being worn.";
+                    screen.print(x, y, outputString);
+                    y += 2;
+                    m_dialogColorHelper.ResetColors(screen);
                 }
             }
 
