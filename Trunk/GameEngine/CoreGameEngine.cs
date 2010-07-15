@@ -403,11 +403,11 @@ namespace Magecrawl.GameEngine
             }
             if (item is IArmor)
             {
-                optionList.Add(new ItemOptions("Equip", true));
+                optionList.Add(new ItemOptions("Equip", Player.CanEquipArmor((IArmor)item)));
             }
 
-            if (item.Attributes.ContainsKey("Invokable"))
-                optionList.Add(new ItemOptions(item.Attributes["InvokeActionName"], true));
+            if (item.ContainsAttribute("Invokable"))
+                optionList.Add(new ItemOptions(item.GetAttribute("InvokeActionName"), true));
 
             optionList.Add(new ItemOptions("Drop", true));
             return optionList;
@@ -424,8 +424,8 @@ namespace Magecrawl.GameEngine
                 optionList.Add(new ItemOptions("Unequip", true));
 
             // TODO - Unsure how this'd work but it should be possible
-            if (item.Attributes.ContainsKey("Invokable"))
-                optionList.Add(new ItemOptions(item.Attributes["InvokeActionName"], true));
+            if (item.ContainsAttribute("Invokable"))
+                optionList.Add(new ItemOptions(item.GetAttribute("InvokeActionName"), true));
 
             return optionList;
         }

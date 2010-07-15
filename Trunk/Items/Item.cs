@@ -17,7 +17,24 @@ namespace Magecrawl.Items
         public abstract string ItemDescription { get; }
         public abstract string FlavorDescription { get; }
 
-        public Dictionary<string, string> Attributes;
+        internal Dictionary<string, string> Attributes;
+
+        public virtual bool ContainsAttribute(string key)
+        {
+            return Attributes.ContainsKey(key);
+        }
+
+        public virtual string GetAttribute(string key)
+        {
+            return Attributes[key];
+        }
+
+        public void SetExistentAttribute(string key, string value)
+        {
+            if (!Attributes.ContainsKey(key))
+                throw new System.InvalidOperationException("Can't SetExistentAttribute on an attribute that isn't set on the root Attributes");
+            Attributes[key] = value;
+        }
 
         virtual public string ItemEffectSchool
         {

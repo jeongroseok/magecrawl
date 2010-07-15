@@ -249,7 +249,7 @@ namespace Magecrawl.GameEngine
 
             Item asItem = targettingObject as Item;
             if (asItem != null)
-                return m_magicEffects.TargettedDrawablePoints(asItem.Attributes["InvokeSpellEffect"], int.Parse(asItem.Attributes["CasterLevel"], CultureInfo.InvariantCulture), target);
+                return m_magicEffects.TargettedDrawablePoints(asItem.GetAttribute("InvokeSpellEffect"), int.Parse(asItem.GetAttribute("CasterLevel"), CultureInfo.InvariantCulture), target);
 
             return null;  
         }
@@ -377,16 +377,16 @@ namespace Magecrawl.GameEngine
                 bool itemUsedSucessfully = m_magicEffects.UseItemWithEffect(m_player, item, targetedPoint);
                 if (itemUsedSucessfully)
                 {
-                    int currentCharges = int.Parse(item.Attributes["Charges"], CultureInfo.InvariantCulture) - 1;
+                    int currentCharges = int.Parse(item.GetAttribute("Charges"), CultureInfo.InvariantCulture) - 1;
                     if (currentCharges <= 0)
                     {
                         m_player.RemoveItem((Item)item);
-                        if (item.Attributes["Type"] == "Wand")
+                        if (item.GetAttribute("Type") == "Wand")
                             CoreGameEngine.Instance.SendTextOutput(string.Format("The {0} disintegrates as its last bit of magic is wrested from it.", item.DisplayName));
                     }
                     else
                     {
-                        item.Attributes["Charges"] = currentCharges.ToString();
+                        item.SetExistentAttribute("Charges", currentCharges.ToString());
                     }
                 }
                 return itemUsedSucessfully;

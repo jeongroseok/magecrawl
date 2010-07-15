@@ -101,6 +101,28 @@ namespace Magecrawl.Items
             }
         }
 
+        public override bool ContainsAttribute(string key)
+        {
+            if (m_material.Attributes[Type].ContainsKey(key))
+                return true;
+
+            if (m_quality.Attributes.ContainsKey(key))
+                return true;
+
+            return base.ContainsAttribute(key);
+        }
+
+        public override string GetAttribute(string key)
+        {
+            if (m_material.Attributes[Type].ContainsKey(key))
+                return m_material.Attributes[Type][key];
+
+            if (m_quality.Attributes.ContainsKey(key))
+                return m_quality.Attributes[key];
+
+            return base.GetAttribute(key);
+        }
+
         public override string ToString()
         {
             return string.Format("{0} - {1} - {2} - {3}", Type, DisplayName, m_material.MaterialName, m_quality.Name);

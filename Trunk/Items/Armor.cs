@@ -41,8 +41,10 @@ namespace Magecrawl.Items
             {
                 string description = m_material.Descriptions[Type];
                 if (m_quality.Description.Length > 0)
-                    description += "\n\n\n";
-                return description + m_quality.Description;
+                    description += "\n\n\n" + m_quality.Description;
+                if (m_material.Attributes[Type].ContainsKey("RobesPreventBoots"))
+                    description += "\n\n\n" + "The length of this item prevents boots from being worn.";
+                return description;
             }
         }
 
@@ -58,13 +60,14 @@ namespace Magecrawl.Items
         {
             get 
             {
-                ArmorWeight weight = ArmorWeight.Light;
+                ArmorWeight weight = ArmorWeight.None;
+                
+                if (m_material.Attributes[Type].ContainsKey("LightArmor"))
+                    weight = ArmorWeight.Light;
                 if (m_material.Attributes[Type].ContainsKey("StandardArmor"))
                     weight = ArmorWeight.Standard;
                 else if (m_material.Attributes[Type].ContainsKey("HeavyArmor"))
                     weight = ArmorWeight.Heavy;
-                else
-                    weight = ArmorWeight.Light;
 
                 if (m_quality.Attributes.ContainsKey("ArmorHeavy"))
                 {
@@ -122,6 +125,28 @@ namespace Magecrawl.Items
             {
                 return Attributes["Type"];
             }
+        }
+
+        public override bool ContainsAttribute(string key)
+        {
+            if (m_material.Attributes[Type].ContainsKey(key))
+                return true;
+
+            if (m_quality.Attributes.ContainsKey(key))
+                return true;
+
+            return base.ContainsAttribute(key);
+        }
+
+        public override string GetAttribute(string key)
+        {
+            if (m_material.Attributes[Type].ContainsKey(key))
+                return m_material.Attributes[Type][key];
+
+            if (m_quality.Attributes.ContainsKey(key))
+                return m_quality.Attributes[key];
+
+            return base.GetAttribute(key);
         }
 
         public override string ToString()
