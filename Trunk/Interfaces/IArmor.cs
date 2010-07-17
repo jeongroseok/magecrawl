@@ -2,10 +2,9 @@
 {
     public enum ArmorWeight
     {
-        None = 0,
-        Light = 1,
-        Standard = 2,
-        Heavy = 3
+        Light = 0,
+        Standard = 1,
+        Heavy = 2
     }
     public interface IArmor : IItem, INamedItem
     {
