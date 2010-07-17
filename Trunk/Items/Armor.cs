@@ -60,16 +60,14 @@ namespace Magecrawl.Items
         {
             get 
             {
-                ArmorWeight weight = ArmorWeight.None;
+                ArmorWeight weight = ArmorWeight.Light;
                 
-                if (m_material.Attributes[Type].ContainsKey("LightArmor"))
-                    weight = ArmorWeight.Light;
                 if (m_material.Attributes[Type].ContainsKey("StandardArmor"))
                     weight = ArmorWeight.Standard;
                 else if (m_material.Attributes[Type].ContainsKey("HeavyArmor"))
                     weight = ArmorWeight.Heavy;
 
-                if (m_quality.Attributes.ContainsKey("ArmorHeavy"))
+                if (m_quality.Attributes.ContainsKey("ArmorHeavier"))
                 {
                     switch (weight)
                     {
@@ -80,13 +78,10 @@ namespace Magecrawl.Items
                         case ArmorWeight.Light:
                             weight = ArmorWeight.Standard;
                             break;
-                        case ArmorWeight.None:
-                            weight = ArmorWeight.Light;
-                            break;
                     }
                 }
 
-                if (m_quality.Attributes.ContainsKey("ArmorLight"))
+                if (m_quality.Attributes.ContainsKey("ArmorLighter"))
                 {
                     switch (weight)
                     {

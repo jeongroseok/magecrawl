@@ -31,7 +31,7 @@ namespace Magecrawl.GameEngine
 
         private static ArmorWeight GetTotalArmorWeight(IPlayer player)
         {
-            ArmorWeight largestWeight = ArmorWeight.None;
+            ArmorWeight largestWeight = ArmorWeight.Light;
             foreach (IArmor a in GetArmorList(player))
             {
                 if (a.Weight > largestWeight)

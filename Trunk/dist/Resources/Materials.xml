@@ -7,6 +7,18 @@
     <ValidItem Type="Dagger" FullItemName="Bronze Dagger" Description="A simple, albeit primitive, dagger. Bronze daggers tend to dull and bend quickly."/>
     <ValidItem Type="Spear" FullItemName="Bronze Spear" Description="A simple, albeit primitive, spear. A hardened bronze head with an ash shaft."/>
     <ValidItem Type="Sword" FullItemName="Bronze Shortsword" Description="A simple bronze shortsword, about two feet in lenght. A decent weapon, however requires sharpening often."/>
+    <ValidItem Type="ChestArmor" FullItemName="Bronze Chainmail Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Bronze Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Bronze Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Bronze Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Wrought Iron" Level="1" DamageBonus="0" ExtraCTCost="0">
@@ -14,6 +26,18 @@
     <ValidItem Type="Dagger" FullItemName="Iron Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Iron Spear" Description=""/>
     <ValidItem Type="Sword" FullItemName="Iron Sword" Description=""/>
+    <ValidItem Type="ChestArmor" FullItemName="Iron Chainmail Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Iron Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Iron Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Iron Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Steel" Level="2" DamageBonus="0" ExtraCTCost="0">
@@ -21,6 +45,18 @@
     <ValidItem Type="Dagger" FullItemName="Steel Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Steel Spear" Description=""/>
     <ValidItem Type="Sword" FullItemName="Steel Sword" Description=""/>
+    <ValidItem Type="ChestArmor" FullItemName="Steel Chainmail Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Steel Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Steel Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Steel Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Orichalcum" Level="4" DamageBonus="0" ExtraCTCost="0">
@@ -28,6 +64,18 @@
     <ValidItem Type="Dagger" FullItemName="Orichalcum Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Orichalcum Spear" Description=""/>
     <ValidItem Type="Sword" FullItemName="Orichalcum Sword" Description=""/>
+    <ValidItem Type="ChestArmor" FullItemName="Orichalcum Plate Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Orichalcum Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Orichalcum Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Orichalcum Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Dark Iron" Level="5" DamageBonus="0" ExtraCTCost="0">
@@ -35,6 +83,18 @@
     <ValidItem Type="Dagger" FullItemName="Dark Iron Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Dark Iron Spear" Description=""/>
     <ValidItem Type="Sword" FullItemName="Dark Iron Sword" Description=""/>
+    <ValidItem Type="ChestArmor" FullItemName="Dark Iron Plate Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Dark Iron Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Dark Iron Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Dark Iron Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Mithril" Level="6" DamageBonus="0" ExtraCTCost="0">
@@ -42,6 +102,18 @@
     <ValidItem Type="Dagger" FullItemName="Mithril Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Mithril Spear" Description=""/>
     <ValidItem Type="Sword" FullItemName="Mithril Sword" Description=""/>
+    <ValidItem Type="ChestArmor" FullItemName="Mithril Chainmail Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Mithril Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Mithril Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Mithril Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Adamantite" Level="7" DamageBonus="0" ExtraCTCost="0">
@@ -49,6 +121,18 @@
     <ValidItem Type="Dagger" FullItemName="Adamantite Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Adamantite Spear" Description=""/>
     <ValidItem Type="Sword" FullItemName="Adamantite Sword" Description=""/>
+    <ValidItem Type="ChestArmor" FullItemName="Adamantite Plate Armor" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Adamantite Helmet" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Adamantite Gauntlets" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Adamantite Plate Boots" Description="">
+      <Attributes> <HeavyArmor/> </Attributes>
+    </ValidItem>
   </Material>
   
   <!-- Weapon Types: "Bow", "Club"-->
@@ -73,46 +157,118 @@
 
   <!-- Armor Types: "ChestArmor", "Helm", "Gloves", "Boots"  -->
   <Material Name="Linen Cloth" Level="1" StaminaBonus="0">
-    <ValidItem Type="ChestArmor" FullItemName="Linen Robe" Description="A simple robe favored by acolytes and mage apprentices.">
+    <ValidItem Type="ChestArmor" FullItemName="Linen Robe" Description="Linen robes are worn in warm climate and by lower class scribes and mages.">
       <Attributes> <RobesPreventBoots/> </Attributes>
     </ValidItem >
-    <ValidItem Type="Helm" FullItemName="Linen Cap" Description="Simple woolen cap, tan and somewhat stiff from wear." />
-    <ValidItem Type="Gloves" FullItemName="Linen Gloves" Description="Woolen work gloves." />
-    <ValidItem Type="Boots" FullItemName="Sandles" Description="Formed from sturdy cloth or leather with leather strapes." />
+    <ValidItem Type="Helm" FullItemName="Linen Cap" Description="A simple linen cap, white and stiff." />
+    <ValidItem Type="Gloves" FullItemName="Linen Gloves" Description="Gloves spun from linen cloth, a cool and absorbant material." />
   </Material>
 
   <Material Name="Wool Cloth" Level="0" StaminaBonus="0">
+    <ValidItem Type="ChestArmor" FullItemName="Wool Robe" Description="">
+      <Attributes> <RobesPreventBoots/> </Attributes>
+    </ValidItem >
+    <ValidItem Type="Helm" FullItemName="Wool Cap" Description="" />
+    <ValidItem Type="Gloves" FullItemName="Wool Gloves" Description="" />
   </Material>
 
   <Material Name="Silk Cloth" Level="0" StaminaBonus="0">
+    <ValidItem Type="ChestArmor" FullItemName="Silk Robe" Description="">
+      <Attributes> <RobesPreventBoots/> </Attributes>
+    </ValidItem >
+    <ValidItem Type="Helm" FullItemName="Silk Cap" Description="" />
+    <ValidItem Type="Gloves" FullItemName="Silk Gloves" Description="" />
   </Material>
 
   <Material Name="Runed Cloth" Level="0" StaminaBonus="0">
+    <ValidItem Type="ChestArmor" FullItemName="Runed Robe" Description="">
+      <Attributes> <RobesPreventBoots/> </Attributes>
+    </ValidItem >
+    <ValidItem Type="Helm" FullItemName="Runed Cap" Description="" />
+    <ValidItem Type="Gloves" FullItemName="Runed Gloves" Description="" />
   </Material>
 
   <Material Name="Arcane Cloth" Level="0" StaminaBonus="0">
+    <ValidItem Type="ChestArmor" FullItemName="Arcane Robe" Description="">
+      <Attributes> <RobesPreventBoots/> </Attributes>
+    </ValidItem >
+    <ValidItem Type="Helm" FullItemName="Arcane Cap" Description="" />
+    <ValidItem Type="Gloves" FullItemName="Arcane Gloves" Description="" />
   </Material>
 
   <!-- Armor Types: "ChestArmor", "Helm", "Gloves", "Boots"  -->
   <Material Name="Light Leather" Level="2" StaminaBonus="20">
+    <ValidItem Type="ChestArmor" FullItemName="Light Leather Armor" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Light Leather Helmet" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Light Leather Gloves" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Light Leather Boots" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
   </Material>
 
   <Material Name="Leather" Level="2" StaminaBonus="20">
-    <ValidItem Type="ChestArmor" FullItemName="Leather Armor" Description="Tanned animal hides fashioned into a simple breastplate." />
-    <ValidItem Type="Helm" FullItemName="Leather Helmet" Description="Beaten animal hides cured into a sturdy helmet." />
-    <Attributes>
-      <StandardArmor/>
-    </Attributes>
-    <ValidItem Type="Gloves" FullItemName="Leather Gloves" Description="Boiled leather worked into simple armor for the hands." />
-    <ValidItem Type="Boots" FullItemName="Leather Boots" Description="Well fashioned leather boots." />
+    <ValidItem Type="ChestArmor" FullItemName="Leather Armor" Description="Tanned animal hides fashioned into a simple breastplate.">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Leather Helmet" Description="Beaten animal hides cured into a sturdy helmet.">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Gloves" FullItemName="Leather Gloves" Description="Boiled leather worked into simple armor for the hands.">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Boots" FullItemName="Leather Boots" Description="Well fashioned leather boots.">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Rugged Leather" Level="2" StaminaBonus="20">
+    <ValidItem Type="ChestArmor" FullItemName="Rugged Leather Armor" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Rugged Leather Helmet" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Gloves" FullItemName="Rugged Leather Gloves" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Boots" FullItemName="Rugged Leather Boots" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
   </Material>
 
   <Material Name="Runed Leather" Level="2" StaminaBonus="20">
+    <ValidItem Type="ChestArmor" FullItemName="Runed Leather Armor" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>
+    <ValidItem Type="Helm" FullItemName="Runed Leather Helmet" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>    
+    <ValidItem Type="Gloves" FullItemName="Runed Leather Gloves" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Runed Leather Boots" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
   </Material>
 
   <Material Name="Dragonhide Leather" Level="2" StaminaBonus="20">
+    <ValidItem Type="ChestArmor" FullItemName="Dragonhide Armor" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Helm" FullItemName="Dragonhide Helmet" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Gloves" FullItemName="Dragonhide Gloves" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
+    <ValidItem Type="Boots" FullItemName="Dragonhide Boots" Description="">
+      <Attributes> <StandardArmor/> </Attributes>
+    </ValidItem>      
   </Material>    
 </Materials>

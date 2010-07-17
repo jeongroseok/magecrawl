@@ -175,8 +175,8 @@ namespace Magecrawl.GameUI
             nextAvailablePosition += 2;
 
             string needsLoadedString =  !m_player.CurrentWeapon.IsRanged || m_player.CurrentWeapon.IsLoaded ? "" : "(empty)";
-            screen.print(StartingX + 2, nextAvailablePosition, string.Format("Weapon: {0}{1}", m_player.CurrentWeapon.DisplayName, needsLoadedString));
-            nextAvailablePosition += 2;          
+            int linesTaken = screen.printRect(StartingX + 2, nextAvailablePosition, UIHelper.ScreenWidth - StartingX - 3, 5, string.Format("Weapon: {0} {1}", m_player.CurrentWeapon.DisplayName, needsLoadedString));
+            nextAvailablePosition += linesTaken + 1;
 
             m_colorHelper.SaveColors(screen);
             if (m_player.StatusEffects.Count() > 0)

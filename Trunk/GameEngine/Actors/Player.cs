@@ -528,7 +528,6 @@ namespace Magecrawl.GameEngine.Actors
 
             switch (armor.Weight)
             {
-                case ArmorWeight.None:
                 case ArmorWeight.Light:
                     return EquipArmorReasons.None;
                 case ArmorWeight.Standard:
