@@ -49,10 +49,10 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
             m_skills = new List<Skill>();
 
-            m_baseMaxStamina = 8;
+            m_baseMaxStamina = 20;
             m_currentStamina = m_baseMaxStamina;
 
-            m_baseMaxHealth = 12;
+            m_baseMaxHealth = 20;
             m_currentHealth = m_baseMaxHealth;
 
             m_baseMaxMP = 10;

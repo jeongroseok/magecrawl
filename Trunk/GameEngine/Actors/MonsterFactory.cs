@@ -106,8 +106,11 @@ namespace Magecrawl.GameEngine.Actors
                     m_monsterStats[lastBaseName]["BaseDamage"] = reader.GetAttribute("BaseDamage");
                     m_monsterStats[lastBaseName]["BaseCTIncrease"] = reader.GetAttribute("BaseCTIncrease");
                     m_monsterStats[lastBaseName]["BaseCTMoveCost"] = reader.GetAttribute("BaseCTMoveCost");
-                    m_monsterStats[lastBaseName]["BaseCTActCost"] = reader.GetAttribute("BaseCTActCost");
                     m_monsterStats[lastBaseName]["BaseCTAttackCost"] = reader.GetAttribute("BaseCTAttackCost");
+                    if (reader.GetAttribute("BaseCTActCost") != null)
+                        m_monsterStats[lastBaseName]["BaseCTActCost"] = reader.GetAttribute("BaseCTActCost");
+                    else
+                        m_monsterStats[lastBaseName]["BaseCTActCost"] = "1.0";
                 }
                 else if (reader.LocalName == "StatsPerLevel" && reader.NodeType == XmlNodeType.Element)
                 {

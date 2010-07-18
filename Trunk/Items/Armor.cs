@@ -168,6 +168,9 @@ namespace Magecrawl.Items
 
             m_staminaBonus = (int)Math.Round(baseArmorStm * staminaModifier);
 
+            // No matter how bad it is, it is better than nothing...
+            m_staminaBonus = Math.Max(m_staminaBonus, 1);
+
             m_evade = m_material.MaterialAttributes.ContainsKey("EvadeBonus") ? 
                 int.Parse(m_material.Attributes[Type]["EvadeBonus"], CultureInfo.InvariantCulture) : 0;
         }
