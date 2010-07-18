@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <Monsters>
 	<Monster BaseName="Wolf" AIType="Sprinter" Symbol="w" Intelligent="False">
-		<BaseStats BaseLevel="1" BaseVision="6" BaseHP="12" BaseDefence="0" BaseEvade="5" BaseDamage="2,2,-1,1" BaseCTIncrease="1.0" BaseCTMoveCost=".8" BaseCTActCost="1.0" BaseCTAttackCost=".5"/>
-		<StatsPerLevel DamagePerLevel="1,2,1" HPPerLevel="4" />
+		<BaseStats BaseLevel="1" BaseVision="6" BaseHP="45" BaseDefence="0" BaseEvade="5" BaseDamage="5,3" BaseCTIncrease="1.0" BaseCTMoveCost=".8" BaseCTAttackCost=".5"/>
+		<StatsPerLevel DamagePerLevel="1,3" HPPerLevel="15" />
 		<MonsterInstance Name="Wolf Pup" Level="0"/>
 		<MonsterInstance Name="Young Wolf" Level="1"/>
 		<MonsterInstance Name="Wolf" Level="2"/>
@@ -11,8 +11,8 @@
 		<MonsterInstance Name="Dire Wolf" Level="5"/>
 	</Monster>
 	<Monster BaseName="Orc Barbarian" AIType="Bruiser" Symbol="O" Intelligent="True">
-		<BaseStats BaseLevel="2" BaseVision="6" BaseHP="18" BaseDefence="1" BaseEvade="5" BaseDamage="2,2,0,1" BaseCTIncrease="1.0" BaseCTMoveCost="1.0" BaseCTActCost="1.0" BaseCTAttackCost="1.0"/>
-		<StatsPerLevel DamagePerLevel="1,2" HPPerLevel="4" />
+		<BaseStats BaseLevel="2" BaseVision="6" BaseHP="60" BaseDefence="1" BaseEvade="5" BaseDamage="8,3" BaseCTIncrease="1.0" BaseCTMoveCost="1.0" BaseCTAttackCost="1.0"/>
+		<StatsPerLevel DamagePerLevel="2,3" HPPerLevel="20" />
 		<MonsterInstance Name="Wild Orc" Level="0"/>
 		<MonsterInstance Name="Savage Orc" Level="1"/>
 		<MonsterInstance Name="Raging Orc" Level="2"/>
@@ -21,8 +21,8 @@
 		<MonsterInstance Name="Brutial Orc" Level="5"/>
 	</Monster>
 	<Monster BaseName="Orc Warrior" AIType="Standard" Symbol="o" Intelligent="True">
-		<BaseStats BaseLevel="2" BaseVision="6" BaseHP="16" BaseDefence="1" BaseEvade="5" BaseDamage="2,2,1,1" BaseCTIncrease="1.0" BaseCTMoveCost=".9" BaseCTActCost="1.0" BaseCTAttackCost="1.0"/>
-		<StatsPerLevel DamagePerLevel="1,2" HPPerLevel="4" />
+		<BaseStats BaseLevel="2" BaseVision="6" BaseHP="55" BaseDefence="1" BaseEvade="5" BaseDamage="10,3" BaseCTIncrease="1.0" BaseCTMoveCost=".9" BaseCTAttackCost="1.0"/>
+		<StatsPerLevel DamagePerLevel="3,3" HPPerLevel="17" />
 		<MonsterInstance Name="Orc Scout" Level="0"/>
 		<MonsterInstance Name="Orc Skirmisher" Level="1"/>
 		<MonsterInstance Name="Orc Soldier" Level="2"/>
@@ -31,8 +31,8 @@
 		<MonsterInstance Name="Orc Warlord" Level="5"/>
 	</Monster>
 	<Monster BaseName="Goblin Healer" AIType="Healer" Symbol="g" Intelligent="True">
-		<BaseStats BaseLevel="2" BaseVision="5" BaseHP="14" BaseDefence="0" BaseEvade="5" BaseDamage="2,2,0,1" BaseCTIncrease="1.0" BaseCTMoveCost=".8" BaseCTActCost="1.0" BaseCTAttackCost="1.0"/>
-		<StatsPerLevel DamagePerLevel="1,2" HPPerLevel="4" />
+		<BaseStats BaseLevel="2" BaseVision="5" BaseHP="45" BaseDefence="0" BaseEvade="5" BaseDamage="7,3" BaseCTIncrease="1.0" BaseCTMoveCost=".8" BaseCTAttackCost="1.0"/>
+		<StatsPerLevel DamagePerLevel="2,3" HPPerLevel="10" />
 		<MonsterInstance Name="Goblin Mender" Level="0"/>
 		<MonsterInstance Name="Goblin Healer" Level="1"/>
 		<MonsterInstance Name="Goblin Shaman" Level="2"/>
@@ -40,8 +40,8 @@
 		<MonsterInstance Name="Goblin Physician" Level="4"/>
 	</Monster>
 	<Monster BaseName="Goblin Slinger" AIType="Ranged" Symbol="G" Intelligent="True">
-		<BaseStats BaseLevel="1" BaseVision="5" BaseHP="14" BaseDefence="0" BaseEvade="5" BaseDamage="2,2,0,1" BaseCTIncrease="1.0" BaseCTMoveCost=".8" BaseCTActCost="1.0" BaseCTAttackCost="1.0"/>
-		<StatsPerLevel DamagePerLevel="1,2" HPPerLevel="4" />
+		<BaseStats BaseLevel="1" BaseVision="5" BaseHP="45" BaseDefence="0" BaseEvade="5" BaseDamage="7,3" BaseCTIncrease="1.0" BaseCTMoveCost=".8" BaseCTAttackCost="1.0"/>
+		<StatsPerLevel DamagePerLevel="2,3" HPPerLevel="10" />
 		<MonsterInstance Name="Goblin Scout" Level="0"/>
 		<MonsterInstance Name="Goblin Skirmisher" Level="1"/>
 		<MonsterInstance Name="Goblin Slinger" Level="2"/>
@@ -49,15 +49,15 @@
 		<MonsterInstance Name="Goblin Sharpshooter" Level="4"/>
 	</Monster>
 	<Monster BaseName="Kobold" AIType="Standard" Symbol="k" Intelligent="True">
-		<BaseStats BaseLevel="0" BaseVision="5" BaseHP="12" BaseDefence="0" BaseEvade="5" BaseDamage="2,2,0,1" BaseCTIncrease="1.0" BaseCTMoveCost=".9" BaseCTActCost="1.0" BaseCTAttackCost="1.0"/>
-		<StatsPerLevel DamagePerLevel="1,2" HPPerLevel="4" />
+		<BaseStats BaseLevel="0" BaseVision="5" BaseHP="40" BaseDefence="0" BaseEvade="5" BaseDamage="8,3" BaseCTIncrease="1.0" BaseCTMoveCost=".9" BaseCTAttackCost=".8"/>
+		<StatsPerLevel DamagePerLevel="3,3" HPPerLevel="8" />
 		<MonsterInstance Name="Kobold Scout" Level="0"/>
 		<MonsterInstance Name="Kobold Warrior" Level="1"/>
 		<MonsterInstance Name="Kobold Chief" Level="2"/>
 	</Monster>
 	<Monster BaseName="Giant Rat" AIType="Standard" Symbol="r" Intelligent="True">
-		<BaseStats BaseLevel="0" BaseVision="5" BaseHP="8" BaseDefence="0" BaseEvade="5" BaseDamage="2,2,0,1" BaseCTIncrease="1.25" BaseCTMoveCost="1.0" BaseCTActCost="1.0" BaseCTAttackCost="1.0"/>
-		<StatsPerLevel DamagePerLevel="1,2" HPPerLevel="4" />
+		<BaseStats BaseLevel="0" BaseVision="5" BaseHP="35" BaseDefence="0" BaseEvade="5" BaseDamage="2,3" BaseCTIncrease="1.25" BaseCTMoveCost=".75" BaseCTAttackCost=".25"/>
+		<StatsPerLevel DamagePerLevel="1,3,-1" HPPerLevel="7" />
 		<MonsterInstance Name="Huge Rat" Level="0"/>
 		<MonsterInstance Name="Giant Rat" Level="1"/>
 		<MonsterInstance Name="Dire Rat" Level="2"/>

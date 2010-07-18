@@ -49,7 +49,7 @@ namespace Magecrawl.GameEngine
                 return false;
 
             CoreGameEngine.Instance.SendTextOutput(String.Format("{0} slings a stone at {1}.", invoker.Name, targetCharacter.Name));           
-            CoreGameEngine.Instance.CombatEngine.RangedBoltToLocation(invoker, target, (new DiceRoll(1, 4, 1)).Roll(), null, null);
+            CoreGameEngine.Instance.CombatEngine.RangedBoltToLocation(invoker, target, (new DiceRoll(5, 3)).Roll(), null, null);
             
             // Rest to pass a turn
             CoreGameEngine.Instance.Wait(invoker);
@@ -65,7 +65,7 @@ namespace Magecrawl.GameEngine
             // If we get here, it's a valid first aid. Increase target's HP by amount
             string targetString = targetCharacter == invoker ? "themself" : "the " + targetCharacter.Name;
             CoreGameEngine.Instance.SendTextOutput(String.Format("The {0} applies some fast combat medicine on {1}.", invoker.Name, targetString));
-            int amountToHeal = (new DiceRoll(1, 4, 1, 1)).Roll();
+            int amountToHeal = (new DiceRoll(4, 3)).Roll();
             targetCharacter.Heal(amountToHeal, false);
             CoreGameEngine.Instance.Wait(invoker);
             return true;

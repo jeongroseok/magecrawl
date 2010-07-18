@@ -38,7 +38,7 @@ namespace Magecrawl.GameUI.Equipment
 
                 screen.printFrame(EquipmentWindowOffset + 1, EquipmentWindowTopY + EquipmentItemHeight - 6, EquipmentItemWidth - 2, 5, true);
 
-                string weaponString = string.Format("Damage: {0}     Evade: {1}      Stamina Bouns: {2}", m_player.CurrentWeapon.Damage, m_player.Evade, GetStaminaTotalBonus());
+                string weaponString = string.Format("Damage: {0}     Evade: {1}      Stamina Bonus: {2}", m_player.CurrentWeapon.Damage, m_player.Evade, GetStaminaTotalBonus());
                 screen.print(EquipmentWindowOffset + 3, EquipmentWindowTopY + EquipmentItemHeight - 4, weaponString);
 
                 List<INamedItem> equipmentList = CreateEquipmentListFromPlayer();

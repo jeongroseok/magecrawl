@@ -2,44 +2,44 @@
 <Qualities>
   <Quality Name="Shoddy" LevelAdjustment="-2" Description="The flaws in craftsmanship are obvious to even the most unobservant.">
     <Attributes>
-      <DamageModifier>-25</DamageModifier>
-      <SpeedModifier>-10</SpeedModifier>
-      <ArmorStaminaModifier>-50</ArmorStaminaModifier>
+      <DamageModifier>-60</DamageModifier>
+      <SpeedModifier>10</SpeedModifier>
+      <ArmorStaminaModifier>-75</ArmorStaminaModifier>
       <ArmorHeavier/>
     </Attributes>
   </Quality>
   <Quality Name="Poor" LevelAdjustment="-1" Description="Either mass produced in large quantities or by a novice craftsman, the craftsmanship is less than ideal.">
     <Attributes>
-      <DamageModifier>-10</DamageModifier>
-      <ArmorStaminaModifier>-25</ArmorStaminaModifier>
+      <DamageModifier>-35</DamageModifier>
+      <ArmorStaminaModifier>-35</ArmorStaminaModifier>
     </Attributes>
   </Quality>
   <Quality Name="Average" LevelAdjustment="0" Description="">
   </Quality>
   <Quality Name="Well Made" LevelAdjustment="1" Description="Slightly better made than the average.">
     <Attributes>
-      <DamageModifier>10</DamageModifier>
-      <ArmorStaminaModifier>10</ArmorStaminaModifier>
+      <DamageModifier>35</DamageModifier>
+      <ArmorStaminaModifier>35</ArmorStaminaModifier>
     </Attributes>
   </Quality>
   <Quality Name="Superior" LevelAdjustment="2" Description="Produced by experienced craftsman who valued their work.">
     <Attributes>
-      <DamageModifier>20</DamageModifier>
-      <ArmorStaminaModifier>25</ArmorStaminaModifier>
+      <DamageModifier>70</DamageModifier>
+      <ArmorStaminaModifier>70</ArmorStaminaModifier>
     </Attributes>
   </Quality>
   <Quality Name="Masterwork" LevelAdjustment="3" Description="Produced by a guild master.">
     <Attributes>
-      <DamageModifier>25</DamageModifier>
-      <SpeedModifier>10</SpeedModifier>
-      <ArmorStaminaModifier>50</ArmorStaminaModifier>
+      <DamageModifier>90</DamageModifier>
+      <SpeedModifier>-10</SpeedModifier>
+      <ArmorStaminaModifier>95</ArmorStaminaModifier>
     </Attributes>
   </Quality>
   <Quality Name="Perfect" LevelAdjustment="4" Description="Only a few goods every generation are made to this level of quality. A masterpiece.">
     <Attributes>
-      <DamageModifier>50</DamageModifier>
-      <SpeedModifier>20</SpeedModifier>
-      <ArmorStaminaModifier>75</ArmorStaminaModifier>
+      <DamageModifier>115</DamageModifier>
+      <SpeedModifier>-25</SpeedModifier>
+      <ArmorStaminaModifier>150</ArmorStaminaModifier>
       <ArmorLighter/>
     </Attributes>
   </Quality>
