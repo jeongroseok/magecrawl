@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine
 {
     internal static class CombatDefenseCalculator
     {
-        private const double BaseEvade = 5;
+        private const double BaseEvade = 10;
 
         public static double CalculateArmorEvade(IPlayer player)
         {

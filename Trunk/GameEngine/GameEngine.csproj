@@ -51,7 +51,6 @@
     <Compile Include="Actors\MonsterAI\BaseTactic.cs" />
     <Compile Include="Actors\MonsterAI\DefaultTactic.cs" />
     <Compile Include="Actors\MonsterAI\PossiblyRunFromPlayerTactic.cs" />
-    <Compile Include="Actors\MonsterAI\WaitTactic.cs" />
     <Compile Include="Actors\MonsterAI\PossiblyApproachPlayerTactic.cs" />
     <Compile Include="Actors\MonsterAI\KeepAwayFromPlayerIfAbleTactic.cs" />
     <Compile Include="Actors\MonsterAI\KeepAwayFromMeleeRangeIfAbleTactic.cs" />

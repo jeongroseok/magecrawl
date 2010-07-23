@@ -15,7 +15,7 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 
         public override bool UseTactic(CoreGameEngine engine, Monster monster)
         {
-            if (s_random.Chance(50))
+            if (s_random.Chance(70))
                 return MoveAwayFromPlayer(engine, monster);
             return false;
         }

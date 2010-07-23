@@ -6,7 +6,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors.MonsterAI
 {
-    internal class KeepAwayFromPlayerIfAbleTactic : TacticWithCooldown
+    internal class KeepAwayFromPlayerWithOtherMonstersNearbyTactic : TacticWithCooldown
     {        
         public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
         {

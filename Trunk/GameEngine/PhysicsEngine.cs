@@ -174,7 +174,7 @@ namespace Magecrawl.GameEngine
 
         // This is a slow operation. It should not be called multiple times in a row!
         // Call CalculateMoveablePointGrid instead~!
-        private bool IsMovablePoint(Map map, Player player, Point p)
+        public bool IsMovablePointSingleShot(Map map, Point p)
         {
             // If it's not a floor, it's not movable
             if (map.GetTerrainAt(p) != TerrainType.Floor)
@@ -189,7 +189,7 @@ namespace Magecrawl.GameEngine
                 return false;
 
             // If the player is there, it's not movable
-            if (player.Position == p)
+            if (m_player.Position == p)
                 return false;
 
             return true;
@@ -226,7 +226,7 @@ namespace Magecrawl.GameEngine
         {
             bool didAnything = false;
             Point newPosition = PointDirectionUtils.ConvertDirectionToDestinationPoint(c.Position, direction);
-            if (m_map.IsPointOnMap(newPosition) && IsMovablePoint(m_map, m_player, newPosition))
+            if (m_map.IsPointOnMap(newPosition) && IsMovablePointSingleShot(m_map, newPosition))
             {
                 c.Position = newPosition;
                 m_timingEngine.ActorMadeMove(c);
