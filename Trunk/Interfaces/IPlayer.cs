@@ -95,6 +95,7 @@ namespace Magecrawl.Interfaces
 
         bool CouldCastSpell(ISpell spell);
 
-        EquipArmorReasons CouldEquipArmor(IArmor armor);
+        bool CanEquipArmor(IArmor armor);
+        IList<EquipArmorReasons> CanNotEquipArmorReasons(IArmor armor);
     }
 }

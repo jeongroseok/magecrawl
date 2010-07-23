@@ -178,7 +178,7 @@ namespace Magecrawl.Items
         public override void ReadXml(XmlReader reader)
         {
             m_material = ItemFactory.Instance.MaterialFactory.GetMaterial(Type, reader.ReadElementContentAsString());
-            m_quality = ItemFactory.Instance.CraftsmanFactory.GetQuality(reader.ReadElementContentAsString());
+            m_quality = ItemFactory.Instance.QualityFactory.GetQuality(reader.ReadElementContentAsString());
             Calculate();
         }
 

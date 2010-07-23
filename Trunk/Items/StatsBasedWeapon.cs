@@ -33,12 +33,11 @@ namespace Magecrawl.Items
 
             m_damage = new DiceRoll(Attributes["BaseDamage"]);
             double damageBonus = 1 + (int.Parse(m_material.MaterialAttributes["DamageBonus"]) / 100.0);
+            if (m_quality.Attributes.ContainsKey("DamageModifier"))
+                damageBonus += (int.Parse(m_quality.Attributes["DamageModifier"]) / 100.0);
 
             m_damage.Rolls = (short)Math.Round(m_damage.Rolls * damageBonus);
             
-            if (m_quality.Attributes.ContainsKey("DamageModifier"))
-                m_damage.Multiplier *= 1 + (int.Parse(m_quality.Attributes["DamageModifier"], CultureInfo.InvariantCulture) / 100.0);
-
             m_CTCost = double.Parse(Attributes["BaseSpeed"], CultureInfo.InvariantCulture);
             m_CTCost += double.Parse(m_material.MaterialAttributes["ExtraCTCost"], CultureInfo.InvariantCulture);
             if (m_quality.Attributes.ContainsKey("SpeedModifier"))
@@ -135,7 +134,7 @@ namespace Magecrawl.Items
         {
             base.ReadXml(reader);
             m_material = ItemFactory.Instance.MaterialFactory.GetMaterial(Type, reader.ReadElementContentAsString());
-            m_quality = ItemFactory.Instance.CraftsmanFactory.GetQuality(reader.ReadElementContentAsString());            
+            m_quality = ItemFactory.Instance.QualityFactory.GetQuality(reader.ReadElementContentAsString());            
             Calculate();
         }
 
