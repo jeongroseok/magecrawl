@@ -142,9 +142,9 @@ namespace Magecrawl.GameEngine.Actors
                 case "Ranged":
                     tactics.Add(new KeepAwayFromMeleeRangeIfAbleTactic());
                     tactics.Add(new UseSlingStoneTactic());
-                    tactics.Add(new KeepAwayFromPlayerIfAbleTactic());
+                    tactics.Add(new KeepAwayFromPlayerWithOtherMonstersNearbyTactic());
                     tactics.Add(new PossiblyRunFromPlayerTactic());
-                    tactics.Add(new WaitTactic());
+                    tactics.Add(new DefaultTactic());
                     break;
                 case "Sprinter":
                     tactics.Add(new RushTactic());

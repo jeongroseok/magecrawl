@@ -6,7 +6,7 @@
   <ConsumableEffect Name="Minor Mana" SpellName="HealMP" ItemLevel="1">
     <ConsumableInstance Type="Potion" Name="Minor Mana Potion" ItemDescription="Drinking will increase your mana somewhat."/>
   </ConsumableEffect>
-  <ConsumableEffect Name="Haste" SpellName="Haste" ItemLevel="2">
+  <ConsumableEffect Name="Haste" SpellName="Haste" ItemLevel="0">
     <ConsumableInstance Type="Potion" Name="Haste Potion" ItemDescription="Drinking will speed you up for a short time."/>
     <ConsumableInstance Type="Scroll" Name="Scroll of Haste" ItemDescription="Reading this scroll will warp time around you for a short period of time, speeding your actions."/>
     <ConsumableInstance Type="Wand" Name="Wand of Haste" ItemDescription="Zapping this wand will warp around you for a short period of time, speeding your actions."/>
@@ -20,10 +20,10 @@
   <ConsumableEffect Name="Fireball" SpellName="Fireball" ItemLevel="3" CasterLevel="3">
     <ConsumableInstance Type="Wand" Name="Wand Of Fireball" ItemDescription="Zapping this wand will create a tiny bead of fire that will explode into a fireball when it impacts a surface."/>
   </ConsumableEffect>
-  <ConsumableEffect Name="Ice Bolt" SpellName="Ice Bolt" ItemLevel="2" CasterLevel="2">
+  <ConsumableEffect Name="Ice Bolt" SpellName="Ice Bolt" ItemLevel="1" CasterLevel="2">
     <ConsumableInstance Type="Wand" Name="Wand Of Ice Bolt" ItemDescription="Zapping it creates a 2 foot long icicle and hurle it at the target."/>
   </ConsumableEffect>
-  <ConsumableEffect Name="Force Bolt" SpellName="Force Bolt" ItemLevel="1" CasterLevel="1">
+  <ConsumableEffect Name="Force Bolt" SpellName="Force Bolt" ItemLevel="0" CasterLevel="1">
     <ConsumableInstance Type="Wand" Name="Wand Of Magic Missile" ItemDescription="Zapping produces two tiny bolts of force striking a nearby target."/>
   </ConsumableEffect>
   <ConsumableEffect Name="Sparks" SpellName="Cone Of Sparks" ItemLevel="2" CasterLevel="2">
