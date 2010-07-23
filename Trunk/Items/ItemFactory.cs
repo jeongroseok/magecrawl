@@ -13,7 +13,7 @@ namespace Magecrawl.Items
         private static TCODRandom s_random = new TCODRandom();
 
         internal MaterialFactory MaterialFactory;
-        internal QualityFactory CraftsmanFactory;
+        internal QualityFactory QualityFactory;
         internal ComsumableEffectFactory ConsumableEffectFactory;
 
         private static ItemFactory m_instance = null;
@@ -30,7 +30,7 @@ namespace Magecrawl.Items
         private ItemFactory()
         {
             MaterialFactory = new MaterialFactory();
-            CraftsmanFactory = new QualityFactory();
+            QualityFactory = new QualityFactory();
             ConsumableEffectFactory = new ComsumableEffectFactory();
         }
 
@@ -86,26 +86,31 @@ namespace Magecrawl.Items
 
         public Item CreateItemOfType(string type, int level)
         {
+            return CreateItemOfType(type, level, null);
+        }
+
+        public Item CreateItemOfType(string type, int level, string qualityName)
+        {
             // So sometimes there can be "gaps" where we don't have a base material of
             // the preferred 3/4 required. This loop will try again a good number of times, every fifth time 
             // decreasing the required quality until we can generate something.
             Item returnItem = null;
             int i = 0;
             while (true)
-            {   
+            {
                 // Lower is 3/4 of requested. High is level + 1. 
                 // If we fail to produce on first try, reduce low level by 1 every fifth iteration
                 int lowLevelReduction = i / 5;
                 int lowLevel = Math.Max((int)Math.Round((level * 3.0) / 4.0) - lowLevelReduction, 0);
                 int highLevel = level + 1;
-                returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel);
+                returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel, qualityName);
                 if (returnItem != null)
                     return returnItem;
                 i++;
             }
         }
 
-        public Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel)
+        public Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel, string qualityName)
         {            
             switch (type)
             {
@@ -117,7 +122,7 @@ namespace Magecrawl.Items
                 {
                     Material material;
                     Quality quality;
-                    CalculateMaterials(type, level, lowLevel, highLevel, out material, out quality);
+                    CalculateMaterials(type, level, lowLevel, highLevel, qualityName, out material, out quality);
                     if (material == null || quality == null)
                         return null;
 
@@ -128,7 +133,7 @@ namespace Magecrawl.Items
                 {
                     Material material;
                     Quality quality;
-                    CalculateMaterials(type, level, lowLevel, highLevel, out material, out quality);
+                    CalculateMaterials(type, level, lowLevel, highLevel, qualityName, out material, out quality);
                     if (material == null || quality == null)
                         return null;
 
@@ -141,7 +146,7 @@ namespace Magecrawl.Items
                 {
                     Material material;
                     Quality quality;
-                    CalculateMaterials(type, level, lowLevel, highLevel, out material, out quality);
+                    CalculateMaterials(type, level, lowLevel, highLevel, qualityName, out material, out quality);
                     if (material == null || quality == null)
                         return null;
 
@@ -187,11 +192,13 @@ namespace Magecrawl.Items
             }
         }
 
-        private void CalculateMaterials(string type, int level, int lowLevel, int highLevel, out Material material, out Quality quality)
+        private void CalculateMaterials(string type, int level, int lowLevel, int highLevel, string qualityName, out Material material, out Quality quality)
         {
-            quality = CraftsmanFactory.GetQualityNoHigherThan(highLevel);
+            if (qualityName != null)
+                quality = QualityFactory.GetQuality(qualityName);
+            else
+                quality = QualityFactory.GetQualityNoHigherThan(highLevel);
 
-            // Unsure how we could fail on getting a quality, but if we do, bail.
             if (quality == null)
             {
                 material = null;
@@ -201,7 +208,7 @@ namespace Magecrawl.Items
             int minLevelCapNeeded = (int)Math.Max(lowLevel - quality.LevelAdjustment, 0);
             int levelCapLeft = (int)Math.Max(highLevel - quality.LevelAdjustment, 0);
 
-            material = MaterialFactory.GetMaterialInLevelRange(type, minLevelCapNeeded, levelCapLeft);                    
+            material = MaterialFactory.GetMaterialInLevelRange(type, minLevelCapNeeded, levelCapLeft);
         }
     }
 }

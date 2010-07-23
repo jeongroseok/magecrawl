@@ -52,7 +52,7 @@ namespace Magecrawl.GameEngine.Actors
             m_baseMaxStamina = 20;
             m_currentStamina = m_baseMaxStamina;
 
-            m_baseMaxHealth = 20;
+            m_baseMaxHealth = 40;
             m_currentHealth = m_baseMaxHealth;
 
             m_baseMaxMP = 10;
@@ -62,8 +62,8 @@ namespace Magecrawl.GameEngine.Actors
 
             LastTurnSeenAMonster = 0;
 
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 1));
-            CreateDefaultArmorPlayerCanWear("ChestArmor");
+            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 0, "Average"));
+            CreateStartingArmorPlayerCanWear();
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
 
@@ -73,11 +73,11 @@ namespace Magecrawl.GameEngine.Actors
 
         // We could get unlucky and create an armor of the type the player couldn't wear due to lack of skills.
         // This will keep trying until it gets one that the player can wear.
-        private void CreateDefaultArmorPlayerCanWear(string type)
+        private void CreateStartingArmorPlayerCanWear()
         {
             while (true)
             {
-                IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType(type, 1);
+                IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Average");
                 if (CanEquipArmor(armor))
                 {
                     Equip(armor);
@@ -511,37 +511,41 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public EquipArmorReasons CouldEquipArmor(IArmor armor)
+        public IList<EquipArmorReasons> CanNotEquipArmorReasons(IArmor armor)
         {
+            List<EquipArmorReasons> reasonsList = new List<EquipArmorReasons>();
             if (armor.Type == "Boots" && ChestArmor != null)
             {
                 // If I'm equiping boots and have chest armor, check to that the armor doesn't prevent that type
                 if (((Item)ChestArmor).ContainsAttribute("RobesPreventBoots"))
-                    return EquipArmorReasons.RobesPreventBoots;
+                    reasonsList.Add(EquipArmorReasons.RobesPreventBoots);
             }
-            else if (armor.Type == "ChestArmor" && Boots != null)
+            if (armor.Type == "ChestArmor" && Boots != null)
             {
                 // If I"m equipping chest armor that prevents wearing boots, make sure that I'm not already wearing some.
                 if (((Item)armor).ContainsAttribute("RobesPreventBoots"))
-                    return EquipArmorReasons.BootsPreventRobes;
+                    reasonsList.Add(EquipArmorReasons.BootsPreventRobes);
             }
 
             switch (armor.Weight)
             {
                 case ArmorWeight.Light:
-                    return EquipArmorReasons.None;
+                    break;
                 case ArmorWeight.Standard:
-                    return HasAttribute("StandardArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight;
+                    reasonsList.Add(HasAttribute("StandardArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight);
+                    break;
                 case ArmorWeight.Heavy:
-                    return HasAttribute("HeavyArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight;
+                    reasonsList.Add(HasAttribute("HeavyArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight);
+                    break;
                 default:
                     throw new System.InvalidOperationException("CouldEquip doesn't know how to handle type - " + armor.Weight.ToString());
             }
+            return reasonsList;
         }
 
         public bool CanEquipArmor(IArmor armor)
         {
-            return CouldEquipArmor(armor) == EquipArmorReasons.None;
+            return CanNotEquipArmorReasons(armor).Count == 0;
         }
 
         #region SaveLoad
