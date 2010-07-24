@@ -84,27 +84,39 @@ namespace Magecrawl
             else
                 TextBox.AddText("Welcome Back To Magecrawl.");
         }
-        
-        internal void Go(string playerName, bool loadFromFile)
+
+        internal void StartGameFromFile(string playerName)
+        {
+            SetupEngineOutputDelegate();
+            try
+            {
+                LoadFromFile(playerName);
+            }
+            catch (FileNotFoundException)
+            {
+                StartNewGame(playerName);
+            }
+            Go(playerName);
+        }
+
+        internal void StartNewGame(string playerName)
         {
             SetupEngineOutputDelegate();
 
-            if (loadFromFile)
-            {
-                try
-                {
-                    LoadFromFile(playerName);
-                }
-                catch (FileNotFoundException)
-                {
-                    GenerateWorld(playerName);
-                }
-            }
-            else
-            {
-                GenerateWorld(playerName);
-            }
+            NewPlayerOptionsWindow window = new NewPlayerOptionsWindow();
+            string selectedOption = window.Run();
 
+            // If they closed the window on option screen, quit early.
+            if (TCODConsole.isWindowClosed() || selectedOption == null)
+                return;
+
+            GenerateWorld(playerName, selectedOption);
+
+            Go(playerName);
+        }
+        
+        private void Go(string playerName)
+        {
             // First update before event loop so we have a map to display
             m_painters.UpdateFromNewData(m_engine);
 
@@ -156,11 +168,11 @@ namespace Magecrawl
             }
         }
 
-        private void GenerateWorld(string playerName)
+        private void GenerateWorld(string playerName, string startingBackground)
         {
             using (LoadingScreen loadingScreen = new LoadingScreen(m_console, "Generating World..."))
             {
-                m_engine.CreateNewWorld(playerName);
+                m_engine.CreateNewWorld(playerName, startingBackground);
             }
 
             SetupKeyboardHandlers();  // Requires game engine.

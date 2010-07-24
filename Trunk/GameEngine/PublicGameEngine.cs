@@ -33,9 +33,9 @@ namespace Magecrawl.GameEngine
             m_targetting = new TargettingUtils(m_engine);
         }
 
-        public void CreateNewWorld(string playerName)
+        public void CreateNewWorld(string playerName, string startingBackground)
         {
-            m_engine.CreateNewWorld(playerName);
+            m_engine.CreateNewWorld(playerName, startingBackground);
         }
 
         public void LoadSaveFile(string saveGameName)

@@ -22,10 +22,10 @@ namespace Magecrawl.Items.Materials
         // Description of item when made of material - e.g. "Carved from a simple hard wood."
         public Dictionary<string, string> Descriptions { get; private set; }
         
-        // Name of item when made of material - e.g. "Wooden Club"
+        // Name of item when made of material - e.g. "Bronze Sword"
         public Dictionary<string, string> FullItemNamed { get; private set; }
 
-        // Attributes of item when type of material - e.g. Attributes["Club"]["Foo"]
+        // Attributes of item when type of material - e.g. Attributes["Sword"]["Foo"]
         public Dictionary<string, Dictionary<string, string>> Attributes;
 
         // Attributes of base material - e.g. MaterialAttributes["DamageBonus"]
