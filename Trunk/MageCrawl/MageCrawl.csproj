@@ -171,9 +171,11 @@
     </Content>
     <Content Include="..\dist\Resources\BaseArmorStats.xml">
       <Link>Resources\BaseArmorStats.xml</Link>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\dist\Resources\BaseWeaponStats.xml">
       <Link>Resources\BaseWeaponStats.xml</Link>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\dist\Resources\Consumables.xml">
       <Link>Resources\Consumables.xml</Link>
@@ -186,6 +188,7 @@
     </Content>
     <Content Include="..\dist\Resources\Monsters.xml">
       <Link>Resources\Monsters.xml</Link>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\dist\Resources\Quality.xml">
       <Link>Resources\Quality.xml</Link>

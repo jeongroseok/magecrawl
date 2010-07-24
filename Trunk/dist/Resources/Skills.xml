@@ -13,11 +13,11 @@
   <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
     <AddProficiency>Fire</AddProficiency>
   </Skill>
-  <Skill Name="Fire Mastery II" Cost="10" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
-    <AddProficiency>Fire</AddProficiency>
-  </Skill>
   <Skill Name="Cone Of Sparks" Cost="10" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly.">
     <AddSpell>Cone Of Sparks</AddSpell>
+  </Skill>
+  <Skill Name="Fire Mastery II" Cost="10" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
+    <AddProficiency>Fire</AddProficiency>
   </Skill>
   <Skill Name="Fireball" Cost="20" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target.">
     <AddSpell>Fireball</AddSpell>
@@ -39,19 +39,19 @@
     <AddSpell>Teleport</AddSpell>
   </Skill>
 
-  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 2.">
-    <HPBonus>2</HPBonus>
+  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
+    <HPBonus>10</HPBonus>
   </Skill>
-  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 3.">
-    <HPBonus>3</HPBonus>
+  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
+    <HPBonus>10</HPBonus>
   </Skill>
-  <Skill Name="Toughness III" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 4.">
-    <HPBonus>4</HPBonus>
+  <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
+    <HPBonus>10</HPBonus>
   </Skill>
-  <Skill Name="Toughness IV" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 5.">
-    <HPBonus>4</HPBonus>
+  <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
+    <HPBonus>10</HPBonus>
   </Skill>
-  <Skill Name="Toughness V" Cost="25" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by an additional 10.">
+  <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
     <HPBonus>10</HPBonus>
   </Skill>
   <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
@@ -69,7 +69,7 @@
   <Skill Name="Blessing Of Mana V" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
     <MPBonus>4</MPBonus>
   </Skill>
-  <Skill Name="Armor Proficiency" Cost="15" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells.">
+  <Skill Name="Armor Proficiency" Cost="15" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than cloth due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells.">
     <StandardArmorProficiency/>
   </Skill>
   <Skill Name="Shield Proficiency" Cost="10" School="Martial" Description="While casting spells in heavier armor is difficult due to the increased weight, at least it is spread throughout the body.                      Casting effectivly while using a shield in hand requires an entirely new set of skills.">

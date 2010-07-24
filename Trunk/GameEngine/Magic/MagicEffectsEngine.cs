@@ -93,7 +93,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    int amountToHeal = (new DiceRoll(10 * strength, 3)).Roll();
+                    int amountToHeal = (new DiceRoll(10, 3, 0, 1 + (.5 * (strength-1)))).Roll();
                     int healAmount = invoker.Heal(amountToHeal, true);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
@@ -103,7 +103,7 @@ namespace Magecrawl.GameEngine.Magic
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
                     Player player = invoker as Player;
                     if (player != null)
-                        player.GainMP((new DiceRoll(strength, 4, 3)).Roll());
+                        player.GainMP((new DiceRoll(strength, 4, 5)).Roll());
                     return true;
                 }
                 case "RangedSingleTarget":
@@ -253,7 +253,7 @@ namespace Magecrawl.GameEngine.Magic
             int damage = 0;
             damage += (new DiceRoll(10, 3)).Roll();
             for (int i = 1; i < strength; ++i)
-                damage += (new DiceRoll(2, 3)).Roll();
+                damage += (new DiceRoll(3, 3)).Roll();
             return damage;
         }
 

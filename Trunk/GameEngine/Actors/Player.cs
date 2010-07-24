@@ -49,7 +49,7 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
             m_skills = new List<Skill>();
 
-            m_baseMaxStamina = 40;
+            m_baseMaxStamina = 0;
             m_currentStamina = m_baseMaxStamina;
 
             m_baseMaxHealth = 50;
@@ -58,12 +58,12 @@ namespace Magecrawl.GameEngine.Actors
             m_baseMaxMP = 10;
             m_baseCurrentMP = m_baseMaxMP;
             
-            SkillPoints = 5;
+            SkillPoints = 10;
 
             LastTurnSeenAMonster = 0;
 
             Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 0, "Average"));
-            CreateStartingArmorPlayerCanWear();
+            CreateStartingArmorPlayerCanWear("ChestArmor");;
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
             m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
 
@@ -73,11 +73,11 @@ namespace Magecrawl.GameEngine.Actors
 
         // We could get unlucky and create an armor of the type the player couldn't wear due to lack of skills.
         // This will keep trying until it gets one that the player can wear.
-        private void CreateStartingArmorPlayerCanWear()
+        private void CreateStartingArmorPlayerCanWear(string type)
         {
             while (true)
             {
-                IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Average");
+                IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType(type, 0, "Average");
                 if (CanEquipArmor(armor))
                 {
                     Equip(armor);
@@ -119,7 +119,9 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_baseMaxStamina + GetTotalAttributeValue("HPBonus") + CombatDefenseCalculator.CalculateArmorStaminaBonus(this);
+                int baseMaxStamina = m_baseMaxStamina + CombatDefenseCalculator.CalculateArmorStaminaBonus(this);
+                double bonusStamina = 1 + (GetTotalAttributeValue("HPBonus") / 100.0);
+                return (int)Math.Round(baseMaxStamina * bonusStamina);
             }
         }
 
