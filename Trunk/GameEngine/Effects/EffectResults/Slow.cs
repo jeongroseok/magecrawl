@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
 
         public Slow(int strength)
         {
-            m_modifier = 1.4;
+            m_modifier = 1.25;
         }
 
         internal override void Apply(Character appliedTo)

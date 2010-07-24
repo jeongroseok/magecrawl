@@ -98,11 +98,11 @@ namespace Magecrawl.Items
             int i = 0;
             while (true)
             {
-                // Lower is 3/4 of requested. High is level + 1. 
+                // Lower is 3/4 of requested. High is level.
                 // If we fail to produce on first try, reduce low level by 1 every fifth iteration
                 int lowLevelReduction = i / 5;
                 int lowLevel = Math.Max((int)Math.Round((level * 3.0) / 4.0) - lowLevelReduction, 0);
-                int highLevel = level + 1;
+                int highLevel = level;
                 returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel, qualityName);
                 if (returnItem != null)
                     return returnItem;
