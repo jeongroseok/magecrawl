@@ -45,10 +45,10 @@ namespace Magecrawl.Items
             switch (type)
             {
                 case "Axe":
-                case "Club":
                 case "Dagger":                    
                 case "Spear":
                 case "Sword":
+                case "Staff":
                     return new StatsBasedWeapon();
                 case "Sling":
                 case "Bow":
@@ -69,7 +69,7 @@ namespace Magecrawl.Items
             }
         }
 
-        private static List<string> s_itemList = new List<string>() { "Axe", "Bow", "Club", "Dagger", "Sling", "Spear", 
+        private static List<string> s_itemList = new List<string>() { "Axe", "Bow", "Dagger", "Sling", "Spear", "Staff",
             "Sword", "ChestArmor", "Helm", "Gloves", "Boots", "Potion", "Scroll", "Wand" };
         public List<string> ItemTypeList
         {
@@ -86,10 +86,10 @@ namespace Magecrawl.Items
 
         public Item CreateItemOfType(string type, int level)
         {
-            return CreateItemOfType(type, level, null);
+            return CreateItemOfType(type, level, null, null);
         }
 
-        public Item CreateItemOfType(string type, int level, string qualityName)
+        public Item CreateItemOfType(string type, int level, string materialName, string qualityName)
         {
             // So sometimes there can be "gaps" where we don't have a base material of
             // the preferred 3/4 required. This loop will try again a good number of times, every fifth time 
@@ -103,26 +103,26 @@ namespace Magecrawl.Items
                 int lowLevelReduction = i / 5;
                 int lowLevel = Math.Max((int)Math.Round((level * 3.0) / 4.0) - lowLevelReduction, 0);
                 int highLevel = level;
-                returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel, qualityName);
+                returnItem = CreateItemOfTypeCore(type, level, lowLevel, highLevel, materialName, qualityName);
                 if (returnItem != null)
                     return returnItem;
                 i++;
             }
         }
 
-        public Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel, string qualityName)
+        public Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel, string materialName, string qualityName)
         {            
             switch (type)
             {
                 case "Axe":
-                case "Club":
                 case "Dagger":                    
                 case "Spear":
+                case "Staff":
                 case "Sword":
                 {
                     Material material;
                     Quality quality;
-                    CalculateMaterials(type, level, lowLevel, highLevel, qualityName, out material, out quality);
+                    GetWeaponArmorParts(type, level, lowLevel, highLevel, materialName, qualityName, out material, out quality);
                     if (material == null || quality == null)
                         return null;
 
@@ -133,7 +133,7 @@ namespace Magecrawl.Items
                 {
                     Material material;
                     Quality quality;
-                    CalculateMaterials(type, level, lowLevel, highLevel, qualityName, out material, out quality);
+                    GetWeaponArmorParts(type, level, lowLevel, highLevel, materialName, qualityName, out material, out quality);
                     if (material == null || quality == null)
                         return null;
 
@@ -146,7 +146,7 @@ namespace Magecrawl.Items
                 {
                     Material material;
                     Quality quality;
-                    CalculateMaterials(type, level, lowLevel, highLevel, qualityName, out material, out quality);
+                    GetWeaponArmorParts(type, level, lowLevel, highLevel, materialName, qualityName, out material, out quality);
                     if (material == null || quality == null)
                         return null;
 
@@ -192,7 +192,7 @@ namespace Magecrawl.Items
             }
         }
 
-        private void CalculateMaterials(string type, int level, int lowLevel, int highLevel, string qualityName, out Material material, out Quality quality)
+        private void GetWeaponArmorParts(string type, int level, int lowLevel, int highLevel, string materialName, string qualityName, out Material material, out Quality quality)
         {
             if (qualityName != null)
                 quality = QualityFactory.GetQuality(qualityName);
@@ -205,10 +205,17 @@ namespace Magecrawl.Items
                 return;
             }
 
-            int minLevelCapNeeded = (int)Math.Max(lowLevel - quality.LevelAdjustment, 0);
-            int levelCapLeft = (int)Math.Max(highLevel - quality.LevelAdjustment, 0);
+            if (materialName != null)
+            {
+                material = MaterialFactory.GetMaterial(type, materialName);
+            }
+            else
+            {
+                int minLevelCapNeeded = (int)Math.Max(lowLevel - quality.LevelAdjustment, 0);
+                int levelCapLeft = (int)Math.Max(highLevel - quality.LevelAdjustment, 0);
 
-            material = MaterialFactory.GetMaterialInLevelRange(type, minLevelCapNeeded, levelCapLeft);
+                material = MaterialFactory.GetMaterialInLevelRange(type, minLevelCapNeeded, levelCapLeft);
+            }
         }
     }
 }

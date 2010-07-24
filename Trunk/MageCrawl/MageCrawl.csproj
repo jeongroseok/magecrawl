@@ -107,6 +107,7 @@
     <Compile Include="Exceptions\PlayerDiedException.cs">
     </Compile>
     <Compile Include="LoadingScreen.cs" />
+    <Compile Include="NewPlayerOptionsWindow.cs" />
     <Compile Include="PlayerActions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WelcomeWindow.cs" />

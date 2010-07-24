@@ -52,38 +52,69 @@ namespace Magecrawl.GameEngine.Actors
             m_baseMaxStamina = 0;
             m_currentStamina = m_baseMaxStamina;
 
-            m_baseMaxHealth = 50;
+            m_baseMaxHealth = 70;
             m_currentHealth = m_baseMaxHealth;
 
             m_baseMaxMP = 10;
             m_baseCurrentMP = m_baseMaxMP;
             
-            SkillPoints = 10;
-
-            LastTurnSeenAMonster = 0;
-
-            Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 0, "Average"));
-            CreateStartingArmorPlayerCanWear("ChestArmor");;
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
-            m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
-
-            // Since we're equiping equipment here, reset m_currentStamina to new total
-            m_currentStamina = MaxStamina;
+            LastTurnSeenAMonster = 0; 
         }
 
-        // We could get unlucky and create an armor of the type the player couldn't wear due to lack of skills.
-        // This will keep trying until it gets one that the player can wear.
-        private void CreateStartingArmorPlayerCanWear(string type)
+        public void SetupBackground(string startingBackground)
         {
-            while (true)
+            switch (startingBackground)
             {
-                IArmor armor = (IArmor)CoreGameEngine.Instance.ItemFactory.CreateItemOfType(type, 0, "Average");
-                if (CanEquipArmor(armor))
+                case "Scholar":
                 {
-                    Equip(armor);
-                    return;
+                    AddSkill(SkillFactory.Instance.CreateSkill("Force Bolt"));
+                    AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana I"));
+                    AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana II"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Staff", 0, "Wood", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Linen Cloth", "Average"));
+                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
+                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
+                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
+                    SkillPoints = 5;
+                    break;
                 }
+                case "Scout":
+                {
+                    AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
+                    AddSkill(SkillFactory.Instance.CreateSkill("Toughness I"));
+                    AddSkill(SkillFactory.Instance.CreateSkill("Light"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Dagger", 0, "Wrought Iron", "Average"));
+                    EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sling", 0, "Jute", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Light Leather", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Helm", 0, "Light Leather", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Gloves", 0, "Light Leather", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Boots", 0, "Light Leather", "Average"));
+                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
+                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
+                    SkillPoints = 0;
+                    break;
+                }
+                case "Templar":
+                {
+                    AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
+                    AddSkill(SkillFactory.Instance.CreateSkill("Shield Proficiency"));
+                    AddSkill(SkillFactory.Instance.CreateSkill("Adv. Armor Proficiency"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 0, "Bronze", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Bronze", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Helm", 0, "Bronze", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Gloves", 0, "Bronze", "Average"));
+                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Boots", 0, "Bronze", "Average"));
+                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
+                    SkillPoints = 0;
+                    break;
+                }
+                default:
+                    throw new InvalidOperationException("SetupBackground with invalid background - " + startingBackground);
             }
+            
+            // Since we're equiping equipment/skills here, reset to new total
+            m_currentStamina = MaxStamina;
+            m_baseCurrentMP = MaxMP;
         }
 
         #region HP/MP

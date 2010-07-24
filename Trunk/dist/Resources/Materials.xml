@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Materials>
-  <Material Name="Bronze" Level="0" DamageBonus="0" ExtraCTCost="0" StaminaBonus="100">
+  <Material Name="Bronze" Level="0" DamageBonus="0" ExtraCTCost="0" StaminaBonus="150">
     <ValidItem Type="Axe" FullItemName="Bronze Axe" Description="A simple, albeit primitive, axe with a bronze single edged head. Fallen out of favor with anyone with means to procure better, commonly found in caves and tombs." />
     <ValidItem Type="Dagger" FullItemName="Bronze Dagger" Description="A simple, albeit primitive, dagger. Bronze daggers tend to dull and bend quickly."/>
     <ValidItem Type="Spear" FullItemName="Bronze Spear" Description="A simple, albeit primitive, spear. A hardened bronze head with an ash shaft."/>
@@ -19,7 +19,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Wrought Iron" Level="1" DamageBonus="30" ExtraCTCost=".05" StaminaBonus="125">
+  <Material Name="Wrought Iron" Level="1" DamageBonus="30" ExtraCTCost=".05" StaminaBonus="175">
     <ValidItem Type="Axe" FullItemName="Iron Axe" Description="" />
     <ValidItem Type="Dagger" FullItemName="Iron Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Iron Spear" Description=""/>
@@ -38,7 +38,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Steel" Level="2" DamageBonus="50" ExtraCTCost="0" StaminaBonus="150">
+  <Material Name="Steel" Level="2" DamageBonus="50" ExtraCTCost="0" StaminaBonus="200">
     <ValidItem Type="Axe" FullItemName="Steel Axe" Description="" />
     <ValidItem Type="Dagger" FullItemName="Steel Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Steel Spear" Description=""/>
@@ -57,7 +57,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Orichalcum" Level="4" DamageBonus="50" ExtraCTCost="-.15" StaminaBonus="175">
+  <Material Name="Orichalcum" Level="4" DamageBonus="50" ExtraCTCost="-.15" StaminaBonus="225">
     <ValidItem Type="Axe" FullItemName="Orichalcum Axe" Description="" />
     <ValidItem Type="Dagger" FullItemName="Orichalcum Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Orichalcum Spear" Description=""/>
@@ -76,7 +76,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Dark Iron" Level="5" DamageBonus="150" ExtraCTCost=".25" StaminaBonus="200">
+  <Material Name="Dark Iron" Level="5" DamageBonus="150" ExtraCTCost=".25" StaminaBonus="250">
     <ValidItem Type="Axe" FullItemName="Dark Iron Axe" Description="" />
     <ValidItem Type="Dagger" FullItemName="Dark Iron Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Dark Iron Spear" Description=""/>
@@ -95,7 +95,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Mithril" Level="5" DamageBonus="75" ExtraCTCost="-.15" StaminaBonus="200">
+  <Material Name="Mithril" Level="5" DamageBonus="75" ExtraCTCost="-.15" StaminaBonus="250">
     <ValidItem Type="Axe" FullItemName="Mithril Axe" Description="" />
     <ValidItem Type="Dagger" FullItemName="Mithril Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Mithril Spear" Description=""/>
@@ -114,7 +114,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Adamantite" Level="5" DamageBonus="100" ExtraCTCost="0" StaminaBonus="200">
+  <Material Name="Adamantite" Level="5" DamageBonus="100" ExtraCTCost="0" StaminaBonus="250">
     <ValidItem Type="Axe" FullItemName="Adamantite Axe" Description="" />
     <ValidItem Type="Dagger" FullItemName="Adamantite Dagger" Description=""/>
     <ValidItem Type="Spear" FullItemName="Adamantite Spear" Description=""/>
@@ -134,20 +134,24 @@
   </Material>
   
   
+  <Material Name="Wood" Level="0" DamageBonus="0" ExtraCTCost="0">
+    <ValidItem Type="Bow" FullItemName="Simple Bow" Description="Carved from common wood." />
+    <ValidItem Type="Staff" FullItemName="Wooden Staff" Description="Roughly hewed from a piece of common wood." />
+  </Material>
   
-  <Material Name="Hard Wood" Level="1" DamageBonus="0" ExtraCTCost="0">
+  <Material Name="Hard Wood" Level="1" DamageBonus="25" ExtraCTCost="0">
     <ValidItem Type="Bow" FullItemName="Simple Bow" Description="Carved from simple hard wood." />
-    <ValidItem Type="Club" FullItemName="Wooden Club" Description="Roughly hewed from a piece of hard wood." />
+    <ValidItem Type="Staff" FullItemName="Wooden Staff" Description="Roughly hewed from a piece of hard wood." />
   </Material>
 
   <Material Name="Elvenwood" Level="3" DamageBonus="70" ExtraCTCost="-.1">
     <ValidItem Type="Bow" FullItemName="Elvenwood Long Bow" Description="" />
-    <ValidItem Type="Club" FullItemName="Elvenwood Club" Description="" />
+    <ValidItem Type="Staff" FullItemName="Elvenwood Staff" Description="" />
   </Material>
 
   <Material Name="Ironwood" Level="6" DamageBonus="155" ExtraCTCost="-.05">
     <ValidItem Type="Bow" FullItemName="Ironwood Compound Bow" Description="" />
-    <ValidItem Type="Club" FullItemName="Ironwood Heavy Club" Description="" />
+    <ValidItem Type="Staff" FullItemName="Ironwood Staff" Description="" />
   </Material>
 
   <Material Name="Jute" Level="0" DamageBonus="0" ExtraCTCost="0">
@@ -205,7 +209,7 @@
 
   
   
-  <Material Name="Light Leather" Level="0" StaminaBonus="50">
+  <Material Name="Light Leather" Level="0" StaminaBonus="75">
     <ValidItem Type="ChestArmor" FullItemName="Light Leather Armor" Description="">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>
@@ -220,7 +224,7 @@
     </ValidItem>      
   </Material>
 
-  <Material Name="Leather" Level="1" StaminaBonus="75">
+  <Material Name="Leather" Level="1" StaminaBonus="100">
     <ValidItem Type="ChestArmor" FullItemName="Leather Armor" Description="Tanned animal hides fashioned into a simple breastplate.">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>
@@ -235,7 +239,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Rugged Leather" Level="2" StaminaBonus="100">
+  <Material Name="Rugged Leather" Level="2" StaminaBonus="125">
     <ValidItem Type="ChestArmor" FullItemName="Rugged Leather Armor" Description="">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>
@@ -250,7 +254,7 @@
     </ValidItem>
   </Material>
 
-  <Material Name="Runed Leather" Level="3" StaminaBonus="125">
+  <Material Name="Runed Leather" Level="3" StaminaBonus="150">
     <ValidItem Type="ChestArmor" FullItemName="Runed Leather Armor" Description="">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>
@@ -265,7 +269,7 @@
     </ValidItem>      
   </Material>
 
-  <Material Name="Dragonhide Leather" Level="4" StaminaBonus="150">
+  <Material Name="Dragonhide Leather" Level="4" StaminaBonus="175">
     <ValidItem Type="ChestArmor" FullItemName="Dragonhide Armor" Description="">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>      

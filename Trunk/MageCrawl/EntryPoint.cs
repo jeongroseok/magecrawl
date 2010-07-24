@@ -25,7 +25,10 @@ namespace Magecrawl
 
                 using (GameInstance inst = new GameInstance())
                 {
-                    inst.Go(result.CharacterName, result.LoadCharacter);
+                    if (result.LoadCharacter)
+                        inst.StartGameFromFile(result.CharacterName);
+                    else
+                        inst.StartNewGame(result.CharacterName);
                 }
             }
             

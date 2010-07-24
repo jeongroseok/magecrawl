@@ -5,7 +5,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Items.WeaponRanges
 {
-    internal class Club : IWeaponRange, IWeaponVerb
+    internal class Staff : IWeaponRange, IWeaponVerb
     {
         public List<EffectivePoint> CalculateTargetablePoints(IWeapon weapon, Point wielderPosition)
         {
@@ -43,7 +43,7 @@ namespace Magecrawl.Items.WeaponRanges
         {
             get
             {
-                return "Club";
+                return "Staff";
             }
         }
     }

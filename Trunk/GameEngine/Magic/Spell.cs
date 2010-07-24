@@ -61,17 +61,17 @@ namespace Magecrawl.GameEngine.Magic
 
         private double GetArmorCostPenaltiy(IArmor armor)
         {
-            const double StandardWeightPenality = .125;
-            const double HeavyWeightPenality = .25;
+            const double StandardWeightPenality = .2;
+            const double HeavyWeightPenality = .5;
 
             if (armor == null)
                 return 0;
-
-            if (armor.Weight == ArmorWeight.Standard)
+            else if (armor.Weight == ArmorWeight.Standard)
                 return StandardWeightPenality;
-            if (armor.Weight == ArmorWeight.Heavy)
+            else if (armor.Weight == ArmorWeight.Heavy)
                 return HeavyWeightPenality;
-            return 0;
+            else
+                return 0;
         }
 
         private int CalculateSpellCost(Player caster)
