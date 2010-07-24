@@ -49,10 +49,10 @@ namespace Magecrawl.GameEngine.Actors
             m_itemList = new List<Item>();
             m_skills = new List<Skill>();
 
-            m_baseMaxStamina = 20;
+            m_baseMaxStamina = 40;
             m_currentStamina = m_baseMaxStamina;
 
-            m_baseMaxHealth = 40;
+            m_baseMaxHealth = 50;
             m_currentHealth = m_baseMaxHealth;
 
             m_baseMaxMP = 10;
@@ -532,10 +532,12 @@ namespace Magecrawl.GameEngine.Actors
                 case ArmorWeight.Light:
                     break;
                 case ArmorWeight.Standard:
-                    reasonsList.Add(HasAttribute("StandardArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight);
+                    if (!HasAttribute("StandardArmorProficiency"))
+                        reasonsList.Add(EquipArmorReasons.Weight);
                     break;
                 case ArmorWeight.Heavy:
-                    reasonsList.Add(HasAttribute("HeavyArmorProficiency") ? EquipArmorReasons.None : EquipArmorReasons.Weight);
+                    if (!HasAttribute("HeavyArmorProficiency"))
+                        reasonsList.Add(EquipArmorReasons.Weight);
                     break;
                 default:
                     throw new System.InvalidOperationException("CouldEquip doesn't know how to handle type - " + armor.Weight.ToString());
