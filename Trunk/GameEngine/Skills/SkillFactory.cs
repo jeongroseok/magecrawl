@@ -43,9 +43,8 @@ namespace Magecrawl.GameEngine.Skills
             {
                 reader.Read();
                 if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Skills")
-                {
                     break;
-                }
+                
                 if (reader.LocalName == "Skill")
                 {
                     if (reader.NodeType == XmlNodeType.Element)

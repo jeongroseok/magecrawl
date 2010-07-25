@@ -8,13 +8,13 @@ namespace Magecrawl.GameUI.SkillTree
     {
         public Point UpperLeft;
         public Point LowerRight;
-        public string SkillName;
+        public string SkillName { get; private set; }
 
-        public SkillSquare(Point upperLeft, Point lowerRight)
+        public SkillSquare(Point upperLeft, string name)
         {
             UpperLeft = upperLeft;
-            LowerRight = lowerRight;
-            SkillName = null;
+            LowerRight = upperLeft + new Point(6,6);    // Skill tree is 7x7
+            SkillName = name;
             m_skill = null;
             m_dependentSkills = new List<string>();
         }

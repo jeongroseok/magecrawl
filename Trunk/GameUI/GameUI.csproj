@@ -112,6 +112,7 @@
     <Compile Include="SkillTree\SkillTreeModelHelpers.cs" />
     <Compile Include="SkillTree\SkillTreePainter.cs" />
     <Compile Include="SkillTree\SkillTreeTab.cs" />
+    <Compile Include="SkillTree\SkillTreeTabXMLHelper.cs" />
     <Compile Include="SpellGraphicsInfo.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="UIHelper.cs" />

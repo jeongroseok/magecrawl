@@ -81,7 +81,7 @@
   <Skill Name="Shield Proficiency" Cost="10" School="Martial" Description="While casting spells in heavier armor is difficult due to the increased weight, at least it is spread throughout the body.                      Casting effectivly while using a shield in hand requires an entirely new set of skills.">
     <ShieldArmorProficiency/>
   </Skill>
-  <Skill Name="Adv. Armor Proficiency" Cost="20" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'heavy' armor, albeit with increased effort in casting spells.">
+  <Skill Name="Advanced Armor Proficiency" Cost="20" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'heavy' armor, albeit with increased effort in casting spells.">
     <HeavyArmorProficiency/>
   </Skill>
 </Skills>
