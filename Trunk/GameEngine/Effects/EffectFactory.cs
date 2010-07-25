@@ -20,17 +20,7 @@ namespace Magecrawl.GameEngine.Effects
             if (effectType == null)
                 throw new System.InvalidOperationException("Create Effect: Don't know how to create type of : " + effectName);
 
-            // Each effect might have special tags that indicator additional properties their constructor needs
-            object[] customAttributes = effectType.GetCustomAttributes(typeof(EffectResultAttribute), false);
-            if (customAttributes.Length == 0)
-            {
-                effectResult = (EffectResult)Activator.CreateInstance(effectType, strength);
-            }
-            else
-            {
-                if (((EffectResultAttribute)customAttributes[0]).Tag == "CastByPlayer")
-                    effectResult = (EffectResult)Activator.CreateInstance(effectType, strength, caster is IPlayer);
-            }
+            effectResult = (EffectResult)Activator.CreateInstance(effectType, strength, caster);
 
             if (effectResult == null)
                 throw new System.InvalidOperationException("Create Effect: Don't know how to create: " + effectName);

@@ -3,7 +3,6 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
-    [EffectResultAttribute("CastByPlayer")]
     internal class Poison : EffectResult
     {
         private Character m_affected;
@@ -14,12 +13,12 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        public Poison(int strength, bool castByPlayer)
+        public Poison(int strength, Character caster)
         {
             m_damagePerInterval = strength / 3;
             if (m_damagePerInterval == 0)
                 m_damagePerInterval = 1;
-            m_castByPlayer = castByPlayer;
+            m_castByPlayer = caster is Player;
         }
 
         internal override void Apply(Character appliedTo)

@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        public Light(int strength)
+        public Light(int strength, Character caster)
         {
             m_visionBoost = strength / 2;
             if (m_visionBoost < 2)

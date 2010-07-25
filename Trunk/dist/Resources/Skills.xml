@@ -11,13 +11,13 @@
     <AddSpell>Fire Bolt</AddSpell>
   </Skill>
   <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
-    <AddProficiency>Fire</AddProficiency>
+    <FireProficiency>1</FireProficiency>
   </Skill>
   <Skill Name="Cone Of Sparks" Cost="10" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly.">
     <AddSpell>Cone Of Sparks</AddSpell>
   </Skill>
   <Skill Name="Fire Mastery II" Cost="10" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
-    <AddProficiency>Fire</AddProficiency>
+    <FireProficiency>1</FireProficiency>
   </Skill>
   <Skill Name="Fireball" Cost="20" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target.">
     <AddSpell>Fireball</AddSpell>
@@ -26,6 +26,12 @@
   <Skill Name="Force Bolt" Cost="5" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target.">
     <AddSpell>Force Bolt</AddSpell>
   </Skill>
+  <Skill Name="Arcane Mastery I" Cost="5" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
+    <ArcaneProficiency>1</ArcaneProficiency>
+  </Skill>
+  <Skill Name="Arcane Mastery II" Cost="5" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
+    <ArcaneProficiency>1</ArcaneProficiency>
+  </Skill>  
   <Skill Name="Slow" Cost="5" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area.">
     <AddSpell>Slow</AddSpell>
   </Skill>

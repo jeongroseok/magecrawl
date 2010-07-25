@@ -236,7 +236,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public int SpellStrength(string spellType)
         {
-            return 1 + GetTotalAttributeValue(spellType);
+            return 1 + GetTotalAttributeValue(spellType + "Proficiency");
         }
 
         public bool CouldCastSpell(ISpell spell)

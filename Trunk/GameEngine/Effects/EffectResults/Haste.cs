@@ -11,9 +11,9 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        public Haste(int strength)
+        public Haste(int strength, Character caster)
         {
-            m_modifier = 1.25;
+            m_modifier = 1.2 + (.1 * strength);
         }
 
         internal override void Apply(Character appliedTo)
