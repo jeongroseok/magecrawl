@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<Skills DefaultX="0" DefaultY="0" MaxRow="2">
+  <Skill Name="Teleport" Column="0" Row="2">
+    <Icon>
+      <Row0>Tele </Row0>
+      <Row1> port</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Blink"/>
+      <Dependency Name="Haste"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Blink" Column="0" Row="1">
+    <Icon>
+      <Row1>Blink</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Force Bolt"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Haste" Column="1" Row="1">
+    <Icon>
+      <Row1>Haste</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Slow"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Force Bolt" Column="0" Row="0">
+    <Icon>
+      <Row0>Force</Row0>
+      <Row1> Bolt</Row1>
+    </Icon>
+  </Skill>
+  <Skill Name="Slow" Column="1" Row="0">
+    <Icon>
+      <Row1>Slow</Row1>
+    </Icon>
+  </Skill>
+</Skills>

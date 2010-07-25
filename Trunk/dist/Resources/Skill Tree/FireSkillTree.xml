@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<Skills DefaultX="0" DefaultY="0" MaxRow="4">
+  <Skill Name="Fire Bolt" Column="0" Row="0">
+    <Icon>
+      <Row0>Fire</Row0>
+      <Row1>Bolt</Row1>
+    </Icon>
+  </Skill>
+  <Skill Name="Fire Mastery I" Column="0" Row="1">
+    <Icon>
+      <Row0>Fire</Row0>
+      <Row1>Mast.</Row1>
+      <Row2> I</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Fire Bolt"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Cone Of Sparks" Column="0" Row="2">
+    <Icon>
+      <Row0>Cone</Row0>
+      <Row1> of</Row1>
+      <Row2>Sprks</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Fire Mastery I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Fire Mastery II" Column="0" Row="3">
+    <Icon>
+      <Row0>Fire</Row0>
+      <Row1>Mast.</Row1>
+      <Row2> II</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Cone Of Sparks"/>
+    </Dependencies>
+  </Skill>
+    <Skill Name="Fireball" Column="0" Row="4">
+    <Icon>
+      <Row0>Fire</Row0>
+      <Row1> ball</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Fire Mastery II"/>
+    </Dependencies>
+  </Skill>
+</Skills>

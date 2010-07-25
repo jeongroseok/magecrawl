@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<Skills DefaultX="0" DefaultY="0" MaxRow="1">
+  <Skill Name="Light" Column="0" Row="0">
+    <Icon>
+      <Row1>Light</Row1>
+    </Icon>
+  </Skill>
+  <Skill Name="Mend" Column="0" Row="1">
+    <Icon>
+      <Row1>Mend</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Light"/>
+    </Dependencies>
+  </Skill>
+</Skills>
