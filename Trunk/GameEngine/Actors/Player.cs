@@ -61,63 +61,14 @@ namespace Magecrawl.GameEngine.Actors
             LastTurnSeenAMonster = 0; 
         }
 
-        public void SetupBackground(string startingBackground)
+        #region HP/MP
+
+        internal void SetHPMPMax()
         {
-            switch (startingBackground)
-            {
-                case "Scholar":
-                {
-                    AddSkill(SkillFactory.Instance.CreateSkill("Force Bolt"));
-                    AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana I"));
-                    AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana II"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Staff", 0, "Wood", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Linen Cloth", "Average"));
-                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
-                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
-                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
-                    SkillPoints = 5;
-                    break;
-                }
-                case "Scout":
-                {
-                    AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
-                    AddSkill(SkillFactory.Instance.CreateSkill("Toughness I"));
-                    AddSkill(SkillFactory.Instance.CreateSkill("Light"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Dagger", 0, "Wrought Iron", "Average"));
-                    EquipSecondaryWeapon((IWeapon)CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sling", 0, "Jute", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Light Leather", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Helm", 0, "Light Leather", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Gloves", 0, "Light Leather", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Boots", 0, "Light Leather", "Average"));
-                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
-                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
-                    SkillPoints = 0;
-                    break;
-                }
-                case "Templar":
-                {
-                    AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
-                    AddSkill(SkillFactory.Instance.CreateSkill("Shield Proficiency"));
-                    AddSkill(SkillFactory.Instance.CreateSkill("Adv. Armor Proficiency"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 0, "Bronze", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Bronze", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Helm", 0, "Bronze", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Gloves", 0, "Bronze", "Average"));
-                    Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Boots", 0, "Bronze", "Average"));
-                    m_itemList.Add(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
-                    SkillPoints = 0;
-                    break;
-                }
-                default:
-                    throw new InvalidOperationException("SetupBackground with invalid background - " + startingBackground);
-            }
-            
-            // Since we're equiping equipment/skills here, reset to new total
             m_currentStamina = MaxStamina;
+            m_currentHealth = MaxHealth;
             m_baseCurrentMP = MaxMP;
         }
-
-        #region HP/MP
         
         private int m_currentStamina;
         public int CurrentStamina

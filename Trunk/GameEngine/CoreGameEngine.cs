@@ -120,7 +120,7 @@ namespace Magecrawl.GameEngine
 
             Point initialStairsUpPosition = m_dungeon[0].MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().First().Position;
             m_player = new Player(playerName, initialStairsUpPosition);
-            m_player.SetupBackground(startingBackground);
+            PlayerBackgrounds.SetupBackground(m_player, startingBackground);
 
             TurnCount = 0;
 
