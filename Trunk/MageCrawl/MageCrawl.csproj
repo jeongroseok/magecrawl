@@ -205,7 +205,6 @@
     <Content Include="..\dist\Resources\VimKeysMapping.xml">
       <Link>Resources\VimKeysMapping.xml</Link>
     </Content>
-    <Content Include="Resources\Skill Tree\BaseArmorStats.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\dist\Map\DungeonChunkRatio.dat">

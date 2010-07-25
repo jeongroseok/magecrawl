@@ -62,6 +62,7 @@
     <Compile Include="Actors\MonsterAI\IMonsterTactic.cs" />
     <Compile Include="Actors\MonsterAI\TacticWithCooldown.cs" />
     <Compile Include="Actors\MonsterFactory.cs" />
+    <Compile Include="Actors\PlayerBackgrounds.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="DebugEngine.cs" />
     <Compile Include="Effects\EffectEngine.cs" />
