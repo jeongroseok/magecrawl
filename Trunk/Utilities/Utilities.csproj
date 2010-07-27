@@ -56,6 +56,7 @@
     <Compile Include="Direction.cs" />
     <Compile Include="DiscreteRandomNumberOnNormalCurve.cs" />
     <Compile Include="EffectivePoint.cs" />
+    <Compile Include="ListUtils.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Point.cs" />

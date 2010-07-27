@@ -7,8 +7,11 @@
     <AddSpell>Mend</AddSpell>
   </Skill>
   
-  <Skill Name="Fire Bolt" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
-    <AddSpell>Fire Bolt</AddSpell>
+  <Skill Name="Spark" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
+    <AddSpell>Spark</AddSpell>
+  </Skill>
+  <Skill Name="Inferno" Cost="10" School="Fire" Description="While similar in effect to the signature weapon of red dragons, this spell is a crude but effective weapon of fire mages.">
+    <AddSpell>Inferno</AddSpell>
   </Skill>
   <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
     <FireProficiency>1</FireProficiency>

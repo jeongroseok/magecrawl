@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CouldCastSpell(spell))
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell, spell.EffectType, caster.SpellStrength(spell.School), true, target, effectString))
+                if (DoEffect(caster, spell, spell.EffectType, spell.Targeting.Range, caster.SpellStrength(spell.School), true, target, effectString))
                 {
                     caster.SpendMP(spell.Cost);
                     return true;
@@ -45,7 +45,7 @@ namespace Magecrawl.GameEngine.Magic
 
             string effectString = string.Format(item.GetAttribute("OnInvokeString"), invoker.Name, item.DisplayName);
             Spell spellEffect = SpellFactory.Instance.CreateSpell(item.GetAttribute("InvokeSpellEffect"));
-            return DoEffect(invoker, item, spellEffect.EffectType, int.Parse(item.GetAttribute("CasterLevel"), CultureInfo.InvariantCulture), false, targetedPoint, effectString);
+            return DoEffect(invoker, item, spellEffect.EffectType, spellEffect.Targeting.Range, int.Parse(item.GetAttribute("CasterLevel"), CultureInfo.InvariantCulture), false, targetedPoint, effectString);
         }
 
         internal List<Point> TargettedDrawablePoints(string spellName, int strength, Point target)
@@ -57,6 +57,14 @@ namespace Magecrawl.GameEngine.Magic
         {
             switch (targeting.Type)
             {
+                case TargetingInfo.TargettingType.Stream:
+                {
+                    List<Point> returnList = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player.Position, target, false);
+                    TrimPathDueToSpellLength(strength, returnList);
+                    // 5 being the stream length - XXX where better to put this?
+                    TrimPath(5, returnList);
+                    return returnList;
+                }
                 case TargetingInfo.TargettingType.RangedBlast:
                 {
                     List<Point> returnList = m_physicsEngine.GenerateBlastListOfPointsShowBounceIfSeeWall(CoreGameEngine.Instance.Map, CoreGameEngine.Instance.Player, target);
@@ -86,7 +94,7 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int strength, bool couldBeLongTerm, Point target, string printOnEffect)
+        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int effectRange, int strength, bool couldBeLongTerm, Point target, string printOnEffect)
         {
             switch (effectName)
             {                
@@ -114,23 +122,13 @@ namespace Magecrawl.GameEngine.Magic
                     // This will call ShowRangedAttack inside.
                     return m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(strength), invokingMethod, output.DamageDoneDelegate);
                 }
+                case "Stream":
+                {
+                    return RangedBlastCore(invoker, invokingMethod, false, strength, target, printOnEffect, ShowRangedAttackType.Stream, 5);
+                }
                 case "RangedBlast":
                 {
-                    // Don't use DamageDoneOutput to output text as a blast to nowhere is still a cast
-                    DamageDoneOutput output = new DamageDoneOutput();
-                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-
-                    List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, invoker.Position, target, true);
-                    TrimPathDueToSpellLength(strength, pathOfBlast);
-                    bool targetAtLastPoint = m_combatEngine.FindTargetAtPosition(pathOfBlast.Last()) != null;
-                    CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.RangedBoltOrBlast, pathOfBlast, targetAtLastPoint);
-                    foreach (Point p in pathOfBlast)
-                    {
-                        Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
-                        if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, output.DamageDoneDelegate);
-                    }
-                    return true;
+                    return RangedBlastCore(invoker, invokingMethod, true, strength, target, printOnEffect, ShowRangedAttackType.RangedBlast, -1);
                 }
                 case "ConeAttack":
                 {
@@ -212,6 +210,28 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
+        private bool RangedBlastCore(Character invoker, object invokingMethod, bool bounce, int strength, Point target, string printOnEffect, ShowRangedAttackType attackTypeToShow, int maxLength)
+        {
+            // Don't use DamageDoneOutput to output text as a blast to nowhere is still a cast
+            DamageDoneOutput output = new DamageDoneOutput();
+            CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+
+            List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, invoker.Position, target, bounce);
+            TrimPathDueToSpellLength(strength, pathOfBlast);
+            if (maxLength != -1)
+                TrimPath(maxLength, pathOfBlast);
+
+            bool targetAtLastPoint = m_combatEngine.FindTargetAtPosition(pathOfBlast.Last()) != null;
+            CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, attackTypeToShow, pathOfBlast, targetAtLastPoint);
+            foreach (Point p in pathOfBlast)
+            {
+                Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
+                if (hitCharacter != null)
+                    m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, output.DamageDoneDelegate);
+            }
+            return true;
+        }
+
         public LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
         {
             switch (effectName)
@@ -257,14 +277,21 @@ namespace Magecrawl.GameEngine.Magic
             return damage;
         }
 
+        private static void TrimPath(int range, List<Point> pathOfBlast)
+        {
+            if (pathOfBlast == null)
+                return;
+
+            pathOfBlast.TrimToLength(range);
+        }
+
         private static void TrimPathDueToSpellLength(int strength, List<Point> pathOfBlast)
         {
             if (pathOfBlast == null)
                 return;
 
             int range = Math.Max(2 * strength, 10);
-            if (pathOfBlast.Count > range)
-                pathOfBlast.RemoveRange(range, pathOfBlast.Count - range);
+            pathOfBlast.TrimToLength(range);
         }
 
         private delegate void OnRangedEffect(Character c, int strength);
