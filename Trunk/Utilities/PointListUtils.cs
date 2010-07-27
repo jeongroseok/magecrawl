@@ -43,7 +43,17 @@ namespace Magecrawl.Utilities
             return affectedPoints;
         }
 
-       public static List<EffectivePoint> EffectivePointListFromBurstPosition(Point center, int burstDistance)
+        public static List<EffectivePoint> EffectivePointListOneStepAllDirections(Point center)
+        {
+            List<EffectivePoint> returnList = new List<EffectivePoint>();
+            foreach (Direction d in DirectionUtils.GenerateDirectionList())
+            {
+                returnList.Add(new EffectivePoint(PointDirectionUtils.ConvertDirectionToDestinationPoint(center, d), (float)1.0));
+            }
+            return returnList;
+        }
+
+        public static List<EffectivePoint> EffectivePointListFromBurstPosition(Point center, int burstDistance)
         {
             List<EffectivePoint> returnValue = new List<EffectivePoint>();
             for (int i = -burstDistance; i <= burstDistance; ++i)

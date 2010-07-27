@@ -8,9 +8,11 @@ namespace Magecrawl.Interfaces
 
     public enum ShowRangedAttackType
     {
-        RangedBoltOrBlast, 
+        RangedBolt,
+        RangedBlast,
+        Stream,
         Cone, 
-        RangedExplodingPoint 
+        RangedExplodingPoint
     }
 
     // attackingMethod can be an IWeapon, ISpell, IItem

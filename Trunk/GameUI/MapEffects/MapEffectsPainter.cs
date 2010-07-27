@@ -5,17 +5,15 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameUI.MapEffects
 {
-    public delegate void EffectDone();
-
     internal sealed class MapEffectsPainter : MapPainterBase
     {
         private const int MillisecondsPerFrame = 65;
         
-        private static TCODRandom m_random = new TCODRandom();
+        private static TCODRandom s_random = new TCODRandom();
 
         private enum EffectTypes 
         {
-            None, RangedBolt, Cone, ExploadingPoint
+            None, RangedBolt, Cone, ExploadingPoint, Stream
         }
         
         private uint m_animationStartTime;
@@ -24,9 +22,11 @@ namespace Magecrawl.GameUI.MapEffects
         private EffectTypes m_type;
         private TCODColor m_color;
         private bool m_done;
-        private EffectDone m_doneDelegate;
 
         private List<Point> m_points;
+
+        // For Stream
+        private Dictionary<Point, bool> m_locationsOccupied;
 
         // For RangedBolt
         private int m_tailLength;
@@ -34,11 +34,6 @@ namespace Magecrawl.GameUI.MapEffects
         // For ExploadingPoints
         private List<Point> m_path;
         private List<List<Point>> m_blast;
-
-        public MapEffectsPainter() : base() 
-        {
-            m_doneDelegate = null;
-        }
 
         // Used when we're responding to a callback from the game engine that something happened on someone else's turn.
         public void DrawAnimationSynchronous(PaintingCoordinator coord, TCODConsole screen)
@@ -64,9 +59,40 @@ namespace Magecrawl.GameUI.MapEffects
                 case EffectTypes.ExploadingPoint:
                     DrawExploadingPointFrame(screen, frameNumber);
                     return;
+                case EffectTypes.Stream:
+                    DrawStream(screen, frameNumber);
+                    return;
                 case EffectTypes.None:
                 default:
                     return;
+            }
+        }
+
+        private void DrawStream(TCODConsole screen, uint frameNumber)
+        {
+            if ((m_points.Count + 8) <= frameNumber)
+            {
+                FinishAnimation();
+            }
+            else
+            {
+                int endingFrame = (int)System.Math.Min(m_points.Count - 1, frameNumber);
+
+                // If we've drawn out the entire stream, show it flickering
+                if (endingFrame == m_points.Count - 1)
+                {
+                    for (int i = 0; i <= endingFrame; ++i)
+                    {
+                        if (m_locationsOccupied[m_points[i]] || s_random.Chance(60))
+                            DrawPoint(screen, m_points[i], '*');
+                    }
+                }
+                else
+                {
+                    // Else just draw the part of the stream
+                    for (int i = 0; i <= endingFrame; ++i)
+                        DrawPoint(screen, m_points[i], '*');
+                }                
             }
         }
 
@@ -126,7 +152,7 @@ namespace Magecrawl.GameUI.MapEffects
             {
                 foreach (Point p in m_points)
                 {
-                    if (m_random.Chance(27))
+                    if (s_random.Chance(27))
                         DrawPoint(screen, p, '#');
                 }
             }
@@ -142,46 +168,51 @@ namespace Magecrawl.GameUI.MapEffects
         private void FinishAnimation()
         {
             m_done = true;
-            
-            if (m_doneDelegate != null)
-                m_doneDelegate();
 
-            m_doneDelegate = null;
             m_type = EffectTypes.None;
             return;
         }
 
-        public void DrawRangedBolt(EffectDone effectDoneDelegate, List<Point> path, TCODColor color, int tailLength, bool drawLastTargetSquare)
+        public void DrawRangedBolt(List<Point> path, TCODColor color, int tailLength, bool drawLastTargetSquare)
         {
             m_type = EffectTypes.RangedBolt;
             m_animationStartTime = TCODSystem.getElapsedMilli();
-            m_doneDelegate = effectDoneDelegate;
             m_points = path;
 
             if (!drawLastTargetSquare)
                 m_points.RemoveAt(m_points.Count - 1);
 
             m_color = color;
+
             m_tailLength = tailLength;
+
             m_done = false;
         }
 
-        public void DrawConeBlast(EffectDone effectDoneDelegate, List<Point> points, TCODColor color)
+        public void DrawStream(List<Point> path, TCODColor color, Dictionary<Point, bool> locationsOccupied)
+        {
+            m_type = EffectTypes.Stream;
+            m_animationStartTime = TCODSystem.getElapsedMilli();
+            m_points = path;
+            m_color = color;
+            m_locationsOccupied = locationsOccupied;
+            m_done = false;
+        }
+
+        public void DrawConeBlast(List<Point> points, TCODColor color)
         {
             m_type = EffectTypes.Cone;
             m_animationStartTime = TCODSystem.getElapsedMilli();
-            m_doneDelegate = effectDoneDelegate;
             m_points = points;
 
             m_color = color;
             m_done = false;
         }
 
-        public void DrawExploadingPointBlast(EffectDone effectDoneDelegate, List<Point> path, List<List<Point>> blast, TCODColor color)
+        public void DrawExploadingPointBlast(List<Point> path, List<List<Point>> blast, TCODColor color)
         {
             m_type = EffectTypes.ExploadingPoint;
             m_animationStartTime = TCODSystem.getElapsedMilli();
-            m_doneDelegate = effectDoneDelegate;
             m_path = path;
             m_blast = blast;
 

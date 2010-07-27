@@ -9,12 +9,10 @@ namespace Magecrawl.GameUI.Map.Requests
     {
         private List<Point> m_path;
         private List<List<Point>> m_blast;
-        private EffectDone m_doneDelegate;
         private TCODColor m_color;
 
-        public ShowExploadingPoint(EffectDone doneDelegate, List<Point> path, List<List<Point>> blast, TCODColor color)
+        public ShowExploadingPoint(List<Point> path, List<List<Point>> blast, TCODColor color)
         {
-            m_doneDelegate = doneDelegate;
             m_path = path;
             m_blast = blast;
             m_color = color;
@@ -24,7 +22,7 @@ namespace Magecrawl.GameUI.Map.Requests
         {
             MapEffectsPainter m = painter as MapEffectsPainter;
             if (m != null)
-                m.DrawExploadingPointBlast(m_doneDelegate, m_path, m_blast, m_color);
+                m.DrawExploadingPointBlast(m_path, m_blast, m_color);
         }
     }
 }

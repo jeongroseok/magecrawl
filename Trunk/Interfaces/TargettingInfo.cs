@@ -6,7 +6,8 @@
         {
             Self, 
             RangedSingle, 
-            RangedBlast, 
+            RangedBlast,
+            Stream, 
             Cone, 
             RangedExplodingPoint 
         }

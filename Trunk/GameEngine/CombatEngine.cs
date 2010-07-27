@@ -110,7 +110,7 @@ namespace Magecrawl.GameEngine
             List<Point> attackPath = m_physicsEngine.GenerateRangedAttackListOfPoints(m_map, attacker.Position, target);
 
             Character targetCharacter = FindTargetAtPosition(target);
-            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, ShowRangedAttackType.RangedBoltOrBlast, attackPath, targetCharacter != null);
+            CoreGameEngine.Instance.ShowRangedAttack(attackingMethod, ShowRangedAttackType.RangedBolt, attackPath, targetCharacter != null);
 
             if (targetCharacter != null)
                 DamageTarget(attacker, damageDone, targetCharacter, del);

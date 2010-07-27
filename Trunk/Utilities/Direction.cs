@@ -13,13 +13,18 @@ namespace Magecrawl
     {
         public static List<Direction> GenerateRandomDirectionList()
         {
+            return GenerateDirectionList().Randomize();
+        }
+
+        public static List<Direction> GenerateDirectionList()
+        {
             List<Direction> directionList = new List<Direction>();
             foreach (Direction d in Enum.GetValues(typeof(Direction)))
             {
                 if (d != Direction.None)
                     directionList.Add(d);
             }
-            return directionList.Randomize();
+            return directionList;
         }
     }
 }

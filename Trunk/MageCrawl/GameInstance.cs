@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
+using System.Linq;
 using libtcod;
 using Magecrawl.Exceptions;
 using Magecrawl.GameUI;
@@ -221,35 +222,56 @@ namespace Magecrawl
             SendPaintersRequest(new DisableAllOverlays());
             
             TCODColor colorOfBolt = ColorPresets.White;
-            if (attackingMethod is ISpell)
-                colorOfBolt = SpellGraphicsInfo.Instance.GetColorOfSpellFromSchool(((ISpell)attackingMethod).School);
-            else if (attackingMethod is IItem)
-                colorOfBolt = SpellGraphicsInfo.Instance.GetColorOfSpellFromSchool(((IItem)attackingMethod).ItemEffectSchool);
+            
+            ISpell attackingSpell = attackingMethod as ISpell;
+            if (attackingSpell != null)
+                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(attackingSpell.School);
 
-            if (type == ShowRangedAttackType.RangedBoltOrBlast)
+            IItem attackingItem = attackingMethod as IItem;
+            if (attackingItem != null)
+                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(attackingItem.ItemEffectSchool);
+
+            switch (type)
             {
-                bool drawLastFrame = !targetAtEndPoint;
-                int tailLength = 1;
-
-                if (attackingMethod is ISpell)
+                case ShowRangedAttackType.RangedBolt:
                 {
-                    ISpell attackingSpell = (ISpell)attackingMethod;
-                    drawLastFrame |= SpellGraphicsInfo.Instance.DrawLastFrame(attackingSpell);  // Draw the last frame if we wouldn't otherwise and the spell asks us to.
-                    tailLength = SpellGraphicsInfo.Instance.GetTailLength(attackingSpell);
+                    m_painters.HandleRequest(new ShowRangedBolt((List<Point>)data, colorOfBolt, !targetAtEndPoint, 1));
+                    m_painters.DrawAnimationSynchronous(m_console);
+                    break;
                 }
-                m_painters.HandleRequest(new ShowRangedBolt(null, (List<Point>)data, colorOfBolt, drawLastFrame, tailLength));
-                m_painters.DrawAnimationSynchronous(m_console);
-            }
-            else if (type == ShowRangedAttackType.Cone)
-            {
-                m_painters.HandleRequest(new ShowConeBlast(null, (List<Point>)data, colorOfBolt));
-                m_painters.DrawAnimationSynchronous(m_console);
-            }
-            else if (type == ShowRangedAttackType.RangedExplodingPoint)
-            {
-                var animationData = (Pair<List<Point>, List<List<Point>>>)data;
-                m_painters.HandleRequest(new ShowExploadingPoint(null, animationData.First, animationData.Second, colorOfBolt));
-                m_painters.DrawAnimationSynchronous(m_console);
+                case ShowRangedAttackType.RangedBlast:
+                {
+                    m_painters.HandleRequest(new ShowRangedBolt((List<Point>)data, colorOfBolt, true, 3));
+                    m_painters.DrawAnimationSynchronous(m_console);
+                    break;
+                }
+                case ShowRangedAttackType.Cone:
+                {
+                    m_painters.HandleRequest(new ShowConeBlast((List<Point>)data, colorOfBolt));
+                    m_painters.DrawAnimationSynchronous(m_console);
+                    break;
+                }
+                case ShowRangedAttackType.RangedExplodingPoint:
+                {
+                    var animationData = (Pair<List<Point>, List<List<Point>>>)data;
+                    m_painters.HandleRequest(new ShowExploadingPoint(animationData.First, animationData.Second, colorOfBolt));
+                    m_painters.DrawAnimationSynchronous(m_console);
+                    break;
+                }
+                case ShowRangedAttackType.Stream:
+                {
+                    List<Point> coveredSquares = (List<Point>)data;
+                    Dictionary<Point, bool> occupiedSquares = new Dictionary<Point, bool>();
+                    
+                    foreach (Point p in coveredSquares)
+                    {
+                        bool occupied = m_engine.Map.Monsters.Any(x => x.Position == p) || m_engine.Map.MapObjects.Any(x => x.Position == p);
+                        occupiedSquares.Add(p, occupied);
+                    }
+                    m_painters.HandleRequest(new ShowStream(coveredSquares, colorOfBolt, occupiedSquares));
+                    m_painters.DrawAnimationSynchronous(m_console);
+                    break;
+                }
             }
         }
 

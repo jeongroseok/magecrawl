@@ -1,10 +1,19 @@
 <?xml version="1.0" ?>
 <Skills DefaultX="0" DefaultY="0" MaxRow="4">
-  <Skill Name="Fire Bolt" Column="0" Row="0">
+  <Skill Name="Spark" Column="0" Row="0">
     <Icon>
       <Row0>Fire</Row0>
       <Row1>Bolt</Row1>
     </Icon>
+  </Skill>
+  <Skill Name="Inferno" Column="1" Row="1">
+    <Icon>
+      <Row0>Infe</Row0>
+      <Row1> rno</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Spark"/>
+    </Dependencies>
   </Skill>
   <Skill Name="Fire Mastery I" Column="0" Row="1">
     <Icon>
@@ -13,7 +22,7 @@
       <Row2> I</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Fire Bolt"/>
+      <Dependency Name="Spark"/>
     </Dependencies>
   </Skill>
   <Skill Name="Cone Of Sparks" Column="0" Row="2">
