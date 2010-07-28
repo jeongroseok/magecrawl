@@ -3,6 +3,7 @@ using System.Linq;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Skills;
 
 namespace Magecrawl.GameEngine
 {
@@ -116,6 +117,15 @@ namespace Magecrawl.GameEngine
                 case "AddSkillPoints":
                     m_engine.Player.SkillPoints += (int)argument;
                     return null;
+                case "AddAllSkills":
+                {
+                    foreach (Skill s in SkillFactory.Instance.GetAllSkills())
+                    {
+                        if (!m_engine.Player.Skills.Any(x => x.Name == s.Name))
+                            m_engine.Player.AddSkill(s);
+                    }
+                    return null;
+                }
                 case "KillMonstersOnFloor":
                     m_engine.Map.ClearMonstersFromMap();
                     return null;

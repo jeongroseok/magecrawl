@@ -10,17 +10,26 @@
   <Skill Name="Spark" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
     <AddSpell>Spark</AddSpell>
   </Skill>
+  <Skill Name="Fire Mastery I" Cost="5" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
+    <FireProficiency>1</FireProficiency>
+  </Skill>
+  <Skill Name="Improved Fire Control" Cost="10" School="Fire" Description="While most fire mages are not known for their subtlety or their self control, one school teaches how to exert finer control over their chosen element.                                  Decreases mana cost of all fire spells by 1.">
+    <FireReducedCost>1</FireReducedCost>
+  </Skill>
+  <Skill Name="Flame Throwing I" Cost="10" School="Fire" Description="Fire is difficult to use as a long range weapon, as it has a tendency to dissipate quickly when thrown. By superheating the air around bolts of flame, one can extend their range.                               Extends range of Spark by 1.">
+    <SparkIncreasedRange>1</SparkIncreasedRange>
+  </Skill>
   <Skill Name="Inferno" Cost="10" School="Fire" Description="While similar in effect to the signature weapon of red dragons, this spell is a crude but effective weapon of fire mages.">
     <AddSpell>Inferno</AddSpell>
   </Skill>
-  <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
-    <FireProficiency>1</FireProficiency>
-  </Skill>
-  <Skill Name="Cone Of Sparks" Cost="10" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly.">
+  <Skill Name="Cone Of Sparks" Cost="15" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly.">
     <AddSpell>Cone Of Sparks</AddSpell>
   </Skill>
-  <Skill Name="Fire Mastery II" Cost="10" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
+  <Skill Name="Fire Mastery II" Cost="15" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
     <FireProficiency>1</FireProficiency>
+  </Skill>
+  <Skill Name="Flame Throwing II" Cost="15" School="Fire" Description="Masters of fire manipulation can channel bolts of flame so powerful that they warp the air they travel through. This warping reduces the rate the fire cools off.                                     Extends range of Spark by 1.">
+    <SparkIncreasedRange>1</SparkIncreasedRange>    
   </Skill>
   <Skill Name="Fireball" Cost="20" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target.">
     <AddSpell>Fireball</AddSpell>

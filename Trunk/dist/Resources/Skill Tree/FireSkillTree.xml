@@ -1,21 +1,11 @@
 <?xml version="1.0" ?>
-<Skills DefaultX="0" DefaultY="0" MaxRow="4">
-  <Skill Name="Spark" Column="0" Row="0">
+<Skills DefaultX="0" DefaultY="0" MaxRow="5">
+  <Skill Name="Spark" Column="1" Row="0">
     <Icon>
-      <Row0>Fire</Row0>
-      <Row1>Bolt</Row1>
+      <Row1>Sprk</Row1>
     </Icon>
   </Skill>
-  <Skill Name="Inferno" Column="1" Row="1">
-    <Icon>
-      <Row0>Infe</Row0>
-      <Row1> rno</Row1>
-    </Icon>
-    <Dependencies>
-      <Dependency Name="Spark"/>
-    </Dependencies>
-  </Skill>
-  <Skill Name="Fire Mastery I" Column="0" Row="1">
+  <Skill Name="Fire Mastery I" Column="1" Row="1">
     <Icon>
       <Row0>Fire</Row0>
       <Row1>Mast.</Row1>
@@ -25,33 +15,73 @@
       <Dependency Name="Spark"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Cone Of Sparks" Column="0" Row="2">
+  <Skill Name="Improved Fire Control" Column="0" Row="2">
+    <Icon>
+      <Row0>Imp</Row0>
+      <Row1>Fire.</Row1>
+      <Row2>Ctrl</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Fire Mastery I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Inferno" Column="1" Row="2">
+    <Icon>
+      <Row0>Infe</Row0>
+      <Row1> rno</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Fire Mastery I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Flame Throwing I" Column="2" Row="2">
+    <Icon>
+      <Row0>Flm</Row0>
+      <Row1>Thrw</Row1>
+      <Row2>   I</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Fire Mastery I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Cone Of Sparks" Column="2" Row="3">
     <Icon>
       <Row0>Cone</Row0>
       <Row1> of</Row1>
       <Row2>Sprks</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Fire Mastery I"/>
+      <Dependency Name="Flame Throwing I"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Fire Mastery II" Column="0" Row="3">
+      <Skill Name="Flame Throwing II" Column="2" Row="4">
+    <Icon>
+      <Row0>Flm</Row0>
+      <Row1>Thrw</Row1>
+      <Row2>  II</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Cone Of Sparks"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Fire Mastery II" Column="1" Row="3">
     <Icon>
       <Row0>Fire</Row0>
       <Row1>Mast.</Row1>
       <Row2> II</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Cone Of Sparks"/>
+      <Dependency Name="Inferno"/>
     </Dependencies>
   </Skill>
-    <Skill Name="Fireball" Column="0" Row="4">
+    <Skill Name="Fireball" Column="1" Row="5">
     <Icon>
       <Row0>Fire</Row0>
       <Row1> ball</Row1>
     </Icon>
     <Dependencies>
       <Dependency Name="Fire Mastery II"/>
+      <Dependency Name="Flame Throwing II"/>
     </Dependencies>
   </Skill>
 </Skills>

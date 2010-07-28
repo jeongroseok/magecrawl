@@ -74,21 +74,26 @@ namespace Magecrawl.GameEngine.Magic
                 return 0;
         }
 
-        private int CalculateSpellCost(Player caster)
+        private double CalculateSpellPenalityForArmor(Player caster)
         {
             double penalityForHeavyArmor = 0;
             penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Boots);
             penalityForHeavyArmor += GetArmorCostPenaltiy(caster.ChestArmor);
             penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Gloves);
             penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Headpiece);
-            return (int)Math.Round(m_cost * (1.0 + penalityForHeavyArmor));
+            return 1.0 + penalityForHeavyArmor;
         }
 
         internal int Cost
         {
             get
             {
-                return CalculateSpellCost(CoreGameEngine.Instance.Player);
+                double armorPenality = CalculateSpellPenalityForArmor(CoreGameEngine.Instance.Player);
+                int costReduction = CoreGameEngine.Instance.Player.GetTotalAttributeValue(m_school + "ReducedCost");
+                int cost = (int)Math.Round((m_cost - costReduction) * armorPenality);
+                if (cost <= 0)
+                    throw new InvalidOperationException("Can't have zero or negative cost for a spell - " + m_name);
+                return cost;
             }
         }
 
@@ -109,7 +114,8 @@ namespace Magecrawl.GameEngine.Magic
         {
             get 
             {
-                return new TargetingInfo(m_targettingType, m_range);
+                int rangeBonus = CoreGameEngine.Instance.Player.GetTotalAttributeValue(m_name + "IncreasedRange");
+                return new TargetingInfo(m_targettingType, m_range + rangeBonus);
             }
         }
     }
