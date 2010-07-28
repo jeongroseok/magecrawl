@@ -123,10 +123,10 @@ namespace Magecrawl.GameUI.SkillTree
             int rowDifference = -1 * ((current.UpperLeft.Y - dependent.UpperLeft.Y) / RowOffSetPer);
             int columnDifference = (current.UpperLeft.X - dependent.UpperLeft.X) / ColumnOffSetPer;
 
-            if (rowDifference == 1 && columnDifference == 0)
+            if (rowDifference >= 1 && columnDifference == 0)
             {
                 // 1
-                for (int i = 1; i <= GapBetweenRows; ++i)
+                for (int i = 1; i <= GapBetweenRows + ((rowDifference - 1) * (GapBetweenRows + SquareSize)); ++i)
                     SetChar(current.UpperLeft + new Point(OffsetToCenterOfSize, i + SquareSize - 1), (char)TCODSpecialCharacter.VertLine);
                 return;
             }

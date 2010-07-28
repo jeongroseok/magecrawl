@@ -3,7 +3,7 @@
 <Spell Name="Light" School="Light" EffectType="Light" Cost="2"/>
 <Spell Name="Mend" School="Light" EffectType="HealCaster" Cost="5"/>
 
-<Spell Name="Spark" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="6"/>
+<Spell Name="Spark" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="4"/>
 <Spell Name="Inferno" School="Fire" EffectType="Stream" Cost="4" TargettingType="Stream" Range="1"/>
 <Spell Name="Cone Of Sparks" School="Fire" EffectType="ConeAttack" Cost="5" TargettingType="Cone" Range="3"/>
 <Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="7" TargettingType="RangedExplodingPoint" Range="5"/>

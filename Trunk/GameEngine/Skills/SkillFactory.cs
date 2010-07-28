@@ -24,6 +24,11 @@ namespace Magecrawl.GameEngine.Skills
             return m_skillMapping[skillName];
         }
 
+        public IEnumerable<Skill> GetAllSkills()
+        {
+            return m_skillMapping.Values;
+        }
+
         private void LoadMappings()
         {
             m_skillMapping = new Dictionary<string, Skill>();
