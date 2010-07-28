@@ -2,7 +2,7 @@
 <Skills DefaultX="0" DefaultY="0" MaxRow="5">
   <Skill Name="Spark" Column="1" Row="0">
     <Icon>
-      <Row1>Sprk</Row1>
+      <Row1>Spark</Row1>
     </Icon>
   </Skill>
   <Skill Name="Fire Mastery I" Column="1" Row="1">
@@ -27,8 +27,7 @@
   </Skill>
   <Skill Name="Inferno" Column="1" Row="2">
     <Icon>
-      <Row0>Infe</Row0>
-      <Row1> rno</Row1>
+      <Row0>Infno</Row0>
     </Icon>
     <Dependencies>
       <Dependency Name="Fire Mastery I"/>
@@ -37,7 +36,7 @@
   <Skill Name="Flame Throwing I" Column="2" Row="2">
     <Icon>
       <Row0>Flm</Row0>
-      <Row1>Thrw</Row1>
+      <Row1>Throw</Row1>
       <Row2>   I</Row2>
     </Icon>
     <Dependencies>
@@ -57,7 +56,7 @@
       <Skill Name="Flame Throwing II" Column="2" Row="4">
     <Icon>
       <Row0>Flm</Row0>
-      <Row1>Thrw</Row1>
+      <Row1>Throw</Row1>
       <Row2>  II</Row2>
     </Icon>
     <Dependencies>

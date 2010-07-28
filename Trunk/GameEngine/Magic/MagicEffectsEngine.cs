@@ -176,6 +176,7 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Haste":
                 case "Light":
+                case "Regeneration":
                 {
                     return m_effectEngine.AddEffectToTarget(effectName, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
                 }

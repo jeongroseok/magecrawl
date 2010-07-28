@@ -25,10 +25,10 @@ namespace Magecrawl.GameEngine.Effects
             CTLeft = (int)(CTLeft * ratio);
         }
 
-        public virtual void DecreaseCT(int decrease)
+        public virtual void DecreaseCT(int previousCT, int currentCT)
         {
-            CTLeft -= decrease;
-            m_effectResult.DecreaseCT(decrease, CTLeft);
+            CTLeft -= previousCT - currentCT;
+            m_effectResult.DecreaseCT(previousCT, currentCT);
         }
 
         internal override void Dismiss()

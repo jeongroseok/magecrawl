@@ -117,9 +117,9 @@ namespace Magecrawl.GameEngine.Actors
             // Remove short term effects if ct <= 0
             List<ShortTermEffect> shortTermEffects = m_effects.OfType<ShortTermEffect>().ToList();
 
-            shortTermEffects.ForEach(a => a.DecreaseCT(decrease));
+            shortTermEffects.ForEach(e => e.DecreaseCT(CT + decrease, CT));
             
-            foreach (StatusEffect effect in shortTermEffects.Where(a => a.CTLeft <= 0))
+            foreach (StatusEffect effect in shortTermEffects.Where(e => e.CTLeft <= 0))
                 RemoveEffect(effect);
 
             // Remove any long term effects that have been "dismissed"

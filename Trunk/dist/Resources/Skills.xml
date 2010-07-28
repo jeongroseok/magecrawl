@@ -3,6 +3,9 @@
   <Skill Name="Light" Cost="5" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby.">
     <AddSpell>Light</AddSpell>
   </Skill>
+  <Skill Name="Regeneration" Cost="10" School="Light" Description="Enfusing the target with trace amount of positive energy brings about slow but supernatural healing.">
+    <AddSpell>Regeneration</AddSpell>
+  </Skill>
   <Skill Name="Mend" Cost="10" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing minor or moderate wounds.">
     <AddSpell>Mend</AddSpell>
   </Skill>

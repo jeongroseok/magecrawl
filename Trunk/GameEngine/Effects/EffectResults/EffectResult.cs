@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        internal virtual void DecreaseCT(int decrease, int CTLeft)
+        internal virtual void DecreaseCT(int previousCT, int currentCT)
         {
         }
 

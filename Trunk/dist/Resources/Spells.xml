@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <Spells>
 <Spell Name="Light" School="Light" EffectType="Light" Cost="2"/>
+<Spell Name="Regeneration" School="Light" EffectType="Regeneration" Cost="1"/>
 <Spell Name="Mend" School="Light" EffectType="HealCaster" Cost="5"/>
 
 <Spell Name="Spark" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="4"/>

@@ -26,17 +26,13 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             m_affected = appliedTo;
         }
 
-        internal override void DecreaseCT(int decrease, int CTLeft)
+        internal override void DecreaseCT(int previousCT, int currentCT)
         {
-            int original = CTLeft + decrease;
-            for (int i = original - 1; i >= CTLeft; i--)
-            {
-                if (i % CoreTimingEngine.CTNeededForNewTurn == 0)
-                {
-                    Character casterWasPlayer = m_castByPlayer ? CoreGameEngine.Instance.Player : null;
-                    CoreGameEngine.Instance.CombatEngine.DamageTarget(casterWasPlayer, m_damagePerInterval, m_affected);
-                }
-            }            
+            int CTDifference = previousCT - currentCT;
+            int turnsPassed = CTDifference / CoreTimingEngine.CTNeededForNewTurn;
+            Character casterWasPlayer = m_castByPlayer ? CoreGameEngine.Instance.Player : null;
+            for (int i = 0 ; i < turnsPassed ; ++i)
+                CoreGameEngine.Instance.CombatEngine.DamageTarget(casterWasPlayer, m_damagePerInterval, m_affected);
         }
 
         internal override string Name
