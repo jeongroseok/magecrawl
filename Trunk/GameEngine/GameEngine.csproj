@@ -66,6 +66,7 @@
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="DebugEngine.cs" />
     <Compile Include="Effects\EffectEngine.cs" />
+    <Compile Include="Effects\EffectResults\Regeneration.cs" />
     <Compile Include="Effects\EffectResults\Haste.cs">
       <SubType>Code</SubType>
     </Compile>
