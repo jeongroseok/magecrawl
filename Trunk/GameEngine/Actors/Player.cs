@@ -246,12 +246,16 @@ namespace Magecrawl.GameEngine.Actors
 
         internal int GetTotalAttributeValue(string attribute)
         {
-            return m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
+            int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
+            int effectBonus = StatusEffects.OfType<StatusEffect>().Where(e => e.ContainsKey(attribute)).Select(e => int.Parse(e.GetAttribute(attribute))).Sum();
+            return effectBonus + skillBonus;
         }
 
         internal bool HasAttribute(string attribute)
         {
-            return m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
+            bool existsInSkills = m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
+            bool existsInEffects = StatusEffects.OfType<StatusEffect>().Any(e => e.ContainsKey(attribute));
+            return existsInSkills || existsInEffects;
         }
 
         public IEnumerable<IItem> Items

@@ -19,6 +19,16 @@ namespace Magecrawl.GameEngine.Effects
         {
             m_effectResult.Remove(removedFrom);
         }
+
+        public virtual bool ContainsKey(string key)
+        {
+            return m_effectResult.ContainsKey(key);
+        }
+
+        public virtual string GetAttribute(string key)
+        {
+            return m_effectResult.GetAttribute(key);
+        }
         
         // Should match entry in EffectFactory
         public string Name

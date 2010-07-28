@@ -507,10 +507,7 @@ namespace Magecrawl.GameEngine
                 if (m_player.CurrentMP < m_player.MaxMP && mpToHeal <= 0)
                     mpToHeal = 1;
 
-                // So this is a bit of a hack. We don't want healing to happen in combat since
-                // that leads to pillar dancing, which is not a good place. So we handle regen here.
-                // It currently just allows healing to be magical, which heals health damage.
-                bool magicalHeal = m_player.Effects.Any(e => e.Name == "Regen");
+                bool magicalHeal = m_player.HasAttribute("Regeneration");
                 m_player.Heal(hpToHeal, magicalHeal);
                 m_player.GainMP(mpToHeal);
             }

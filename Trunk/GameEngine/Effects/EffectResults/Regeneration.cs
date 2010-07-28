@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
@@ -21,6 +22,18 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             {
                 return "Regen";
             }
+        }
+
+        public override string GetAttribute(string key)
+        {
+            if (key == "Regeneration")
+                return "True";
+            throw new KeyNotFoundException();
+        }
+
+        public override bool ContainsKey(string key)
+        {
+            return key == "Regeneration";
         }
 
         internal override bool IsPositiveEffect
