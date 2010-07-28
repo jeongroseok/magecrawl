@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
+using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
@@ -16,6 +17,16 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
 
         internal virtual void DecreaseCT(int previousCT, int currentCT)
         {
+        }
+
+        public virtual bool ContainsKey(string key)
+        {
+            return false;
+        }
+
+        public virtual string GetAttribute(string key)
+        {
+            throw new KeyNotFoundException();
         }
 
         internal abstract string Name 
