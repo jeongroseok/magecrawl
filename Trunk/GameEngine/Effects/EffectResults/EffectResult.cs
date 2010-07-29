@@ -1,7 +1,7 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
-using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {

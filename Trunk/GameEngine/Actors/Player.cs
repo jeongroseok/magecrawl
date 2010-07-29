@@ -102,8 +102,8 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
                 int baseMaxStamina = m_baseMaxStamina + CombatDefenseCalculator.CalculateArmorStaminaBonus(this);
-                double bonusStamina = 1 + (GetTotalAttributeValue("HPBonus") / 100.0);
-                return (int)Math.Round(baseMaxStamina * bonusStamina);
+                double staminaPercentageBonus = 1 + (GetTotalAttributeValue("StaminaPercentageBonus") / 100.0);
+                return (int)Math.Round(baseMaxStamina * staminaPercentageBonus) + GetTotalAttributeValue("BonusStamina");
             }
         }
 
@@ -244,14 +244,14 @@ namespace Magecrawl.GameEngine.Actors
             return (CurrentMP - ((Spell)spell).SustainingCost) >= ((Spell)spell).Cost;
         }
 
-        internal int GetTotalAttributeValue(string attribute)
+        internal override int GetTotalAttributeValue(string attribute)
         {
             int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
             int effectBonus = StatusEffects.OfType<StatusEffect>().Where(e => e.ContainsKey(attribute)).Select(e => int.Parse(e.GetAttribute(attribute))).Sum();
             return effectBonus + skillBonus;
         }
 
-        internal bool HasAttribute(string attribute)
+        internal override bool HasAttribute(string attribute)
         {
             bool existsInSkills = m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
             bool existsInEffects = StatusEffects.OfType<StatusEffect>().Any(e => e.ContainsKey(attribute));

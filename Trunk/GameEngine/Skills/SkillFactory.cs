@@ -43,7 +43,6 @@ namespace Magecrawl.GameEngine.Skills
             bool insideSkillNode = false;
             Skill lastSkill = null;
             string attributeName = null;
-            string attributeValue = null;
             while (true)
             {
                 reader.Read();
@@ -70,12 +69,6 @@ namespace Magecrawl.GameEngine.Skills
                     }
                     else if (reader.NodeType == XmlNodeType.EndElement)
                     {
-                        if (attributeName != null)
-                        {
-                            lastSkill.Attributes.Add(attributeName, attributeValue);
-                            attributeName = null;
-                            attributeValue = null;
-                        }
                         insideSkillNode = false;
                         lastSkill = null;
                     }
@@ -85,7 +78,10 @@ namespace Magecrawl.GameEngine.Skills
                     if (reader.NodeType == XmlNodeType.Element)
                         attributeName = reader.LocalName;
                     else if (reader.NodeType == XmlNodeType.Text)
-                        attributeValue = reader.Value;
+                    {
+                        lastSkill.Attributes.Add(attributeName, reader.Value);
+                        attributeName = null;
+                    }
                 }
             }
         }

@@ -1,18 +1,16 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
-    // The regeneration effect doesn't do anything directly. PhyricsEngine checks for it in AfterPlayerAction()
-    // If it exists, then we can heal health damage in addition to stamina damage.
-    internal class Regeneration : EffectResult
+    class ArmorOfLight : EffectResult
     {
-        public Regeneration()
+        public ArmorOfLight()
         {
         }
 
-        public Regeneration(int strength, Character caster)
+        public ArmorOfLight(int strength, Character caster)
         {
         }
 
@@ -20,20 +18,20 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return "Regen";
+                return "Armor Of Light";
             }
         }
 
         public override string GetAttribute(string key)
         {
-            if (key == "Regeneration")
-                return "True";
+            if (key == "DamageReduction")
+                return "3";
             throw new KeyNotFoundException();
         }
 
         public override bool ContainsKey(string key)
         {
-            return key == "Regeneration";
+            return key == "DamageReduction";
         }
 
         internal override bool IsPositiveEffect
@@ -44,19 +42,19 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
-        internal override int DefaultMPSustainingCost
-        {
-            get
-            {
-                return 15;
-            }
-        }
-
         internal override int DefaultEffectLength
         {
             get
             {
-                return (new DiceRoll(1, 5, 10)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //10-15 turns
+                return (new DiceRoll(1, 11, 14)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //15-25 turns
+            }
+        }
+
+        internal override int DefaultMPSustainingCost
+        {
+            get
+            {
+                return 35;
             }
         }
     }
