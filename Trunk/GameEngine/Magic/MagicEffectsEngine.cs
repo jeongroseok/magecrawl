@@ -29,7 +29,7 @@ namespace Magecrawl.GameEngine.Magic
             if (caster.CouldCastSpell(spell))
             {
                 string effectString = string.Format("{0} casts {1}.", caster.Name, spell.Name);
-                if (DoEffect(caster, spell, spell.EffectType, spell.Targeting.Range, caster.SpellStrength(spell.School), true, target, effectString))
+                if (DoEffect(caster, spell, spell, caster.SpellStrength(spell.School), true, target, effectString))
                 {
                     caster.SpendMP(spell.Cost);
                     return true;
@@ -45,7 +45,7 @@ namespace Magecrawl.GameEngine.Magic
 
             string effectString = string.Format(item.GetAttribute("OnInvokeString"), invoker.Name, item.DisplayName);
             Spell spellEffect = SpellFactory.Instance.CreateSpell(item.GetAttribute("InvokeSpellEffect"));
-            return DoEffect(invoker, item, spellEffect.EffectType, spellEffect.Targeting.Range, int.Parse(item.GetAttribute("CasterLevel"), CultureInfo.InvariantCulture), false, targetedPoint, effectString);
+            return DoEffect(invoker, item, spellEffect, int.Parse(item.GetAttribute("CasterLevel"), CultureInfo.InvariantCulture), false, targetedPoint, effectString);
         }
 
         internal List<Point> TargettedDrawablePoints(string spellName, int strength, Point target)
@@ -94,9 +94,9 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        private bool DoEffect(Character invoker, object invokingMethod, string effectName, int effectRange, int strength, bool couldBeLongTerm, Point target, string printOnEffect)
+        private bool DoEffect(Character invoker, object invokingMethod, Spell spell, int strength, bool couldBeLongTerm, Point target, string printOnEffect)
         {
-            switch (effectName)
+            switch (spell.EffectType)
             {                
                 case "HealCaster":
                 {
@@ -120,15 +120,15 @@ namespace Magecrawl.GameEngine.Magic
                     DamageDoneOutput output = new DamageDoneOutput(printOnEffect);
 
                     // This will call ShowRangedAttack inside.
-                    return m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(strength), invokingMethod, output.DamageDoneDelegate);
+                    return m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(spell, strength), invokingMethod, output.DamageDoneDelegate);
                 }
                 case "Stream":
                 {
-                    return RangedBlastCore(invoker, invokingMethod, false, strength, target, printOnEffect, ShowRangedAttackType.Stream, 5);
+                    return RangedBlastCore(invoker, invokingMethod, spell, false, strength, target, printOnEffect, ShowRangedAttackType.Stream, 5);
                 }
                 case "RangedBlast":
                 {
-                    return RangedBlastCore(invoker, invokingMethod, true, strength, target, printOnEffect, ShowRangedAttackType.RangedBlast, -1);
+                    return RangedBlastCore(invoker, invokingMethod, spell, true, strength, target, printOnEffect, ShowRangedAttackType.RangedBlast, -1);
                 }
                 case "ConeAttack":
                 {
@@ -149,7 +149,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, output.DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, output.DamageDoneDelegate);
                     }
                     return true;
                 }
@@ -169,7 +169,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, output.DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, output.DamageDoneDelegate);
                     }
 
                     return true;
@@ -178,7 +178,7 @@ namespace Magecrawl.GameEngine.Magic
                 case "Light":
                 case "Regeneration":
                 {
-                    return m_effectEngine.AddEffectToTarget(effectName, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
+                    return m_effectEngine.AddEffectToTarget(spell.EffectType, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
                 }
                 case "Poison Bolt":
                 {
@@ -207,11 +207,11 @@ namespace Magecrawl.GameEngine.Magic
                     return true;
                 }
                 default:
-                    throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + effectName);
+                    throw new InvalidOperationException("MagicEffectsEngine::DoEffect - don't know how to do: " + spell.EffectType);
             }
         }
 
-        private bool RangedBlastCore(Character invoker, object invokingMethod, bool bounce, int strength, Point target, string printOnEffect, ShowRangedAttackType attackTypeToShow, int maxLength)
+        private bool RangedBlastCore(Character invoker, object invokingMethod, Spell spell, bool bounce, int strength, Point target, string printOnEffect, ShowRangedAttackType attackTypeToShow, int maxLength)
         {
             // Don't use DamageDoneOutput to output text as a blast to nowhere is still a cast
             DamageDoneOutput output = new DamageDoneOutput();
@@ -228,7 +228,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                 if (hitCharacter != null)
-                    m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(strength), hitCharacter, output.DamageDoneDelegate);
+                    m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, output.DamageDoneDelegate);
             }
             return true;
         }
@@ -269,12 +269,11 @@ namespace Magecrawl.GameEngine.Magic
             CoreGameEngine.Instance.ShowRangedAttack(invokingMethod, ShowRangedAttackType.Cone, coneBlastList, false);
         }
 
-        private static int CalculateDamgeFromSpell(int strength)
+        private static int CalculateDamgeFromSpell(Spell spell, int strength)
         {
-            int damage = 0;
-            damage += (new DiceRoll(12, 3)).Roll();
+            int damage = spell.BaseDamage.Roll();
             for (int i = 1; i < strength; ++i)
-                damage += (new DiceRoll(3, 3)).Roll();
+                damage += spell.DamagePerLevel.Roll();
             return damage;
         }
 
