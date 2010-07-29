@@ -4,23 +4,23 @@
 <Spell Name="Regeneration" School="Light" EffectType="Regeneration" Cost="1"/>
 <Spell Name="Mend" School="Light" EffectType="HealCaster" Cost="5"/>
 
-<Spell Name="Spark" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="4"/>
-<Spell Name="Inferno" School="Fire" EffectType="Stream" Cost="4" TargettingType="Stream" Range="1"/>
-<Spell Name="Cone Of Sparks" School="Fire" EffectType="ConeAttack" Cost="5" TargettingType="Cone" Range="3"/>
-<Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="7" TargettingType="RangedExplodingPoint" Range="5"/>
+<Spell Name="Spark" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="4" BaseDamageString="12,3" DamagePerLevel="3,3"/>
+<Spell Name="Inferno" School="Fire" EffectType="Stream" Cost="5" TargettingType="Stream" Range="1" BaseDamageString="14,3" DamagePerLevel="3,3"/>
+<Spell Name="Cone Of Sparks" School="Fire" EffectType="ConeAttack" Cost="5" TargettingType="Cone" Range="3" BaseDamageString="12,3" DamagePerLevel="3,3"/>
+<Spell Name="Fireball" School="Fire" EffectType="ExplodingRangedPoint" Cost="7" TargettingType="RangedExplodingPoint" Range="5" BaseDamageString="12,3" DamagePerLevel="3,3"/>
 
-<Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="6"/>
+<Spell Name="Force Bolt" School="Arcane" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="6" BaseDamageString="12,3" DamagePerLevel="3,3"/>
 <Spell Name="Slow" School="Arcane" EffectType="Slow" Cost="2" TargettingType="RangedSingle" Range="6"/>
 <Spell Name="Haste" School="Arcane" EffectType="Haste" Cost="4"/>
 <Spell Name="Blink" School="Arcane" EffectType="Blink" Cost="5"/>
 <Spell Name="Teleport" School="Arcane" EffectType="Teleport" Cost="6"/>
 
 <!-- Unused for now -->
-<Spell Name="Poison Bolt" School="Darkness" EffectType="Poison Bolt" Cost="2" TargettingType="RangedSingle" Range="5"/>
-<Spell Name="Poison Touch" School="Darkness" EffectType="Poison Bolt" Cost="1" TargettingType="RangedSingle" Range="1"/>
-<Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="5"/>
-<Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" TargettingType="RangedBlast" Range="5" DrawingAttributes="DrawLastFrame:Tail=3"/>
-<Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" TargettingType="Cone" Range="3"/>
+<Spell Name="Poison Bolt" School="Darkness" EffectType="Poison Bolt" Cost="2" TargettingType="RangedSingle" Range="5" BaseDamageString="8,3" DamagePerLevel="2,3"/>
+<Spell Name="Poison Touch" School="Darkness" EffectType="Poison Bolt" Cost="1" TargettingType="RangedSingle" Range="1" BaseDamageString="8,3" DamagePerLevel="2,3"/>
+<Spell Name="Ice Bolt" School="Water" EffectType="RangedSingleTarget" Cost="1" TargettingType="RangedSingle" Range="5" BaseDamageString="12,3" DamagePerLevel="3,3"/>
+<Spell Name="Lightning Bolt" School="Air" EffectType="RangedBlast" Cost="2" TargettingType="RangedBlast" Range="5" BaseDamageString="14,3" DamagePerLevel="3,3"/>
+<Spell Name="Cone Of Cold" School="Water" EffectType="ConeAttack" Cost="3" TargettingType="Cone" Range="3" BaseDamageString="12,3" DamagePerLevel="3,3"/>
 
 <!-- Item effects -->
 <Spell Name="HealMP" School="Arcane" EffectType="HealMPCaster" Cost="0"/>

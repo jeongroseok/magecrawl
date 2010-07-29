@@ -52,6 +52,16 @@ namespace Magecrawl.GameEngine.Magic
 
                     string costString = reader.GetAttribute("Cost");
                     int cost = int.Parse(costString);
+                    
+                    DiceRoll baseDamage = DiceRoll.Invalid;
+                    string baseDamageString = reader.GetAttribute("BaseDamageString");
+                    if (baseDamageString != null)
+                        baseDamage = new DiceRoll(baseDamageString);
+
+                    DiceRoll damagePerLevel = DiceRoll.Invalid;
+                    string damagePerLevelString = reader.GetAttribute("DamagePerLevel");
+                    if (damagePerLevelString != null)
+                        damagePerLevel = new DiceRoll(damagePerLevelString);
 
                     int range = -1;
                     string rangeString = reader.GetAttribute("Range");
@@ -63,7 +73,7 @@ namespace Magecrawl.GameEngine.Magic
                     if (targettingString != null)
                         targettingType = (TargetingInfo.TargettingType)Enum.Parse(typeof(TargetingInfo.TargettingType), targettingString);
 
-                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, targettingType, range));
+                    m_spellMapping.Add(name, new Spell(name, school, effectType, cost, targettingType, range, baseDamage, damagePerLevel));
                 }
             }
         }

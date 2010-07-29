@@ -2,6 +2,7 @@
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -14,7 +15,7 @@ namespace Magecrawl.GameEngine.Magic
         private TargetingInfo.TargettingType m_targettingType;
         private int m_range;
 
-        internal Spell(string name, string school, string effectType, int cost, TargetingInfo.TargettingType targettingType, int range)
+        internal Spell(string name, string school, string effectType, int cost, TargetingInfo.TargettingType targettingType, int range, DiceRoll baseDamage, DiceRoll damagePerLevel)
         {
             m_name = name;
             m_effectType = effectType;
@@ -22,6 +23,8 @@ namespace Magecrawl.GameEngine.Magic
             m_school = school;
             m_targettingType = targettingType;
             m_range = range;
+            BaseDamage = baseDamage;
+            DamagePerLevel = damagePerLevel;
         }
 
         public string Name
@@ -58,6 +61,9 @@ namespace Magecrawl.GameEngine.Magic
                 return m_effectType;
             }
         }
+
+        public DiceRoll BaseDamage { get; private set; }
+        public DiceRoll DamagePerLevel { get; private set; }
 
         private double GetArmorCostPenaltiy(IArmor armor)
         {
