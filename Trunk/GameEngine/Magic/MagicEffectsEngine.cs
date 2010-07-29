@@ -174,11 +174,17 @@ namespace Magecrawl.GameEngine.Magic
 
                     return true;
                 }
-                case "Haste":
+                case "Haste":   // Should also be added to GetLongTermEffectSpellWouldProduce()
                 case "Light":
                 case "Regeneration":
+                case "ArmorOfLight":
                 {
                     return m_effectEngine.AddEffectToTarget(spell.EffectType, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
+                }
+                case "WordOfHope":
+                {
+                    // These spells can't be long term
+                    return m_effectEngine.AddEffectToTarget(spell.EffectType, invoker, strength, false, target, printOnEffect);
                 }
                 case "Poison Bolt":
                 {
@@ -239,6 +245,8 @@ namespace Magecrawl.GameEngine.Magic
             {
                 case "Haste":
                 case "Light":
+                case "Regeneration":
+                case "ArmorOfLight":
                     return (LongTermEffect)EffectFactory.CreateEffectBaseObject(effectName, true);
                 default:
                     return null;

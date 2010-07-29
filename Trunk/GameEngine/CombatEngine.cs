@@ -98,6 +98,12 @@ namespace Magecrawl.GameEngine
             // Calculate damage
             float effectiveStrength = EffectiveStrengthAtPoint((Weapon)attacker.CurrentWeapon, attacker.Position, attacker.Vision, attackedCharacter.Position);
             double damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
+            damageDone += attacker.GetTotalAttributeValue("BonusWeaponDamage");
+
+            damageDone -= attackedCharacter.GetTotalAttributeValue("DamageReduction");
+
+            // If for some reason damage reduction reduces to < 0, do zero damage.
+            damageDone = Math.Max(0, damageDone);
 
             return (int)Math.Round(damageDone);
         }

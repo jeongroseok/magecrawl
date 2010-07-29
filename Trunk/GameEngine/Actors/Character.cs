@@ -148,6 +148,16 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        internal virtual int GetTotalAttributeValue(string attribute)
+        {
+            return 0;
+        }
+
+        internal virtual bool HasAttribute(string attribute)
+        {
+            return false;
+        }
+
         #region SaveLoad
 
         public virtual System.Xml.Schema.XmlSchema GetSchema()

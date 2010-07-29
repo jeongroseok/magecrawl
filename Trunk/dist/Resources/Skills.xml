@@ -3,13 +3,26 @@
   <Skill Name="Light" Cost="5" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby.">
     <AddSpell>Light</AddSpell>
   </Skill>
-  <Skill Name="Regeneration" Cost="10" School="Light" Description="Enfusing the target with trace amount of positive energy brings about slow but supernatural healing.">
+  <Skill Name="Regeneration" Cost="5" School="Light" Description="Enfusing the target with trace amount of positive energy brings about slow but supernatural healing.">
     <AddSpell>Regeneration</AddSpell>
   </Skill>
-  <Skill Name="Mend" Cost="10" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing minor or moderate wounds.">
+  <Skill Name="Mend" Cost="10" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing moderate wounds.">
     <AddSpell>Mend</AddSpell>
   </Skill>
-  
+  <Skill Name="Smite" Cost="15" School="Light" Description="It takes rare skill to channel vengance from positive energy. It strikes to the core, with a heat that rivals the greatest pyromancers.">
+    <AddSpell>Smite</AddSpell>
+  </Skill>
+  <Skill Name="Word of Hope" Cost="10" School="Light" Description="Hope will let individuals dig deep into their reserves of stamina, and fight with zeal. Positive energy can invoke hope in a deep yet real sense for a short period of time.">
+    <AddSpell>Word of Hope</AddSpell>
+  </Skill>
+  <Skill Name="Armor of Light" Cost="10" School="Light" Description="Invoking this spells baths the caster in a glow that covers their body. This light pushes back against physical damage, reducing the amount taken.">
+    <AddSpell>Armor of Light</AddSpell>
+  </Skill>
+  <Skill Name="Inner Fire" Cost="10" School="Light" Description="Those who often invoke spells that draw upon positive energy sometimes display long term effects. It can expand the caster's mind and toughen the body.">
+    <StaminaPercentageBonus>10</StaminaPercentageBonus>
+    <MPBonus>2</MPBonus>
+  </Skill>
+    
   <Skill Name="Spark" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
     <AddSpell>Spark</AddSpell>
   </Skill>
@@ -61,19 +74,19 @@
   </Skill>
 
   <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <HPBonus>10</HPBonus>
+    <StaminaPercentageBonus>10</StaminaPercentageBonus>
   </Skill>
   <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <HPBonus>10</HPBonus>
+    <StaminaPercentageBonus>10</StaminaPercentageBonus>
   </Skill>
   <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <HPBonus>10</HPBonus>
+    <StaminaPercentageBonus>10</StaminaPercentageBonus>
   </Skill>
   <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <HPBonus>10</HPBonus>
+    <StaminaPercentageBonus>10</StaminaPercentageBonus>
   </Skill>
   <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <HPBonus>10</HPBonus>
+    <StaminaPercentageBonus>10</StaminaPercentageBonus>
   </Skill>
   <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
     <MPBonus>2</MPBonus>

@@ -1,8 +1,11 @@
 <?xml version="1.0" ?>
 <Spells>
 <Spell Name="Light" School="Light" EffectType="Light" Cost="2"/>
+<Spell Name="Smite" School="Light" EffectType="RangedSingleTarget" Cost="5" TargettingType="RangedSingle" Range="6" BaseDamageString="12,3" DamagePerLevel="3,3"/>  
 <Spell Name="Regeneration" School="Light" EffectType="Regeneration" Cost="1"/>
 <Spell Name="Mend" School="Light" EffectType="HealCaster" Cost="5"/>
+<Spell Name="Word of Hope" School="Light" EffectType="WordOfHope" Cost="2"/>
+<Spell Name="Armor of Light" School="Light" EffectType="ArmorOfLight" Cost="3"/>
 
 <Spell Name="Spark" School="Fire" EffectType="RangedSingleTarget" Cost="3" TargettingType="RangedSingle" Range="4" BaseDamageString="12,3" DamagePerLevel="3,3"/>
 <Spell Name="Inferno" School="Fire" EffectType="Stream" Cost="5" TargettingType="Stream" Range="1" BaseDamageString="14,3" DamagePerLevel="3,3"/>

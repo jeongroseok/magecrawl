@@ -65,6 +65,7 @@
     <Compile Include="Actors\PlayerBackgrounds.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="DebugEngine.cs" />
+    <Compile Include="Effects\EffectResults\ArmorOfLight.cs" />
     <Compile Include="Effects\EffectEngine.cs" />
     <Compile Include="Effects\EffectResults\Regeneration.cs" />
     <Compile Include="Effects\EffectResults\Haste.cs">
@@ -84,6 +85,7 @@
     <Compile Include="CombatEngine.cs" />
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
+    <Compile Include="Effects\EffectResults\WordOfHope.cs" />
     <Compile Include="GameStateInterface.cs" />
     <Compile Include="Level\Generator\MapChunk.cs" />
     <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
