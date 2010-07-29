@@ -462,18 +462,18 @@ namespace Magecrawl.GameEngine
                 pointList.Add(new EffectivePoint(pointToSaveFromList, effectiveStrengthAtPlayerPosition));
         }
 
-        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<Point> pointList, Point pointToSaveFromList)
+        internal void FilterNotVisibleBothWaysFromList(Point centerPoint, List<Point> pointList)
         {
             if (pointList == null)
                 return;
 
-            bool pointToSaveInList = pointList.Exists(x => x == pointToSaveFromList);
+            bool centerPointInList = pointList.Exists(x => x == centerPoint);
 
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(centerPoint, x));
             pointList.RemoveAll(x => !IsRangedPathBetweenPoints(x, centerPoint));
 
-            if (pointToSaveInList)
-                pointList.Add(pointToSaveFromList);
+            if (centerPointInList)
+                pointList.Add(centerPoint);
         }
 
         internal LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)

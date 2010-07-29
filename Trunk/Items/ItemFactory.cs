@@ -69,19 +69,45 @@ namespace Magecrawl.Items
             }
         }
 
-        private static List<string> s_itemList = new List<string>() { "Axe", "Bow", "Dagger", "Sling", "Spear", "Staff",
-            "Sword", "ChestArmor", "Helm", "Gloves", "Boots", "Potion", "Scroll", "Wand" };
+        private static List<string> s_weaponList = new List<string>() { "Axe", "Bow", "Dagger", "Sling", "Spear", "Staff", "Sword"};
+        private static List<string> s_armorList = new List<string>() { "ChestArmor", "Helm", "Gloves", "Boots" };
+        private static List<string> s_itemList = new List<string>() { "Potion", "Scroll", "Wand" };
+        
         public List<string> ItemTypeList
         {
             get
             {
-                return s_itemList;
+                List<string> returnList = new List<string>();
+                returnList.AddRange(s_weaponList);
+                returnList.AddRange(s_armorList);
+                returnList.AddRange(s_itemList);
+                return returnList;
             }
         }
 
         public Item CreateRandomItem(int level)
         {
-            return CreateItemOfType(ItemTypeList.Randomize()[0], level);
+            return CreateItemOfType(s_itemList.Randomize()[0], level);
+        }
+
+        public Item CreateRandomWeapon(int level)
+        {
+            return CreateItemOfType(s_weaponList.Randomize()[0], level);
+        }
+
+        public Item CreateRandomArmor(int level)
+        {
+            return CreateItemOfType(s_armorList.Randomize()[0], level);
+        }
+
+        public Item CreateRandomArmorOfPossibleWeights(int level, List<ArmorWeight> weightsAllowed)
+        {
+            while (true)
+            {
+                Armor armor = (Armor)CreateItemOfType(s_armorList.Randomize()[0], level);
+                if (weightsAllowed.Contains(armor.Weight))
+                    return armor;
+            }
         }
 
         public Item CreateItemOfType(string type, int level)

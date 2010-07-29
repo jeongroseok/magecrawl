@@ -160,6 +160,7 @@ namespace Magecrawl.GameEngine
                     if (attacker is Player)
                         ((Player)attacker).SkillPoints += 1;
                     m_map.RemoveMonster(target as Monster);
+                    TreasureGenerator.DropTreasureFromMonster(target as Monster);
                 }
                 else if (target is Player)
                 {

@@ -43,7 +43,7 @@ namespace Magecrawl.GameEngine
 
             List<Point> targetList = new List<Point>() { target };
             CoreGameEngine.Instance.FilterNotTargetablePointsFromList(targetList, invoker.Position, invoker.Vision, true);
-            CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, targetList, Point.Invalid);
+            CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, targetList);
 
             if (targetList.Count < 1)
                 return false;

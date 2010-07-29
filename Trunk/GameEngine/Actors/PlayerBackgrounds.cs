@@ -15,7 +15,6 @@ namespace Magecrawl.GameEngine.Actors
             {
                 case "Scholar":
                     {
-                        player.AddSkill(SkillFactory.Instance.CreateSkill("Force Bolt"));
                         player.AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana I"));
                         player.AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana II"));
                         player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Staff", 0, "Wood", "Average"));
@@ -25,7 +24,7 @@ namespace Magecrawl.GameEngine.Actors
                         player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
                         player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
                         player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
-                        player.SkillPoints = 5;
+                        player.SkillPoints = 10;
                         break;
                     }
                 case "Scout":
