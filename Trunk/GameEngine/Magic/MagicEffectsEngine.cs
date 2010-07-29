@@ -77,14 +77,14 @@ namespace Magecrawl.GameEngine.Magic
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(playerPosition, target);
                     List<Point> returnList = PointListUtils.PointListFromCone(playerPosition, direction, 3);
                     m_physicsEngine.FilterNotTargetablePointsFromList(returnList, playerPosition, CoreGameEngine.Instance.Player.Vision, true);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(playerPosition, returnList, playerPosition);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, returnList);
                     return returnList;
                 }
                 case TargetingInfo.TargettingType.RangedExplodingPoint:
                 {
                     List<Point> returnList = PointListUtils.PointListFromBurstPosition(target, 2);
                     m_physicsEngine.FilterNotTargetablePointsFromList(returnList, CoreGameEngine.Instance.Player.Position, CoreGameEngine.Instance.Player.Vision, true);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(CoreGameEngine.Instance.Player.Position, returnList, CoreGameEngine.Instance.Player.Position);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, returnList);
                     return returnList;
                 }
                 case TargetingInfo.TargettingType.RangedSingle:
@@ -138,7 +138,7 @@ namespace Magecrawl.GameEngine.Magic
 
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, target);
                     List<Point> pointsInConeAttack = PointListUtils.PointListFromCone(invoker.Position, direction, 3);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, pointsInConeAttack, invoker.Position);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, pointsInConeAttack);
 
                     if (pointsInConeAttack == null || pointsInConeAttack.Count == 0)
                         throw new InvalidOperationException("Cone magical attack with nothing to roast?");
@@ -164,7 +164,7 @@ namespace Magecrawl.GameEngine.Magic
                     ShowExplodingRangedPointAttack(invoker, invokingMethod, target, BurstWidth);
 
                     List<Point> pointsToEffect = PointListUtils.PointListFromBurstPosition(target, BurstWidth);
-                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, pointsToEffect, invoker.Position);
+                    CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, pointsToEffect);
                     foreach (Point p in pointsToEffect)
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
@@ -253,8 +253,8 @@ namespace Magecrawl.GameEngine.Magic
             for (int i = 1; i <= burstWidth; ++i)
             {
                 List<Point> explosionRing = PointListUtils.PointListFromBurstPosition(target, i);
+                CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(target, explosionRing);
                 CoreGameEngine.Instance.FilterNotTargetablePointsFromList(explosionRing, invoker.Position, invoker.Vision, true);
-                CoreGameEngine.Instance.FilterNotVisibleBothWaysFromList(invoker.Position, explosionRing, invoker.Position);
                 pointsInExplosion.Add(explosionRing);
             }
 
@@ -339,8 +339,8 @@ namespace Magecrawl.GameEngine.Magic
 
                 string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
 
-                string prefix = target.GetType() == typeof(IPlayer) ? "" : "The";
-                CoreGameEngine.Instance.SendTextOutput(string.Format("{0} {1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
+                string prefix = target is IPlayer ? "" : "The ";
+                CoreGameEngine.Instance.SendTextOutput(string.Format("{0}{1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
             }
         }
     }
