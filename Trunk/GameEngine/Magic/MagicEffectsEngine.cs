@@ -93,6 +93,13 @@ namespace Magecrawl.GameEngine.Magic
                     return null;
             }
         }
+            
+        private static void DamageDoneDelegate(int damage, Character target, bool targetKilled)
+        {
+            string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
+            string prefix = target is IPlayer ? "" : "The ";
+            CoreGameEngine.Instance.SendTextOutput(string.Format("{0}{1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
+        }
 
         private bool DoEffect(Character invoker, object invokingMethod, Spell spell, int strength, bool couldBeLongTerm, Point target, string printOnEffect)
         {
@@ -116,24 +123,22 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "RangedSingleTarget":
                 {
-                    // RangedBoltToLocation will only not print the string if we're targetting ourself.
-                    DamageDoneOutput output = new DamageDoneOutput(printOnEffect);
-
                     // This will call ShowRangedAttack inside.
-                    return m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(spell, strength), invokingMethod, output.DamageDoneDelegate);
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    return m_combatEngine.RangedBoltToLocation(invoker, target, CalculateDamgeFromSpell(spell, strength), invokingMethod, DamageDoneDelegate);
                 }
                 case "Stream":
                 {
-                    return RangedBlastCore(invoker, invokingMethod, spell, false, strength, target, printOnEffect, ShowRangedAttackType.Stream, 5);
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    return RangedBlastCore(invoker, invokingMethod, spell, false, strength, target, ShowRangedAttackType.Stream, 5);
                 }
                 case "RangedBlast":
                 {
-                    return RangedBlastCore(invoker, invokingMethod, spell, true, strength, target, printOnEffect, ShowRangedAttackType.RangedBlast, -1);
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    return RangedBlastCore(invoker, invokingMethod, spell, true, strength, target, ShowRangedAttackType.RangedBlast, -1);
                 }
                 case "ConeAttack":
                 {
-                    // Don't use DamageDoneOutput to output text as a blast to nowhere is still a cast
-                    DamageDoneOutput output = new DamageDoneOutput();
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
 
                     Direction direction = PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, target);
@@ -149,14 +154,12 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, output.DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, DamageDoneDelegate);
                     }
                     return true;
                 }
                 case "ExplodingRangedPoint":
                 {
-                    // Don't use DamageDoneOutput to output text as a blast to nowhere is still a cast
-                    DamageDoneOutput output = new DamageDoneOutput();
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
 
                     const int BurstWidth = 2;
@@ -169,7 +172,7 @@ namespace Magecrawl.GameEngine.Magic
                     {
                         Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                         if (hitCharacter != null)
-                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, output.DamageDoneDelegate);
+                            m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, DamageDoneDelegate);
                     }
 
                     return true;
@@ -188,10 +191,8 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Poison Bolt":
                 {
-                    // RangedBoltToLocation will only not print the string if we're targetting ourself.
-                    DamageDoneOutput output = new DamageDoneOutput(printOnEffect);
-                    
-                    bool successInRangedBolt = m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, output.DamageDoneDelegate);
+                    CoreGameEngine.Instance.SendTextOutput(printOnEffect);
+                    bool successInRangedBolt = m_combatEngine.RangedBoltToLocation(invoker, target, 1, invokingMethod, DamageDoneDelegate);
                     if (successInRangedBolt)
                         m_effectEngine.AddEffectToTarget("Poison", invoker, strength, false, target);
                     return successInRangedBolt;
@@ -217,12 +218,8 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        private bool RangedBlastCore(Character invoker, object invokingMethod, Spell spell, bool bounce, int strength, Point target, string printOnEffect, ShowRangedAttackType attackTypeToShow, int maxLength)
-        {
-            // Don't use DamageDoneOutput to output text as a blast to nowhere is still a cast
-            DamageDoneOutput output = new DamageDoneOutput();
-            CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-
+        private bool RangedBlastCore(Character invoker, object invokingMethod, Spell spell, bool bounce, int strength, Point target, ShowRangedAttackType attackTypeToShow, int maxLength)
+        {            
             List<Point> pathOfBlast = m_physicsEngine.GenerateBlastListOfPoints(CoreGameEngine.Instance.Map, invoker.Position, target, bounce);
             TrimPathDueToSpellLength(strength, pathOfBlast);
             if (maxLength != -1)
@@ -234,7 +231,7 @@ namespace Magecrawl.GameEngine.Magic
             {
                 Character hitCharacter = m_combatEngine.FindTargetAtPosition(p);
                 if (hitCharacter != null)
-                    m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, output.DamageDoneDelegate);
+                    m_combatEngine.DamageTarget(invoker, CalculateDamgeFromSpell(spell, strength), hitCharacter, DamageDoneDelegate);
             }
             return true;
         }
@@ -320,35 +317,6 @@ namespace Magecrawl.GameEngine.Magic
                 m_physicsEngine.WarpToPosition(caster, pointToTeleport.Position);
             }
             return true;
-        }
-
-        private class DamageDoneOutput
-        {
-            private string m_onDamageDoneOutput;
-            
-            internal DamageDoneOutput()
-            {
-                m_onDamageDoneOutput = null;
-            }
-
-            internal DamageDoneOutput(string onDamageDoneOutput)
-            {
-                m_onDamageDoneOutput = onDamageDoneOutput;
-            }
-
-            public void DamageDoneDelegate(int damage, Character target, bool targetKilled)
-            {
-                if (m_onDamageDoneOutput != null)
-                {
-                    CoreGameEngine.Instance.SendTextOutput(m_onDamageDoneOutput);
-                    m_onDamageDoneOutput = null;    // Only show one time if mulitple people are damaged.
-                }
-
-                string centerString = targetKilled ? "was killed ({0} damage)" : "took {0} damage";
-
-                string prefix = target is IPlayer ? "" : "The ";
-                CoreGameEngine.Instance.SendTextOutput(string.Format("{0}{1} {2}.", prefix, target.Name, string.Format(centerString, damage)));
-            }
         }
     }
 }
