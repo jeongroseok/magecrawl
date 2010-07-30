@@ -98,6 +98,8 @@ namespace Magecrawl.Keyboard
         private void Attack()
         {
             ICharacter possiblyTargettedMonster = m_engine.Map.Monsters.Where(x => x.Position == SelectionPoint).FirstOrDefault();
+
+            // Rememeber last targetted monster so we can target them again by default next turn.
             if (m_targettingType == TargettingType.Monster && possiblyTargettedMonster != null)
                 m_lastTargetted = possiblyTargettedMonster;
 

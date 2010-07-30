@@ -40,7 +40,13 @@ namespace Magecrawl.Keyboard
                     {
                         Point playerPosition = m_engine.Player.Position;
                         List<EffectivePoint> targetablePoints = GetConeTargetablePoints(playerPosition);
-                        m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, new OnTargetSelection(x => { onInvoke(x); return false; }),
+                        OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
+                        {
+                            if (s != m_engine.Player.Position)
+                                onInvoke(s);
+                            return false;
+                        });
+                        m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, selectionDelegate,
                             NamedKey.Invalid, TargettingKeystrokeHandler.TargettingType.Monster,
                             p => m_engine.Targetting.TargettedDrawablePoints(invokingObject, p)));
                         return;
