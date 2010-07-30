@@ -1,24 +1,30 @@
 <?xml version="1.0" ?>
-<Skills DefaultX="0" DefaultY="0" MaxRow="2">
-  <Skill Name="Teleport" Column="0" Row="2">
+<Skills DefaultX="0" DefaultY="0" MaxRow="4">
+  <Skill Name="Force Bolt" Column="1" Row="0">
     <Icon>
-      <Row0>Tele </Row0>
-      <Row1> port</Row1>
+      <Row0>Force</Row0>
+      <Row1> Bolt</Row1>
     </Icon>
-    <Dependencies>
-      <Dependency Name="Blink"/>
-      <Dependency Name="Haste"/>
-    </Dependencies>
   </Skill>
-  <Skill Name="Blink" Column="0" Row="1">
+  <Skill Name="Arcane Mastery I" Column="1" Row="1">
     <Icon>
-      <Row1>Blink</Row1>
+      <Row0>Arcne</Row0>
+      <Row1> Mast</Row1>
+      <Row2>   I </Row2>
     </Icon>
     <Dependencies>
       <Dependency Name="Force Bolt"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Haste" Column="1" Row="1">
+  <Skill Name="Slow" Column="0" Row="2">
+    <Icon>
+      <Row1>Slow</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Arcane Mastery I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Haste" Column="0" Row="3">
     <Icon>
       <Row1>Haste</Row1>
     </Icon>
@@ -26,15 +32,31 @@
       <Dependency Name="Slow"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Force Bolt" Column="0" Row="0">
+  <Skill Name="Blink" Column="1" Row="2">
     <Icon>
-      <Row0>Force</Row0>
-      <Row1> Bolt</Row1>
+      <Row1>Blink</Row1>
     </Icon>
+    <Dependencies>
+      <Dependency Name="Arcane Mastery I"/>
+    </Dependencies>
   </Skill>
-  <Skill Name="Slow" Column="1" Row="0">
+  <Skill Name="Arcane Mastery II" Column="1" Row="3">
     <Icon>
-      <Row1>Slow</Row1>
+      <Row0>Arcne</Row0>
+      <Row1> Mast</Row1>
+      <Row2>  II </Row2>
     </Icon>
+    <Dependencies>
+      <Dependency Name="Blink"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Arcane Blast" Column="1" Row="4">
+    <Icon>
+      <Row0>Arcne</Row0>
+      <Row1>Blast</Row1>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Arcane Mastery II"/>
+    </Dependencies>
   </Skill>
 </Skills>

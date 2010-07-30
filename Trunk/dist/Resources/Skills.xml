@@ -54,6 +54,9 @@
   <Skill Name="Force Bolt" Cost="5" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target.">
     <AddSpell>Force Bolt</AddSpell>
   </Skill>
+  <Skill Name="Arcane Blast" Cost="10" School="Arcane" Description="Sometimes for all its intellectual background, mages of the arcane need the use of brute force. Arcane blast creates a shockwave in the wave, which rips along a straight path with great force.">
+    <AddSpell>Arcane Blast</AddSpell>
+  </Skill>
   <Skill Name="Arcane Mastery I" Cost="5" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
     <ArcaneProficiency>1</ArcaneProficiency>
   </Skill>
@@ -68,9 +71,6 @@
   </Skill>
   <Skill Name="Blink" Cost="15" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location.">
     <AddSpell>Blink</AddSpell>
-  </Skill>
-  <Skill Name="Teleport" Cost="20" School="Arcane" Description="The concept behind Teleport is simple, take Blink and drill a much larger hole in the weave. The shunting done when the tear heals throws the caster a much father distance, albeit more dangerously.">
-    <AddSpell>Teleport</AddSpell>
   </Skill>
 
   <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
