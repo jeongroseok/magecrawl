@@ -333,7 +333,7 @@ namespace Magecrawl
 
         internal void ResetHandlerName()
         {
-            m_keystroke.CurrentHandlerName = "Default";
+            SetHandlerName("Default");
         }
 
         private void HandlePlayerDied()
