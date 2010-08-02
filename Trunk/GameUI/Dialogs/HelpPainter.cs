@@ -79,9 +79,9 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.print(LeftThird + ActionVerticalOffset, ActionStartY + 16, "Swap Weapons       - " + m_keyMappings["SwapWeapon"]);
 
                 const int RebindingStartY = SymbolStartY;
-                string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj";
-                screen.printFrame(RightThird - 12, RebindingStartY, 31, 9, true);
-                screen.printRect(RightThird - 11, RebindingStartY + 1, 29, 8, rebindingText);
+                string rebindingText = "To change keystroke bindings, edit KeyMappings.xml and restart magecrawl.\n\nA list of possible keys can be found at: http://tinyurl.com/ya5l8sj\n\nOther preferences can be found in Preferences.xml";
+                screen.printFrame(RightThird - 12, RebindingStartY, 31, 12, true);
+                screen.printRect(RightThird - 11, RebindingStartY + 1, 29, 10, rebindingText);
 
                 const int DirectionStartY = ActionStartY + 19;
                 const int DirectionVerticalOffset = -8;
@@ -96,7 +96,7 @@ namespace Magecrawl.GameUI.Dialogs
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 8, "South West - " + m_keyMappings["Southwest"]);
                 screen.print(LeftThird + DirectionVerticalOffset, DirectionStartY + 9, "South East - " + m_keyMappings["Southeast"]);
 
-                const int OtherKeysStartY = ActionStartY;
+                const int OtherKeysStartY = ActionStartY + 4;
                 const int OtherKeysVerticalOffset = -12;
                 screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY, "Other Keys");
                 screen.print(RightThird + OtherKeysVerticalOffset, OtherKeysStartY + 1, "----------------------------");
