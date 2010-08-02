@@ -9,7 +9,7 @@ namespace Magecrawl.GameUI.Map
     {
         private bool m_enabled;
         private TileVisibility[,] m_tileVisibility;
-        private IGameEngine m_engine;
+        private IMap m_map;
         private Point m_mapCorner;
         private Point m_cursorPosition;
 
@@ -24,7 +24,7 @@ namespace Magecrawl.GameUI.Map
         {
             if (m_enabled)
             {
-                m_engine = engine;
+                m_map = engine.Map;
                 m_mapCorner = mapUpCorner;
                 m_cursorPosition = cursorPosition;
             }
@@ -50,7 +50,7 @@ namespace Magecrawl.GameUI.Map
 
                         if (IsDrawableTile(screenPlacementX, screenPlacementY))
                         {
-                            if (m_engine.Map.IsPointOnMap(new Point(i, j)))
+                            if (m_map.IsPointOnMap(new Point(i, j)))
                             {
                                 TileVisibility isVisible = m_tileVisibility[i, j];
                                 if (isVisible == TileVisibility.Unvisited)

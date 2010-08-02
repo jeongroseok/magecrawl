@@ -119,7 +119,14 @@ namespace Magecrawl.GameUI.Inventory
             IWeapon asWeapon = m_selectedItem as IWeapon;
             if (asWeapon != null)
             {
-                screen.print(x, y, "Damage: " + asWeapon.Damage);                
+                m_dialogColorHelper.SaveColors(screen);                
+                if (!m_player.CanEquipWeapon(asWeapon))
+                    screen.setForegroundColor(TCODColor.red);
+                screen.print(x, y, "Type : " + asWeapon.Type);
+                m_dialogColorHelper.ResetColors(screen);
+
+                y += 2;
+                screen.print(x, y, "Damage: " + asWeapon.Damage);
             }
         }
 

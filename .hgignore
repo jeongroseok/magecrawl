@@ -23,3 +23,6 @@ glob:Trunk/dist/Interfaces.dll
 glob:Trunk/dist/Interfaces.pdb
 glob:*.pdb
 glob:Trunk/dist/ItemFactory.dll
+glob:*vsp
+glob:dist-Profiled\*
+glob:DebuggingLog.txt

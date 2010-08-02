@@ -103,13 +103,121 @@
   <Skill Name="Blessing Of Mana V" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
     <MPBonus>4</MPBonus>
   </Skill>
-  <Skill Name="Armor Proficiency" Cost="15" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than cloth due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells.">
-    <StandardArmorProficiency/>
+  
+  <Skill Name="Armor Training" Cost="15" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than cloth due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells.">
+    <StandardArmorTraining/>
   </Skill>
-  <Skill Name="Shield Proficiency" Cost="10" School="Martial" Description="While casting spells in heavier armor is difficult due to the increased weight, at least it is spread throughout the body.                      Casting effectivly while using a shield in hand requires an entirely new set of skills.">
-    <ShieldArmorProficiency/>
+  <Skill Name="Heavy Armor Training" Cost="20" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'heavy' armor, albeit with increased effort in casting spells.">
+    <HeavyArmorTraining/>
   </Skill>
-  <Skill Name="Advanced Armor Proficiency" Cost="20" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than leather due to movement restrictions.                       This specialized training allows the user of 'heavy' armor, albeit with increased effort in casting spells.">
-    <HeavyArmorProficiency/>
+                
+  <Skill Name="Basic Axe Training" Cost="5" School="Martial" Description="">
+    <BasicAxeTraining/>
   </Skill>
+  <Skill Name="Basic Dagger Training" Cost="5" School="Martial" Description="">
+    <BasicDaggerTraining/>
+  </Skill>
+  <Skill Name="Basic Spear Training" Cost="5" School="Martial" Description="">
+    <BasicSpearTraining/>
+  </Skill>
+  <Skill Name="Basic Sword Training" Cost="5" School="Martial" Description="">
+    <BasicSwordTraining/>
+  </Skill>
+  <Skill Name="Basic Staff Training" Cost="5" School="Martial" Description="">
+    <BasicStaffTraining/>
+  </Skill>
+  <Skill Name="Basic Sling Training" Cost="5" School="Martial" Description="">
+    <BasicSlingTraining/>
+  </Skill>
+  <Skill Name="Basic Bow Training" Cost="5" School="Martial" Description="">
+    <BasicBowTraining/>
+  </Skill>
+  
+  <Skill Name="Standard Axe Training" Cost="5" School="Martial" Description="">
+    <StandardAxeTraining/>
+  </Skill>
+  <Skill Name="Standard Dagger Training" Cost="5" School="Martial" Description="">
+    <StandardDaggerTraining/>
+  </Skill>
+  <Skill Name="Standard Spear Training" Cost="5" School="Martial" Description="">
+    <StandardSpearTraining/>
+  </Skill>
+  <Skill Name="Standard Sword Training" Cost="5" School="Martial" Description="">
+    <StandardSwordTraining/>
+  </Skill>
+  <Skill Name="Standard Staff Training" Cost="5" School="Martial" Description="">
+    <StandardStaffTraining/>
+  </Skill>
+  <Skill Name="Standard Sling Training" Cost="5" School="Martial" Description="">
+    <StandardSlingTraining/>
+  </Skill>
+  <Skill Name="Standard Bow Training" Cost="5" School="Martial" Description="">
+    <StandardBowTraining/>
+  </Skill>  
+  
+  <Skill Name="Advanced Axe Training" Cost="5" School="Martial" Description="">
+    <AdvancedAxeTraining/>
+  </Skill>
+  <Skill Name="Advanced Dagger Training" Cost="5" School="Martial" Description="">
+    <AdvancedDaggerTraining/>
+  </Skill>
+  <Skill Name="Advanced Spear Training" Cost="5" School="Martial" Description="">
+    <AdvancedSpearTraining/>
+  </Skill>
+  <Skill Name="Advanced Sword Training" Cost="5" School="Martial" Description="">
+    <AdvancedSwordTraining/>
+  </Skill>
+  <Skill Name="Advanced Staff Training" Cost="5" School="Martial" Description="">
+    <AdvancedStaffTraining/>
+  </Skill>
+  <Skill Name="Advanced Sling Training" Cost="5" School="Martial" Description="">
+    <AdvancedSlingTraining/>
+  </Skill>
+  <Skill Name="Advanced Bow Training" Cost="5" School="Martial" Description="">
+    <AdvancedBowTraining/>
+  </Skill>  
+  
+  <Skill Name="Master Axe Training" Cost="5" School="Martial" Description="">
+    <MasterAxeTraining/>
+  </Skill>
+  <Skill Name="Master Dagger Training" Cost="5" School="Martial" Description="">
+    <MasterDaggerTraining/>
+  </Skill>
+  <Skill Name="Master Spear Training" Cost="5" School="Martial" Description="">
+    <MasterSpearTraining/>
+  </Skill>
+  <Skill Name="Master Sword Training" Cost="5" School="Martial" Description="">
+    <MasterSwordTraining/>
+  </Skill>
+  <Skill Name="Master Staff Training" Cost="5" School="Martial" Description="">
+    <MasterStaffTraining/>
+  </Skill>
+  <Skill Name="Master Sling Training" Cost="5" School="Martial" Description="">
+    <MasterSlingTraining/>
+  </Skill>
+  <Skill Name="Master Bow Training" Cost="5" School="Martial" Description="">
+    <MasterBowTraining/>
+  </Skill>  
+  
+  <Skill Name="Grandmaster Axe Training" Cost="5" School="Martial" Description="">
+    <GrandmasterAxeTraining/>
+  </Skill>
+  <Skill Name="Grandmaster Dagger Training" Cost="5" School="Martial" Description="">
+    <GrandmasterDaggerTraining/>
+  </Skill>
+  <Skill Name="Grandmaster Spear Training" Cost="5" School="Martial" Description="">
+    <GrandmasterSpearTraining/>
+  </Skill>
+  <Skill Name="Grandmaster Sword Training" Cost="5" School="Martial" Description="">
+    <GrandmasterSwordTraining/>
+  </Skill>
+  <Skill Name="Grandmaster Staff Training" Cost="5" School="Martial" Description="">
+    <GrandmasterStaffTraining/>
+  </Skill>
+  <Skill Name="Grandmaster Sling Training" Cost="5" School="Martial" Description="">
+    <GrandmasterSlingTraining/>
+  </Skill>
+  <Skill Name="Grandmaster Bow Training" Cost="5" School="Martial" Description="">
+    <BasicBowTraining/>
+  </Skill>  
 </Skills>

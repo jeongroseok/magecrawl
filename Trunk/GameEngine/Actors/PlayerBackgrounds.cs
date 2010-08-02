@@ -15,6 +15,7 @@ namespace Magecrawl.GameEngine.Actors
             {
                 case "Scholar":
                     {
+                        player.AddSkill(SkillFactory.Instance.CreateSkill("Basic Staff Training"));
                         player.AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana I"));
                         player.AddSkill(SkillFactory.Instance.CreateSkill("Blessing Of Mana II"));
                         player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Staff", 0, "Wood", "Average"));
@@ -29,7 +30,8 @@ namespace Magecrawl.GameEngine.Actors
                     }
                 case "Scout":
                     {
-                        player.AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
+                        player.AddSkill(SkillFactory.Instance.CreateSkill("Basic Dagger Training"));
+                        player.AddSkill(SkillFactory.Instance.CreateSkill("Armor Training"));
                         player.AddSkill(SkillFactory.Instance.CreateSkill("Toughness I"));
                         player.AddSkill(SkillFactory.Instance.CreateSkill("Light"));
                         player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Dagger", 0, "Wrought Iron", "Average"));
@@ -45,9 +47,9 @@ namespace Magecrawl.GameEngine.Actors
                     }
                 case "Templar":
                     {
-                        player.AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
-                        player.AddSkill(SkillFactory.Instance.CreateSkill("Shield Proficiency"));
-                        player.AddSkill(SkillFactory.Instance.CreateSkill("Adv. Armor Proficiency"));
+                        player.AddSkill(SkillFactory.Instance.CreateSkill("Basic Sword Training"));
+                        player.AddSkill(SkillFactory.Instance.CreateSkill("Armor Training"));
+                        player.AddSkill(SkillFactory.Instance.CreateSkill("Heavy Armor Training"));
                         player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Sword", 0, "Bronze", "Average"));
                         player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("ChestArmor", 0, "Bronze", "Average"));
                         player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Helm", 0, "Bronze", "Average"));

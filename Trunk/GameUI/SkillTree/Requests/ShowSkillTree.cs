@@ -1,5 +1,3 @@
-using System;
-
 namespace Magecrawl.GameUI.SkillTree.Requests
 {
     public class ShowSkillTree : RequestBase
@@ -7,9 +5,7 @@ namespace Magecrawl.GameUI.SkillTree.Requests
         internal override void DoRequest(IHandlePainterRequest painter)
         {
             if (painter is SkillTreePainter)
-            {
                 ((SkillTreePainter)painter).Enabled = true;
-            }
         }
     }
 }
