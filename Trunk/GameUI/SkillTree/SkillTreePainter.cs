@@ -99,8 +99,8 @@ namespace Magecrawl.GameUI.SkillTree
         {
             if (Enabled)
             {
-                //if (m_dirtyFrame)
-                //{
+                if (m_dirtyFrame)
+                {
                     m_offscreen.printFrame(UpperLeft, UpperLeft, SkillTreeWidth, SkillTreeHeight, true, TCODBackgroundFlag.Set, "Skill Tree");
 
                     CurrentTab.Draw(m_offscreen, m_engine, GetAllSelectedSkill(), NewlySelectedSkills, CursorPosition);
@@ -110,11 +110,8 @@ namespace Magecrawl.GameUI.SkillTree
                     // Draw cursor
                     m_offscreen.setCharBackground(SkillTreeCursorPosition.X, SkillTreeCursorPosition.Y, TCODColor.darkGrey);
                     m_dirtyFrame = false;
-                //}
-                //else
-                //{
-                    TCODConsole.blit(m_offscreen, 5, 5, SkillTreeWidth, SkillTreeHeight, screen, 5, 5);
-                //}
+                }
+                TCODConsole.blit(m_offscreen, 5, 5, SkillTreeWidth, SkillTreeHeight, screen, 5, 5);
             }
         }
 
