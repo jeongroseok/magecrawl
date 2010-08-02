@@ -4,6 +4,14 @@
     {
         public static Point Invalid = new Point(-1, -1);
 
+#if false
+        public Point()
+        {
+            X = 0;
+            Y = 0;
+        }
+#endif
+
         public Point(int x, int y) : this()
         {
             X = x;
@@ -35,14 +43,8 @@
 
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-
             Point other = (Point)obj;
-
-            return (other.X == this.X) && (other.Y == this.Y) && base.Equals(obj);
+            return (other.X == this.X) && (other.Y == this.Y);
         }
 
         public bool Equals(Point other)
@@ -52,7 +54,7 @@
 
         public override int GetHashCode()
         {
-            return X ^ Y ^ base.GetHashCode();
+            return X ^ Y;
         }
 
         public override string ToString()

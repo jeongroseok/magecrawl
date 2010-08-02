@@ -537,6 +537,11 @@ namespace Magecrawl.GameEngine.Actors
         {
             return CanNotEquipArmorReasons(armor).Count == 0;
         }
+        
+        public bool CanEquipWeapon(IWeapon weapon)
+        {
+            return HasAttribute("Basic" + weapon.Type + "Training");
+        }
 
         #region SaveLoad
 

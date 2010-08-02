@@ -97,5 +97,7 @@ namespace Magecrawl.Interfaces
 
         bool CanEquipArmor(IArmor armor);
         IList<EquipArmorReasons> CanNotEquipArmorReasons(IArmor armor);
+
+        bool CanEquipWeapon(IWeapon weapon);
     }
 }

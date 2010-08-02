@@ -24,6 +24,22 @@ namespace Magecrawl.GameUI.SkillTree
             return p.X > UpperLeft.X && p.X < LowerRight.X && p.Y > UpperLeft.Y && p.Y < LowerRight.Y;
         }
 
+        public List<Point> PointsSquareCovers
+        {
+            get
+            {
+                List<Point> points = new List<Point>((LowerRight.X - UpperLeft.X) * (LowerRight.Y - UpperRight.Y));
+                for (int x = UpperLeft.X + 1; x < LowerRight.X; ++x)
+                {
+                    for (int y = UpperLeft.Y + 1; y < LowerRight.Y; ++y)
+                    {
+                        points.Add(new Point(x, y));
+                    }
+                }
+                return points;
+            }
+        }
+
         // We do this to cache the skill, since on init time we don't have the IGameEngine to resolve
         private ISkill m_skill;
         public ISkill GetSkill(IGameEngine engine)
@@ -53,6 +69,11 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 return UpperLeft + new Point(LowerRight.X - UpperLeft.X, 0);
             }
+        }
+
+        public override string ToString()
+        {
+            return "Skill Square - " + SkillName;
         }
     }
 }

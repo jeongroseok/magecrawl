@@ -3,6 +3,7 @@ using System.Linq;
 using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.GameUI.SkillTree
 {
@@ -18,11 +19,14 @@ namespace Magecrawl.GameUI.SkillTree
         public const int ExplainPopupWidth = 26;
         
         private DialogColorHelper m_dialogHelper;
+        private Dictionary<Point, SkillSquare> m_squareLookup;
 
-        private const char UpperLeftSymbol = '1';
-        private const char UpperRightSymbol = '2';
-        private const char LowerLeftSymbol = '3';
-        private const char LowerRightSymbol = '4';
+        // Using TCODColor.color involves a P/Invoke, so for high trafic calls we cache.
+        private readonly TCODColor m_black = TCODColor.black;
+        private readonly TCODColor m_darkBlue = TCODColor.darkBlue;
+        private readonly TCODColor m_lightBlue = TCODColor.lightBlue;
+        private readonly TCODColor m_lightestBlue = TCODColor.lightestBlue;
+        private readonly TCODColor m_blue = TCODColor.blue;
 
         internal SkillTreeTab(string resourceToRead)
         {
@@ -31,81 +35,131 @@ namespace Magecrawl.GameUI.SkillTree
 
             SkillTreeTabXMLHelper xmlHelper = new SkillTreeTabXMLHelper(this);
             xmlHelper.LoadMappings(resourceToRead);
+
+            m_squareLookup = new Dictionary<Point, SkillSquare>();
+            foreach(SkillSquare s in SkillSquares)
+            {
+                foreach (Point p in s.PointsSquareCovers)
+                {
+                    m_squareLookup.Add(p, s);
+                }
+            }
         }
 
         public void Draw(TCODConsole console, IGameEngine engine, List<ISkill> selectedSkillList, List<ISkill> newlySelectedSkillList, Point cursorPosition)
         {
-            console.clear();
-
-            SkillSquare cursorSkillSquare = SkillSquares.Find(x => x.IsInSquare(cursorPosition));
-            ISkill cursorOverSkill = (cursorSkillSquare != null) ? cursorSkillSquare.GetSkill(engine) : null;
-            int selectedSkillCost = newlySelectedSkillList.Sum(x => x.Cost);
-            for (int i = 0; i < Width; ++i)
+            SkillSquare cursorSkillSquare = null;
+            ISkill cursorOverSkill = null;
+            if (m_squareLookup.ContainsKey(cursorPosition))
             {
-                for (int j = 0; j < Height; ++j)
+                cursorSkillSquare = m_squareLookup[cursorPosition];
+                cursorOverSkill = cursorSkillSquare.GetSkill(engine);
+            }
+            int selectedSkillCost = newlySelectedSkillList.Sum(x => x.Cost);
+
+            int upperLeftX = cursorPosition.X - ((SkillTreePainter.SkillTreeWidth - 1) / 2);
+            int upperLeftY = cursorPosition.Y - ((SkillTreePainter.SkillTreeHeight - 1) / 2);
+
+            int lowerRightX = cursorPosition.X - ((SkillTreePainter.SkillTreeWidth - 1) / 2);
+            int lowerRightY = cursorPosition.Y - ((SkillTreePainter.SkillTreeHeight - 1) / 2);
+
+            int arrayWidth = CharArray.GetLength(0);
+            int arrayHeight = CharArray.GetLength(1);
+
+            for (int i = SkillTreePainter.UpperLeft + 1; i < SkillTreePainter.SkillTreeWidth + SkillTreePainter.UpperLeft - 1; ++i)
+            {
+                for (int j = SkillTreePainter.UpperLeft + 1; j < SkillTreePainter.SkillTreeHeight + SkillTreePainter.UpperLeft -1; ++j)
                 {
-                    Point mapPosition = new Point(i, j);
-                    Point drawPosition = mapPosition + new Point(0, ExplainPopupHeight);
-                    console.putChar(drawPosition.X, drawPosition.Y, CharArray[i, j], TCODBackgroundFlag.Set);
-
-                    SkillSquare skillSquareBeingPained = SkillSquares.Find(x => x.IsInSquare(mapPosition));
-                    if (skillSquareBeingPained != null)
+                    int gridX;
+                    int gridY;
+                    ConvertDrawToGridCoord(i, j, cursorPosition, out gridX, out gridY);
+                    if (gridX >= 0 && gridY >= 0 && gridX < arrayWidth && gridY < arrayHeight)
                     {
-                        bool cursorInMySquare = skillSquareBeingPained.IsInSquare(cursorPosition);
-
-                        bool selectedMySquare = SkillTreeModelHelpers.IsSkillSelected(selectedSkillList, skillSquareBeingPained.SkillName);
-
-                        TCODColor background;
-                        if (cursorInMySquare)
-                        {
-                            if (selectedMySquare)
-                            {
-                                background = TCODColor.darkBlue;
-                            }
-                            else
-                            {
-                                bool hasEnoughSkillPointsToSelectThisAsWell = selectedSkillCost + cursorOverSkill.Cost <= engine.Player.SkillPoints;
-                                bool hasDependenciesMet = !SkillTreeModelHelpers.HasUnmetDependencies(selectedSkillList, skillSquareBeingPained);
-                                if (hasDependenciesMet && hasEnoughSkillPointsToSelectThisAsWell)
-                                    background = TCODColor.lightBlue;
-                                else
-                                    background = TCODColor.lightestBlue;
-                            }
-                        }
-                        else
-                        {
-                            if (selectedMySquare)
-                                background = TCODColor.blue;
-                            else
-                                background = TCODColor.black;
-                        }
-
-                        if (background != TCODColor.black)
-                            console.setCharBackground(drawPosition.X, drawPosition.Y, background);
+                        //CalculateBackgroundColorForSkill
+                        // We're painting something that shows up on our "grid"
+                        TCODColor background = CalculateBackgroundColorForSkill(new Point(gridX, gridY), cursorPosition, selectedSkillList, newlySelectedSkillList, engine.Player.SkillPoints, selectedSkillCost, cursorOverSkill);
+                        console.putCharEx(i, j, CharArray[gridX, gridY], UIHelper.ForegroundColor, background);
+                    }
+                    else
+                    {
+                        // We're not painting something on our grid, black it out
+                        console.setCharBackground(i, j, m_black);
                     }
                 }
             }
 
             if (cursorSkillSquare != null)
-                DrawSkillPopup(console, selectedSkillList, engine.Player.SkillPoints - selectedSkillCost, cursorSkillSquare, cursorOverSkill);
+                DrawSkillPopup(console, selectedSkillList, engine.Player.SkillPoints - selectedSkillCost, cursorSkillSquare, cursorOverSkill, cursorPosition);
         }
 
-        private void DrawSkillPopup(TCODConsole console, List<ISkill> selectedSkillList, int skillPointsLeft, SkillSquare cursorSkillSquare, ISkill cursorOverSkill)
+        // Out params are normally not preferred, but this gets called for every square painted, so we don't want to have to alloc Points
+        private void ConvertDrawToGridCoord(int drawX, int drawY, Point cursorPosition, out int gridX, out int gridY)
         {
-            Point explainationBoxLowerLeft = cursorSkillSquare.UpperRight + new Point(1, 0) + new Point(0, ExplainPopupHeight);
+            gridX = cursorPosition.X - SkillTreePainter.SkillTreeCursorPosition.X + drawX;
+            gridY = cursorPosition.Y - SkillTreePainter.SkillTreeCursorPosition.Y + drawY;
+        }
+
+        private Point ConvertGridToDrawCoord(Point gridPoint, Point cursorPosition)
+        {
+            return SkillTreePainter.SkillTreeCursorPosition - cursorPosition + gridPoint;
+        }
+
+        private TCODColor CalculateBackgroundColorForSkill(Point gridPosition, Point cursorPosition, List<ISkill> selectedSkillList, List<ISkill> newlySelectedSkillList, int playerSkillPoints, int selectedSkillCost, ISkill cursorOverSkill)
+        {
+            if (m_squareLookup.ContainsKey(gridPosition))
+            {
+                SkillSquare skillSquareBeingPained = m_squareLookup[gridPosition];
+                bool cursorInMySquare = skillSquareBeingPained.IsInSquare(cursorPosition);
+
+                bool selectedMySquare = SkillTreeModelHelpers.IsSkillSelected(selectedSkillList, skillSquareBeingPained.SkillName);
+
+                if (cursorInMySquare)
+                {
+                    if (selectedMySquare)
+                    {
+                        return m_blue;
+                    }
+                    else
+                    {
+                        bool hasEnoughSkillPointsToSelectThisAsWell = selectedSkillCost + cursorOverSkill.Cost <= playerSkillPoints;
+                        bool hasDependenciesMet = !SkillTreeModelHelpers.HasUnmetDependencies(selectedSkillList, skillSquareBeingPained);
+                        if (hasDependenciesMet && hasEnoughSkillPointsToSelectThisAsWell)
+                            return m_lightBlue;
+                        else
+                            return m_lightestBlue;
+                    }
+                }
+                else
+                {
+                    if (selectedMySquare)
+                        return m_blue;
+                    else
+                        return m_black;
+                }
+            }
+            else
+            {
+                return m_black;
+            } 
+        }
+
+        private void DrawSkillPopup(TCODConsole console, List<ISkill> selectedSkillList, int skillPointsLeft, SkillSquare cursorSkillSquare, ISkill cursorOverSkill, Point cursorPosition)
+        {
+            Point drawUpperLeft = ConvertGridToDrawCoord(cursorSkillSquare.UpperRight + new Point(1, 1), cursorPosition);
+            
             int numberOfDependencies = cursorSkillSquare.DependentSkills.Count();
             int dialogHeight = ExplainPopupHeight;
             if (numberOfDependencies > 0)
             {
                 dialogHeight += 2 + numberOfDependencies;
-                explainationBoxLowerLeft += new Point(0, numberOfDependencies + 2);
+                drawUpperLeft += new Point(0, numberOfDependencies + 2);
             }
 
-            console.printFrame(explainationBoxLowerLeft.X, explainationBoxLowerLeft.Y - dialogHeight, ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
+            console.printFrame(drawUpperLeft.X, drawUpperLeft.Y - dialogHeight, ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
 
-            int textX = explainationBoxLowerLeft.X + 2;
-            int textY = explainationBoxLowerLeft.Y - dialogHeight + 2;
-            
+            int textX = drawUpperLeft.X + 2;
+            int textY = drawUpperLeft.Y - dialogHeight + 2;
+
             // If we can't afford it and it isn't already selected, show the cost in red
             if (!selectedSkillList.Contains(cursorOverSkill) && cursorOverSkill.Cost > skillPointsLeft)
             {

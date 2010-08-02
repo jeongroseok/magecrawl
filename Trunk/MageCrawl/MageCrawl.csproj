@@ -197,6 +197,9 @@
     <Content Include="..\dist\Resources\Skill Tree\ArcaneSkillTree.xml">
       <Link>Resources\Skill Tree\ArcaneSkillTree.xml</Link>
     </Content>
+    <Content Include="..\dist\Resources\Skill Tree\AttributeSkillTree.xml">
+      <Link>Resources\Skill Tree\AttributeSkillTree.xml</Link>
+    </Content>
     <Content Include="..\dist\Resources\Skill Tree\FireSkillTree.xml">
       <Link>Resources\Skill Tree\FireSkillTree.xml</Link>
     </Content>

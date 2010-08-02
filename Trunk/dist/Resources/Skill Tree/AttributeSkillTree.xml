@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+<Skills DefaultX="0" DefaultY="0" MaxRow="4">
+  <Skill Name="Toughness I" Column="0" Row="0">
+    <Icon>
+      <Row0>Tough</Row0>
+      <Row1> ness</Row1>
+      <Row2>  I</Row2>
+    </Icon>
+  </Skill>
+  <Skill Name="Toughness II" Column="0" Row="1">
+    <Icon>
+      <Row0>Tough</Row0>
+      <Row1> ness</Row1>
+      <Row2> II</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Toughness I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Toughness III" Column="0" Row="2">
+    <Icon>
+      <Row0>Tough</Row0>
+      <Row1> ness</Row1>
+      <Row2> III</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Toughness II"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Toughness IV" Column="0" Row="3">
+    <Icon>
+      <Row0>Tough</Row0>
+      <Row1> ness</Row1>
+      <Row2> IV</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Toughness III"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Toughness V" Column="0" Row="4">
+    <Icon>
+      <Row0>Tough</Row0>
+      <Row1> ness</Row1>
+      <Row2>  V</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Toughness IV"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Blessing Of Mana I" Column="1" Row="0">
+    <Icon>
+      <Row0>Bless</Row0>
+      <Row1> of</Row1>
+      <Row2>Mana</Row2>
+      <Row3>  I</Row3>
+    </Icon>
+  </Skill>
+  <Skill Name="Blessing Of Mana II" Column="1" Row="1">
+    <Icon>
+      <Row0>Bless</Row0>
+      <Row1> of</Row1>
+      <Row2>Mana</Row2>
+      <Row3> II</Row3>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Blessing Of Mana I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Blessing Of Mana III" Column="1" Row="2">
+    <Icon>
+      <Row0>Bless</Row0>
+      <Row1> of</Row1>
+      <Row2>Mana</Row2>
+      <Row3> III</Row3>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Blessing Of Mana II"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Blessing Of Mana IV" Column="1" Row="3">
+    <Icon>
+      <Row0>Bless</Row0>
+      <Row1> of</Row1>
+      <Row2>Mana</Row2>
+      <Row3> IV</Row3>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Blessing Of Mana III"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Blessing Of Mana V" Column="1" Row="4">
+    <Icon>
+      <Row0>Bless</Row0>
+      <Row1> of</Row1>
+      <Row2>Mana</Row2>
+      <Row3>  V</Row3>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Blessing Of Mana IV"/>
+    </Dependencies>
+  </Skill>
+</Skills>

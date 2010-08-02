@@ -10,8 +10,7 @@ namespace Magecrawl.GameUI.SkillTree
     internal class SkillTreePainter : MapPainterBase
     {
         private Dictionary<string, SkillTreeTab> m_skillTreeTabs;
-        private TCODConsole m_offscreenConsole;
-        private List<string> m_tabOrderingList = new List<string>() { "Arcane", "Fire", "Light", "Martial" };
+        private List<string> m_tabOrderingList = new List<string>() { "Arcane", "Fire", "Light", "Martial", "Attributes"};
         //private List<string> m_tabOrderingList = new List<string>() { "Air", "Arcane", "Earth", "Fire", "Light", "Martial", "Water" };
         private string m_defaultTab = "Arcane";
         //private string m_defaultTab = "Air";
@@ -20,13 +19,14 @@ namespace Magecrawl.GameUI.SkillTree
 
         // Set when we need to redraw offscreen buffer
         private bool m_dirtyFrame;
+        private TCODConsole m_offscreen;
      
         internal List<ISkill> NewlySelectedSkills { get; private set; }
 
-        private const int UpperLeft = 5;
-        private const int ScreenWidth = 70;
-        private const int ScreenHeight = 50;
-        private static Point s_skillTreeScreenCenter = new Point(((ScreenWidth - 1) / 2), ((ScreenHeight - 1) / 2));
+        public const int UpperLeft = 5;
+        public const int SkillTreeWidth = UIHelper.ScreenWidth - 2 * UpperLeft;
+        public const int SkillTreeHeight = UIHelper.ScreenHeight - 2 * UpperLeft;
+        public static Point SkillTreeCursorPosition = new Point(((SkillTreeWidth - 1) / 2) + UpperLeft + 2, ((SkillTreeHeight - 1) / 2) + UpperLeft + 2);
 
         internal SkillTreePainter()
         {
@@ -35,6 +35,7 @@ namespace Magecrawl.GameUI.SkillTree
             NewlySelectedSkills = new List<ISkill>();
             m_currentTabName = m_defaultTab;
             m_dirtyFrame = true;
+            m_offscreen = new TCODConsole(UIHelper.ScreenWidth, UIHelper.ScreenHeight);
 
             m_skillTreeTabs = new Dictionary<string, SkillTreeTab>();
             //m_skillTreeTabs.Add("Air", new SkillTreeTab("AirSkillTree.xml"));
@@ -43,6 +44,7 @@ namespace Magecrawl.GameUI.SkillTree
             m_skillTreeTabs.Add("Fire", new SkillTreeTab("FireSkillTree.xml"));
             m_skillTreeTabs.Add("Light", new SkillTreeTab("LightSkillTree.xml"));
             m_skillTreeTabs.Add("Martial", new SkillTreeTab("MartialSkillTree.xml"));
+            m_skillTreeTabs.Add("Attributes", new SkillTreeTab("AttributeSkillTree.xml"));
             //m_skillTreeTabs.Add("Water", new SkillTreeTab("WaterSkillTree.xml"));
 
             // Calculate the max width/height of all tabs so we can get the offsecreen surface the right size
@@ -52,11 +54,7 @@ namespace Magecrawl.GameUI.SkillTree
             {
                 maxWidth = Math.Max(maxWidth, tab.Width);
                 maxHeight = Math.Max(maxHeight, tab.Height);
-            }
-            
-            // The offconsole width/height here are completely wrong, but "good enough" being too big
-            //m_offscreenConsole = new TCODConsole(maxWidth * 2 + SkillTreeTab.ExplainPopupWidth, maxHeight * 2 + SkillTreeTab.ExplainPopupHeight);
-            m_offscreenConsole = new TCODConsole(maxWidth * SkillTreeTab.ExplainPopupWidth + 1, maxHeight * (SkillTreeTab.ExplainPopupHeight + 1));
+            }            
         }
 
         private List<ISkill> GetAllSelectedSkill()
@@ -101,27 +99,22 @@ namespace Magecrawl.GameUI.SkillTree
         {
             if (Enabled)
             {
-                if (m_dirtyFrame)
-                {
-                    CurrentTab.Draw(m_offscreenConsole, m_engine, GetAllSelectedSkill(), NewlySelectedSkills, CursorPosition);
+                //if (m_dirtyFrame)
+                //{
+                    m_offscreen.printFrame(UpperLeft, UpperLeft, SkillTreeWidth, SkillTreeHeight, true, TCODBackgroundFlag.Set, "Skill Tree");
+
+                    CurrentTab.Draw(m_offscreen, m_engine, GetAllSelectedSkill(), NewlySelectedSkills, CursorPosition);
+                    DrawTabBar(m_offscreen);
+                    DrawSkillPointTotalFrame(m_offscreen);
+
+                    // Draw cursor
+                    m_offscreen.setCharBackground(SkillTreeCursorPosition.X, SkillTreeCursorPosition.Y, TCODColor.darkGrey);
                     m_dirtyFrame = false;
-                }
-
-                int lowX = CursorPosition.X - (ScreenWidth / 2);
-                int lowY = CursorPosition.Y - (ScreenHeight / 2) + SkillTreeTab.ExplainPopupHeight;
-                screen.printFrame(UpperLeft, UpperLeft, ScreenWidth, ScreenHeight, true, TCODBackgroundFlag.Set, "Skill Tree");
-
-                TCODConsole.blit(m_offscreenConsole, lowX, lowY, ScreenWidth - 2, ScreenHeight - 2, screen, UpperLeft + 1, UpperLeft + 1);
-
-                DrawTabBar(screen);
-
-                DrawSkillPointTotalFrame(screen);
-
-                // Draw cursor
-                screen.setCharBackground(s_skillTreeScreenCenter.X + UpperLeft + 2, s_skillTreeScreenCenter.Y + UpperLeft + 2, TCODColor.darkGrey);
-
-                // For debugging
-                //screen.print(50, 50, CursorPosition.ToString());
+                //}
+                //else
+                //{
+                    TCODConsole.blit(m_offscreen, 5, 5, SkillTreeWidth, SkillTreeHeight, screen, 5, 5);
+                //}
             }
         }
 
@@ -140,11 +133,11 @@ namespace Magecrawl.GameUI.SkillTree
         private void DrawTabBar(TCODConsole screen)
         {
             const int HorizontalTabOffset = 2;
-            screen.rect(UpperLeft + 1, UpperLeft + 1, ScreenWidth - 2, HorizontalTabOffset - 1, true);
+            screen.rect(UpperLeft + 1, UpperLeft + 1, SkillTreeWidth - 2, HorizontalTabOffset - 1, true);
 
             screen.putChar(UpperLeft, UpperLeft + HorizontalTabOffset, (int)TCODSpecialCharacter.TeeEast);
-            screen.putChar(UpperLeft + ScreenWidth - 1, UpperLeft + HorizontalTabOffset, (int)TCODSpecialCharacter.TeeWest);
-            screen.hline(UpperLeft + 1, UpperLeft + HorizontalTabOffset, ScreenWidth - 2);
+            screen.putChar(UpperLeft + SkillTreeWidth - 1, UpperLeft + HorizontalTabOffset, (int)TCODSpecialCharacter.TeeWest);
+            screen.hline(UpperLeft + 1, UpperLeft + HorizontalTabOffset, SkillTreeWidth - 2);
 
             int x = UpperLeft + 2;
             int y = UpperLeft + HorizontalTabOffset - 1;

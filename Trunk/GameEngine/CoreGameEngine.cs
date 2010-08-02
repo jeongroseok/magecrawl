@@ -399,8 +399,9 @@ namespace Magecrawl.GameEngine
 
             if (item is IWeapon)
             {
-                optionList.Add(new ItemOptions("Equip", true));
-                optionList.Add(new ItemOptions("Equip as Secondary", true));
+                bool canEquip = m_player.CanEquipWeapon((IWeapon)item);
+                optionList.Add(new ItemOptions("Equip", canEquip ));
+                optionList.Add(new ItemOptions("Equip as Secondary", canEquip ));
             }
             if (item is IArmor)
             {

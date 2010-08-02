@@ -76,10 +76,13 @@ namespace Magecrawl.GameEngine.Skills
                 else if (insideSkillNode)
                 {
                     if (reader.NodeType == XmlNodeType.Element)
-                        attributeName = reader.LocalName;
+                    {
+                        attributeName = reader.Name;
+                        lastSkill.Attributes[attributeName] = null;
+                    }
                     else if (reader.NodeType == XmlNodeType.Text)
                     {
-                        lastSkill.Attributes.Add(attributeName, reader.Value);
+                        lastSkill.Attributes[attributeName] = reader.Value;
                         attributeName = null;
                     }
                 }
