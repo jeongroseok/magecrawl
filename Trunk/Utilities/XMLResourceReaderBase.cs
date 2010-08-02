@@ -14,6 +14,12 @@ namespace Magecrawl.Utilities
             ParseFile(fileName, readFileCallback, null);
         }
 
+        public static void ParseFileNotInResourcesDir(string fileName, ReadFileSpecifics readFileCallback)
+        {
+            StreamReader stream = new StreamReader(fileName);
+            ParseFile(stream, readFileCallback, null);
+        }
+
         public static void ParseFile(string fileName, ReadFileSpecifics readFileCallback, object data)
         {
             StreamReader stream = new StreamReader(Path.Combine("Resources", fileName));
