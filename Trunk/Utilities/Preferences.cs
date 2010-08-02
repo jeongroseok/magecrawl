@@ -87,7 +87,7 @@ namespace Magecrawl.Utilities
 
         private void LoadSettings()
         {
-            XMLResourceReaderBase.ParseFile("Preferences.xml", ReadFileCallback);
+            XMLResourceReaderBase.ParseFileNotInResourcesDir("Preferences.xml", ReadFileCallback);
         }
 
         private void ReadFileCallback(XmlReader reader, object data)
