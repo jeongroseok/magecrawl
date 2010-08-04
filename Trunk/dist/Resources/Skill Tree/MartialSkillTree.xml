@@ -1,359 +1,359 @@
 <?xml version="1.0" ?>
 <Skills DefaultX="0" DefaultY="0" MaxRow="4">
-  <Skill Name="Armor Training" Column="0" Row="0">
+  <Skill Name="Armor Proficiency" Column="0" Row="0">
     <Icon>
       <Row0>Armor</Row0>
-      <Row1>Train</Row1>
+      <Row1> Prof</Row1>
     </Icon>
   </Skill>
-  <Skill Name="Heavy Armor Training" Column="0" Row="1">
+  <Skill Name="Heavy Armor Proficiency" Column="0" Row="1">
     <Icon>
       <Row0> Adv</Row0>
       <Row1>Armor</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Armor Training"/>
+      <Dependency Name="Armor Proficiency"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Basic Axe Training" Column="1" Row="0">
+  <Skill Name="Basic Axe Proficiency" Column="1" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>  Axe</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
-  <Skill Name="Basic Dagger Training" Column="2" Row="0">
+  <Skill Name="Basic Dagger Proficiency" Column="2" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>  Dag</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
-  <Skill Name="Basic Spear Training" Column="3" Row="0">
+  <Skill Name="Basic Spear Proficiency" Column="3" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>Spear</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
-  <Skill Name="Basic Sword Training" Column="4" Row="0">
+  <Skill Name="Basic Sword Proficiency" Column="4" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>Sword</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
-  <Skill Name="Basic Staff Training" Column="5" Row="0">
+  <Skill Name="Basic Staff Proficiency" Column="5" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>Staff</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
-  <Skill Name="Basic Sling Training" Column="6" Row="0">
+  <Skill Name="Basic Sling Proficiency" Column="6" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>Sling</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
-  <Skill Name="Basic Bow Training" Column="7" Row="0">
+  <Skill Name="Basic Bow Proficiency" Column="7" Row="0">
     <Icon>
       <Row0>Basic</Row0>
       <Row1>  Bow</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
   </Skill>
   
-  <Skill Name="Standard Axe Training" Column="1" Row="1">
+  <Skill Name="Standard Axe Proficiency" Column="1" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>  Axe</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Basic Axe Training"/>
+      <Dependency Name="Basic Axe Proficiency"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Standard Dagger Training" Column="2" Row="1">
+  <Skill Name="Standard Dagger Proficiency" Column="2" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>  Dag</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Basic Dagger Training"/>
+      <Dependency Name="Basic Dagger Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Standard Spear Training" Column="3" Row="1">
+  <Skill Name="Standard Spear Proficiency" Column="3" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>Spear</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Basic Spear Training"/>
+      <Dependency Name="Basic Spear Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Standard Sword Training" Column="4" Row="1">
+  <Skill Name="Standard Sword Proficiency" Column="4" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>Sword</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Basic Sword Training"/>
+      <Dependency Name="Basic Sword Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Standard Staff Training" Column="5" Row="1">
+  <Skill Name="Standard Staff Proficiency" Column="5" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>Staff</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Basic Staff Training"/>
+      <Dependency Name="Basic Staff Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Standard Sling Training" Column="6" Row="1">
+  <Skill Name="Standard Sling Proficiency" Column="6" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>Sling</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Basic Sling Training"/>
+      <Dependency Name="Basic Sling Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Standard Bow Training" Column="7" Row="1">
+  <Skill Name="Standard Bow Proficiency" Column="7" Row="1">
     <Icon>
       <Row0>  Std</Row0>
       <Row1>  Bow</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Basic Bow Training"/>
+      <Dependency Name="Basic Bow Proficiency"/>
     </Dependencies>    
   </Skill>
   
-  <Skill Name="Advanced Axe Training" Column="1" Row="2">
+  <Skill Name="Advanced Axe Proficiency" Column="1" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>  Axe</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Standard Axe Training"/>
+      <Dependency Name="Standard Axe Proficiency"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Advanced Dagger Training" Column="2" Row="2">
+  <Skill Name="Advanced Dagger Proficiency" Column="2" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>  Dag</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Standard Dagger Training"/>
+      <Dependency Name="Standard Dagger Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Advanced Spear Training" Column="3" Row="2">
+  <Skill Name="Advanced Spear Proficiency" Column="3" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>Spear</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Standard Spear Training"/>
+      <Dependency Name="Standard Spear Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Advanced Sword Training" Column="4" Row="2">
+  <Skill Name="Advanced Sword Proficiency" Column="4" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>Sword</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Standard Sword Training"/>
+      <Dependency Name="Standard Sword Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Advanced Staff Training" Column="5" Row="2">
+  <Skill Name="Advanced Staff Proficiency" Column="5" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>Staff</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Standard Staff Training"/>
+      <Dependency Name="Standard Staff Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Advanced Sling Training" Column="6" Row="2">
+  <Skill Name="Advanced Sling Proficiency" Column="6" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>Sling</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Standard Sling Training"/>
+      <Dependency Name="Standard Sling Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Advanced Bow Training" Column="7" Row="2">
+  <Skill Name="Advanced Bow Proficiency" Column="7" Row="2">
     <Icon>
       <Row0>  Adv</Row0>
       <Row1>  Bow</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Standard Bow Training"/>
+      <Dependency Name="Standard Bow Proficiency"/>
     </Dependencies>    
   </Skill>
   
-  <Skill Name="Master Axe Training" Column="1" Row="3">
+  <Skill Name="Master Axe Proficiency" Column="1" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>  Axe</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Advanced Axe Training"/>
+      <Dependency Name="Advanced Axe Proficiency"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Master Dagger Training" Column="2" Row="3">
+  <Skill Name="Master Dagger Proficiency" Column="2" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>  Dag</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Advanced Dagger Training"/>
+      <Dependency Name="Advanced Dagger Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Master Spear Training" Column="3" Row="3">
+  <Skill Name="Master Spear Proficiency" Column="3" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>Spear</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Advanced Spear Training"/>
+      <Dependency Name="Advanced Spear Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Master Sword Training" Column="4" Row="3">
+  <Skill Name="Master Sword Proficiency" Column="4" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>Sword</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Advanced Sword Training"/>
+      <Dependency Name="Advanced Sword Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Master Staff Training" Column="5" Row="3">
+  <Skill Name="Master Staff Proficiency" Column="5" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>Staff</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Advanced Staff Training"/>
+      <Dependency Name="Advanced Staff Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Master Sling Training" Column="6" Row="3">
+  <Skill Name="Master Sling Proficiency" Column="6" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>Sling</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     <Dependencies>
-      <Dependency Name="Advanced Sling Training"/>
+      <Dependency Name="Advanced Sling Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Master Bow Training" Column="7" Row="3">
+  <Skill Name="Master Bow Proficiency" Column="7" Row="3">
     <Icon>
       <Row0>Mastr</Row0>
       <Row1>  Bow</Row1>
-      <Row2>Train</Row2>
+      <Row2> Prof</Row2>
     </Icon>
     <Dependencies>
-      <Dependency Name="Advanced Bow Training"/>
+      <Dependency Name="Advanced Bow Proficiency"/>
     </Dependencies>    
   </Skill>
   
-    <Skill Name="Grandmaster Axe Training" Column="1" Row="4">
+    <Skill Name="Grandmaster Axe Proficiency" Column="1" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>  Axe</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     </Icon>
     <Dependencies>
-      <Dependency Name="Master Axe Training"/>
+      <Dependency Name="Master Axe Proficiency"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Grandmaster Dagger Training" Column="2" Row="4">
+  <Skill Name="Grandmaster Dagger Proficiency" Column="2" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>  Dag</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     <Dependencies>
-      <Dependency Name="Master Dagger Training"/>
+      <Dependency Name="Master Dagger Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Grandmaster Spear Training" Column="3" Row="4">
+  <Skill Name="Grandmaster Spear Proficiency" Column="3" Row="4">
     <Icon>   
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>Spear</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     <Dependencies>
-      <Dependency Name="Master Spear Training"/>
+      <Dependency Name="Master Spear Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Grandmaster Sword Training" Column="4" Row="4">
+  <Skill Name="Grandmaster Sword Proficiency" Column="4" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>Sword</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     <Dependencies>
-      <Dependency Name="Master Sword Training"/>
+      <Dependency Name="Master Sword Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Grandmaster Staff Training" Column="5" Row="4">
+  <Skill Name="Grandmaster Staff Proficiency" Column="5" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>Staff</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     <Dependencies>
-      <Dependency Name="Master Staff Training"/>
+      <Dependency Name="Master Staff Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Grandmaster Sling Training" Column="6" Row="4">
+  <Skill Name="Grandmaster Sling Proficiency" Column="6" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>Sling</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     <Dependencies>
-      <Dependency Name="Master Sling Training"/>
+      <Dependency Name="Master Sling Proficiency"/>
     </Dependencies>      
     </Icon>
   </Skill>
-  <Skill Name="Grandmaster Bow Training" Column="7" Row="4">
+  <Skill Name="Grandmaster Bow Proficiency" Column="7" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>
       <Row2>  Bow</Row2>
-      <Row3>Train</Row3>
+      <Row3> Prof</Row3>
     </Icon>
     <Dependencies>
-      <Dependency Name="Master Bow Training"/>
+      <Dependency Name="Master Bow Proficiency"/>
     </Dependencies>    
   </Skill>
 </Skills>

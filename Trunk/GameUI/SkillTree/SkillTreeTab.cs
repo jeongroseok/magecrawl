@@ -151,11 +151,19 @@ namespace Magecrawl.GameUI.SkillTree
             int dialogHeight = ExplainPopupHeight;
             if (numberOfDependencies > 0)
             {
-                dialogHeight += 2 + numberOfDependencies;
-                drawUpperLeft += new Point(0, numberOfDependencies + 2);
+                int linesOfDependencies = numberOfDependencies;
+                foreach (string dependentSkillName in cursorSkillSquare.DependentSkills)
+                    linesOfDependencies += console.getHeightRect(drawUpperLeft.X + 2 + 3, 0, 20, 2, dependentSkillName);
+                
+                dialogHeight += 2 + linesOfDependencies;
+                drawUpperLeft += new Point(0, 2 + linesOfDependencies);
             }
 
-            console.printFrame(drawUpperLeft.X, drawUpperLeft.Y - dialogHeight, ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, cursorOverSkill.Name);
+            string title = cursorOverSkill.Name;
+            if (title.Length > 22)
+                title = title.Substring(0, 22);
+
+            console.printFrame(drawUpperLeft.X, drawUpperLeft.Y - dialogHeight, ExplainPopupWidth, dialogHeight, true, TCODBackgroundFlag.Set, title);
 
             int textX = drawUpperLeft.X + 2;
             int textY = drawUpperLeft.Y - dialogHeight + 2;
@@ -186,7 +194,8 @@ namespace Magecrawl.GameUI.SkillTree
                         m_dialogHelper.SetColors(console, false, true);
                     else
                         m_dialogHelper.SetColors(console, false, false);
-                    console.print(textX, textY, "   " + dependentSkillName);
+
+                    console.printRect(textX + 3, textY, 20, 2, dependentSkillName);
                     textY++;
                 }
                 m_dialogHelper.ResetColors(console);
