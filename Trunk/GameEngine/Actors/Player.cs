@@ -540,7 +540,7 @@ namespace Magecrawl.GameEngine.Actors
         
         public bool CanEquipWeapon(IWeapon weapon)
         {
-            return HasAttribute("Basic" + weapon.Type + "Training");
+            return HasAttribute("Basic" + weapon.Type + "Proficiency");
         }
 
         #region SaveLoad
