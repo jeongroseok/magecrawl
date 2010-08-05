@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Skills DefaultX="0" DefaultY="0" MaxRow="4">
+<Skills DefaultX="34" DefaultY="26" MaxRow="4">
   <Skill Name="Armor Proficiency" Column="0" Row="0">
     <Icon>
       <Row0>Armor</Row0>
