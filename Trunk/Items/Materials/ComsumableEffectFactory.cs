@@ -27,7 +27,7 @@ namespace Magecrawl.Items.Materials
             return effect;
         }
 
-        internal ConsumableEffect GetRandomMaterial(string type)
+        internal ConsumableEffect GetRandomEffect(string type)
         {
             if (!m_validEffectsForType.ContainsKey(type))
                 return null;
@@ -35,7 +35,7 @@ namespace Magecrawl.Items.Materials
             return m_validEffectsForType[type].Randomize()[0];
         }
 
-        internal ConsumableEffect GetMaterialInLevelRange(string type, int low, int high)
+        internal ConsumableEffect GetEffectInLevelRange(string type, int low, int high)
         {
             if (!m_validEffectsForType.ContainsKey(type))
                 return null;

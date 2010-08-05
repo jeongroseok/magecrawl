@@ -115,6 +115,11 @@ namespace Magecrawl.Items
             return CreateItemOfType(type, level, null, null);
         }
 
+        public Item CreateItemByName(string type, string name)
+        {
+            return CreateItemOfType(type, 0, name, null);
+        }
+
         public Item CreateItemOfType(string type, int level, string materialName, string qualityName)
         {
             // So sometimes there can be "gaps" where we don't have a base material of
@@ -181,21 +186,28 @@ namespace Magecrawl.Items
                 case "Potion":
                 case "Scroll":
                 {
-                    ConsumableEffect effect = ConsumableEffectFactory.GetMaterialInLevelRange(type, lowLevel, highLevel);
+                    ConsumableEffect effect;
+                    if (materialName != null)
+                        effect = ConsumableEffectFactory.GetEffect(type, materialName);
+                    else
+                        effect = ConsumableEffectFactory.GetEffectInLevelRange(type, lowLevel, highLevel);
+
                     if (effect == null)
                         return null;
 
                     int levelCapLeft = (int)Math.Max(highLevel - effect.ItemLevel, 0);
-                        
-                    // For every two level we go below the cap, increase caster level by 1
-                    effect.CasterLevel += levelCapLeft / 2;
 
                     return new Consumable(type, effect, 1, 1);
                 }
                 case "Wand":
                 {
-                    // Wands reduce the level of the item in half since they have charges
-                    ConsumableEffect effect = ConsumableEffectFactory.GetMaterialInLevelRange(type, lowLevel / 2, highLevel / 2);
+                    // Wands reduce the level of the item by 1 since it has charges
+                    ConsumableEffect effect;
+                    if (materialName != null)
+                        effect = ConsumableEffectFactory.GetEffect(type, materialName);
+                    else
+                        effect = ConsumableEffectFactory.GetEffectInLevelRange(type, Math.Max(0, lowLevel - 1), Math.Max(0, highLevel - 1));
+
                     if (effect == null)
                         return null;
 
