@@ -535,8 +535,23 @@ namespace Magecrawl.GameEngine
             return m_magicEffects.GetLongTermEffectSpellWouldProduce(effectName);
         }
 
-        internal bool HandleInventoryAction(IItem item, string option, object argument)
+        internal bool HandleItemAction(IItem item, string option, object argument)
         {
+            // Some actions take longer than 1 turn, so spend the extra time here
+            switch (option)
+            {
+                case "Equip":
+                case "Equip as Secondary":
+                case "Unequip":
+                case "Unequip as Secondary":
+                {
+                    m_timingEngine.ActorDidAction(m_player);
+                    m_timingEngine.ActorDidAction(m_player);
+                    m_timingEngine.ActorDidAction(m_player);
+                    break;
+                }
+            }
+
             switch (option)
             {
                 case "Drop":
