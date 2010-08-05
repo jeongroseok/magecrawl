@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Skills DefaultX="0" DefaultY="0" MaxRow="5">
+<Skills DefaultX="10" DefaultY="30" MaxRow="5">
   <Skill Name="Spark" Column="1" Row="0">
     <Icon>
       <Row1>Spark</Row1>

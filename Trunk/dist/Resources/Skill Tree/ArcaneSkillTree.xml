@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Skills DefaultX="0" DefaultY="0" MaxRow="4">
+<Skills DefaultX="8" DefaultY="20" MaxRow="4">
   <Skill Name="Force Bolt" Column="1" Row="0">
     <Icon>
       <Row0>Force</Row0>
