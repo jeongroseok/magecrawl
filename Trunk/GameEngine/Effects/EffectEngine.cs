@@ -58,14 +58,18 @@ namespace Magecrawl.GameEngine.Effects
             return true;           
         }
 
+        // For effects that mess with HPs on add/remove, this "works" for now since
+        // We'll call Dismiss on the previous effect, which waits until end of turn to Remove
+        // Then we'll call Add on the new effect, which'll add the HP first, then the remove will remove them
+        // If we ever have an effect that is percentage based, we'll have to redo this...
         private static void DismissExistingEffect(string effectName, Character target)
         {
-            List<StatusEffect> statusList = target.Effects.Where(s => s.Name == effectName).ToList();
+            List<StatusEffect> statusList = target.Effects.Where(s => s.Type == effectName).ToList();
             if (statusList.Count > 1)
                 throw new System.InvalidOperationException("DismissExistingEffect with more than one effect of the same name on them?");
             foreach (StatusEffect s in statusList)
             {
-                CoreGameEngine.Instance.SendTextOutput(string.Format("The existing {0} effect fades from {1}.", effectName, target.Name));
+                CoreGameEngine.Instance.SendTextOutput(string.Format("The existing {0} effect fades from {1}.", s.Name, target.Name));
                 s.Dismiss();
             }
         }

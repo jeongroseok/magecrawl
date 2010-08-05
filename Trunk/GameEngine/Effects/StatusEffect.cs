@@ -39,6 +39,14 @@ namespace Magecrawl.GameEngine.Effects
             }
         }
 
+        public string Type
+        {
+            get
+            {
+                return m_effectResult.Type;
+            }
+        }
+
         public string DisplayName
         {
             get
@@ -78,7 +86,7 @@ namespace Magecrawl.GameEngine.Effects
 
         public virtual void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", m_effectResult.Type);
+            writer.WriteElementString("Type", Type);
             writer.WriteElementString("LongTerm", this is LongTermEffect ? true.ToString() : false.ToString());
             m_effectResult.WriteXml(writer);
         }
