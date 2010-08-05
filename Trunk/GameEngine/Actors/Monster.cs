@@ -90,6 +90,12 @@ namespace Magecrawl.GameEngine.Actors
             m_currentHP -= dmg;
         }
 
+        // Monsters don't have stamina, so treat as damage
+        public override void DamageStamina(int dmg)
+        {
+            m_currentHP -= dmg;
+        }
+
         public void Action(CoreGameEngine engine)
         {
             bool playerIsVisible = IsPlayerVisible(engine);

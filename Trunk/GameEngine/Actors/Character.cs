@@ -102,6 +102,8 @@ namespace Magecrawl.GameEngine.Actors
         public abstract int Heal(int toHeal, bool magical);
 
         public abstract void Damage(int dmg);
+        public abstract void DamageStamina(int dmg);
+
         public abstract DiceRoll MeleeDamage { get; }
         public abstract double MeleeCTCost { get; }
 

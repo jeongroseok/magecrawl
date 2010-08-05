@@ -24,6 +24,15 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
+        // Needs to match class name
+        internal override string Type
+        {
+            get
+            {
+                return "Regeneration";
+            }
+        }
+
         public override string GetAttribute(string key)
         {
             if (key == "Regeneration")
