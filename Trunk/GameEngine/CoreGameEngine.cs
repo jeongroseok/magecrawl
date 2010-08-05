@@ -442,7 +442,7 @@ namespace Magecrawl.GameEngine
 
         internal bool PlayerSelectedItemOption(IItem item, string option, object argument)
         {
-            bool didSomething = m_physicsEngine.HandleInventoryAction(item, option, argument);
+            bool didSomething = m_physicsEngine.HandleItemAction(item, option, argument);
             if (didSomething)
                 m_timingEngine.ActorDidAction(m_player);
             return didSomething;
