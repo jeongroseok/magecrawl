@@ -36,6 +36,15 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
+        // Needs to match class name
+        internal override string Type
+        {
+            get
+            {
+                return "Light";
+            }
+        }
+
         internal override bool IsPositiveEffect
         {
             get

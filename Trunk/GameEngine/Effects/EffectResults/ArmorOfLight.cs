@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
     class ArmorOfLight : EffectResult
     {
+        private int m_level;
+
         public ArmorOfLight()
         {
+            m_level = 0;
         }
 
         public ArmorOfLight(int strength, Character caster)
         {
+            m_level = strength;
         }
 
         internal override string Name
@@ -22,10 +27,19 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
+        // Needs to match class name
+        internal override string Type
+        {
+            get
+            {
+                return "ArmorOfLight";
+            }
+        }
+
         public override string GetAttribute(string key)
         {
             if (key == "DamageReduction")
-                return "3";
+                return (3 + (int)Math.Max(0, m_level - 1)).ToString();
             throw new KeyNotFoundException();
         }
 
@@ -56,6 +70,16 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             {
                 return 35;
             }
+        }
+
+        internal override void ReadXml(System.Xml.XmlReader reader)
+        {
+            m_level = reader.ReadElementContentAsInt();
+        }
+
+        internal override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteElementString("Level", m_level.ToString());
         }
     }
 }

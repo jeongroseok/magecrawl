@@ -195,6 +195,12 @@ namespace Magecrawl.GameEngine.Actors
             return amountInTotalHealed;
         }
 
+        public override void DamageStamina(int dmg)
+        {
+            int amountOfDamageToStamina = Math.Min(m_currentStamina, dmg);
+            m_currentStamina -= amountOfDamageToStamina;
+        }
+
         public override void Damage(int dmg)
         {
             int amountOfDamageLeftToDo = dmg;

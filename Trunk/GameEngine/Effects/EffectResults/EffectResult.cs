@@ -34,6 +34,11 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             get;
         }
 
+        internal abstract string Type
+        {
+            get;
+        }
+
         internal abstract bool IsPositiveEffect
         {
             get;
