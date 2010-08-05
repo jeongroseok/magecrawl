@@ -5,6 +5,7 @@ using Magecrawl.GameEngine.Skills;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine
 {
@@ -93,6 +94,12 @@ namespace Magecrawl.GameEngine
         public List<EffectivePoint> CalculateTargetablePointsForEquippedWeapon()
         {
             return CombatEngine.CalculateTargetablePointsForEquippedWeapon((Weapon)m_engine.Player.CurrentWeapon, m_engine.Player.Position, m_engine.Player.Vision);
+        }
+
+        public string GetSpellSchoolForItem(IItem item)
+        {
+            string effectName = ((Item)item).GetAttribute("InvokeSpellEffect");
+            return SpellFactory.Instance.CreateSpell(effectName).School;
         }
     }
 }

@@ -229,7 +229,7 @@ namespace Magecrawl
 
             IItem attackingItem = attackingMethod as IItem;
             if (attackingItem != null)
-                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(attackingItem.ItemEffectSchool);
+                colorOfBolt = SpellGraphicsInfo.GetColorOfSpellFromSchool(m_engine.GameState.GetSpellSchoolForItem(attackingItem));
 
             switch (type)
             {

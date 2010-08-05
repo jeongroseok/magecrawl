@@ -22,5 +22,7 @@ namespace Magecrawl.Interfaces
         List<EffectivePoint> CalculateTargetablePointsForEquippedWeapon();
 
         ISkill GetSkillFromName(string name);
+
+        string GetSpellSchoolForItem(IItem item);
     }
 }
