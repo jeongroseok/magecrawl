@@ -127,6 +127,9 @@ namespace Magecrawl.GameUI.Inventory
 
                 y += 2;
                 screen.print(x, y, "Damage: " + asWeapon.Damage);
+
+                y += 2;
+                screen.print(x, y, "Speed: " + asWeapon.CTCostToAttack);
             }
         }
 
