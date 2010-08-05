@@ -15,10 +15,5 @@ namespace Magecrawl.Interfaces
         {
             get;
         }
-
-        string ItemEffectSchool
-        {
-            get;
-        }
     }
 }

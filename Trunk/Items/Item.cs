@@ -36,14 +36,6 @@ namespace Magecrawl.Items
             Attributes[key] = value;
         }
 
-        virtual public string ItemEffectSchool
-        {
-            get
-            {
-                return null;
-            }
-        }
-
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
