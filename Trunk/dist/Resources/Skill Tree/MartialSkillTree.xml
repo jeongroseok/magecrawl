@@ -279,7 +279,7 @@
     </Dependencies>    
   </Skill>
   
-    <Skill Name="Grandmaster Axe Proficiency" Column="1" Row="4">
+  <Skill Name="Grandmaster Axe Proficiency" Column="1" Row="4">
     <Icon>
       <Row0>Grand</Row0>
       <Row1>Mastr</Row1>

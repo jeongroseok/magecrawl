@@ -134,90 +134,90 @@
   </Skill>
   
   <Skill Name="Standard Axe Proficiency" Cost="5" School="Martial" Description="">
-    <StandardAxeProficiency/>
+    <BonusAxeDamage>1</BonusAxeDamage>
   </Skill>
   <Skill Name="Standard Dagger Proficiency" Cost="5" School="Martial" Description="">
-    <StandardDaggerProficiency/>
+    <BonusDaggerDamage>1</BonusDaggerDamage>
   </Skill>
   <Skill Name="Standard Spear Proficiency" Cost="5" School="Martial" Description="">
-    <StandardSpearProficiency/>
+    <BonusSpearDamage>1</BonusSpearDamage>
   </Skill>
   <Skill Name="Standard Sword Proficiency" Cost="5" School="Martial" Description="">
-    <StandardSwordProficiency/>
+    <BonusSwordDamage>1</BonusSwordDamage>
   </Skill>
   <Skill Name="Standard Staff Proficiency" Cost="5" School="Martial" Description="">
-    <StandardStaffProficiency/>
+    <BonusStaffDamage>1</BonusStaffDamage>
   </Skill>
   <Skill Name="Standard Sling Proficiency" Cost="5" School="Martial" Description="">
-    <StandardSlingProficiency/>
+    <BonusSlingDamage>1</BonusSlingDamage>
   </Skill>
   <Skill Name="Standard Bow Proficiency" Cost="5" School="Martial" Description="">
-    <StandardBowProficiency/>
+    <BonusBowDamage>1</BonusBowDamage>
   </Skill>  
   
-  <Skill Name="Advanced Axe Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedAxeProficiency/>
+  <Skill Name="Advanced Axe Proficiency" Cost="10" School="Martial" Description="">
+    <BonusAxeDamage>2</BonusAxeDamage>
   </Skill>
-  <Skill Name="Advanced Dagger Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedDaggerProficiency/>
+  <Skill Name="Advanced Dagger Proficiency" Cost="10" School="Martial" Description="">
+    <BonusDaggerDamage>1</BonusDaggerDamage>
   </Skill>
-  <Skill Name="Advanced Spear Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedSpearProficiency/>
+  <Skill Name="Advanced Spear Proficiency" Cost="10" School="Martial" Description="">
+    <BonusSpearDamage>2</BonusSpearDamage>
   </Skill>
-  <Skill Name="Advanced Sword Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedSwordProficiency/>
+  <Skill Name="Advanced Sword Proficiency" Cost="10" School="Martial" Description="">
+    <BonusSwordDamage>1</BonusSwordDamage>
   </Skill>
-  <Skill Name="Advanced Staff Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedStaffProficiency/>
+  <Skill Name="Advanced Staff Proficiency" Cost="10" School="Martial" Description="">
+    <BonusStaffDamage>1</BonusStaffDamage>
   </Skill>
-  <Skill Name="Advanced Sling Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedSlingProficiency/>
+  <Skill Name="Advanced Sling Proficiency" Cost="10" School="Martial" Description="">
+    <BonusSlingDamage>1</BonusSlingDamage>
   </Skill>
-  <Skill Name="Advanced Bow Proficiency" Cost="5" School="Martial" Description="">
-    <AdvancedBowProficiency/>
+  <Skill Name="Advanced Bow Proficiency" Cost="10" School="Martial" Description="">
+    <BonusBowDamage>1</BonusBowDamage>
   </Skill>  
   
-  <Skill Name="Master Axe Proficiency" Cost="5" School="Martial" Description="">
-    <MasterAxeProficiency/>
+  <Skill Name="Master Axe Proficiency" Cost="15" School="Martial" Description="">
+    <BonusAxeDamage>3</BonusAxeDamage>
   </Skill>
-  <Skill Name="Master Dagger Proficiency" Cost="5" School="Martial" Description="">
-    <MasterDaggerProficiency/>
+  <Skill Name="Master Dagger Proficiency" Cost="15" School="Martial" Description="">
+    <BonusDaggerDamage>2</BonusDaggerDamage>
   </Skill>
-  <Skill Name="Master Spear Proficiency" Cost="5" School="Martial" Description="">
-    <MasterSpearProficiency/>
+  <Skill Name="Master Spear Proficiency" Cost="15" School="Martial" Description="">
+    <BonusSpearDamage>3</BonusSpearDamage>
   </Skill>
-  <Skill Name="Master Sword Proficiency" Cost="5" School="Martial" Description="">
-    <MasterSwordProficiency/>
+  <Skill Name="Master Sword Proficiency" Cost="15" School="Martial" Description="">
+    <BonusSwordDamage>2</BonusSwordDamage>
   </Skill>
-  <Skill Name="Master Staff Proficiency" Cost="5" School="Martial" Description="">
-    <MasterStaffProficiency/>
+  <Skill Name="Master Staff Proficiency" Cost="15" School="Martial" Description="">
+    <BonusStaffDamage>2</BonusStaffDamage>
   </Skill>
-  <Skill Name="Master Sling Proficiency" Cost="5" School="Martial" Description="">
-    <MasterSlingProficiency/>
+  <Skill Name="Master Sling Proficiency" Cost="15" School="Martial" Description="">
+    <BonusSlingDamage>2</BonusSlingDamage>
   </Skill>
-  <Skill Name="Master Bow Proficiency" Cost="5" School="Martial" Description="">
-    <MasterBowProficiency/>
+  <Skill Name="Master Bow Proficiency" Cost="15" School="Martial" Description="">
+    <BonusBowDamage>2</BonusBowDamage>
   </Skill>  
   
-  <Skill Name="Grandmaster Axe Proficiency" Cost="5" School="Martial" Description="">
-    <GrandmasterAxeProficiency/>
+  <Skill Name="Grandmaster Axe Proficiency" Cost="20" School="Martial" Description="">
+    <BonusAxeDamage>5</BonusAxeDamage>
   </Skill>
-  <Skill Name="Grandmaster Dagger Proficiency" Cost="5" School="Martial" Description="">
-    <GrandmasterDaggerProficiency/>
+  <Skill Name="Grandmaster Dagger Proficiency" Cost="20" School="Martial" Description="">
+    <BonusDaggerDamage>3</BonusDaggerDamage>
   </Skill>
-  <Skill Name="Grandmaster Spear Proficiency" Cost="5" School="Martial" Description="">
-    <GrandmasterSpearProficiency/>
+  <Skill Name="Grandmaster Spear Proficiency" Cost="20" School="Martial" Description="">
+    <BonusSpearDamage>5</BonusSpearDamage>
   </Skill>
-  <Skill Name="Grandmaster Sword Proficiency" Cost="5" School="Martial" Description="">
-    <GrandmasterSwordProficiency/>
+  <Skill Name="Grandmaster Sword Proficiency" Cost="20" School="Martial" Description="">
+    <BonusSwordDamage>4</BonusSwordDamage>
   </Skill>
-  <Skill Name="Grandmaster Staff Proficiency" Cost="5" School="Martial" Description="">
-    <GrandmasterStaffProficiency/>
+  <Skill Name="Grandmaster Staff Proficiency" Cost="20" School="Martial" Description="">
+    <BonusStaffDamage>4</BonusStaffDamage>
   </Skill>
-  <Skill Name="Grandmaster Sling Proficiency" Cost="5" School="Martial" Description="">
-    <GrandmasterSlingProficiency/>
+  <Skill Name="Grandmaster Sling Proficiency" Cost="20" School="Martial" Description="">
+    <BonusSlingDamage>3</BonusSlingDamage>
   </Skill>
-  <Skill Name="Grandmaster Bow Proficiency" Cost="5" School="Martial" Description="">
-    <BasicBowProficiency/>
+  <Skill Name="Grandmaster Bow Proficiency" Cost="20" School="Martial" Description="">
+    <BonusBowDamage>3</BonusBowDamage>
   </Skill>  
 </Skills>
