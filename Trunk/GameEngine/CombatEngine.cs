@@ -99,6 +99,7 @@ namespace Magecrawl.GameEngine
             float effectiveStrength = EffectiveStrengthAtPoint((Weapon)attacker.CurrentWeapon, attacker.Position, attacker.Vision, attackedCharacter.Position);
             double damageDone = (int)Math.Round(attacker.CurrentWeapon.Damage.Roll() * effectiveStrength);
             damageDone += attacker.GetTotalAttributeValue("BonusWeaponDamage");
+            damageDone += attacker.GetTotalAttributeValue("Bonus" +  attacker.CurrentWeapon.Type + "Damage");
 
             damageDone -= attackedCharacter.GetTotalAttributeValue("DamageReduction");
 
