@@ -368,7 +368,13 @@ namespace Magecrawl.GameEngine
             }
             
             // This is wrong - BUG 225
-            return m_player.LastTurnSeenAMonster + TurnsMonsterOutOfLOSToBeSafe > CoreGameEngine.Instance.TurnCount;
+            if (m_player.LastTurnSeenAMonster + TurnsMonsterOutOfLOSToBeSafe > CoreGameEngine.Instance.TurnCount)
+                return true;
+
+            if (m_player.Effects.Any(x => !x.IsPositiveEffect))
+                return true;
+
+            return false;
         }
 
         public bool UseItemWithEffect(Item item, Point targetedPoint)
