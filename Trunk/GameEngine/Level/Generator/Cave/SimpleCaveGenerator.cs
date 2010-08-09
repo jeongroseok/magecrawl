@@ -128,7 +128,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Cave
 
         private void GenerateMonstersAndChests(Map map, Point pointToAvoid)
         {
-            int treasureToGenerate = m_random.getInt(3, 6);
+            int treasureToGenerate = m_random.getInt(2, 4);
             int treasuresGenerated = 0;
 
             Point segmentSizedPoint = new Point(SegmentSize, SegmentSize);

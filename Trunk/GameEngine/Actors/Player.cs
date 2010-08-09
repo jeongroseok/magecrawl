@@ -55,7 +55,7 @@ namespace Magecrawl.GameEngine.Actors
             m_baseMaxHealth = 70;
             m_currentHealth = m_baseMaxHealth;
 
-            m_baseMaxMP = 10;
+            m_baseMaxMP = 5;
             m_baseCurrentMP = m_baseMaxMP;
             
             LastTurnSeenAMonster = 0; 
