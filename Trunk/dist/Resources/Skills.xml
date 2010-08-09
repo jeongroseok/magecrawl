@@ -57,10 +57,10 @@
   <Skill Name="Arcane Blast" Cost="10" School="Arcane" Description="Sometimes for all its intellectual background, mages of the arcane need the use of brute force. Arcane blast creates a shockwave in the wave, which rips along a straight path with great force.">
     <AddSpell>Arcane Blast</AddSpell>
   </Skill>
-  <Skill Name="Arcane Mastery I" Cost="5" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
+  <Skill Name="Arcane Mastery I" Cost="10" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
     <ArcaneProficiency>1</ArcaneProficiency>
   </Skill>
-  <Skill Name="Arcane Mastery II" Cost="5" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
+  <Skill Name="Arcane Mastery II" Cost="10" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
     <ArcaneProficiency>1</ArcaneProficiency>
   </Skill>  
   <Skill Name="Slow" Cost="5" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area.">
@@ -69,7 +69,7 @@
   <Skill Name="Haste" Cost="10" School="Arcane" Description="The polor opposite of 'Slow', this spell pumps energy into the weave nearby the target, hastening the passing of time. Care is needed, as passing too much energy into the weave can cause explosions.">
     <AddSpell>Haste</AddSpell>
   </Skill>
-  <Skill Name="Blink" Cost="15" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location.">
+  <Skill Name="Blink" Cost="10" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location.">
     <AddSpell>Blink</AddSpell>
   </Skill>
 
@@ -92,16 +92,16 @@
     <MPBonus>2</MPBonus>
   </Skill>
   <Skill Name="Blessing Of Mana II" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
-    <MPBonus>2</MPBonus>
-  </Skill>
-  <Skill Name="Blessing Of Mana III" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana IV" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
+  <Skill Name="Blessing Of Mana III" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana V" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
+  <Skill Name="Blessing Of Mana IV" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>4</MPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana V" Cost="15" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
+    <MPBonus>5</MPBonus>
   </Skill>
   
   <Skill Name="Armor Proficiency" Cost="15" School="Martial" Description="Traditionally, mages have been unable to wear armor heavier than cloth due to movement restrictions.                       This specialized training allows the user of 'standard' armor, albeit with increased effort in casting spells.">

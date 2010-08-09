@@ -98,8 +98,15 @@ namespace Magecrawl.GameEngine
 
         public string GetSpellSchoolForItem(IItem item)
         {
-            string effectName = ((Item)item).GetAttribute("InvokeSpellEffect");
-            return SpellFactory.Instance.CreateSpell(effectName).School;
+            if (((Item)item).ContainsAttribute("InvokeSpellEffect"))
+            {
+                string effectName = ((Item)item).GetAttribute("InvokeSpellEffect");
+                return SpellFactory.Instance.CreateSpell(effectName).School;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
