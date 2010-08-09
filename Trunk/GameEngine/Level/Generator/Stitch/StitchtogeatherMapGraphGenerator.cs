@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.GameEngine.Level.Generator.Stitch
 {
     internal sealed class StitchtogeatherMapGraphGenerator
     {

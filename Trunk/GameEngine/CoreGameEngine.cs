@@ -7,6 +7,8 @@ using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;
+using Magecrawl.GameEngine.Level.Generator.Cave;
+using Magecrawl.GameEngine.Level.Generator.Stitch;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;

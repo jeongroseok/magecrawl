@@ -87,14 +87,14 @@
     <Compile Include="CoreTimingEngine.cs" />
     <Compile Include="Effects\EffectResults\WordOfHope.cs" />
     <Compile Include="GameStateInterface.cs" />
-    <Compile Include="Level\Generator\MapChunk.cs" />
+    <Compile Include="Level\Generator\Stitch\MapChunk.cs" />
     <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
-    <Compile Include="Level\Generator\MapNode.cs" />
+    <Compile Include="Level\Generator\Stitch\MapNode.cs" />
     <Compile Include="Level\Generator\MonsterPlacer.cs" />
-    <Compile Include="Level\Generator\StitchParenthood.cs" />
-    <Compile Include="Level\Generator\StitchRatio.cs" />
-    <Compile Include="Level\Generator\StitchtogeatherMapGenerator.cs" />
-    <Compile Include="Level\Generator\StitchtogeatherMapGraphGenerator.cs" />
+    <Compile Include="Level\Generator\Stitch\StitchParenthood.cs" />
+    <Compile Include="Level\Generator\Stitch\StitchRatio.cs" />
+    <Compile Include="Level\Generator\Stitch\StitchtogeatherMapGenerator.cs" />
+    <Compile Include="Level\Generator\Stitch\StitchtogeatherMapGraphGenerator.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
     <Compile Include="FOVManager.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="MapObjects\StairsMapping.cs" />
     <Compile Include="MapObjects\TreasureChest.cs" />
     <Compile Include="Level\Generator\MapGeneratorBase.cs" />
-    <Compile Include="Level\Generator\SimpleCaveGenerator.cs" />
+    <Compile Include="Level\Generator\Cave\SimpleCaveGenerator.cs" />
     <Compile Include="Level\Map.cs" />
     <Compile Include="MapObjects\MapDoor.cs" />
     <Compile Include="MapObjects\MapObject.cs" />
@@ -161,4 +161,5 @@
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

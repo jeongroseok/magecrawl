@@ -6,7 +6,7 @@ using System.Linq;
 using libtcod;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.GameEngine.Level.Generator.Stitch
 {
     internal sealed class StitchRatio : IDisposable
     {
