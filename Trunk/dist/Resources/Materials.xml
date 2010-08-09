@@ -234,7 +234,7 @@
     <ValidItem Type="Gloves" FullItemName="Leather Gloves" Description="Boiled leather worked into simple armor for the hands.">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>
-    <ValidItem Type="Boots" FullItemName="Leather Boots" Description="Well fashioned leather boots.">
+    <ValidItem Type="Boots" FullItemName="Leather Boots" Description="Simple leather boots.">
       <Attributes> <StandardArmor/> </Attributes>
     </ValidItem>
   </Material>

@@ -8,7 +8,7 @@
       <ArmorHeavier/>
     </Attributes>
   </Quality>
-  <Quality Name="Poor" LevelAdjustment="-1" Description="Either mass produced in large quantities or by a novice craftsman, the craftsmanship is less than ideal.">
+  <Quality Name="Inferior" LevelAdjustment="-1" Description="Either mass produced in large quantities or by a novice craftsman, the craftsmanship is less than ideal.">
     <Attributes>
       <DamageModifier>-35</DamageModifier>
       <ArmorStaminaModifier>-35</ArmorStaminaModifier>
