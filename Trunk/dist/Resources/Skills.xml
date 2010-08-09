@@ -26,7 +26,7 @@
   <Skill Name="Spark" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
     <AddSpell>Spark</AddSpell>
   </Skill>
-  <Skill Name="Fire Mastery I" Cost="5" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
+  <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
     <FireProficiency>1</FireProficiency>
   </Skill>
   <Skill Name="Improved Fire Control" Cost="10" School="Fire" Description="While most fire mages are not known for their subtlety or their self control, one school teaches how to exert finer control over their chosen element.                                  Decreases mana cost of all fire spells by 1.">
@@ -73,34 +73,34 @@
     <AddSpell>Blink</AddSpell>
   </Skill>
 
-  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <StaminaPercentageBonus>10</StaminaPercentageBonus>
+  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
+    <BonusStamina>20</BonusStamina>
   </Skill>
-  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <StaminaPercentageBonus>10</StaminaPercentageBonus>
+  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
+    <BonusStamina>20</BonusStamina>
   </Skill>
-  <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <StaminaPercentageBonus>10</StaminaPercentageBonus>
+  <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
+    <BonusStamina>20</BonusStamina>
   </Skill>
-  <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <StaminaPercentageBonus>10</StaminaPercentageBonus>
+  <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
+    <BonusStamina>20</BonusStamina>
   </Skill>
-  <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 10%.">
-    <StaminaPercentageBonus>10</StaminaPercentageBonus>
+  <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
+    <BonusStamina>20</BonusStamina>
   </Skill>
-  <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
-    <MPBonus>2</MPBonus>
-  </Skill>
-  <Skill Name="Blessing Of Mana II" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 2.">
+  <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana III" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
+  <Skill Name="Blessing Of Mana II" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana IV" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
+  <Skill Name="Blessing Of Mana III" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
     <MPBonus>4</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana V" Cost="15" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
+  <Skill Name="Blessing Of Mana IV" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
+    <MPBonus>4</MPBonus>
+  </Skill>
+  <Skill Name="Blessing Of Mana V" Cost="15" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 5.">
     <MPBonus>5</MPBonus>
   </Skill>
   

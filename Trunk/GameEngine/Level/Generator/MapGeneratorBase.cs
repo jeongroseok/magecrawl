@@ -18,7 +18,7 @@ namespace Magecrawl.GameEngine.Level.Generator
             m_clearPointCache = new Dictionary<Map, List<Point>>();
         }    
 
-        abstract internal Map GenerateMap(Stairs incommingStairs);
+        abstract internal Map GenerateMap(Stairs incommingStairs, int level);
 
         public Point GetClearPoint(Map map)
         {

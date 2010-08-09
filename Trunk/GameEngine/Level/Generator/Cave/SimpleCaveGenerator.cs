@@ -13,7 +13,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Cave
         {
         }    
 
-        internal override Map GenerateMap(Stairs incommingStairs)
+        internal override Map GenerateMap(Stairs incommingStairs, int level)
         {
             Map map;
 
@@ -99,7 +99,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Cave
 
             Point stairsUpPosition = map.MapObjects.Where(x => x.Type == MapObjectType.StairsUp).First().Position;
 
-            GenerateMonstersAndChests(map, stairsUpPosition);
+            GenerateMonstersAndChests(map, stairsUpPosition, level);
 
             return map;
         }
@@ -126,7 +126,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Cave
             return returnList.Randomize();
         }
 
-        private void GenerateMonstersAndChests(Map map, Point pointToAvoid)
+        private void GenerateMonstersAndChests(Map map, Point pointToAvoid, int level)
         {
             int treasureToGenerate = m_random.getInt(2, 4);
             int treasuresGenerated = 0;
@@ -151,7 +151,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Cave
                     }
                 }
 
-                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.getInt(2, 4));
+                MonsterPlacer.PlaceMonster(map, upperLeft, lowerRight, null, m_random.getInt(2, 4), level);
             }
         }
 

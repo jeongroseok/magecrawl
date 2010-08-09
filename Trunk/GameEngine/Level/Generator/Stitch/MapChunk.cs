@@ -79,7 +79,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
         }
 
         // Return UpperLeftCorner placed on if placed. Else Invalid Point
-        internal Point PlaceChunkOnMap(Map map, Point seamToFitAgainst)
+        internal Point PlaceChunkOnMap(Map map, Point seamToFitAgainst, int level)
         {
             foreach (Point s in Seams)
             {
@@ -92,7 +92,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
                     {
                         // But we don't want to use it to place, since we want to override the entrace.
                         PlaceChunkOnMapAtPosition(map, upperLeftCorner, m_random);
-                        MonsterPlacer.PlaceMonster(map, upperLeftCorner, upperLeftCorner + new Point(Width, Height), GetSeamPointsOnMapGrid(upperLeftCorner), GetMonsterPlacementPriority());
+                        MonsterPlacer.PlaceMonster(map, upperLeftCorner, upperLeftCorner + new Point(Width, Height), GetSeamPointsOnMapGrid(upperLeftCorner), GetMonsterPlacementPriority(), level);
                         Seams.Remove(s);
                         return upperLeftCorner;
                     }
