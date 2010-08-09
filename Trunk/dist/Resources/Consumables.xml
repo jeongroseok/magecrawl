@@ -1,14 +1,14 @@
 <?xml version="1.0" ?>
 <Consumables>
-  <ConsumableEffect Name="Minor Healing" SpellName="Mend" ItemLevel="0" CasterLevel="0">
+  <ConsumableEffect Name="Minor Healing" SpellName="Mend" ItemLevel="0" CasterLevel="2">
     <ConsumableInstance Type="Potion" Name="Minor Healing Potion" ItemDescription="Drinking will restore your health slightly."/>    
   </ConsumableEffect>
   
-  <ConsumableEffect Name="Healing" SpellName="Mend" ItemLevel="2" CasterLevel="2">
+  <ConsumableEffect Name="Healing" SpellName="Mend" ItemLevel="2" CasterLevel="4">
     <ConsumableInstance Type="Potion" Name="Healing Potion" ItemDescription="Drinking will restore your some of your health."/>    
   </ConsumableEffect>
   
-  <ConsumableEffect Name="Major Healing" SpellName="Mend" ItemLevel="5" CasterLevel="5">
+  <ConsumableEffect Name="Major Healing" SpellName="Mend" ItemLevel="5" CasterLevel="6">
     <ConsumableInstance Type="Potion" Name="Major Healing Potion" ItemDescription="Drinking will restore your health greatly."/>    
   </ConsumableEffect>
   

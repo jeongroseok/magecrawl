@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         private static TCODRandom m_random = new TCODRandom();
 
         // Priority is how dangerous this room is: 0 - unguarded, 10 - Must protect with everything
-        internal static void PlaceMonster(Map map, Point upperLeft, Point lowerRight, List<Point> pointsNotToPlaceOn, int priority)
+        internal static void PlaceMonster(Map map, Point upperLeft, Point lowerRight, List<Point> pointsNotToPlaceOn, int priority, int level)
         {
             List<Point> pointsWithClearTerrain = MapGeneratorBase.GetClearPointListInRange(map, upperLeft, lowerRight);
 
@@ -36,7 +36,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     Point position = pointsWithClearTerrain[0];
                     pointsWithClearTerrain.RemoveAt(0);
 
-                    map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(CoreGameEngine.Instance.CurrentLevel, position));
+                    map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(level, position));
                 }
             }
         }

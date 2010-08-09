@@ -33,6 +33,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
         private int m_largestX;
         private int m_largestY;
         private int m_placed;
+        private int m_level;
 
         internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
@@ -68,8 +69,9 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
                 throw new ArgumentException("Height too large");
         }
 
-        internal override Map GenerateMap(Stairs incommingStairs)
+        internal override Map GenerateMap(Stairs incommingStairs, int level)
         {
+            m_level = level;
             Map map = new Map(Width, Height);
 
             MapNode graphHead = m_graphGenerator.GenerateMapGraph();
@@ -252,7 +254,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
         // Returns true if placed, false if we walled off seam
         private bool PlaceMapNode(MapNode current, MapChunk mapChunk, Map map, Point seam, ParenthoodChain parentChain)
         {
-            Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam);
+            Point placedUpperLeftCorner = mapChunk.PlaceChunkOnMap(map, seam, m_level);
             if (placedUpperLeftCorner == Point.Invalid)
             {
                 map.SetTerrainAt(seam, TerrainType.Wall);

@@ -97,7 +97,7 @@ namespace Magecrawl.GameEngine
                             mapGenerator = new SimpleCaveGenerator(random);
                         else
                             mapGenerator = new StitchtogeatherMapGenerator(random);
-                        m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs);
+                        m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, i);
 
                         incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();
 

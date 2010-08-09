@@ -23,14 +23,16 @@ namespace Magecrawl.GameEngine.Actors
                     player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Helm", 0, "Linen Cloth", "Average"));
                     player.Equip(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Gloves", 0, "Linen Cloth", "Average"));
                     player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
+                    player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 0));
                     player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Potion", 1));
                     player.TakeItem(CoreGameEngine.Instance.ItemFactory.CreateItemOfType("Scroll", 1));
-                    player.SkillPoints = 10;
+                    player.SkillPoints = 15;
                     break;
                 }
                 case "Scout":
                 {
                     player.AddSkill(SkillFactory.Instance.CreateSkill("Basic Dagger Proficiency"));
+                    player.AddSkill(SkillFactory.Instance.CreateSkill("Basic Sling Proficiency"));
                     player.AddSkill(SkillFactory.Instance.CreateSkill("Armor Proficiency"));
                     player.AddSkill(SkillFactory.Instance.CreateSkill("Toughness I"));
                     player.AddSkill(SkillFactory.Instance.CreateSkill("Light"));
