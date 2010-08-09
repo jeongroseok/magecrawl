@@ -8,7 +8,7 @@ using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.GameEngine.Level.Generator.Stitch
 {
     internal class MapChunk
     {

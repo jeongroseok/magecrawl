@@ -8,7 +8,7 @@ using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.GameEngine.Level.Generator.Stitch
 {
     // The idea of this clsas is that we read from file(s) a set of 
     // building blocks that we can stitch togeather to get a good map.
