@@ -337,30 +337,28 @@ namespace Magecrawl.GameEngine.Actors
             if (item is IArmor)
             {
                 IArmor itemAsArmor = (IArmor)item;
-                if (itemAsArmor.Type == "ChestArmor")
+                IItem previousArmor = null;
+                switch (itemAsArmor.Type)
                 {
-                    IItem previousArmor = ChestArmor;
-                    ChestArmor = (IArmor)item;
-                    return previousArmor;
+                    case "ChestArmor":
+                        previousArmor = ChestArmor;
+                        ChestArmor = (IArmor)item;
+                        break;
+                    case "Helm":
+                        previousArmor = Headpiece;
+                        Headpiece = (IArmor)item;
+                        break;
+                    case "Gloves":
+                        previousArmor = Gloves;
+                        Gloves = (IArmor)item;
+                        break;
+                    case "Boots":
+                        previousArmor = Boots;
+                        Boots = (IArmor)item;
+                        break;
                 }
-                if (itemAsArmor.Type == "Helm")
-                {
-                    IItem previousArmor = Headpiece;
-                    Headpiece = (IArmor)item;
-                    return previousArmor;
-                }
-                if (itemAsArmor.Type == "Gloves")
-                {
-                    IItem previousArmor = Gloves;
-                    Gloves = (IArmor)item;
-                    return previousArmor;
-                }
-                if (itemAsArmor.Type == "Boots")
-                {
-                    IItem previousArmor = Boots;
-                    Boots = (IArmor)item;
-                    return previousArmor;
-                }
+                ResetMaxStaminaIfNowOver();
+                return previousArmor;
             }
 
             throw new System.InvalidOperationException("Don't know how to equip - " + item.GetType());
@@ -374,34 +372,28 @@ namespace Magecrawl.GameEngine.Actors
             if (item is IArmor)
             {
                 IArmor itemAsArmor = (IArmor)item;
-                if (itemAsArmor.Type == "ChestArmor")
+                IItem previousArmor = null;
+                switch (itemAsArmor.Type)
                 {
-                    IItem previousArmor = ChestArmor;
-                    ChestArmor = null;
-                    ResetMaxStaminaIfNowOver();
-                    return previousArmor;
+                    case "ChestArmor":
+                        previousArmor = ChestArmor;
+                        ChestArmor = null;
+                        break;
+                    case "Helm":
+                        previousArmor = Headpiece;
+                        Headpiece = null;
+                        break;
+                    case "Gloves":
+                        previousArmor = Gloves;
+                        Gloves = null;
+                        break;
+                    case "Boots":
+                        previousArmor = Boots;
+                        Boots = null;
+                        break;
                 }
-                if (itemAsArmor.Type == "Helm")
-                {
-                    IItem previousArmor = Headpiece;
-                    Headpiece = null;
-                    ResetMaxStaminaIfNowOver();
-                    return previousArmor;
-                }
-                if (itemAsArmor.Type == "Gloves")
-                {
-                    IItem previousArmor = Gloves;
-                    Gloves = null;
-                    ResetMaxStaminaIfNowOver();
-                    return previousArmor;
-                }
-                if (itemAsArmor.Type == "Boots")
-                {
-                    IItem previousArmor = Boots;
-                    Boots = null;
-                    ResetMaxStaminaIfNowOver();
-                    return previousArmor;
-                }
+                ResetMaxStaminaIfNowOver();
+                return previousArmor;
             }
             throw new System.InvalidOperationException("Don't know how to unequip - " + item.GetType());
         }
