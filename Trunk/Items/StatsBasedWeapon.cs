@@ -83,7 +83,8 @@ namespace Magecrawl.Items
         {
             get
             {
-                return m_material.FullItemNamed[Type];
+                string qualityPrefex = m_quality.Name != "Average" ? m_quality.Name + " " : "";
+                return qualityPrefex + m_material.FullItemNamed[Type];
             }
         }
 
