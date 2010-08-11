@@ -67,6 +67,10 @@ namespace Magecrawl.GameEngine
         {
             switch (request)
             {
+                case "HealPlayer":
+                    m_engine.Player.Heal(m_engine.Player.MaxHP, true);
+                    m_engine.Player.GainMP(m_engine.Player.MaxMP);
+                    return null;
                 case "GetAllItemList":
                     List<INamedItem> allItemList = new List<INamedItem>();
                     foreach (string s in m_engine.ItemFactory.ItemTypeList)
