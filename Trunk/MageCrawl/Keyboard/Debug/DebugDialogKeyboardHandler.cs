@@ -43,7 +43,7 @@ namespace Magecrawl.Keyboard.Debug
         private void SetDebugMenu()
         {
             m_option = OptionMode.DebugMainMenu;
-            List<INamedItem> itemList = new List<INamedItem>() { new TextElement("Create Item"), new TextElement("Create Monster"), 
+            List<INamedItem> itemList = new List<INamedItem>() { new TextElement("Create Item"), new TextElement("Create Monster"), new TextElement("Heal Player"),
                 new TextElement("Map Debug Settings"),  new TextElement("Kill Monsters on Floor"), new TextElement("Add Skill Points"), new TextElement("Add All Skills"), new TextElement("Exit") };
             m_gameInstance.SendPaintersRequest(new ShowListSelectionWindow(true, itemList, false, "Debug Options"));
         }
@@ -84,6 +84,12 @@ namespace Magecrawl.Keyboard.Debug
             TextElement element = (TextElement)item;
             switch (element.DisplayName)
             {
+                case "Heal Player":
+                {
+                    m_engine.Debugger.DebugRequest("HealPlayer", null);
+                    Escape();
+                    return;
+                }
                 case "Create Item":
                 {
                     SetCreateItemMenu();
