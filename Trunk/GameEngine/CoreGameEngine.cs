@@ -121,6 +121,9 @@ namespace Magecrawl.GameEngine
             }
 
             Point initialStairsUpPosition = m_dungeon[0].MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().First().Position;
+
+            ClearMonstersFromStartingArea(initialStairsUpPosition);
+
             m_player = new Player(playerName, initialStairsUpPosition);
             PlayerBackgrounds.SetupBackground(m_player, startingBackground);
 
@@ -131,6 +134,37 @@ namespace Magecrawl.GameEngine
 
             // If the player isn't the first actor, let others go. See archtecture note in PublicGameEngine.
             m_physicsEngine.AfterPlayerAction(this);
+        }
+
+        private void ClearMonstersFromStartingArea(Point initialStairsUpPosition)
+        {
+            List<Point> clearPoints = GenerateListOfClearPointsOnMap(m_dungeon[0], initialStairsUpPosition);
+
+            List<Point> monsterFreePoints = PointListUtils.PointListFromBurstPosition(initialStairsUpPosition, 8);
+            clearPoints.RemoveAll(x => monsterFreePoints.Contains(x));
+
+            foreach (Monster m in m_dungeon[0].Monsters.OfType<Monster>().Where(m => monsterFreePoints.Contains(m.Position)))
+            {
+                if (clearPoints.Count == 0)
+                    throw new InvalidOperationException("Unable to ClearMonstersFromStartingArea as we have no more clear points?");
+                m.Position = clearPoints[0];
+                clearPoints.RemoveAt(0);
+            }
+        }
+
+        private List<Point> GenerateListOfClearPointsOnMap(Map map, Point initialStairsUpPosition)
+        {
+            bool[,] moveablePoints = PhysicsEngine.CalculateMoveablePointGrid(map, true, initialStairsUpPosition);
+            List<Point> clearPoints = new List<Point>();
+            for (int i = 0; i < map.Width; ++i)
+            {
+                for (int j = 0; j < map.Height; ++j)
+                {
+                    if (moveablePoints[i, j])
+                        clearPoints.Add(new Point(i, j));
+                }
+            }
+            return clearPoints.Randomize();
         }
 
         public void LoadSaveFile(string saveGameName)

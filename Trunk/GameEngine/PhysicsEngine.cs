@@ -143,6 +143,15 @@ namespace Magecrawl.GameEngine
             return CalculateMoveablePointGrid(map, new Point(0, 0), map.Width, map.Height, monstersBlockPath);
         }
 
+        internal static bool[,] CalculateMoveablePointGrid(Map map, bool monstersBlockPath, Point characterPosition)
+        {
+            bool[,] returnValue = CalculateMoveablePointGrid(map, monstersBlockPath);
+
+            returnValue[characterPosition.X, characterPosition.Y] = false;
+
+            return returnValue;
+        }
+
         // Returns an array the full size of map, but only with the requested part filled in. This is done for ease of use.
         // We can use (x,y), instead of (x-offset, y-offset) to get data.
         internal static bool[,] CalculateMoveablePointGrid(Map map, Point upperLeftCorner, int width, int height, bool monstersBlockPath)
