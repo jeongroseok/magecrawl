@@ -51,7 +51,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
 
         internal override void Remove(Character removedFrom)
         {
-            removedFrom.DamageStamina(BonusStamina);
+            removedFrom.DamageJustStamina(BonusStamina);
         }
 
         public override string GetAttribute(string key)
