@@ -15,22 +15,22 @@
       <Dependency Name="Spark"/>
     </Dependencies>
   </Skill>
-  <Skill Name="Improved Fire Control" Column="0" Row="2">
-    <Icon>
-      <Row0>Imp</Row0>
-      <Row1>Fire.</Row1>
-      <Row2>Ctrl</Row2>
-    </Icon>
-    <Dependencies>
-      <Dependency Name="Fire Mastery I"/>
-    </Dependencies>
-  </Skill>
   <Skill Name="Inferno" Column="1" Row="2">
     <Icon>
       <Row0>Infno</Row0>
     </Icon>
     <Dependencies>
       <Dependency Name="Fire Mastery I"/>
+    </Dependencies>
+  </Skill>
+  <Skill Name="Improved Fire Control" Column="0" Row="3">
+    <Icon>
+      <Row0>Imp</Row0>
+      <Row1>Fire.</Row1>
+      <Row2>Ctrl</Row2>
+    </Icon>
+    <Dependencies>
+      <Dependency Name="Inferno"/>
     </Dependencies>
   </Skill>
   <Skill Name="Flame Throwing I" Column="2" Row="2">

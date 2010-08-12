@@ -53,14 +53,6 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
-        internal override int DefaultMPSustainingCost
-        {
-            get
-            {
-                return 15;
-            }
-        }
-
         internal override int DefaultEffectLength
         {
             get

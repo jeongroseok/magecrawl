@@ -111,9 +111,9 @@ namespace Magecrawl.GameEngine.Magic
                 case "HealCaster":
                 {
                     CoreGameEngine.Instance.SendTextOutput(printOnEffect);
-                    int amountToHeal = (new DiceRoll(12, 3, 0)).Roll();
+                    int amountToHeal = (new DiceRoll(20, 3, 0)).Roll();
                     for (int i = 1 ; i < strength ; ++i)
-                        amountToHeal += (new DiceRoll(3, 3, 0)).Roll();
+                        amountToHeal += (new DiceRoll(6, 3, 0)).Roll();
                     int healAmount = invoker.Heal(amountToHeal, true);
                     CoreGameEngine.Instance.SendTextOutput(string.Format("{0} was healed for {1} health.", invoker.Name, healAmount));
                     return true;
@@ -213,11 +213,12 @@ namespace Magecrawl.GameEngine.Magic
                 }
                 case "Haste":   // Should also be added to GetLongTermEffectSpellWouldProduce()
                 case "Light":
-                case "Regeneration":
                 case "ArmorOfLight":
                 {
+                    // These spells can be long term
                     return m_effectEngine.AddEffectToTarget(spell.EffectType, invoker, strength, couldBeLongTerm, target, printOnEffect);                    
                 }
+                case "Regeneration":
                 case "WordOfHope":
                 {
                     // These spells can't be long term
@@ -258,7 +259,6 @@ namespace Magecrawl.GameEngine.Magic
             {
                 case "Haste":
                 case "Light":
-                case "Regeneration":
                 case "ArmorOfLight":
                     return (LongTermEffect)EffectFactory.CreateEffectBaseObject(effectName, true);
                 default:
