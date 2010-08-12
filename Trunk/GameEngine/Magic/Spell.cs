@@ -65,36 +65,11 @@ namespace Magecrawl.GameEngine.Magic
         public DiceRoll BaseDamage { get; private set; }
         public DiceRoll DamagePerLevel { get; private set; }
 
-        private double GetArmorCostPenaltiy(IArmor armor)
-        {
-            const double StandardWeightPenality = .2;
-            const double HeavyWeightPenality = .5;
-
-            if (armor == null)
-                return 0;
-            else if (armor.Weight == ArmorWeight.Standard)
-                return StandardWeightPenality;
-            else if (armor.Weight == ArmorWeight.Heavy)
-                return HeavyWeightPenality;
-            else
-                return 0;
-        }
-
-        private double CalculateSpellPenalityForArmor(Player caster)
-        {
-            double penalityForHeavyArmor = 0;
-            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Boots);
-            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.ChestArmor);
-            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Gloves);
-            penalityForHeavyArmor += GetArmorCostPenaltiy(caster.Headpiece);
-            return 1.0 + penalityForHeavyArmor;
-        }
-
         internal int Cost
         {
             get
             {
-                double armorPenality = CalculateSpellPenalityForArmor(CoreGameEngine.Instance.Player);
+                double armorPenality = CombatDefenseCalculator.CalculateSpellPenalityForArmor(CoreGameEngine.Instance.Player);
                 int costReduction = CoreGameEngine.Instance.Player.GetTotalAttributeValue(m_school + "ReducedCost");
                 int cost = (int)Math.Round((m_cost - costReduction) * armorPenality);
                 if (cost <= 0)

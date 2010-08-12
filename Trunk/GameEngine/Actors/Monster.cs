@@ -49,7 +49,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_baseVision + GetTotalAttributeValue("VisionBonus");
+                return m_baseVision + GetTotalAttributeValue("VisionBonus") + CombatDefenseCalculator.GetMonsterVisionBonus(CoreGameEngine.Instance.Player);
             }
         }
         
