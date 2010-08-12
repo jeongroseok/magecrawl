@@ -23,13 +23,7 @@ namespace Magecrawl.GameEngine
             return GetArmorList(player).Sum(x => x.StaminaBonus);
         }
 
-        private static IEnumerable<IArmor> GetArmorList(IPlayer player)
-        {
-            List<IArmor> armorList = new List<IArmor>() { player.ChestArmor, player.Gloves, player.Boots, player.Headpiece};
-            return armorList.Where(x => x != null);
-        }
-
-        private static ArmorWeight GetTotalArmorWeight(IPlayer player)
+        public static ArmorWeight GetTotalArmorWeight(IPlayer player)
         {
             ArmorWeight largestWeight = ArmorWeight.Light;
             foreach (IArmor a in GetArmorList(player))
@@ -38,6 +32,47 @@ namespace Magecrawl.GameEngine
                     largestWeight = a.Weight;
             }
             return largestWeight;
+        }
+       
+        public static int GetMonsterVisionBonus(IPlayer player)
+        {
+            switch(GetTotalArmorWeight(player))
+            {
+                case ArmorWeight.Heavy:
+                    return 2;
+                case ArmorWeight.Standard:
+                case ArmorWeight.Light:
+                default:
+                    return 0;
+            }
+        }
+
+        private static double GetArmorCostPenality(IArmor armor)
+        {
+            const double StandardWeightPenality = .2;
+            const double HeavyWeightPenality = .4;
+
+            switch(armor.Weight)
+            {
+                case ArmorWeight.Standard:
+                    return StandardWeightPenality;
+                case ArmorWeight.Heavy:
+                    return HeavyWeightPenality;
+                case ArmorWeight.Light:
+                default:
+                    return 0;
+            }
+        }
+
+        public static double CalculateSpellPenalityForArmor(IPlayer player)
+        {
+            return 1.0 + GetArmorList(player).Sum(x => GetArmorCostPenality(x));
+        }
+
+        private static IEnumerable<IArmor> GetArmorList(IPlayer player)
+        {
+            List<IArmor> armorList = new List<IArmor>() { player.ChestArmor, player.Gloves, player.Boots, player.Headpiece};
+            return armorList.Where(x => x != null);
         }
     }
 }
