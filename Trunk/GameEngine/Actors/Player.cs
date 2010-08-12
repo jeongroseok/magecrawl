@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using libtcod;
 using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
@@ -15,6 +16,8 @@ namespace Magecrawl.GameEngine.Actors
 {
     internal sealed class Player : Character, IPlayer, IXmlSerializable
     {
+        private TCODRandom s_random = new TCODRandom();
+
         public IArmor ChestArmor { get; internal set; }
         public IArmor Headpiece { get; internal set; }
         public IArmor Gloves { get; internal set; }
@@ -195,23 +198,58 @@ namespace Magecrawl.GameEngine.Actors
             return amountInTotalHealed;
         }
 
-        public override void DamageStamina(int dmg)
+        public void EmptyStamina()
         {
-            int amountOfDamageToStamina = Math.Min(m_currentStamina, dmg);
-            m_currentStamina -= amountOfDamageToStamina;
+            m_currentStamina = 0;
+        }
+
+        public override void DamageJustStamina(int dmg)
+        {
+            // Any extra damage is ignored
+            int actualStaminaDamage = Math.Min(m_currentStamina, dmg);
+            m_currentStamina -= actualStaminaDamage;
         }
 
         public override void Damage(int dmg)
         {
-            int amountOfDamageLeftToDo = dmg;
-            int amountOfDamageToStamina = Math.Min(m_currentStamina, amountOfDamageLeftToDo);
-            m_currentStamina -= amountOfDamageToStamina;
-            amountOfDamageLeftToDo -= amountOfDamageToStamina;
+            double percentageOfStaminaGone = (MaxStamina - CurrentStamina) / (double)MaxStamina;
 
-            if (amountOfDamageLeftToDo > 0)
+            // Based on the percetage of stamina left, that percentage of damage might leak through
+            const double StaminaThreshholdForDamageLeaking = .20;
+            bool damageLeaksThrough = percentageOfStaminaGone >= StaminaThreshholdForDamageLeaking && s_random.Chance(percentageOfStaminaGone - StaminaThreshholdForDamageLeaking);
+            
+            if (damageLeaksThrough)
             {
-                int amountOfDamageToHealth = Math.Min(m_currentHealth, amountOfDamageLeftToDo);
-                m_currentHealth -= amountOfDamageToHealth;
+                // Some damage leaks through, no more than half
+                int leakedDamage = (int)Math.Round(dmg * Math.Min(percentageOfStaminaGone - StaminaThreshholdForDamageLeaking, .5));
+                int staminaDamage = dmg - leakedDamage;
+
+                int actualStaminaDamage = Math.Min(m_currentStamina, staminaDamage);
+                m_currentStamina -= actualStaminaDamage;
+
+                m_currentHealth -= leakedDamage + (staminaDamage - actualStaminaDamage);
+            }
+            else
+            {
+                int amountOfDamageLeftToDo = dmg;
+                int actualStaminaDamage = Math.Min(m_currentStamina, amountOfDamageLeftToDo);
+                m_currentStamina -= actualStaminaDamage;
+                amountOfDamageLeftToDo -= actualStaminaDamage;
+
+                if (amountOfDamageLeftToDo > 0)
+                {
+                    int amountOfDamageToHealth = Math.Min(m_currentHealth, amountOfDamageLeftToDo);
+                    m_currentHealth -= amountOfDamageToHealth;
+                }
+            }
+        }
+
+        public override bool IsDead
+        {
+            get
+            {
+                // We're still dead if our stamina is > 0 but leaked damage brings health < 0
+                return CurrentHealth <= 0;
             }
         }
 

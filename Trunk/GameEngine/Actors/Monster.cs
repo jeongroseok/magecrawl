@@ -91,9 +91,17 @@ namespace Magecrawl.GameEngine.Actors
         }
 
         // Monsters don't have stamina, so treat as damage
-        public override void DamageStamina(int dmg)
+        public override void DamageJustStamina(int dmg)
         {
             m_currentHP -= dmg;
+        }
+
+        public override bool IsDead
+        {
+            get
+            {
+                return CurrentHP <= 0;
+            }
         }
 
         public void Action(CoreGameEngine engine)

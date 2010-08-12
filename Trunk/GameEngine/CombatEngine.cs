@@ -155,7 +155,7 @@ namespace Magecrawl.GameEngine
                 return;
 
             target.Damage(damage);
-            bool targetKilled = target.CurrentHP <= 0;
+            bool targetKilled = target.IsDead;
             
             if (del != null)
                 del(damage, target, targetKilled);
@@ -171,6 +171,7 @@ namespace Magecrawl.GameEngine
                 }
                 else if (target is Player)
                 {
+                    ((Player)target).EmptyStamina();
                     CoreGameEngine.Instance.PlayerDied();
                 }
             }
