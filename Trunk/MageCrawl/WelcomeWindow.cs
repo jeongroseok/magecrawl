@@ -122,7 +122,7 @@ namespace Magecrawl
 
                 m_console.printFrame(0, 0, m_console.getWidth(), m_console.getHeight(), true);
                 m_console.printEx(m_console.getWidth() / 2, 2, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, "Welcome To Magecrawl");
-                m_console.printEx(m_console.getWidth() / 2, 4, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, "Tech Demo III");
+                m_console.printEx(m_console.getWidth() / 2, 4, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, "Tech Demo III v2");
 
                 DrawLoadFilesMenu();
                 DrawFileEntry();
