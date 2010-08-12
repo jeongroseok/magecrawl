@@ -3,7 +3,7 @@
   <Skill Name="Light" Cost="5" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby.">
     <AddSpell>Light</AddSpell>
   </Skill>
-  <Skill Name="Regeneration" Cost="5" School="Light" Description="Enfusing the target with trace amount of positive energy brings about slow but supernatural healing.">
+  <Skill Name="Regeneration" Cost="10" School="Light" Description="Enfusing the target with trace amount of positive energy brings about slow but supernatural healing.">
     <AddSpell>Regeneration</AddSpell>
   </Skill>
   <Skill Name="Mend" Cost="10" School="Light" Description="This spell makes a connection with a plane of positive energy, drawing a small amount to mends the flesh of the target, healing moderate wounds.">
@@ -15,24 +15,24 @@
   <Skill Name="Word of Hope" Cost="10" School="Light" Description="Hope will let individuals dig deep into their reserves of stamina, and fight with zeal. Positive energy can invoke hope in a deep yet real sense for a short period of time.">
     <AddSpell>Word of Hope</AddSpell>
   </Skill>
-  <Skill Name="Armor of Light" Cost="10" School="Light" Description="Invoking this spells baths the caster in a glow that covers their body. This light pushes back against physical damage, reducing the amount taken.">
+  <Skill Name="Armor of Light" Cost="15" School="Light" Description="Invoking this spells baths the caster in a glow that covers their body. This light pushes back against physical damage, reducing the amount taken.">
     <AddSpell>Armor of Light</AddSpell>
   </Skill>
-  <Skill Name="Inner Fire" Cost="10" School="Light" Description="Those who often invoke spells that draw upon positive energy sometimes display long term effects. It can expand the caster's mind and toughen the body.">
+  <Skill Name="Inner Fire" Cost="20" School="Light" Description="Those who often invoke spells that draw upon positive energy sometimes display long term effects. It can expand the caster's mind and toughen the body.">
     <StaminaPercentageBonus>10</StaminaPercentageBonus>
-    <MPBonus>2</MPBonus>
+    <MPBonus>3</MPBonus>
   </Skill>
     
   <Skill Name="Spark" Cost="5" School="Fire" Description="Those with even rudimentarily skill in fire mage find that this spell comes naturally. Sometimes young adapts learn to case this spell even before entering a mage academy.">
     <AddSpell>Spark</AddSpell>
   </Skill>
-  <Skill Name="Fire Mastery I" Cost="10" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
+  <Skill Name="Fire Mastery I" Cost="15" School="Fire" Description="With experience comes the ability to pull more raw fire magic out of the weave and shape it.                                  Increases damage of all fire spells.">
     <FireProficiency>1</FireProficiency>
   </Skill>
-  <Skill Name="Improved Fire Control" Cost="10" School="Fire" Description="While most fire mages are not known for their subtlety or their self control, one school teaches how to exert finer control over their chosen element.                                  Decreases mana cost of all fire spells by 1.">
+  <Skill Name="Improved Fire Control" Cost="15" School="Fire" Description="While most fire mages are not known for their subtlety or their self control, one school teaches how to exert finer control over their chosen element.                                  Decreases mana cost of all fire spells by 1.">
     <FireReducedCost>1</FireReducedCost>
   </Skill>
-  <Skill Name="Flame Throwing I" Cost="10" School="Fire" Description="Fire is difficult to use as a long range weapon, as it has a tendency to dissipate quickly when thrown. By superheating the air around bolts of flame, one can extend their range.                               Extends range of Spark by 1.">
+  <Skill Name="Flame Throwing I" Cost="15" School="Fire" Description="Fire is difficult to use as a long range weapon, as it has a tendency to dissipate quickly when thrown. By superheating the air around bolts of flame, one can extend their range.                               Extends range of Spark by 1.">
     <SparkIncreasedRange>1</SparkIncreasedRange>
   </Skill>
   <Skill Name="Inferno" Cost="10" School="Fire" Description="While similar in effect to the signature weapon of red dragons, this spell is a crude but effective weapon of fire mages.">
@@ -41,48 +41,48 @@
   <Skill Name="Cone Of Sparks" Cost="15" School="Fire" Description="While lovingly called 'sparks' by fire mages, the blast of fire produced by this spell are very deadly.">
     <AddSpell>Cone Of Sparks</AddSpell>
   </Skill>
-  <Skill Name="Fire Mastery II" Cost="15" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
+  <Skill Name="Fire Mastery II" Cost="20" School="Fire" Description="Those who progress to this level of pyromancy generally don the red robes of their order.                              Experience increases all fire spell damage.">
     <FireProficiency>1</FireProficiency>
   </Skill>
   <Skill Name="Flame Throwing II" Cost="15" School="Fire" Description="Masters of fire manipulation can channel bolts of flame so powerful that they warp the air they travel through. This warping reduces the rate the fire cools off.                                     Extends range of Spark by 1.">
     <SparkIncreasedRange>1</SparkIncreasedRange>    
   </Skill>
-  <Skill Name="Fireball" Cost="20" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target.">
+  <Skill Name="Fireball" Cost="25" School="Fire" Description="The signature spell of the school of fire, this spell is always in high demand in large scale battles. Projects a blast of fire that explodes into an inferno upon reaching its target.">
     <AddSpell>Fireball</AddSpell>
   </Skill>
   
   <Skill Name="Force Bolt" Cost="5" School="Arcane" Description="A simple application of arcane lessons on the weave, this spell projects a bolt of raw force toward the target.">
     <AddSpell>Force Bolt</AddSpell>
   </Skill>
-  <Skill Name="Arcane Blast" Cost="10" School="Arcane" Description="Sometimes for all its intellectual background, mages of the arcane need the use of brute force. Arcane blast creates a shockwave in the wave, which rips along a straight path with great force.">
-    <AddSpell>Arcane Blast</AddSpell>
-  </Skill>
-  <Skill Name="Arcane Mastery I" Cost="10" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
+  <Skill Name="Arcane Mastery I" Cost="15" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
     <ArcaneProficiency>1</ArcaneProficiency>
   </Skill>
-  <Skill Name="Arcane Mastery II" Cost="10" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
-    <ArcaneProficiency>1</ArcaneProficiency>
-  </Skill>  
-  <Skill Name="Slow" Cost="5" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area.">
+  <Skill Name="Slow" Cost="10" School="Arcane" Description="The passing of time is tied into vibrations in the weave arcane mages study. This spell draws a tiny amount of energy from those vibrations, slowing the passing of time in a small area.">
     <AddSpell>Slow</AddSpell>
   </Skill>
-  <Skill Name="Haste" Cost="10" School="Arcane" Description="The polor opposite of 'Slow', this spell pumps energy into the weave nearby the target, hastening the passing of time. Care is needed, as passing too much energy into the weave can cause explosions.">
+  <Skill Name="Arcane Blast" Cost="20" School="Arcane" Description="Sometimes for all its intellectual background, mages of the arcane need the use of brute force. Arcane blast creates a shockwave in the wave, which rips along a straight path with great force.">
+    <AddSpell>Arcane Blast</AddSpell>
+  </Skill>
+  <Skill Name="Arcane Mastery II" Cost="20" School="Arcane" Description="Mastery of the arcane involves much study and practice. With it a mage can distort space by larger amounts, increasing the effectiveness of their arcane spells.">
+    <ArcaneProficiency>1</ArcaneProficiency>
+  </Skill>  
+  <Skill Name="Haste" Cost="15" School="Arcane" Description="The polor opposite of 'Slow', this spell pumps energy into the weave nearby the target, hastening the passing of time. Care is needed, as passing too much energy into the weave can cause explosions.">
     <AddSpell>Haste</AddSpell>
   </Skill>
-  <Skill Name="Blink" Cost="10" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location.">
+  <Skill Name="Blink" Cost="15" School="Arcane" Description="Taking the study of the weave into an area previously considered impossible, this spell rips an actual tiny hole in the weave and passes the caster into it. As the weave heals, it shunts them to a nearby location.">
     <AddSpell>Blink</AddSpell>
   </Skill>
 
   <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
     <BonusHealth>10</BonusHealth>
   </Skill>
-  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+  <Skill Name="Toughness II" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
     <BonusHealth>10</BonusHealth>
   </Skill>
   <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
     <BonusHealth>10</BonusHealth>
   </Skill>
-  <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+  <Skill Name="Toughness IV" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
     <BonusHealth>10</BonusHealth>
   </Skill>
   <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
@@ -91,13 +91,13 @@
   <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana II" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
+  <Skill Name="Blessing Of Mana II" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
   </Skill>
   <Skill Name="Blessing Of Mana III" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
     <MPBonus>4</MPBonus>
   </Skill>
-  <Skill Name="Blessing Of Mana IV" Cost="10" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
+  <Skill Name="Blessing Of Mana IV" Cost="15" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 4.">
     <MPBonus>4</MPBonus>
   </Skill>
   <Skill Name="Blessing Of Mana V" Cost="15" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 5.">
