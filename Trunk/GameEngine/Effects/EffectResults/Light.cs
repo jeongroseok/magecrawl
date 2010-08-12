@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
 
@@ -18,14 +20,16 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
                 m_visionBoost = 2;
         }
 
-        internal override void Apply(Character appliedTo)
+        public override string GetAttribute(string key)
         {
-            appliedTo.Vision += m_visionBoost;
+            if (key == "VisionBonus")
+                return m_visionBoost.ToString();
+            throw new KeyNotFoundException();
         }
 
-        internal override void Remove(Character removedFrom)
+        public override bool ContainsKey(string key)
         {
-            removedFrom.Vision -= m_visionBoost;
+            return key == "VisionBonus";
         }
 
         internal override string Name

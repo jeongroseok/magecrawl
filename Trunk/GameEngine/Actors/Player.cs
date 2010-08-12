@@ -47,7 +47,7 @@ namespace Magecrawl.GameEngine.Actors
             m_skills = new List<Skill>();
         }
 
-        public Player(string name, Point p) : base(name, p, 6)
+        public Player(string name, Point p) : base(name, p)
         {
             m_itemList = new List<Item>();
             m_skills = new List<Skill>();
@@ -62,6 +62,14 @@ namespace Magecrawl.GameEngine.Actors
             m_baseCurrentMP = m_baseMaxMP;
             
             LastTurnSeenAMonster = 0; 
+        }
+
+        public override int Vision
+        {
+            get
+            {
+                return 6 + GetTotalAttributeValue("VisionBonus");
+            }
         }
 
         #region HP/MP
@@ -115,7 +123,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_baseMaxHealth;
+                return m_baseMaxHealth + GetTotalAttributeValue("BonusHealth");
             }
         }
 
@@ -141,7 +149,8 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return (int)Math.Round(MaxPossibleMP * (1 - ((double)m_effects.OfType<LongTermEffect>().Sum(x => x.MPCost) / 100.0)));
+
+                return (int)Math.Round(MaxPossibleMP * (1 - ((double)m_effects.OfType<LongTermEffect>().Sum(x => Math.Min(1, x.MPCost / 100.0)))));
             }
         }
 

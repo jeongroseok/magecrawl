@@ -22,7 +22,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public string Name { get; internal set; }
 
-        public int Vision { get; internal set; }
+        public abstract int Vision { get; }
 
         public double CTIncreaseModifier { get; set; }
 
@@ -61,21 +61,20 @@ namespace Magecrawl.GameEngine.Actors
         
         protected List<StatusEffect> m_effects;
 
-        internal Character() : this("", Point.Invalid, 0, 0, 0, 0)
+        internal Character() : this("", Point.Invalid, 0, 0, 0)
         {
             m_effects = new List<StatusEffect>();
         }
 
-        internal Character(string name, Point p, int visionRange) : this(name, p, visionRange, 1.0, 1.0, 1.0)
+        internal Character(string name, Point p) : this(name, p, 1.0, 1.0, 1.0)
         {
             m_effects = new List<StatusEffect>();
         }
 
-        internal Character(string name, Point p, int visionRange, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
+        internal Character(string name, Point p, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
         {
             Position = p;
             CT = 0;
-            Vision = visionRange;
             Name = name;
  
             CTIncreaseModifier = ctIncreaseModifer;
@@ -176,7 +175,6 @@ namespace Magecrawl.GameEngine.Actors
             Position = Position.ReadXml(reader);
             Name = reader.ReadElementContentAsString();
             CT = reader.ReadElementContentAsInt();
-            Vision = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
 
             CTIncreaseModifier = reader.ReadElementContentAsDouble();
@@ -202,7 +200,6 @@ namespace Magecrawl.GameEngine.Actors
             Position.WriteToXml(writer, "Position");
             writer.WriteElementString("Name", Name);
             writer.WriteElementString("CT", CT.ToString());
-            writer.WriteElementString("VisionRange", Vision.ToString());
             writer.WriteElementString("UniqueID", m_uniqueID.ToString());
 
             writer.WriteElementString("CTIncraseModifier", CTIncreaseModifier.ToString());

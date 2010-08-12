@@ -19,6 +19,7 @@ namespace Magecrawl.GameEngine.Actors
 
         protected double CTAttackCost { get; set; }
         private DiceRoll m_damage;
+        private int m_baseVision;
         private int m_level;
         private string m_baseType;
         public bool Intelligent { get; private set; }
@@ -27,7 +28,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public Monster(string baseType, string name, int level, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade,
                        double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost, List<IMonsterTactic> tactics)
-            : base(name, p, vision, ctIncreaseModifer, ctMoveCost, ctActCost)
+            : base(name, p, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
             m_baseType = baseType;
             m_level = level;
@@ -37,10 +38,19 @@ namespace Magecrawl.GameEngine.Actors
             m_damage = damage;
             PlayerLastKnownPosition = Point.Invalid;
             m_evade = evade;
+            m_baseVision = vision;
             Intelligent = intelligent;
             Attributes = new SerializableDictionary<string, string>();
             m_tactics = tactics;
             m_tactics.ForEach(t => t.SetupAttributesNeeded(this));
+        }
+
+        public override int Vision
+        {
+            get
+            {
+                return m_baseVision + GetTotalAttributeValue("VisionBonus");
+            }
         }
         
         public string BaseType

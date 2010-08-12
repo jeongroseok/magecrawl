@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Skills>
+<Skills>  
   <Skill Name="Light" Cost="5" School="Light" Description="One of the first spells leaned by new disciples of the light, this spell enhances the casters eyes to see even slightest glimmer of light nearby.">
     <AddSpell>Light</AddSpell>
   </Skill>
@@ -73,20 +73,20 @@
     <AddSpell>Blink</AddSpell>
   </Skill>
 
-  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
-    <BonusStamina>20</BonusStamina>
+  <Skill Name="Toughness I" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+    <BonusHealth>10</BonusHealth>
   </Skill>
-  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
-    <BonusStamina>20</BonusStamina>
+  <Skill Name="Toughness II" Cost="5" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+    <BonusHealth>10</BonusHealth>
   </Skill>
-  <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
-    <BonusStamina>20</BonusStamina>
+  <Skill Name="Toughness III" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+    <BonusHealth>10</BonusHealth>
   </Skill>
-  <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
-    <BonusStamina>20</BonusStamina>
+  <Skill Name="Toughness IV" Cost="10" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+    <BonusHealth>10</BonusHealth>
   </Skill>
-  <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Stamina by 20.">
-    <BonusStamina>20</BonusStamina>
+  <Skill Name="Toughness V" Cost="15" School="Martial" Description="The art of taking punishing blows without permanent harm is one that takes practice.                              Increases Health by 10.">
+    <BonusHealth>10</BonusHealth>
   </Skill>
   <Skill Name="Blessing Of Mana I" Cost="5" School="Martial" Description="The 'Blessings of Mana' is a school of techniques that aim to expand the amount of mana one can access in a short period of time.                                Increases MP by an additional 3.">
     <MPBonus>3</MPBonus>
