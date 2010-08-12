@@ -25,20 +25,38 @@ namespace Magecrawl.GameEngine.Actors
 
         public Monster CreateMonster(string type, int level)
         {
-            return CreateMonster(type, level, Point.Invalid);
+            Monster monster = CreateMonsterCore(type, level, Point.Invalid);
+            if (monster == null)
+                throw new InvalidOperationException("Unable to create " + type + " of level " + level.ToString() + ".");
+            return monster;
         }
 
         public Monster CreateRandomMonster(int level, Point p)
         {
-            string baseType = m_monsterStats.Keys.ToList().Randomize()[0];
-            return CreateMonster(baseType, level, p);
+            do
+            {
+                string baseType = m_monsterStats.Keys.ToList().Randomize()[0];
+                Monster monster = CreateMonsterCore(baseType, level, p);
+                if (monster != null)
+                    return monster;
+            }
+            while (true);
         }
 
-        public Monster CreateMonster(string baseType, int level, Point p)
+        public Monster CreateMonster(string type, int level, Point p)
+        {
+            Monster monster = CreateMonsterCore(type, level, p);
+            if (monster == null)
+                throw new InvalidOperationException("Unable to create " + type + " of level " + level.ToString() + ".");
+            return monster;
+        }
+
+        private Monster CreateMonsterCore(string baseType, int level, Point p)
         {
             var monsterInstance = m_monsterInstances[baseType].Find(x => x.Second == level);
             if (monsterInstance == null)
-                throw new InvalidOperationException("Unable to create " + baseType + " of level " + level.ToString() + ".");
+                return null;
+
             string monsterName = monsterInstance.First;
 
             string AIType = m_monsterStats[baseType]["AIType"];
