@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Armors>
-  <Armor Name="ChestArmor" BaseStaminaBonus="40"/>
-  <Armor Name="Helm" BaseStaminaBonus="20"/>
-  <Armor Name="Gloves" BaseStaminaBonus="20"/>
-  <Armor Name="Boots" BaseStaminaBonus="20"/>
+  <Armor Name="ChestArmor" BaseStaminaBonus="50"/>
+  <Armor Name="Helm" BaseStaminaBonus="25"/>
+  <Armor Name="Gloves" BaseStaminaBonus="25"/>
+  <Armor Name="Boots" BaseStaminaBonus="25"/>
 </Armors>

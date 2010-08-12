@@ -39,7 +39,7 @@ namespace Magecrawl.GameEngine
             switch(GetTotalArmorWeight(player))
             {
                 case ArmorWeight.Heavy:
-                    return 2;
+                    return 1;
                 case ArmorWeight.Standard:
                 case ArmorWeight.Light:
                 default:
