@@ -262,6 +262,15 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        public bool IsRegenerating
+        {
+            get
+            {
+                return HasAttribute("Regeneration");
+            }
+        }
+
+
         public void GainMP(int amount)
         {
             m_baseCurrentMP += amount;
