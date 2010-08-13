@@ -93,6 +93,11 @@ namespace Magecrawl.Interfaces
             get;
         }
 
+        bool IsRegenerating
+        {
+            get;
+        }
+
         bool CouldCastSpell(ISpell spell);
 
         bool CanEquipArmor(IArmor armor);
