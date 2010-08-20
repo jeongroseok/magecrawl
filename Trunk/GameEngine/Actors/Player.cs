@@ -313,6 +313,13 @@ namespace Magecrawl.GameEngine.Actors
             return effectBonus + skillBonus;
         }
 
+        internal override double GetTotalDoubleAttributeValue(string attribute)
+        {
+            int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
+            double effectBonus = StatusEffects.OfType<StatusEffect>().Where(e => e.ContainsKey(attribute)).Select(e => double.Parse(e.GetAttribute(attribute))).Sum();
+            return effectBonus + skillBonus;
+        }
+
         internal override bool HasAttribute(string attribute)
         {
             bool existsInSkills = m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
