@@ -1,5 +1,6 @@
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.Utilities;
+using System.Collections.Generic;
 
 namespace Magecrawl.GameEngine.Effects.EffectResults
 {
@@ -16,14 +17,16 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             m_modifier = 1.2 + (.1 * strength);
         }
 
-        internal override void Apply(Character appliedTo)
+        public override string GetAttribute(string key)
         {
-            appliedTo.CTIncreaseModifier *= m_modifier;
+            if (key == "CTIncreaseModifierBonus")
+                return m_modifier.ToString();
+            throw new KeyNotFoundException();
         }
 
-        internal override void Remove(Character removedFrom)
+        public override bool ContainsKey(string key)
         {
-            removedFrom.CTIncreaseModifier /= m_modifier;
+            return key == "CTIncreaseModifierBonus";
         }
 
         internal override string Name

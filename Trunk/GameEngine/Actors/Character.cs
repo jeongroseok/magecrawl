@@ -24,12 +24,6 @@ namespace Magecrawl.GameEngine.Actors
 
         public abstract int Vision { get; }
 
-        public double CTIncreaseModifier { get; set; }
-
-        public double CTCostModifierToMove { get; internal set; }
-
-        public double CTCostModifierToAct { get; internal set; }
-
         public abstract IWeapon CurrentWeapon { get; }
 
         public bool IsAlive
@@ -57,6 +51,36 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
+        private double m_ctIncreaseModifier;
+        public double CTIncreaseModifier 
+        {
+            get
+            {
+                double modifier = GetTotalDoubleAttributeValue("CTIncreaseModifierBonus");
+                return modifier == 0 ? m_ctIncreaseModifier : m_ctIncreaseModifier * modifier;
+            }
+        }
+
+        private double m_ctCostModifierToMove;
+        public double CTCostModifierToMove 
+        {
+            get
+            {
+                double modifier = GetTotalDoubleAttributeValue("CTCostModifierToMoveBonus");
+                return modifier == 0 ? m_ctCostModifierToMove : m_ctCostModifierToMove * modifier;
+            }
+        }
+
+        private double m_ctCostModifierToAct;
+        public double CTCostModifierToAct 
+        {
+            get
+            {
+                double modifier = GetTotalDoubleAttributeValue("CTCostModifierToActBonus");
+                return modifier == 0 ? m_ctCostModifierToAct : m_ctCostModifierToAct * modifier;
+            }
+        }
+
         private static int s_idCounter = 0;
         
         protected List<StatusEffect> m_effects;
@@ -77,9 +101,9 @@ namespace Magecrawl.GameEngine.Actors
             CT = 0;
             Name = name;
  
-            CTIncreaseModifier = ctIncreaseModifer;
-            CTCostModifierToMove = ctMoveCost;
-            CTCostModifierToAct = ctActCost;
+            m_ctIncreaseModifier = ctIncreaseModifer;
+            m_ctCostModifierToMove = ctMoveCost;
+            m_ctCostModifierToAct = ctActCost;
 
             m_effects = new List<StatusEffect>();
             
@@ -158,6 +182,11 @@ namespace Magecrawl.GameEngine.Actors
             return 0;
         }
 
+        internal virtual double GetTotalDoubleAttributeValue(string attribute)
+        {
+            return 0;
+        }
+
         internal virtual bool HasAttribute(string attribute)
         {
             return false;
@@ -177,9 +206,9 @@ namespace Magecrawl.GameEngine.Actors
             CT = reader.ReadElementContentAsInt();
             m_uniqueID = reader.ReadElementContentAsInt();
 
-            CTIncreaseModifier = reader.ReadElementContentAsDouble();
-            CTCostModifierToMove = reader.ReadElementContentAsDouble();
-            CTCostModifierToAct = reader.ReadElementContentAsDouble();
+            m_ctIncreaseModifier = reader.ReadElementContentAsDouble();
+            m_ctCostModifierToMove = reader.ReadElementContentAsDouble();
+            m_ctCostModifierToAct = reader.ReadElementContentAsDouble();
        
             ListSerialization.ReadListFromXML(
                 reader, 
