@@ -1,8 +1,7 @@
 ﻿using System;
-using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.StatusEffects.Interfaces;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -84,7 +83,7 @@ namespace Magecrawl.GameEngine.Magic
             get
             {
                 double sustainingCostPercentage = 0;
-                LongTermEffect possibleEffect = CoreGameEngine.Instance.GetLongTermEffectSpellWouldProduce(EffectType);
+                ILongTermStatusEffect possibleEffect = CoreGameEngine.Instance.GetLongTermEffectSpellWouldProduce(EffectType);
                 if (possibleEffect != null)
                     sustainingCostPercentage = possibleEffect.MPCost;
                 return (int)Math.Round((sustainingCostPercentage / 100.0) * CoreGameEngine.Instance.Player.MaxPossibleMP);

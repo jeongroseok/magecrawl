@@ -4,7 +4,7 @@ using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Interface
 {
     internal class TargettingUtils : ITargettingUtils
     {

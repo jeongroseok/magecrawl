@@ -2,13 +2,13 @@ using System.ComponentModel.Composition;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Interface
 {
     // So in the current archtecture, each public method should do the action requested,
     // and _then_ call the CoreTimingEngine somehow to let others have their time slice before returning
     // This is very synchronous, but easy to do.
     [Export(typeof(IGameEngine))]
-    public class PublicGameEngine : IGameEngine
+    public class PublicGameEngineInterface : IGameEngine
     {
         private CoreGameEngine m_engine;
         private DebugEngine m_debugEngine;
@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine
         public event PlayerDied PlayerDiedEvent;
         public event RangedAttack RangedAttackEvent;
 
-        public PublicGameEngine()
+        public PublicGameEngineInterface()
         {
             // This is a singleton accessable from anyone in GameEngine, but stash a copy since we use it alot
             m_engine = new CoreGameEngine();

@@ -1,29 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.StatusEffects
 {
-    internal class EffectEngine
+    public class EffectEngine
     {
-        private CombatEngine m_combatEngine;
-        private PhysicsEngine m_physicsEngine;
+        public static IGameEngineCore GameEngineInstance;
 
-        internal EffectEngine(PhysicsEngine physicsEngine, CombatEngine combatEngine)
+        public EffectEngine(IGameEngineCore engine)
         {
-            m_combatEngine = combatEngine;
-            m_physicsEngine = physicsEngine;
+            GameEngineInstance = engine;
         }
 
-        internal bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target)
+        public bool AddEffectToTarget(string effectName, ICharacterCore invoker, int strength, bool longTerm, Point target)
         {
             return AddEffectToTarget(effectName, invoker, strength, longTerm, target, null);
         }
 
-        internal bool AddEffectToTarget(string effectName, Character invoker, int strength, bool longTerm, Point target, string toPrintOnEffectAdd)
+        public bool AddEffectToTarget(string effectName, ICharacterCore invoker, int strength, bool longTerm, Point target, string toPrintOnEffectAdd)
         {
-            Character targetCharacter = m_combatEngine.FindTargetAtPosition(target);
+            ICharacterCore targetCharacter = GameEngineInstance.FindTargetAtPosition(target);
             if (targetCharacter != null)
             {
                 bool successOnAddEffect;
@@ -32,24 +31,24 @@ namespace Magecrawl.GameEngine.Effects
                 else
                     successOnAddEffect = HandleShortTermEffect(effectName, invoker, strength, targetCharacter);
                 if (successOnAddEffect && toPrintOnEffectAdd != null)
-                    CoreGameEngine.Instance.SendTextOutput(toPrintOnEffectAdd);
+                    GameEngineInstance.SendTextOutput(toPrintOnEffectAdd);
                 return true;
             }
             return false;
         }
 
-        private static bool HandleShortTermEffect(string effectName, Character invoker, int strength, Character targetCharacter)
+        private bool HandleShortTermEffect(string effectName, ICharacterCore invoker, int strength, ICharacterCore targetCharacter)
         {
             DismissExistingEffect(effectName, targetCharacter);
 
-            StatusEffect effect = EffectFactory.CreateEffect(invoker, effectName, false, strength);
+            IStatusEffectCore effect = EffectFactory.CreateEffect(invoker, effectName, false, strength);
             targetCharacter.AddEffect(effect);
-            if (targetCharacter is Monster && invoker is Player && !effect.IsPositiveEffect)
-                ((Monster)targetCharacter).NoticeRangedAttack(invoker.Position);
+            if (targetCharacter is IMonster && invoker is IPlayer && !effect.IsPositiveEffect)
+                GameEngineInstance.MonsterNoticeRangedAttack(targetCharacter, invoker.Position);
             return true;
         }
 
-        private static bool HandleLongTermEffect(string effectName, Character invoker, int strength)
+        private bool HandleLongTermEffect(string effectName, ICharacterCore invoker, int strength)
         {
             DismissExistingEffect(effectName, invoker);
 
@@ -62,14 +61,14 @@ namespace Magecrawl.GameEngine.Effects
         // We'll call Dismiss on the previous effect, which waits until end of turn to Remove
         // Then we'll call Add on the new effect, which'll add the HP first, then the remove will remove them
         // If we ever have an effect that is percentage based, we'll have to redo this...
-        private static void DismissExistingEffect(string effectName, Character target)
+        private void DismissExistingEffect(string effectName, ICharacterCore target)
         {
-            List<StatusEffect> statusList = target.Effects.Where(s => s.Type == effectName).ToList();
+            List<IStatusEffectCore> statusList = target.Effects.Where(s => s.Type == effectName).ToList();
             if (statusList.Count > 1)
                 throw new System.InvalidOperationException("DismissExistingEffect with more than one effect of the same name on them?");
             foreach (StatusEffect s in statusList)
             {
-                CoreGameEngine.Instance.SendTextOutput(string.Format("The existing {0} effect fades from {1}.", s.Name, target.Name));
+                GameEngineInstance.SendTextOutput(string.Format("The existing {0} effect fades from {1}.", s.Name, target.Name));
                 s.Dismiss();
             }
         }

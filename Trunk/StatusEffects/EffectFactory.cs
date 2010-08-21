@@ -1,22 +1,22 @@
 using System;
-using System.Reflection;
-using Magecrawl.GameEngine.Effects.EffectResults;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
+using Magecrawl.StatusEffects.EffectResults;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.StatusEffects
 {
-    internal class EffectFactory
+    public class EffectFactory
     {        
-        public static StatusEffect CreateEffectBaseObject(string affectName, bool longTerm)
+        public static IStatusEffectCore CreateEffectBaseObject(string affectName, bool longTerm)
         {
             return CreateEffect(null, affectName, longTerm, 0);
         }
 
-        public static StatusEffect CreateEffect(ICharacter caster, string effectName, bool longTerm, int strength)
+        public static IStatusEffectCore CreateEffect(ICharacter caster, string effectName, bool longTerm, int strength)
         {
             EffectResult effectResult = null;
-            Type effectType = TypeLocator.GetTypeToMake(typeof(EffectFactory), "Magecrawl.GameEngine.Effects.EffectResults", effectName);
+            Type effectType = TypeLocator.GetTypeToMake(typeof(EffectFactory), "Magecrawl.StatusEffects.EffectResults", effectName);
             if (effectType == null)
                 throw new System.InvalidOperationException("Create Effect: Don't know how to create type of : " + effectName);
 

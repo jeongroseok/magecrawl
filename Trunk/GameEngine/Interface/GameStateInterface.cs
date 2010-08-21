@@ -7,7 +7,7 @@ using Magecrawl.Items;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Magic;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Interface
 {
     internal class GameStateInterface : IGameState
     {

@@ -5,7 +5,7 @@ using Magecrawl.Items;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Skills;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Interface
 {
     internal class DebugEngine : IDebugger
     {

@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
-using Magecrawl.GameEngine.Actors;
 using Magecrawl.Interfaces;
+using Magecrawl.EngineInterfaces;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
     internal abstract class EffectResult
     {
-        internal virtual void Apply(Character appliedTo)
+        internal virtual void Apply(ICharacterCore appliedTo)
         { 
         }
 
-        internal virtual void Remove(Character removedFrom)
+        internal virtual void Remove(ICharacterCore removedFrom)
         {
         }
 

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using libtcod;
-using Magecrawl.GameEngine.Effects;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Skills;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
@@ -150,7 +151,7 @@ namespace Magecrawl.GameEngine.Actors
             get
             {
 
-                return (int)Math.Round(MaxPossibleMP * (1 - ((double)m_effects.OfType<LongTermEffect>().Sum(x => Math.Min(1, x.MPCost / 100.0)))));
+                return (int)Math.Round(MaxPossibleMP * (1 - ((double)m_effects.OfType<ILongTermStatusEffect>().Sum(x => Math.Min(1, x.MPCost / 100.0)))));
             }
         }
 
@@ -309,21 +310,21 @@ namespace Magecrawl.GameEngine.Actors
         internal override int GetTotalAttributeValue(string attribute)
         {
             int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
-            int effectBonus = StatusEffects.OfType<StatusEffect>().Where(e => e.ContainsKey(attribute)).Select(e => int.Parse(e.GetAttribute(attribute))).Sum();
+            int effectBonus = StatusEffects.OfType<IStatusEffectCore>().Where(e => e.ContainsKey(attribute)).Select(e => int.Parse(e.GetAttribute(attribute))).Sum();
             return effectBonus + skillBonus;
         }
 
         internal override double GetTotalDoubleAttributeValue(string attribute)
         {
             int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
-            double effectBonus = StatusEffects.OfType<StatusEffect>().Where(e => e.ContainsKey(attribute)).Select(e => double.Parse(e.GetAttribute(attribute))).Sum();
+            double effectBonus = StatusEffects.OfType<IStatusEffectCore>().Where(e => e.ContainsKey(attribute)).Select(e => double.Parse(e.GetAttribute(attribute))).Sum();
             return effectBonus + skillBonus;
         }
 
         internal override bool HasAttribute(string attribute)
         {
             bool existsInSkills = m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
-            bool existsInEffects = StatusEffects.OfType<StatusEffect>().Any(e => e.ContainsKey(attribute));
+            bool existsInEffects = StatusEffects.OfType<IStatusEffectCore>().Any(e => e.ContainsKey(attribute));
             return existsInSkills || existsInEffects;
         }
 
@@ -351,14 +352,14 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public override void AddEffect(StatusEffect effectToAdd)
+        public override void AddEffect(IStatusEffectCore effectToAdd)
         {
             base.AddEffect(effectToAdd);
             ResetMaxStaminaIfNowOver();
             ResetMaxMPIfNowOver();
         }
 
-        public override void RemoveEffect(StatusEffect effectToRemove)
+        public override void RemoveEffect(IStatusEffectCore effectToRemove)
         {
             base.RemoveEffect(effectToRemove);
             ResetMaxStaminaIfNowOver();
