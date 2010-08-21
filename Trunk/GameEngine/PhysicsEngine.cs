@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Effects.EffectResults;
 
 namespace Magecrawl.GameEngine
 {
@@ -539,7 +538,7 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        internal LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
+        internal ILongTermStatusEffect GetLongTermEffectSpellWouldProduce(string effectName)
         {
             return m_magicEffects.GetLongTermEffectSpellWouldProduce(effectName);
         }

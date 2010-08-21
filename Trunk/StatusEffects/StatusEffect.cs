@@ -1,21 +1,20 @@
 using System.Xml;
-using System.Xml.Serialization;
-using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Effects.EffectResults;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
+using Magecrawl.StatusEffects.EffectResults;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.StatusEffects
 {
-    internal abstract class StatusEffect : IStatusEffect, IXmlSerializable
+    internal abstract class StatusEffect : IStatusEffectCore
     {
         protected EffectResult m_effectResult;
 
-        public void Apply(Character appliedTo)
+        public void Apply(ICharacterCore appliedTo)
         {
             m_effectResult.Apply(appliedTo);
         }
 
-        public void Remove(Character removedFrom)
+        public void Remove(ICharacterCore removedFrom)
         {
             m_effectResult.Remove(removedFrom);
         }
@@ -70,7 +69,7 @@ namespace Magecrawl.GameEngine.Effects
 
         internal abstract void SetDefaults();
 
-        internal abstract void Dismiss();
+        public abstract void Dismiss();
 
         #region IXmlSerializable Members
 

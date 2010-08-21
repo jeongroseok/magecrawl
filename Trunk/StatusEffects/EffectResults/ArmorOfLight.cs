@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Magecrawl.GameEngine.Actors;
+﻿using System;
+using System.Collections.Generic;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
-using System;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
     class ArmorOfLight : EffectResult
     {
@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             m_level = 0;
         }
 
-        public ArmorOfLight(int strength, Character caster)
+        public ArmorOfLight(int strength, ICharacterCore caster)
         {
             m_level = strength;
         }
@@ -60,7 +60,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return (new DiceRoll(1, 11, 14)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //15-25 turns
+                return (new DiceRoll(1, 11, 14)).Roll() * TimeConstants.CTNeededForNewTurn;    //15-25 turns
             }
         }
 

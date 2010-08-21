@@ -1,42 +1,39 @@
-using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
-    internal class Light : EffectResult
+    internal class Slow : EffectResult
     {
-        private int m_visionBoost;
+        private double m_modifier;
 
-        public Light()
+        public Slow()
         {
         }
 
-        public Light(int strength, Character caster)
+        public Slow(int strength, ICharacterCore caster)
         {
-            m_visionBoost = strength / 2;
-            if (m_visionBoost < 2)
-                m_visionBoost = 2;
+            m_modifier = 1.10 + (.1 * strength);
         }
 
         public override string GetAttribute(string key)
         {
-            if (key == "VisionBonus")
-                return m_visionBoost.ToString();
+            if (key == "CTIncreaseModifierBonus")
+                return m_modifier.ToString();
             throw new KeyNotFoundException();
         }
 
         public override bool ContainsKey(string key)
         {
-            return key == "VisionBonus";
+            return key == "CTIncreaseModifierBonus";
         }
 
         internal override string Name
         {
             get
             {
-                return "Light";
+                return "Slow";
             }
         }
 
@@ -45,7 +42,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return "Light";
+                return "Slow";
             }
         }
 
@@ -53,15 +50,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return true;
-            }
-        }
-
-        internal override int DefaultMPSustainingCost
-        {
-            get
-            {
-                return 10;
+                return false;
             }
         }
 
@@ -69,7 +58,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return (new DiceRoll(1, 20, 30)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //30-50 turns
+                return (new DiceRoll(1, 8, 4)).Roll() * TimeConstants.CTNeededForNewTurn;    //5-12 turns
             }
         }
 
@@ -77,12 +66,12 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
 
         internal override void ReadXml(System.Xml.XmlReader reader)
         {
-            m_visionBoost = reader.ReadElementContentAsInt();
+            m_modifier = reader.ReadElementContentAsDouble();
         }
 
         internal override void WriteXml(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("VisionBoost", m_visionBoost.ToString());
+            writer.WriteElementString("Modifier", m_modifier.ToString());
         }
 
         #endregion

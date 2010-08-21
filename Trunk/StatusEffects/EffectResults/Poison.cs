@@ -1,11 +1,12 @@
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
+using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
     internal class Poison : EffectResult
     {
-        private Character m_affected;
+        private ICharacterCore m_affected;
         private int m_damagePerInterval;
         private bool m_castByPlayer;
 
@@ -13,15 +14,15 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        public Poison(int strength, Character caster)
+        public Poison(int strength, ICharacterCore caster)
         {
             m_damagePerInterval = strength / 3;
             if (m_damagePerInterval == 0)
                 m_damagePerInterval = 1;
-            m_castByPlayer = caster is Player;
+            m_castByPlayer = caster is IPlayer;
         }
 
-        internal override void Apply(Character appliedTo)
+        internal override void Apply(ICharacterCore appliedTo)
         {
             m_affected = appliedTo;
         }
@@ -29,10 +30,10 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         internal override void DecreaseCT(int previousCT, int currentCT)
         {
             int CTDifference = previousCT - currentCT;
-            int turnsPassed = CTDifference / CoreTimingEngine.CTNeededForNewTurn;
-            Character casterWasPlayer = m_castByPlayer ? CoreGameEngine.Instance.Player : null;
+            int turnsPassed = CTDifference / TimeConstants.CTNeededForNewTurn;
+            ICharacterCore casterWasPlayer = m_castByPlayer ? EffectEngine.GameEngineInstance.Player : null;
             for (int i = 0 ; i < turnsPassed ; ++i)
-                CoreGameEngine.Instance.CombatEngine.DamageTarget(casterWasPlayer, m_damagePerInterval, m_affected);
+                EffectEngine.GameEngineInstance.DamageTarget(casterWasPlayer, m_damagePerInterval, m_affected);
         }
 
         internal override string Name
@@ -64,7 +65,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return (new DiceRoll(4, 2)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //4-8 turns
+                return (new DiceRoll(4, 2)).Roll() * TimeConstants.CTNeededForNewTurn;    //4-8 turns
             }
         }
 

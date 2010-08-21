@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
     class WordOfHope : EffectResult
     {
@@ -14,7 +14,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             m_level = 0;
         }
 
-        public WordOfHope(int strength, Character caster)
+        public WordOfHope(int strength, ICharacterCore caster)
         {
             m_level = strength;
         }
@@ -44,12 +44,12 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
             }
         }
 
-        internal override void Apply(Character appliedTo)
+        internal override void Apply(ICharacterCore appliedTo)
         {
             appliedTo.Heal(BonusStamina, false);
         }
 
-        internal override void Remove(Character removedFrom)
+        internal override void Remove(ICharacterCore removedFrom)
         {
             removedFrom.DamageJustStamina(BonusStamina);
         }
@@ -80,7 +80,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return (new DiceRoll(1, 7, 7)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //8-15 turns
+                return (new DiceRoll(1, 7, 7)).Roll() * TimeConstants.CTNeededForNewTurn;    //8-15 turns
             }
         }
 

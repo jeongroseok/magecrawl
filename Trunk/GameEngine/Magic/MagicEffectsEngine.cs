@@ -4,10 +4,12 @@ using System.Globalization;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Effects;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.StatusEffects;
+using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.GameEngine.Interface;
 
 namespace Magecrawl.GameEngine.Magic
 {
@@ -21,7 +23,7 @@ namespace Magecrawl.GameEngine.Magic
         {
             m_combatEngine = combatEngine;
             m_physicsEngine = physicsEngine;
-            m_effectEngine = new EffectEngine(m_physicsEngine, m_combatEngine);
+            m_effectEngine = new EffectEngine(CoreGameEngineInterface.Instance);
         }
 
         internal bool CastSpell(Player caster, Spell spell, Point target)
@@ -253,14 +255,14 @@ namespace Magecrawl.GameEngine.Magic
             }
         }
 
-        public LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
+        public ILongTermStatusEffect GetLongTermEffectSpellWouldProduce(string effectName)
         {
             switch (effectName)
             {
                 case "Haste":
                 case "Light":
                 case "ArmorOfLight":
-                    return (LongTermEffect)EffectFactory.CreateEffectBaseObject(effectName, true);
+                    return (ILongTermStatusEffect)EffectFactory.CreateEffectBaseObject(effectName, true);
                 default:
                     return null;
             }            

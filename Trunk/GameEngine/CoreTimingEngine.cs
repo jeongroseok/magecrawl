@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
 
@@ -11,7 +12,6 @@ namespace Magecrawl.GameEngine
     // If no-one has that, we interativly increase by CTPerIteration factoring in their CTIncreaseModifier until someone can act.
     internal sealed class CoreTimingEngine
     {
-        public const int CTNeededForNewTurn = 100;
         private const int CTPerIteration = 5;
         private const int CTBaseCostToMove = 100;
         private const int CTBaseCostForAction = 100;
@@ -35,7 +35,7 @@ namespace Magecrawl.GameEngine
             while (true)
             {
                 // Check all valid actors for ability to go now
-                Character actorWhoCanGo = actors.FirstOrDefault(a => a.CT >= CTNeededForNewTurn);
+                Character actorWhoCanGo = actors.FirstOrDefault(a => a.CT >= TimeConstants.CTNeededForNewTurn);
                 if (actorWhoCanGo != null)
                     return actorWhoCanGo;
 

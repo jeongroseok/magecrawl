@@ -1,10 +1,10 @@
-using System;
 using System.Xml;
-using Magecrawl.GameEngine.Effects.EffectResults;
+using Magecrawl.StatusEffects.EffectResults;
+using Magecrawl.StatusEffects.Interfaces;
 
-namespace Magecrawl.GameEngine.Effects
+namespace Magecrawl.StatusEffects
 {
-    internal class ShortTermEffect : StatusEffect
+    internal class ShortTermEffect : StatusEffect, IShortTermStatusEffect
     {
         public ShortTermEffect()
         {
@@ -31,7 +31,7 @@ namespace Magecrawl.GameEngine.Effects
             m_effectResult.DecreaseCT(previousCT, currentCT);
         }
 
-        internal override void Dismiss()
+        public override void Dismiss()
         {
             CTLeft = 0;
         }

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
     // The regeneration effect doesn't do anything directly. PhyricsEngine checks for it in AfterPlayerAction()
     // If it exists, then we can heal health damage in addition to stamina damage.
@@ -12,7 +12,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        public Regeneration(int strength, Character caster)
+        public Regeneration(int strength, ICharacterCore caster)
         {
         }
 
@@ -57,7 +57,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return (new DiceRoll(1, 5, 10)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //10-15 turns
+                return (new DiceRoll(1, 5, 10)).Roll() * TimeConstants.CTNeededForNewTurn;    //10-15 turns
             }
         }
     }

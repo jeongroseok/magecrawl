@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using libtcod;
 using Magecrawl.GameEngine.Actors;
-using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;
 using Magecrawl.GameEngine.Level.Generator.Cave;
@@ -14,6 +13,7 @@ using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -513,7 +513,7 @@ namespace Magecrawl.GameEngine
                 pointList.Add(centerPoint);
         }
 
-        internal LongTermEffect GetLongTermEffectSpellWouldProduce(string effectName)
+        internal ILongTermStatusEffect GetLongTermEffectSpellWouldProduce(string effectName)
         {
             return m_physicsEngine.GetLongTermEffectSpellWouldProduce(effectName);
         }

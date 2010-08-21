@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Magecrawl.GameEngine.Effects;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.EngineInterfaces;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Interface
 {
     internal class PlayerActionEngine : IEngineActions
     {
@@ -115,7 +115,7 @@ namespace Magecrawl.GameEngine
 
         public void DismissEffect(string effectName)
         {
-            StatusEffect effectInQuestion = m_engine.Player.Effects.FirstOrDefault(e => e.DisplayName == effectName);
+            IStatusEffectCore effectInQuestion = m_engine.Player.Effects.FirstOrDefault(e => e.DisplayName == effectName);
             if (effectInQuestion == null)
                 throw new System.InvalidOperationException("Trying to DismissEffect " + effectName + " and can not find.");
             if (!effectInQuestion.IsPositiveEffect)

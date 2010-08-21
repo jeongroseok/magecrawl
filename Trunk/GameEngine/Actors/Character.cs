@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Effects;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
+using Magecrawl.StatusEffects;
+using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Actors
 {
-    internal abstract class Character : ICharacter, IXmlSerializable
+    internal abstract class Character : ICharacterCore, IXmlSerializable
     {
         public Point Position { get; internal set; }
 
@@ -83,16 +85,16 @@ namespace Magecrawl.GameEngine.Actors
 
         private static int s_idCounter = 0;
         
-        protected List<StatusEffect> m_effects;
+        protected List<IStatusEffectCore> m_effects;
 
         internal Character() : this("", Point.Invalid, 0, 0, 0)
         {
-            m_effects = new List<StatusEffect>();
+            m_effects = new List<IStatusEffectCore>();
         }
 
         internal Character(string name, Point p) : this(name, p, 1.0, 1.0, 1.0)
         {
-            m_effects = new List<StatusEffect>();
+            m_effects = new List<IStatusEffectCore>();
         }
 
         internal Character(string name, Point p, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
@@ -105,7 +107,7 @@ namespace Magecrawl.GameEngine.Actors
             m_ctCostModifierToMove = ctMoveCost;
             m_ctCostModifierToAct = ctActCost;
 
-            m_effects = new List<StatusEffect>();
+            m_effects = new List<IStatusEffectCore>();
             
             m_uniqueID = s_idCounter;
             s_idCounter++;
@@ -144,32 +146,32 @@ namespace Magecrawl.GameEngine.Actors
             CT -= decrease;
 
             // Remove short term effects if ct <= 0
-            List<ShortTermEffect> shortTermEffects = m_effects.OfType<ShortTermEffect>().ToList();
+            List<IShortTermStatusEffect> shortTermEffects = m_effects.OfType<IShortTermStatusEffect>().ToList();
 
             shortTermEffects.ForEach(e => e.DecreaseCT(CT + decrease, CT));
-            
-            foreach (StatusEffect effect in shortTermEffects.Where(e => e.CTLeft <= 0))
+
+            foreach (IShortTermStatusEffect effect in shortTermEffects.Where(e => e.CTLeft <= 0))
                 RemoveEffect(effect);
 
             // Remove any long term effects that have been "dismissed"
-            List<LongTermEffect> longTermEffectsToRemove = m_effects.OfType<LongTermEffect>().Where(a => a.Dismissed).ToList();
-            foreach (LongTermEffect effect in longTermEffectsToRemove)
+            List<ILongTermStatusEffect> longTermEffectsToRemove = m_effects.OfType<ILongTermStatusEffect>().Where(a => a.Dismissed).ToList();
+            foreach (ILongTermStatusEffect effect in longTermEffectsToRemove)
                 RemoveEffect(effect);
         }
 
-        public virtual void AddEffect(StatusEffect effectToAdd)
+        public virtual void AddEffect(IStatusEffectCore effectToAdd)
         {
             m_effects.Add(effectToAdd);
             effectToAdd.Apply(this);
         }
 
-        public virtual void RemoveEffect(StatusEffect effectToRemove)
+        public virtual void RemoveEffect(IStatusEffectCore effectToRemove)
         {
             m_effects.Remove(effectToRemove);
             effectToRemove.Remove(this);
         }
 
-        public IEnumerable<StatusEffect> Effects
+        public IEnumerable<IStatusEffectCore> Effects
         {
             get
             {
@@ -216,7 +218,7 @@ namespace Magecrawl.GameEngine.Actors
                 {
                     string typeName = reader.ReadElementContentAsString();
                     bool longTerm = Boolean.Parse(reader.ReadElementContentAsString());
-                    StatusEffect effect = EffectFactory.CreateEffectBaseObject(typeName, longTerm);
+                    IStatusEffectCore effect = EffectFactory.CreateEffectBaseObject(typeName, longTerm);
                     effect.ReadXml(reader);
                     AddEffect(effect);
                 });

@@ -1,8 +1,8 @@
-using Magecrawl.GameEngine.Actors;
-using Magecrawl.Utilities;
 using System.Collections.Generic;
+using Magecrawl.EngineInterfaces;
+using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Effects.EffectResults
+namespace Magecrawl.StatusEffects.EffectResults
 {
     internal class Haste : EffectResult
     {
@@ -12,7 +12,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
         }
 
-        public Haste(int strength, Character caster)
+        public Haste(int strength, ICharacterCore caster)
         {
             m_modifier = 1.2 + (.1 * strength);
         }
@@ -66,7 +66,7 @@ namespace Magecrawl.GameEngine.Effects.EffectResults
         {
             get
             {
-                return (new DiceRoll(1, 5, 10)).Roll() * CoreTimingEngine.CTNeededForNewTurn;    //10-15 turns
+                return (new DiceRoll(1, 5, 10)).Roll() * TimeConstants.CTNeededForNewTurn;    //10-15 turns
             }
         }
 

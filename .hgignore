@@ -26,3 +26,4 @@ glob:Trunk/dist/ItemFactory.dll
 glob:*vsp
 glob:dist-Profiled\*
 glob:DebuggingLog.txt
+glob:Trunk/dist/*.dll

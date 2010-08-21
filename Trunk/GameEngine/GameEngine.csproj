@@ -64,29 +64,13 @@
     <Compile Include="Actors\MonsterFactory.cs" />
     <Compile Include="Actors\PlayerBackgrounds.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
-    <Compile Include="DebugEngine.cs" />
-    <Compile Include="Effects\EffectResults\ArmorOfLight.cs" />
-    <Compile Include="Effects\EffectEngine.cs" />
-    <Compile Include="Effects\EffectResults\Regeneration.cs" />
-    <Compile Include="Effects\EffectResults\Haste.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Effects\EffectResults\EffectResult.cs" />
-    <Compile Include="Effects\EffectResults\Light.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Effects\EffectResults\Poison.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Effects\EffectResults\Slow.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Interface\CoreGameEngineInterface.cs" />
+    <Compile Include="Interface\DebugEngine.cs" />
     <Compile Include="Actors\Monster.cs" />
     <Compile Include="CombatEngine.cs" />
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
-    <Compile Include="Effects\EffectResults\WordOfHope.cs" />
-    <Compile Include="GameStateInterface.cs" />
+    <Compile Include="Interface\GameStateInterface.cs" />
     <Compile Include="Level\Generator\Stitch\MapChunk.cs" />
     <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
     <Compile Include="Level\Generator\Stitch\MapNode.cs" />
@@ -114,9 +98,9 @@
     <Compile Include="PathfindingMap.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="PhysicsEngine.cs" />
-    <Compile Include="PlayerActionEngine.cs" />
+    <Compile Include="Interface\PlayerActionEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicGameEngine.cs" />
+    <Compile Include="Interface\PublicGameEngineInterface.cs" />
     <Compile Include="RangedAttackPathfinder.cs" />
     <Compile Include="SaveLoad\ListSerialization.cs" />
     <Compile Include="SaveLoad\PointSave.cs" />
@@ -124,11 +108,7 @@
     <Compile Include="MonsterSkillEffectEngine.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\SkillFactory.cs" />
-    <Compile Include="TargettingUtils.cs" />
-    <Compile Include="Effects\StatusEffect.cs" />
-    <Compile Include="Effects\EffectFactory.cs" />
-    <Compile Include="Effects\LongTermEffect.cs" />
-    <Compile Include="Effects\ShortTermEffect.cs" />
+    <Compile Include="Interface\TargettingUtils.cs" />
     <Compile Include="TreasureGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +128,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EngineInterfaces\EngineInterfaces.csproj">
+      <Project>{8CD1D5DA-3982-4B83-9C98-C6D7C361E3CE}</Project>
+      <Name>EngineInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{93A62B6A-4CF7-4142-9549-3FAFBE32A58D}</Project>
       <Name>Interfaces</Name>
@@ -155,6 +139,10 @@
     <ProjectReference Include="..\Items\Items.csproj">
       <Project>{26102AD2-FDFF-48DC-9089-4AA1DDEB8ED0}</Project>
       <Name>Items</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusEffects\StatusEffects.csproj">
+      <Project>{1C40737D-94C5-4C73-BA2E-6826D2199E66}</Project>
+      <Name>StatusEffects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
