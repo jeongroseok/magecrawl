@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8CD1D5DA-3982-4B83-9C98-C6D7C361E3CE}</ProjectGuid>
+    <ProjectGuid>{6A4414CF-133B-4172-9FE9-56C153E3F02B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Magecrawl.EngineInterfaces</RootNamespace>
-    <AssemblyName>EngineInterfaces</AssemblyName>
+    <RootNamespace>Magecrawl.Actors</RootNamespace>
+    <AssemblyName>Actors</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="libtcod-net">
+      <HintPath>..\dist\libtcod-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,19 +44,68 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICharacterCore.cs" />
-    <Compile Include="IFovManager.cs" />
-    <Compile Include="IGameEngineCore.cs" />
-    <Compile Include="IMapCore.cs" />
-    <Compile Include="IMonsterSkillEngine.cs" />
-    <Compile Include="IStatusEffectCore.cs" />
+    <Compile Include="Character.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monster.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\BaseTactic.cs" />
+    <Compile Include="MonsterAI\DefaultTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\DoubleSwingTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\IMonsterTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\KeepAwayFromMeleeRangeIfAbleTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\KeepAwayFromPlayerIfAbleTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\MoveToWoundedAllyTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\PossiblyApproachPlayerTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\PossiblyRunFromPlayerTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\RushTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\TacticWithCooldown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\UseFirstAidTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterAI\UseSlingStoneTactic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonsterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeConstants.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EngineInterfaces\EngineInterfaces.csproj">
+      <Project>{8CD1D5DA-3982-4B83-9C98-C6D7C361E3CE}</Project>
+      <Name>EngineInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{93A62B6A-4CF7-4142-9549-3FAFBE32A58D}</Project>
       <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Items\Items.csproj">
+      <Project>{26102AD2-FDFF-48DC-9089-4AA1DDEB8ED0}</Project>
+      <Name>Items</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusEffects\StatusEffects.csproj">
+      <Project>{1C40737D-94C5-4C73-BA2E-6826D2199E66}</Project>
+      <Name>StatusEffects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.Actors;
 using Magecrawl.GameEngine.Level;
 
 namespace Magecrawl.GameEngine

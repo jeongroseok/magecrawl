@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using libtcod;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.Actors;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;

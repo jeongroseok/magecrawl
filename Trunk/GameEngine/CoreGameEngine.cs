@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Level.Generator;
 using Magecrawl.GameEngine.Level.Generator.Cave;
@@ -15,6 +15,7 @@ using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.Actors;
 
 namespace Magecrawl.GameEngine
 {
@@ -29,6 +30,7 @@ namespace Magecrawl.GameEngine
         private PathfindingMap m_pathFinding;
         private PhysicsEngine m_physicsEngine;        
         private CoreTimingEngine m_timingEngine;
+        private MonsterSkillEffectEngine m_monsterSkillEngine;
         
         internal ItemFactory ItemFactory;
         internal MonsterFactory MonsterFactory;
@@ -44,6 +46,14 @@ namespace Magecrawl.GameEngine
             get
             {
                 return m_physicsEngine.FOVManager;
+            }
+        }
+
+        internal IMonsterSkillEngine MonsterSkillEngine
+        {
+            get
+            {
+                return m_monsterSkillEngine;
             }
         }
 
@@ -70,6 +80,7 @@ namespace Magecrawl.GameEngine
             m_saveLoad = new SaveLoadCore();
 
             m_timingEngine = new CoreTimingEngine();
+            m_monsterSkillEngine = new MonsterSkillEffectEngine(this);
 
             m_dungeon = new Dictionary<int, Map>();
 
@@ -290,9 +301,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.TargettedDrawablePoints(targettingObject, target);
         }
 
-        internal bool UseMonsterSkill(Character attacker, SkillType skill, Point target)
+        internal bool UseMonsterSkill(Character invoker, MonsterSkillType skill, Point target)
         {
-            return m_physicsEngine.UseMonsterSkill(attacker, skill, target);
+            return m_monsterSkillEngine.UseSkill(invoker, skill, target);
         }
 
         public bool Operate(Character characterOperating, Point pointToOperateAt)
@@ -403,9 +414,9 @@ namespace Magecrawl.GameEngine
             return m_physicsEngine.CurrentOrRecentDanger();
         }
 
-        public List<ICharacter> MonstersInCharactersLOS(ICharacter chacter)
+        public List<Character> MonstersInCharactersLOS(Character chacter)
         {
-            List<ICharacter> returnList = new List<ICharacter>();
+            List<Character> returnList = new List<Character>();
             FOVManager.CalculateForMultipleCalls(Map, chacter.Position, chacter.Vision);
 
             foreach (Monster m in Map.Monsters)

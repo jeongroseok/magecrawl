@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using libtcod;
-using Magecrawl.GameEngine.Actors.MonsterAI;
-using Magecrawl.GameEngine.SaveLoad;
+using Magecrawl.Actors.MonsterAI;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.Items;
 
-namespace Magecrawl.GameEngine.Actors
+namespace Magecrawl.Actors
 {
-    internal class Monster : Character, IMonster
+    public class Monster : Character, IMonster
     {
         // Share one RNG between monsters
         protected static TCODRandom m_random = new TCODRandom();
@@ -26,7 +27,7 @@ namespace Magecrawl.GameEngine.Actors
 
         public Point PlayerLastKnownPosition { get; set; }
 
-        public Monster(string baseType, string name, int level, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade,
+        internal Monster(string baseType, string name, int level, Point p, int maxHP, bool intelligent, int vision, DiceRoll damage, double evade,
                        double ctIncreaseModifer, double ctMoveCost, double ctActCost, double ctAttackCost, List<IMonsterTactic> tactics)
             : base(name, p, ctIncreaseModifer, ctMoveCost, ctActCost)
         {
@@ -49,7 +50,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return m_baseVision + GetTotalAttributeValue("VisionBonus") + CombatDefenseCalculator.GetMonsterVisionBonus(CoreGameEngine.Instance.Player);
+                return m_baseVision + GetTotalAttributeValue("VisionBonus") + CoreGameEngineInstance.Instance.GetMonsterVisionBonus();
             }
         }
         
@@ -65,7 +66,7 @@ namespace Magecrawl.GameEngine.Actors
         {
             get
             {
-                return CoreGameEngine.Instance.ItemFactory.CreateMeleeWeapon(this);
+                return ItemFactory.Instance.CreateMeleeWeapon(this);
             }
         }
         
@@ -114,7 +115,7 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        public void Action(CoreGameEngine engine)
+        public void Action(IGameEngineCore engine)
         {
             bool playerIsVisible = IsPlayerVisible(engine);
             if (playerIsVisible)
@@ -141,12 +142,12 @@ namespace Magecrawl.GameEngine.Actors
             PlayerLastKnownPosition = attackerPosition;
         }
 
-        protected void UpdateKnownPlayerLocation(CoreGameEngine engine)
+        protected void UpdateKnownPlayerLocation(IGameEngineCore engine)
         {
             PlayerLastKnownPosition = engine.Player.Position;
         }
 
-        protected bool IsPlayerVisible(CoreGameEngine engine)
+        protected bool IsPlayerVisible(IGameEngineCore engine)
         {
             return engine.FOVManager.VisibleSingleShot(engine.Map, Position, Vision, engine.Player.Position);
         }

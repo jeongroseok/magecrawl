@@ -1,22 +1,23 @@
 ﻿using libtcod;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
-    internal class PossiblyRunFromPlayerTactic : TacticWithCooldown
+    internal class PossiblyApproachPlayerTactic : TacticWithCooldown
     {
         private static TCODRandom s_random = new TCODRandom();
         private const int ChanceToApproach = 50;
 
-        public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
+        public override bool CouldUseTactic(IGameEngineCore engine, Monster monster)
         {
             return true;
         }
 
-        public override bool UseTactic(CoreGameEngine engine, Monster monster)
+        public override bool UseTactic(IGameEngineCore engine, Monster monster)
         {
-            if (s_random.Chance(70))
-                return MoveAwayFromPlayer(engine, monster);
+            if (s_random.Chance(50))
+                return MoveTowardsPlayer(engine, monster);
             return false;
         }
 

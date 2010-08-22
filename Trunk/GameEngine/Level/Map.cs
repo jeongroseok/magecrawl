@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.MapObjects;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Level
 {
-    internal sealed class Map : Interfaces.IMap, IXmlSerializable
+    internal sealed class Map : IMapCore, IXmlSerializable
     {
         private int m_width;
         private int m_height;

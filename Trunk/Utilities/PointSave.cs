@@ -1,9 +1,6 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Serialization;
-using Magecrawl.Utilities;
+﻿using System.Xml;
 
-namespace Magecrawl.GameEngine.SaveLoad
+namespace Magecrawl.Utilities
 {
     public static class PointExtensions
     {

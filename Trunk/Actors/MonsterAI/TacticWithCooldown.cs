@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal abstract class TacticWithCooldown : BaseTactic
     {

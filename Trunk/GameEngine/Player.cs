@@ -4,16 +4,16 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using libtcod;
+using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Magic;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.GameEngine.Skills;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors
+namespace Magecrawl.GameEngine
 {
     internal sealed class Player : Character, IPlayer, IXmlSerializable
     {
@@ -307,21 +307,21 @@ namespace Magecrawl.GameEngine.Actors
             return (CurrentMP - ((Spell)spell).SustainingCost) >= ((Spell)spell).Cost;
         }
 
-        internal override int GetTotalAttributeValue(string attribute)
+        public override int GetTotalAttributeValue(string attribute)
         {
             int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
             int effectBonus = StatusEffects.OfType<IStatusEffectCore>().Where(e => e.ContainsKey(attribute)).Select(e => int.Parse(e.GetAttribute(attribute))).Sum();
             return effectBonus + skillBonus;
         }
 
-        internal override double GetTotalDoubleAttributeValue(string attribute)
+        public override double GetTotalDoubleAttributeValue(string attribute)
         {
             int skillBonus = m_skills.Sum(s => s.Attributes.GetNumbericIfAny(attribute));
             double effectBonus = StatusEffects.OfType<IStatusEffectCore>().Where(e => e.ContainsKey(attribute)).Select(e => double.Parse(e.GetAttribute(attribute))).Sum();
             return effectBonus + skillBonus;
         }
 
-        internal override bool HasAttribute(string attribute)
+        public override bool HasAttribute(string attribute)
         {
             bool existsInSkills = m_skills.Exists(s => s.Attributes.ContainsKey(attribute));
             bool existsInEffects = StatusEffects.OfType<IStatusEffectCore>().Any(e => e.ContainsKey(attribute));

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.MapObjects;
@@ -10,6 +10,7 @@ using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
+using Magecrawl.Actors;
 
 namespace Magecrawl.GameEngine
 {
@@ -19,7 +20,6 @@ namespace Magecrawl.GameEngine
         private FOVManager m_fovManager;
         private CombatEngine m_combatEngine;
         private MagicEffectsEngine m_magicEffects;
-        private MonsterSkillEffectEngine m_monsterSkillEngine;
 
         // Fov FilterNotMovablePointsFromList
         private Dictionary<Point, bool> m_movableHash;
@@ -37,7 +37,6 @@ namespace Magecrawl.GameEngine
             m_combatEngine = new CombatEngine(this, player, map);
             m_movableHash = new Dictionary<Point, bool>();
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
-            m_monsterSkillEngine = new MonsterSkillEffectEngine(this, m_combatEngine);
             UpdatePlayerVisitedStatus();
         }
 
@@ -447,14 +446,6 @@ namespace Magecrawl.GameEngine
             return didAnything;
         }
 
-        internal bool UseMonsterSkill(Character attacker, SkillType skill, Point target)
-        {
-            bool didAnything = m_monsterSkillEngine.UseSkill(attacker, skill, target);
-            if (didAnything)
-                m_timingEngine.ActorDidAction(attacker);
-            return didAnything;
-        }
-
         internal bool ReloadWeapon(Character character)
         {
             if (!character.CurrentWeapon.IsRanged)
@@ -534,7 +525,7 @@ namespace Magecrawl.GameEngine
                     return;
 
                 Monster monster = nextCharacter as Monster; 
-                monster.Action(engine);
+                monster.Action(CoreGameEngineInstance.Instance);
             }
         }
 

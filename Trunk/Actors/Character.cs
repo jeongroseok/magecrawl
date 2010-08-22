@@ -4,17 +4,16 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.StatusEffects;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors
+namespace Magecrawl.Actors
 {
-    internal abstract class Character : ICharacterCore, IXmlSerializable
+    public abstract class Character : ICharacterCore, IXmlSerializable
     {
-        public Point Position { get; internal set; }
+        public Point Position { get; set; }
 
         public int CT { get; internal set; }
 
@@ -87,17 +86,17 @@ namespace Magecrawl.GameEngine.Actors
         
         protected List<IStatusEffectCore> m_effects;
 
-        internal Character() : this("", Point.Invalid, 0, 0, 0)
+        public Character() : this("", Point.Invalid, 0, 0, 0)
         {
             m_effects = new List<IStatusEffectCore>();
         }
 
-        internal Character(string name, Point p) : this(name, p, 1.0, 1.0, 1.0)
+        public Character(string name, Point p) : this(name, p, 1.0, 1.0, 1.0)
         {
             m_effects = new List<IStatusEffectCore>();
         }
 
-        internal Character(string name, Point p, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
+        public Character(string name, Point p, double ctIncreaseModifer, double ctMoveCost, double ctActCost)
         {
             Position = p;
             CT = 0;
@@ -113,7 +112,7 @@ namespace Magecrawl.GameEngine.Actors
             s_idCounter++;
         }
 
-        internal virtual double CTCostModifierToAttack
+        public virtual double CTCostModifierToAttack
         {
             get
             {
@@ -179,17 +178,17 @@ namespace Magecrawl.GameEngine.Actors
             }
         }
 
-        internal virtual int GetTotalAttributeValue(string attribute)
+        public virtual int GetTotalAttributeValue(string attribute)
         {
             return 0;
         }
 
-        internal virtual double GetTotalDoubleAttributeValue(string attribute)
+        public virtual double GetTotalDoubleAttributeValue(string attribute)
         {
             return 0;
         }
 
-        internal virtual bool HasAttribute(string attribute)
+        public virtual bool HasAttribute(string attribute)
         {
             return false;
         }

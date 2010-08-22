@@ -1,14 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.SaveLoad
+namespace Magecrawl.Utilities
 {
     public delegate void ReadListFromXMLCore(XmlReader reader);
 
-    internal static class ListSerialization
+    public static class ListSerialization
     {
         public static void WriteListToXML<T>(XmlWriter writer, List<T> list, string listName) where T : IXmlSerializable
         {

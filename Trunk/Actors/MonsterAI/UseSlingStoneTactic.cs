@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Magecrawl.Interfaces;
-using Magecrawl.Utilities;
+﻿using Magecrawl.EngineInterfaces;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal class UseSlingStoneTactic : TacticWithCooldown
     {
         private const string CooldownName = "SlingCooldown";
         private const int CooldownAmount = 3;
 
-        public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
+        public override bool CouldUseTactic(IGameEngineCore engine, Monster monster)
         {
             if (CanUseCooldown(monster, CooldownName))
             {
@@ -22,9 +18,9 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
             return false;
         }
 
-        public override bool UseTactic(CoreGameEngine engine, Monster monster)
+        public override bool UseTactic(IGameEngineCore engine, Monster monster)
         {
-            bool usedSkill = engine.UseMonsterSkill(monster, SkillType.SlingStone, engine.Player.Position);
+            bool usedSkill = engine.MonsterSkillEngine.UseSkill(monster, MonsterSkillType.SlingStone, engine.Player.Position);
             if (usedSkill)
                 UsedCooldown(monster, CooldownName, CooldownAmount);
             return usedSkill;
