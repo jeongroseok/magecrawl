@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Magecrawl.Interfaces;
-using Magecrawl.Utilities;
+﻿using Magecrawl.EngineInterfaces;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal class KeepAwayFromPlayerWithOtherMonstersNearbyTactic : TacticWithCooldown
-    {        
-        public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
+    {
+        public override bool CouldUseTactic(IGameEngineCore engine, Monster monster)
         {
             return true;
         }
 
-        public override bool UseTactic(CoreGameEngine engine, Monster monster)
+        public override bool UseTactic(IGameEngineCore engine, Monster monster)
         {
             if (AreOtherNearbyEnemies(engine, monster))
                 return MoveAwayFromPlayer(engine, monster);

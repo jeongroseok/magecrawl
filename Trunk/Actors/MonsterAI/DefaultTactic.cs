@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal class DefaultTactic : BaseTactic
     {
-        public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
+        public override bool CouldUseTactic(IGameEngineCore engine, Monster monster)
         {
             return true;
         }
 
-        public override bool UseTactic(CoreGameEngine engine, Monster monster)
+        public override bool UseTactic(IGameEngineCore engine, Monster monster)
         {
             if (IsPlayerVisible(engine, monster))
             {

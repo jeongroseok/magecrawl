@@ -31,9 +31,9 @@ namespace Magecrawl.StatusEffects.EffectResults
         {
             int CTDifference = previousCT - currentCT;
             int turnsPassed = CTDifference / TimeConstants.CTNeededForNewTurn;
-            ICharacterCore casterWasPlayer = m_castByPlayer ? EffectEngine.GameEngineInstance.Player : null;
+            ICharacterCore casterWasPlayer = m_castByPlayer ? CoreGameEngineInstance.Instance.Player : null;
             for (int i = 0 ; i < turnsPassed ; ++i)
-                EffectEngine.GameEngineInstance.DamageTarget(casterWasPlayer, m_damagePerInterval, m_affected);
+                CoreGameEngineInstance.Instance.DamageTarget(casterWasPlayer, m_damagePerInterval, m_affected);
         }
 
         internal override string Name

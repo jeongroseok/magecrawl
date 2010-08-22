@@ -1,32 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    internal enum SkillType
-    {
-        Rush,
-        DoubleSwing,
-        FirstAid,
-        SlingStone
-    }
-
-    internal sealed class MonsterSkillEffectEngine
+    internal sealed class MonsterSkillEffectEngine : IMonsterSkillEngine
     {
         public const int SlingDistance = 4;
-        private PhysicsEngine m_physicsEngine;
-        private CombatEngine m_combatEngine;
+        private CoreGameEngine m_engine;
 
-        internal MonsterSkillEffectEngine(PhysicsEngine physicsEngine, CombatEngine combatEngine)
+        internal MonsterSkillEffectEngine(CoreGameEngine engine)
         {
-            m_physicsEngine = physicsEngine;
-            m_combatEngine = combatEngine;
+            m_engine = engine;
         }
 
-        internal bool UseSkill(Character invoker, SkillType skill, Point target)
+        public bool UseSkill(ICharacterCore invoker, MonsterSkillType skill, Point target)
+        {
+            return UseSkill((Character)invoker, skill, target);
+        }
+
+        internal bool UseSkill(Character invoker, MonsterSkillType skill, Point target)
         {
             // Find the method implementing the skill
             MethodInfo skillMethod = GetType().GetMethod("Handle" + skill.ToString(), BindingFlags.NonPublic | BindingFlags.Instance);
@@ -35,7 +31,7 @@ namespace Magecrawl.GameEngine
             return (bool)skillMethod.Invoke(this, new object[] { invoker, skill, target });
         }
 
-        private bool HandleSlingStone(Character invoker, SkillType skill, Point target)
+        private bool HandleSlingStone(Character invoker, MonsterSkillType skill, Point target)
         {
             Character targetCharacter = ValidTargetLessThanOrEqualTo(invoker, target, SlingDistance);
             if (targetCharacter == null)
@@ -56,7 +52,7 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        private bool HandleFirstAid(Character invoker, SkillType skill, Point target)
+        private bool HandleFirstAid(Character invoker, MonsterSkillType skill, Point target)
         {
             Character targetCharacter = ValidTargetLessThanOrEqualTo(invoker, target, 1);
             if (targetCharacter == null)
@@ -71,21 +67,21 @@ namespace Magecrawl.GameEngine
             return true;
         }
 
-        private bool HandleDoubleSwing(Character invoker, SkillType skill, Point target)
+        private bool HandleDoubleSwing(Character invoker, MonsterSkillType skill, Point target)
         {
             Character targetCharacter = ValidTarget(invoker, target, 1);
             if (targetCharacter == null)
                 return false;
 
             // If we get here, it's a valid double swing. Attack two times in a row.
-            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} wildly swings at {1} twice.", invoker.Name, targetCharacter.Name));           
-            m_physicsEngine.Attack(invoker, target);
-            m_physicsEngine.Attack(invoker, target);
+            CoreGameEngine.Instance.SendTextOutput(String.Format("{0} wildly swings at {1} twice.", invoker.Name, targetCharacter.Name));
+            m_engine.Attack(invoker, target);
+            m_engine.Attack(invoker, target);
 
             return true;
         }
 
-        private bool HandleRush(Character invoker, SkillType skill, Point target)
+        private bool HandleRush(Character invoker, MonsterSkillType skill, Point target)
         {
             Character targetCharacter = ValidTarget(invoker, target, 2);
             if (targetCharacter == null)
@@ -94,8 +90,8 @@ namespace Magecrawl.GameEngine
             // If we get here, it's a valid rush. Move towards target and attack at reduced time cost.
             CoreGameEngine.Instance.SendTextOutput(String.Format("{0} rushes towards {1} and attacks.", invoker.Name, targetCharacter.Name));
             List<Point> pathToPoint = CoreGameEngine.Instance.PathToPoint(invoker, target, false, false, true);
-            m_physicsEngine.Move(invoker, PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, pathToPoint[0]));
-            m_physicsEngine.Attack(invoker, target);
+            m_engine.Move(invoker, PointDirectionUtils.ConvertTwoPointsToDirection(invoker.Position, pathToPoint[0]));
+            m_engine.Attack(invoker, target);
 
             return true;
         }
@@ -107,7 +103,7 @@ namespace Magecrawl.GameEngine
             if (pathToPoint.Count != requiredDistance)
                 return null;
 
-            return m_combatEngine.FindTargetAtPosition(targetSquare);            
+            return m_engine.CombatEngine.FindTargetAtPosition(targetSquare);            
         }
 
         private Character ValidTargetLessThanOrEqualTo(Character invoker, Point targetSquare, int requiredDistance)
@@ -116,7 +112,7 @@ namespace Magecrawl.GameEngine
             if (pathToPoint.Count > requiredDistance)
                 return null;
 
-            return m_combatEngine.FindTargetAtPosition(targetSquare);
+            return m_engine.CombatEngine.FindTargetAtPosition(targetSquare);
         }
     }
 }

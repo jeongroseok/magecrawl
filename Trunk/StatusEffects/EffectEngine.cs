@@ -8,11 +8,11 @@ namespace Magecrawl.StatusEffects
 {
     public class EffectEngine
     {
-        public static IGameEngineCore GameEngineInstance;
+        private IGameEngineCore m_engine;
 
         public EffectEngine(IGameEngineCore engine)
         {
-            GameEngineInstance = engine;
+            m_engine = engine;
         }
 
         public bool AddEffectToTarget(string effectName, ICharacterCore invoker, int strength, bool longTerm, Point target)
@@ -22,7 +22,7 @@ namespace Magecrawl.StatusEffects
 
         public bool AddEffectToTarget(string effectName, ICharacterCore invoker, int strength, bool longTerm, Point target, string toPrintOnEffectAdd)
         {
-            ICharacterCore targetCharacter = GameEngineInstance.FindTargetAtPosition(target);
+            ICharacterCore targetCharacter = m_engine.FindTargetAtPosition(target);
             if (targetCharacter != null)
             {
                 bool successOnAddEffect;
@@ -31,7 +31,7 @@ namespace Magecrawl.StatusEffects
                 else
                     successOnAddEffect = HandleShortTermEffect(effectName, invoker, strength, targetCharacter);
                 if (successOnAddEffect && toPrintOnEffectAdd != null)
-                    GameEngineInstance.SendTextOutput(toPrintOnEffectAdd);
+                    m_engine.SendTextOutput(toPrintOnEffectAdd);
                 return true;
             }
             return false;
@@ -44,7 +44,7 @@ namespace Magecrawl.StatusEffects
             IStatusEffectCore effect = EffectFactory.CreateEffect(invoker, effectName, false, strength);
             targetCharacter.AddEffect(effect);
             if (targetCharacter is IMonster && invoker is IPlayer && !effect.IsPositiveEffect)
-                GameEngineInstance.MonsterNoticeRangedAttack(targetCharacter, invoker.Position);
+                m_engine.MonsterNoticeRangedAttack(targetCharacter, invoker.Position);
             return true;
         }
 
@@ -68,7 +68,7 @@ namespace Magecrawl.StatusEffects
                 throw new System.InvalidOperationException("DismissExistingEffect with more than one effect of the same name on them?");
             foreach (StatusEffect s in statusList)
             {
-                GameEngineInstance.SendTextOutput(string.Format("The existing {0} effect fades from {1}.", s.Name, target.Name));
+                m_engine.SendTextOutput(string.Format("The existing {0} effect fades from {1}.", s.Name, target.Name));
                 s.Dismiss();
             }
         }

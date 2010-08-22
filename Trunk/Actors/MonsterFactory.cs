@@ -4,20 +4,20 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using libtcod;
-using Magecrawl.GameEngine.Actors.MonsterAI;
+using Magecrawl.Actors.MonsterAI;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors
+namespace Magecrawl.Actors
 {
-    internal sealed class MonsterFactory
+    public sealed class MonsterFactory
     {
         private Dictionary<string, Dictionary<string, string>> m_monsterStats;
         private Dictionary<string, List<Pair<string, int>>> m_monsterInstances;
 
         private TCODRandom m_random;
 
-        internal MonsterFactory()
+        public MonsterFactory()
         {
             m_random = new TCODRandom();
             LoadMappings();
@@ -78,7 +78,7 @@ namespace Magecrawl.GameEngine.Actors
             return CreateMonsterCore(baseType, AIType, monsterName, level, p, maxHP, intelligent, vision, damage, evade, ctIncreaseModifer, ctMoveCost, ctActCost, ctAttackCost);
         }
 
-        internal List<INamedItem> GetAllMonsterListForDebug()
+        public List<INamedItem> GetAllMonsterListForDebug()
         {
             List<INamedItem> returnList = new List<INamedItem>();
             foreach (string s in m_monsterStats.Keys)

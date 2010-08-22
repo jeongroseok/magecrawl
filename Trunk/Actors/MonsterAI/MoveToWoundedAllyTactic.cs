@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal class MoveToWoundedAllyTactic : TacticWithCooldown
     {
-        public override bool CouldUseTactic(CoreGameEngine engine, Monster monster)
+        public override bool CouldUseTactic(IGameEngineCore engine, Monster monster)
         {
             // If see an ally who's wounded (I have something to do)
-            List<ICharacter> nearbyAllies = OtherNearbyEnemies(engine, monster);
-            foreach (ICharacter allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))
+            List<Character> nearbyAllies = OtherNearbyEnemies(engine, monster);
+            foreach (Character allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))
             {
                 List<Point> pathToAlly = GetPathToCharacter(engine, monster, allyNeedingHealing);
                 if (pathToAlly != null && pathToAlly.Count > 1)
@@ -21,13 +21,13 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
             return false;
         }
 
-        public override bool UseTactic(CoreGameEngine engine, Monster monster)
+        public override bool UseTactic(IGameEngineCore engine, Monster monster)
         {
             bool success = false;
             
             // If see an ally who's wounded (I have something to do)
-            List<ICharacter> nearbyAllies = OtherNearbyEnemies(engine, monster);
-            foreach (ICharacter allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))
+            List<Character> nearbyAllies = OtherNearbyEnemies(engine, monster);
+            foreach (Character allyNeedingHealing in nearbyAllies.Where(x => x.CurrentHP < x.MaxHP).OrderBy(x => x.CurrentHP))
             {
                 List<Point> pathToAlly = GetPathToCharacter(engine, monster, allyNeedingHealing);
                 if (pathToAlly != null && pathToAlly.Count > 1)

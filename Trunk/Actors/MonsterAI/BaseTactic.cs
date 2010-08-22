@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal abstract class BaseTactic : IMonsterTactic
     {
-        public abstract bool CouldUseTactic(CoreGameEngine engine, Monster monster);
-        public abstract bool UseTactic(CoreGameEngine engine, Monster monster);
+        public abstract bool CouldUseTactic(IGameEngineCore engine, Monster monster);
+        public abstract bool UseTactic(IGameEngineCore engine, Monster monster);
         public virtual void SetupAttributesNeeded(Monster monster) 
         { 
         }
@@ -19,7 +20,7 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
 
         public abstract bool NeedsPlayerLOS { get; }
 
-        protected bool WalkTowardsLastKnownPosition(CoreGameEngine engine, Monster monster)
+        protected bool WalkTowardsLastKnownPosition(IGameEngineCore engine, Monster monster)
         {
             if (monster.PlayerLastKnownPosition == Point.Invalid)
                 return false;
@@ -36,27 +37,27 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
             }
         }
 
-        protected List<Point> GetPathToCharacter(CoreGameEngine engine, Monster monster, ICharacter c)
+        protected List<Point> GetPathToCharacter(IGameEngineCore engine, Monster monster, ICharacter c)
         {
             return engine.PathToPoint(monster, c.Position, monster.Intelligent, false, true);
         }
 
-        protected List<Point> GetPathToPlayer(CoreGameEngine engine, Monster monster)
+        protected List<Point> GetPathToPlayer(IGameEngineCore engine, Monster monster)
         {
             return engine.PathToPoint(monster, engine.Player.Position, monster.Intelligent, false, true);
         }
 
-        protected bool IsNextToPlayer(CoreGameEngine engine, Monster monster)
+        protected bool IsNextToPlayer(IGameEngineCore engine, Monster monster)
         {
             return GetPathToPlayerLength(engine, monster) == 1;
         }
 
-        protected bool IsNextToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
+        protected bool IsNextToPlayer(IGameEngineCore engine, List<Point> pathToPlayer)
         {
             return pathToPlayer != null && pathToPlayer.Count == 1;
         }
 
-        protected int GetPathToPlayerLength(CoreGameEngine engine, Monster monster)
+        protected int GetPathToPlayerLength(IGameEngineCore engine, Monster monster)
         {
             List<Point> pathToPlayer = GetPathToPlayer(engine, monster);
             if (pathToPlayer == null)
@@ -64,24 +65,24 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
             return pathToPlayer.Count;
         }
 
-        protected bool HasPathToPlayer(CoreGameEngine engine, List<Point> pathToPlayer)
+        protected bool HasPathToPlayer(IGameEngineCore engine, List<Point> pathToPlayer)
         {
             return pathToPlayer != null && pathToPlayer.Count > 0;
         }
 
-        protected bool AttackPlayer(CoreGameEngine engine, Monster monster)
+        protected bool AttackPlayer(IGameEngineCore engine, Monster monster)
         {
             if (engine.Attack(monster, engine.Player.Position))
                 return true;
             return false;
         }
 
-        protected bool MoveTowardsPlayer(CoreGameEngine engine, Monster monster)
+        protected bool MoveTowardsPlayer(IGameEngineCore engine, Monster monster)
         {
             return MoveOnPath(engine, GetPathToPlayer(engine, monster), monster);
         }
 
-        private bool MoveCore(CoreGameEngine engine, Direction direction, Monster monster)
+        private bool MoveCore(IGameEngineCore engine, Direction direction, Monster monster)
         {
             if (engine.Move(monster, direction))
                 return true;
@@ -91,19 +92,19 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
             return false;
         }
 
-        protected bool MoveOnPath(CoreGameEngine engine, List<Point> path, Monster monster)
+        protected bool MoveOnPath(IGameEngineCore engine, List<Point> path, Monster monster)
         {
             Direction nextPosition = PointDirectionUtils.ConvertTwoPointsToDirection(monster.Position, path[0]);
             return MoveCore(engine, nextPosition, monster);
         }
 
-        protected bool MoveNearbyOnPath(CoreGameEngine engine, List<Point> path, Monster monster)
+        protected bool MoveNearbyOnPath(IGameEngineCore engine, List<Point> path, Monster monster)
         {
             Direction nextPosition = PointDirectionUtils.GetDirectionsNearby(PointDirectionUtils.ConvertTwoPointsToDirection(monster.Position, path[0]))[0];
             return MoveCore(engine, nextPosition, monster);
         }
 
-        protected bool MoveAwayFromPlayer(CoreGameEngine engine, Monster monster)
+        protected bool MoveAwayFromPlayer(IGameEngineCore engine, Monster monster)
         {
             Direction directionTowardsPlayer = PointDirectionUtils.ConvertTwoPointsToDirection(monster.Position, engine.Player.Position);
             if (MoveCore(engine, PointDirectionUtils.GetDirectionOpposite(directionTowardsPlayer), monster))
@@ -115,24 +116,24 @@ namespace Magecrawl.GameEngine.Actors.MonsterAI
                     return true;
             }
             return false;
-        }   
-
-        protected List<ICharacter> OtherNearbyEnemies(CoreGameEngine engine, Monster monster)
-        {
-            return engine.MonstersInCharactersLOS(monster).Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 4).ToList();
         }
 
-        protected bool AreOtherNearbyEnemies(CoreGameEngine engine, Monster monster)
+        protected List<Character> OtherNearbyEnemies(IGameEngineCore engine, Monster monster)
+        {
+            return engine.MonstersInCharactersLOS(monster).Where(x => PointDirectionUtils.NormalDistance(x.Position, engine.Player.Position) < 4).OfType < Character>().ToList();
+        }
+
+        protected bool AreOtherNearbyEnemies(IGameEngineCore engine, Monster monster)
         {
             return OtherNearbyEnemies(engine, monster).Count() > 1;
         }
 
-        protected bool IsPlayerVisible(CoreGameEngine engine, Monster monster)
+        protected bool IsPlayerVisible(IGameEngineCore engine, Monster monster)
         {
             return engine.FOVManager.VisibleSingleShot(engine.Map, monster.Position, monster.Vision, engine.Player.Position);
         }
 
-        protected bool WanderRandomly(CoreGameEngine engine, Monster monster)
+        protected bool WanderRandomly(IGameEngineCore engine, Monster monster)
         {
             foreach (Direction d in DirectionUtils.GenerateRandomDirectionList())
             {

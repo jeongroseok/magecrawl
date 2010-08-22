@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
@@ -9,7 +10,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    internal sealed class FOVManager : IDisposable
+    internal sealed class FOVManager : IFOVManager, IDisposable
     {
         private TCODMap m_fov;
         private Point m_lastCalculatedViewPoint;
@@ -37,7 +38,7 @@ namespace Magecrawl.GameEngine
         }
 
         // This is to be private. Only the FOVManager should update.
-        private void UpdateFOV(Map map, Point viewPoint, int viewableDistance)
+        private void UpdateFOV(IMapCore map, Point viewPoint, int viewableDistance)
         {
             // We do +2 just to make sure we don't get any border effects. 
             int viewableRadius = viewableDistance + 2;
@@ -70,7 +71,7 @@ namespace Magecrawl.GameEngine
             }
         }
 
-        private void CalculateCore(Map map, Point viewPoint, int viewableDistance)
+        private void CalculateCore(IMapCore map, Point viewPoint, int viewableDistance)
         {
             UpdateFOV(map, viewPoint, viewableDistance);
             m_fov.computeFov(viewPoint.X, viewPoint.Y, viewableDistance, true, TCODFOVTypes.ShadowFov);
@@ -96,7 +97,7 @@ namespace Magecrawl.GameEngine
 
         // Used when we're only calculating a few points and precalculating is not worth it. Use CalculateForMultipleCalls/Visible 
         // for the cases where we're checking multiplePositions
-        public bool VisibleSingleShot(Map map, Point viewPoint, int viewableDistance, Point pointWantToView)
+        public bool VisibleSingleShot(IMapCore map, Point viewPoint, int viewableDistance, Point pointWantToView)
         {
             // If we're significantly father than our viewableDistance, give up early
             if (PointDirectionUtils.NormalDistance(viewPoint, pointWantToView) > viewableDistance + 3)  // 3 is arbritray large just to prevent edge effects

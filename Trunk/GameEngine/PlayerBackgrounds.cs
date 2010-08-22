@@ -5,7 +5,7 @@ using System.Text;
 using Magecrawl.GameEngine.Skills;
 using Magecrawl.Interfaces;
 
-namespace Magecrawl.GameEngine.Actors
+namespace Magecrawl.GameEngine
 {
     internal static class PlayerBackgrounds
     {

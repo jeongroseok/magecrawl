@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.Actors;
+using Magecrawl.GameEngine.Interface;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.StatusEffects;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Interface;
 
 namespace Magecrawl.GameEngine.Magic
 {

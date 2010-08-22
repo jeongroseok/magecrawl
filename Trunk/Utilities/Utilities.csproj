@@ -56,12 +56,14 @@
     <Compile Include="Direction.cs" />
     <Compile Include="DiscreteRandomNumberOnNormalCurve.cs" />
     <Compile Include="EffectivePoint.cs" />
+    <Compile Include="ListSerialization.cs" />
     <Compile Include="ListUtils.cs" />
     <Compile Include="NormalDistribution.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="PointDirectionUtils.cs" />
     <Compile Include="PointListUtils.cs" />
+    <Compile Include="PointSave.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="ProbabilityExtensions.cs" />
     <Compile Include="SerializableDictionary.cs" />

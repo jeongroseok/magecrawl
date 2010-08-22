@@ -1,11 +1,12 @@
 ﻿using Magecrawl.Utilities;
+using Magecrawl.EngineInterfaces;
 
-namespace Magecrawl.GameEngine.Actors.MonsterAI
+namespace Magecrawl.Actors.MonsterAI
 {
     internal interface IMonsterTactic
     {
-        bool CouldUseTactic(CoreGameEngine engine, Monster monster);
-        bool UseTactic(CoreGameEngine engine, Monster monster);
+        bool CouldUseTactic(IGameEngineCore engine, Monster monster);
+        bool UseTactic(IGameEngineCore engine, Monster monster);
 
         void NewTurn(Monster monster);
         void SetupAttributesNeeded(Monster monster);

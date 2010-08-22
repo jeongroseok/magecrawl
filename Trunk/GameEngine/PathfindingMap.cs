@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.Actors;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Utilities;
+using Magecrawl.Actors;
 
 namespace Magecrawl.GameEngine
 {
