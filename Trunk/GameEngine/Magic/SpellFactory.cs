@@ -11,7 +11,7 @@ namespace Magecrawl.GameEngine.Magic
 {
     internal class SpellFactory
     {
-        public static SpellFactory Instance = new SpellFactory();
+        public static readonly SpellFactory Instance = new SpellFactory();
 
         private Dictionary<string, Spell> m_spellMapping;
 

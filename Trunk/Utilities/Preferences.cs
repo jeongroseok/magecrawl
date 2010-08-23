@@ -11,7 +11,7 @@ namespace Magecrawl.Utilities
     public class Preferences
     {
         private Dictionary<string, object> m_preferences;
-        private static Preferences m_instance = new Preferences();
+        public static readonly Preferences Instance = new Preferences();
 
         internal Preferences()
         {
@@ -28,14 +28,6 @@ namespace Magecrawl.Utilities
             catch (Exception)
             {
                 // And ignore if the preference files doesn't exist
-            }
-        }
-
-        public static Preferences Instance
-        {
-            get
-            {
-                return m_instance;
             }
         }
 

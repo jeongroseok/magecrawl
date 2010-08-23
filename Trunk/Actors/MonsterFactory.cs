@@ -12,7 +12,7 @@ namespace Magecrawl.Actors
 {
     public sealed class MonsterFactory
     {
-        public static MonsterFactory Instance = new MonsterFactory();
+        public static readonly MonsterFactory Instance = new MonsterFactory();
 
         private Dictionary<string, Dictionary<string, string>> m_monsterStats;
         private Dictionary<string, List<Pair<string, int>>> m_monsterInstances;

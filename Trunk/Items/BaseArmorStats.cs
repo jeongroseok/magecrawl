@@ -6,7 +6,7 @@ namespace Magecrawl.Items
 {
     internal class BaseArmorStats
     {
-        public static BaseArmorStats Instance = new BaseArmorStats();
+        public static readonly BaseArmorStats Instance = new BaseArmorStats();
 
         private Dictionary<string, Dictionary<string, string>> m_baseArmorStats;
 
