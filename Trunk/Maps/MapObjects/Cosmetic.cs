@@ -1,11 +1,10 @@
 ﻿using System.Xml;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal class Cosmetic : MapObject
+    public class Cosmetic : MapObject
     {
         private Point m_position;
 
@@ -64,7 +63,7 @@ namespace Magecrawl.GameEngine.MapObjects
             {
                 return m_position;
             }
-            internal set
+            set
             {
                 m_position = value;
             }

@@ -20,6 +20,7 @@ namespace Magecrawl.EngineInterfaces
         ICharacterCore FindTargetAtPosition(Point attackTarget);
         List<Point> PathToPoint(ICharacterCore actor, Point dest, bool canOperate, bool usePlayerLOS, bool monstersBlockPath);
         List<ICharacterCore> MonstersInCharactersLOS(ICharacterCore character);
+        bool[,] CalculateMoveablePointGrid(IMapCore map, bool monstersBlockPath);
 
         ICharacterCore Player
         {
@@ -37,6 +38,11 @@ namespace Magecrawl.EngineInterfaces
         }
 
         IMonsterSkillEngine MonsterSkillEngine
+        {
+            get;
+        }
+
+        ITreasureGenerator TreasureGenernator
         {
             get;
         }

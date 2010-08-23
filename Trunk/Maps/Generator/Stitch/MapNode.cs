@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Magecrawl.GameEngine.Level.Generator.Stitch
+namespace Magecrawl.Maps.Generator.Stitch
 {
     internal enum MapNodeType
     {

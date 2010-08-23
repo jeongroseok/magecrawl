@@ -2,7 +2,7 @@
 using System.Linq;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.Level;
+using Magecrawl.Maps;
 
 namespace Magecrawl.GameEngine
 {

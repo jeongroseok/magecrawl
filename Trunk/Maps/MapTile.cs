@@ -4,7 +4,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.Interfaces;
 
-namespace Magecrawl.GameEngine.Level
+namespace Magecrawl.Maps
 {
     internal struct MapTile : IXmlSerializable
     {

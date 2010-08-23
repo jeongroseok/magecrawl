@@ -1,31 +1,36 @@
+﻿using System;
 using System.Xml;
-using libtcod;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
-using Magecrawl.Items;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal sealed class TreasureChest : OperableMapObject
+    public sealed class MapDoor : OperableMapObject
     {
         private Point m_position;
+        private bool m_opened;
 
-        public TreasureChest()
-            : this(Point.Invalid)
+        public MapDoor()
+            : this(Point.Invalid, false)
         {
         }
 
-        public TreasureChest(Point position)
+        public MapDoor(Point position)
+            : this(position, false)
+        {
+        }
+
+        public MapDoor(Point position, bool isOpen)
         {
             m_position = position;
+            m_opened = isOpen;
         }
 
         public override string Name
         {
             get
             {
-                return "TreasureChest";
+                return m_opened ? "Opened Door" : "Closed Door";
             }
         }
 
@@ -33,7 +38,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             get
             {
-                return MapObjectType.TreasureChest;
+                return m_opened ? MapObjectType.OpenDoor : MapObjectType.ClosedDoor;
             }
         }
 
@@ -43,7 +48,7 @@ namespace Magecrawl.GameEngine.MapObjects
             {
                 return m_position;
             }
-            internal set
+            set
             {
                 m_position = value;
             }
@@ -53,7 +58,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             get 
             {
-                return true;
+                return !m_opened;
             }
         }
 
@@ -61,7 +66,7 @@ namespace Magecrawl.GameEngine.MapObjects
         {
             get
             {
-                return true;
+                return m_opened;
             }
         }
 
@@ -75,23 +80,21 @@ namespace Magecrawl.GameEngine.MapObjects
 
         public override void Operate(ICharacter actor)
         {
-            // Remove me first
-            CoreGameEngine.Instance.Map.RemoveMapItem(this);
-            CoreGameEngine.Instance.SendTextOutput(string.Format("{0} opens a Treasure Chest", actor.Name));
-
-            TreasureGenerator.GenerateTreasureChestTreasure(actor, Position);
+            m_opened = !m_opened;
         }
 
         #region SaveLoad
 
         public override void ReadXml(XmlReader reader)
         {
+            m_opened = Boolean.Parse(reader.ReadElementContentAsString());
             m_position = m_position.ReadXml(reader);
         }
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "TreasureChest");
+            writer.WriteElementString("Type", "MapDoor");
+            writer.WriteElementString("DoorOpen", m_opened.ToString());
             m_position.WriteToXml(writer, "Position");
         }
 

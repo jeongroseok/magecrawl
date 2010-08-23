@@ -1,9 +1,9 @@
 ﻿using System;
 using Magecrawl.Interfaces;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal abstract class OperableMapObject : MapObject
+    public abstract class OperableMapObject : MapObject
     {
         public abstract void Operate(ICharacter actor);
     }

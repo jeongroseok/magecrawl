@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator.Stitch
+namespace Magecrawl.Maps.Generator.Stitch
 {
     internal struct ParenthoodElement
     {

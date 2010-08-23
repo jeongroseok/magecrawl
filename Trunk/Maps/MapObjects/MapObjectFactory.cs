@@ -2,10 +2,16 @@ using System;
 using System.Collections.Generic;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal sealed class MapObjectFactory
+    public sealed class MapObjectFactory
     {
+        public static MapObjectFactory Instance = new MapObjectFactory();
+
+        private MapObjectFactory()
+        {
+        }
+
         internal MapObject CreateMapObject(string name)
         {
             return CreateMapObject(name, Point.Invalid);
@@ -13,7 +19,7 @@ namespace Magecrawl.GameEngine.MapObjects
 
         internal MapObject CreateMapObject(string name, Point position)
         {
-            Type objectType = TypeLocator.GetTypeToMake(typeof(MapObjectFactory), "Magecrawl.GameEngine.MapObjects", name);
+            Type objectType = TypeLocator.GetTypeToMake(typeof(MapObjectFactory), "Magecrawl.Maps.MapObjects", name);
             if (objectType == null)
                 throw new System.InvalidOperationException("Create Map Object: Don't know how to create type of : " + name);
 

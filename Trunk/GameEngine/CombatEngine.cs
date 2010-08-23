@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using libtcod;
 using Magecrawl.Actors;
-using Magecrawl.GameEngine.Level;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Items.Interfaces;
+using Magecrawl.Maps;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
@@ -167,7 +167,7 @@ namespace Magecrawl.GameEngine
                     if (attacker is Player)
                         ((Player)attacker).SkillPoints += 1;
                     m_map.RemoveMonster(target as Monster);
-                    TreasureGenerator.DropTreasureFromMonster(target as Monster);
+                    TreasureGenerator.Instance.DropTreasureFromMonster(target as Monster);
                 }
                 else if (target is Player)
                 {

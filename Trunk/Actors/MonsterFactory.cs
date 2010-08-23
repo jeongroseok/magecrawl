@@ -12,12 +12,14 @@ namespace Magecrawl.Actors
 {
     public sealed class MonsterFactory
     {
+        public static MonsterFactory Instance = new MonsterFactory();
+
         private Dictionary<string, Dictionary<string, string>> m_monsterStats;
         private Dictionary<string, List<Pair<string, int>>> m_monsterInstances;
 
         private TCODRandom m_random;
 
-        public MonsterFactory()
+        private MonsterFactory()
         {
             m_random = new TCODRandom();
             LoadMappings();

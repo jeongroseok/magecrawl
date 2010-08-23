@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal class StairsMapping : IXmlSerializable
+    public class StairsMapping : IXmlSerializable
     {
         private static StairsMapping m_instance;
         public static StairsMapping Instance

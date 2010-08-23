@@ -4,6 +4,7 @@ using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
 using Magecrawl.GameEngine.Skills;
+using Magecrawl.Actors;
 
 namespace Magecrawl.GameEngine.Interface
 {
@@ -73,19 +74,19 @@ namespace Magecrawl.GameEngine.Interface
                     return null;
                 case "GetAllItemList":
                     List<INamedItem> allItemList = new List<INamedItem>();
-                    foreach (string s in m_engine.ItemFactory.ItemTypeList)
+                    foreach (string s in ItemFactory.Instance.ItemTypeList)
                         allItemList.Add(new TextElement(s));
                     return allItemList;                    
                 case "SpawnItem":
                 {
                     string itemName = ((Pair<string, int>)argument).First;
                     int level = ((Pair<string, int>)argument).Second;
-                    Item itemCreated = m_engine.ItemFactory.CreateItemOfType(itemName, level);
+                    Item itemCreated = ItemFactory.Instance.CreateItemOfType(itemName, level);
                     m_engine.Map.AddItem(new Pair<Item, Point>(itemCreated, m_engine.Player.Position));
                     return null;
                 }
                 case "GetAllMonsterList":
-                    return m_engine.MonsterFactory.GetAllMonsterListForDebug();
+                    return MonsterFactory.Instance.GetAllMonsterListForDebug();
                 case "SpawnMonster":
                 {
                     string monsterName = ((Pair<string, int>)argument).First;
@@ -105,7 +106,7 @@ namespace Magecrawl.GameEngine.Interface
                                 {
                                     try
                                     {
-                                        m_engine.Map.AddMonster(m_engine.MonsterFactory.CreateMonster(monsterName, level, newPosition));
+                                        m_engine.Map.AddMonster(MonsterFactory.Instance.CreateMonster(monsterName, level, newPosition));
                                     }
                                     catch (System.InvalidOperationException)
                                     {

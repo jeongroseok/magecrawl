@@ -3,9 +3,9 @@ using System.Linq;
 using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.Level;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
+using Magecrawl.Maps;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine

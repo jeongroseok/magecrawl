@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.Maps.Generator
 {
     [Serializable]
     public class MapGenerationFailureException : Exception

@@ -377,7 +377,7 @@ namespace Magecrawl.GameEngine
             get
             {
                 if (m_equipedWeapon == null)
-                    return CoreGameEngine.Instance.ItemFactory.CreateMeleeWeapon(this);
+                    return ItemFactory.Instance.CreateMeleeWeapon(this);
                 return m_equipedWeapon;
             }
         }
@@ -388,7 +388,7 @@ namespace Magecrawl.GameEngine
             get
             {
                 if (m_secondaryWeapon == null)
-                    return CoreGameEngine.Instance.ItemFactory.CreateMeleeWeapon(this);
+                    return ItemFactory.Instance.CreateMeleeWeapon(this);
                 return m_secondaryWeapon;
             }
         }
@@ -637,7 +637,7 @@ namespace Magecrawl.GameEngine
             ReadListFromXMLCore readItemDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateBaseItem(typeString); 
+                Item newItem = ItemFactory.Instance.CreateBaseItem(typeString); 
                 newItem.ReadXml(reader);
                 m_itemList.Add(newItem);
             });
