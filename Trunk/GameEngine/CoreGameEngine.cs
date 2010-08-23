@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using libtcod;
+using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.Level;
-using Magecrawl.GameEngine.Level.Generator;
-using Magecrawl.GameEngine.Level.Generator.Cave;
-using Magecrawl.GameEngine.Level.Generator.Stitch;
+using Magecrawl.GameEngine.Interface;
 using Magecrawl.GameEngine.Magic;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.Maps;
+using Magecrawl.Maps.Generator;
+using Magecrawl.Maps.Generator.Cave;
+using Magecrawl.Maps.Generator.Stitch;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.Actors;
 
 namespace Magecrawl.GameEngine
 {
@@ -32,9 +33,6 @@ namespace Magecrawl.GameEngine
         private CoreTimingEngine m_timingEngine;
         private MonsterSkillEffectEngine m_monsterSkillEngine;
         
-        internal ItemFactory ItemFactory;
-        internal MonsterFactory MonsterFactory;
-        internal MapObjectFactory MapObjectFactory;
         internal int TurnCount { get; set; }
 
         internal event TextOutputFromGame TextOutputEvent;
@@ -72,11 +70,6 @@ namespace Magecrawl.GameEngine
         {
             m_instance = this;
 
-            // Needs to happen before anything that could create a weapon
-            ItemFactory = ItemFactory.Instance;
-            MonsterFactory = new MonsterFactory();
-            MapObjectFactory = new MapObjectFactory();
-
             m_saveLoad = new SaveLoadCore();
 
             m_timingEngine = new CoreTimingEngine();
@@ -85,6 +78,8 @@ namespace Magecrawl.GameEngine
             m_dungeon = new Dictionary<int, Map>();
 
             StairsMapping.Setup();
+
+            CoreGameEngineInterface.SetupCoreGameEngineInterface(this);
         }
 
         public void CreateNewWorld(string playerName, string startingBackground)

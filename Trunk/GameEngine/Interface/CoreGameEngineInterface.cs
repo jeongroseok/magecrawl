@@ -2,19 +2,25 @@
 using System.Linq;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
+using Magecrawl.Maps;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.Interface
 {
     internal class CoreGameEngineInterface : IGameEngineCore
     {
-        public static CoreGameEngineInterface Instance = new CoreGameEngineInterface();
+        public static CoreGameEngineInterface Instance = null;
 
         private CoreGameEngine m_engine;
-        private CoreGameEngineInterface()
+        private CoreGameEngineInterface(CoreGameEngine engine)
         {
-            m_engine = CoreGameEngine.Instance;
+            m_engine = engine;
             CoreGameEngineInstance.Instance = this;
+        }
+
+        internal static void SetupCoreGameEngineInterface(CoreGameEngine engine)
+        {
+            Instance = new CoreGameEngineInterface(engine);
         }
 
         public void SendTextOutput(string s)
@@ -72,6 +78,11 @@ namespace Magecrawl.GameEngine.Interface
             return m_engine.MonstersInCharactersLOS((Character)character).OfType<ICharacterCore>().ToList();
         }
 
+        public bool[,] CalculateMoveablePointGrid(IMapCore map, bool monstersBlockPath)
+        {
+            return PhysicsEngine.CalculateMoveablePointGrid((Map)map, monstersBlockPath);
+        }
+
         public ICharacterCore Player
         {
             get 
@@ -101,6 +112,14 @@ namespace Magecrawl.GameEngine.Interface
             get
             {
                 return m_engine.MonsterSkillEngine;
+            }
+        }
+
+        public ITreasureGenerator TreasureGenernator
+        {
+            get
+            {
+                return TreasureGenerator.Instance;
             }
         }
     }

@@ -5,31 +5,31 @@ using System.Xml;
 using System.Xml.Serialization;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
+using Magecrawl.Maps.MapObjects;
 
-namespace Magecrawl.GameEngine.Level
+namespace Magecrawl.Maps
 {
-    internal sealed class Map : IMapCore, IXmlSerializable
+    public class Map : IMapCore, IXmlSerializable
     {
         private int m_width;
         private int m_height;
         private MapTile[,] m_map;
-        private List<MapObject> m_mapObjects;
+        private List<IMapObjectCore> m_mapObjects;
         private List<Monster> m_monsterList;
         private List<Pair<Item, Point>> m_items;
 
-        internal Map()
+        public Map()
         {
             m_width = -1;
             m_height = -1;
         }
 
-        internal Map(int width, int height)
+        public Map(int width, int height)
         {
-            m_mapObjects = new List<MapObject>();
+            m_mapObjects = new List<IMapObjectCore>();
             m_monsterList = new List<Monster>();
             m_items = new List<Pair<Item, Point>>();
             m_width = width;
@@ -96,37 +96,37 @@ namespace Magecrawl.GameEngine.Level
             m_monsterList.ForEach(m => m.Position -= upperLeft);
         }
 
-        internal void AddMonster(Monster m)
+        public void AddMonster(Monster m)
         {
             m_monsterList.Add(m);
         }
 
-        internal bool RemoveMonster(Monster m)
+        public bool RemoveMonster(Monster m)
         {
             return m_monsterList.Remove(m);
         }
 
-        internal void ClearMonstersFromMap()
+        public void ClearMonstersFromMap()
         {
             m_monsterList.Clear();
         }
 
-        internal void AddMapItem(MapObject item)
+        public void AddMapItem(IMapObjectCore item)
         {
             m_mapObjects.Add(item);
         }
 
-        internal bool RemoveMapItem(MapObject item)
+        public bool RemoveMapItem(IMapObjectCore item)
         {
             return m_mapObjects.Remove(item);
         }
 
-        internal void AddItem(Pair<Item, Point> item)
+        public void AddItem(Pair<Item, Point> item)
         {
             m_items.Add(item);
         }
 
-        internal bool RemoveItem(Pair<Item, Point> item)
+        public bool RemoveItem(Pair<Item, Point> item)
         {
             return m_items.Remove(item);
         }
@@ -171,7 +171,7 @@ namespace Magecrawl.GameEngine.Level
             }
         }
 
-        internal IList<Pair<Item, Point>> InternalItems
+        public IList<Pair<Item, Point>> InternalItems
         {
             get
             {
@@ -310,12 +310,12 @@ namespace Magecrawl.GameEngine.Level
             }
 
             // Read Map Features
-            m_mapObjects = new List<MapObject>();
+            m_mapObjects = new List<IMapObjectCore>();
 
             ReadListFromXMLCore readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                MapObject newObj = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject(typeString);
+                MapObject newObj = MapObjectFactory.Instance.CreateMapObject(typeString);
                 newObj.ReadXml(reader);
                 m_mapObjects.Add(newObj);
             });
@@ -328,7 +328,7 @@ namespace Magecrawl.GameEngine.Level
             {
                 string typeString = reader.ReadElementContentAsString();
                 int baseLevel = reader.ReadElementContentAsInt();
-                Monster newObj = CoreGameEngine.Instance.MonsterFactory.CreateMonster(typeString, baseLevel);
+                Monster newObj = MonsterFactory.Instance.CreateMonster(typeString, baseLevel);
                 newObj.ReadXml(reader);
                 m_monsterList.Add(newObj);
             });
@@ -340,7 +340,7 @@ namespace Magecrawl.GameEngine.Level
             readDelegate = new ReadListFromXMLCore(delegate
             {
                 string typeString = reader.ReadElementContentAsString();
-                Item newItem = CoreGameEngine.Instance.ItemFactory.CreateBaseItem(typeString);
+                Item newItem = ItemFactory.Instance.CreateBaseItem(typeString);
                 newItem.ReadXml(reader);
                 Point position = new Point();
                 position = position.ReadXml(reader);

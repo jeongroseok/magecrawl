@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
+using Magecrawl.EngineInterfaces;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.Maps.Generator
 {
-    internal abstract class MapGeneratorBase
+    public abstract class MapGeneratorBase
     {
         protected TCODRandom m_random;
         private Dictionary<Map, List<Point>> m_clearPointCache;
@@ -16,9 +17,9 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             m_random = random;
             m_clearPointCache = new Dictionary<Map, List<Point>>();
-        }    
+        }
 
-        abstract internal Map GenerateMap(Stairs incommingStairs, int level);
+        abstract public Map GenerateMap(Stairs incommingStairs, int level);
 
         public Point GetClearPoint(Map map)
         {
@@ -78,7 +79,7 @@ namespace Magecrawl.GameEngine.Level.Generator
         {
             List<Point> clearPointList = new List<Point>();
 
-            bool[,] moveabilityGrid = PhysicsEngine.CalculateMoveablePointGrid(map, true);
+            bool[,] moveabilityGrid = CoreGameEngineInstance.Instance.CalculateMoveablePointGrid(map, true);
 
             for (int i = 0; i < map.Width; ++i)
             {
@@ -286,12 +287,12 @@ namespace Magecrawl.GameEngine.Level.Generator
             Stairs upStairs = map.MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().FirstOrDefault();
             if (upStairs == null)
             {
-                upStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("StairsUp", GetClearPoint(map));
+                upStairs = (Stairs)MapObjectFactory.Instance.CreateMapObject("StairsUp", GetClearPoint(map));
                 map.AddMapItem(upStairs);
             }
 
             Point stairsDownPosition = GetClearPoint(map, upStairs.Position, DistanceToKeepDownStairsFromUpStairs, 5);
-            Stairs downStairs = (Stairs)CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("StairsDown", stairsDownPosition);
+            Stairs downStairs = (Stairs)MapObjectFactory.Instance.CreateMapObject("StairsDown", stairsDownPosition);
             map.AddMapItem(downStairs);
 
             if (incommingStairs != null)

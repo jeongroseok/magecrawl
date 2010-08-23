@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using libtcod;
 using Magecrawl.Actors;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator.Stitch
+namespace Magecrawl.Maps.Generator.Stitch
 {
     internal class MapChunk
     {
@@ -143,7 +143,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
                 }
             }
 
-            MapObjectFactory mapItemFactory = CoreGameEngine.Instance.MapObjectFactory;
+            MapObjectFactory mapItemFactory = MapObjectFactory.Instance;
 
             TreasureChests.ForEach(treasurePosition => map.AddMapItem(mapItemFactory.CreateMapObject("TreasureChest", upperLeftCorner + treasurePosition)));
 

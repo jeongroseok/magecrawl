@@ -16,16 +16,7 @@ namespace Magecrawl.Items
         internal QualityFactory QualityFactory;
         internal ComsumableEffectFactory ConsumableEffectFactory;
 
-        private static ItemFactory m_instance = null;
-        public static ItemFactory Instance
-        {
-            get
-            {
-                if (m_instance == null)
-                    m_instance = new ItemFactory();
-                return m_instance;
-            }
-        }
+        public static ItemFactory Instance = new ItemFactory();
 
         private ItemFactory()
         {

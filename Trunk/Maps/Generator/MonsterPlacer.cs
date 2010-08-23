@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using libtcod;
-using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Actors;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator
+namespace Magecrawl.Maps.Generator
 {
     internal static class MonsterPlacer
     {
@@ -36,7 +37,7 @@ namespace Magecrawl.GameEngine.Level.Generator
                     Point position = pointsWithClearTerrain[0];
                     pointsWithClearTerrain.RemoveAt(0);
 
-                    map.AddMonster(CoreGameEngine.Instance.MonsterFactory.CreateRandomMonster(level, position));
+                    map.AddMonster(MonsterFactory.Instance.CreateRandomMonster(level, position));
                 }
             }
         }

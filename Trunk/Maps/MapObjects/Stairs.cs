@@ -1,25 +1,24 @@
 using System;
-using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal class StairsUp : Stairs
+    public class StairsUp : Stairs
     {
         public StairsUp(Point position) : base(position, true)
         {
         }
     }
 
-    internal class StairsDown : Stairs
+    public class StairsDown : Stairs
     {
         public StairsDown(Point position) : base(position, false)
         {
         }
     }
 
-    internal class Stairs : MapObject
+    public class Stairs : MapObject
     {
         private Point m_position;
         private MapObjectType m_type;
@@ -78,7 +77,7 @@ namespace Magecrawl.GameEngine.MapObjects
             {
                 return m_position;
             }
-            internal set
+            set
             {
                 m_position = value;
             }

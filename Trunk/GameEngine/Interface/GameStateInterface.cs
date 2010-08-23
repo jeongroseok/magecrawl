@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.GameEngine.Magic;
 using Magecrawl.GameEngine.Skills;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
-using Magecrawl.GameEngine.Magic;
 
 namespace Magecrawl.GameEngine.Interface
 {

@@ -1,11 +1,11 @@
 ﻿using System.Xml;
-using System.Xml.Serialization;
+using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.MapObjects
+namespace Magecrawl.Maps.MapObjects
 {
-    internal abstract class MapObject : IMapObject, IXmlSerializable
+    public abstract class MapObject : IMapObjectCore
     {
         public abstract string Name
         {
@@ -35,7 +35,7 @@ namespace Magecrawl.GameEngine.MapObjects
         public abstract Point Position
         {
             get;
-            internal set;
+            set;
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()

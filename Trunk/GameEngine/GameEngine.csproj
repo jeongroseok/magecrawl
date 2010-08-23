@@ -55,30 +55,10 @@
     <Compile Include="CoreGameEngine.cs" />
     <Compile Include="CoreTimingEngine.cs" />
     <Compile Include="Interface\GameStateInterface.cs" />
-    <Compile Include="Level\Generator\Stitch\MapChunk.cs" />
-    <Compile Include="Level\Generator\MapGenerationFailureException.cs" />
-    <Compile Include="Level\Generator\Stitch\MapNode.cs" />
-    <Compile Include="Level\Generator\MonsterPlacer.cs" />
-    <Compile Include="Level\Generator\Stitch\StitchParenthood.cs" />
-    <Compile Include="Level\Generator\Stitch\StitchRatio.cs" />
-    <Compile Include="Level\Generator\Stitch\StitchtogeatherMapGenerator.cs" />
-    <Compile Include="Level\Generator\Stitch\StitchtogeatherMapGraphGenerator.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
     <Compile Include="FOVManager.cs" />
     <Compile Include="Magic\SpellFactory.cs" />
-    <Compile Include="MapObjects\Cosmetic.cs" />
-    <Compile Include="MapObjects\MapObjectFactory.cs" />
-    <Compile Include="MapObjects\Stairs.cs" />
-    <Compile Include="MapObjects\StairsMapping.cs" />
-    <Compile Include="MapObjects\TreasureChest.cs" />
-    <Compile Include="Level\Generator\MapGeneratorBase.cs" />
-    <Compile Include="Level\Generator\Cave\SimpleCaveGenerator.cs" />
-    <Compile Include="Level\Map.cs" />
-    <Compile Include="MapObjects\MapDoor.cs" />
-    <Compile Include="MapObjects\MapObject.cs" />
-    <Compile Include="MapObjects\OperableMapObject.cs" />
-    <Compile Include="Level\MapTile.cs" />
     <Compile Include="PathfindingMap.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PhysicsEngine.cs" />
@@ -125,6 +105,10 @@
     <ProjectReference Include="..\Items\Items.csproj">
       <Project>{26102AD2-FDFF-48DC-9089-4AA1DDEB8ED0}</Project>
       <Name>Items</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Maps\Maps.csproj">
+      <Project>{739BB49D-3686-484F-8E72-7C313C0D15CA}</Project>
+      <Name>Maps</Name>
     </ProjectReference>
     <ProjectReference Include="..\StatusEffects\StatusEffects.csproj">
       <Project>{1C40737D-94C5-4C73-BA2E-6826D2199E66}</Project>

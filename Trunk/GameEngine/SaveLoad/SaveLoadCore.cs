@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
-using Magecrawl.GameEngine.Level;
-using Magecrawl.GameEngine.MapObjects;
+using Magecrawl.Maps;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine.SaveLoad

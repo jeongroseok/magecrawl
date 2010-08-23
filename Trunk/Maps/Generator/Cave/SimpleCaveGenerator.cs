@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator.Cave
+namespace Magecrawl.Maps.Generator.Cave
 {
-    internal sealed class SimpleCaveGenerator : MapGeneratorBase
+    public class SimpleCaveGenerator : MapGeneratorBase
     {
-        internal SimpleCaveGenerator(TCODRandom random) : base(random)
+        public SimpleCaveGenerator(TCODRandom random) : base(random)
         {
-        }    
+        }
 
-        internal override Map GenerateMap(Stairs incommingStairs, int level)
+        public override Map GenerateMap(Stairs incommingStairs, int level)
         {
             Map map;
 
@@ -145,7 +145,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Cave
                     Point position = PopOffClearSegementList(clearSegments);
                     if (position != Point.Invalid)
                     {
-                        MapObject treasure = CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("TreasureChest", position);
+                        MapObject treasure = MapObjectFactory.Instance.CreateMapObject("TreasureChest", position);
                         map.AddMapItem(treasure);
                         treasuresGenerated++;
                     }

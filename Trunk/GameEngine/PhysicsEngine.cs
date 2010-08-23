@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
-using Magecrawl.GameEngine.Level;
 using Magecrawl.GameEngine.Magic;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
+using Magecrawl.Maps;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.StatusEffects.Interfaces;
 using Magecrawl.Utilities;
-using Magecrawl.Actors;
 
 namespace Magecrawl.GameEngine
 {

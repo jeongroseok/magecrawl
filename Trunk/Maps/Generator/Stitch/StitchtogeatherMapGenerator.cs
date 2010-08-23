@@ -4,17 +4,17 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using libtcod;
-using Magecrawl.GameEngine.MapObjects;
 using Magecrawl.Interfaces;
+using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine.Level.Generator.Stitch
+namespace Magecrawl.Maps.Generator.Stitch
 {
     // The idea of this clsas is that we read from file(s) a set of 
     // building blocks that we can stitch togeather to get a good map.
     // There are Entrances, hallways (horizontal and vertical), Main Rooms
     // Treausre Rooms, and side rooms
-    internal sealed class StitchtogeatherMapGenerator : MapGeneratorBase
+    public sealed class StitchtogeatherMapGenerator : MapGeneratorBase
     {
         private const int Width = 250;
         private const int Height = 250;
@@ -35,7 +35,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
         private int m_placed;
         private int m_level;
 
-        internal StitchtogeatherMapGenerator(TCODRandom random) : base(random)
+        public StitchtogeatherMapGenerator(TCODRandom random) : base(random)
         {
             m_unplacedDueToSpace = new Queue<MapNode>();
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();
@@ -69,7 +69,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
                 throw new ArgumentException("Height too large");
         }
 
-        internal override Map GenerateMap(Stairs incommingStairs, int level)
+        public override Map GenerateMap(Stairs incommingStairs, int level)
         {
             m_level = level;
             Map map = new Map(Width, Height);
@@ -158,7 +158,7 @@ namespace Magecrawl.GameEngine.Level.Generator.Stitch
 
                     entranceChunk.PlaceChunkOnMapAtPosition(map, entraceUpperLeftCorner, m_random);
                     PossiblyUpdateLargestSmallestPoint(entraceUpperLeftCorner, entranceChunk);
-                    map.AddMapItem(CoreGameEngine.Instance.MapObjectFactory.CreateMapObject("StairsUp", entranceChunk.PlayerPosition + entraceUpperLeftCorner));
+                    map.AddMapItem(MapObjectFactory.Instance.CreateMapObject("StairsUp", entranceChunk.PlayerPosition + entraceUpperLeftCorner));
 
                     if (current.Neighbors.Count != entranceChunk.Seams.Count)
                         throw new InvalidOperationException("Number of neighbors should equal number of seams.");
