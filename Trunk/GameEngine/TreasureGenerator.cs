@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine
 {
     internal class TreasureGenerator : ITreasureGenerator
     {
-        public static TreasureGenerator Instance = new TreasureGenerator();
+        public static readonly TreasureGenerator Instance = new TreasureGenerator();
 
         private TCODRandom s_random = new TCODRandom();
 

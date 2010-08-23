@@ -10,7 +10,7 @@ namespace Magecrawl.GameEngine.Skills
 {
     internal class SkillFactory
     {
-        public static SkillFactory Instance = new SkillFactory();
+        public static readonly SkillFactory Instance = new SkillFactory();
 
         private static Dictionary<string, Skill> m_skillMapping;
 
