@@ -1,0 +1,8 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Release" />
+  <Config name="Release" binpathtype="Auto">
+    <assembly path="dist\ActorTest.dll" />
+    <assembly path="dist\ItemTests.dll" />
+    <assembly path="dist\MapTests.dll" />
+  </Config>
+</NUnitProject>

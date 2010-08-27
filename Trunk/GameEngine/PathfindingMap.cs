@@ -64,7 +64,7 @@ namespace Magecrawl.GameEngine
         private void UpdateInternalFOV(Point source, Point dest, bool canOperate, PhysicsEngine engine, bool usePlayerLOS, bool monstersBlockPath)
         {
             // First get the 'default' values
-            bool[,] moveableGrid = PhysicsEngine.CalculateMoveablePointGrid(m_map, source, monstersBlockPath);
+            bool[,] moveableGrid = m_map.CalculateMoveablePointGrid(monstersBlockPath, source);
 
             // Now foor doors, if we can operate, make it movable
             // Doors are special. If they ever are not special, make this a virtual method

@@ -132,7 +132,7 @@ namespace Magecrawl.Items
             }
         }
 
-        public Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel, string materialName, string qualityName)
+        private Item CreateItemOfTypeCore(string type, int level, int lowLevel, int highLevel, string materialName, string qualityName)
         {            
             switch (type)
             {

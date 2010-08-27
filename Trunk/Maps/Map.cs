@@ -229,6 +229,50 @@ namespace Magecrawl.Maps
             m_map[p.X, p.Y].Visited = visitedStatus;
         }
 
+        // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
+        // This calculates them in batch much much more quickly. True means you can walk there.
+        public bool[,] CalculateMoveablePointGrid(bool monstersBlockPath)
+        {
+            return CalculateMoveablePointGridCore(new Point(0, 0), Width, Height, monstersBlockPath);
+        }
+
+        public bool[,] CalculateMoveablePointGrid(bool monstersBlockPath, Point characterPosition)
+        {
+            bool[,] returnValue = CalculateMoveablePointGridCore(new Point(0, 0), Width, Height, monstersBlockPath);
+
+            returnValue[characterPosition.X, characterPosition.Y] = false;
+
+            return returnValue;
+        }
+
+        private bool[,] CalculateMoveablePointGridCore(Point upperLeftCorner, int width, int height, bool monstersBlockPath)
+        {
+            bool[,] returnValue = new bool[Width, Height];
+
+            for (int i = upperLeftCorner.X; i < upperLeftCorner.X + width; ++i)
+            {
+                for (int j = upperLeftCorner.Y; j < upperLeftCorner.Y + height; ++j)
+                {
+                    returnValue[i, j] = m_map[i, j].Terrain == TerrainType.Floor;
+                }
+            }
+
+            foreach (MapObject obj in MapObjects.Where(x => x.IsSolid))
+            {
+                returnValue[obj.Position.X, obj.Position.Y] = false;
+            }
+
+            if (monstersBlockPath)
+            {
+                foreach (Monster m in Monsters)
+                {
+                    returnValue[m.Position.X, m.Position.Y] = false;
+                }
+            }
+
+            return returnValue;
+        }
+
         // This is a debugging tool. It prints out a map to Console Out. Usefor for visualizing a map.
         internal void PrintMapToStdOut()
         {
