@@ -21,12 +21,12 @@ namespace Magecrawl.Maps.Generator
 
         abstract public Map GenerateMap(Stairs incommingStairs, int level);
 
-        public Point GetClearPoint(Map map)
+        protected Point GetClearPoint(Map map)
         {
             return GetClearPoint(map, Point.Invalid, 0, 0);
         }
 
-        public Point GetClearPoint(Map map, Point center, int distanceToKeepAway, int distanceFromEdges)
+        protected Point GetClearPoint(Map map, Point center, int distanceToKeepAway, int distanceFromEdges)
         {
             List<Point> clearPointList;
             if (m_clearPointCache.ContainsKey(map))
@@ -75,11 +75,11 @@ namespace Magecrawl.Maps.Generator
             return returnList;
         }
 
-        private static List<Point> CalculateClearPointList(Map map)
+        protected static List<Point> CalculateClearPointList(Map map)
         {
             List<Point> clearPointList = new List<Point>();
 
-            bool[,] moveabilityGrid = CoreGameEngineInstance.Instance.CalculateMoveablePointGrid(map, true);
+            bool[,] moveabilityGrid = map.CalculateMoveablePointGrid(true);
 
             for (int i = 0; i < map.Width; ++i)
             {
@@ -225,7 +225,7 @@ namespace Magecrawl.Maps.Generator
             throw new System.ApplicationException("GetFirstClearPoint found no clear points");
         }
 
-        public static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)
+        protected static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)
         {
             int numberOfFloorTileSurrounding = 0;
 
@@ -243,7 +243,7 @@ namespace Magecrawl.Maps.Generator
             return numberOfFloorTileSurrounding;
         }
 
-        public static int CountNumberOfSurroundingWallTilesTwoStepAway(Map map, int x, int y)
+        protected static int CountNumberOfSurroundingWallTilesTwoStepAway(Map map, int x, int y)
         {
             int numberOfFloorTileSurrounding = 0;
 

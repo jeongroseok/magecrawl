@@ -87,42 +87,18 @@ namespace Magecrawl.GameEngine
             // Don't use property so we don't hit validation code
             m_currentLevel = 0;
 
-            int failedMapCreationAttempts = 0;
             Stairs incommingStairs = null;
             using (TCODRandom random = new TCODRandom())
             {
                 bool generateCave = false;
                 for (int i = 0; i < 5; ++i)
                 {
-                    if (failedMapCreationAttempts == 0)
-                        generateCave = random.Chance(50);
-                    MapGeneratorBase mapGenerator = null;
-                    try
-                    {
-                        if (generateCave)
-                            mapGenerator = new SimpleCaveGenerator(random);
-                        else
-                            mapGenerator = new StitchtogeatherMapGenerator(random);
-                        m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, i);
+                    generateCave = random.Chance(50);
+                    MapGeneratorBase mapGenerator = generateCave ? (MapGeneratorBase)new SimpleCaveGenerator(random) : (MapGeneratorBase)new StitchtogeatherMapGenerator(random);
+                    
+                    m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, i);
 
-                        incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();
-
-                        // We succeeded in creating a good map, reset attempts
-                        failedMapCreationAttempts = 0;
-                    }
-                    catch (MapGenerationFailureException)
-                    {
-                        // Let's try again.
-                        if (failedMapCreationAttempts < 20)
-                        {
-                            i--;
-                            failedMapCreationAttempts++;
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
+                    incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();              
                 }
             }
 
@@ -160,7 +136,7 @@ namespace Magecrawl.GameEngine
 
         private List<Point> GenerateListOfClearPointsOnMap(Map map, Point initialStairsUpPosition)
         {
-            bool[,] moveablePoints = PhysicsEngine.CalculateMoveablePointGrid(map, true, initialStairsUpPosition);
+            bool[,] moveablePoints = map.CalculateMoveablePointGrid(true, initialStairsUpPosition);
             List<Point> clearPoints = new List<Point>();
             for (int i = 0; i < map.Width; ++i)
             {
@@ -360,13 +336,6 @@ namespace Magecrawl.GameEngine
         public bool IsRangedPathBetweenPoints(Point x, Point y)
         {
             return m_physicsEngine.IsRangedPathBetweenPoints(x, y);
-        }
-
-        // This is used by the Movability Debug View. If you think you need it, you don't. Talk to Chris. 
-        // Unless you are Chris, then smack yourself and try again.
-        public bool[,] PlayerMoveableToEveryPoint()
-        {
-            return PhysicsEngine.CalculateMoveablePointGrid(Map, Player.Position, true);
         }
 
         public void FilterNotTargetablePointsFromList(List<EffectivePoint> pointList, Point characterPosition, int visionRange, bool needsToBeVisible)

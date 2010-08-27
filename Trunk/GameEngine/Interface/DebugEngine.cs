@@ -20,7 +20,7 @@ namespace Magecrawl.GameEngine.Interface
         // For the IsPathable debugging mode, show if player could walk there.
         public bool[,] PlayerMoveableToEveryPoint()
         {
-            return m_engine.PlayerMoveableToEveryPoint();
+            return m_engine.Map.CalculateMoveablePointGrid(true, m_engine.Player.Position);
         }
 
         public Dictionary<ICharacter, List<Point>> CellsInAllMonstersFOV()

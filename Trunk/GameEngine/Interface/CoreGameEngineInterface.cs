@@ -78,11 +78,6 @@ namespace Magecrawl.GameEngine.Interface
             return m_engine.MonstersInCharactersLOS((Character)character).OfType<ICharacterCore>().ToList();
         }
 
-        public bool[,] CalculateMoveablePointGrid(IMapCore map, bool monstersBlockPath)
-        {
-            return PhysicsEngine.CalculateMoveablePointGrid((Map)map, monstersBlockPath);
-        }
-
         public ICharacterCore Player
         {
             get 

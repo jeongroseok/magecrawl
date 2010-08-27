@@ -8,5 +8,6 @@ namespace Magecrawl.EngineInterfaces
         Point CoercePointOntoMap(Point p);
         void AddMapItem(IMapObjectCore item);
         bool RemoveMapItem(IMapObjectCore item);
+        bool[,] CalculateMoveablePointGrid(bool monstersBlockPath);
     }
 }

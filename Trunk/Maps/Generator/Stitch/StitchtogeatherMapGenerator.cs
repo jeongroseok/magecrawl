@@ -71,31 +71,35 @@ namespace Magecrawl.Maps.Generator.Stitch
 
         public override Map GenerateMap(Stairs incommingStairs, int level)
         {
-            m_level = level;
-            Map map = new Map(Width, Height);
+            for (int i = 0; i < 5; ++i)
+            {
+                m_level = level;
+                Map map = new Map(Width, Height);
 
-            MapNode graphHead = m_graphGenerator.GenerateMapGraph();
+                MapNode graphHead = m_graphGenerator.GenerateMapGraph();
 
-            ParenthoodChain parentChain = new ParenthoodChain();
-   
-            GenerateMapFromGraph(graphHead, map, Point.Invalid, parentChain);
+                ParenthoodChain parentChain = new ParenthoodChain();
 
-            Point upperLeft = new Point(m_smallestX, m_smallestY);
-            Point lowerRight = new Point(m_largestX, m_largestY);
+                GenerateMapFromGraph(graphHead, map, Point.Invalid, parentChain);
 
-            map.TrimToSubset(upperLeft, lowerRight);
+                Point upperLeft = new Point(m_smallestX, m_smallestY);
+                Point lowerRight = new Point(m_largestX, m_largestY);
 
-            if (!CheckConnectivity(map))
-                throw new MapGenerationFailureException("Generated non-connected map");
+                map.TrimToSubset(upperLeft, lowerRight);
 
-            if (m_placed < 30)
-                throw new MapGenerationFailureException("Too few items placed to be reasonabily sized");
+                if (!CheckConnectivity(map))
+                    continue;
 
-            GenerateUpDownStairs(map, incommingStairs);
+                if (m_placed < 30)
+                    continue;
 
-            StripImpossibleDoors(map);
+                GenerateUpDownStairs(map, incommingStairs);
 
-            return map;
+                StripImpossibleDoors(map);
+
+                return map;
+            }
+            throw new MapGenerationFailureException("Unable to generate Stitch map with multiple attempts.");
         }
 
         private void StripImpossibleDoors(Map map)

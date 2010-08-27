@@ -120,66 +120,6 @@ namespace Magecrawl.GameEngine
                 (needsToBeVisible && !m_fovManager.Visible(point)));
         }
 
-        // There are many times we want to know what cells are movable into, for FOV or Pathfinding for example
-        // This calculates them in batch much much more quickly. True means you can walk there.
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition, bool monstersBlockPath)
-        {
-            return CalculateMoveablePointGrid(map, characterPosition, new Point(0, 0), map.Width, map.Height, monstersBlockPath);
-        }
-
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Point characterPosition, Point upperLeftCorner, int width, int height, bool monstersBlockPath)
-        {
-            bool[,] returnValue = CalculateMoveablePointGrid(map, upperLeftCorner, width, height, monstersBlockPath);
-
-            returnValue[characterPosition.X, characterPosition.Y] = false;
-
-            return returnValue;
-        }
-
-        internal static bool[,] CalculateMoveablePointGrid(Map map, bool monstersBlockPath)
-        {
-            return CalculateMoveablePointGrid(map, new Point(0, 0), map.Width, map.Height, monstersBlockPath);
-        }
-
-        internal static bool[,] CalculateMoveablePointGrid(Map map, bool monstersBlockPath, Point characterPosition)
-        {
-            bool[,] returnValue = CalculateMoveablePointGrid(map, monstersBlockPath);
-
-            returnValue[characterPosition.X, characterPosition.Y] = false;
-
-            return returnValue;
-        }
-
-        // Returns an array the full size of map, but only with the requested part filled in. This is done for ease of use.
-        // We can use (x,y), instead of (x-offset, y-offset) to get data.
-        internal static bool[,] CalculateMoveablePointGrid(Map map, Point upperLeftCorner, int width, int height, bool monstersBlockPath)
-        {
-            bool[,] returnValue = new bool[map.Width, map.Height];
-
-            for (int i = upperLeftCorner.X; i < upperLeftCorner.X + width; ++i)
-            {
-                for (int j = upperLeftCorner.Y; j < upperLeftCorner.Y + height; ++j)
-                {
-                    returnValue[i, j] = map.GetTerrainAt(i, j) == TerrainType.Floor;
-                }
-            }
-
-            foreach (MapObject obj in map.MapObjects.Where(x => x.IsSolid))
-            {
-                returnValue[obj.Position.X, obj.Position.Y] = false;
-            }
-
-            if (monstersBlockPath)
-            {
-                foreach (Monster m in map.Monsters)
-                {
-                    returnValue[m.Position.X, m.Position.Y] = false;
-                }
-            }
-
-            return returnValue;
-        }
-
         // This is a slow operation. It should not be called multiple times in a row!
         // Call CalculateMoveablePointGrid instead~!
         public bool IsMovablePointSingleShot(Map map, Point p)
