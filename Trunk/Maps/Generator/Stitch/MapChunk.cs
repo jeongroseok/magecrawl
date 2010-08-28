@@ -164,7 +164,7 @@ namespace Magecrawl.Maps.Generator.Stitch
                 }
             }
             Point lowerRight = upperLeftCorner + new Point(Width, Height);
-            foreach (Monster m in map.Monsters.OfType<Monster>().Where(x => x.Position.IsInRange(upperLeftCorner, lowerRight)))
+            foreach (Monster m in map.Monsters.OfType<Monster>().Where(x => x.Position.IsInRange(upperLeftCorner, lowerRight)).ToList())
             {
                 map.RemoveMonster(m);
             }

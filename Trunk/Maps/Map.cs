@@ -147,23 +147,23 @@ namespace Magecrawl.Maps
             }
         }
 
-        public IList<IMapObject> MapObjects
+        public IEnumerable<IMapObject> MapObjects
         {
             get 
             {
-                return m_mapObjects.OfType<IMapObject>().ToList();
+                return m_mapObjects.OfType<IMapObject>();
             }
         }
 
-        public IList<ICharacter> Monsters
+        public IEnumerable<ICharacter> Monsters
         {
             get 
             {
-                return m_monsterList.OfType<ICharacter>().ToList();
+                return m_monsterList.OfType<ICharacter>();
             }
         }
 
-        public IList<Pair<IItem, Point>> Items
+        public IEnumerable<Pair<IItem, Point>> Items
         {
             get 
             {
