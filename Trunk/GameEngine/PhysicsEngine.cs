@@ -35,7 +35,7 @@ namespace Magecrawl.GameEngine
             m_timingEngine = new CoreTimingEngine();
             m_fovManager = new FOVManager(this, map);
             m_combatEngine = new CombatEngine(this, player, map);
-            m_movableHash = new Dictionary<Point, bool>();
+            m_movableHash = new Dictionary<Point, bool>(PointEqualityComparer.Instance);
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
             UpdatePlayerVisitedStatus();
         }

@@ -261,7 +261,7 @@ namespace Magecrawl
                 case ShowRangedAttackType.Stream:
                 {
                     List<Point> coveredSquares = (List<Point>)data;
-                    Dictionary<Point, bool> occupiedSquares = new Dictionary<Point, bool>();
+                    Dictionary<Point, bool> occupiedSquares = new Dictionary<Point, bool>(PointEqualityComparer.Instance);
                     
                     foreach (Point p in coveredSquares)
                     {

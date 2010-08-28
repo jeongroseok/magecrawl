@@ -36,7 +36,7 @@ namespace Magecrawl.GameUI.SkillTree
             SkillTreeTabXMLHelper xmlHelper = new SkillTreeTabXMLHelper(this);
             xmlHelper.LoadMappings(resourceToRead);
 
-            m_squareLookup = new Dictionary<Point, SkillSquare>();
+            m_squareLookup = new Dictionary<Point, SkillSquare>(PointEqualityComparer.Instance);
             foreach(SkillSquare s in SkillSquares)
             {
                 foreach (Point p in s.PointsSquareCovers)

@@ -1,16 +1,9 @@
-﻿namespace Magecrawl.Utilities
+﻿using System.Collections.Generic;
+namespace Magecrawl.Utilities
 {
     public struct Point
     {
         public static Point Invalid = new Point(-1, -1);
-
-#if false
-        public Point()
-        {
-            X = 0;
-            Y = 0;
-        }
-#endif
 
         public Point(int x, int y) : this()
         {
@@ -65,6 +58,21 @@
         public bool IsInRange(Point upperLeft, Point lowerRight)
         {
             return X >= upperLeft.X && X <= lowerRight.X && Y >= upperLeft.Y && Y <= lowerRight.Y;
+        }
+    }
+
+    public class PointEqualityComparer : IEqualityComparer<Point>
+    {
+        public static PointEqualityComparer Instance = new PointEqualityComparer();
+
+        public bool Equals(Point x, Point y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(Point obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }
