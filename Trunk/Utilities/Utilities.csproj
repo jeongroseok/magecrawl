@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AssemblyDirectory.cs" />
     <Compile Include="AttributeDictionaryExtensions.cs" />
+    <Compile Include="ColorCache.cs" />
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="ColorGenerator.cs" />
     <Compile Include="ColorPresets.cs" />
