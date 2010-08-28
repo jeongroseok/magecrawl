@@ -20,7 +20,12 @@ namespace Magecrawl.GameUI.SkillTree
 
         public static bool IsSkillSelected(List<ISkill> selectedSkillList, string skillName)
         {
-            return selectedSkillList.ToList().Exists(x => x.Name == skillName);
+            for (int i = 0; i < selectedSkillList.Count; ++i)
+            {
+                if (selectedSkillList[i].Name == skillName)
+                    return true;
+            }
+            return false;
         }
 
         public static bool HasUnmetDependencies(List<ISkill> selectedSkillList, SkillSquare skill)
