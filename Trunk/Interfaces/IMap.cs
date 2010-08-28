@@ -21,17 +21,17 @@ namespace Magecrawl.Interfaces
             get;
         }
 
-        IList<IMapObject> MapObjects
+        IEnumerable<IMapObject> MapObjects
         {
             get;
         }
 
-        IList<ICharacter> Monsters
+        IEnumerable<ICharacter> Monsters
         {
             get;
         }
 
-        IList<Pair<IItem, Point>> Items
+        IEnumerable<Pair<IItem, Point>> Items
         {
             get;
         }

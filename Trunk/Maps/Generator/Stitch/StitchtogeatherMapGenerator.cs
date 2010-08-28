@@ -104,7 +104,7 @@ namespace Magecrawl.Maps.Generator.Stitch
 
         private void StripImpossibleDoors(Map map)
         {
-            foreach (MapDoor door in map.MapObjects.OfType<MapDoor>())
+            foreach (MapDoor door in map.MapObjects.OfType<MapDoor>().ToList())
             {
                 if (!map.IsPointOnMap(door.Position) || map.GetTerrainAt(door.Position) == TerrainType.Wall ||
                     !WallsOnOneSetOfSides(map, door))
@@ -114,7 +114,7 @@ namespace Magecrawl.Maps.Generator.Stitch
             }
 
             List<Point> doorPositions = map.MapObjects.OfType<MapDoor>().Select(x => x.Position).ToList();
-            foreach (MapDoor door in map.MapObjects.OfType<MapDoor>())
+            foreach (MapDoor door in map.MapObjects.OfType<MapDoor>().ToList())
             {
                 if (doorPositions.Exists(x => x != door.Position && PointDirectionUtils.NormalDistance(x, door.Position) < 2))
                 {
