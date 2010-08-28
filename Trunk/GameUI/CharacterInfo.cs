@@ -15,6 +15,36 @@ namespace Magecrawl.GameUI
             m_colorHelper = new DialogColorHelper();
             MapCursorEnabled = false;
             CursorSpot = Point.Invalid;
+            SetupCachedColors();
+        }
+
+        private static void SetupCachedColors()
+        {
+            ColorCache.Instance["Black"] = TCODColor.black;
+            ColorCache.Instance["RedDiv2"] = TCODColor.red.Divide(2);
+            ColorCache.Instance["RedDiv2.5"] = TCODColor.red.Divide(2.5);
+            ColorCache.Instance["RedDiv3"] = TCODColor.red.Divide(3);
+            ColorCache.Instance["DarkRedDiv2"] = TCODColor.darkRed.Divide(2);
+
+            ColorCache.Instance["BlueDiv1.5"] = TCODColor.blue.Divide(1.5);
+            ColorCache.Instance["BlueDiv2"] = TCODColor.blue.Divide(2);
+            ColorCache.Instance["BlueDiv3"] = TCODColor.blue.Divide(3);
+            ColorCache.Instance["BlueDiv4"] = TCODColor.blue.Divide(4);
+
+            ColorCache.Instance["DarkBlueDiv2"] = TCODColor.darkBlue.Divide(2);
+            ColorCache.Instance["DarkGreenDiv2"] = TCODColor.darkGreen.Divide(2);
+            ColorCache.Instance["DarkOrangeDiv2"] = TCODColor.darkOrange.Divide(2);
+            ColorCache.Instance["DarkRedDiv2"] = TCODColor.darkRed.Divide(2);
+
+            ColorCache.Instance["OrangeDiv2"] = TCODColor.orange.Divide(2);
+            ColorCache.Instance["OrangeDiv2.5"] = TCODColor.orange.Divide(2.5);
+            ColorCache.Instance["OrangeDiv3"] = TCODColor.orange.Divide(3);
+
+            ColorCache.Instance["DarkGreen"] = TCODColor.darkGreen;
+            ColorCache.Instance["DarkRed"] = TCODColor.darkRed;
+            ColorCache.Instance["DarkYellow"] = TCODColor.darkYellow;
+
+            ColorCache.Instance["Grey"] = TCODColor.grey;
         }
 
         private const int StartingX = UIHelper.MapWidth;
@@ -48,6 +78,11 @@ namespace Magecrawl.GameUI
         private IWeapon m_currentWeapon;
         private List<IStatusEffect> m_statusEffects;
         private int m_skillPoints;
+        private string m_healthString;
+        private string m_staminaString;
+        private string m_manaString;
+        private string m_weaponString;
+        private string m_nearbyEnemyString;
 
         public override void UpdateFromNewData(IGameEngine engine, Point mapUpCorner, Point centerPosition)
         {
@@ -70,8 +105,19 @@ namespace Magecrawl.GameUI
             m_statusEffects = player.StatusEffects.ToList();
             m_skillPoints = player.SkillPoints;
 
-            m_currentLevel = engine.CurrentLevel;
+            m_healthString = string.Format("Hlth {0}/{1}", m_currentHealth, m_maxHealth);
+            m_staminaString = string.Format("Sta {0}/{1}", m_currentStamina, m_maxStamina);
+            m_manaString = string.Format("Mana {0}/{1}", m_currentMP, m_maxMP);
+
+            string needsLoadedString = !m_currentWeapon.IsRanged || m_currentWeapon.IsLoaded ? "" : "(empty)";
+            m_weaponString = string.Format("Weapon: {0} {1}", m_currentWeapon.DisplayName, needsLoadedString);
+
             m_monstersNearby = engine.GameState.MonstersInPlayerLOS().OrderBy(x => PointDirectionUtils.LatticeDistance(x.Position, m_position)).ToList();
+
+            string countAmount = m_monstersNearby.Count < 8 ? m_monstersNearby.Count.ToString() : "8+";
+            m_nearbyEnemyString = string.Format("Nearby Enemies ({0}):", countAmount);
+
+            m_currentLevel = engine.CurrentLevel;
             m_turnCount = engine.TurnCount;
             m_inDanger = engine.GameState.CurrentOrRecentDanger();
         }
@@ -113,13 +159,13 @@ namespace Magecrawl.GameUI
         {
             double percentage = ((double)character.CurrentHP / (double)character.MaxHP) * 100;
             if (percentage > 95)
-                return TCODColor.darkBlue.Divide(2);
+                return ColorCache.Instance["DarkBlueDiv2"];
             else if (percentage > 70)
-                return TCODColor.darkGreen.Divide(2);
+                return ColorCache.Instance["DarkGreenDiv2"];
             else if (percentage > 35)
-                return TCODColor.darkOrange.Divide(2);
+                return ColorCache.Instance["DarkOrangeDiv2"];
             else
-                return TCODColor.darkRed.Divide(2);
+                return ColorCache.Instance["DarkRedDiv2"];
         }
 
         private TCODColor PlayerHealthBarColorAtPosition(int position)
@@ -131,29 +177,29 @@ namespace Magecrawl.GameUI
             {
                 double percentage = ((double)m_currentHealth / (double)m_maxHealth) * 100;
                 if (position >= CalculateBarLength(m_currentHealth, m_maxHealth, healthPortionOfPlayerHPBarLength))
-                    return TCODColor.black;
+                    return ColorCache.Instance["Black"];
                 if (percentage > 95)
-                    return TCODColor.orange.Divide(2);
+                    return ColorCache.Instance["OrangeDiv2"];
                 else if (percentage > 70)
-                    return TCODColor.orange.Divide(2.5);
+                    return ColorCache.Instance["OrangeDiv2.5"];
                 else if (percentage > 35)
-                    return TCODColor.orange.Divide(3);
+                    return ColorCache.Instance["OrangeDiv3"];
                 else
-                    return TCODColor.darkOrange.Divide(2);
+                    return ColorCache.Instance["DarkOrangeDiv2"];
             }
             else
             {
                 double percentage = ((double)m_currentStamina / (double)m_maxStamina) * 100;
                 if (position - healthPortionOfPlayerHPBarLength >= CalculateBarLength(m_currentStamina, m_maxStamina, staminaPortionOfPlayerHPBarLength))
-                    return TCODColor.black;
+                    return ColorCache.Instance["Black"];
                 if (percentage > 95)
-                    return TCODColor.red.Divide(2);
+                    return ColorCache.Instance["RedDiv2"];
                 else if (percentage > 70)
-                    return TCODColor.red.Divide(2.5);
+                    return ColorCache.Instance["RedDiv2.5"];
                 else if (percentage > 35)
-                    return TCODColor.red.Divide(3);
+                    return ColorCache.Instance["RedDiv3"];
                 else
-                    return TCODColor.darkRed.Divide(2);
+                    return ColorCache.Instance["DarkRedDiv2"];
             }
         }
 
@@ -165,19 +211,19 @@ namespace Magecrawl.GameUI
             {
                 double percentage = ((double)m_currentMP / (double)m_maxMP) * 100;
                 if (position >= CalculateBarLength(m_currentMP, m_maxMP, enabledPortionOfMPBarLength))
-                    return TCODColor.black;
+                    return ColorCache.Instance["Black"];
                 if (percentage > 95)
-                    return TCODColor.blue.Divide(1.5);
+                    return ColorCache.Instance["BlueDiv1.5"];
                 else if (percentage > 70)
-                    return TCODColor.blue.Divide(2);
+                    return ColorCache.Instance["BlueDiv2"];
                 else if (percentage > 35)
-                    return TCODColor.blue.Divide(3);
+                    return ColorCache.Instance["BlueDiv3"];
                 else
-                    return TCODColor.blue.Divide(4);
+                    return ColorCache.Instance["BlueDiv4"];
             }
             else
             {
-                return TCODColor.grey;
+                return ColorCache.Instance["Grey"];
             }
         }
 
@@ -187,15 +233,12 @@ namespace Magecrawl.GameUI
             screen.printEx(SectionCenter, 1, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_name);
 
             // The 7 and 18 here are psydo-magical, since they place the text overlap just so it fits and doesn't go over for sane values
-            string healthString = string.Format("Hlth {0}/{1}", m_currentHealth, m_maxHealth);
-            string staminaString = string.Format("Sta {0}/{1}", m_currentStamina, m_maxStamina);
-            screen.printEx(StartingX + 7, 2, TCODBackgroundFlag.None, TCODAlignment.CenterAlignment, healthString);
-            screen.printEx(StartingX + 18, 2, TCODBackgroundFlag.None, TCODAlignment.CenterAlignment, staminaString);
+            screen.printEx(StartingX + 7, 2, TCODBackgroundFlag.None, TCODAlignment.CenterAlignment, m_healthString);
+            screen.printEx(StartingX + 18, 2, TCODBackgroundFlag.None, TCODAlignment.CenterAlignment, m_staminaString);
             for (int j = 0; j < BarLength; ++j)
                 screen.setCharBackground(StartingX + 2 + j, 2, PlayerHealthBarColorAtPosition(j));
 
-            string manaString = string.Format("Mana {0}/{1}", m_currentMP, m_maxMP);
-            screen.printEx(StartingX + 13, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, manaString);
+            screen.printEx(StartingX + 13, 3, TCODBackgroundFlag.Set, TCODAlignment.CenterAlignment, m_manaString);
             for (int j = 0; j < BarLength; ++j)
                 screen.setCharBackground(StartingX + 2 + j, 3, PlayerManaBarColor(j));
 
@@ -205,8 +248,7 @@ namespace Magecrawl.GameUI
             screen.print(StartingX + 2, nextAvailablePosition, skillPointString);
             nextAvailablePosition += 2;
 
-            string needsLoadedString = !m_currentWeapon.IsRanged || m_currentWeapon.IsLoaded ? "" : "(empty)";
-            int linesTaken = screen.printRect(StartingX + 2, nextAvailablePosition, UIHelper.ScreenWidth - StartingX - 3, 5, string.Format("Weapon: {0} {1}", m_currentWeapon.DisplayName, needsLoadedString));
+            int linesTaken = screen.printRect(StartingX + 2, nextAvailablePosition, UIHelper.ScreenWidth - StartingX - 3, 5, m_weaponString);
             nextAvailablePosition += linesTaken + 1;
 
             m_colorHelper.SaveColors(screen);
@@ -221,7 +263,7 @@ namespace Magecrawl.GameUI
                         currentX = StartingX + 2;
                         nextAvailablePosition++;
                     }
-                    screen.setForegroundColor(s.IsPositiveEffect ? TCODColor.darkGreen : TCODColor.darkRed);
+                    screen.setForegroundColor(s.IsPositiveEffect ? ColorCache.Instance["DarkGreen"] : ColorCache.Instance["DarkRed"] );
                     screen.print(currentX, nextAvailablePosition, s.Name);
                     currentX += s.Name.Length + 1;
                 }
@@ -232,8 +274,7 @@ namespace Magecrawl.GameUI
             m_colorHelper.SaveColors(screen);
             if (m_monstersNearby.Count > 0)
             {
-                string countAmount = m_monstersNearby.Count < 8 ? m_monstersNearby.Count.ToString() : "8+";
-                screen.print(StartingX + 2, nextAvailablePosition, string.Format("Nearby Enemies ({0}):", countAmount));
+                screen.print(StartingX + 2, nextAvailablePosition, m_nearbyEnemyString);
                 
                 // Show at most 8 monsters
                 int numberOfMonstersToShow = m_monstersNearby.Count > 8 ? 8 : m_monstersNearby.Count;
@@ -243,7 +284,7 @@ namespace Magecrawl.GameUI
                     if (MapCursorEnabled)
                     {
                         if (currentMonster.Position == CursorSpot)
-                            screen.setForegroundColor(TCODColor.darkYellow);
+                            screen.setForegroundColor(ColorCache.Instance["DarkYellow"]);
                         else
                             screen.setForegroundColor(UIHelper.ForegroundColor);
                     }
