@@ -1,0 +1,17 @@
+VisionBonus
+BonusWeaponDamage
+Bonus{WeaponType}Damage
+DamageReduction
+{School}ReducedCost
+{Spell Name}IncreasedRange
+StaminaPercentageBonus
+BonusStamina
+BonusHealth
+MPBonus
+{Item Type}Proficiency
+CTIncreaseModifierBonus
+CTCostModifierToMoveBonus
+CTCostModifierToActBonus
+StandardArmorProficiency
+HeavyArmorProficiency
+Regeneration

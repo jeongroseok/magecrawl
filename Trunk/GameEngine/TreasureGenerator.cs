@@ -49,9 +49,9 @@ namespace Magecrawl.GameEngine
 
             // And one armor the player should be able to wear
             List<ArmorWeight> armorWeightsAllowed = new List<ArmorWeight>() { ArmorWeight.Light };
-            if (CoreGameEngine.Instance.Player.HasAttribute("StandardArmor"))
+            if (CoreGameEngine.Instance.Player.HasAttribute("StandardArmorProficiency"))
                 armorWeightsAllowed.Add(ArmorWeight.Standard);
-            if (CoreGameEngine.Instance.Player.HasAttribute("HeavyArmor"))
+            if (CoreGameEngine.Instance.Player.HasAttribute("HeavyArmorProficiency"))
                 armorWeightsAllowed.Add(ArmorWeight.Heavy);
             GiveItem(actor, ItemFactory.Instance.CreateRandomArmorOfPossibleWeights(CoreGameEngine.Instance.CurrentLevel + 1, armorWeightsAllowed), position);
 
