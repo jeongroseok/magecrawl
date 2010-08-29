@@ -294,7 +294,7 @@ namespace Magecrawl
 
             while (!TCODConsole.isWindowClosed())
             {
-                if (TCODConsole.checkForKeypress((int)TCODKeyStatus.KeyPressed).Character == 'q')
+                if (TCODConsole.waitForKeypress(true).Character == 'q')
                     break;
             }
         }

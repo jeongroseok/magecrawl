@@ -120,33 +120,35 @@ namespace Magecrawl.GameEngine
 
         private void ClearMonstersFromStartingArea(Point initialStairsUpPosition)
         {
-            List<Point> clearPoints = GenerateListOfClearPointsOnMap(m_dungeon[0], initialStairsUpPosition);
-
             List<Point> monsterFreePoints = PointListUtils.PointListFromBurstPosition(initialStairsUpPosition, 8);
-            clearPoints.RemoveAll(x => monsterFreePoints.Contains(x));
 
-            foreach (Monster m in m_dungeon[0].Monsters.OfType<Monster>().Where(m => monsterFreePoints.Contains(m.Position)))
+            using (TCODRandom random = new TCODRandom())
             {
-                if (clearPoints.Count == 0)
-                    throw new InvalidOperationException("Unable to ClearMonstersFromStartingArea as we have no more clear points?");
-                m.Position = clearPoints[0];
-                clearPoints.RemoveAt(0);
-            }
-        }
-
-        private List<Point> GenerateListOfClearPointsOnMap(Map map, Point initialStairsUpPosition)
-        {
-            bool[,] moveablePoints = map.CalculateMoveablePointGrid(true, initialStairsUpPosition);
-            List<Point> clearPoints = new List<Point>();
-            for (int i = 0; i < map.Width; ++i)
-            {
-                for (int j = 0; j < map.Height; ++j)
+                bool[,] moveablePoints = m_dungeon[0].CalculateMoveablePointGrid(true, initialStairsUpPosition);
+                foreach(Monster monsterToMove in m_dungeon[0].Monsters.Where(m => monsterFreePoints.Contains(m.Position)).OfType<Monster>())
                 {
-                    if (moveablePoints[i, j])
-                        clearPoints.Add(new Point(i, j));
+                    int attempts = 0;
+                    while (true)
+                    {
+                        int possibleX = random.getInt(0, m_dungeon[0].Width - 1);
+                        int possibleY = random.getInt(0, m_dungeon[0].Height - 1);
+                        if (moveablePoints[possibleX, possibleY])
+                        {
+                            monsterToMove.Position = new Point(possibleX, possibleY);
+                            moveablePoints[possibleX, possibleY] = false;
+                            break;
+                        }
+                        else
+                        {
+                            attempts++;
+                        }
+
+                        // If we try 10000 random points and fail, throw an exception, since something is seriously wrong
+                        if (attempts > 10000)
+                            throw new MapGenerationFailureException("ClearMonstersFromStartingArea can't find spot to move monster");
+                    }
                 }
             }
-            return clearPoints.Randomize();
         }
 
         public void LoadSaveFile(string saveGameName)

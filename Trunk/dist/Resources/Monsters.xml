@@ -55,7 +55,7 @@
 		<MonsterInstance Name="Kobold Warrior" Level="1"/>
 		<MonsterInstance Name="Kobold Chief" Level="2"/>
 	</Monster>
-	<Monster BaseName="Giant Rat" AIType="Standard" Symbol="r" Intelligent="True">
+	<Monster BaseName="Giant Rat" AIType="Standard" Symbol="r" Intelligent="False">
 		<BaseStats BaseLevel="0" BaseVision="5" BaseHP="80" BaseDefence="0" BaseEvade="5" BaseDamage="2,3" BaseCTIncrease="1.25" BaseCTMoveCost=".75" BaseCTAttackCost=".25"/>
 		<StatsPerLevel DamagePerLevel="1,3,-1" HPPerLevel="10" />
 		<MonsterInstance Name="Huge Rat" Level="0"/>
