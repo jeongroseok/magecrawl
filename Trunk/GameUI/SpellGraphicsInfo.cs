@@ -1,11 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Xml;
-using libtcod;
-using Magecrawl.Interfaces;
-using Magecrawl.Utilities;
+﻿using libtcod;
+using Magecrawl.GameUI.Utilities;
 
 namespace Magecrawl.GameUI
 {

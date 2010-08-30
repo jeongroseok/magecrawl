@@ -99,8 +99,10 @@ namespace Magecrawl.GameEngine
         private static List<Point> GenerateListOfPointsSinglePass(Map map, Point caster, Point target, ref Point firstWall)
         {
             List<Point> returnList = new List<Point>();
+            BresenhamLine lineGenerator = new BresenhamLine(caster, target);
 
-            foreach (Point p in BresenhamLine.GenerateLineList(caster, target))
+            Point p = lineGenerator.Step();
+            while (p != Point.Invalid)
             {
                 if (!ValidPoint(map, p))
                 {
@@ -108,6 +110,7 @@ namespace Magecrawl.GameEngine
                     break;
                 }
                 returnList.Add(p);
+                p = lineGenerator.Step();
             }
 
             return returnList;

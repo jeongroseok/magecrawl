@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using libtcod;
 using Magecrawl.GameUI;
+using Magecrawl.GameUI.Utilities;
 using Magecrawl.Utilities;
 
 namespace Magecrawl

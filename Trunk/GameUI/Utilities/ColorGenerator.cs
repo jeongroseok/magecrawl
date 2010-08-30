@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using libtcod;
+using Magecrawl.Utilities;
 
-namespace Magecrawl.Utilities
+namespace Magecrawl.GameUI.Utilities
 {
     public static class ColorGenerator
     {

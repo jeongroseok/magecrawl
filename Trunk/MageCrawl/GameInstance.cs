@@ -8,6 +8,7 @@ using libtcod;
 using Magecrawl.Exceptions;
 using Magecrawl.GameUI;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.GameUI.Utilities;
 using Magecrawl.Interfaces;
 using Magecrawl.Keyboard;
 using Magecrawl.Utilities;
