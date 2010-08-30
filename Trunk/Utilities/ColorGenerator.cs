@@ -6,7 +6,7 @@ namespace Magecrawl.Utilities
 {
     public static class ColorGenerator
     {
-        private static TCODRandom s_randomColorRNG = new TCODRandom();
+        private static Random s_randomColorRNG = new Random();
         public static TCODColor GenerateRandomColor(bool pastels)
         {
             int red = s_randomColorRNG.getInt(0, 255);

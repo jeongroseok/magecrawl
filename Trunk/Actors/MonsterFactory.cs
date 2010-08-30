@@ -17,11 +17,11 @@ namespace Magecrawl.Actors
         private Dictionary<string, Dictionary<string, string>> m_monsterStats;
         private Dictionary<string, List<Pair<string, int>>> m_monsterInstances;
 
-        private TCODRandom m_random;
+        private Random m_random;
 
         private MonsterFactory()
         {
-            m_random = new TCODRandom();
+            m_random = new Random();
             LoadMappings();
         }
 

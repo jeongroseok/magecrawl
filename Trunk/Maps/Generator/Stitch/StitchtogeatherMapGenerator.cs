@@ -35,7 +35,7 @@ namespace Magecrawl.Maps.Generator.Stitch
         private int m_placed;
         private int m_level;
 
-        public StitchtogeatherMapGenerator(TCODRandom random) : base(random)
+        public StitchtogeatherMapGenerator(Random random) : base(random)
         {
             m_unplacedDueToSpace = new Queue<MapNode>();
             m_graphGenerator = new StitchtogeatherMapGraphGenerator();

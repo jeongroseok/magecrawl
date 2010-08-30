@@ -4,12 +4,13 @@ using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.Maps.Generator.Cave
 {
     public class SimpleCaveGenerator : MapGeneratorBase
     {
-        public SimpleCaveGenerator(TCODRandom random) : base(random)
+        public SimpleCaveGenerator(Random random) : base(random)
         {
         }
 

@@ -7,19 +7,24 @@ namespace Magecrawl.Utilities
 {
     public static class ProbabilityExtensions
     {
-        public static bool Chance(this TCODRandom r, int probability)
+        public static bool Chance(this Random r, int probability)
         {
-            return r.getInt(0, 99) < probability;
+            return r.Next(100) < probability;
         }
 
-        public static bool Chance(this TCODRandom r, double probability)
+        public static bool Chance(this Random r, double probability)
         {
-            return r.getFloat(0, (float).9999) < probability;
+            return r.NextDouble() < probability;
         }
 
         public static List<T> Randomize<T>(this List<T> list)
         {
             return list.OrderBy(a => Guid.NewGuid()).ToList();
+        }
+
+        public static int getInt(this Random r, int min, int inclusiveMax)
+        {
+            return min + r.Next(inclusiveMax - min + 1);
         }
     }
 }

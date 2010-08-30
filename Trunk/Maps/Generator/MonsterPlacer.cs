@@ -3,12 +3,13 @@ using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.Maps.Generator
 {
     internal static class MonsterPlacer
     {
-        private static TCODRandom m_random = new TCODRandom();
+        private static Random m_random = new Random();
 
         // Priority is how dangerous this room is: 0 - unguarded, 10 - Must protect with everything
         internal static void PlaceMonster(Map map, Point upperLeft, Point lowerRight, List<Point> pointsNotToPlaceOn, int priority, int level)

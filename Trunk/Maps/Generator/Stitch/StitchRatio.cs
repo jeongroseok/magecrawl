@@ -11,7 +11,7 @@ namespace Magecrawl.Maps.Generator.Stitch
     internal sealed class StitchRatio : IDisposable
     {
         private int[,] m_ratioTable;
-        private static TCODRandom m_random = new TCODRandom();
+        private static Random m_random = new Random();
         private int m_wantedNumberOfNodes;
         private int m_generatedNumberOfNodes;
 
@@ -45,7 +45,6 @@ namespace Magecrawl.Maps.Generator.Stitch
 
         public void Dispose()
         {
-            m_random.Dispose();
         }
 
         // So we use the base table values, but modify based on how close we are to our wanted value

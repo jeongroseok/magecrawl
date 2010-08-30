@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using libtcod;
+using System;
 
 namespace Magecrawl.Utilities
 {
     public static class DiscreteRandomNumberOnNormalCurve
     {
-        private static TCODRandom s_random = new TCODRandom();
+        private static Random s_random = new Random();
 
         public static int GetNumber(double mean, double var, int low, int high)
         {

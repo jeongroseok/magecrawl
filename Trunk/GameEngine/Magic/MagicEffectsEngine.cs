@@ -327,13 +327,11 @@ namespace Magecrawl.GameEngine.Magic
             // If there's no where to go, we're done
             if (targetablePoints.Count == 0)
                 return true;
-            using (TCODRandom random = new TCODRandom())
-            {
-                int element = random.getInt(0, targetablePoints.Count - 1);
-                EffectivePoint pointToTeleport = targetablePoints[element];
-                CoreGameEngine.Instance.SendTextOutput(string.Format("Things become fuzzy as {0} shifts into a new position.", caster.Name));
-                m_physicsEngine.WarpToPosition(caster, pointToTeleport.Position);
-            }
+            Random random = new Random();
+            int element = random.getInt(0, targetablePoints.Count - 1);
+            EffectivePoint pointToTeleport = targetablePoints[element];
+            CoreGameEngine.Instance.SendTextOutput(string.Format("Things become fuzzy as {0} shifts into a new position.", caster.Name));
+            m_physicsEngine.WarpToPosition(caster, pointToTeleport.Position);
             return true;
         }
     }

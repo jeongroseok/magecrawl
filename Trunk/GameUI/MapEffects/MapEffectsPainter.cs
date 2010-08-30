@@ -2,6 +2,7 @@
 using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.GameUI.MapEffects
 {
@@ -9,7 +10,7 @@ namespace Magecrawl.GameUI.MapEffects
     {
         private const int MillisecondsPerFrame = 65;
         
-        private static TCODRandom s_random = new TCODRandom();
+        private static Random s_random = new Random();
 
         private enum EffectTypes 
         {

@@ -3,6 +3,7 @@ using System.IO;
 using libtcod;
 using Magecrawl.GameUI;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl
 {
@@ -40,7 +41,7 @@ namespace Magecrawl
 
         private DialogColorHelper m_dialogHelper;
         private TCODConsole m_console;
-        private TCODRandom m_random;
+        private Random m_random;
         private Dictionary<MagicTypes, string> m_flavorText;
         private Dictionary<MagicTypes, List<string>> m_spellLists;
         private Dictionary<MagicTypes, string> m_mainText;
@@ -63,10 +64,10 @@ namespace Magecrawl
         {
             m_dialogHelper = new DialogColorHelper();
             m_console = TCODConsole.root;
-            m_random = new TCODRandom();
+            m_random = new Random();
             m_windowResult = new Result();
 
-            m_currentElementPointedTo = (MagicTypes)m_random.getInt(0, 6);    // Pick a random element to start on.
+            m_currentElementPointedTo = (MagicTypes)m_random.Next(7);    // Pick a random element to start on.
 
             m_flavorText = new Dictionary<MagicTypes, string>();
             m_flavorText[MagicTypes.Fire] = "Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
@@ -103,8 +104,6 @@ namespace Magecrawl
 
         public void Dispose()
         {
-            if (m_random != null)
-                m_random.Dispose();
             m_random = null;
         }
 
