@@ -11,7 +11,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    internal sealed class CombatEngine : IDisposable
+    internal sealed class CombatEngine
     {
         public delegate void DamageDoneDelegate(int damage, Character target, bool targetKilled);
 
@@ -28,11 +28,6 @@ namespace Magecrawl.GameEngine
             m_map = map;
             m_physicsEngine = engine;
             m_random = new Random();
-        }
-
-        public void Dispose()
-        {
-            m_random = null;
         }
 
         internal void NewMapPlayerInfo(Player player, Map map)
@@ -82,7 +77,7 @@ namespace Magecrawl.GameEngine
                 return -1;
 
             // First check against evade
-            int evadeRoll = m_random.Next(100);
+            int evadeRoll = m_random.getInt(0, 99);
 
             if ((bool)Preferences.Instance["ShowAttackRolls"])
             {

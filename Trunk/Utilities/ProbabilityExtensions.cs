@@ -9,7 +9,7 @@ namespace Magecrawl.Utilities
     {
         public static bool Chance(this Random r, int probability)
         {
-            return r.Next(100) < probability;
+            return r.getInt(0, 99) < probability;
         }
 
         public static bool Chance(this Random r, double probability)

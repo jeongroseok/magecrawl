@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using libtcod;
 using Magecrawl.GameUI;
 using Magecrawl.Utilities;
-using System;
 
 namespace Magecrawl
 {
-    internal class WelcomeWindow : System.IDisposable
+    internal class WelcomeWindow
     {
         public struct Result
         {
@@ -67,7 +67,7 @@ namespace Magecrawl
             m_random = new Random();
             m_windowResult = new Result();
 
-            m_currentElementPointedTo = (MagicTypes)m_random.Next(7);    // Pick a random element to start on.
+            m_currentElementPointedTo = (MagicTypes)m_random.getInt(0, 6);    // Pick a random element to start on.
 
             m_flavorText = new Dictionary<MagicTypes, string>();
             m_flavorText[MagicTypes.Fire] = "Passionate fire-based magic. Aggressive front loaded damage. Weaker in magic requiring more finesse.";
@@ -100,11 +100,6 @@ namespace Magecrawl
             m_lowerRange = 0;
             m_cursorPosition = -1;
             m_isScrollingNeeded = m_fileNameList.Count > NumberOfSaveFilesToList;
-        }
-
-        public void Dispose()
-        {
-            m_random = null;
         }
 
         public Result Run()

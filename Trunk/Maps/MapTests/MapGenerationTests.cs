@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Magecrawl.Maps.Generator.Cave;
 using libtcod;
 using Magecrawl.Maps.Generator.Stitch;
-using System;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Maps.Tests

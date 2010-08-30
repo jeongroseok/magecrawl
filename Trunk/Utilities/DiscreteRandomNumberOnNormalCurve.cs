@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using libtcod;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Magecrawl.Utilities
 {

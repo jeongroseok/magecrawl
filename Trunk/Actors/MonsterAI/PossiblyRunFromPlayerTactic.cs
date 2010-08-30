@@ -1,7 +1,6 @@
-﻿using libtcod;
+﻿using System;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
-using System;
 
 namespace Magecrawl.Actors.MonsterAI
 {
