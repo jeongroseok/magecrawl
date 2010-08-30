@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using libtcod;
+﻿using System;
+using System.Collections.Generic;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
-using System;
 
 namespace Magecrawl.GameEngine
 {

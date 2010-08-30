@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using libtcod;
+﻿using System;
+using System.Collections.Generic;
 using Magecrawl.Actors;
 using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
-using System;
 
 namespace Magecrawl.Maps.Generator
 {
