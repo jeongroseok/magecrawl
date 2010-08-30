@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
@@ -8,33 +7,25 @@ using Magecrawl.Maps;
 using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Physics
 {
-    internal sealed class FOVManager : IFOVManager, IDisposable
+    internal sealed class FOVManager : IFOVManager
     {
-        private TCODMap m_fov;
         private Point m_lastCalculatedViewPoint;
         private int m_lastCalculatedVision;
+        private PhysicsMap m_physicsMap;
 
         internal FOVManager(PhysicsEngine physicsEngine, Map map)
         {
-            m_fov = new TCODMap(map.Width, map.Height);
+            m_physicsMap = new PhysicsMap(map.Width, map.Height);
             m_lastCalculatedViewPoint = Point.Invalid;
             m_lastCalculatedVision = -1;
-        }
-
-        public void Dispose()
-        {
-            if (m_fov != null)
-                m_fov.Dispose();
-            m_fov = null;
         }
 
         // New maps might have new height/width
         public void UpdateNewMap(PhysicsEngine physicsEngine, Map map)
         {
-            m_fov.Dispose();
-            m_fov = new TCODMap(map.Width, map.Height);
+            m_physicsMap = new PhysicsMap(map.Width, map.Height);
         }
 
         // This is to be private. Only the FOVManager should update.
@@ -49,32 +40,32 @@ namespace Magecrawl.GameEngine
             Point lowerRightPointViewRange = map.CoercePointOntoMap(viewPoint + new Point(viewableRadius, viewableRadius));
             Point viewRange = lowerRightPointViewRange - upperLeftPointViewRange;
 
-            m_fov.clear();
+            m_physicsMap.Clear();
 
             for (int i = upperLeftPointViewRange.X; i < upperLeftPointViewRange.X + viewRange.X; ++i)
             {
                 for (int j = upperLeftPointViewRange.Y; j < upperLeftPointViewRange.Y + viewRange.Y; ++j)
                 {
                     bool isFloor = map.GetTerrainAt(i, j) == TerrainType.Floor;
-                    m_fov.setProperties(i, j, isFloor, isFloor);
+                    m_physicsMap.Cells[i, j].Transparent = isFloor;
                 }
             }
 
             foreach (MapObject obj in map.MapObjects.Where(x => x.IsSolid))
             {
-                m_fov.setProperties(obj.Position.X, obj.Position.Y, obj.IsTransarent, !obj.IsSolid);
+                m_physicsMap.Cells[obj.Position.X, obj.Position.Y].Transparent = obj.IsTransarent;
             }
 
             foreach (Monster m in map.Monsters)
             {
-                m_fov.setProperties(m.Position.X, m.Position.Y, false, false);
+                m_physicsMap.Cells[m.Position.X, m.Position.Y].Transparent = false;
             }
         }
 
         private void CalculateCore(IMapCore map, Point viewPoint, int viewableDistance)
         {
             UpdateFOV(map, viewPoint, viewableDistance);
-            m_fov.computeFov(viewPoint.X, viewPoint.Y, viewableDistance, true, TCODFOVTypes.ShadowFov);
+            ShadowCastingFOV.ComputeRecursiveShadowcasting(m_physicsMap, viewPoint.X, viewPoint.Y, viewableDistance, true);
         }
 
         // Calculate FOV for multipe Visible calls
@@ -88,11 +79,7 @@ namespace Magecrawl.GameEngine
         // CalculateForMultipleCalls needs to be called if you want good data.
         public bool Visible(Point pointWantToView)
         {
-            // If we're significantly father than our viewableDistance, give up early
-            if (PointDirectionUtils.NormalDistance(m_lastCalculatedViewPoint, pointWantToView) > m_lastCalculatedVision + 3)  // 3 is arbritray large just to prevent edge effects
-                return false;
-
-            return m_fov.isInFov(pointWantToView.X, pointWantToView.Y);
+            return m_physicsMap.Cells[pointWantToView.X, pointWantToView.Y].Visible;
         }
 
         // Used when we're only calculating a few points and precalculating is not worth it. Use CalculateForMultipleCalls/Visible 
@@ -104,7 +91,7 @@ namespace Magecrawl.GameEngine
                 return false;
 
             CalculateCore(map, viewPoint, viewableDistance);
-            return m_fov.isInFov(pointWantToView.X, pointWantToView.Y);
+            return m_physicsMap.Cells[pointWantToView.X, pointWantToView.Y].Visible;
         }
     }
 }

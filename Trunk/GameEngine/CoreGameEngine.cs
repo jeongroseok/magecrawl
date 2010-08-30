@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Interface;
 using Magecrawl.GameEngine.Magic;
+using Magecrawl.GameEngine.Physics;
 using Magecrawl.GameEngine.SaveLoad;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
@@ -158,14 +158,6 @@ namespace Magecrawl.GameEngine
 
         public void Dispose()
         {
-            if (m_physicsEngine != null)
-                m_physicsEngine.Dispose();
-            m_physicsEngine = null;
-
-            if (m_pathFinding != null)
-                m_pathFinding.Dispose();
-            m_pathFinding = null;
-
             m_instance = null;
         }
 
@@ -203,8 +195,6 @@ namespace Magecrawl.GameEngine
             internal set
             {
                 m_currentLevel = value;
-
-                m_pathFinding.Dispose();
                 m_pathFinding = new PathfindingMap(Player, Map);
                 m_physicsEngine.NewMapPlayerInfo(Player, Map);
             }

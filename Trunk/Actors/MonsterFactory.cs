@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
-using libtcod;
 using Magecrawl.Actors.MonsterAI;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;

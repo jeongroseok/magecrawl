@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using libtcod;
 using Magecrawl.Actors.MonsterAI;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;

@@ -5,6 +5,7 @@ using System.Linq;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Magic;
+using Magecrawl.GameEngine.Physics;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Maps;
@@ -14,7 +15,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.GameEngine
 {
-    internal sealed class PhysicsEngine : IDisposable
+    internal sealed class PhysicsEngine
     {
         private CoreTimingEngine m_timingEngine;
         private FOVManager m_fovManager;
@@ -38,13 +39,6 @@ namespace Magecrawl.GameEngine
             m_movableHash = new Dictionary<Point, bool>(PointEqualityComparer.Instance);
             m_magicEffects = new MagicEffectsEngine(this, m_combatEngine);
             UpdatePlayerVisitedStatus();
-        }
-
-        public void Dispose()
-        {
-            if (m_fovManager != null)
-                m_fovManager.Dispose();
-            m_fovManager = null;
         }
 
         internal CombatEngine CombatEngine

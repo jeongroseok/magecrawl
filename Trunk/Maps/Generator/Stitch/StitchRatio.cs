@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using libtcod;
 using Magecrawl.Utilities;
 
 namespace Magecrawl.Maps.Generator.Stitch

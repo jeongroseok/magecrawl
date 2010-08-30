@@ -1,41 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.Maps;
 using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 
-namespace Magecrawl.GameEngine
+namespace Magecrawl.GameEngine.Physics
 {
-    internal sealed class PathfindingMap : IDisposable
+    internal sealed class PathfindingMap
     {
-        private TCODPath m_pathFinding;
-        private TCODMap m_fov;
         private Map m_map;
         private Player m_player;
+        private PhysicsMap m_physicsMap;
+        private AStarPathFinder m_pathFinding;
 
         public PathfindingMap(Player player, Map map)
         {
             m_player = player;
             m_map = map;
-            m_fov = new TCODMap(map.Width, map.Height);
-            m_fov.clear();
-            m_pathFinding = new TCODPath(m_fov, 1.41f);
+            m_physicsMap = new PhysicsMap(map.Width, map.Height);
+            m_pathFinding = new AStarPathFinder(m_physicsMap, 1.41f);
         }
         
-        public void Dispose()
-        {
-            if (m_pathFinding != null)
-                m_pathFinding.Dispose();
-            m_pathFinding = null;
-
-            if (m_fov != null)
-                m_fov.Dispose();
-            m_fov = null;
-        }
-
         // Alright, the behavior we're looking for is a bit unique.
         // We want to know if you can walk to a given position.
         // If there is a character there, ignore it so we can walk 'towards' it
@@ -44,20 +31,20 @@ namespace Magecrawl.GameEngine
         {
             UpdateInternalFOV(actor.Position, dest, canOperate, engine, usePlayerLOS, monstersBlockPath);
 
-            bool pathExists = m_pathFinding.compute(actor.Position.X, actor.Position.Y, dest.X, dest.Y);
+            bool pathExists = m_pathFinding.Compute(actor.Position.X, actor.Position.Y, dest.X, dest.Y);
             if (!pathExists)
                 return null;
             
             List<Point> path = new List<Point>();
-            int pathLength = m_pathFinding.size();
+            int pathLength = m_pathFinding.Size();
+
             for (int i = 0; i < pathLength; ++i)
             {
                 int currentX;
                 int currentY;
-                m_pathFinding.get(i, out currentX, out currentY);
+                m_pathFinding.GetPathElement(i, out currentX, out currentY);
                 path.Add(new Point(currentX, currentY));
             }
-
             return path;
         }
 
@@ -83,6 +70,7 @@ namespace Magecrawl.GameEngine
             if (m_player.Position == dest)
                 moveableGrid[m_player.Position.X, m_player.Position.Y] = true;
 
+            // We can't travel to places we haven't explored
             if (usePlayerLOS)
             {
                 for (int i = 0; i < m_map.Width; ++i)
@@ -102,8 +90,7 @@ namespace Magecrawl.GameEngine
             {
                 for (int j = 0; j < m_map.Height; ++j)
                 {
-                    bool isMoveable = moveableGrid[i, j];
-                    m_fov.setProperties(i, j, isMoveable, isMoveable);
+                    m_physicsMap.Cells[i, j].Walkable = moveableGrid[i, j];
                 }
             }
         }
