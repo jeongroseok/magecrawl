@@ -13,12 +13,8 @@ namespace Magecrawl
 #endif
             {
                 UIHelper.SetupUI();
-                WelcomeWindow.Result result;
-                
-                using (WelcomeWindow welcomeWindow = new WelcomeWindow())
-                {
-                    result = welcomeWindow.Run();
-                }
+                WelcomeWindow welcomeWindow = new WelcomeWindow();
+                WelcomeWindow.Result result = welcomeWindow.Run();
 
                 if (result.Quitting || TCODConsole.isWindowClosed())
                     return;
