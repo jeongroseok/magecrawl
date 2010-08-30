@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using libtcod;
 using Magecrawl.Actors;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.GameEngine.Magic;

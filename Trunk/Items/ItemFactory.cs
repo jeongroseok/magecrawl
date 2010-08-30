@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using libtcod;
 using Magecrawl.Interfaces;
 using Magecrawl.Items.Materials;
 using Magecrawl.Items.WeaponRanges;

@@ -47,6 +47,8 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="Physics\AStarPathFinder.cs" />
+    <Compile Include="Physics\PhysicsMap.cs" />
     <Compile Include="PlayerBackgrounds.cs" />
     <Compile Include="CombatDefenseCalculator.cs" />
     <Compile Include="Interface\CoreGameEngineInterface.cs" />
@@ -57,9 +59,9 @@
     <Compile Include="Interface\GameStateInterface.cs" />
     <Compile Include="Magic\MagicEffectsEngine.cs" />
     <Compile Include="Magic\Spell.cs" />
-    <Compile Include="FOVManager.cs" />
+    <Compile Include="Physics\FOVManager.cs" />
     <Compile Include="Magic\SpellFactory.cs" />
-    <Compile Include="PathfindingMap.cs" />
+    <Compile Include="Physics\PathfindingMap.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PhysicsEngine.cs" />
     <Compile Include="Interface\PlayerActionEngine.cs" />
@@ -68,16 +70,13 @@
     <Compile Include="RangedAttackPathfinder.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
     <Compile Include="MonsterSkillEffectEngine.cs" />
+    <Compile Include="Physics\ShadowCastingFOV.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\SkillFactory.cs" />
     <Compile Include="Interface\TargettingUtils.cs" />
     <Compile Include="TreasureGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dist\libtcod-net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition, Version=2010.2.11.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
