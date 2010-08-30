@@ -7,8 +7,6 @@ namespace Magecrawl
 {
     internal class NewPlayerOptionsWindow
     {
-        static TCODRandom s_random = new TCODRandom();
-
         private struct PlayerOption
         {
             public string Name;

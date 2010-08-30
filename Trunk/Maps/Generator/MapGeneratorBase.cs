@@ -5,15 +5,16 @@ using Magecrawl.Interfaces;
 using Magecrawl.Maps.MapObjects;
 using Magecrawl.Utilities;
 using Magecrawl.EngineInterfaces;
+using System;
 
 namespace Magecrawl.Maps.Generator
 {
     public abstract class MapGeneratorBase
     {
-        protected TCODRandom m_random;
+        protected Random m_random;
         private Dictionary<Map, List<Point>> m_clearPointCache;
 
-        internal MapGeneratorBase(TCODRandom random)
+        internal MapGeneratorBase(Random random)
         {
             m_random = random;
             m_clearPointCache = new Dictionary<Map, List<Point>>();

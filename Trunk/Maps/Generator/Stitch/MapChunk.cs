@@ -12,7 +12,7 @@ namespace Magecrawl.Maps.Generator.Stitch
 {
     internal class MapChunk
     {
-        private static TCODRandom m_random = new TCODRandom();
+        private static Random m_random = new Random();
 
         public int Width { get; set; }
         public int Height { get; set; }
@@ -132,7 +132,7 @@ namespace Magecrawl.Maps.Generator.Stitch
         private const int NormalChanceToPlaceDoorAtSpot = 35;
         private const int TreasureRoomChanceToPlaceDoorAtSpot = 95;
 
-        internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner, TCODRandom random)
+        internal void PlaceChunkOnMapAtPosition(Map map, Point upperLeftCorner, Random random)
         {
             for (int i = 0; i < Width; ++i)
             {

@@ -12,7 +12,7 @@ namespace Magecrawl.Actors
     public class Monster : Character, IMonster
     {
         // Share one RNG between monsters
-        protected static TCODRandom m_random = new TCODRandom();
+        protected static Random m_random = new Random();
 
         private List<IMonsterTactic> m_tactics;
 

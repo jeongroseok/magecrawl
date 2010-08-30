@@ -1,12 +1,13 @@
 ﻿using libtcod;
 using Magecrawl.EngineInterfaces;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.Actors.MonsterAI
 {
     internal class PossiblyRunFromPlayerTactic : TacticWithCooldown
     {
-        private static TCODRandom s_random = new TCODRandom();
+        private static Random s_random = new Random();
         private const int ChanceToApproach = 50;
 
         public override bool CouldUseTactic(IGameEngineCore engine, Monster monster)

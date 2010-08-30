@@ -10,7 +10,7 @@ namespace Magecrawl.Items
 {
     public class ItemFactory
     {
-        private static TCODRandom s_random = new TCODRandom();
+        private static Random s_random = new Random();
 
         internal MaterialFactory MaterialFactory;
         internal QualityFactory QualityFactory;

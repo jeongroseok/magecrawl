@@ -2,6 +2,8 @@
 using Magecrawl.Maps.Generator.Cave;
 using libtcod;
 using Magecrawl.Maps.Generator.Stitch;
+using System;
+using Magecrawl.Utilities;
 
 namespace Magecrawl.Maps.Tests
 {
@@ -14,7 +16,7 @@ namespace Magecrawl.Maps.Tests
         [Test]
         public void GenerateLotsOfCaveMaps()
         {
-            TCODRandom random = new TCODRandom();
+            Random random = new Random();
             for (int i = 0; i < NumberOfMapsToGenerate; i++)
             {
                 SimpleCaveGenerator generator = new SimpleCaveGenerator(random);
@@ -27,7 +29,7 @@ namespace Magecrawl.Maps.Tests
         [Test]
         public void GenerateLotsOfStitchMaps()
         {
-            TCODRandom random = new TCODRandom();
+            Random random = new Random();
             for (int i = 0; i < NumberOfMapsToGenerate; i++)
             {
                 StitchtogeatherMapGenerator generator = new StitchtogeatherMapGenerator(random); 

@@ -5,6 +5,7 @@ using Magecrawl.EngineInterfaces;
 using Magecrawl.Interfaces;
 using Magecrawl.Items;
 using Magecrawl.Utilities;
+using System;
 
 namespace Magecrawl.GameEngine
 {
@@ -12,7 +13,7 @@ namespace Magecrawl.GameEngine
     {
         public static readonly TreasureGenerator Instance = new TreasureGenerator();
 
-        private TCODRandom s_random = new TCODRandom();
+        private Random s_random = new Random();
 
         private TreasureGenerator()
         {

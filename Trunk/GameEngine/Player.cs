@@ -17,7 +17,7 @@ namespace Magecrawl.GameEngine
 {
     internal sealed class Player : Character, IPlayer, IXmlSerializable
     {
-        private TCODRandom s_random = new TCODRandom();
+        private Random s_random = new Random();
 
         public IArmor ChestArmor { get; internal set; }
         public IArmor Headpiece { get; internal set; }

@@ -20,20 +20,18 @@ namespace Magecrawl.GameEngine
         private Map m_map;
         private PhysicsEngine m_physicsEngine;
 
-        private TCODRandom m_random;
+        private Random m_random;
 
         internal CombatEngine(PhysicsEngine engine, Player player, Map map)
         {
             m_player = player;
             m_map = map;
             m_physicsEngine = engine;
-            m_random = new TCODRandom();
+            m_random = new Random();
         }
 
         public void Dispose()
         {
-            if (m_random != null)
-                m_random.Dispose();
             m_random = null;
         }
 
@@ -84,7 +82,7 @@ namespace Magecrawl.GameEngine
                 return -1;
 
             // First check against evade
-            int evadeRoll = m_random.getInt(0, 99);
+            int evadeRoll = m_random.Next(100);
 
             if ((bool)Preferences.Instance["ShowAttackRolls"])
             {

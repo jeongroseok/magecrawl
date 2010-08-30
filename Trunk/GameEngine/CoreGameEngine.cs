@@ -88,20 +88,18 @@ namespace Magecrawl.GameEngine
             m_currentLevel = 0;
 
             Stairs incommingStairs = null;
-            using (TCODRandom random = new TCODRandom())
+            Random random = new Random();
+            bool generateCave = false;
+            for (int i = 0; i < 5; ++i)
             {
-                bool generateCave = false;
-                for (int i = 0; i < 5; ++i)
-                {
-                    generateCave = random.Chance(50);
-                    MapGeneratorBase mapGenerator = generateCave ? (MapGeneratorBase)new SimpleCaveGenerator(random) : (MapGeneratorBase)new StitchtogeatherMapGenerator(random);
+                generateCave = random.Chance(50);
+                MapGeneratorBase mapGenerator = generateCave ? (MapGeneratorBase)new SimpleCaveGenerator(random) : (MapGeneratorBase)new StitchtogeatherMapGenerator(random);
                     
-                    m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, i);
+                m_dungeon[i] = mapGenerator.GenerateMap(incommingStairs, i);
 
-                    incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();              
-                }
+                incommingStairs = m_dungeon[i].MapObjects.Where(x => x.Type == MapObjectType.StairsDown).OfType<Stairs>().First();              
             }
-
+ 
             Point initialStairsUpPosition = m_dungeon[0].MapObjects.Where(x => x.Type == MapObjectType.StairsUp).OfType<Stairs>().First().Position;
 
             ClearMonstersFromStartingArea(initialStairsUpPosition);
@@ -122,31 +120,29 @@ namespace Magecrawl.GameEngine
         {
             List<Point> monsterFreePoints = PointListUtils.PointListFromBurstPosition(initialStairsUpPosition, 8);
 
-            using (TCODRandom random = new TCODRandom())
+            Random random = new Random();
+            bool[,] moveablePoints = m_dungeon[0].CalculateMoveablePointGrid(true, initialStairsUpPosition);
+            foreach(Monster monsterToMove in m_dungeon[0].Monsters.Where(m => monsterFreePoints.Contains(m.Position)).OfType<Monster>())
             {
-                bool[,] moveablePoints = m_dungeon[0].CalculateMoveablePointGrid(true, initialStairsUpPosition);
-                foreach(Monster monsterToMove in m_dungeon[0].Monsters.Where(m => monsterFreePoints.Contains(m.Position)).OfType<Monster>())
+                int attempts = 0;
+                while (true)
                 {
-                    int attempts = 0;
-                    while (true)
+                    int possibleX = random.getInt(0, m_dungeon[0].Width - 1);
+                    int possibleY = random.getInt(0, m_dungeon[0].Height - 1);
+                    if (moveablePoints[possibleX, possibleY])
                     {
-                        int possibleX = random.getInt(0, m_dungeon[0].Width - 1);
-                        int possibleY = random.getInt(0, m_dungeon[0].Height - 1);
-                        if (moveablePoints[possibleX, possibleY])
-                        {
-                            monsterToMove.Position = new Point(possibleX, possibleY);
-                            moveablePoints[possibleX, possibleY] = false;
-                            break;
-                        }
-                        else
-                        {
-                            attempts++;
-                        }
-
-                        // If we try 10000 random points and fail, throw an exception, since something is seriously wrong
-                        if (attempts > 10000)
-                            throw new MapGenerationFailureException("ClearMonstersFromStartingArea can't find spot to move monster");
+                        monsterToMove.Position = new Point(possibleX, possibleY);
+                        moveablePoints[possibleX, possibleY] = false;
+                        break;
                     }
+                    else
+                    {
+                        attempts++;
+                    }
+
+                    // If we try 10000 random points and fail, throw an exception, since something is seriously wrong
+                    if (attempts > 10000)
+                        throw new MapGenerationFailureException("ClearMonstersFromStartingArea can't find spot to move monster");
                 }
             }
         }
