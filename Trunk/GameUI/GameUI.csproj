@@ -124,6 +124,10 @@
     <Compile Include="Dialogs\Requests\MoveTwoButtonDialogSelection.cs" />
     <Compile Include="Dialogs\Requests\ChangeTwoButtonText.cs" />
     <Compile Include="Dialogs\Requests\DisableTwoButtonDialog.cs" />
+    <Compile Include="Utilities\ColorCache.cs" />
+    <Compile Include="Utilities\ColorExtensions.cs" />
+    <Compile Include="Utilities\ColorGenerator.cs" />
+    <Compile Include="Utilities\ColorPresets.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libtcod-net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -150,4 +154,5 @@
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

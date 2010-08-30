@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using libtcod;
+using Magecrawl.GameUI.Utilities;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 

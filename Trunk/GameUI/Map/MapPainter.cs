@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Threading;
 using System.Xml;
 using libtcod;
+using Magecrawl.GameUI.Utilities;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
@@ -165,6 +163,11 @@ namespace Magecrawl.GameUI.Map
             }
         }
 
+        private TCODColor s_floorColorVisible =  new TCODColor(42, 42, 42);
+        private TCODColor s_floorColorNotVisible = new TCODColor(15, 15, 15);
+        private TCODColor s_wallColorVisible = new TCODColor(83, 41, 0);
+        private TCODColor s_wallColorNotVisible = new TCODColor(40, 20, 0);
+
         private TCODColor ConvertTerrainSpotToColor(TerrainType terrain, TileVisibility visibility)
         {
             if (m_honorFOV && visibility == TileVisibility.Unvisited)
@@ -174,14 +177,14 @@ namespace Magecrawl.GameUI.Map
             {
                 case TerrainType.Floor:
                     if (visible)
-                        return (TCODColor)Preferences.Instance["FloorColorVisible"];
+                        return s_floorColorVisible;
                     else
-                        return (TCODColor)Preferences.Instance["FloorColorNotVisible"];
+                        return s_floorColorNotVisible;
                 case TerrainType.Wall:
                     if (visible)
-                        return (TCODColor)Preferences.Instance["WallColorVisible"];
+                        return s_wallColorVisible;
                     else
-                        return (TCODColor)Preferences.Instance["WallColorNotVisible"];
+                        return s_wallColorNotVisible;
                 default:
                     throw new System.ArgumentException("Unknown Type - ConvertTerrianToChar");
             }

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using libtcod;
-using Magecrawl.Utilities;
+﻿using libtcod;
+using Magecrawl.GameUI.Utilities;
 
 namespace Magecrawl.GameUI
 {

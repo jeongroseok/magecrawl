@@ -1,7 +1,7 @@
 ﻿using System;
 using libtcod;
 
-namespace Magecrawl.Utilities
+namespace Magecrawl.GameUI.Utilities
 {
     public static class ColorExtensions
     {

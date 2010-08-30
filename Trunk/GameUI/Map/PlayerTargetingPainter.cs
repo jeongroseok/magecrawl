@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using libtcod;
 using Magecrawl.GameUI.Map.Requests;
+using Magecrawl.GameUI.Utilities;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 

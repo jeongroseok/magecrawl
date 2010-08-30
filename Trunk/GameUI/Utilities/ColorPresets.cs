@@ -1,6 +1,6 @@
 ﻿using libtcod;
 
-namespace Magecrawl.Utilities
+namespace Magecrawl.GameUI.Utilities
 {
     /// <summary>
     /// A listing of the System.Drawing.Color preset colors, converted
