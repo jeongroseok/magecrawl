@@ -167,7 +167,10 @@ namespace Magecrawl.Maps
         {
             get 
             {
-                return m_items.ConvertAll<Pair<IItem, Point>>(new Converter<Pair<Item, Point>, Pair<IItem, Point>>(delegate(Pair<Item, Point> i) { return new Pair<IItem, Point>(i.First, i.Second); }));
+                foreach (Pair<Item, Point> itemPair in m_items)
+                {
+                    yield return new Pair<IItem, Point>(itemPair.First, itemPair.Second);
+                }
             }
         }
 

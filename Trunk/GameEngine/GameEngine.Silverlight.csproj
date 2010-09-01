@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6F9203A8-1DF7-4EBF-A920-0CA9E671088C}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GameEngine.Silverlight</RootNamespace>
+    <AssemblyName>GameEngine.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.Composition, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CombatDefenseCalculator.cs" />
+    <Compile Include="CombatEngine.cs" />
+    <Compile Include="CoreGameEngine.cs" />
+    <Compile Include="CoreTimingEngine.cs" />
+    <Compile Include="Interface\CoreGameEngineInterface.cs" />
+    <Compile Include="Interface\DebugEngine.cs" />
+    <Compile Include="Interface\GameStateInterface.cs" />
+    <Compile Include="Interface\PlayerActionEngine.cs" />
+    <Compile Include="Interface\PublicGameEngineInterface.cs" />
+    <Compile Include="Interface\TargettingUtils.cs" />
+    <Compile Include="Magic\MagicEffectsEngine.cs" />
+    <Compile Include="Magic\Spell.cs" />
+    <Compile Include="Magic\SpellFactory.cs" />
+    <Compile Include="MonsterSkillEffectEngine.cs" />
+    <Compile Include="PhysicsEngine.cs" />
+    <Compile Include="Physics\AStarPathFinder.cs" />
+    <Compile Include="Physics\FOVManager.cs" />
+    <Compile Include="Physics\PathfindingMap.cs" />
+    <Compile Include="Physics\PhysicsMap.cs" />
+    <Compile Include="Physics\ShadowCastingFOV.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="PlayerBackgrounds.cs" />
+    <Compile Include="RangedAttackPathfinder.cs" />
+    <Compile Include="SaveLoad\SaveLoad.Silverlight.cs" />
+    <Compile Include="SaveLoad\SaveLoadCore.cs" />
+    <Compile Include="Skills\Skill.cs" />
+    <Compile Include="Skills\SkillFactory.cs" />
+    <Compile Include="TreasureGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Actors\Actors.Silverlight.csproj">
+      <Project>{BBF001DC-9D56-4325-A1A5-84B5F3DB302C}</Project>
+      <Name>Actors.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EngineInterfaces\EngineInterfaces.Silverlight.csproj">
+      <Project>{3B831AC7-53B9-4586-B658-630198B1F223}</Project>
+      <Name>EngineInterfaces.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.Silverlight.csproj">
+      <Project>{EF77017A-FF67-4A0D-823D-6F662D204DCC}</Project>
+      <Name>Interfaces.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Items\Items.Silverlight.csproj">
+      <Project>{11BE9987-A8B2-4733-A497-0130E49E2171}</Project>
+      <Name>Items.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Maps\Maps.Silverlight.csproj">
+      <Project>{9B60C930-93DF-444C-9341-F5884F00A1F1}</Project>
+      <Name>Maps.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusEffects\StatusEffects.Silverlight.csproj">
+      <Project>{69496C30-F57A-4011-A487-825FB4E2E700}</Project>
+      <Name>StatusEffects.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.Silverlight.csproj">
+      <Project>{BEAD0960-D0DD-4FE8-9967-1ACD9833E980}</Project>
+      <Name>Utilities.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

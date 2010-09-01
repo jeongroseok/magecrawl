@@ -61,7 +61,6 @@
     <Compile Include="MapObjects\StairsMapping.cs" />
     <Compile Include="MapObjects\TreasureChest.cs" />
     <Compile Include="MapTile.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Actors\Actors.csproj">
@@ -84,6 +83,9 @@
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -23,9 +22,9 @@ namespace Magecrawl.GameEngine.SaveLoad
             try
             {
                 if ((bool)Preferences.Instance["UseSavegameCompression"])
-                    SaveGameCompressed(filename);
+                    SaveLoadHelpers.SaveGameCompressed(filename, this);
                 else
-                    SaveGameXML(filename);
+                    SaveLoadHelpers.SaveGameXML(filename, this);
             }
             finally
             {
@@ -43,9 +42,9 @@ namespace Magecrawl.GameEngine.SaveLoad
             try
             {
                 if ((bool)Preferences.Instance["UseSavegameCompression"])
-                    LoadGameCompressed(filename);
+                    SaveLoadHelpers.LoadGameCompressed(filename);
                 else
-                    LoadGameXML(filename);
+                    SaveLoadHelpers.LoadGameXML(filename);
 
                 if ((bool)Preferences.Instance["PermaDeath"])
                     File.Delete(filename);
@@ -127,70 +126,5 @@ namespace Magecrawl.GameEngine.SaveLoad
         }
 
         #endregion
-
-        private void SaveGameXML(string fileName)
-        {
-            XmlSerializer s = new XmlSerializer(typeof(SaveLoadCore));
-            TextWriter w = new StreamWriter(fileName);
-            s.Serialize(w, this);
-            w.Close();
-        }
-
-        private void SaveGameCompressed(string fileName)
-        {
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                TextWriter memoryWriter = new StreamWriter(memoryStream);
-                XmlSerializer xmlSerial = new XmlSerializer(typeof(SaveLoadCore));
-                xmlSerial.Serialize(memoryWriter, this);
-                memoryWriter.Close();
-
-                FileStream outputFile = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-                GZipStream compressedStream = new GZipStream(outputFile, CompressionMode.Compress, true);
-
-                byte[] byteArray = memoryStream.ToArray();
-
-                compressedStream.Write(byteArray, 0, byteArray.Length);
-
-                compressedStream.Close();
-                outputFile.Close();
-                memoryWriter.Close();
-            }
-        }
-
-        private void LoadGameXML(string fileName)
-        {
-            XmlSerializer s = new XmlSerializer(typeof(SaveLoadCore));
-            TextReader r = new StreamReader(fileName);
-            s.Deserialize(r);
-            r.Close();
-        }
-
-        private void LoadGameCompressed(string fileName)
-        {
-            using (FileStream inputFile = new FileStream(fileName, FileMode.Open))
-            {
-                using (MemoryStream uncompressedStream = new MemoryStream())
-                {
-                    using (GZipStream uncompresser = new GZipStream(inputFile, CompressionMode.Decompress))
-                    {
-                        while (true)
-                        {
-                            byte[] buffer = new byte[4096];
-                            int count = uncompresser.Read(buffer, 0, 4096);
-                            if (count > 0)
-                                uncompressedStream.Write(buffer, 0, count);
-                            else
-                                break;
-                        }
-                    }
-                    uncompressedStream.Seek(0, SeekOrigin.Begin);
-                    XmlSerializer s = new XmlSerializer(typeof(SaveLoadCore));
-                    TextReader r = new StreamReader(uncompressedStream);
-                    s.Deserialize(r);
-                    r.Close();
-                }
-            }
-        }
     }
 }

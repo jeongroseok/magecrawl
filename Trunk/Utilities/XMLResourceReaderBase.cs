@@ -3,6 +3,12 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 
+#if SILVERLIGHT
+using System;
+using System.Windows;
+using System.Windows.Resources;
+#endif
+
 namespace Magecrawl.Utilities
 {
     public delegate void ReadFileSpecifics(XmlReader reader, object data);
@@ -11,24 +17,25 @@ namespace Magecrawl.Utilities
     {
         public static void ParseFile(string fileName, ReadFileSpecifics readFileCallback)
         {
-            ParseFile(fileName, readFileCallback, null);
+            StreamReader reader = GetFileStream(Path.Combine("Resources", fileName));
+            ParseFile(reader, readFileCallback, null);
         }
 
         public static void ParseFileNotInResourcesDir(string fileName, ReadFileSpecifics readFileCallback)
         {
-            StreamReader stream = new StreamReader(fileName);
-            ParseFile(stream, readFileCallback, null);
+            StreamReader reader = GetFileStream(fileName);
+            ParseFile(reader, readFileCallback, null);
         }
 
-        public static void ParseFile(string fileName, ReadFileSpecifics readFileCallback, object data)
+        public static StreamReader GetFileStream(string fileName)
         {
-            StreamReader stream = new StreamReader(Path.Combine("Resources", fileName));
-            ParseFile(stream, readFileCallback, data);
-        }
-
-        public static void ParseFile(StreamReader stream, ReadFileSpecifics readFileCallback)
-        {
-            ParseFile(stream, readFileCallback, null);
+#if SILVERLIGHT
+            string fixedFilename = fileName.Replace("\\", "/");
+            StreamResourceInfo sr = Application.GetResourceStream(new Uri(fixedFilename, UriKind.Relative));
+            return new StreamReader(sr.Stream);
+#else
+            return new StreamReader(fileName);
+#endif
         }
 
         public static void ParseFile(StreamReader stream, ReadFileSpecifics readFileCallback, object data)

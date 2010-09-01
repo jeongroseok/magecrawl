@@ -32,7 +32,7 @@ namespace Magecrawl.Maps.Generator.Stitch
             Doors = new List<Point>();
             Cosmetics = new List<Point>();
             PlayerPosition = Point.Invalid;
-            Type = (MapNodeType)Enum.Parse(typeof(MapNodeType), typeString);
+            Type = (MapNodeType)Enum.Parse(typeof(MapNodeType), typeString, false);
 
             MapSegment = new MapTile[Width, Height];
         }

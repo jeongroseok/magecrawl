@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Magecrawl.Maps.Generator.Stitch
 {
+    // Make sure to update MapNode.NodeTypes if you add to this enum
     internal enum MapNodeType
     {
         NoneGivenYet,
@@ -16,6 +17,15 @@ namespace Magecrawl.Maps.Generator.Stitch
 
     internal class MapNode
     {
+        public static List<MapNodeType> NodeTypes
+        {
+            get
+            {
+                return new List<MapNodeType>() { MapNodeType.NoneGivenYet, MapNodeType.None, MapNodeType.Entrance, MapNodeType.Hall, 
+                    MapNodeType.MainRoom, MapNodeType.TreasureRoom, MapNodeType.SideRoom };
+            }
+        }
+
         private static int nextUnqiueID = 1;
 
         public List<MapNode> Neighbors;

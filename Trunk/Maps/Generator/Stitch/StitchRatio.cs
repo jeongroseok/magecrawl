@@ -19,9 +19,9 @@ namespace Magecrawl.Maps.Generator.Stitch
             m_wantedNumberOfNodes = wantedNumberOfNodes;
             m_generatedNumberOfNodes = 0;
 
-            int nodeTypeLength = Enum.GetValues(typeof(MapNodeType)).Length;
+            int nodeTypeLength = MapNode.NodeTypes.Count;
             m_ratioTable = new int[nodeTypeLength, nodeTypeLength];
-            using (StreamReader inputFile = new StreamReader("Map" + Path.DirectorySeparatorChar + "DungeonChunkRatio.dat"))
+            using (StreamReader inputFile = XMLResourceReaderBase.GetFileStream("Map" + Path.DirectorySeparatorChar + "DungeonChunkRatio.dat"))
             {
                 // Pull off the initial comment line
                 string currentLine = inputFile.ReadLine();
@@ -78,7 +78,7 @@ namespace Magecrawl.Maps.Generator.Stitch
         {
             List<MapNodeType> possibleList = new List<MapNodeType>();
 
-            foreach (MapNodeType t in Enum.GetValues(typeof(MapNodeType)))
+            foreach (MapNodeType t in MapNode.NodeTypes)
             {
                 if (GetGenerationChance(parent, t) > 0)
                     possibleList.Add(t);
