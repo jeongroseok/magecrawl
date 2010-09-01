@@ -331,7 +331,10 @@ namespace Magecrawl.GameEngine
         {
             get
             {
-                return m_itemList.ConvertAll<IItem>(i => i).ToList();
+                foreach (Item i in m_itemList)
+                {
+                    yield return i;
+                }
             }
         }
 
@@ -339,7 +342,10 @@ namespace Magecrawl.GameEngine
         {
             get
             {
-                return m_effects.ConvertAll<IStatusEffect>(i => i).ToList();
+                foreach (IStatusEffectCore e in m_effects)
+                {
+                    yield return e;
+                }
             }
         }
 
@@ -347,7 +353,10 @@ namespace Magecrawl.GameEngine
         {
             get
             {
-                return m_skills.ConvertAll<ISkill>(x => x).ToList();
+                foreach (Skill s in m_skills)
+                {
+                    yield return s;
+                }
             }
         }
 

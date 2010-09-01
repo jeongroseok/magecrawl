@@ -299,7 +299,7 @@ namespace Magecrawl.Maps.Generator.Stitch
                 m_treasureRooms = new List<MapChunk>();
                 m_sideRooms = new List<MapChunk>();
 
-                using (StreamReader inputFile = new StreamReader(fileName))
+                using (StreamReader inputFile = XMLResourceReaderBase.GetFileStream(fileName))
                 {
                     while (!inputFile.EndOfStream)
                     {

@@ -73,7 +73,7 @@ namespace Magecrawl.Maps
 
         public void ReadXml(XmlReader reader)
         {
-            m_type = (TerrainType)Enum.Parse(typeof(TerrainType), reader.ReadElementContentAsString());
+            m_type = (TerrainType)Enum.Parse(typeof(TerrainType), reader.ReadElementContentAsString(), false);
             m_visited = bool.Parse(reader.ReadElementContentAsString());
         }
 

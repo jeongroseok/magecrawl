@@ -221,7 +221,7 @@ namespace Magecrawl.Maps.Generator
                         return new Point(i, j);
                 }
             }
-            throw new System.ApplicationException("GetFirstClearPoint found no clear points");
+            throw new System.InvalidOperationException("GetFirstClearPoint found no clear points");
         }
 
         protected static int CountNumberOfSurroundingWallTilesOneStepAway(Map map, int x, int y)

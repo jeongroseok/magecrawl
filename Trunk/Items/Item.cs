@@ -58,7 +58,7 @@ namespace Magecrawl.Items
         {
             Item returnItem = null;
             reader.ReadStartElement();
-            string equipedWeaponTypeString = reader.ReadElementString();
+            string equipedWeaponTypeString = GetTypeString(reader);
             if (equipedWeaponTypeString != "None")
             {
                 returnItem = ItemFactory.Instance.CreateBaseItem(equipedWeaponTypeString);
@@ -66,6 +66,20 @@ namespace Magecrawl.Items
             }
             reader.ReadEndElement();
             return returnItem;
+        }
+
+        private static string GetTypeString(XmlReader reader)
+        {
+#if SILVERLIGHT
+            // Silverlight is missing ReadElementString
+            reader.Read();
+            string equipedWeaponTypeString = reader.Value;
+            reader.Read();
+            reader.Read();
+#else
+            string equipedWeaponTypeString = reader.ReadElementString();
+#endif
+            return equipedWeaponTypeString;
         }
     }
 }

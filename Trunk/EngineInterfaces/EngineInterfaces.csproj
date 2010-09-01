@@ -49,7 +49,6 @@
     <Compile Include="IMonsterSkillEngine.cs" />
     <Compile Include="IStatusEffectCore.cs" />
     <Compile Include="ITreasureGenerator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeConstants.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +60,9 @@
       <Project>{BB381404-024F-4307-99CA-561789A83CFE}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

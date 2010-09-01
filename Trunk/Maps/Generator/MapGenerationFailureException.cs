@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 
 namespace Magecrawl.Maps.Generator
 {
-    [Serializable]
     public class MapGenerationFailureException : Exception
     {
         public MapGenerationFailureException() : base()
@@ -16,11 +15,6 @@ namespace Magecrawl.Maps.Generator
         }
 
         public MapGenerationFailureException(string s, Exception e) : base(s, e)
-        {
-        }
-
-        protected MapGenerationFailureException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
     }

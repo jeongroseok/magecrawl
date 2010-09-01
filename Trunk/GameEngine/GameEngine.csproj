@@ -65,9 +65,9 @@
     <Compile Include="Player.cs" />
     <Compile Include="PhysicsEngine.cs" />
     <Compile Include="Interface\PlayerActionEngine.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interface\PublicGameEngineInterface.cs" />
     <Compile Include="RangedAttackPathfinder.cs" />
+    <Compile Include="SaveLoad\SaveLoad.Desktop.cs" />
     <Compile Include="SaveLoad\SaveLoadCore.cs" />
     <Compile Include="MonsterSkillEffectEngine.cs" />
     <Compile Include="Physics\ShadowCastingFOV.cs" />
@@ -118,5 +118,7 @@
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>

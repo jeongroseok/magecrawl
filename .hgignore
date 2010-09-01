@@ -30,3 +30,5 @@ glob:Trunk/dist/*.dll
 glob:Trunk/dist/nunit.framework.xml
 glob:Trunk/TestResult.xml
 glob:Trunk/Tests.VisualState.xml
+glob:Trunk/MageCrawl.Silverlight/Bin/*
+glob:Trunk/GameEngine/Bin/*

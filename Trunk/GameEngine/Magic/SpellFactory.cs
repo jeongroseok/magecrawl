@@ -71,7 +71,7 @@ namespace Magecrawl.GameEngine.Magic
                     TargetingInfo.TargettingType targettingType = TargetingInfo.TargettingType.Self;
                     string targettingString = reader.GetAttribute("TargettingType");
                     if (targettingString != null)
-                        targettingType = (TargetingInfo.TargettingType)Enum.Parse(typeof(TargetingInfo.TargettingType), targettingString);
+                        targettingType = (TargetingInfo.TargettingType)Enum.Parse(typeof(TargetingInfo.TargettingType), targettingString, false);
 
                     m_spellMapping.Add(name, new Spell(name, school, effectType, cost, targettingType, range, baseDamage, damagePerLevel));
                 }
