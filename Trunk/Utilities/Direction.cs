@@ -18,13 +18,8 @@ namespace Magecrawl
 
         public static List<Direction> GenerateDirectionList()
         {
-            List<Direction> directionList = new List<Direction>();
-            foreach (Direction d in Enum.GetValues(typeof(Direction)))
-            {
-                if (d != Direction.None)
-                    directionList.Add(d);
-            }
-            return directionList;
+            return new List<Direction>() { Direction.North, Direction.Northeast, Direction.East, Direction.Southeast, 
+                Direction.South, Direction.Southwest, Direction.West, Direction.Northwest};
         }
     }
 }
