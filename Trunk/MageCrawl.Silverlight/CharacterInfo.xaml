@@ -3,9 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Height="600" Width="200">
-    <Border BorderBrush="DarkGray" BorderThickness="1" Width="200" Height="600" >
+    mc:Ignorable="d" Height="600" Width="250">
+    <Border BorderBrush="DarkGray" BorderThickness="1" Width="250" Height="600" >
         <StackPanel Name="Panel" Orientation="Vertical" Background="Black">
             <StackPanel.Resources>
                 <Style x:Key="CharacterInfoText" TargetType="TextBlock">
@@ -14,11 +13,17 @@
                     <Setter Property="FontSize" Value="14"/>
                     <Setter Property="Foreground" Value="LightGray"/>
                 </Style>
+                <Style x:Key="CharacterInfoTextLeftAligned" TargetType="TextBlock" BasedOn="{StaticResource CharacterInfoText}">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Margin" Value="11,15,0,-5"/>
+                </Style>
             </StackPanel.Resources>
 
             <TextBlock Style="{StaticResource CharacterInfoText}" Text="{Binding Name}" />
             <TextBlock Style="{StaticResource CharacterInfoText}" Text="{Binding HealthString}" />
             <TextBlock Style="{StaticResource CharacterInfoText}" Text="{Binding ManaString}" />
+            <TextBlock Style="{StaticResource CharacterInfoTextLeftAligned}" Text="{Binding SkillPointsString}" />
+            <TextBlock Style="{StaticResource CharacterInfoTextLeftAligned}" Text="{Binding WeaponString}" />
         </StackPanel>
     </Border>
 </UserControl>

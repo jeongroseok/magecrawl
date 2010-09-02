@@ -27,6 +27,20 @@ namespace MageCrawl.Silverlight.ModelView
         public void NewTurn()
         {
             NotifyPropertyChanged("Name");
+            NotifyPropertyChanged("CurrentStamina");
+            NotifyPropertyChanged("CurrentHealth");
+            NotifyPropertyChanged("MaxStamina");
+            NotifyPropertyChanged("MaxHealth");
+            NotifyPropertyChanged("HealthString");
+            NotifyPropertyChanged("ManaString");
+            NotifyPropertyChanged("WeaponString");
+            NotifyPropertyChanged("SkillPointsString");
+            NotifyPropertyChanged("CurrentMP");
+            NotifyPropertyChanged("MaxMP");
+            NotifyPropertyChanged("MaxPossibleMP");
+            NotifyPropertyChanged("SkillPoints");
+            NotifyPropertyChanged("StatusEffects");
+            NotifyPropertyChanged("CurrentWeapon");
         }
 
         public string Name
@@ -82,6 +96,23 @@ namespace MageCrawl.Silverlight.ModelView
             get
             {
                 return string.Format("Mana {0}/{1}({2})", CurrentMP, MaxMP, MaxPossibleMP);
+            }
+        }
+
+        public string WeaponString
+        {
+            get
+            {
+                string needsLoadedString = !CurrentWeapon.IsRanged || CurrentWeapon.IsLoaded ? "" : "(empty)";
+                return string.Format("Weapon: {0} {1}", CurrentWeapon.DisplayName, needsLoadedString);
+            }
+        }
+
+        public string SkillPointsString
+        {
+            get
+            {
+                return "Skill Points: " + SkillPoints;
             }
         }
 
