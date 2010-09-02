@@ -9,11 +9,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using Magecrawl.GameEngine.Interface;
+using Magecrawl.Interfaces;
 
 namespace MageCrawl.Silverlight
 {
     public partial class App : Application
     {
+        public IGameEngine m_engine;
+
         public App()
         {
             this.Startup += this.Application_Startup;
@@ -25,7 +29,30 @@ namespace MageCrawl.Silverlight
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new MainPage();
+            m_engine = new PublicGameEngineInterface();
+
+            m_engine.PlayerDiedEvent += new PlayerDied(PlayerDiedEvent);
+            m_engine.RangedAttackEvent += new RangedAttack(RangedAttackEvent);
+            m_engine.TextOutputEvent += new TextOutputFromGame(TextOutputEvent);
+
+            //m_engine.CreateNewWorld("Donblas", "Scholar");
+
+            this.RootVisual = new GameWindow(m_engine);
+        }
+
+        void TextOutputEvent(string s)
+        {
+            throw new NotImplementedException();
+        }
+
+        void RangedAttackEvent(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint)
+        {
+            throw new NotImplementedException();
+        }
+
+        void PlayerDiedEvent()
+        {
+            throw new NotImplementedException();
         }
 
         private void Application_Exit(object sender, EventArgs e)
@@ -40,7 +67,6 @@ namespace MageCrawl.Silverlight
             // icon in the status bar and Firefox will display a script error.
             if (!System.Diagnostics.Debugger.IsAttached)
             {
-
                 // NOTE: This will allow the application to continue running after an exception has been thrown
                 // but not handled. 
                 // For production applications this error handling should be replaced with something that will 
