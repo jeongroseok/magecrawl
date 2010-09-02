@@ -1,4 +1,6 @@
+#if !SILVERLIGHT
 using System.ComponentModel.Composition;
+#endif
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 
@@ -7,7 +9,9 @@ namespace Magecrawl.GameEngine.Interface
     // So in the current archtecture, each public method should do the action requested,
     // and _then_ call the CoreTimingEngine somehow to let others have their time slice before returning
     // This is very synchronous, but easy to do.
+#if !SILVERLIGHT
     [Export(typeof(IGameEngine))]
+#endif
     public class PublicGameEngineInterface : IGameEngine
     {
         private CoreGameEngine m_engine;

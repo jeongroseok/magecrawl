@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Magecrawl.Interfaces;
 using Magecrawl.GameEngine.Interface;
 
@@ -8,10 +6,8 @@ namespace MageCrawl.Silverlight
 {
     public partial class MainPage : UserControl
     {
-        [Import]
         public IGameEngine m_engine;
 
-        private CompositionContainer m_container;
         private TextBlock m_status;
         public MainPage()
         {
@@ -52,13 +48,6 @@ namespace MageCrawl.Silverlight
         void PlayerDiedEvent()
         {
             m_status.Text += "\nPlayer Died?";
-        }
-
-        public void Compose()
-        {
-            // We need to add the ExecutingAssembly since it is an exe, it doesn't get added by the DirectoryCatalog
-            m_container = new CompositionContainer(new AggregateCatalog(new AssemblyCatalog(System.Reflection.Assembly.GetExecutingAssembly())));
-            m_container.ComposeParts(this);
         }
     }
 }
