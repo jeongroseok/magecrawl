@@ -11,14 +11,18 @@ namespace MageCrawl.Silverlight
         private CharacterInfo m_characterInfo;
         private Map m_map;
 
-        public GameWindow(IGameEngine gameEngine)
+        public GameWindow()
         {
             InitializeComponent();
-
-            m_engine = gameEngine;
             m_messages = (MessageBox)FindName("MessageBox");
             m_characterInfo = (CharacterInfo)FindName("CharacterInfo");
             m_map = (Map)FindName("Map");
+        }
+
+        public void Setup(IGameEngine engine)
+        {
+            m_engine = engine;
+            m_characterInfo.Setup(engine.Player);
         }
     }
 }

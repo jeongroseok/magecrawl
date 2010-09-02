@@ -17,6 +17,7 @@ namespace MageCrawl.Silverlight
     public partial class App : Application
     {
         public IGameEngine m_engine;
+        private GameWindow m_window;
 
         public App()
         {
@@ -25,6 +26,8 @@ namespace MageCrawl.Silverlight
             this.UnhandledException += this.Application_UnhandledException;
 
             InitializeComponent();
+            m_window = new GameWindow();
+            this.RootVisual = m_window;
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
@@ -35,9 +38,8 @@ namespace MageCrawl.Silverlight
             m_engine.RangedAttackEvent += new RangedAttack(RangedAttackEvent);
             m_engine.TextOutputEvent += new TextOutputFromGame(TextOutputEvent);
 
-            //m_engine.CreateNewWorld("Donblas", "Scholar");
-
-            this.RootVisual = new GameWindow(m_engine);
+            m_engine.CreateNewWorld("Donblas", "Scholar");
+            m_window.Setup(m_engine);
         }
 
         void TextOutputEvent(string s)
