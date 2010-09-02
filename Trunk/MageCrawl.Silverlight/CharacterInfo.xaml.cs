@@ -26,11 +26,11 @@ namespace MageCrawl.Silverlight
 
         public void Setup(IPlayer player)
         {
-            Character = new CharacterModelView(player);
+            Character = new CharacterViewModel(player);
             m_panel.DataContext = Character;
         }
 
-        public CharacterModelView Character
+        public CharacterViewModel Character
         {
             get;
             private set;
