@@ -5,5 +5,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Height="600" Width="200">
-    <Canvas Background="Blue"/>
+    <Border BorderBrush="DarkGray" BorderThickness="1" Width="200" Height="600" >
+        <StackPanel Name="Panel" Orientation="Vertical" Background="Black">
+            <StackPanel.Resources>
+                <Style x:Key="CharacterInfoText" TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="LightGray"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBlock Style="{StaticResource CharacterInfoText}" Text="{Binding Name}" />
+            <TextBlock Style="{StaticResource CharacterInfoText}" Text="{Binding HealthString}" />
+            <TextBlock Style="{StaticResource CharacterInfoText}" Text="{Binding ManaString}" />
+        </StackPanel>
+    </Border>
 </UserControl>

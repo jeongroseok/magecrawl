@@ -3,6 +3,6 @@
              x:Class="MageCrawl.Silverlight.App"
              >
     <Application.Resources>
-        
+                
     </Application.Resources>
 </Application>
