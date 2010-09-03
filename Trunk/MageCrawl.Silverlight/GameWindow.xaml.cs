@@ -23,6 +23,7 @@ namespace MageCrawl.Silverlight
         {
             m_engine = engine;
             m_characterInfo.Setup(engine.Player);
+            m_map.Setup(engine.Map);
         }
     }
 }

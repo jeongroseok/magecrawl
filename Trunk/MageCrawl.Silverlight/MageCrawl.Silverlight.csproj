@@ -120,6 +120,8 @@
     <Content Include="..\dist\Map\DungeonChunks.dat">
       <Link>Map\DungeonChunks.dat</Link>
     </Content>
+    <Content Include="Images\blank.bmp" />
+    <Content Include="Images\dngn_rock_wall_07.bmp" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
