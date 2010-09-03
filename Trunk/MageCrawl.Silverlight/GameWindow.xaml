@@ -7,9 +7,11 @@
     xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
     mc:Ignorable="d"
     Height="600" Width="800">
-    <toolkit:DockPanel x:Name="LayoutRoot" Background="White">
-        <magecrawl:CharacterInfo Name="CharacterInfo"  toolkit:DockPanel.Dock="Right"/>
-        <magecrawl:MessageBox Name="MessageBox" toolkit:DockPanel.Dock="Bottom"/>
-        <magecrawl:Map Name="Map"/>
+    <toolkit:DockPanel x:Name="LayoutRoot" Background="Beige">
+        <magecrawl:CharacterInfo x:Name="CharacterInfo"  toolkit:DockPanel.Dock="Right"/>
+        <StackPanel>
+            <magecrawl:Map x:Name="Map"/>
+            <magecrawl:MessageBox x:Name="MessageBox"/>
+        </StackPanel>
     </toolkit:DockPanel>
 </UserControl>
