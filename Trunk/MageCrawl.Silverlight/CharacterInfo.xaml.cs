@@ -16,18 +16,15 @@ namespace MageCrawl.Silverlight
 {
     public partial class CharacterInfo : UserControl
     {
-        private StackPanel m_panel;
-
         public CharacterInfo()
         {
             InitializeComponent();
-            m_panel = (StackPanel)FindName("Panel");
         }
 
         public void Setup(IPlayer player)
         {
             Character = new CharacterViewModel(player);
-            m_panel.DataContext = Character;
+            InfoPanel.DataContext = Character;
         }
 
         public CharacterViewModel Character

@@ -14,45 +14,39 @@ namespace MageCrawl.Silverlight
 {
     public partial class MessageBox : UserControl
     {
-        private ScrollViewer m_scroll;
-        private TextBlock m_messages;
-
         public MessageBox()
         {
             InitializeComponent();
-
-            m_scroll = (ScrollViewer)FindName("MessageScrollViewer");
-            m_messages = (TextBlock)FindName("Messages");
         }
 
         public void AddMessage(string s)
         {
-            if (m_messages.Text == "")
-                m_messages.Text = s;
+            if (Messages.Text == "")
+                Messages.Text = s;
             else
-                m_messages.Text += "\n" + s;
+                Messages.Text += "\n" + s;
             ToBottom();
         }
 
         public void Clear()
         {
-            m_messages.Text = "";
+            Messages.Text = "";
             ToBottom();
         }
 
         public void PageUp()
         {
-            m_scroll.PageUp();
+            MessageScrollViewer.PageUp();
         }
 
         public void PageDown()
         {
-            m_scroll.PageDown();
+            MessageScrollViewer.PageDown();
         }
 
         public void ToBottom()
         {
-            m_scroll.ScrollToBottom();
+            MessageScrollViewer.ScrollToBottom();
         }
     }
 }
