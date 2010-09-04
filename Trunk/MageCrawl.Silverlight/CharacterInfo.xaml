@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="600" Width="250">
     <Border BorderBrush="DarkGray" BorderThickness="1" Width="250" Height="600" >
-        <StackPanel Name="Panel" Orientation="Vertical">
+        <StackPanel Name="InfoPanel" Orientation="Vertical">
             <StackPanel.Resources>
                 <Style x:Key="CharacterInfoText" TargetType="TextBlock">
                     <Setter Property="HorizontalAlignment" Value="Center"/>

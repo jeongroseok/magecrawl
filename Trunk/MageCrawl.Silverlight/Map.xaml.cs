@@ -16,7 +16,6 @@ namespace MageCrawl.Silverlight
 {
     public partial class Map : UserControl
     {
-        private Canvas m_canvas;
         private Grid m_grid;
 
         private Image m_blank;
@@ -27,14 +26,12 @@ namespace MageCrawl.Silverlight
         public Map()
         {
             InitializeComponent();
-            m_canvas = (Canvas)FindName("Canvas");
-            m_blank = LoadImage("Images//blank.bmp");
-            m_wall = LoadImage("Images//dngn_rock_wall_07.bmp");
+            m_blank = LoadImage("Images/grey_dirt3.png");
+            m_wall = LoadImage("Images/brick_dark3.png");
 
             m_grid = CreateMapGrid(13, 17);
-            m_grid.ShowGridLines = true;
 
-            m_canvas.Children.Add(m_grid);
+            MapCanvas.Children.Add(m_grid);
             Canvas.SetLeft(m_grid, 6);
             Canvas.SetTop(m_grid, 20);
         }
@@ -73,7 +70,7 @@ namespace MageCrawl.Silverlight
         private Image LoadImage(string filename)
         {
             Image image = new Image();
-            image.Source = new BitmapImage(new Uri(filename, UriKind.Relative));
+            image.Source = ResourceHelper.GetBitmap(filename);
             return image;
         }
 
@@ -89,7 +86,10 @@ namespace MageCrawl.Silverlight
             {
                 int x = Grid.GetColumn(image);
                 int y = Grid.GetRow(image);
-                image.Source = m_wall.Source;
+                if (m_map.GetTerrainAt(x,y) == TerrainType.Floor)
+                    image.Source = m_blank.Source;
+                else
+                    image.Source = m_wall.Source;
             }
         }
     }

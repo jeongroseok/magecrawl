@@ -88,6 +88,7 @@
     <Compile Include="MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ResourceHelper.cs" />
     <Compile Include="ViewModel\CharacterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -120,8 +121,21 @@
     <Content Include="..\dist\Map\DungeonChunks.dat">
       <Link>Map\DungeonChunks.dat</Link>
     </Content>
-    <Content Include="Images\blank.bmp" />
-    <Content Include="Images\dngn_rock_wall_07.bmp" />
+    <Content Include="Images\brick_dark0.png" />
+    <Content Include="Images\brick_dark1.png" />
+    <Content Include="Images\brick_dark2.png" />
+    <Content Include="Images\brick_dark3.png" />
+    <Content Include="Images\brick_dark4.png" />
+    <Content Include="Images\brick_dark5.png" />
+    <Content Include="Images\brick_dark6.png" />
+    <Content Include="Images\grey_dirt0.png" />
+    <Content Include="Images\grey_dirt1.png" />
+    <Content Include="Images\grey_dirt2.png" />
+    <Content Include="Images\grey_dirt3.png" />
+    <Content Include="Images\grey_dirt4.png" />
+    <Content Include="Images\grey_dirt5.png" />
+    <Content Include="Images\grey_dirt6.png" />
+    <Content Include="Images\grey_dirt7.png" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
