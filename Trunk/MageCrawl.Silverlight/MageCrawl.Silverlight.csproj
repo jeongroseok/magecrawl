@@ -121,21 +121,27 @@
     <Content Include="..\dist\Map\DungeonChunks.dat">
       <Link>Map\DungeonChunks.dat</Link>
     </Content>
-    <Content Include="Images\brick_dark0.png" />
-    <Content Include="Images\brick_dark1.png" />
-    <Content Include="Images\brick_dark2.png" />
-    <Content Include="Images\brick_dark3.png" />
-    <Content Include="Images\brick_dark4.png" />
-    <Content Include="Images\brick_dark5.png" />
-    <Content Include="Images\brick_dark6.png" />
-    <Content Include="Images\grey_dirt0.png" />
-    <Content Include="Images\grey_dirt1.png" />
-    <Content Include="Images\grey_dirt2.png" />
-    <Content Include="Images\grey_dirt3.png" />
-    <Content Include="Images\grey_dirt4.png" />
-    <Content Include="Images\grey_dirt5.png" />
-    <Content Include="Images\grey_dirt6.png" />
-    <Content Include="Images\grey_dirt7.png" />
+    <Content Include="Images\Player\gandalf_g.png" />
+    <Content Include="Images\Player\glove_grayfist.png" />
+    <Content Include="Images\Player\gray.png" />
+    <Content Include="Images\Player\human_m.png" />
+    <Content Include="Images\Player\middle_brown3.png" />
+    <Content Include="Images\Player\wizard_blackred.png" />
+    <Content Include="Images\Terrain\brick_dark0.png" />
+    <Content Include="Images\Terrain\brick_dark1.png" />
+    <Content Include="Images\Terrain\brick_dark2.png" />
+    <Content Include="Images\Terrain\brick_dark3.png" />
+    <Content Include="Images\Terrain\brick_dark4.png" />
+    <Content Include="Images\Terrain\brick_dark5.png" />
+    <Content Include="Images\Terrain\brick_dark6.png" />
+    <Content Include="Images\Terrain\grey_dirt0.png" />
+    <Content Include="Images\Terrain\grey_dirt1.png" />
+    <Content Include="Images\Terrain\grey_dirt2.png" />
+    <Content Include="Images\Terrain\grey_dirt3.png" />
+    <Content Include="Images\Terrain\grey_dirt4.png" />
+    <Content Include="Images\Terrain\grey_dirt5.png" />
+    <Content Include="Images\Terrain\grey_dirt6.png" />
+    <Content Include="Images\Terrain\grey_dirt7.png" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>

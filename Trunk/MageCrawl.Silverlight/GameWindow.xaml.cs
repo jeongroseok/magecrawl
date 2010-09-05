@@ -17,7 +17,7 @@ namespace MageCrawl.Silverlight
         {
             m_engine = engine;
             CharacterInfo.Setup(engine.Player);
-            Map.Setup(engine.Map);
+            Map.Setup(engine.Map, engine.Player);
         }
     }
 }
