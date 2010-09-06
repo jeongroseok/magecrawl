@@ -38,6 +38,7 @@ namespace Magecrawl.Interfaces
 
         TerrainType GetTerrainAt(int x, int y);
         TerrainType GetTerrainAt(Point p);
+        bool IsPointOnMap(int x, int y);
         bool IsPointOnMap(Point p);
         bool IsVisitedAt(Point p);
     }
