@@ -6,7 +6,7 @@
     xmlns:magecrawl="clr-namespace:MageCrawl.Silverlight"
     xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
     mc:Ignorable="d"
-    Height="600" Width="800">
+    Height="600" Width="800" KeyDown="OnKeyboardDown" LostFocus="OnLostFocus">
     <toolkit:DockPanel x:Name="LayoutRoot" Background="Beige">
         <magecrawl:CharacterInfo x:Name="CharacterInfo"  toolkit:DockPanel.Dock="Right"/>
         <StackPanel>

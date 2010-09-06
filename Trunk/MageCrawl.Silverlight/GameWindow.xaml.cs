@@ -1,12 +1,14 @@
 ﻿using System.Windows.Controls;
 using Magecrawl.GameEngine.Interface;
 using Magecrawl.Interfaces;
+using Magecrawl;
 
 namespace MageCrawl.Silverlight
 {
     public partial class GameWindow : UserControl
     {
         private IGameEngine m_engine;
+        private LostFocusPopup m_focusPopup;
 
         public GameWindow()
         {
@@ -18,6 +20,52 @@ namespace MageCrawl.Silverlight
             m_engine = engine;
             CharacterInfo.Setup(engine.Player);
             Map.Setup(engine.Map, engine.Player);
+            
+            // Silverlight by default doesn't give us focus :(
+            m_focusPopup = new LostFocusPopup();
+            m_focusPopup.Show();
+        }
+
+        private void OnKeyboardDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case System.Windows.Input.Key.Left:
+                case System.Windows.Input.Key.A:
+                    HandleDirection(Direction.West);
+                    break;
+                case System.Windows.Input.Key.Right:
+                case System.Windows.Input.Key.D:
+                    HandleDirection(Direction.East);
+                    break;
+                case System.Windows.Input.Key.Down:
+                case System.Windows.Input.Key.S:
+                    HandleDirection(Direction.South);
+                    break;
+                case System.Windows.Input.Key.Up:
+                case System.Windows.Input.Key.W:
+                    HandleDirection(Direction.North);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void HandleDirection(Magecrawl.Direction direction)
+        {
+            m_engine.Actions.Move(direction);
+            UpdateWorld();
+        }
+
+        private void UpdateWorld()
+        {
+            Map.Draw();
+            CharacterInfo.Character.NewTurn();
+        }
+
+        private void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            m_focusPopup.Show();
         }
     }
 }
