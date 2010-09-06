@@ -128,6 +128,13 @@
     <Content Include="..\dist\Map\DungeonChunks.dat">
       <Link>Map\DungeonChunks.dat</Link>
     </Content>
+    <Content Include="Images\Monsters\goblin.png" />
+    <Content Include="Images\Monsters\hobgoblin.png" />
+    <Content Include="Images\Monsters\kobold.png" />
+    <Content Include="Images\Monsters\orc.png" />
+    <Content Include="Images\Monsters\orc_knight.png" />
+    <Content Include="Images\Monsters\rat.png" />
+    <Content Include="Images\Monsters\wolf.png" />
     <Content Include="Images\Player\gandalf_g.png" />
     <Content Include="Images\Player\glove_grayfist.png" />
     <Content Include="Images\Player\gray.png" />

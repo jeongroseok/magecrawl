@@ -25,6 +25,7 @@ namespace MageCrawl.Silverlight
                 Messages.Text = s;
             else
                 Messages.Text += "\n" + s;
+
             ToBottom();
         }
 
@@ -46,7 +47,8 @@ namespace MageCrawl.Silverlight
 
         public void ToBottom()
         {
-            MessageScrollViewer.ScrollToBottom();
+            MessageScrollViewer.UpdateLayout();
+            MessageScrollViewer.ScrollToVerticalOffset(double.MaxValue);
         }
     }
 }

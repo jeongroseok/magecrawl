@@ -23,7 +23,10 @@ namespace MageCrawl.Silverlight
         private Image m_floor;
         private Image m_wall;
         private List<Image> m_playerParts;
+        private Dictionary<string, Image> m_monsters;
+
         private List<Image> m_terrainList;
+        private List<Image> m_objectList;
 
         private IMap m_map;
         private IPlayer m_player;
@@ -42,13 +45,42 @@ namespace MageCrawl.Silverlight
                 LoadImage("Images/Player/gandalf_g.png"), LoadImage("Images/Player/middle_brown3.png"), 
                 LoadImage("Images/Player/glove_grayfist.png"), LoadImage("Images/Player/wizard_blackred.png") };
 
+            LoadMonsters();
+
             m_terrainList = new List<Image>();
+            m_objectList = new List<Image>();
 
             m_grid = CreateMapGrid(MapHeight, MapWidth);
 
             MapCanvas.Children.Add(m_grid);
             Canvas.SetLeft(m_grid, 3);
             Canvas.SetTop(m_grid, 3);
+        }
+
+        public void Setup(IMap map, IPlayer player)
+        {
+            m_map = map;
+            m_player = player;
+            Draw();
+        }
+
+        private Image LoadImage(string filename)
+        {
+            Image image = new Image();
+            image.Source = ResourceHelper.GetBitmap(filename);
+            return image;
+        }
+
+        private void LoadMonsters()
+        {
+            m_monsters = new Dictionary<string, Image>();
+            m_monsters["Goblin"] = LoadImage("Images/Monsters/goblin.png");
+            m_monsters["Hobgoblin"] = LoadImage("Images/Monsters/hobgoblin.png");
+            m_monsters["Kobold"] = LoadImage("Images/Monsters/kobold.png");
+            m_monsters["Orc"] = LoadImage("Images/Monsters/orc.png");
+            m_monsters["Orc Knight"] = LoadImage("Images/Monsters/orc_knight.png");
+            m_monsters["Rat"] = LoadImage("Images/Monsters/rat.png");
+            m_monsters["Wolf"] = LoadImage("Images/Monsters/wolf.png");
         }
 
         private Grid CreateMapGrid(int rows, int cols)
@@ -90,20 +122,6 @@ namespace MageCrawl.Silverlight
             return grid;
         }
 
-        private Image LoadImage(string filename)
-        {
-            Image image = new Image();
-            image.Source = ResourceHelper.GetBitmap(filename);
-            return image;
-        }
-
-        public void Setup(IMap map, IPlayer player)
-        {
-            m_map = map;
-            m_player = player;
-            Draw();
-        }
-
         public void Draw()
         {
             MageCrawlPoint upperLeftViewPoint = UpperLeftViewPoint;
@@ -111,7 +129,7 @@ namespace MageCrawl.Silverlight
             {
                 int x = Grid.GetColumn(image) + upperLeftViewPoint.X;
                 int y = Grid.GetRow(image) + upperLeftViewPoint.Y;
-                if (m_map.IsPointOnMap(new MageCrawlPoint(x, y)))
+                if (m_map.IsPointOnMap(x, y))
                 {
                     if (m_map.GetTerrainAt(x, y) == TerrainType.Floor)
                     {
@@ -129,6 +147,62 @@ namespace MageCrawl.Silverlight
             }
 
             DrawPlayer();
+
+            m_objectList.ForEach(i => m_grid.Children.Remove(i));
+            m_objectList.Clear();
+
+            DrawMonsters();
+        }
+
+        private void DrawMonsters()
+        {
+            MageCrawlPoint upperLeft = UpperLeftViewPoint;
+            foreach (IMonster m in m_map.Monsters.Where(m => IsPointDrawable(m.Position)))
+            {
+                Image image = GetImageForMonster(m);
+                m_objectList.Add(image);
+                m_grid.Children.Add(image);
+                Grid.SetColumn(image, m.Position.X - upperLeft.X);
+                Grid.SetRow(image, m.Position.Y - upperLeft.Y);
+            }
+        }
+
+        private Image GetImageForMonster(IMonster m)
+        {
+            Image i = new Image();
+            switch (m.BaseType)
+            {
+                case "Wolf":
+                    i.Source = m_monsters["Wolf"].Source;
+                    break;
+                case "Orc Barbarian":
+                    i.Source = m_monsters["Orc"].Source;
+                    break;
+                case "Orc Warrior":
+                    i.Source = m_monsters["Orc Knight"].Source;
+                    break;
+                case "Goblin Healer":
+                    i.Source = m_monsters["Goblin"].Source;
+                    break;
+                case "Goblin Slinger":
+                    i.Source = m_monsters["Hobgoblin"].Source;
+                    break;
+                case "Kobold":
+                    i.Source = m_monsters["Kobold"].Source;
+                    break;
+                case "Giant Rat":
+                    i.Source = m_monsters["Rat"].Source;
+                    break;
+                default:
+                    throw new InvalidOperationException("GetImageForMonster - can't find image for: " + m.BaseType);
+            }
+            return i;
+        }
+
+        private bool IsPointDrawable(MageCrawlPoint p)
+        {
+            MageCrawlPoint upperLeft = UpperLeftViewPoint;
+            return p.X >= upperLeft.X && p.Y >= upperLeft.Y && p.X < upperLeft.X + MapWidth && p.Y < upperLeft.Y + MapHeight;
         }
 
         private void DrawPlayer()
