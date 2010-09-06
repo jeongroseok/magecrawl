@@ -40,16 +40,17 @@ namespace MageCrawl.Silverlight
 
             m_engine.CreateNewWorld("Donblas", "Scholar");
             m_window.Setup(m_engine);
+            m_window.Focus();
         }
 
         void TextOutputEvent(string s)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         void RangedAttackEvent(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         void PlayerDiedEvent()

@@ -1,0 +1,8 @@
+﻿<controls:ChildWindow x:Class="MageCrawl.Silverlight.LostFocusPopup"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+           Width="200" Height="70" 
+           HasCloseButton="False" GotFocus="GottenFocus">
+    <TextBlock TextAlignment="Left" Text="Magecrawl does not have focus.&#x0a;    Please click the application&#x0a;                to continue."></TextBlock>
+</controls:ChildWindow>
