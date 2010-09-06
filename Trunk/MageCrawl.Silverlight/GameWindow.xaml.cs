@@ -1,7 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using Magecrawl;
 using Magecrawl.GameEngine.Interface;
 using Magecrawl.Interfaces;
-using Magecrawl;
 
 namespace MageCrawl.Silverlight
 {
@@ -20,10 +21,16 @@ namespace MageCrawl.Silverlight
             m_engine = engine;
             CharacterInfo.Setup(engine.Player);
             Map.Setup(engine.Map, engine.Player);
+            MessageBox.AddMessage("Welcome to Magecrawl");
             
             // Silverlight by default doesn't give us focus :(
             m_focusPopup = new LostFocusPopup();
             m_focusPopup.Show();
+        }
+
+        public void AddMessage(string s)
+        {
+            MessageBox.AddMessage(s);
         }
 
         private void OnKeyboardDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -49,6 +56,8 @@ namespace MageCrawl.Silverlight
                 default:
                     break;
             }
+            // We're the only one to handle keyboard messages
+            e.Handled = true;
         }
 
         private void HandleDirection(Magecrawl.Direction direction)

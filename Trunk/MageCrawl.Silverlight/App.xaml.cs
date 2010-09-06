@@ -45,7 +45,7 @@ namespace MageCrawl.Silverlight
 
         void TextOutputEvent(string s)
         {
-            //throw new NotImplementedException();
+            m_window.AddMessage(s);
         }
 
         void RangedAttackEvent(object attackingMethod, ShowRangedAttackType type, object data, bool targetAtEndPoint)
