@@ -135,6 +135,8 @@
     <Content Include="Images\Monsters\orc_knight.png" />
     <Content Include="Images\Monsters\rat.png" />
     <Content Include="Images\Monsters\wolf.png" />
+    <Content Include="Images\Other\dngn_unseen.png" />
+    <Content Include="Images\Other\out_of_sight.png" />
     <Content Include="Images\Player\gandalf_g.png" />
     <Content Include="Images\Player\glove_grayfist.png" />
     <Content Include="Images\Player\gray.png" />
