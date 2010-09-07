@@ -20,7 +20,7 @@ namespace MageCrawl.Silverlight
         {
             m_engine = engine;
             CharacterInfo.Setup(engine.Player);
-            Map.Setup(engine.Map, engine.Player);
+            Map.Setup(engine, engine.Map, engine.Player);
             MessageBox.AddMessage("Welcome to Magecrawl");
             
             // Silverlight by default doesn't give us focus :(
@@ -38,20 +38,28 @@ namespace MageCrawl.Silverlight
             switch (e.Key)
             {
                 case System.Windows.Input.Key.Left:
-                case System.Windows.Input.Key.A:
                     HandleDirection(Direction.West);
                     break;
                 case System.Windows.Input.Key.Right:
-                case System.Windows.Input.Key.D:
                     HandleDirection(Direction.East);
                     break;
                 case System.Windows.Input.Key.Down:
-                case System.Windows.Input.Key.S:
                     HandleDirection(Direction.South);
                     break;
                 case System.Windows.Input.Key.Up:
-                case System.Windows.Input.Key.W:
                     HandleDirection(Direction.North);
+                    break;
+                case System.Windows.Input.Key.Insert:
+                    HandleDirection(Direction.Northwest);
+                    break;
+                case System.Windows.Input.Key.Delete:
+                    HandleDirection(Direction.Southwest);
+                    break;
+                case System.Windows.Input.Key.PageUp:
+                    HandleDirection(Direction.Northeast);
+                    break;
+                case System.Windows.Input.Key.PageDown:
+                    HandleDirection(Direction.Southeast);
                     break;
                 default:
                     break;

@@ -4,5 +4,5 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Canvas Width="550" Height="485" Name="MapCanvas" Background="White"/>
+    <Canvas Width="550" Height="485" Name="MapCanvas" Background="Black"/>
 </UserControl>

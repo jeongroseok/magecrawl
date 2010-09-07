@@ -22,6 +22,8 @@ namespace MageCrawl.Silverlight
 
         private Image m_floor;
         private Image m_wall;
+        private Image m_unseen;
+        private Image m_outOfSight;
         private List<Image> m_playerParts;
         private Dictionary<string, Image> m_monsters;
 
@@ -30,6 +32,7 @@ namespace MageCrawl.Silverlight
 
         private IMap m_map;
         private IPlayer m_player;
+        private IGameEngine m_engine;
 
         private const int MapWidth = 17;
         private const int MapHeight = 15;
@@ -41,6 +44,9 @@ namespace MageCrawl.Silverlight
             InitializeComponent();
             m_floor = LoadImage("Images/Terrain/grey_dirt3.png");
             m_wall = LoadImage("Images/Terrain/brick_dark3.png");
+            m_unseen = LoadImage("Images/Other/dngn_unseen.png");
+            m_outOfSight = LoadImage("Images/Other/out_of_sight.png");
+
             m_playerParts = new List<Image>() { LoadImage("Images/Player/gray.png"), LoadImage("Images/Player/human_m.png"), 
                 LoadImage("Images/Player/gandalf_g.png"), LoadImage("Images/Player/middle_brown3.png"), 
                 LoadImage("Images/Player/glove_grayfist.png"), LoadImage("Images/Player/wizard_blackred.png") };
@@ -57,8 +63,9 @@ namespace MageCrawl.Silverlight
             Canvas.SetTop(m_grid, 3);
         }
 
-        public void Setup(IMap map, IPlayer player)
+        public void Setup(IGameEngine engine, IMap map, IPlayer player)
         {
+            m_engine = engine;
             m_map = map;
             m_player = player;
             Draw();
@@ -124,47 +131,79 @@ namespace MageCrawl.Silverlight
 
         public void Draw()
         {
+            TileVisibility[,] visibility = m_engine.GameState.CalculateTileVisibility();
+
             MageCrawlPoint upperLeftViewPoint = UpperLeftViewPoint;
+
+            // Clear object layer
+            m_objectList.ForEach(i => m_grid.Children.Remove(i));
+            m_objectList.Clear();
+
             foreach (Image image in m_terrainList)
             {
                 int x = Grid.GetColumn(image) + upperLeftViewPoint.X;
                 int y = Grid.GetRow(image) + upperLeftViewPoint.Y;
+
                 if (m_map.IsPointOnMap(x, y))
                 {
-                    if (m_map.GetTerrainAt(x, y) == TerrainType.Floor)
+                    if (visibility[x, y] != TileVisibility.Unvisited)
                     {
-                        image.Source = m_floor.Source;
+                        if (m_map.GetTerrainAt(x, y) == TerrainType.Floor)
+                        {
+                            image.Source = m_floor.Source;
+                        }
+                        else
+                        {
+                            image.Source = m_wall.Source;
+                        }
+
+                        if (visibility[x, y] == TileVisibility.Visited)
+                        {
+                            // But not visible now
+                            AddObjectLayerImage(GetOutOfSightImage(), Grid.GetColumn(image), Grid.GetRow(image));
+                        }
                     }
                     else
                     {
-                        image.Source = m_wall.Source;
+                        image.Source = null;
                     }
                 }
                 else
                 {
                     image.Source = null;
                 }
+
             }
 
             DrawPlayer();
-
-            m_objectList.ForEach(i => m_grid.Children.Remove(i));
-            m_objectList.Clear();
-
-            DrawMonsters();
+            DrawMonsters(visibility);
         }
 
-        private void DrawMonsters()
+        private void DrawMonsters(TileVisibility[,] visibility)
         {
             MageCrawlPoint upperLeft = UpperLeftViewPoint;
             foreach (IMonster m in m_map.Monsters.Where(m => IsPointDrawable(m.Position)))
             {
-                Image image = GetImageForMonster(m);
-                m_objectList.Add(image);
-                m_grid.Children.Add(image);
-                Grid.SetColumn(image, m.Position.X - upperLeft.X);
-                Grid.SetRow(image, m.Position.Y - upperLeft.Y);
+                if (visibility[m.Position.X, m.Position.Y] == TileVisibility.Visible)
+                {
+                    AddObjectLayerImage(GetImageForMonster(m), m.Position.X - upperLeft.X, m.Position.Y - upperLeft.Y);
+                }
             }
+        }
+
+        private void AddObjectLayerImage(Image image, int x, int y)
+        {
+            m_objectList.Add(image);
+            m_grid.Children.Add(image);
+            Grid.SetColumn(image, x);
+            Grid.SetRow(image, y);
+        }
+
+        private Image GetOutOfSightImage()
+        {
+            Image i = new Image();
+            i.Source = m_outOfSight.Source;
+            return i;
         }
 
         private Image GetImageForMonster(IMonster m)
