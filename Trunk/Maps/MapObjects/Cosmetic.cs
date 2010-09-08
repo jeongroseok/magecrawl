@@ -21,7 +21,7 @@ namespace Magecrawl.Maps.MapObjects
         {
             get
             {
-                return "Table";
+                return "Fountain";
             }
         }
 
@@ -76,7 +76,7 @@ namespace Magecrawl.Maps.MapObjects
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "Cosmetic");
+            writer.WriteElementString("Type", "Fountain");
             m_position.WriteToXml(writer, "Position");
         }
     }

@@ -81,6 +81,19 @@ namespace Magecrawl.GameEngine.Interface
             return StairMovmentType.None;
         }
 
+        public StairMovmentType IsStairMovementSpecial(Point positionOfStairs)
+        {
+            Stairs s = m_engine.Map.MapObjects.OfType<Stairs>().Where(x => x.Position == positionOfStairs).SingleOrDefault();
+            if (s != null)
+            {
+                if (s.Type == MapObjectType.StairsUp && m_engine.CurrentLevel == 0)
+                    return StairMovmentType.QuitGame;
+                else if (s.Type == MapObjectType.StairsDown && m_engine.CurrentLevel == (m_engine.NumberOfLevels - 1))
+                    return StairMovmentType.WinGame;
+            }
+            return StairMovmentType.None;
+        }
+
         public List<ItemOptions> GetOptionsForInventoryItem(IItem item)
         {
             return m_engine.GetOptionsForInventoryItem(item as Item);
