@@ -12,6 +12,7 @@ namespace Magecrawl.Interfaces
         
         // If you go up on level 0 or down at end, dialog should come up to let them know what's going on
         StairMovmentType IsStairMovementSpecial(bool headingUp);
+        StairMovmentType IsStairMovementSpecial(Point positionOfStairs);
 
         List<ItemOptions> GetOptionsForInventoryItem(IItem item);
         List<ItemOptions> GetOptionsForEquipmentItem(IItem item);

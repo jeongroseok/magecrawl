@@ -20,12 +20,8 @@ namespace MageCrawl.Silverlight
     {
         private Grid m_grid;
 
-        private Image m_floor;
-        private Image m_wall;
-        private Image m_unseen;
-        private Image m_outOfSight;
         private List<Image> m_playerParts;
-        private Dictionary<string, Image> m_monsters;
+        private Dictionary<string, Image> m_images;
 
         private List<Image> m_terrainList;
         private List<Image> m_objectList;
@@ -42,16 +38,12 @@ namespace MageCrawl.Silverlight
         public Map()
         {
             InitializeComponent();
-            m_floor = LoadImage("Images/Terrain/grey_dirt3.png");
-            m_wall = LoadImage("Images/Terrain/brick_dark3.png");
-            m_unseen = LoadImage("Images/Other/dngn_unseen.png");
-            m_outOfSight = LoadImage("Images/Other/out_of_sight.png");
 
             m_playerParts = new List<Image>() { LoadImage("Images/Player/gray.png"), LoadImage("Images/Player/human_m.png"), 
                 LoadImage("Images/Player/gandalf_g.png"), LoadImage("Images/Player/middle_brown3.png"), 
                 LoadImage("Images/Player/glove_grayfist.png"), LoadImage("Images/Player/wizard_blackred.png") };
 
-            LoadMonsters();
+            LoadImages();
 
             m_terrainList = new List<Image>();
             m_objectList = new List<Image>();
@@ -78,16 +70,55 @@ namespace MageCrawl.Silverlight
             return image;
         }
 
-        private void LoadMonsters()
+        private void LoadImages()
         {
-            m_monsters = new Dictionary<string, Image>();
-            m_monsters["Goblin"] = LoadImage("Images/Monsters/goblin.png");
-            m_monsters["Hobgoblin"] = LoadImage("Images/Monsters/hobgoblin.png");
-            m_monsters["Kobold"] = LoadImage("Images/Monsters/kobold.png");
-            m_monsters["Orc"] = LoadImage("Images/Monsters/orc.png");
-            m_monsters["Orc Knight"] = LoadImage("Images/Monsters/orc_knight.png");
-            m_monsters["Rat"] = LoadImage("Images/Monsters/rat.png");
-            m_monsters["Wolf"] = LoadImage("Images/Monsters/wolf.png");
+            m_images = new Dictionary<string, Image>();
+            m_images["Goblin"] = LoadImage("Images/Monsters/goblin.png");
+            m_images["Hobgoblin"] = LoadImage("Images/Monsters/hobgoblin.png");
+            m_images["Kobold"] = LoadImage("Images/Monsters/kobold.png");
+            m_images["Orc"] = LoadImage("Images/Monsters/orc.png");
+            m_images["Orc Knight"] = LoadImage("Images/Monsters/orc_knight.png");
+            m_images["Rat"] = LoadImage("Images/Monsters/rat.png");
+            m_images["Wolf"] = LoadImage("Images/Monsters/wolf.png");
+
+            m_images["Floor"] = LoadImage("Images/Terrain/grey_dirt3.png");
+            m_images["Wall"] = LoadImage("Images/Terrain/brick_dark3.png");
+            m_images["OutOfSight"] = LoadImage("Images/Other/out_of_sight.png");
+
+            m_images["Chest"] = LoadImage("Images/MapObjects/chest.png");
+            m_images["Fountain"] = LoadImage("Images/MapObjects/dngn_blue_fountain.png");
+            m_images["OpenDoor"] = LoadImage("Images/MapObjects/dngn_open_door.png");
+            m_images["ClosedDoor"] = LoadImage("Images/MapObjects/dngn_closed_door.png");
+            m_images["LastStairsDown"] = LoadImage("Images/MapObjects/dngn_enter.png");
+            m_images["LastStairsUp"] = LoadImage("Images/MapObjects/dngn_return.png");
+            m_images["StairsDown"] = LoadImage("Images/MapObjects/stone_stairs_down.png");
+            m_images["StairsUp"] = LoadImage("Images/MapObjects/stone_stairs_up.png");
+
+            m_images["Potion"] = LoadImage("Images/Items/brilliant_blue.png");
+            m_images["Wand"] = LoadImage("Images/Items/gem_bronze.png");
+            m_images["Scroll"] = LoadImage("Images/Items/scroll.png");
+            
+            m_images["Axe"] = LoadImage("Images/Items/battle_axe1.png");
+            m_images["MediumBoots"] = LoadImage("Images/Items/boots1_brown.png");
+            m_images["HeavyBoots"] = LoadImage("Images/Items/boots3_stripe.png");
+            m_images["Dagger"] = LoadImage("Images/Items/dagger.png");
+            m_images["Dagger"] = LoadImage("Images/Items/dagger.png");
+            m_images["MediumHelm"] = LoadImage("Images/Items/elven_leather_helm.png");
+            m_images["LightGloves"] = LoadImage("Images/Items/glove1.png");
+            m_images["MediumGloves"] = LoadImage("Images/Items/glove2.png");
+            m_images["HeavyHelm"] = LoadImage("Images/Items/helmet1_visored.png");
+            m_images["Bow"] = LoadImage("Images/Items/longbow.png");
+            m_images["HeavyChestArmor"] = LoadImage("Images/Items/plate_mail1.png");
+            m_images["Staff"] = LoadImage("Images/Items/quarterstaff.png");
+            m_images["MediumChestArmor"] = LoadImage("Images/Items/ring_mail2.png");
+            m_images["LightChestArmor"] = LoadImage("Images/Items/robe2.png");
+            m_images["Sword"] = LoadImage("Images/Items/short_sword2.png");
+            m_images["Spear"] = LoadImage("Images/Items/spear1_elven.png");
+            m_images["Spear"] = LoadImage("Images/Items/spear1_elven.png");
+            m_images["LightBoots"] = LoadImage("Images/Items/urand_assassin.png");
+            m_images["HeavyGloves"] = LoadImage("Images/Items/urand_war.png");
+            m_images["LightHelm"] = LoadImage("Images/Items/wizard_hat1.png");
+
         }
 
         private Grid CreateMapGrid(int rows, int cols)
@@ -150,11 +181,11 @@ namespace MageCrawl.Silverlight
                     {
                         if (m_map.GetTerrainAt(x, y) == TerrainType.Floor)
                         {
-                            image.Source = m_floor.Source;
+                            image.Source = m_images["Floor"].Source;
                         }
                         else
                         {
-                            image.Source = m_wall.Source;
+                            image.Source = m_images["Wall"].Source;
                         }
 
                         if (visibility[x, y] == TileVisibility.Visited)
@@ -175,8 +206,10 @@ namespace MageCrawl.Silverlight
 
             }
 
-            DrawPlayer();
+            DrawMapObjects(visibility, m_engine);
+            DrawItems(visibility);
             DrawMonsters(visibility);
+            DrawPlayer();                                 
         }
 
         private void DrawMonsters(TileVisibility[,] visibility)
@@ -187,6 +220,30 @@ namespace MageCrawl.Silverlight
                 if (visibility[m.Position.X, m.Position.Y] == TileVisibility.Visible)
                 {
                     AddObjectLayerImage(GetImageForMonster(m), m.Position.X - upperLeft.X, m.Position.Y - upperLeft.Y);
+                }
+            }
+        }
+        
+        private void DrawMapObjects(TileVisibility[,] visibility, IGameEngine engine)
+        {
+            MageCrawlPoint upperLeft = UpperLeftViewPoint;
+            foreach (IMapObject o in m_map.MapObjects.Where(o => IsPointDrawable(o.Position)))
+            {
+                if (visibility[o.Position.X, o.Position.Y] != TileVisibility.Unvisited)
+                {
+                    AddObjectLayerImage(GetImageForMapObject(o, engine), o.Position.X - upperLeft.X, o.Position.Y - upperLeft.Y);
+                }
+            }
+        }
+
+        private void DrawItems(TileVisibility[,] visibility)
+        {
+            MageCrawlPoint upperLeft = UpperLeftViewPoint;
+            foreach (var i in m_map.Items.Where(i => IsPointDrawable(i.Second)))
+            {
+                if (visibility[i.Second.X, i.Second.Y] == TileVisibility.Visible)
+                {
+                    AddObjectLayerImage(GetImageForItem(i.First), i.Second.X - upperLeft.X, i.Second.Y - upperLeft.Y);
                 }
             }
         }
@@ -202,8 +259,164 @@ namespace MageCrawl.Silverlight
         private Image GetOutOfSightImage()
         {
             Image i = new Image();
-            i.Source = m_outOfSight.Source;
+            i.Source = m_images["OutOfSight"].Source;
             return i;
+        }
+
+        private Image GetImageForMapObject(IMapObject o, IGameEngine engine)
+        {
+            Image i = new Image();
+            switch (o.Name)
+            {
+                case "Opened Door":
+                    i.Source = m_images["OpenDoor"].Source;
+                    break;
+                case "Closed Door":
+                    i.Source = m_images["ClosedDoor"].Source;
+                    break;
+                case "Stairs Up":
+                {  
+                    StairMovmentType type = engine.GameState.IsStairMovementSpecial(o.Position);
+                    switch (type)
+                    {
+                        case StairMovmentType.QuitGame:
+                            i.Source = m_images["LastStairsUp"].Source;
+                            break;
+                        case StairMovmentType.None:
+                        default:
+                            i.Source = m_images["StairsUp"].Source;
+                            break;
+                    }
+                    break;
+                }
+                case "Stairs Down":
+                {  
+                    StairMovmentType type = engine.GameState.IsStairMovementSpecial(o.Position);
+                    switch (type)
+                    {
+                        case StairMovmentType.WinGame:
+                            i.Source = m_images["LastStairsDown"].Source;
+                            break;
+                        case StairMovmentType.None:
+                        default:
+                            i.Source = m_images["StairsDown"].Source;
+                            break;
+                    }
+                    break;
+                }
+                case "Treasure Chest":
+                    i.Source = m_images["Chest"].Source;
+                    break;
+                case "Fountain":
+                    i.Source = m_images["Fountain"].Source;
+                    break;
+                default:
+                    throw new InvalidOperationException("GetImageForMapObject - can't find image for: " + o.Name);
+            }
+            return i;
+        }
+
+        private Image GetImageForItem(IItem i)
+        {
+            Image image = new Image();
+            switch (i.Type)
+            {
+                case "Potion":
+                    image.Source = m_images["Potion"].Source;
+                    break;
+                case "Wand":
+                    image.Source = m_images["Wand"].Source;
+                    break;
+                case "Scroll":
+                    image.Source = m_images["Scroll"].Source;
+                    break;
+                case "ChestArmor":
+                    switch (GetArmorWeight(i))
+                    {
+                        case ArmorWeight.Light:
+                            image.Source = m_images["LightChestArmor"].Source;
+                            break;
+                        case ArmorWeight.Standard:
+                            image.Source = m_images["MediumChestArmor"].Source;
+                            break;
+                        case ArmorWeight.Heavy:
+                            image.Source = m_images["HeavyChestArmor"].Source;
+                            break;
+                    }
+                    break;
+                case "Helm":
+                    switch (GetArmorWeight(i))
+                    {
+                        case ArmorWeight.Light:
+                            image.Source = m_images["LightHelm"].Source;
+                            break;
+                        case ArmorWeight.Standard:
+                            image.Source = m_images["MediumHelm"].Source;
+                            break;
+                        case ArmorWeight.Heavy:
+                            image.Source = m_images["HeavyHelm"].Source;
+                            break;
+                    }
+                    break;
+                case "Gloves":
+                    switch (GetArmorWeight(i))
+                    {
+                        case ArmorWeight.Light:
+                            image.Source = m_images["LightGloves"].Source;
+                            break;
+                        case ArmorWeight.Standard:
+                            image.Source = m_images["MediumGloves"].Source;
+                            break;
+                        case ArmorWeight.Heavy:
+                            image.Source = m_images["HeavyGloves"].Source;
+                            break;
+                    }
+                    break;
+                case "Boots":
+                    switch (GetArmorWeight(i))
+                    {
+                        case ArmorWeight.Light:
+                            image.Source = m_images["LightBoots"].Source;
+                            break;
+                        case ArmorWeight.Standard:
+                            image.Source = m_images["MediumBoots"].Source;
+                            break;
+                        case ArmorWeight.Heavy:
+                            image.Source = m_images["HeavyBoots"].Source;
+                            break;
+                    }
+                    break;
+                case "Axe":
+                    image.Source = m_images["Axe"].Source;
+                    break;
+                case "Bow":
+                    image.Source = m_images["Bow"].Source;
+                    break;
+                case "Staff":
+                    image.Source = m_images["Staff"].Source;
+                    break;
+                case "Dagger":
+                    image.Source = m_images["Dagger"].Source;
+                    break;
+                case "Sling":
+                    image.Source = m_images["Sling"].Source;
+                    break;
+                case "Spear":
+                    image.Source = m_images["Spear"].Source;
+                    break;
+                case "Sword":
+                    image.Source = m_images["Sword"].Source;
+                    break;
+                default:
+                    throw new InvalidOperationException("GetImageForItem - can't find image for: " + i.Type);
+            }
+            return image;
+        }
+
+        private ArmorWeight GetArmorWeight(IItem i)
+        {
+            IArmor armor = (IArmor)i;
+            return armor.Weight;
         }
 
         private Image GetImageForMonster(IMonster m)
@@ -212,25 +425,25 @@ namespace MageCrawl.Silverlight
             switch (m.BaseType)
             {
                 case "Wolf":
-                    i.Source = m_monsters["Wolf"].Source;
+                    i.Source = m_images["Wolf"].Source;
                     break;
                 case "Orc Barbarian":
-                    i.Source = m_monsters["Orc"].Source;
+                    i.Source = m_images["Orc"].Source;
                     break;
                 case "Orc Warrior":
-                    i.Source = m_monsters["Orc Knight"].Source;
+                    i.Source = m_images["Orc Knight"].Source;
                     break;
                 case "Goblin Healer":
-                    i.Source = m_monsters["Goblin"].Source;
+                    i.Source = m_images["Goblin"].Source;
                     break;
                 case "Goblin Slinger":
-                    i.Source = m_monsters["Hobgoblin"].Source;
+                    i.Source = m_images["Hobgoblin"].Source;
                     break;
                 case "Kobold":
-                    i.Source = m_monsters["Kobold"].Source;
+                    i.Source = m_images["Kobold"].Source;
                     break;
                 case "Giant Rat":
-                    i.Source = m_monsters["Rat"].Source;
+                    i.Source = m_images["Rat"].Source;
                     break;
                 default:
                     throw new InvalidOperationException("GetImageForMonster - can't find image for: " + m.BaseType);
@@ -249,6 +462,9 @@ namespace MageCrawl.Silverlight
             BitmapImage i = new BitmapImage();
             foreach (Image image in m_playerParts)
             {
+                // Make sure we're the "last" in the list so we draw first
+                m_grid.Children.Remove(image);
+                m_grid.Children.Add(image);
                 Grid.SetColumn(image, CenterX);
                 Grid.SetRow(image, CenterY);
             }

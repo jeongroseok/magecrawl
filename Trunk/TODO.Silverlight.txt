@@ -1,0 +1,24 @@
+Health/Mana Bars
+Attack Melee/Ranged
+Splash Screen
+Help
+Welcome Message
+Equipment
+Inventory
+Status Effect List
+Skill Tree
+Get Item (multiple)
+Operate
+Rest
+Wait
+Move to location
+View Mode
+Up/Down Stairs
+Swap weapons
+Text Box Up/Down/Clear
+Save
+Quit
+Status Effect/Monster list on character info
+Way to edit preferences
+Draw ranged attack
+Handle player death

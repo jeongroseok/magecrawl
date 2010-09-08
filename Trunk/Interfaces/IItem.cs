@@ -15,5 +15,10 @@ namespace Magecrawl.Interfaces
         {
             get;
         }
+
+        string Type
+        {
+            get;
+        }
     }
 }

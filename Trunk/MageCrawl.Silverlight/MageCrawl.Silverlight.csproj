@@ -128,6 +128,36 @@
     <Content Include="..\dist\Map\DungeonChunks.dat">
       <Link>Map\DungeonChunks.dat</Link>
     </Content>
+    <Content Include="Images\Items\battle_axe1.png" />
+    <Content Include="Images\Items\boots1_brown.png" />
+    <Content Include="Images\Items\boots3_stripe.png" />
+    <Content Include="Images\Items\brilliant_blue.png" />
+    <Content Include="Images\Items\dagger.png" />
+    <Content Include="Images\Items\elven_leather_helm.png" />
+    <Content Include="Images\Items\gem_bronze.png" />
+    <Content Include="Images\Items\glove1.png" />
+    <Content Include="Images\Items\glove2.png" />
+    <Content Include="Images\Items\helmet1_visored.png" />
+    <Content Include="Images\Items\longbow.png" />
+    <Content Include="Images\Items\plate_mail1.png" />
+    <Content Include="Images\Items\quarterstaff.png" />
+    <Content Include="Images\Items\ring_mail2.png" />
+    <Content Include="Images\Items\robe2.png" />
+    <Content Include="Images\Items\scroll.png" />
+    <Content Include="Images\Items\short_sword2.png" />
+    <Content Include="Images\Items\sling1.png" />
+    <Content Include="Images\Items\spear1_elven.png" />
+    <Content Include="Images\Items\urand_assassin.png" />
+    <Content Include="Images\Items\urand_war.png" />
+    <Content Include="Images\Items\wizard_hat1.png" />
+    <Content Include="Images\MapObjects\chest.png" />
+    <Content Include="Images\MapObjects\dngn_blue_fountain.png" />
+    <Content Include="Images\MapObjects\dngn_closed_door.png" />
+    <Content Include="Images\MapObjects\dngn_enter.png" />
+    <Content Include="Images\MapObjects\dngn_open_door.png" />
+    <Content Include="Images\MapObjects\dngn_return.png" />
+    <Content Include="Images\MapObjects\stone_stairs_down.png" />
+    <Content Include="Images\MapObjects\stone_stairs_up.png" />
     <Content Include="Images\Monsters\goblin.png" />
     <Content Include="Images\Monsters\hobgoblin.png" />
     <Content Include="Images\Monsters\kobold.png" />

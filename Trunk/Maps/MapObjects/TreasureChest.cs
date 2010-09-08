@@ -23,7 +23,7 @@ namespace Magecrawl.Maps.MapObjects
         {
             get
             {
-                return "TreasureChest";
+                return "Treasure Chest";
             }
         }
 
@@ -89,7 +89,7 @@ namespace Magecrawl.Maps.MapObjects
 
         public override void WriteXml(XmlWriter writer)
         {
-            writer.WriteElementString("Type", "TreasureChest");
+            writer.WriteElementString("Type", "Treasure Chest");
             m_position.WriteToXml(writer, "Position");
         }
 

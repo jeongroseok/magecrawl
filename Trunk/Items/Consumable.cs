@@ -93,7 +93,7 @@ namespace Magecrawl.Items
             }
         }
 
-        public string Type
+        public override string Type
         {
             get
             {
