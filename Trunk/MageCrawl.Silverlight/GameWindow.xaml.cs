@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using Magecrawl;
-using Magecrawl.GameEngine.Interface;
 using Magecrawl.Interfaces;
+using Magecrawl.Utilities;
 
 namespace MageCrawl.Silverlight
 {
@@ -20,7 +20,7 @@ namespace MageCrawl.Silverlight
         {
             m_engine = engine;
             CharacterInfo.Setup(engine.Player);
-            Map.Setup(engine, engine.Map, engine.Player);
+            Map.Setup(engine);
             MessageBox.AddMessage("Welcome to Magecrawl");
             
             // Silverlight by default doesn't give us focus :(
@@ -35,8 +35,19 @@ namespace MageCrawl.Silverlight
 
         private void OnKeyboardDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            bool shift = Keyboard.Modifiers == ModifierKeys.Shift;
             switch (e.Key)
             {
+                case System.Windows.Input.Key.V:
+                {
+                    if (!shift)
+                    {
+                        // "View" mode
+                        Map.InTargettingMode = !Map.InTargettingMode;
+                        Map.Draw();
+                    }
+                    break;
+                }
                 case System.Windows.Input.Key.Left:
                     HandleDirection(Direction.West);
                     break;
@@ -68,10 +79,18 @@ namespace MageCrawl.Silverlight
             e.Handled = true;
         }
 
-        private void HandleDirection(Magecrawl.Direction direction)
+        private void HandleDirection(Direction direction)
         {
-            m_engine.Actions.Move(direction);
-            UpdateWorld();
+            if (Map.InTargettingMode)
+            {
+                Map.TargetPoint = PointDirectionUtils.ConvertDirectionToDestinationPoint(Map.TargetPoint, direction);
+                Map.Draw();
+            }
+            else
+            {
+                m_engine.Actions.Move(direction);
+                UpdateWorld();
+            }
         }
 
         private void UpdateWorld()
