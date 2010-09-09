@@ -8,7 +8,7 @@ using MageCrawlPoint = Magecrawl.Utilities.Point;
 
 namespace MageCrawl.Silverlight.KeyboardHandlers
 {
-    public delegate void OnTargetSelect(IGameEngine engine, MageCrawlPoint point);
+    public delegate void OnTargetSelect(GameWindow window, IGameEngine engine, MageCrawlPoint point);
 
     public class TargettingModeKeyboardHandler
     {
@@ -32,7 +32,7 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 {
                     if (m_action != null)
                     {
-                        m_action(engine, map.TargetPoint);
+                        m_action(window, engine, map.TargetPoint);
                         m_action = null;
                     }
                     break;

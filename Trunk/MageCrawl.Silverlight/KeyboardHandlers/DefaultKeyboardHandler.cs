@@ -20,7 +20,6 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                         map.InTargettingMode = true;
                         TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler();
                         window.SetKeyboardHandler(handler.OnKeyboardDown);
-                        window.UpdateWorld();
                     }
                     break;
                 }
@@ -28,8 +27,9 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 {
                     if (shift)
                     {
-                        RunningKeyboardHandler runner = new RunningKeyboardHandler(window, engine);
-                        runner.StartRunning(engine.Player.Position + new Point(0, -5));
+                        map.InTargettingMode = true;
+                        TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(OnRunTargetSelected);
+                        window.SetKeyboardHandler(handler.OnKeyboardDown);
                     }
                     break;
                 }
@@ -60,6 +60,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 default:
                     break;
             }
+        }
+
+        private static void OnRunTargetSelected(GameWindow window, IGameEngine engine, Point point)
+        {
+            window.Map.InTargettingMode = false;
+            RunningKeyboardHandler runner = new RunningKeyboardHandler(window, engine);
+            runner.StartRunning(point);
         }
 
         private static void HandleDirection(Direction direction, Map map, GameWindow window, IGameEngine engine)

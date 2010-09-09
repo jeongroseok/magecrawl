@@ -60,6 +60,7 @@ namespace MageCrawl.Silverlight
         public void SetKeyboardHandler(KeystrokeHandler handler)
         {
             m_currentKeystrokeHandler = handler;
+            UpdateWorld();
         }
 
         private void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
