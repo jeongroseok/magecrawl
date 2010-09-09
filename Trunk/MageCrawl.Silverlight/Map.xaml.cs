@@ -25,9 +25,8 @@ namespace MageCrawl.Silverlight
 
         private List<Image> m_terrainList;
         private List<Image> m_objectList;
+        private Image m_viewCursor;
 
-        private IMap m_map;
-        private IPlayer m_player;
         private IGameEngine m_engine;
 
         private const int MapWidth = 17;
@@ -47,6 +46,7 @@ namespace MageCrawl.Silverlight
 
             m_terrainList = new List<Image>();
             m_objectList = new List<Image>();
+            m_viewCursor = m_images["Cursor"];
 
             m_grid = CreateMapGrid(MapHeight, MapWidth);
 
@@ -55,13 +55,27 @@ namespace MageCrawl.Silverlight
             Canvas.SetTop(m_grid, 3);
         }
 
-        public void Setup(IGameEngine engine, IMap map, IPlayer player)
+        public void Setup(IGameEngine engine)
         {
             m_engine = engine;
-            m_map = map;
-            m_player = player;
+            InTargettingMode = false;
             Draw();
         }
+
+        private bool m_targettingMode;
+        public bool InTargettingMode
+        {
+            get
+            {
+                return m_targettingMode;
+            }
+            set
+            {
+                m_targettingMode = value;
+                TargetPoint = m_engine.Player.Position;
+            }
+        }
+        public MageCrawlPoint TargetPoint { get; set; }
 
         private Image LoadImage(string filename)
         {
@@ -119,6 +133,8 @@ namespace MageCrawl.Silverlight
             m_images["HeavyGloves"] = LoadImage("Images/Items/urand_war.png");
             m_images["LightHelm"] = LoadImage("Images/Items/wizard_hat1.png");
 
+            m_images["Cursor"] = LoadImage("Images/Other/cursor.png");
+            m_images["CursorRed"] = LoadImage("Images/Other/cursor_red.png");
         }
 
         private Grid CreateMapGrid(int rows, int cols)
@@ -175,11 +191,11 @@ namespace MageCrawl.Silverlight
                 int x = Grid.GetColumn(image) + upperLeftViewPoint.X;
                 int y = Grid.GetRow(image) + upperLeftViewPoint.Y;
 
-                if (m_map.IsPointOnMap(x, y))
+                if (m_engine.Map.IsPointOnMap(x, y))
                 {
                     if (visibility[x, y] != TileVisibility.Unvisited)
                     {
-                        if (m_map.GetTerrainAt(x, y) == TerrainType.Floor)
+                        if (m_engine.Map.GetTerrainAt(x, y) == TerrainType.Floor)
                         {
                             image.Source = m_images["Floor"].Source;
                         }
@@ -209,13 +225,14 @@ namespace MageCrawl.Silverlight
             DrawMapObjects(visibility, m_engine);
             DrawItems(visibility);
             DrawMonsters(visibility);
-            DrawPlayer();                                 
+            DrawPlayer();
+            DrawCursor();
         }
 
         private void DrawMonsters(TileVisibility[,] visibility)
         {
             MageCrawlPoint upperLeft = UpperLeftViewPoint;
-            foreach (IMonster m in m_map.Monsters.Where(m => IsPointDrawable(m.Position)))
+            foreach (IMonster m in m_engine.Map.Monsters.Where(m => IsPointDrawable(m.Position)))
             {
                 if (visibility[m.Position.X, m.Position.Y] == TileVisibility.Visible)
                 {
@@ -227,7 +244,7 @@ namespace MageCrawl.Silverlight
         private void DrawMapObjects(TileVisibility[,] visibility, IGameEngine engine)
         {
             MageCrawlPoint upperLeft = UpperLeftViewPoint;
-            foreach (IMapObject o in m_map.MapObjects.Where(o => IsPointDrawable(o.Position)))
+            foreach (IMapObject o in m_engine.Map.MapObjects.Where(o => IsPointDrawable(o.Position)))
             {
                 if (visibility[o.Position.X, o.Position.Y] != TileVisibility.Unvisited)
                 {
@@ -239,7 +256,7 @@ namespace MageCrawl.Silverlight
         private void DrawItems(TileVisibility[,] visibility)
         {
             MageCrawlPoint upperLeft = UpperLeftViewPoint;
-            foreach (var i in m_map.Items.Where(i => IsPointDrawable(i.Second)))
+            foreach (var i in m_engine.Map.Items.Where(i => IsPointDrawable(i.Second)))
             {
                 if (visibility[i.Second.X, i.Second.Y] == TileVisibility.Visible)
                 {
@@ -247,6 +264,48 @@ namespace MageCrawl.Silverlight
                 }
             }
         }
+
+        private void DrawPlayer()
+        {
+            if (IsPointDrawable(m_engine.Player.Position))
+            {
+                MageCrawlPoint upperLeft = UpperLeftViewPoint;
+                foreach (Image image in m_playerParts)
+                {
+                    // Make sure we're the "last" in the list so we draw first
+                    m_grid.Children.Remove(image);
+                    m_grid.Children.Add(image);
+                    Grid.SetColumn(image, m_engine.Player.Position.X - upperLeft.X);
+                    Grid.SetRow(image, m_engine.Player.Position.Y - upperLeft.Y);
+                }
+            }
+            else
+            {
+                foreach (Image image in m_playerParts)
+                {
+                    if (m_grid.Children.Contains(image))
+                        m_grid.Children.Remove(image);
+                }
+            }
+        }
+
+        private void DrawCursor()
+        {
+            if (InTargettingMode)
+            {
+                // Make sure we're the "last" in the list so we draw first, even in front of player
+                m_grid.Children.Remove(m_viewCursor);
+                m_grid.Children.Add(m_viewCursor);
+                Grid.SetColumn(m_viewCursor, CenterX);
+                Grid.SetRow(m_viewCursor, CenterY);
+            }
+            else
+            {
+                if (m_grid.Children.Contains(m_viewCursor))
+                    m_grid.Children.Remove(m_viewCursor);
+            }
+        }
+
 
         private void AddObjectLayerImage(Image image, int x, int y)
         {
@@ -457,24 +516,14 @@ namespace MageCrawl.Silverlight
             return p.X >= upperLeft.X && p.Y >= upperLeft.Y && p.X < upperLeft.X + MapWidth && p.Y < upperLeft.Y + MapHeight;
         }
 
-        private void DrawPlayer()
-        {
-            BitmapImage i = new BitmapImage();
-            foreach (Image image in m_playerParts)
-            {
-                // Make sure we're the "last" in the list so we draw first
-                m_grid.Children.Remove(image);
-                m_grid.Children.Add(image);
-                Grid.SetColumn(image, CenterX);
-                Grid.SetRow(image, CenterY);
-            }
-        }
-
         public MageCrawlPoint UpperLeftViewPoint
         {
             get
             {
-                return m_player.Position - new MageCrawlPoint(CenterX, CenterY);
+                if (InTargettingMode)
+                    return new MageCrawlPoint(TargetPoint.X - CenterX, TargetPoint.Y - CenterY);
+                else
+                    return m_engine.Player.Position - new MageCrawlPoint(CenterX, CenterY);
             }
         }
     }
