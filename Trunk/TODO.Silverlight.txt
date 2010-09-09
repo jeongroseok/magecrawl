@@ -22,3 +22,4 @@ Way to edit preferences
 Draw ranged attack
 Handle player death
 Reasignable keystrokes
+Run in direction
