@@ -21,3 +21,4 @@ Status Effect/Monster list on character info
 Way to edit preferences
 Draw ranged attack
 Handle player death
+Reasignable keystrokes

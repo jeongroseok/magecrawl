@@ -82,6 +82,8 @@
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardHandlers\DefaultKeyboardHandler.cs" />
+    <Compile Include="KeyboardHandlers\TargettingModeKeyboardHandler.cs" />
     <Compile Include="LostFocusPopup.xaml.cs">
       <DependentUpon>LostFocusPopup.xaml</DependentUpon>
     </Compile>

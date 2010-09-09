@@ -3,17 +3,22 @@ using System.Windows.Input;
 using Magecrawl;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using MageCrawl.Silverlight.KeyboardHandlers;
 
 namespace MageCrawl.Silverlight
 {
+    public delegate void KeystrokeHandler(Key key, Map map, GameWindow window, IGameEngine engine);
+
     public partial class GameWindow : UserControl
     {
         private IGameEngine m_engine;
         private LostFocusPopup m_focusPopup;
+        private KeystrokeHandler m_currentKeystrokeHandler;
 
         public GameWindow()
         {
             InitializeComponent();
+            m_currentKeystrokeHandler = DefaultKeyboardHandler.OnKeyboardDown;
         }
 
         public void Setup(IGameEngine engine)
@@ -35,68 +40,26 @@ namespace MageCrawl.Silverlight
 
         private void OnKeyboardDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool shift = Keyboard.Modifiers == ModifierKeys.Shift;
-            switch (e.Key)
-            {
-                case System.Windows.Input.Key.V:
-                {
-                    if (!shift)
-                    {
-                        // "View" mode
-                        Map.InTargettingMode = !Map.InTargettingMode;
-                        Map.Draw();
-                    }
-                    break;
-                }
-                case System.Windows.Input.Key.Left:
-                    HandleDirection(Direction.West);
-                    break;
-                case System.Windows.Input.Key.Right:
-                    HandleDirection(Direction.East);
-                    break;
-                case System.Windows.Input.Key.Down:
-                    HandleDirection(Direction.South);
-                    break;
-                case System.Windows.Input.Key.Up:
-                    HandleDirection(Direction.North);
-                    break;
-                case System.Windows.Input.Key.Insert:
-                    HandleDirection(Direction.Northwest);
-                    break;
-                case System.Windows.Input.Key.Delete:
-                    HandleDirection(Direction.Southwest);
-                    break;
-                case System.Windows.Input.Key.PageUp:
-                    HandleDirection(Direction.Northeast);
-                    break;
-                case System.Windows.Input.Key.PageDown:
-                    HandleDirection(Direction.Southeast);
-                    break;
-                default:
-                    break;
-            }
+            m_currentKeystrokeHandler(e.Key, Map, this, m_engine);
+
             // We're the only one to handle keyboard messages
             e.Handled = true;
         }
 
-        private void HandleDirection(Direction direction)
-        {
-            if (Map.InTargettingMode)
-            {
-                Map.TargetPoint = PointDirectionUtils.ConvertDirectionToDestinationPoint(Map.TargetPoint, direction);
-                Map.Draw();
-            }
-            else
-            {
-                m_engine.Actions.Move(direction);
-                UpdateWorld();
-            }
-        }
-
-        private void UpdateWorld()
+        public void UpdateWorld()
         {
             Map.Draw();
             CharacterInfo.Character.NewTurn();
+        }
+
+        public void ResetDefaultKeyboardHandler()
+        {
+            m_currentKeystrokeHandler = DefaultKeyboardHandler.OnKeyboardDown;
+        }
+
+        public void SetKeyboardHandler(KeystrokeHandler handler)
+        {
+            m_currentKeystrokeHandler = handler;
         }
 
         private void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
