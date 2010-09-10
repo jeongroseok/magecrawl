@@ -73,8 +73,16 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
         {
             if (!map.InTargettingMode)
             {
-                engine.Actions.Move(direction);
-                window.UpdateWorld();
+                if (Keyboard.Modifiers != ModifierKeys.Shift)
+                {
+                    engine.Actions.Move(direction);
+                    window.UpdateWorld();
+                }
+                else
+                {
+                    RunningKeyboardHandler runner = new RunningKeyboardHandler(window, engine);
+                    runner.StartRunning(direction);
+                }
             }
             else
             {

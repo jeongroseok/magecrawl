@@ -12,9 +12,12 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
     {
         private object m_lock;
         private IGameEngine m_engine;
-        private Point m_target;
         private DispatcherTimer m_dispatcherTimer;
         private GameWindow m_window;
+
+        // We're either running with a direction or a target point
+        private Point m_target;
+        private Direction m_direction;
 
         public RunningKeyboardHandler(GameWindow window, IGameEngine engine)
         {
@@ -27,8 +30,22 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
         public void StartRunning(Point target)
         {
             m_target = target;
+            m_direction = Direction.None;
 
-            m_dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 150); // 150 Milliseconds
+            StartRunningCore();
+        }
+
+        public void StartRunning(Direction direction)
+        {
+            m_target = Point.Invalid;
+            m_direction = direction;
+
+            StartRunningCore();
+        }
+
+        private void StartRunningCore()
+        {
+            m_dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 75); // 75 Milliseconds
             m_dispatcherTimer.Tick += OnTick;
             m_dispatcherTimer.Start();
 
@@ -41,16 +58,24 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             {
                 if (!m_engine.GameState.DangerInLOS())
                 {
-                    List<Point> pathToPoint = m_engine.Targetting.PlayerPathToPoint(m_target);
-                    if (pathToPoint == null || pathToPoint.Count == 0)
+                    bool ableToMove = false;
+                    if (m_target != Point.Invalid)
                     {
-                        Escape();
-                        return;
+                        List<Point> pathToPoint = m_engine.Targetting.PlayerPathToPoint(m_target);
+                        if (pathToPoint == null || pathToPoint.Count == 0)
+                        {
+                            Escape();
+                            return;
+                        }
+
+                        Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
+
+                        ableToMove = m_engine.Actions.Move(d);
                     }
-
-                    Direction d = PointDirectionUtils.ConvertTwoPointsToDirection(m_engine.Player.Position, pathToPoint[0]);
-
-                    bool ableToMove = m_engine.Actions.Move(d);
+                    else if (m_direction != Direction.None)
+                    {
+                        ableToMove = m_engine.Actions.Move(m_direction);
+                    }
                     if (!ableToMove)
                     {
                         Escape();
