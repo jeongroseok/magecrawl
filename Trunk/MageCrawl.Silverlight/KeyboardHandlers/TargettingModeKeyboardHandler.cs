@@ -23,12 +23,11 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
 
         private OnTargetSelect m_action;
 
-        public void OnKeyboardDown(Key key, Map map, GameWindow window, IGameEngine engine)
+        public void OnKeyboardDown(MagecrawlKey key, Map map, GameWindow window, IGameEngine engine)
         {
-            bool shift = Keyboard.Modifiers == ModifierKeys.Shift;
             switch (key)
             {
-                case Key.Enter:
+                case MagecrawlKey.Enter:
                 {
                     if (m_action != null)
                     {
@@ -37,39 +36,38 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     }
                     break;
                 }
-                case Key.Escape:
+                case MagecrawlKey.Escape:
                 {
                     Escape(map, window);
                     break;
                 }
-                case Key.V:
+                case MagecrawlKey.v:
                 {
-                    if (!shift)
-                        Escape(map, window);
+                    Escape(map, window);
                     break;
                 }
-                case Key.Left:
+                case MagecrawlKey.Left:
                     HandleDirection(Direction.West, map, window, engine);
                     break;
-                case Key.Right:
+                case MagecrawlKey.Right:
                     HandleDirection(Direction.East, map, window, engine);
                     break;
-                case Key.Down:
+                case MagecrawlKey.Down:
                     HandleDirection(Direction.South, map, window, engine);
                     break;
-                case Key.Up:
+                case MagecrawlKey.Up:
                     HandleDirection(Direction.North, map, window, engine);
                     break;
-                case Key.Insert:
+                case MagecrawlKey.Insert:
                     HandleDirection(Direction.Northwest, map, window, engine);
                     break;
-                case Key.Delete:
+                case MagecrawlKey.Delete:
                     HandleDirection(Direction.Southwest, map, window, engine);
                     break;
-                case Key.PageUp:
+                case MagecrawlKey.PageUp:
                     HandleDirection(Direction.Northeast, map, window, engine);
                     break;
-                case Key.PageDown:
+                case MagecrawlKey.PageDown:
                     HandleDirection(Direction.Southeast, map, window, engine);
                     break;
                 default:

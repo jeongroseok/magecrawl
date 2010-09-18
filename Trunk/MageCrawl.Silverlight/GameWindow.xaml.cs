@@ -7,7 +7,7 @@ using MageCrawl.Silverlight.KeyboardHandlers;
 
 namespace MageCrawl.Silverlight
 {
-    public delegate void KeystrokeHandler(Key key, Map map, GameWindow window, IGameEngine engine);
+    public delegate void KeystrokeHandler(MagecrawlKey key, Map map, GameWindow window, IGameEngine engine);
 
     public partial class GameWindow : UserControl
     {
@@ -40,7 +40,7 @@ namespace MageCrawl.Silverlight
 
         private void OnKeyboardDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            m_currentKeystrokeHandler(e.Key, Map, this, m_engine);
+            m_currentKeystrokeHandler(KeyboardConverter.GetConvertedKey(e.Key, e.PlatformKeyCode), Map, this, m_engine);
 
             // We're the only one to handle keyboard messages
             e.Handled = true;

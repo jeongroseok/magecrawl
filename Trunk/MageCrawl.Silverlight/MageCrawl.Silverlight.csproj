@@ -82,6 +82,8 @@
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardHandlers\KeyboardConverter.cs" />
+    <Compile Include="KeyboardHandlers\MagecrawlKey.cs" />
     <Compile Include="KeyboardHandlers\RunningKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\DefaultKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\TargettingModeKeyboardHandler.cs" />

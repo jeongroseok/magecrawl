@@ -8,56 +8,74 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
 {
     public static class DefaultKeyboardHandler
     {
-        public static void OnKeyboardDown(Key key, Map map, GameWindow window, IGameEngine engine)
+        public static void OnKeyboardDown(MagecrawlKey key, Map map, GameWindow window, IGameEngine engine)
         {
-            bool shift = Keyboard.Modifiers == ModifierKeys.Shift;
             switch (key)
             {
-                case Key.V:
+                case MagecrawlKey.v:
                 {
-                    if (!shift)
-                    {
-                        map.InTargettingMode = true;
-                        TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler();
-                        window.SetKeyboardHandler(handler.OnKeyboardDown);
-                    }
+                    map.InTargettingMode = true;
+                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler();
+                    window.SetKeyboardHandler(handler.OnKeyboardDown);
                     break;
                 }
-                case Key.A:
+                case MagecrawlKey.A:
                 {
-                    if (shift)
-                    {
-                        map.InTargettingMode = true;
-                        TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(OnRunTargetSelected);
-                        window.SetKeyboardHandler(handler.OnKeyboardDown);
-                    }
+                    map.InTargettingMode = true;
+                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(OnRunTargetSelected);
+                    window.SetKeyboardHandler(handler.OnKeyboardDown);
                     break;
                 }
-                case Key.Left:
+                case MagecrawlKey.Backquote:
+                {
+                    engine.Actions.SwapPrimarySecondaryWeapons();
+                    window.UpdateWorld();
+                    break;
+                }
+                case MagecrawlKey.Period:
+                {
+                    engine.Actions.Wait();
+                    window.UpdateWorld();
+                    break;
+                }
+                case MagecrawlKey.PageUp:
+                {
+                    window.MessageBox.PageUp();
+                    break;
+                }
+                case MagecrawlKey.PageDown:
+                {
+                    window.MessageBox.PageDown();
+                    break;
+                }
+                case MagecrawlKey.Backspace:
+                {
+                    window.MessageBox.Clear();
+                    break;
+                }
+                case MagecrawlKey.Left:
                     HandleDirection(Direction.West, map, window, engine);
                     break;
-                case Key.Right:
+                case MagecrawlKey.Right:
                     HandleDirection(Direction.East, map, window, engine);
                     break;
-                case Key.Down:
+                case MagecrawlKey.Down:
                     HandleDirection(Direction.South, map, window, engine);
                     break;
-                case Key.Up:
+                case MagecrawlKey.Up:
                     HandleDirection(Direction.North, map, window, engine);
                     break;
-                case Key.Insert:
+                case MagecrawlKey.Insert:
                     HandleDirection(Direction.Northwest, map, window, engine);
                     break;
-                case Key.Delete:
+                case MagecrawlKey.Delete:
                     HandleDirection(Direction.Southwest, map, window, engine);
                     break;
-                case Key.PageUp:
+                case MagecrawlKey.Home:
                     HandleDirection(Direction.Northeast, map, window, engine);
                     break;
-                case Key.PageDown:
+                case MagecrawlKey.End:
                     HandleDirection(Direction.Southeast, map, window, engine);
-                    break;
-                default:
                     break;
             }
         }
