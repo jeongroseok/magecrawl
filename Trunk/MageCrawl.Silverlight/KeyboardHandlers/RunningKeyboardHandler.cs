@@ -104,7 +104,7 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             }
         }
 
-        private void OnKeyboardDown(Key key, Map map, GameWindow window, IGameEngine engine)
+        private void OnKeyboardDown(MagecrawlKey key, Map map, GameWindow window, IGameEngine engine)
         {
             Escape();
         }

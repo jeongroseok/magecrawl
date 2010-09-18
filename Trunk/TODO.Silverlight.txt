@@ -1,23 +1,30 @@
+Other:
 Health/Mana Bars
-Attack Melee/Ranged
+Status Effect/Monster list on character info
+Handle player death
+
+Dialogs:
 Splash Screen
 Help
-Welcome Message
+
+Hard:
 Equipment
+Skill Tree
+Way to edit preferences
+Reasignable keystrokes
+
+ListBox:
 Inventory
 Status Effect List	
-Skill Tree
 Get Item (multiple)
-Operate
-Rest
-Wait
+
+Message Box:
 Up/Down Stairs
-Swap weapons
-Text Box Up/Down/Clear
 Save
 Quit
-Status Effect/Monster list on character info
-Way to edit preferences
+Welcome Message
+
+Requires Targetting:
+Operate
 Draw ranged attack
-Handle player death
-Reasignable keystrokes
+Attack Melee/Ranged

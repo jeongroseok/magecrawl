@@ -13,11 +13,6 @@
             get;
         }
 
-        string Type
-        {
-            get;
-        }
-
         int StaminaBonus
         {
             get;
