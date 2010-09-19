@@ -24,12 +24,18 @@ namespace MageCrawl.Silverlight.List
 
         public ListSelection(GameWindow window, IEnumerable<INamedItem> items, OnSelection selectionDelegate, string title)
         {
+            InitializeComponent();
+
             m_selectionDelegate = selectionDelegate;
             Title = title;
+
             window.DisableFocusPopup();
             Closed += (o, e) => { window.EnableFocusPopup(); };
-            DataContext = items;
-            InitializeComponent();
+
+            List.ItemsSource = items;
+            if (items.Count() > 0)
+                List.SelectedIndex = 0;
+            Focus();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -40,7 +46,7 @@ namespace MageCrawl.Silverlight.List
                     Close();
                     break;
                 case MagecrawlKey.Enter:
-                    if (m_selectionDelegate != null)
+                    if (m_selectionDelegate != null && List.SelectedItem != null)
                         m_selectionDelegate((INamedItem)List.SelectedItem);
                     Close();
                     break;
@@ -50,6 +56,9 @@ namespace MageCrawl.Silverlight.List
         // This ironically enough gives us focus on control creation
         private void ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            // First try to give the window focus, then try to give the List focus
+            // If the list has element, the second call works. If not, the first call lets us hit escape
+            Focus();
             List.Focus();
         }
     }
