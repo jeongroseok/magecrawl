@@ -5,7 +5,8 @@ using Magecrawl.Items.Materials;
 
 namespace Magecrawl.Items
 {
-    internal class StatsBasedRangedWeapon : StatsBasedWeapon
+    // Public since SL won't bind to internal objects
+    public class StatsBasedRangedWeapon : StatsBasedWeapon
     {
         internal StatsBasedRangedWeapon() : base()
         {            

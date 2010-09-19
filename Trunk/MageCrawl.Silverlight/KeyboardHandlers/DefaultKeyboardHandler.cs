@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using Magecrawl;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
+using MageCrawl.Silverlight.List;
 
 namespace MageCrawl.Silverlight.KeyboardHandlers
 {
@@ -24,6 +26,18 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     map.InTargettingMode = true;
                     TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(OnRunTargetSelected);
                     window.SetKeyboardHandler(handler.OnKeyboardDown);
+                    break;
+                }
+                case MagecrawlKey.i:
+                {
+                    ListSelection listBox = new ListSelection(window, engine.Player.Items.OfType<INamedItem>(), null, "Inventory");
+                    listBox.Show();
+                    break;
+                }
+                case MagecrawlKey.z:
+                {
+                    ListSelection listBox = new ListSelection(window, engine.Player.Spells.OfType<INamedItem>(), null, "Spellbook");
+                    listBox.Show();
                     break;
                 }
                 case MagecrawlKey.Backquote:

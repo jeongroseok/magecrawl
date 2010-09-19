@@ -87,6 +87,10 @@
     <Compile Include="KeyboardHandlers\RunningKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\DefaultKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\TargettingModeKeyboardHandler.cs" />
+    <Compile Include="List\ChildWindowNoFade.cs" />
+    <Compile Include="List\ListSelection.xaml.cs">
+      <DependentUpon>ListSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LostFocusPopup.xaml.cs">
       <DependentUpon>LostFocusPopup.xaml</DependentUpon>
     </Compile>
@@ -113,6 +117,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="List\ListSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LostFocusPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +132,10 @@
     <Page Include="MessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

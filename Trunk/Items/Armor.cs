@@ -6,7 +6,8 @@ using Magecrawl.Items.Materials;
 
 namespace Magecrawl.Items
 {
-    internal class Armor : Item, IArmor
+    // Public since SL won't bind to internal objects
+    public class Armor : Item, IArmor
     {
         private Material m_material;
         private Quality m_quality;

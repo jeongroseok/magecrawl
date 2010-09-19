@@ -5,7 +5,8 @@ using Magecrawl.StatusEffects.Interfaces;
 
 namespace Magecrawl.GameEngine.Magic
 {
-    internal sealed class Spell : ISpell
+    // Public since SL won't bind to internal objects
+    public sealed class Spell : ISpell
     {
         private string m_name;
         private string m_effectType;

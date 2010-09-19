@@ -12,7 +12,10 @@ namespace MageCrawl.Silverlight
     public partial class GameWindow : UserControl
     {
         private IGameEngine m_engine;
+        
         private LostFocusPopup m_focusPopup;
+        private bool m_focusPopupEnabled;
+
         private KeystrokeHandler m_currentKeystrokeHandler;
 
         public GameWindow()
@@ -29,6 +32,7 @@ namespace MageCrawl.Silverlight
             MessageBox.AddMessage("Welcome to Magecrawl");
             
             // Silverlight by default doesn't give us focus :(
+            m_focusPopupEnabled = true;
             m_focusPopup = new LostFocusPopup();
             m_focusPopup.Show();
         }
@@ -63,9 +67,20 @@ namespace MageCrawl.Silverlight
             UpdateWorld();
         }
 
+        public void DisableFocusPopup()
+        {
+            m_focusPopupEnabled = false;
+        }
+
+        public void EnableFocusPopup()
+        {
+            m_focusPopupEnabled = true;
+        }
+
         private void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-            m_focusPopup.Show();
+            if (m_focusPopupEnabled)
+                m_focusPopup.Show();
         }
     }
 }
