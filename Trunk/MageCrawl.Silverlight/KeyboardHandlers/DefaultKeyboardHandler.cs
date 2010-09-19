@@ -40,6 +40,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     listBox.Show();
                     break;
                 }
+                case MagecrawlKey.E:
+                {
+                    ListSelection.OnSelection onSelected = i => engine.Actions.DismissEffect(i.DisplayName);
+                    ListSelection listBox = new ListSelection(window, engine.Player.StatusEffects.OfType<INamedItem>(), onSelected, "Dismiss Effect");
+                    listBox.Show();
+                    break;
+                }
                 case MagecrawlKey.Backquote:
                 {
                     engine.Actions.SwapPrimarySecondaryWeapons();
