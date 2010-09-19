@@ -7,6 +7,7 @@ using Magecrawl.Utilities;
 
 namespace Magecrawl.Items
 {
+    // Public since SL won't bind to internal objects
     public abstract class Weapon : Item, IWeapon, IWeaponVerb, IXmlSerializable
     {
         protected IWeaponRange m_weaponRange;

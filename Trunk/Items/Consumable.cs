@@ -5,7 +5,8 @@ using Magecrawl.Items.Materials;
 
 namespace Magecrawl.Items
 {
-    internal class Consumable : Item, IConsumable
+    // Public since SL won't bind to internal objects
+    public class Consumable : Item, IConsumable
     {
         private ConsumableEffect m_consumable;
 
