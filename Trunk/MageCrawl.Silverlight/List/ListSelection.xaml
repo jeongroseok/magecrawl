@@ -8,7 +8,7 @@
         <ScrollViewer.Resources>
             <magecrawlList:ListItemValueConverter x:Key="ItemConverter"/>
         </ScrollViewer.Resources>
-        <ListBox Name="List" ItemsSource="{Binding}">
+        <ListBox Name="List">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding Converter={StaticResource ItemConverter}}" Width="660" HorizontalContentAlignment="Stretch" 
