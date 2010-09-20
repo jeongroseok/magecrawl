@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace MageCrawl.Silverlight.List
 {
-    public abstract class ChildWindowNoFade : ChildWindow
+    public class ChildWindowNoFade : ChildWindow
     {
         public ChildWindowNoFade ParentWindow;
 
@@ -46,9 +46,12 @@ namespace MageCrawl.Silverlight.List
             });
         }
 
-        protected abstract Control InitialFocusItem
+        protected virtual Control InitialFocusItem
         {
-            get;
+            get
+            {
+                return null;
+            }
         }
     }
 }
