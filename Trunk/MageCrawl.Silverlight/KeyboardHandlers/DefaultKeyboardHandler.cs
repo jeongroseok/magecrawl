@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Magecrawl;
@@ -30,21 +31,44 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 }
                 case MagecrawlKey.i:
                 {
-                    ListSelection listBox = new ListSelection(window, engine.Player.Items.OfType<INamedItem>(), null, "Inventory");
-                    listBox.Show();
+                    ListSelection listSelection = new ListSelection(window, engine.Player.Items.OfType<INamedItem>(), "Inventory");
+                    listSelection.SelectionDelegate = i =>
+                    {
+                        ItemSelection selection = new ItemSelection((IItem)i);
+                        selection.ParentWindow = listSelection;
+                        selection.Show();
+                    };
+                    listSelection.DismissOnSelection = false;
+                    listSelection.Show();
                     break;
                 }
                 case MagecrawlKey.z:
                 {
-                    ListSelection listBox = new ListSelection(window, engine.Player.Spells.OfType<INamedItem>(), null, "Spellbook");
-                    listBox.Show();
+                    ListSelection listSelection = new ListSelection(window, engine.Player.Spells.OfType<INamedItem>(), "Spellbook");
+                    listSelection.Show();
                     break;
                 }
                 case MagecrawlKey.E:
                 {
-                    ListSelection.OnSelection onSelected = i => engine.Actions.DismissEffect(i.DisplayName);
-                    ListSelection listBox = new ListSelection(window, engine.Player.StatusEffects.OfType<INamedItem>(), onSelected, "Dismiss Effect");
-                    listBox.Show();
+                    ListSelection listSelection = new ListSelection(window, engine.Player.StatusEffects.OfType<INamedItem>(), "Dismiss Effect");
+                    listSelection.SelectionDelegate = i => engine.Actions.DismissEffect(i.DisplayName);
+                    listSelection.Show();
+                    break;
+                }
+                case MagecrawlKey.Comma:
+                {
+                    List<INamedItem> itemsAtLocation = engine.Map.Items.Where(i => i.Second == engine.Player.Position).Select(i => i.First).OfType<INamedItem>().ToList();
+                    if (itemsAtLocation.Count > 1)
+                    {
+                        ListSelection listSelection = new ListSelection(window, itemsAtLocation, "Pickup Item");
+                        listSelection.SelectionDelegate = i => engine.Actions.GetItem((IItem)i);
+                        listSelection.Show();
+                    }
+                    else
+                    {
+                        engine.Actions.GetItem();
+                        window.UpdateWorld();
+                    }
                     break;
                 }
                 case MagecrawlKey.Backquote:

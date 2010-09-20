@@ -20,13 +20,15 @@ namespace MageCrawl.Silverlight.List
     {
         public delegate void OnSelection(INamedItem itemSelected);
 
-        private OnSelection m_selectionDelegate;
+        public bool DismissOnSelection { get; set; }
 
-        public ListSelection(GameWindow window, IEnumerable<INamedItem> items, OnSelection selectionDelegate, string title)
+        public OnSelection SelectionDelegate;
+
+        public ListSelection(GameWindow window, IEnumerable<INamedItem> items, string title)
         {
             InitializeComponent();
 
-            m_selectionDelegate = selectionDelegate;
+            DismissOnSelection = true;
             Title = title;
 
             window.DisableFocusPopup();
@@ -46,20 +48,20 @@ namespace MageCrawl.Silverlight.List
                     Close();
                     break;
                 case MagecrawlKey.Enter:
-                    if (m_selectionDelegate != null && List.SelectedItem != null)
-                        m_selectionDelegate((INamedItem)List.SelectedItem);
-                    Close();
+                    if (SelectionDelegate != null && List.SelectedItem != null)
+                        SelectionDelegate((INamedItem)List.SelectedItem);
+                    if (DismissOnSelection)
+                        Close();
                     break;
             }
         }
 
-        // This ironically enough gives us focus on control creation
-        private void ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+        protected override Control InitialFocusItem
         {
-            // First try to give the window focus, then try to give the List focus
-            // If the list has element, the second call works. If not, the first call lets us hit escape
-            Focus();
-            List.Focus();
+            get
+            {
+                return List;
+            }
         }
     }
 
