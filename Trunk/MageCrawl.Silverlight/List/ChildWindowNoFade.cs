@@ -12,11 +12,43 @@ using System.Windows.Shapes;
 
 namespace MageCrawl.Silverlight.List
 {
-    public class ChildWindowNoFade : ChildWindow
+    public abstract class ChildWindowNoFade : ChildWindow
     {
+        public ChildWindowNoFade ParentWindow;
+
         public ChildWindowNoFade()
         {
             this.DefaultStyleKey = typeof(ChildWindowNoFade);
+            this.Loaded += OnLoad;
+            this.Closing += OnClose;
+        }
+
+        void OnClose(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (ParentWindow != null)
+                {
+                    ParentWindow.Focus();
+                    if (ParentWindow.InitialFocusItem != null)
+                        ParentWindow.InitialFocusItem.Focus();
+                }
+            });
+        }
+
+        void OnLoad(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() => 
+            {
+                Focus();
+                if (InitialFocusItem != null)
+                    InitialFocusItem.Focus();
+            });
+        }
+
+        protected abstract Control InitialFocusItem
+        {
+            get;
         }
     }
 }

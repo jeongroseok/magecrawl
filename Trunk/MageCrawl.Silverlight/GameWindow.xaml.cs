@@ -30,11 +30,12 @@ namespace MageCrawl.Silverlight
             CharacterInfo.Setup(engine.Player);
             Map.Setup(engine);
             MessageBox.AddMessage("Welcome to Magecrawl");
-            
-            // Silverlight by default doesn't give us focus :(
-            m_focusPopupEnabled = true;
+
+            // Gives SL focus on startup!
+            System.Windows.Browser.HtmlPage.Plugin.Focus();
+
             m_focusPopup = new LostFocusPopup();
-            m_focusPopup.Show();
+            m_focusPopupEnabled = true;
         }
 
         public void AddMessage(string s)

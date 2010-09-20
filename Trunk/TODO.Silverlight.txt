@@ -15,8 +15,6 @@ Reasignable keystrokes
 
 ListBox:
 Inventory
-Status Effect List	
-Get Item (multiple)
 
 Message Box:
 Up/Down Stairs

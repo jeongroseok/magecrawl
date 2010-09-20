@@ -88,6 +88,9 @@
     <Compile Include="KeyboardHandlers\DefaultKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\TargettingModeKeyboardHandler.cs" />
     <Compile Include="List\ChildWindowNoFade.cs" />
+    <Compile Include="List\ItemSelection.xaml.cs">
+      <DependentUpon>ItemSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="List\ListSelection.xaml.cs">
       <DependentUpon>ListSelection.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="List\ItemSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

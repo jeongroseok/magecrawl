@@ -4,7 +4,7 @@
            xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
            xmlns:magecrawlList="clr-namespace:MageCrawl.Silverlight.List"
            Width="700" Height="500" KeyDown="OnKeyDown">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SizeChanged="ScrollViewer_SizeChanged">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <ScrollViewer.Resources>
             <magecrawlList:ListItemValueConverter x:Key="ItemConverter"/>
         </ScrollViewer.Resources>
@@ -12,7 +12,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding Converter={StaticResource ItemConverter}}" Width="660" HorizontalContentAlignment="Stretch" 
-                                    VerticalContentAlignment="Stretch" />
+                                    VerticalContentAlignment="Stretch"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
