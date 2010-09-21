@@ -16,17 +16,21 @@ namespace MageCrawl.Silverlight
         private LostFocusPopup m_focusPopup;
         private bool m_focusPopupEnabled;
 
+        private DefaultKeyboardHandler m_defaultKey;
         private KeystrokeHandler m_currentKeystrokeHandler;
 
         public GameWindow()
         {
             InitializeComponent();
-            m_currentKeystrokeHandler = DefaultKeyboardHandler.OnKeyboardDown;
         }
 
         public void Setup(IGameEngine engine)
         {
             m_engine = engine;
+
+            m_defaultKey = new DefaultKeyboardHandler(this, m_engine);
+            m_currentKeystrokeHandler = m_defaultKey.OnKeyboardDown;
+
             CharacterInfo.Setup(engine.Player);
             Map.Setup(engine);
             MessageBox.AddMessage("Welcome to Magecrawl");
@@ -59,7 +63,7 @@ namespace MageCrawl.Silverlight
 
         public void ResetDefaultKeyboardHandler()
         {
-            m_currentKeystrokeHandler = DefaultKeyboardHandler.OnKeyboardDown;
+            m_currentKeystrokeHandler = m_defaultKey.OnKeyboardDown;
         }
 
         public void SetKeyboardHandler(KeystrokeHandler handler)

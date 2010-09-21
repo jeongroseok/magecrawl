@@ -2,6 +2,7 @@ Other:
 Health/Mana Bars
 Status Effect/Monster list on character info
 Handle player death
+Icons in inventory
 
 Dialogs:
 Splash Screen
@@ -13,9 +14,6 @@ Skill Tree
 Way to edit preferences
 Reasignable keystrokes
 
-ListBox:
-Inventory
-
 Message Box:
 Up/Down Stairs
 Save
@@ -26,3 +24,4 @@ Requires Targetting:
 Operate
 Draw ranged attack
 Attack Melee/Ranged
+Inventory w\ targetting
