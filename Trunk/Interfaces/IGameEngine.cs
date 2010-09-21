@@ -25,15 +25,16 @@ namespace Magecrawl.Interfaces
         Unvisited, Visited, Visible 
     }
 
-    public struct ItemOptions
+    public class ItemOptions
     {
         public ItemOptions(string option, bool enabled)
         {
             Option = option;
             Enabled = enabled;
         }
-        public string Option;
-        public bool Enabled;
+        
+        public string Option { get; set; }
+        public bool Enabled { get; set; }
     }
 
     public enum StairMovmentType

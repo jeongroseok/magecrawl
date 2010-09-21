@@ -60,7 +60,10 @@ namespace MageCrawl.Silverlight.List
         {
             get
             {
-                return List;
+                if (List.SelectedItem != null)
+                    return (Control)List.GetContainers().ToList()[List.SelectedIndex];
+                else
+                    return List;
             }
         }
     }
