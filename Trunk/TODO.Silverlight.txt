@@ -23,4 +23,3 @@ Welcome Message
 
 Requires Targetting:
 Draw ranged attack
-Draw targetable points

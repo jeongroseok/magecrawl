@@ -27,6 +27,8 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             
             map.InTargettingMode = true;
             map.TargetPoint = SetTargettingInitialSpot(engine);
+            if (m_targetablePoints != null)
+                map.TargetablePoints = m_targetablePoints;
 
             m_lastTargetted = null;
         }
