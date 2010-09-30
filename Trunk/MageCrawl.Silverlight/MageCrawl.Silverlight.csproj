@@ -86,6 +86,7 @@
     <Compile Include="KeyboardHandlers\MagecrawlKey.cs" />
     <Compile Include="KeyboardHandlers\RunningKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\DefaultKeyboardHandler.cs" />
+    <Compile Include="KeyboardHandlers\TargetHandlerHelper.cs" />
     <Compile Include="KeyboardHandlers\TargettingModeKeyboardHandler.cs" />
     <Compile Include="List\ChildWindowNoFade.cs" />
     <Compile Include="List\ItemSelection.xaml.cs">

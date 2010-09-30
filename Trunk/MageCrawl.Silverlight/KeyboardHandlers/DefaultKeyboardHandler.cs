@@ -13,11 +13,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
     {
         private GameWindow m_window;
         private IGameEngine m_engine;
+        private Map m_map;
 
-        public DefaultKeyboardHandler(GameWindow window, IGameEngine engine)
+        public DefaultKeyboardHandler(GameWindow window, IGameEngine engine, Map map)
         {
             m_window = window;
             m_engine = engine;
+            m_map = map;
         }
 
         public void OnKeyboardDown(MagecrawlKey key, Map map, GameWindow window, IGameEngine engine)
@@ -26,15 +28,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             {
                 case MagecrawlKey.v:
                 {
-                    map.InTargettingMode = true;
-                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler();
+                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.None, engine, m_map, null);
                     window.SetKeyboardHandler(handler.OnKeyboardDown);
                     break;
                 }
                 case MagecrawlKey.A:
                 {
-                    map.InTargettingMode = true;
-                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(OnRunTargetSelected);
+                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.None, engine, m_map, OnRunTargetSelected, null);
                     window.SetKeyboardHandler(handler.OnKeyboardDown);
                     break;
                 }
@@ -43,7 +43,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     ListSelection listSelection = new ListSelection(window, engine.Player.Items.OfType<INamedItem>(), "Inventory");
                     listSelection.SelectionDelegate = i =>
                     {
-                        ItemSelection selection = new ItemSelection(engine, (IItem)i, OnItemSelected);
+                        ItemSelection.OnSelection onItemSelection = (item, option) =>
+                        {
+                            TargetingInfo targetInfo = m_engine.Targetting.GetTargettingTypeForInventoryItem(item, option);
+                            HandleInvoke(targetInfo, p => m_engine.Actions.SelectedItemOption(item, option, p), item);
+                        };
+
+                        ItemSelection selection = new ItemSelection(engine, (IItem)i, onItemSelection);
                         selection.ParentWindow = listSelection;
                         selection.Show();
                     };
@@ -54,6 +60,12 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 case MagecrawlKey.z:
                 {
                     ListSelection listSelection = new ListSelection(window, engine.Player.Spells.OfType<INamedItem>(), "Spellbook");
+                    listSelection.SelectionDelegate = s =>
+                    {
+                        TargetingInfo targetInfo = ((ISpell)s).Targeting;
+                        HandleInvoke(targetInfo, p => m_engine.Actions.CastSpell((ISpell)s, p), s);
+                    };
+
                     listSelection.Show();
                     break;
                 }
@@ -108,38 +120,38 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     break;
                 }
                 case MagecrawlKey.Left:
-                    HandleDirection(Direction.West, map, window, engine);
+                    HandleDirection(Direction.West, m_map, window, engine);
                     break;
                 case MagecrawlKey.Right:
-                    HandleDirection(Direction.East, map, window, engine);
+                    HandleDirection(Direction.East, m_map, window, engine);
                     break;
                 case MagecrawlKey.Down:
-                    HandleDirection(Direction.South, map, window, engine);
+                    HandleDirection(Direction.South, m_map, window, engine);
                     break;
                 case MagecrawlKey.Up:
-                    HandleDirection(Direction.North, map, window, engine);
+                    HandleDirection(Direction.North, m_map, window, engine);
                     break;
                 case MagecrawlKey.Insert:
-                    HandleDirection(Direction.Northwest, map, window, engine);
+                    HandleDirection(Direction.Northwest, m_map, window, engine);
                     break;
                 case MagecrawlKey.Delete:
-                    HandleDirection(Direction.Southwest, map, window, engine);
+                    HandleDirection(Direction.Southwest, m_map, window, engine);
                     break;
                 case MagecrawlKey.Home:
-                    HandleDirection(Direction.Northeast, map, window, engine);
+                    HandleDirection(Direction.Northeast, m_map, window, engine);
                     break;
                 case MagecrawlKey.End:
-                    HandleDirection(Direction.Southeast, map, window, engine);
+                    HandleDirection(Direction.Southeast, m_map, window, engine);
                     break;
             }
         }
 
-        private void OnItemSelected(IItem item, string optionName)
+        private delegate void OnTargettingPointSelected(Point p);
+        private void HandleInvoke(TargetingInfo targetInfo, OnTargettingPointSelected onInvoke, object invokingObject)
         {
-            TargetingInfo targetInfo = m_engine.Targetting.GetTargettingTypeForInventoryItem(item, optionName);
             if (targetInfo == null)
             {
-                m_engine.Actions.SelectedItemOption(item, optionName, m_engine.Player.Position);
+                onInvoke(m_engine.Player.Position);
                 m_window.UpdateWorld();
             }
             else
@@ -148,39 +160,35 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 {
                     case TargetingInfo.TargettingType.Stream:
                     {
-                        //List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListOneStepAllDirections(m_engine.Player.Position);
-                        //HandleRangedSinglePointInvoke(invokingObject, targetablePoints, onInvoke, invokeKey);
-                        //return;
-                        throw new NotImplementedException();
+                        List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListOneStepAllDirections(m_engine.Player.Position);
+                        HandleRangedSinglePointInvoke(onInvoke, targetablePoints);
+                        break;
                     }
                     case TargetingInfo.TargettingType.RangedSingle:
                     case TargetingInfo.TargettingType.RangedBlast:
                     case TargetingInfo.TargettingType.RangedExplodingPoint:
                     {
-                        //List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, targetInfo.Range);
-                        //HandleRangedSinglePointInvoke(invokingObject, targetablePoints, onInvoke, invokeKey);
-                        //return;
-                        throw new NotImplementedException();
+                        List<EffectivePoint> targetablePoints = PointListUtils.EffectivePointListFromBurstPosition(m_engine.Player.Position, targetInfo.Range);
+                        HandleRangedSinglePointInvoke(onInvoke, targetablePoints);
+                        break;
                     }
                     case TargetingInfo.TargettingType.Cone:
                     {
-                        //Point playerPosition = m_engine.Player.Position;
-                        //List<EffectivePoint> targetablePoints = GetConeTargetablePoints(playerPosition);
-                        //OnTargetSelection selectionDelegate = new OnTargetSelection(s =>
-                        //{
-                            //if (s != m_engine.Player.Position)
-                                //onInvoke(s);
-                            //return false;
-                        //});
-                        //m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetablePoints, selectionDelegate,
-                                //NamedKey.Invalid, TargettingKeystrokeHandler.TargettingType.Monster,
-                                //p => m_engine.Targetting.TargettedDrawablePoints(invokingObject, p)));
-                            //return;
-                        throw new NotImplementedException();
+                        Point playerPosition = m_engine.Player.Position;
+                        List<EffectivePoint> targetablePoints = GetConeTargetablePoints(playerPosition);
+                        OnTargetSelect selectionDelegate = (w, e, p) =>
+                        {
+                            if (p != m_engine.Player.Position)
+                                onInvoke(p);
+                        };
+
+                        TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.Monster, m_engine, m_map, selectionDelegate, targetablePoints);
+                        m_window.SetKeyboardHandler(handler.OnKeyboardDown);
+                        break;
                     }
                     case TargetingInfo.TargettingType.Self:
                     {
-                        m_engine.Actions.SelectedItemOption(item, optionName, m_engine.Player.Position);
+                        onInvoke(m_engine.Player.Position);
                         m_window.UpdateWorld();
                         break;
                     }
@@ -188,6 +196,33 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                         throw new System.InvalidOperationException("InvokingKeystrokeHandler - HandleInvoke, don't know how to handle: " + targetInfo.Type.ToString());
                 }
             }
+        }
+
+        private void HandleRangedSinglePointInvoke(OnTargettingPointSelected selectionDelegate, List<EffectivePoint> targetablePoints)
+        {
+            m_engine.Targetting.FilterNotTargetableToPlayerPointsFromList(targetablePoints, true);
+            m_engine.Targetting.FilterNotVisibleToPlayerBothWaysFromList(targetablePoints, true);
+
+            OnTargetSelect onSelection = (window, engine, point) => 
+                {
+                    if (point != m_engine.Player.Position)
+                        selectionDelegate(point);
+                };
+
+            TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.Monster, m_engine, m_map, onSelection, targetablePoints);
+
+            m_window.SetKeyboardHandler(handler.OnKeyboardDown);
+        }
+
+        private List<EffectivePoint> GetConeTargetablePoints(Point playerPosition)
+        {
+            List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
+            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(0, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(0, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(-1, 0), 1.0f));
+            m_engine.Targetting.FilterNotTargetableToPlayerPointsFromList(targetablePoints, true);
+            return targetablePoints;
         }
 
         private static void OnRunTargetSelected(GameWindow window, IGameEngine engine, Point point)
