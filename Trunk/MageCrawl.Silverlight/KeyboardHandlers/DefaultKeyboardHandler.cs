@@ -26,6 +26,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
         {
             switch (key)
             {
+                case MagecrawlKey.o:
+                {
+                    List<EffectivePoint> operatePoints = CalculateOperatePoints();
+                    TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.Operatable, engine, m_map, (w,e,p) => m_engine.Actions.Operate(p), operatePoints);
+                    window.SetKeyboardHandler(handler.OnKeyboardDown);
+                    break;
+                }
                 case MagecrawlKey.v:
                 {
                     TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.None, engine, m_map, null);
@@ -144,6 +151,22 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     HandleDirection(Direction.Southeast, m_map, window, engine);
                     break;
             }
+        }
+
+        private List<EffectivePoint> CalculateOperatePoints()
+        {
+            List<EffectivePoint> listOfSelectablePoints = new List<EffectivePoint>();
+
+            foreach (IMapObject mapObj in m_engine.Map.MapObjects)
+            {
+                if (PointDirectionUtils.LatticeDistance(m_engine.Player.Position, mapObj.Position) == 1)
+                {
+                    // If there are any monsters at that location, don't select it.
+                    if (m_engine.Map.Monsters.Where(x => x.Position == mapObj.Position).Count() == 0)
+                        listOfSelectablePoints.Add(new EffectivePoint(mapObj.Position, 1.0f));
+                }
+            }
+            return listOfSelectablePoints;
         }
 
         private delegate void OnTargettingPointSelected(Point p);
