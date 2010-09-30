@@ -28,7 +28,7 @@ namespace MageCrawl.Silverlight
         {
             m_engine = engine;
 
-            m_defaultKey = new DefaultKeyboardHandler(this, m_engine);
+            m_defaultKey = new DefaultKeyboardHandler(this, m_engine, Map);
             m_currentKeystrokeHandler = m_defaultKey.OnKeyboardDown;
 
             CharacterInfo.Setup(engine.Player);
