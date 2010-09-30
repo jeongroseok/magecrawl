@@ -113,8 +113,7 @@ namespace Magecrawl
             else
             {
                 List<EffectivePoint> targetPoints = m_engine.GameState.CalculateTargetablePointsForEquippedWeapon();
-                OnTargetSelection attackDelegate = new OnTargetSelection(OnRangedAttack);
-                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, attackDelegate, attackKey, TargettingKeystrokeHandler.TargettingType.Monster));
+                m_gameInstance.SetHandlerName("Target", new TargettingKeystrokeRequest(targetPoints, OnRangedAttack, attackKey, TargettingKeystrokeHandler.TargettingType.Monster));
             }
         }
 
