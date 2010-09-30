@@ -56,6 +56,7 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 case MagecrawlKey.v:
                 {
                     TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.None, engine, m_map, null);
+                    m_map.UseViewCursor = true;                    
                     window.SetKeyboardHandler(handler.OnKeyboardDown);
                     break;
                 }

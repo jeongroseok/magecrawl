@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using Magecrawl.Interfaces;
 
 using MageCrawlPoint = Magecrawl.Utilities.Point;
+using Magecrawl.Utilities;
 
 namespace MageCrawl.Silverlight
 {
@@ -23,6 +24,7 @@ namespace MageCrawl.Silverlight
         private List<Image> m_playerParts;
         private Dictionary<string, Image> m_images;
 
+        private List<Image> m_overlayImages;
         private List<Image> m_terrainList;
         private List<Image> m_objectList;
         private Image m_viewCursor;
@@ -44,9 +46,11 @@ namespace MageCrawl.Silverlight
 
             LoadImages();
 
+            TargetablePoints = new List<EffectivePoint>();
+
             m_terrainList = new List<Image>();
             m_objectList = new List<Image>();
-            m_viewCursor = m_images["Cursor"];
+            m_overlayImages = new List<Image>();
 
             m_grid = CreateMapGrid(MapHeight, MapWidth);
 
@@ -73,9 +77,21 @@ namespace MageCrawl.Silverlight
             {
                 m_targettingMode = value;
                 TargetPoint = m_engine.Player.Position;
+                UseViewCursor = false;
             }
         }
+        
         public MageCrawlPoint TargetPoint { get; set; }
+
+        public List<EffectivePoint> TargetablePoints { get; set; }
+
+        public bool UseViewCursor
+        {
+            set
+            {
+                m_viewCursor = value ? m_images["Cursor"] : m_images["CursorRed"];
+            }
+        }
 
         private Image LoadImage(string filename)
         {
@@ -135,6 +151,7 @@ namespace MageCrawl.Silverlight
 
             m_images["Cursor"] = LoadImage("Images/Other/cursor.png");
             m_images["CursorRed"] = LoadImage("Images/Other/cursor_red.png");
+            m_images["CursorGreen"] = LoadImage("Images/Other/cursor_green.png");
         }
 
         private Grid CreateMapGrid(int rows, int cols)
@@ -227,6 +244,7 @@ namespace MageCrawl.Silverlight
             DrawMonsters(visibility);
             DrawPlayer();
             DrawCursor();
+            DrawTargettingOverlay();
         }
 
         private void DrawMonsters(TileVisibility[,] visibility)
@@ -306,6 +324,47 @@ namespace MageCrawl.Silverlight
             }
         }
 
+        private double Lerp(double first, double second, double coef)
+        {
+            return first + (second - first) * coef;
+        }
+
+        private void DrawTargettingOverlay()
+        {
+            if (InTargettingMode)
+            {
+                ClearOverlayImages();
+                foreach (EffectivePoint e in TargetablePoints)
+                {
+                    int x = e.Position.X - UpperLeftViewPoint.X;
+                    int y = e.Position.Y - UpperLeftViewPoint.Y;
+                    if (m_engine.Map.IsPointOnMap(x, y))
+                    {
+                        Image i = new Image();
+                        i.Source = m_images["CursorGreen"].Source;
+                        i.Opacity = Math.Max(0, Lerp(0, .5, e.EffectiveStrength * e.EffectiveStrength));
+                        m_grid.Children.Add(i);
+                        m_overlayImages.Add(i);
+                        Grid.SetColumn(i, x);
+                        Grid.SetRow(i, y);
+                    }
+                }
+            }
+            else
+            {
+                ClearOverlayImages();
+            }
+        }
+
+        private void ClearOverlayImages()
+        {
+            foreach (Image i in m_overlayImages)
+            {
+                if (m_grid.Children.Contains(i))
+                    m_grid.Children.Remove(i);
+            }
+            m_overlayImages.Clear();
+        }
 
         private void AddObjectLayerImage(Image image, int x, int y)
         {

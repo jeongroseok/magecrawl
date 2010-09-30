@@ -191,6 +191,7 @@
     <Content Include="Images\Monsters\rat.png" />
     <Content Include="Images\Monsters\wolf.png" />
     <Content Include="Images\Other\cursor.png" />
+    <Content Include="Images\Other\cursor_green.png" />
     <Content Include="Images\Other\cursor_red.png" />
     <Content Include="Images\Other\out_of_sight.png" />
     <Content Include="Images\Player\gandalf_g.png" />
