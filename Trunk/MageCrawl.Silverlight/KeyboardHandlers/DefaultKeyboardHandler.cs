@@ -26,6 +26,26 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
         {
             switch (key)
             {
+                case MagecrawlKey.a:
+              {
+                    if (m_engine.Player.CurrentWeapon.IsRanged && !m_engine.Player.CurrentWeapon.IsLoaded)
+                    {
+                        m_engine.Actions.ReloadWeapon();
+                        window.MessageBox.AddMessage(string.Format("{0} reloads the {1}.", m_engine.Player.Name, m_engine.Player.CurrentWeapon.DisplayName));
+                    }
+                    else
+                    {
+                        List<EffectivePoint> targetPoints = m_engine.GameState.CalculateTargetablePointsForEquippedWeapon();
+                        OnTargetSelect selectionDelegate = (w, e, p) => 
+                        {
+                            if (p != m_engine.Player.Position)
+                                m_engine.Actions.Attack(p);
+                        };
+                        TargettingModeKeyboardHandler handler = new TargettingModeKeyboardHandler(TargettingModeKeyboardHandler.TargettingType.Monster, engine, m_map, selectionDelegate, targetPoints);
+                        window.SetKeyboardHandler(handler.OnKeyboardDown);
+                    }
+                    break;
+                }
                 case MagecrawlKey.o:
                 {
                     List<EffectivePoint> operatePoints = CalculateOperatePoints();
