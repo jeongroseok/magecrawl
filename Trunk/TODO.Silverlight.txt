@@ -22,6 +22,5 @@ Quit
 Welcome Message
 
 Requires Targetting:
-Operate
 Draw ranged attack
 Attack Melee/Ranged
