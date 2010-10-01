@@ -4,6 +4,7 @@ Status Effect/Monster list on character info
 Handle player death
 Icons in inventory
 Hitting z to cast spell, z should target
+Tooltip on squares for mouseover.
 
 Dialogs:
 Splash Screen

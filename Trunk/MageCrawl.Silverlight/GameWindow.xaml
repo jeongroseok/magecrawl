@@ -11,7 +11,7 @@
         <magecrawl:CharacterInfo x:Name="CharacterInfo"  toolkit:DockPanel.Dock="Right"/>
         <StackPanel>
             <magecrawl:Map x:Name="Map"/>
-            <magecrawl:MessageBox x:Name="MessageBox"/>
+            <magecrawl:GameMessageBox x:Name="MessageBox"/>
         </StackPanel>
     </toolkit:DockPanel>
 </UserControl>
