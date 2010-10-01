@@ -101,8 +101,8 @@
     <Compile Include="Map.xaml.cs">
       <DependentUpon>Map.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MessageBox.xaml.cs">
-      <DependentUpon>MessageBox.xaml</DependentUpon>
+    <Compile Include="GameMessageBox.xaml.cs">
+      <DependentUpon>GameMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceHelper.cs" />
     <Compile Include="ViewModel\CharacterViewModel.cs" />
@@ -137,7 +137,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageBox.xaml">
+    <Page Include="GameMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

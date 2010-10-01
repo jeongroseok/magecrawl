@@ -12,9 +12,9 @@ using System.Windows.Shapes;
 
 namespace MageCrawl.Silverlight
 {
-    public partial class MessageBox : UserControl
+    public partial class GameMessageBox : UserControl
     {
-        public MessageBox()
+        public GameMessageBox()
         {
             InitializeComponent();
         }

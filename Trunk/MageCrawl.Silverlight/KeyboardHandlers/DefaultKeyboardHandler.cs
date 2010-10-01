@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Magecrawl;
 using Magecrawl.Interfaces;
 using Magecrawl.Utilities;
 using MageCrawl.Silverlight.List;
+
+using MageCrawlPoint = Magecrawl.Utilities.Point;
 
 namespace MageCrawl.Silverlight.KeyboardHandlers
 {
@@ -26,8 +29,13 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
         {
             switch (key)
             {
+                case MagecrawlKey.Q:
+                {
+                    
+                    break;
+                }
                 case MagecrawlKey.a:
-              {
+                {
                     if (m_engine.Player.CurrentWeapon.IsRanged && !m_engine.Player.CurrentWeapon.IsLoaded)
                     {
                         m_engine.Actions.ReloadWeapon();
@@ -190,7 +198,7 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             return listOfSelectablePoints;
         }
 
-        private delegate void OnTargettingPointSelected(Point p);
+        private delegate void OnTargettingPointSelected(MageCrawlPoint p);
         private void HandleInvoke(TargetingInfo targetInfo, OnTargettingPointSelected onInvoke, object invokingObject)
         {
             if (targetInfo == null)
@@ -218,7 +226,7 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                     }
                     case TargetingInfo.TargettingType.Cone:
                     {
-                        Point playerPosition = m_engine.Player.Position;
+                        MageCrawlPoint playerPosition = m_engine.Player.Position;
                         List<EffectivePoint> targetablePoints = GetConeTargetablePoints(playerPosition);
                         OnTargetSelect selectionDelegate = (w, e, p) =>
                         {
@@ -258,18 +266,18 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             m_window.SetKeyboardHandler(handler.OnKeyboardDown);
         }
 
-        private List<EffectivePoint> GetConeTargetablePoints(Point playerPosition)
+        private List<EffectivePoint> GetConeTargetablePoints(MageCrawlPoint playerPosition)
         {
             List<EffectivePoint> targetablePoints = new List<EffectivePoint>();
-            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(0, 1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(0, -1), 1.0f));
-            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(1, 0), 1.0f));
-            targetablePoints.Add(new EffectivePoint(playerPosition + new Point(-1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new MageCrawlPoint(0, 1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new MageCrawlPoint(0, -1), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new MageCrawlPoint(1, 0), 1.0f));
+            targetablePoints.Add(new EffectivePoint(playerPosition + new MageCrawlPoint(-1, 0), 1.0f));
             m_engine.Targetting.FilterNotTargetableToPlayerPointsFromList(targetablePoints, true);
             return targetablePoints;
         }
 
-        private static void OnRunTargetSelected(GameWindow window, IGameEngine engine, Point point)
+        private static void OnRunTargetSelected(GameWindow window, IGameEngine engine, MageCrawlPoint point)
         {
             window.Map.InTargettingMode = false;
             RunningKeyboardHandler runner = new RunningKeyboardHandler(window, engine);
