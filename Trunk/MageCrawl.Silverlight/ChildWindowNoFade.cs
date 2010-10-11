@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace MageCrawl.Silverlight.List
+namespace MageCrawl.Silverlight
 {
     public class ChildWindowNoFade : ChildWindow
     {
