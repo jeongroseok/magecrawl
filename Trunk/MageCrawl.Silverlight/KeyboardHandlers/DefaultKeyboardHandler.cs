@@ -31,7 +31,17 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
             {
                 case MagecrawlKey.Q:
                 {
-                    
+                    string text = "Quitting the game will delete your current character.\nTo stop playing now and continue your adventure later,\nuse save instead.";
+                    TwoButtonDialog d = new TwoButtonDialog(window, text);
+                    d.Closed += (o, e) =>
+                    {
+                        if (((TwoButtonDialog)o).DialogResult == true)
+                        {
+                            // Do quit here? How do you quit SL? go back to main menu?
+                        }
+                    };
+
+                    d.Show();
                     break;
                 }
                 case MagecrawlKey.a:

@@ -88,7 +88,7 @@
     <Compile Include="KeyboardHandlers\DefaultKeyboardHandler.cs" />
     <Compile Include="KeyboardHandlers\TargetHandlerHelper.cs" />
     <Compile Include="KeyboardHandlers\TargettingModeKeyboardHandler.cs" />
-    <Compile Include="List\ChildWindowNoFade.cs" />
+    <Compile Include="ChildWindowNoFade.cs" />
     <Compile Include="List\ItemSelection.xaml.cs">
       <DependentUpon>ItemSelection.xaml</DependentUpon>
     </Compile>
@@ -105,6 +105,9 @@
       <DependentUpon>GameMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceHelper.cs" />
+    <Compile Include="TwoButtonDialog.xaml.cs">
+      <DependentUpon>TwoButtonDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CharacterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -144,6 +147,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TwoButtonDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
