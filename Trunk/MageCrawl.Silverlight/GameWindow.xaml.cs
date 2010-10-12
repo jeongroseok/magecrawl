@@ -33,13 +33,32 @@ namespace MageCrawl.Silverlight
 
             CharacterInfo.Setup(engine.Player);
             Map.Setup(engine);
-            MessageBox.AddMessage("Welcome to Magecrawl");
+            ShowWelcomeMessage(true);
 
             // Gives SL focus on startup!
             System.Windows.Browser.HtmlPage.Plugin.Focus();
 
             m_focusPopup = new LostFocusPopup();
             m_focusPopupEnabled = true;
+        }
+
+        private void ShowWelcomeMessage(bool firstTime)
+        {
+            if (firstTime)
+                MessageBox.AddMessage("If this is your first time, press '?' for help.");
+            if (m_engine.Player.SkillPoints > 0)
+                MessageBox.AddMessage("You have skill points to spent. Press 's' to open the skill tree.");
+            if (firstTime)
+                MessageBox.AddMessage("Welcome To Magecrawl.");
+            else
+                MessageBox.AddMessage("Welcome Back To Magecrawl.");
+
+            if (firstTime)
+            {
+                string text = "In the beginning the Creator created many worlds. Some, like this World, are malleable enough to allow sentient beings to force their will upon matter in limited ways. This is the foundation of magic.\n\nFor some unexplainable reason, you find yourself entering a small dungeon. Armed little beyond your wits, you've been drawn here to conquer.";
+                OneButtonDialog d = new OneButtonDialog(this, text);
+                d.Show();
+            }
         }
 
         public void AddMessage(string s)

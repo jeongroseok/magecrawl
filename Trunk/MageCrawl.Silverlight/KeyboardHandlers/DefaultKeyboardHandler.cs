@@ -27,16 +27,43 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
 
         public void OnKeyboardDown(MagecrawlKey key, Map map, GameWindow window, IGameEngine engine)
         {
+            // TODO - This switch is unfortunate and too large...
             switch (key)
             {
+                case MagecrawlKey.LessThan:
+                {
+                    HandleStairs(m_engine.Actions.MoveUpStairs);
+                    break;
+                }
+                case MagecrawlKey.GreaterThan:
+                {
+                    HandleStairs(m_engine.Actions.MoveDownStairs);
+                    break;
+                }
                 case MagecrawlKey.Q:
                 {
-                    string text = "Quitting the game will delete your current character.\nTo stop playing now and continue your adventure later,\nuse save instead.";
+                    string text = "Quitting the game will delete your current character. To stop playing now and continue your adventure later, use save instead.";
                     TwoButtonDialog d = new TwoButtonDialog(window, text);
                     d.Closed += (o, e) =>
                     {
                         if (((TwoButtonDialog)o).DialogResult == true)
                         {
+                            // Do quit here? How do you quit SL? go back to main menu?
+                        }
+                    };
+
+                    d.Show();
+                    break;
+                }
+                case MagecrawlKey.S:
+                {
+                    string text = "Saving the game will end your current session and allow you to pickup playing later.";
+                    TwoButtonDialog d = new TwoButtonDialog(window, text);
+                    d.Closed += (o, e) =>
+                    {
+                        if (((TwoButtonDialog)o).DialogResult == true)
+                        {
+                            m_engine.Save();
                             // Do quit here? How do you quit SL? go back to main menu?
                         }
                     };
@@ -189,6 +216,48 @@ namespace MageCrawl.Silverlight.KeyboardHandlers
                 case MagecrawlKey.End:
                     HandleDirection(Direction.Southeast, m_map, window, engine);
                     break;
+            }
+        }
+
+        private delegate bool StairMovement();
+        private void HandleStairs(StairMovement s)
+        {
+            StairMovmentType stairMovement = m_engine.GameState.IsStairMovementSpecial(s == m_engine.Actions.MoveUpStairs);
+            switch (stairMovement)
+            {
+                case StairMovmentType.QuitGame:
+                {
+                    string text = "Leaving the dungeon will end the game early and delete your current character. To stop playing now and continue your adventure later, use save instead.";
+                    TwoButtonDialog d = new TwoButtonDialog(m_window, text);
+                    d.Closed += (o, e) =>
+                    {
+                        if (((TwoButtonDialog)o).DialogResult == true)
+                        {
+                            // Do quit here? How do you quit SL? go back to main menu?
+                        }
+                    };
+                    d.Show();
+                    break;
+                }
+                case StairMovmentType.WinGame:
+                {
+                    // Don't save if player closes window with dialog up.
+                    // m_gameInstance.ShouldSaveOnClose = false;
+                    string text = "Congratulations, you have completed the magecrawl tech demo! " + m_engine.Player.Name + " continues on without you in search of further treasure and fame. Consider telling your story to others, including the creator.";
+                    OneButtonDialog d = new OneButtonDialog(m_window, text);
+                    d.Closed += (o, e) =>
+                    {
+                        // Do quit here? How do you quit SL? go back to main menu?
+                    };
+                    d.Show();
+                    break;
+                }
+                case StairMovmentType.None:
+                {
+                    s();
+                    m_window.UpdateWorld();
+                    return;
+                }
             }
         }
 
