@@ -5,9 +5,11 @@ Handle player death
 Icons in inventory
 Hitting z to cast spell, z should target
 Tooltip on squares for mouseover.
+Two Second Disable on two-button dialogs?
+Save on close (see exception in DefaultKB)
 
 Dialogs:
-Splash Screen
+Splash Screen (make all quit go there).
 Help
 
 Hard:
@@ -15,12 +17,6 @@ Equipment
 Skill Tree
 Way to edit preferences
 Reasignable keystrokes
-
-Message Box:
-Up/Down Stairs
-Save
-Quit
-Welcome Message
 
 Requires Targetting:
 Draw ranged attack

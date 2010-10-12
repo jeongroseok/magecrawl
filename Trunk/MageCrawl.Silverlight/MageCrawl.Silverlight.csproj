@@ -79,6 +79,9 @@
     <Compile Include="CharacterInfo.xaml.cs">
       <DependentUpon>CharacterInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OneButtonDialog.xaml.cs">
+      <DependentUpon>OneButtonDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
     <Page Include="CharacterInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OneButtonDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="GameWindow.xaml">
       <SubType>Designer</SubType>

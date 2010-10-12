@@ -4,9 +4,9 @@ using System.Windows.Input;
 
 namespace MageCrawl.Silverlight
 {
-    public partial class TwoButtonDialog : ChildWindowNoFade
+    public partial class OneButtonDialog : ChildWindowNoFade
     {
-        public TwoButtonDialog(GameWindow window, string text)
+        public OneButtonDialog(GameWindow window, string text)
         {
             InitializeComponent();
             window.DisableFocusPopup();
@@ -19,7 +19,7 @@ namespace MageCrawl.Silverlight
         {
             get
             {
-                return CancelButton;
+                return OKButton;
             }
         }
 
@@ -28,24 +28,15 @@ namespace MageCrawl.Silverlight
             DialogResult = true;
         }
 
-        private void CancelButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-        }
-
         private void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            if (e.Key == Key.Enter)
             {
-                OKButton.Focus();
-            }
-            else if (e.Key == Key.Right)
-            {
-                CancelButton.Focus();
+                DialogResult = true;
             }
             else if (e.Key == Key.Escape)
             {
-                DialogResult = false;
+                DialogResult = true;
             }
         }
     }
